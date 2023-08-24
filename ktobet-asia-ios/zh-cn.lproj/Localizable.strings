@@ -326,7 +326,7 @@
 "common_unselect_all" = "取消全选";
 "common_request_submitted" = "已提交申请";
 "common_confirm_delete" = "确认删除？";
-"common_photo_upload_limit" = "上传限制: 一次最多3笔文件，单一档案不可超过20MB";
+"common_photo_upload_limit" = "上传限制: 一次最多3笔文件，单一档案不可超过10MB";
 "common_photo_upload_limit_reached" = "一次最多上傳%@份文件";
 "common_kick_out_suspend" = "由于安全原因，您的会员账户已被冻结，请联系客服寻求协助。";
 "common_kick_out_inactive" = "由于安全原因，您的会员账户已被停用，请联系客服寻求协助。";
@@ -570,7 +570,7 @@
 "deposit_select_method" = "选择充值渠道";
 "deposit_no_available_type" = "目前暂无可用的充值方式";
 "deposit_no_records" = "目前暂无与您充值相关的纪录";
-"deposit_execeed_limitation" = "你的档案大小超过系统限制20MB";
+"deposit_execeed_limitation" = "你的档案大小超过系统限制10MB";
 "deposit_name" = "汇款人姓名";
 "deposit_thirdparty_transaction_remind" = "你即将进入交易确认画面，在交易完成之前请勿关闭窗口。";
 "deposit_file_format_invalid" = "您的档案不符合系统格式";

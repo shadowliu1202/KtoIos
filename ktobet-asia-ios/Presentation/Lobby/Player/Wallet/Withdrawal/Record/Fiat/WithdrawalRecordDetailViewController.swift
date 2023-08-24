@@ -68,8 +68,6 @@ extension WithdrawalRecordDetailViewController {
     imagePickable = .init(
       target: self,
       alert: alert,
-      selectedImageCountLimit: WithdrawalRecordDetailViewModel.selectedImageCountLimit,
-      imageMBSizeLimit: WithdrawalRecordDetailViewModel.imageMBSizeLimit,
       didSelected: { [weak self] fromCamera, images in
         self?.viewModel.prepareSelectedImages(images, shouldReplaceAll: fromCamera)
       })

@@ -49,6 +49,9 @@ enum Configuration: String {
     }
   }()
 
+  static let uploadImageMBSizeLimit = 10
+  static let uploadImageCountLimit = 3
+  
   static var internetProtocol: String = env.internetProtocol
   static var hostName: [String: [String]] = env.hostName
   static var versionUpdateHostName: [String: [String]] = env.versionUpdateHostName

@@ -325,7 +325,7 @@ Mã Xác Minh gồm 4 số</br>
 "common_unselect_all" = "Hủy Chọn Tất Cả";
 "common_request_submitted" = "Yêu Cầu đã gửi";
 "common_confirm_delete" = "Xác nhận Xóa?";
-"common_photo_upload_limit" = "Giới hạn Tải Lên: Tối đa 3 File cùng lúc, và mỗi File không vượt quá 20MB.";
+"common_photo_upload_limit" = "Giới hạn Tải Lên: Tối đa 3 File cùng lúc, và mỗi File không vượt quá 10MB.";
 "common_photo_upload_limit_reached" = "Tải Lên tối đa %@ File cùng lúc.";
 "common_kick_out_suspend" = "Vì lý do bảo mật, tài khoản của Quý Khách đã bị đóng băng. Vui lòng liên hệ Chăm Sóc Khách Hàng để được hỗ trợ.";
 "common_kick_out_inactive" = "Vì lý do bảo mật, tài khoản của Quý Khách đã bị đóng. Vui lòng liên hệ Chăm Sóc Khách Hàng để được hỗ trợ.";
@@ -579,7 +579,7 @@ Vui lòng Xác Minh.";
 "deposit_select_method" = "Chọn Phương Thức Gửi Tiền";
 "deposit_no_available_type" = "Hiện tại không có phương thức Gửi Tiền khả dụng.";
 "deposit_no_records" = "Hiện tại không có lịch sử liên quan đến tiền gửi của Quý Khách.";
-"deposit_execeed_limitation" = "Kích thước file của Quý Khách vượt quá giới hạn hệ thống là 20MB.";
+"deposit_execeed_limitation" = "Kích thước file của Quý Khách vượt quá giới hạn hệ thống là 10MB.";
 "deposit_name" = "Tên Người Gửi Tiền";
 "deposit_thirdparty_transaction_remind" = "Quý Khách đang đến trang xác nhận giao dịch. Vui lòng không đóng cửa sổ cho đến khi giao dịch hoàn tất.";
 "deposit_file_format_invalid" = "File của Quý Khách không phù hợp với định dạng hệ thống.";

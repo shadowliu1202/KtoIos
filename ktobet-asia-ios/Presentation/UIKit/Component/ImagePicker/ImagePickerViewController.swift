@@ -9,11 +9,11 @@ class ImagePickerViewController: UIViewController {
   @IBOutlet weak var footerView: UIView!
 
   @Injected private var loading: Loading
-
+  
+  private static let availableImageFormat = ["PNG", "JPG", "BMP", "JPEG"]
+  
   weak var delegate: (UIImagePickerControllerDelegate & UINavigationControllerDelegate)?
-  var selectedImageLimitCount = 3
-  var imageLimitMBSize = 20
-  var allowImageFormat = ["PNG", "JPG", "BMP", "JPEG"]
+  var maxSelectedImageCount = Configuration.uploadImageCountLimit
   var cameraImage: UIImage?
   var cameraText: String?
   var isHiddenFooterView = false
@@ -22,9 +22,6 @@ class ImagePickerViewController: UIViewController {
   var completionWithLocalIdentifier: ((_ identifier: [String]) -> Void)?
   var qrCodeCompletion: ((_ qrCodeString: String) -> Void)?
   var cancel: (() -> Void)?
-  var showImageCountLimitAlert: ((_ view: UIView) -> Void)?
-  var showImageFormatInvalidAlert: ((_ view: UIView) -> Void)?
-  var showImageSizeLimitAlert: ((_ view: UIView) -> Void)?
 
   private var activityIndicator = UIActivityIndicatorView(style: .large)
   private var imageRequestID: PHImageRequestID?
@@ -74,7 +71,7 @@ class ImagePickerViewController: UIViewController {
 
     activityIndicator.center = self.view.center
     self.view.addSubview(activityIndicator)
-    countLabel.text = "\(selectedPhotoAssets.count)/\(selectedImageLimitCount)"
+    countLabel.text = "\(selectedPhotoAssets.count)/\(maxSelectedImageCount)"
     footerView.isHidden = isHiddenFooterView
   }
 
@@ -131,8 +128,10 @@ class ImagePickerViewController: UIViewController {
   }
 
   private func showCountLimitAlert() -> Bool {
-    if selectedPhotoAssets.count >= selectedImageLimitCount {
-      showImageCountLimitAlert?(self.view)
+    if selectedPhotoAssets.count >= maxSelectedImageCount {
+      showToast(
+        Localize.string("common_photo_upload_limit_reached", "\(Configuration.uploadImageCountLimit)"),
+        barImg: .failed)
       return false
     }
 
@@ -147,8 +146,8 @@ class ImagePickerViewController: UIViewController {
       return false
     }
 
-    if !allowImageFormat.contains(String(fileExtension)) {
-      showImageFormatInvalidAlert?(self.view)
+    if !Self.availableImageFormat.contains(String(fileExtension)) {
+      showToast(Localize.string("deposit_file_format_invalid"), barImg: .failed)
       return false
     }
 
@@ -161,8 +160,8 @@ class ImagePickerViewController: UIViewController {
     if let resource = resources.first {
       let unsignedInt64 = resource.value(forKey: "fileSize") as? CLong
       sizeOnDisk = Int64(bitPattern: UInt64(unsignedInt64!))
-      if Units(bytes: sizeOnDisk!).megabytes > 20 {
-        showImageSizeLimitAlert?(self.view)
+      if Units(bytes: sizeOnDisk!).megabytes > Double(Configuration.uploadImageMBSizeLimit) {
+        showToast(Localize.string("deposit_execeed_limitation"), barImg: .failed)
         return false
       }
     }
@@ -274,9 +273,10 @@ extension ImagePickerViewController: UICollectionViewDelegate, UICollectionViewD
         addSelectedImage(cell: newCell, index: indexPath.item)
       }
 
-      countLabel.text = "\(selectedPhotoAssets.count)/\(selectedImageLimitCount)"
+      countLabel.text = "\(selectedPhotoAssets.count)/\(maxSelectedImageCount)"
     case .qrCode:
       let asset = photoAssets.object(at: index)
+      guard showFormatInvalidAlert(asset: asset) else { return }
       completion?([asset.convertAssetToImage()])
     }
   }
