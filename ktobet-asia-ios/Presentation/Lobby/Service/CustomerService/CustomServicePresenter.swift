@@ -295,14 +295,20 @@ class CustomServicePresenter: NSObject {
       topViewController?.present(navi, animated: true, completion: nil)
     }
     else {
-      guard topViewController?.navigationController is CustomServiceNavigationController
-      else {
-        let navigationControllerName = topViewController?.navigationController?.description ?? ""
-        fatalError("Wrong NavigationController: \(navigationControllerName)")
+      Alert.shared.dismiss { [weak self] in
+        self?.setToChatRoom(chatRoomVC)
       }
-      
-      topViewController?.navigationController?.setViewControllers([chatRoomVC], animated: false)
     }
+  }
+  
+  private func setToChatRoom(_ chatRoomVC: ChatRoomViewController) {
+    guard topViewController?.navigationController is CustomServiceNavigationController
+    else {
+      let navigationControllerName = topViewController?.navigationController?.description ?? ""
+      fatalError("Wrong NavigationController: \(navigationControllerName)")
+    }
+    
+    topViewController?.navigationController?.setViewControllers([chatRoomVC], animated: false)
   }
 
   func switchToOfflineMessage(from vc: UIViewController?, isRoot: Bool = false) {
@@ -351,12 +357,12 @@ class CustomServicePresenter: NSObject {
   private func closeChatRoomIfExist() -> Completable {
     csViewModel.currentChatRoom()
       .take(1)
-      .flatMap { chatRoom -> Completable in
+      .flatMap { [csViewModel] chatRoom -> Completable in
         if chatRoom.roomId.isEmpty {
           return Single.just(()).asCompletable()
         }
         else {
-          return CustomServicePresenter.shared.csViewModel.closeChatRoom(forceExit: true).asCompletable()
+          return csViewModel.closeChatRoom(forceExit: true).asCompletable()
         }
       }
       .asCompletable()

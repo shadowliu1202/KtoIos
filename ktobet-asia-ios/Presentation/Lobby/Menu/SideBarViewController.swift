@@ -85,6 +85,7 @@ class SideBarViewController: APPViewController {
     guard let sideMenuViewModel else { return }
     
     sideMenuViewModel.observeKickOutSignal()
+      .observe(on: MainScheduler.instance)
       .subscribe(onNext: { [unowned self] in alertAndExitLobby($0) })
       .disposed(by: disposeBag)
   }
