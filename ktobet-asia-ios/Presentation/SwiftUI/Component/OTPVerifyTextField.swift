@@ -29,6 +29,7 @@ struct OTPVerifyTextField: View {
         initConfiguration: { textField in
           textField.tintColor = .clear
           textField.textColor = .clear
+          textField.textContentType = .oneTimeCode
         })
         .frame(width: 1, height: 1)
 
