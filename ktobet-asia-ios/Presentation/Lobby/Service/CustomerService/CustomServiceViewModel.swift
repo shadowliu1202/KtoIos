@@ -47,6 +47,24 @@ class CustomerServiceViewModel {
     observeChatRoom
   }
   
+  func createChatRoom() async throws {
+    async let status = Observable.from(chatAppService.observeChatRoom())
+      .map { $0.status }
+      .catchAndReturn(Connection.StatusNotExist())
+      .first()
+      .value
+    
+    if try await status == SharedBu.Connection.StatusNotExist() {
+      try await create()
+    }
+  }
+  
+  private func create() async throws {
+    let surveyAnswers = surveyAnswers == nil ? nil : surveyTempMapper.convertToCSSurveyAnswersDTO(surveyAnswers!)
+
+    return try await Completable.from(chatAppService.create(surveyAnswers: surveyAnswers)).value
+  }
+  
   func connectChatRoom() -> Completable {
     Completable.from(
       chatAppService.create(

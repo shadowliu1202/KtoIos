@@ -53,6 +53,7 @@ class CallingViewController: CommonViewController {
       .disposed(by: disposeBag)
     
     csViewModel.currentQueueNumber
+      .observe(on: MainScheduler.instance)
       .map { Localize.string("customerservice_chat_room_your_queue_number", "\($0)") }
       .bind(to: self.waitingCountLabel.rx.text)
       .disposed(by: self.disposeBag)
@@ -61,25 +62,14 @@ class CallingViewController: CommonViewController {
   }
 
   private func connectChatRoom() {
-    csViewModel
-      .currentChatRoom()
-      .take(1)
-      .flatMap { [weak self] chatRoomDTO -> Completable in
-        guard let self else { throw KTOError.LostReference }
-        
-        if chatRoomDTO.status == SharedBu.Connection.StatusNotExist() {
-          return self.csViewModel.connectChatRoom()
-        }
-        else {
-          return Observable.just(()).asSingle().asCompletable()
-        }
+    Task {
+      do {
+        try await csViewModel.createChatRoom()
       }
-      .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .background))
-      .observe(on: MainScheduler.instance)
-      .subscribe(onError: { [weak self] error in
-        self?.handleError(error)
-      })
-      .disposed(by: disposeBag)
+      catch {
+        handleError(error)
+      }
+    }
     
     csViewModel.chatRoomConnection
       .filter { $0 is SharedBu.Connection.StatusConnected }
@@ -115,14 +105,18 @@ class CallingViewController: CommonViewController {
 
         self.csViewModel
           .closeChatRoom()
-          .subscribe(onSuccess: { [weak self] _ in
-            guard let self else { return }
+          .observe(on: MainScheduler.instance)
+          .subscribe(
+            onSuccess: { [weak self] _ in
+              guard let self else { return }
 
-            self.csViewModel.setupSurveyAnswer(answers: nil)
-          })
+              self.csViewModel.setupSurveyAnswer(answers: nil)
+              self.stopServiceAndShowServiceOccupied()
+            },
+            onFailure: { [weak self] in
+              self?.handleError($0)
+            })
           .disposed(by: self.disposeBag)
-
-        self.stopServiceAndShowServiceOccupied()
       },
       cancelText: Localize.string("common_stop"))
   }
