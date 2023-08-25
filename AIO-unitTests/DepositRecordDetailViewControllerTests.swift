@@ -42,7 +42,7 @@ final class DepositRecordDetailViewControllerTests: XCBaseTestCase {
       any(),
       Localize.string(
         "common_photo_upload_limit_reached",
-        ["\(DepositRecordDetailViewModel.selectedImageCountLimit)"]),
+        ["\(Configuration.uploadImageCountLimit)"]),
       confirm: any(),
       confirmText: any(),
       cancel: any(),

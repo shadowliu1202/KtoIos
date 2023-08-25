@@ -42,7 +42,7 @@ final class WithdrawalRecordDetailViewControllerTests: XCBaseTestCase {
       any(),
       Localize.string(
         "common_photo_upload_limit_reached",
-        ["\(WithdrawalRecordDetailViewModel.selectedImageCountLimit)"]),
+        ["\(Configuration.uploadImageCountLimit)"]),
       confirm: any(),
       confirmText: any(),
       cancel: any(),
