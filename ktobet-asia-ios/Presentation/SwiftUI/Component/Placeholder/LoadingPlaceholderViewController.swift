@@ -2,7 +2,7 @@ import SwiftUI
 import UIKit
 
 final class LoadingPlaceholderViewController:
-  UIViewController,
+  LobbyViewController,
   SwiftUIConverter
 {
   private(set) var viewModel: LoadingPlaceholderViewModel

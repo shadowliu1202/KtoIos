@@ -43,6 +43,7 @@ class WithdrawalOTPVerifyMethodSelectViewController:
   override func viewDidLoad() {
     Logger.shared.info("\(type(of: self)) viewDidLoad")
 
+    super.viewDidLoad()
     setupUI()
     binding()
   }
