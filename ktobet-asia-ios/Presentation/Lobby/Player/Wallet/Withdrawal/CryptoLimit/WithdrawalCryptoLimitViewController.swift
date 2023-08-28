@@ -2,7 +2,7 @@ import RxSwift
 import SwiftUI
 
 class WithdrawalCryptoLimitViewController:
-  UIViewController,
+  LobbyViewController,
   SwiftUIConverter
 {
   @Injected private var viewModel: WithdrawalCryptoLimitViewModel
@@ -28,6 +28,7 @@ class WithdrawalCryptoLimitViewController:
   override func viewDidLoad() {
     Logger.shared.info("\(type(of: self)) viewDidLoad")
 
+    super.viewDidLoad()
     setupUI()
     binding()
   }

@@ -4,7 +4,7 @@ import SharedBu
 import UIKit
 
 class WithdrawalMainViewController:
-  UIViewController,
+  LobbyViewController,
   SwiftUIConverter
 {
   @Injected private var viewModel: WithdrawalMainViewModel
@@ -38,6 +38,7 @@ class WithdrawalMainViewController:
   override func viewDidLoad() {
     Logger.shared.info("\(type(of: self)) viewDidLoad")
 
+    super.viewDidLoad()
     setupUI()
     binding()
   }

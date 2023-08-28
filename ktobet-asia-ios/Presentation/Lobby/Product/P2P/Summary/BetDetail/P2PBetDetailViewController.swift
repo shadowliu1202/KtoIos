@@ -27,6 +27,7 @@ class P2PBetDetailViewController: LobbyViewController {
   }
     
   override func viewDidLoad() {
+    super.viewDidLoad()
     setupUI()
     bindErrorHandle()
   }

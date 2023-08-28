@@ -28,6 +28,8 @@ class CasinoBetDetailViewController: LobbyViewController {
   }
     
   override func viewDidLoad() {
+    super.viewDidLoad()
+    
     setupUI()
     bindErrorHandle()
   }

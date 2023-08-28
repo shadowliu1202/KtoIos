@@ -89,7 +89,7 @@ class PromotionViewController: LobbyViewController {
       .view
     
     dropDownFilterView.backgroundColor = .clear
-    view.addSubview(dropDownFilterView)
+    view.insertSubview(dropDownFilterView, aboveSubview: tableView)
     
     dropDownFilterView.snp.makeConstraints { make in
       make.width.equalToSuperview()

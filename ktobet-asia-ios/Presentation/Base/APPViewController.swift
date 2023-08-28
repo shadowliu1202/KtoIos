@@ -41,7 +41,6 @@ class APPViewController: UIViewController {
       self.view.addSubview(banner)
       banner.snp.makeConstraints { [unowned self] make in
         make.width.equalToSuperview()
-        make.height.equalTo(52)
         make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
       }
     }
