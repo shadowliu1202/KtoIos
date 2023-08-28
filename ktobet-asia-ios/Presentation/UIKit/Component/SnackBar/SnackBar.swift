@@ -46,7 +46,6 @@ extension SnackBarImpl {
 
       snackBarView.snp.makeConstraints { make in
         make.leading.trailing.equalToSuperview().inset(10)
-        make.height.equalTo(48)
         bottomConstraint = make.bottom.equalTo(keyWindow.safeAreaLayoutGuide.snp.bottom).offset(100).constraint
       }
       keyWindow.layoutIfNeeded()
