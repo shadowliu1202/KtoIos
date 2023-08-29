@@ -8,7 +8,6 @@ class SideBarViewController: APPViewController {
   @IBOutlet private weak var btnGift: UIBarButtonItem!
   @IBOutlet private weak var btnNotification: UIBarButtonItem!
   @IBOutlet private weak var btnClose: UIBarButtonItem!
-  @IBOutlet private weak var naviItem: UIBarButtonItem!
   @IBOutlet private weak var listProduct: UICollectionView!
   @IBOutlet private weak var listFeature: UITableView!
   @IBOutlet private weak var constraintListProductHeight: NSLayoutConstraint!
@@ -198,7 +197,18 @@ class SideBarViewController: APPViewController {
     navigationBar?.shadowImage = UIImage()
     labUserAcoount.numberOfLines = 0
     labUserAcoount.lineBreakMode = .byWordWrapping
-    naviItem.image = UIImage(named: "KTO (D)")?.withRenderingMode(.alwaysOriginal)
+    let logoImageView = UIImageView(image: UIImage(named: "KTO (D)"))
+    logoImageView.contentMode = .scaleAspectFit
+    logoImageView.isUserInteractionEnabled = true
+    logoImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(manualUpdate)))
+    let logoView = UIView()
+    logoView.addSubview(logoImageView)
+    logoImageView.snp.makeConstraints { make in
+      make.leading.equalToSuperview().offset(15)
+      make.top.bottom.trailing.equalToSuperview()
+    }
+    let logoItem = UIBarButtonItem(customView: logoView)
+    navigationItem.leftBarButtonItem = logoItem
     btnNotification.image = UIImage(named: "Notification-None")?.withRenderingMode(.alwaysOriginal)
     listFeature.addObserver(self, forKeyPath: "contentSize", options: .new, context: nil)
     listProduct.addObserver(self, forKeyPath: "contentSize", options: .new, context: nil)
