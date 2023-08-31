@@ -922,9 +922,10 @@ final class Injection {
       }
 
     container
-      .register(ProductsViewModel.self) { _ in
+      .register(MaintenanceViewModel.self) { _ in
         .init()
       }
+      .inObjectScope(.locale)
 
     container
       .register(LevelPrivilegeViewModel.self) { resolver in

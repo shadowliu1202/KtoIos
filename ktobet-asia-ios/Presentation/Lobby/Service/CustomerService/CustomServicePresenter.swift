@@ -342,6 +342,7 @@ class CustomServicePresenter: NSObject {
 
   func closeService() -> Completable {
     closeChatRoomIfExist()
+      .observe(on: MainScheduler.instance)
       .do(onCompleted: { [weak self] in
         Injectable.resetObjectScope(.locale)
         self?.resetStatus()

@@ -14,10 +14,11 @@ final class LaunchAppTest: XCBaseTestCase {
     defaultProduct: 3)
 
   private lazy var mockNavigator = mock(Navigator.self)
+  private lazy var mockAlert = mock(AlertProtocol.self)
 
   override func tearDown() {
     super.tearDown()
-    reset(mockNavigator)
+    reset(mockNavigator, mockAlert)
   }
 
   private func simulateApplicationWillEnterForeground() {
@@ -48,12 +49,12 @@ final class LaunchAppTest: XCBaseTestCase {
       stubLocalStorageRepository)
   }
 
-  private func stubLoginStatus(isLogged: Bool) {
+  private func stubLoginStatus(isLogged: Single<Bool>) {
     let stubNavigationViewModel = getFakeNavigationViewModelMock()
-    given(stubNavigationViewModel.checkIsLogged()) ~> .just(isLogged)
+    given(stubNavigationViewModel.checkIsLogged()) ~> isLogged
 
     let stubPlayerViewModel = getFakePlayerViewModelMock()
-    given(stubPlayerViewModel.checkIsLogged()) ~> .just(isLogged)
+    given(stubPlayerViewModel.checkIsLogged()) ~> isLogged
     given(stubPlayerViewModel.logout()) ~> Single<Void>.just(()).asCompletable
 
     Injectable.register(NavigationViewModel.self) { _ in
@@ -66,40 +67,24 @@ final class LaunchAppTest: XCBaseTestCase {
   }
 
   private func stubMaintenanceStatus(isAllMaintenance: Bool) {
-    let stubGetSystemStatusUseCase = mock(ISystemStatusUseCase.self)
+    let stubSystemUseCase = mock(ISystemStatusUseCase.self)
 
-    given(stubGetSystemStatusUseCase.fetchOTPStatus()) ~> .just(.init(isMailActive: true, isSmsActive: true))
-    given(stubGetSystemStatusUseCase.fetchCustomerServiceEmail()) ~> .just("")
+    given(stubSystemUseCase.fetchOTPStatus()) ~> .just(.init(isMailActive: true, isSmsActive: true))
+    given(stubSystemUseCase.fetchCustomerServiceEmail()) ~> .just("")
 
     if isAllMaintenance {
-      given(stubGetSystemStatusUseCase.fetchMaintenanceStatus()) ~> .just(MaintenanceStatus.AllPortal(remainingSeconds: nil))
-      given(stubGetSystemStatusUseCase.observeMaintenanceStatusByFetch()) ~>
-        .just(MaintenanceStatus.AllPortal(remainingSeconds: nil))
-      given(stubGetSystemStatusUseCase.observeMaintenanceStatusChange()) ~>
-        .just(())
+      given(stubSystemUseCase.fetchMaintenanceStatus()) ~> .just(MaintenanceStatus.AllPortal(remainingSeconds: nil))
+      given(stubSystemUseCase.observeMaintenanceStatusByFetch()) ~> .just(MaintenanceStatus.AllPortal(remainingSeconds: nil))
+      given(stubSystemUseCase.observeMaintenanceStatusChange()) ~> .empty()
     }
     else {
-      given(stubGetSystemStatusUseCase.fetchMaintenanceStatus()) ~> .just(.Product(productsAvailable: [], status: [:]))
-      given(stubGetSystemStatusUseCase.observeMaintenanceStatusByFetch()) ~> .just(.Product(productsAvailable: [], status: [:]))
-      given(stubGetSystemStatusUseCase.observeMaintenanceStatusChange()) ~> .just(())
+      given(stubSystemUseCase.fetchMaintenanceStatus()) ~> .just(.Product(productsAvailable: [], status: [:]))
+      given(stubSystemUseCase.observeMaintenanceStatusByFetch()) ~> .just(.Product(productsAvailable: [], status: [:]))
+      given(stubSystemUseCase.observeMaintenanceStatusChange()) ~> .empty()
     }
 
     Injectable.register(ISystemStatusUseCase.self) { _ in
-      stubGetSystemStatusUseCase
-    }
-    
-    let stubProductsViewModel = mock(ProductsViewModel.self)
-
-    given(stubProductsViewModel.observeMaintenanceStatus()).willReturn(
-      isAllMaintenance ?
-        .just(MaintenanceStatus.AllPortal(remainingSeconds: nil)) :
-        .just(.Product(productsAvailable: [], status: [:])))
-
-    given(stubProductsViewModel.errors()) ~> .empty()
-    given(stubProductsViewModel.logout()) ~> .empty()
-
-    Injectable.register(ProductsViewModel.self) { _ in
-      stubProductsViewModel
+      stubSystemUseCase
     }
   }
 
@@ -140,6 +125,17 @@ final class LaunchAppTest: XCBaseTestCase {
     stubViewModel.tagStates = .just([])
 
     return stubViewModel
+  }
+  
+  private func getFakeSideMenuViewModel() -> SideMenuViewModelMock {
+    let fakeViewModel = mock(SideMenuViewModel.self)
+    given(fakeViewModel.observePlayerInfo()) ~> .just(.init(displayID: "1234567890", gamerID: "", level: 1, defaultProduct: .sbk))
+    given(fakeViewModel.observePlayerBalance()) ~> .just("123".toAccountCurrency())
+    given(fakeViewModel.getCultureCode()) ~> "zh-cn"
+    given(fakeViewModel.loadBalanceHiddenState(by: any())) ~> false
+    given(fakeViewModel.errors()) ~> .empty()
+    
+    return fakeViewModel
   }
 
   func test_givenUserLoggedInAndUnexpired_whenColdStart_thenEnterLobbyPage() {
@@ -252,22 +248,26 @@ final class LaunchAppTest: XCBaseTestCase {
       .wasCalled()
   }
 
-  func test_givenUserLoggedInAndAllMaintenance_whenColdStart_thenEnterMaintenancePage() {
-    stubLoginStatus(isLogged: true)
+  func test_givenUserLoggedInAndAllMaintenance_whenColdStart_thenShowMaintenanceAlert() {
+    stubLoginStatus(isLogged: .just(true))
     stubMaintenanceStatus(isAllMaintenance: true)
 
-    NavigationManagement.sharedInstance = mockNavigator
-
-    let sut = CasinoViewController.initFrom(storyboard: "Casino")
-    sut.viewModel = getStubCasinoViewModel()
-
+    Alert.shared = mockAlert
+    
+    let sut = SideBarViewController.initFrom(storyboard: "slideMenu")
+    sut.sideMenuViewModel = getFakeSideMenuViewModel()
+    
     sut.loadViewIfNeeded()
     sut.viewDidAppear(true)
-
-    verify(
-      mockNavigator.goTo(
-        storyboard: "Maintenance",
-        viewControllerId: "PortalMaintenanceViewController"))
+    
+    verify(mockAlert.show(
+      Localize.string("common_urgent_maintenance"),
+      Localize.string("common_maintenance_logout"),
+      confirm: any(),
+      confirmText: any(),
+      cancel: any(),
+      cancelText: any(),
+      tintColor: any()))
       .wasCalled()
   }
 
@@ -289,7 +289,7 @@ final class LaunchAppTest: XCBaseTestCase {
   }
 
   func test_givenUserLoggedInAndNoAllMaintenance_whenHotStart_thenNotEnterMaintenancePage() {
-    stubLoginStatus(isLogged: true)
+    stubLoginStatus(isLogged: .just(true))
     stubMaintenanceStatus(isAllMaintenance: false)
 
     NavigationManagement.sharedInstance = mockNavigator
@@ -304,30 +304,34 @@ final class LaunchAppTest: XCBaseTestCase {
   }
 
   func test_givenUserLoggedInAndAllMaintenance_whenHotStart_thenEnterMaintenancePage() {
-    stubLoginStatus(isLogged: true)
+    stubLoginStatus(isLogged: .error(NSError(domain: "", code: 410)))
     stubMaintenanceStatus(isAllMaintenance: true)
 
-    NavigationManagement.sharedInstance = mockNavigator
-
-    let sut = CasinoViewController.initFrom(storyboard: "Casino")
-    sut.viewModel = getStubCasinoViewModel()
-
+    Alert.shared = mockAlert
+    
+    let sut = SideBarViewController.initFrom(storyboard: "slideMenu")
+    sut.sideMenuViewModel = getFakeSideMenuViewModel()
+    
     makeItVisible(sut)
 
     simulateApplicationWillEnterForeground()
-
+    
     sut.loadViewIfNeeded()
     sut.viewDidAppear(true)
-
-    verify(
-      mockNavigator.goTo(
-        storyboard: "Maintenance",
-        viewControllerId: "PortalMaintenanceViewController"))
+    
+    verify(mockAlert.show(
+      Localize.string("common_urgent_maintenance"),
+      Localize.string("common_maintenance_logout"),
+      confirm: any(),
+      confirmText: any(),
+      cancel: any(),
+      cancelText: any(),
+      tintColor: any()))
       .wasCalled()
   }
 
   func test_givenUserNotLoggedInAndNoAllMaintenance_whenHotStart_thenNotEnterMaintenancePage() {
-    stubLoginStatus(isLogged: false)
+    stubLoginStatus(isLogged: .just(false))
     stubMaintenanceStatus(isAllMaintenance: false)
 
     NavigationManagement.sharedInstance = mockNavigator
@@ -342,7 +346,7 @@ final class LaunchAppTest: XCBaseTestCase {
   }
 
   func test_givenUserNotLoggedInAndAllMaintenance_whenHotStart_thenEnterMaintenancePage() {
-    stubLoginStatus(isLogged: false)
+    stubLoginStatus(isLogged: .just(false))
     stubMaintenanceStatus(isAllMaintenance: true)
 
     let sut = UIStoryboard(name: "Login", bundle: nil).instantiateViewController(withIdentifier: "LandingNavigation")

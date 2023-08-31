@@ -89,6 +89,7 @@ private func injectStubCustomServicePresenter() {
 
   given(customServicePresenter.initService()) ~> { }
   given(customServicePresenter.observeCsStatus) ~> .just(false)
+  given(customServicePresenter.isInChat) ~> false
 
   Injectable
     .register(CustomServicePresenter.self) { _ in

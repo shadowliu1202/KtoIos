@@ -255,7 +255,7 @@ class NavigationManagement: Navigator {
 
   private func initSideMenu() {
     sideBarViewController = UIStoryboard(name: "slideMenu", bundle: nil)
-      .instantiateViewController(withIdentifier: "LeftMenuNavigationController") as? SideBarViewController
+      .instantiateViewController(withIdentifier: "SideBarViewController") as? SideBarViewController
     menu = SideMenuNavigationController(rootViewController: sideBarViewController)
     var settings = SideMenuSettings()
     settings.presentationStyle = .menuSlideIn

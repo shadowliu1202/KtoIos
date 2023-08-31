@@ -28,38 +28,39 @@ extension UIViewController {
   }
 
   func handleMaintenance() {
-    let viewModel = Injectable.resolve(PlayerViewModel.self)!
-    let disposeBag = DisposeBag()
-    let serviceViewModel = Injectable.resolve(ServiceStatusViewModel.self)!
-
-    serviceViewModel.output.portalMaintenanceStatus
-      .subscribe(onNext: { status in
-        switch status {
-        case is MaintenanceStatus.AllPortal:
-          if UIApplication.topViewController() is LandingViewController {
-            NavigationManagement.sharedInstance.goTo(
-              storyboard: "Maintenance",
-              viewControllerId: "PortalMaintenanceViewController")
-          }
-          else {
-            viewModel.logout()
-              .subscribe(onCompleted: {
-                NavigationManagement.sharedInstance.goTo(
-                  storyboard: "Maintenance",
-                  viewControllerId: "PortalMaintenanceViewController")
-              })
-              .disposed(by: disposeBag)
-          }
-        case let productStatus as MaintenanceStatus.Product:
-          if let navi = NavigationManagement.sharedInstance.viewController.navigationController as? ProductNavigations {
-            let isMaintenance = productStatus.isProductMaintain(productType: navi.productType)
-            NavigationManagement.sharedInstance.goTo(productType: navi.productType, isMaintenance: isMaintenance)
-          }
-        default:
-          break
+    @Injected var maintenanceViewModel: MaintenanceViewModel
+    
+    maintenanceViewModel.refreshStatus()
+    
+    _ = maintenanceViewModel.portalMaintenanceStatus.asObservable()
+      .first()
+      .observe(on: MainScheduler.instance)
+      .subscribe(onSuccess: { status in
+        guard
+          status != nil,
+          UIApplication.topViewController() is LandingViewController
+        else { return }
+        
+        if CustomServicePresenter.shared.isInChat {
+          _ = CustomServicePresenter.shared.closeService()
+            .subscribe()
+          
+          Alert.shared.show(
+            Localize.string("common_maintenance_notify"),
+            Localize.string("common_maintenance_chat_close"),
+            confirm: {
+              NavigationManagement.sharedInstance.goTo(
+                storyboard: "Maintenance",
+                viewControllerId: "PortalMaintenanceViewController")
+            },
+            cancel: nil)
+        }
+        else {
+          NavigationManagement.sharedInstance.goTo(
+            storyboard: "Maintenance",
+            viewControllerId: "PortalMaintenanceViewController")
         }
       })
-      .disposed(by: disposeBag)
   }
 
   func startActivityIndicator(activityIndicator: UIActivityIndicatorView) {

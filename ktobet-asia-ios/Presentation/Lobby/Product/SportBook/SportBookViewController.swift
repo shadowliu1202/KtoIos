@@ -15,7 +15,7 @@ class SportBookViewController: LobbyViewController {
   private var banner: NotificationBanner?
 
   private lazy var httpClient = Injectable.resolveWrapper(HttpClient.self)
-  private lazy var productViewModel = Injectable.resolveWrapper(ProductsViewModel.self)
+  private lazy var maintenanceViewModel = Injectable.resolveWrapper(MaintenanceViewModel.self)
 
   private var disposeBag = DisposeBag()
 
@@ -69,35 +69,14 @@ class SportBookViewController: LobbyViewController {
   }
 
   private func binding() {
-    productViewModel.maintenanceStatus
-      .drive(onNext: { [weak self, productViewModel] status in
-        guard let self else { return }
-
-        switch status {
-        case is MaintenanceStatus.AllPortal:
-          productViewModel.logout()
-            .subscribe(onCompleted: {
-              NavigationManagement.sharedInstance.goTo(
-                storyboard: "Maintenance",
-                viewControllerId: "PortalMaintenanceViewController")
-            })
-            .disposed(by: self.disposeBag)
-
-        case let productStatus as MaintenanceStatus.Product:
-          if productStatus.isProductMaintain(productType: .sbk) {
-            NavigationManagement.sharedInstance.goTo(productType: .sbk, isMaintenance: true)
-          }
-        default:
-          break
-        }
-      })
-      .disposed(by: disposeBag)
-
-    productViewModel.errors()
-      .subscribe(onNext: { [weak self] error in
-        guard let self else { return }
-
-        self.handleErrors(error)
+    maintenanceViewModel.productMaintenanceStatus
+      .drive(onNext: { productStatus in
+        guard productStatus.isProductMaintain(productType: .sbk) else { return }
+        
+        let sbkMaintenanceNC = UIStoryboard(name: "Maintenance", bundle: nil)
+          .instantiateViewController(withIdentifier: "SBKMaintenance") as! UINavigationController
+        
+        self.navigationController?.viewControllers = [sbkMaintenanceNC.topViewController!]
       })
       .disposed(by: disposeBag)
 
@@ -159,7 +138,7 @@ extension SportBookViewController: WKNavigationDelegate, WKUIDelegate {
   }
 
   func webView(_ webView: WKWebView, didFinish _: WKNavigation!) {
-    productViewModel.refreshMaintenanceStatus()
+    maintenanceViewModel.refreshStatus()
     Logger.shared.info("\(String(describing: webView.url)) did finish")
     isWebLoadSuccess.accept(true)
     self.activityIndicator.stopAnimating()

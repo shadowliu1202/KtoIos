@@ -3,7 +3,7 @@ import RxCocoa
 import RxSwift
 import SharedBu
 
-class ProductsViewModel: CollectErrorViewModel {
+class MaintenanceViewModel: CollectErrorViewModel {
   @Injected private var systemStatusUseCase: ISystemStatusUseCase
   @Injected private var authUseCase: AuthenticationUseCase
   
@@ -14,7 +14,10 @@ class ProductsViewModel: CollectErrorViewModel {
   
   private var loadingTracker: ActivityIndicator { loading.tracker }
   
-  lazy var maintenanceStatus = observeMaintenanceStatus()
+  private lazy var maintenanceStatus = observeMaintenanceStatus()
+  
+  lazy var portalMaintenanceStatus = maintenanceStatus.compactMap { $0 as? MaintenanceStatus.AllPortal }
+  lazy var productMaintenanceStatus = maintenanceStatus.compactMap { $0 as? MaintenanceStatus.Product }
 
   func observeMaintenanceStatus() -> Driver<MaintenanceStatus> {
     Observable.merge(
@@ -30,13 +33,12 @@ class ProductsViewModel: CollectErrorViewModel {
       .asDriverOnErrorJustComplete()
   }
   
-  func refreshMaintenanceStatus() {
+  func refreshStatus() {
     maintenanceStatusTrigger.accept(())
   }
   
   func logout() -> Completable {
     CustomServicePresenter.shared.closeService()
-      .observe(on: MainScheduler.instance)
       .concat(authUseCase.logout())
       .trackOnDispose(loadingTracker)
   }
