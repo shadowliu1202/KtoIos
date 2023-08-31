@@ -235,20 +235,36 @@ extension AppDelegate {
   }
 
   private func checkMaintenanceStatus() {
-    let viewModel = Injectable.resolveWrapper(ServiceStatusViewModel.self)
-
-    viewModel.output.portalMaintenanceStatus
-      .subscribe(onNext: { status in
-        switch status {
-        case is MaintenanceStatus.AllPortal:
+    @Injected var maintenanceViewModel: MaintenanceViewModel
+    
+    maintenanceViewModel.refreshStatus()
+    
+    _ = maintenanceViewModel.portalMaintenanceStatus.asObservable()
+      .first()
+      .observe(on: MainScheduler.instance)
+      .subscribe(onSuccess: { status in
+        guard status != nil else { return }
+        
+        if CustomServicePresenter.shared.isInChat {
+          _ = CustomServicePresenter.shared.closeService()
+            .subscribe()
+          
+          Alert.shared.show(
+            Localize.string("common_maintenance_notify"),
+            Localize.string("common_maintenance_chat_close"),
+            confirm: {
+              NavigationManagement.sharedInstance.goTo(
+                storyboard: "Maintenance",
+                viewControllerId: "PortalMaintenanceViewController")
+            },
+            cancel: nil)
+        }
+        else {
           NavigationManagement.sharedInstance.goTo(
             storyboard: "Maintenance",
             viewControllerId: "PortalMaintenanceViewController")
-        default:
-          break
         }
       })
-      .disposed(by: disposeBag)
   }
 
   private func logoutToLanding() {

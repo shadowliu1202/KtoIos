@@ -16,6 +16,11 @@ class PortalMaintenanceViewController: LandingViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
+    
+    // Change NavigationBar color when redirect from SearchViewController.
+    Theme.shared.configNavigationBar(
+      navigationController,
+      backgroundColor: UIColor.greyScaleDefault.withAlphaComponent(0.9))
 
     initTitleTextViewAttributes(titleTextView)
 
@@ -31,7 +36,7 @@ class PortalMaintenanceViewController: LandingViewController {
         let seconds = allPortal.convertDurationToSeconds()?.int32Value
         self?.startCountDown(seconds: seconds)
       default:
-        self?.navigateToLaunch()
+        self?.navigateToLogin()
       }
     }).disposed(by: disposeBag)
 
@@ -68,7 +73,7 @@ class PortalMaintenanceViewController: LandingViewController {
       countDownTimer.start(timeInterval: 1, duration: TimeInterval(seconds)) { [weak self] _, countDownSecond, finish in
         self?.displayRemainTimeView(countDownSecond)
         if finish {
-          self?.navigateToLaunch()
+          self?.navigateToLogin()
         }
       }
     }
@@ -83,8 +88,8 @@ class PortalMaintenanceViewController: LandingViewController {
     self.secondLabel.text = String(format: "%02d", countDownSecond % 60)
   }
 
-  private func navigateToLaunch() {
-    NavigationManagement.sharedInstance.goTo(storyboard: "Launch", viewControllerId: "LaunchViewController")
+  private func navigateToLogin() {
+    NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LandingNavigation")
   }
 
   deinit {

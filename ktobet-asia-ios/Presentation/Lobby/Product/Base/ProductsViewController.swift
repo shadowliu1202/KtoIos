@@ -5,7 +5,7 @@ import UIKit
 class ProductsViewController: LobbyViewController {
   @Injected private var loading: Loading
   @Injected private var alert: AlertProtocol
-  @Injected private var productsViewModel: ProductsViewModel
+  @Injected private var maintenanceViewModel: MaintenanceViewModel
 
   private var disposeBag = DisposeBag()
   private var viewDisappearBag = DisposeBag()
@@ -13,6 +13,8 @@ class ProductsViewController: LobbyViewController {
   private var productType: ProductType!
 
   private var placeholder: LoadingPlaceholderViewController?
+  
+  private var maintenanceViewController: UIViewController!
   
   init() {
     super.init(nibName: nil, bundle: nil)
@@ -39,41 +41,24 @@ class ProductsViewController: LobbyViewController {
   }
 
   private func binding() {
-    productsViewModel.maintenanceStatus
-      .drive(onNext: { [weak self, productsViewModel] status in
-        guard let self else { return }
-
-        switch status {
-        case is MaintenanceStatus.AllPortal:
-          productsViewModel.logout()
-            .subscribe(onCompleted: {
-              NavigationManagement.sharedInstance.goTo(
-                storyboard: "Maintenance",
-                viewControllerId: "PortalMaintenanceViewController")
-            })
-            .disposed(by: self.disposeBag)
-        case let productStatus as MaintenanceStatus.Product:
-          if productStatus.isProductMaintain(productType: self.productType) {
-            NavigationManagement.sharedInstance.goTo(productType: self.productType, isMaintenance: true)
-          }
-        default:
-          break
-        }
-      })
-      .disposed(by: disposeBag)
-
-    productsViewModel.errors()
-      .subscribe(onNext: { [weak self] error in
-        guard let self else { return }
-
-        self.handleErrors(error)
+    maintenanceViewModel.productMaintenanceStatus
+      .drive(onNext: { [weak self] productStatus in
+        guard
+          let self,
+          productStatus.isProductMaintain(productType: self.productType)
+        else { return }
+        
+        let productMaintenanceNC = UIStoryboard(name: "Maintenance", bundle: nil)
+          .instantiateViewController(withIdentifier: self.productType.name + "Maintenance") as! UINavigationController
+        
+        self.navigationController?.viewControllers = [productMaintenanceNC.topViewController!]
       })
       .disposed(by: disposeBag)
   }
 
   func gameDidDisappear() {
     syncAppVersionUpdate(viewDisappearBag)
-    productsViewModel.refreshMaintenanceStatus()
+    maintenanceViewModel.refreshStatus()
   }
 
   func bindWebGameResult(with viewModel: ProductWebGameViewModelProtocol) {

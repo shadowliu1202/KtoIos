@@ -3,16 +3,25 @@ import SharedBu
 import UIKit
 
 class MaintenanceViewController: LobbyViewController {
-  var serviceViewModel = Injectable.resolve(ServiceStatusViewModel.self)!
+  @Injected private var maintenanceViewModel: MaintenanceViewModel
+  @Injected private var serviceViewModel: ServiceStatusViewModel
+  
   private var productType: ProductType!
-  var disposeBag = DisposeBag()
   private var timer: CountDownTimer?
+  
+  var disposeBag = DisposeBag()
 
   override func viewDidLoad() {
     super.viewDidLoad()
     NavigationManagement.sharedInstance.addMenuToBarButtonItem(vc: self)
     productType = ProductType.convert(self.view.tag)
     getMaintainRemainTime()
+    bindProductStatus()
+    
+    // Change NavigationBar color when redirect from SearchViewController.
+    Theme.shared.configNavigationBar(
+      navigationController,
+      backgroundColor: UIColor.greyScaleDefault.withAlphaComponent(0.9))
   }
 
   deinit {
@@ -37,7 +46,7 @@ class MaintenanceViewController: LobbyViewController {
       }
     }).disposed(by: disposeBag)
   }
-
+  
   private func updateTimelabels(_ endTime: OffsetDateTime) {
     let remainTime = TimeInterval(endTime.epochSeconds - Int64(Date().timeIntervalSince1970))
     if self.timer == nil {
@@ -56,5 +65,21 @@ class MaintenanceViewController: LobbyViewController {
 
   public func setTextPerSecond(_: Int) {
     fatalError("implements in subclass")
+  }
+  
+  private func bindProductStatus() {
+    maintenanceViewModel.productMaintenanceStatus
+      .drive(onNext: { [weak self] productStatus in
+        guard
+          let self,
+          !productStatus.isProductMaintain(productType: self.productType)
+        else { return }
+        
+        let productNC = UIStoryboard(name: self.productType.name, bundle: nil)
+          .instantiateViewController(withIdentifier: self.productType.name + "NavigationController") as! UINavigationController
+        
+        self.navigationController?.viewControllers = [productNC.topViewController!]
+      })
+      .disposed(by: disposeBag)
   }
 }

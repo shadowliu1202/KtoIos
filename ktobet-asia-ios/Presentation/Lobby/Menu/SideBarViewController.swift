@@ -22,6 +22,26 @@ class SideBarViewController: APPViewController {
   @IBOutlet private weak var levelView: UIView!
   @IBOutlet private weak var balanceView: UIView!
   
+  private let products = {
+    let titles = [
+      Localize.string("common_sportsbook"),
+      Localize.string("common_casino"),
+      Localize.string("common_slot"),
+      Localize.string("common_keno"),
+      Localize.string("common_p2p"),
+      Localize.string("common_arcade")
+    ]
+
+    let imgs = ["SBK", "Casino", "Slot", "Number Game", "P2P", "Arcade"]
+    let types: [ProductType] = [.sbk, .casino, .slot, .numbergame, .p2p, .arcade]
+
+    return zip(titles, zip(imgs, types))
+      .map { title, imgAndType in
+        let (image, type) = imgAndType
+        return ProductItem(title: title, image: image, type: type)
+      }
+  }()
+  
   private let features = [
     FeatureItem(type: .deposit, name: Localize.string("common_deposit"), icon: "Deposit"),
     FeatureItem(type: .withdraw, name: Localize.string("common_withdrawal"), icon: "Withdrawl"),
@@ -36,8 +56,10 @@ class SideBarViewController: APPViewController {
 
   private var gamerID = ""
   private var firstTimeEntry = true
+  private var isAlertShowing = false
 
   var sideMenuViewModel: SideMenuViewModel? = SideMenuViewModel()
+  var maintenanceViewModel: MaintenanceViewModel? = Injectable.resolveWrapper(MaintenanceViewModel.self)
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -89,25 +111,30 @@ class SideBarViewController: APPViewController {
   }
 
   private func alertAndExitLobby(_ type: KickOutSignal?, cancel: (() -> Void)? = nil) {
+    guard !isAlertShowing else { return }
+    isAlertShowing = true
+    
     let (title, message, isMaintain) = parseKickOutType(type)
 
     Alert.shared.show(title, message, confirm: { [weak self] in
       guard
         let self,
-        let sideMenuViewModel = self.sideMenuViewModel
+        let maintenanceStatusViewModel = self.maintenanceViewModel
       else { return }
 
-      sideMenuViewModel.logout()
-        .subscribe(onCompleted: {
-          if isMaintain {
-            NavigationManagement.sharedInstance.goTo(
-              storyboard: "Maintenance",
-              viewControllerId: "PortalMaintenanceViewController")
-          }
-          else {
-            NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LandingNavigation")
-          }
-        })
+      maintenanceStatusViewModel.logout()
+        .subscribe(
+          onCompleted: {
+            if isMaintain {
+              NavigationManagement.sharedInstance.goTo(
+                storyboard: "Maintenance",
+                viewControllerId: "PortalMaintenanceViewController")
+            }
+            else {
+              NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LandingNavigation")
+            }
+          },
+          onError: { _ in self.isAlertShowing = false })
         .disposed(by: self.disposeBag)
 
     }, cancel: cancel)
@@ -183,6 +210,7 @@ class SideBarViewController: APPViewController {
   
   func deallocate() {
     sideMenuViewModel = nil
+    maintenanceViewModel = nil
     disposeBag = DisposeBag()
   }
 
@@ -248,13 +276,16 @@ class SideBarViewController: APPViewController {
   // MARK: - Binding
 
   private func dataBinding() {
-    guard let sideMenuViewModel else { return }
+    guard
+      let sideMenuViewModel,
+      let maintenanceViewModel
+    else { return }
     
     playerInfoBinding(sideMenuViewModel)
     balanceBinding(sideMenuViewModel)
-    productsListBinding(sideMenuViewModel)
+    productsListBinding(maintenanceViewModel)
     featuresBinding()
-    maintenanceStatusBinding(sideMenuViewModel)
+    maintenanceStatusBinding(maintenanceViewModel)
     errorsHandingBinding()
   }
   
@@ -305,9 +336,16 @@ class SideBarViewController: APPViewController {
       .disposed(by: disposeBag)
   }
   
-  private func productsListBinding(_ sideMenuViewModel: SideMenuViewModel) {
+  private func productsListBinding(_ maintenanceViewModel: MaintenanceViewModel) {
+    let productsStatus = maintenanceViewModel.productMaintenanceStatus
+      .map { [products] status in
+        products
+          .map { $0.updateMaintainTime(status.getMaintenanceTime(productType: $0.type)) }
+      }
+      .startWith(products)
+      
     Driver.combineLatest(
-      sideMenuViewModel.productsStatus,
+      productsStatus,
       productSelectedSubject.asDriver()) { productItems, _ in productItems }
       .drive(listProduct.rx.items) { [unowned self] collection, row, data in
         updateProductListCell(view: collection, at: row, source: data)
@@ -321,7 +359,7 @@ class SideBarViewController: APPViewController {
 
     cell.setup(data)
     cell.finishCountDown = { [weak self] in
-      self?.sideMenuViewModel?.refreshMaintenanceStatus()
+      self?.maintenanceViewModel?.refreshStatus()
     }
 
     cell.setSelectedIcon(isSelected: data.type == productSelectedSubject.value)
@@ -340,9 +378,8 @@ class SideBarViewController: APPViewController {
     .disposed(by: disposeBag)
   }
 
-  private func maintenanceStatusBinding(_ sideMenuViewModel: SideMenuViewModel) {
-    sideMenuViewModel.maintenanceStatus
-      .filter { $0 is MaintenanceStatus.AllPortal }
+  private func maintenanceStatusBinding(_ maintenanceViewModel: MaintenanceViewModel) {
+    maintenanceViewModel.portalMaintenanceStatus
       .drive(onNext: { [unowned self] _ in alertAndExitLobby(KickOutSignal.Maintenance) })
       .disposed(by: disposeBag)
   }
@@ -353,6 +390,12 @@ class SideBarViewController: APPViewController {
   
   private func errorsHandingBinding() {
     sideMenuViewModel?.errors()
+      .subscribe(onNext: { [weak self] error in
+        self?.handleErrors(error)
+      })
+      .disposed(by: disposeBag)
+    
+    maintenanceViewModel?.errors()
       .subscribe(onNext: { [weak self] error in
         self?.handleErrors(error)
       })
@@ -477,6 +520,7 @@ extension SideBarViewController: SideMenuNavigationControllerDelegate {
   func sideMenuWillAppear(menu _: SideMenuNavigationController, animated _: Bool) {
     if !firstTimeEntry {
       sideMenuViewModel?.refreshData()
+      maintenanceViewModel?.refreshStatus()
     }
     
     CustomServicePresenter.shared.isInSideMenu = true
