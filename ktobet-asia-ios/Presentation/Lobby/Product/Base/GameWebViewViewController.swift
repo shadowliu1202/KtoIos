@@ -23,7 +23,7 @@ class GameWebViewViewController: WebViewBase {
     super.viewDidLoad()
     self.bind(position: .left, barButtonItems: .kto(.close))
     self.title = gameName
-    CustomServicePresenter.shared.isInGameWebView = true
+    CustomServicePresenter.shared.setFloatIconAvailable(false)
     (UIApplication.shared.delegate as! AppDelegate).restrictRotation = .all
 
     webView.navigationDelegate = self
@@ -44,7 +44,7 @@ class GameWebViewViewController: WebViewBase {
     UIDevice.current.setValue(value, forKey: "orientation")
     (UIApplication.shared.delegate as! AppDelegate).restrictRotation = .portrait
     self.delegate?.gameDisappear()
-    CustomServicePresenter.shared.isInGameWebView = false
+    CustomServicePresenter.shared.setFloatIconAvailable(true)
   }
 
   deinit {

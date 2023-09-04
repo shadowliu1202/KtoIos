@@ -236,16 +236,23 @@ extension AppDelegate {
 
   private func checkMaintenanceStatus() {
     @Injected var maintenanceViewModel: MaintenanceViewModel
+    @Injected var customerServiceViewModel: CustomerServiceViewModel
     
     maintenanceViewModel.refreshStatus()
     
-    _ = maintenanceViewModel.portalMaintenanceStatus.asObservable()
-      .first()
+    _ = Single.zip(
+      maintenanceViewModel.fetchMaintenanceStatus(),
+      customerServiceViewModel.isPlayerInChat.first())
       .observe(on: MainScheduler.instance)
-      .subscribe(onSuccess: { status in
-        guard status != nil else { return }
+      .subscribe(onSuccess: {
+        let (status, isPlayerInChat) = $0
         
-        if CustomServicePresenter.shared.isInChat {
+        guard
+          status is MaintenanceStatus.AllPortal,
+          let isPlayerInChat
+        else { return }
+        
+        if isPlayerInChat {
           _ = CustomServicePresenter.shared.closeService()
             .subscribe()
           

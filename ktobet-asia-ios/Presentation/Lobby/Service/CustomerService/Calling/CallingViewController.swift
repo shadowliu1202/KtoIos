@@ -28,58 +28,9 @@ class CallingViewController: CommonViewController {
     initUI()
     dataBinding()
   }
-
-  override func viewWillDisappear(_ animated: Bool) {
-    super.viewWillDisappear(animated)
-    CustomServicePresenter.shared.isInCallingView = false
-  }
-
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
-
-  private func initUI() {
-    lottieView.addSubview(animationView, constraints: .fill())
-    NotificationCenter.default.rx.notification(UIApplication.willEnterForegroundNotification).take(until: self.rx.deallocated)
-      .subscribe(onNext: { [weak self] _ in
-        self?.animationView.play()
-        CustomServicePresenter.shared.isInCallingView = true
-      }).disposed(by: disposeBag)
-  }
-
-  private func dataBinding() {
-    csViewModel.fullscreen()
-      .subscribe(onCompleted: { })
-      .disposed(by: disposeBag)
-    
-    csViewModel.currentQueueNumber
-      .map { Localize.string("customerservice_chat_room_your_queue_number", "\($0)") }
-      .bind(to: self.waitingCountLabel.rx.text)
-      .disposed(by: self.disposeBag)
-    
-    connectChatRoom()
-  }
-
-  private func connectChatRoom() {
-    csViewModel
-      .currentChatRoom()
-      .take(1)
-      .flatMap { [weak self] chatRoomDTO -> Completable in
-        guard let self else { throw KTOError.LostReference }
-        
-        if chatRoomDTO.status == SharedBu.Connection.StatusNotExist() {
-          return self.csViewModel.connectChatRoom()
-        }
-        else {
-          return Observable.just(()).asSingle().asCompletable()
-        }
-      }
-      .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .background))
-      .observe(on: MainScheduler.instance)
-      .subscribe(onError: { [weak self] error in
-        self?.handleError(error)
-      })
-      .disposed(by: disposeBag)
+  
+  override func viewDidAppear(_ animation: Bool) {
+    super.viewDidAppear(animation)
     
     csViewModel.chatRoomConnection
       .filter { $0 is SharedBu.Connection.StatusConnected }
@@ -89,6 +40,40 @@ class CallingViewController: CommonViewController {
           CustomServicePresenter.shared.switchToChatRoom(isRoot: false)
         })
       .disposed(by: disposeBag)
+  }
+
+  deinit {
+    Logger.shared.info("\(type(of: self)) deinit")
+  }
+
+  private func initUI() {
+    lottieView.addSubview(animationView, constraints: .fill())
+    NotificationCenter.default.rx.notification(UIApplication.willEnterForegroundNotification)
+      .take(until: self.rx.deallocated)
+      .subscribe(onNext: { [weak self] _ in
+        self?.animationView.play()
+      })
+      .disposed(by: disposeBag)
+  }
+
+  private func dataBinding() {
+    csViewModel.currentQueueNumber
+      .map { Localize.string("customerservice_chat_room_your_queue_number", "\($0)") }
+      .bind(to: self.waitingCountLabel.rx.text)
+      .disposed(by: self.disposeBag)
+    
+    connectChatRoom()
+  }
+
+  private func connectChatRoom() {
+    Task {
+      do {
+        try await csViewModel.createChatRoom()
+      }
+      catch {
+        handleError(error)
+      }
+    }
   }
 
   private func handleError(_ e: Error) {
@@ -115,14 +100,18 @@ class CallingViewController: CommonViewController {
 
         self.csViewModel
           .closeChatRoom()
-          .subscribe(onSuccess: { [weak self] _ in
-            guard let self else { return }
+          .observe(on: MainScheduler.instance)
+          .subscribe(
+            onSuccess: { [weak self] _ in
+              guard let self else { return }
 
-            self.csViewModel.setupSurveyAnswer(answers: nil)
-          })
+              self.csViewModel.setupSurveyAnswer(answers: nil)
+              self.stopServiceAndShowServiceOccupied()
+            },
+            onFailure: { [weak self] in
+              self?.handleError($0)
+            })
           .disposed(by: self.disposeBag)
-
-        self.stopServiceAndShowServiceOccupied()
       },
       cancelText: Localize.string("common_stop"))
   }

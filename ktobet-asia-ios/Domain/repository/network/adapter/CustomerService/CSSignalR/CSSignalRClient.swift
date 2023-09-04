@@ -14,16 +14,19 @@ class CSSignalRClient: CSEventSubject {
   
   private let token: String
   private let httpClient: HttpClient
+  private let customerServiceProtocol: CustomerServiceProtocol
 
   private var observer: CSEventObserver?
   private var socketConnect: HubConnection?
 
   init(
     _ token: String,
-    _ httpClient: HttpClient)
+    _ httpClient: HttpClient,
+    _ customerServiceProtocol: CustomerServiceProtocol)
   {
     self.token = token
     self.httpClient = httpClient
+    self.customerServiceProtocol = customerServiceProtocol
   }
 
   private func buildHubConnection() -> HubConnection? {
@@ -107,5 +110,20 @@ extension CSSignalRClient: HubConnectionDelegate {
   func connectionDidClose(error: Error?) {
     guard let error else { return }
     Logger.shared.error(error)
+  }
+  
+  func connectionDidReconnect() {
+    _ = Single.from(customerServiceProtocol.getQueueNumber())
+      .map { $0.data }
+      .subscribe(onSuccess: { [unowned self] in
+        guard let currentQueueNumber = $0 else { return }
+      
+        if currentQueueNumber.intValue == 0 {
+          observer?.onVisit(visitor: Connected(httpClient))
+        }
+        else {
+          observer?.onVisit(visitor: Waiting(currentQueueNumber.intValue))
+        }
+      })
   }
 }

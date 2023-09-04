@@ -88,12 +88,18 @@ private func injectStubCustomServicePresenter() {
       stubSurveyViewModel)
 
   given(customServicePresenter.initService()) ~> { }
-  given(customServicePresenter.observeCsStatus) ~> .just(false)
-  given(customServicePresenter.isInChat) ~> false
+  given(stubCustomerServiceViewModel.currentChatRoom()) ~>
+    .just(.init(roomId: "", readMessage: [], unReadMessage: [], status: Connection.StatusNotExist(), isMaintained: false))
 
   Injectable
     .register(CustomServicePresenter.self) { _ in
       customServicePresenter
     }
     .inObjectScope(.application)
+  
+  Injectable
+    .register(CustomerServiceViewModel.self) { _ in
+      stubCustomerServiceViewModel
+    }
+    .inObjectScope(.locale)
 }

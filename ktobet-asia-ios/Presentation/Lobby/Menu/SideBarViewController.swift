@@ -60,6 +60,7 @@ class SideBarViewController: APPViewController {
 
   var sideMenuViewModel: SideMenuViewModel? = SideMenuViewModel()
   var maintenanceViewModel: MaintenanceViewModel? = Injectable.resolveWrapper(MaintenanceViewModel.self)
+  var customerServiceViewModel: CustomerServiceViewModel? = Injectable.resolveWrapper(CustomerServiceViewModel.self)
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -85,7 +86,7 @@ class SideBarViewController: APPViewController {
     navigationController?.navigationBar.scrollEdgeAppearance = appearance
     navigationController?.navigationBar.standardAppearance = appearance
   }
-
+  
   override func observeValue(
     forKeyPath keyPath: String?,
     of object: Any?,
@@ -106,6 +107,7 @@ class SideBarViewController: APPViewController {
     guard let sideMenuViewModel else { return }
     
     sideMenuViewModel.observeKickOutSignal()
+      .observe(on: MainScheduler.instance)
       .subscribe(onNext: { [unowned self] in alertAndExitLobby($0) })
       .disposed(by: disposeBag)
   }
@@ -114,36 +116,38 @@ class SideBarViewController: APPViewController {
     guard !isAlertShowing else { return }
     isAlertShowing = true
     
-    let (title, message, isMaintain) = parseKickOutType(type)
-
-    Alert.shared.show(title, message, confirm: { [weak self] in
-      guard
-        let self,
-        let maintenanceStatusViewModel = self.maintenanceViewModel
-      else { return }
-
-      maintenanceStatusViewModel.logout()
-        .subscribe(
-          onCompleted: {
-            if isMaintain {
-              NavigationManagement.sharedInstance.goTo(
-                storyboard: "Maintenance",
-                viewControllerId: "PortalMaintenanceViewController")
-            }
-            else {
-              NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LandingNavigation")
-            }
-          },
-          onError: { _ in self.isAlertShowing = false })
-        .disposed(by: self.disposeBag)
-
-    }, cancel: cancel)
+    Task {
+      let (title, message, isMaintain) = await parseKickOutType(type)
+      
+      Alert.shared.show(title, message, confirm: { [weak self] in
+        guard
+          let self,
+          let maintenanceStatusViewModel = self.maintenanceViewModel
+        else { return }
+        
+        maintenanceStatusViewModel.logout()
+          .subscribe(
+            onCompleted: {
+              if isMaintain {
+                NavigationManagement.sharedInstance.goTo(
+                  storyboard: "Maintenance",
+                  viewControllerId: "PortalMaintenanceViewController")
+              }
+              else {
+                NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LandingNavigation")
+              }
+            },
+            onError: { _ in self.isAlertShowing = false })
+          .disposed(by: self.disposeBag)
+        
+      }, cancel: cancel)
+    }
   }
 
-  private func parseKickOutType(_ type: KickOutSignal?) -> (String, String, Bool) {
-    var title: String
-    var message: String
-    var isMaintain: Bool
+  private func parseKickOutType(_ type: KickOutSignal?) async -> (String, String, Bool) {
+    var title = Localize.string("common_tip_title_warm")
+    var message = Localize.string("common_confirm_logout")
+    var isMaintain = false
 
     switch type {
     case .duplicatedLogin:
@@ -162,7 +166,11 @@ class SideBarViewController: APPViewController {
       isMaintain = false
 
     case .Maintenance:
-      if CustomServicePresenter.shared.isInChat {
+      if
+        let customerServiceViewModel,
+        let isPlayerInChat = try? await customerServiceViewModel.isPlayerInChat.first().value,
+        isPlayerInChat
+      {
         title = Localize.string("common_maintenance_notify")
         message = Localize.string("common_maintenance_chat_close")
         isMaintain = true
@@ -178,10 +186,7 @@ class SideBarViewController: APPViewController {
       message = Localize.string("common_kick_out_token_expired")
       isMaintain = false
 
-    default:
-      title = Localize.string("common_tip_title_warm")
-      message = Localize.string("common_confirm_logout")
-      isMaintain = false
+    default: break
     }
 
     return (title, message, isMaintain)
@@ -523,11 +528,11 @@ extension SideBarViewController: SideMenuNavigationControllerDelegate {
       maintenanceViewModel?.refreshStatus()
     }
     
-    CustomServicePresenter.shared.isInSideMenu = true
+    CustomServicePresenter.shared.setFloatIconAvailable(false)
     firstTimeEntry = false
   }
 
   func sideMenuWillDisappear(menu _: SideMenuNavigationController, animated _: Bool) {
-    CustomServicePresenter.shared.isInSideMenu = false
+    CustomServicePresenter.shared.setFloatIconAvailable(true)
   }
 }

@@ -33,6 +33,11 @@ class MaintenanceViewModel: CollectErrorViewModel {
       .asDriverOnErrorJustComplete()
   }
   
+  func fetchMaintenanceStatus() -> Single<MaintenanceStatus> {
+    refreshStatus()
+    return maintenanceStatus.asObservable().first().map { $0! }
+  }
+  
   func refreshStatus() {
     maintenanceStatusTrigger.accept(())
   }

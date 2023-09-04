@@ -13,8 +13,6 @@ class CustomerServiceViewModel {
   
   private lazy var observeChatRoom = Observable.from(chatAppService.observeChatRoom()).share(replay: 1)
   
-  var screenSizeOption = BehaviorRelay<ChatRoomScreen>(value: .Minimize)
-
   lazy var chatMaintenanceStatus = currentChatRoom()
     .map(\.isMaintained)
     
@@ -24,8 +22,10 @@ class CustomerServiceViewModel {
   lazy var chatRoomUnreadMessage = currentChatRoom()
     .compactMap { [weak chatRoomTempMapper] in chatRoomTempMapper?.convertToUnreadMessages($0) }
 
-  lazy var preLoadChatRoomStatus = currentChatRoom()
+  lazy var chatRoomStatus = currentChatRoom()
     .compactMap { [weak chatRoomTempMapper] in chatRoomTempMapper?.convertToStatus($0) }
+      
+  lazy var isPlayerInChat = chatRoomStatus.map { $0 != PortalChatRoom.ConnectStatus.notexist }
 
   lazy var chatRoomConnection = observeChatRoom.map { $0.status }
   
@@ -45,6 +45,24 @@ class CustomerServiceViewModel {
 
   func currentChatRoom() -> Observable<CustomerServiceDTO.ChatRoom> {
     observeChatRoom
+  }
+  
+  func createChatRoom() async throws {
+    async let status = Observable.from(chatAppService.observeChatRoom())
+      .map { $0.status }
+      .catchAndReturn(Connection.StatusNotExist())
+      .first()
+      .value
+    
+    if try await status == SharedBu.Connection.StatusNotExist() {
+      try await create()
+    }
+  }
+  
+  private func create() async throws {
+    let surveyAnswers = surveyAnswers == nil ? nil : surveyTempMapper.convertToCSSurveyAnswersDTO(surveyAnswers!)
+
+    return try await Completable.from(chatAppService.create(surveyAnswers: surveyAnswers)).value
   }
   
   func connectChatRoom() -> Completable {
@@ -76,25 +94,13 @@ class CustomerServiceViewModel {
       return Disposables.create { }
     }
   }
-
-  func minimize() -> Completable {
-    screenSizeOption.accept(.Minimize)
-    return Completable.from(
-      chatAppService
-        .readAllMessage(updateToLast: nil, isAuto: KotlinBoolean(bool: false)))
-  }
-
-  func fullscreen() -> Completable {
-    screenSizeOption.accept(.Fullscreen)
-    return Completable.from(
-      chatAppService
-        .readAllMessage(updateToLast: nil, isAuto: KotlinBoolean(bool: true)))
-  }
-
-  func markAllRead() -> Completable {
-    Completable.from(
-      chatAppService
-        .readAllMessage(updateToLast: KotlinBoolean(bool: true), isAuto: nil))
+  
+  func markAllRead(manual: Bool?, auto: Bool?) async throws {
+    try await Completable.from(
+      chatAppService.readAllMessage(
+        updateToLast: manual == nil ? nil : KotlinBoolean(bool: manual!),
+        isAuto: auto == nil ? nil : KotlinBoolean(bool: auto!)))
+      .value
   }
 
   func findCurrentRoomId() -> Single<RoomId> {

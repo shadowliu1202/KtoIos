@@ -26,14 +26,6 @@ final class ChatRoomViewControllerTests: XCBaseTestCase {
   private func getDummyCustomerServiceViewModel() -> CustomerServiceViewModel {
     let dummyCustomerServiceViewModel = mock(CustomerServiceViewModel.self)
       .initialize(mock(AbsCustomerServiceAppService.self))
-
-    given(dummyCustomerServiceViewModel.fullscreen())
-      ~> RxSwift.Completable
-      .create(subscribe: { event in
-        event(.completed)
-
-        return Disposables.create { }
-      })
     
     given(dummyCustomerServiceViewModel.currentChatRoom()) ~> .never()
 
