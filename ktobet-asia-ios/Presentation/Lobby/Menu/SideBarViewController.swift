@@ -438,7 +438,7 @@ class SideBarViewController: APPViewController {
 
         switch featureType {
         case .logout:
-          alertAndExitLobby(nil, cancel: { })
+          alertAndExitLobby(nil, cancel: { [weak self] in self?.isAlertShowing = false })
         case .withdraw:
           NavigationManagement.sharedInstance.goTo(storyboard: "Withdrawal", viewControllerId: "WithdrawalNavigation")
         case .deposit:
