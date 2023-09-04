@@ -1,13 +1,16 @@
+import RxRelay
 import RxSwift
 import UIKit
 
 class CustomerServiceIconViewWindow: UIWindow {
+  private let tapRelay = PublishRelay<Void>()
+  
   var viewModel: CustomerServiceViewModel!
   var unReadNumberLabel: UILabel!
   var img: UIImageView!
   var backgroundView: UIView!
   var count = 0
-  var touchUpInside: (() -> Void)?
+  lazy var touchUpInside = tapRelay.asDriverOnErrorJustComplete()
   let disposeBag = DisposeBag()
 
   init(frame: CGRect, viewModel: CustomerServiceViewModel) {
@@ -74,6 +77,6 @@ class CustomerServiceIconViewWindow: UIWindow {
 
   @objc
   func tap(gesture _: UITapGestureRecognizer) {
-    touchUpInside?()
+    tapRelay.accept(())
   }
 }

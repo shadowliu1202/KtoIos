@@ -23,6 +23,8 @@ let manualUpdateBtnId = 1004
 let skipBarBtnId = 1005
 
 class CustomerServiceButtonItem: TextBarButtonItem {
+  @Injected private var customerServiceViewModel: CustomerServiceViewModel
+  
   required init?(coder: NSCoder) {
     super.init(coder: coder)
   }
@@ -32,8 +34,8 @@ class CustomerServiceButtonItem: TextBarButtonItem {
     self.senderId(customerServiceBarBtnId)
     self.isEnabled = false
     
-    CustomServicePresenter.shared.observeCsStatus
-      .subscribe(on: MainScheduler.instance)
+    customerServiceViewModel.isPlayerInChat
+      .observe(on: MainScheduler.instance)
       .subscribe(onNext: { [weak delegate] in
         delegate?.didCsIconAppear(isAppear: $0)
         

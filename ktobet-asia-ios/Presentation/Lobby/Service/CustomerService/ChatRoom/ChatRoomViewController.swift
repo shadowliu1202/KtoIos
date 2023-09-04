@@ -32,7 +32,7 @@ class ChatRoomViewController: CommonViewController {
   // FIXME: Use viewDidLoad after resolve memory leak
   override func viewWillAppear(_ animated: Bool) {
     super.viewWillAppear(animated)
-    viewModel.fullscreen().subscribe().disposed(by: disposeBag)
+    CustomServicePresenter.shared.setChatWindowState(.fullscreen)
     setupUI()
     textFieldBinding()
     sendMessageBinding()
@@ -47,6 +47,11 @@ class ChatRoomViewController: CommonViewController {
     disposeBag = DisposeBag()
   }
 
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    CustomServicePresenter.shared.setChatWindowState(.minimize)
+  }
+  
   // MARK: UI
   private func setupUI() {
     setKeyboardEvent()
@@ -130,10 +135,12 @@ class ChatRoomViewController: CommonViewController {
 
     var firstLoad = true
     tableView.rx.reachedBottom
-      .flatMap { _ in self.viewModel.chatRoomUnreadMessage.filter { !$0.isEmpty } }
-      .subscribe(onNext: { _ in
+      .flatMap { _ in self.viewModel.chatRoomUnreadMessage.first().filter { $0?.count ?? 0 > 0 } }
+      .subscribe(onNext: { [weak self] _ in
         if !firstLoad {
-          self.viewModel.markAllRead().subscribe(onCompleted: { }).disposed(by: self.disposeBag)
+          Task {
+            try? await self?.viewModel.markAllRead(manual: true, auto: nil)
+          }
         }
         else {
           firstLoad = false
@@ -239,7 +246,7 @@ class ChatRoomViewController: CommonViewController {
   }
 
   private func getChatRoomStatus() {
-    viewModel.preLoadChatRoomStatus.subscribe(onNext: { [weak self] status in
+    viewModel.chatRoomStatus.subscribe(onNext: { [weak self] status in
       if status == PortalChatRoom.ConnectStatus.closed {
         self?.disableInputView()
       }
@@ -404,8 +411,8 @@ extension ChatRoomViewController: BarButtonItemable {
         cancel: { self.confirmNetworkThenCloseChatRoom() },
         cancelText: Localize.string("common_finish"))
     case collapseBarBtnId:
-      self.dismiss(animated: true) {
-        CustomServicePresenter.shared.collapse()
+      dismiss(animated: true) {
+        NavigationManagement.sharedInstance.viewController = CustomServicePresenter.shared.topViewController
       }
     default:
       break

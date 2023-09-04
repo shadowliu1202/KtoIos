@@ -260,6 +260,8 @@ final class LaunchAppTest: XCBaseTestCase {
     sut.loadViewIfNeeded()
     sut.viewDidAppear(true)
     
+    wait(for: 1)
+    
     verify(mockAlert.show(
       Localize.string("common_urgent_maintenance"),
       Localize.string("common_maintenance_logout"),
@@ -307,7 +309,7 @@ final class LaunchAppTest: XCBaseTestCase {
     stubLoginStatus(isLogged: .error(NSError(domain: "", code: 410)))
     stubMaintenanceStatus(isAllMaintenance: true)
 
-    Alert.shared = mockAlert
+    NavigationManagement.sharedInstance = mockNavigator
     
     let sut = SideBarViewController.initFrom(storyboard: "slideMenu")
     sut.sideMenuViewModel = getFakeSideMenuViewModel()
@@ -319,14 +321,10 @@ final class LaunchAppTest: XCBaseTestCase {
     sut.loadViewIfNeeded()
     sut.viewDidAppear(true)
     
-    verify(mockAlert.show(
-      Localize.string("common_urgent_maintenance"),
-      Localize.string("common_maintenance_logout"),
-      confirm: any(),
-      confirmText: any(),
-      cancel: any(),
-      cancelText: any(),
-      tintColor: any()))
+    verify(
+      mockNavigator.goTo(
+        storyboard: "Maintenance",
+        viewControllerId: "PortalMaintenanceViewController"))
       .wasCalled()
   }
 

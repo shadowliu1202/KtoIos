@@ -1213,7 +1213,9 @@ final class Injection {
     
     container
       .register(CSEventService.self) { resolver in
-        CSEventServiceAdapter(resolver.resolveWrapper(HttpClient.self))
+        CSEventServiceAdapter(
+          resolver.resolveWrapper(HttpClient.self),
+          resolver.resolveWrapper(CustomerServiceProtocol.self))
       }
       .inObjectScope(.locale)
     

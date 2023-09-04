@@ -29,19 +29,23 @@ extension UIViewController {
 
   func handleMaintenance() {
     @Injected var maintenanceViewModel: MaintenanceViewModel
+    @Injected var customerServiceViewModel: CustomerServiceViewModel
     
     maintenanceViewModel.refreshStatus()
     
-    _ = maintenanceViewModel.portalMaintenanceStatus.asObservable()
-      .first()
+    _ = Single.zip(
+      maintenanceViewModel.fetchMaintenanceStatus(),
+      customerServiceViewModel.isPlayerInChat.first())
       .observe(on: MainScheduler.instance)
-      .subscribe(onSuccess: { status in
+      .subscribe(onSuccess: {
+        let (status, isPlayerInChat) = $0
+        
         guard
-          status != nil,
-          UIApplication.topViewController() is LandingViewController
+          status is MaintenanceStatus.AllPortal,
+          let isPlayerInChat
         else { return }
         
-        if CustomServicePresenter.shared.isInChat {
+        if isPlayerInChat {
           _ = CustomServicePresenter.shared.closeService()
             .subscribe()
           
