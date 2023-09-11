@@ -24,7 +24,68 @@ extension UIViewController {
 
   @objc
   func handleErrors(_ error: Error) {
-    APIErrorHandler(target: self).handle(error)
+    let error = APPError.convert(by: error)
+    
+    switch error {
+    case .unknown(let nsError):
+      Logger.shared.error(nsError)
+      handleUnknownError(nsError.code)
+      
+    case .regionRestricted(let nsError):
+      Logger.shared.error(nsError)
+      presentRestrictView()
+      
+    case .tooManyRequest(let nsError):
+      Logger.shared.error(nsError)
+      showTooManyRequest()
+      
+    case .temporary(let nsError):
+      Logger.shared.error(nsError)
+      showTemporaryError()
+      
+    case .cdn(let nsError):
+      Logger.shared.error(nsError)
+      presentCDNErrorView()
+      
+    case .maintenance(let nsError):
+      Logger.shared.error(nsError)
+      handleMaintenance()
+      
+    case .wrongFormat: showWrongFormat()
+    case .ignorable: break
+    }
+  }
+  
+  func handleUnknownError(_ statusCode: Int) {
+    if statusCode.isNetworkConnectionLost() {
+      showToast(Localize.string("common_unknownhostexception"), barImg: .failed)
+    }
+    else {
+      showToast(Localize.string("common_unknownerror", "\(statusCode)"), barImg: .failed)
+    }
+  }
+
+  func presentRestrictView() {
+    let restrictedVC = UIStoryboard(name: "slideMenu", bundle: nil).instantiateViewController(withIdentifier: "restrictedVC")
+    present(restrictedVC, animated: true, completion: nil)
+  }
+
+  func showTooManyRequest() {
+    showToast(Localize.string("common_retry_later"), barImg: nil)
+  }
+
+  func showWrongFormat() {
+    showToast(Localize.string("common_malformedexception"), barImg: .failed)
+  }
+
+  func showTemporaryError() {
+    showToast(Localize.string("common_http_503", "\(503)"), barImg: .failed)
+  }
+
+  func presentCDNErrorView() {
+    let cndErrorVC = UIStoryboard(name: "slideMenu", bundle: nil)
+      .instantiateViewController(withIdentifier: "CDNErrorViewController")
+    present(cndErrorVC, animated: true, completion: nil)
   }
 
   func handleMaintenance() {

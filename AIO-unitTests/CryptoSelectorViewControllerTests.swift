@@ -106,8 +106,7 @@ final class CryptoSelectorViewControllerTests: XCBaseTestCase {
   func test_givenDepositCountOverLimit_InCryptoSelectPage_thenAlertRequestLater() {
     injectStubCultureCode(.CN)
 
-    let error = NSError(domain: "", code: 0, userInfo: ["statusCode": "10101", "errorMsg": ""])
-    let playerDepositCountOverLimit = ExceptionFactory.create(error)
+    let playerDepositCountOverLimit = ExceptionFactory.companion.create(message: "", statusCode: "10101")
 
     let stubViewModel = mock(CryptoDepositViewModel.self)
       .initialize(
