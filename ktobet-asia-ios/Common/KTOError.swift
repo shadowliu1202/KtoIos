@@ -8,10 +8,63 @@ enum KTOError: Error {
   case WrongDateFormat
   case WrongProductType
   case LostReference
+  case JsonParseError
+}
+
+struct ResponseParseError: Error {
+  let rawData: Data
 }
 
 extension KotlinThrowable: Error { }
-class NoSuchElementException: KtoException { }
+
+extension KotlinThrowable {
+  var exceptionName: String {
+    type(of: self).description()
+  }
+  
+  static func wrapError(_ error: Error) -> KotlinThrowable {
+    if let kotlinException = error as? KotlinThrowable {
+      return kotlinException
+    }
+    else {
+      return ErrorWrapper(wrapped: error)
+    }
+  }
+  
+  func unwrapToError() -> Error {
+    if let errorWrapper = self as? ErrorWrapper {
+      return errorWrapper.error
+    }
+    else {
+      return self
+    }
+  }
+}
+
+extension ApiException {
+  override open func isEqual(_ object: Any?) -> Bool {
+    guard let object = object as? ApiException
+    else { return false }
+    
+    return message == object.message && errorCode == object.errorCode
+  }
+}
+
+class ErrorWrapper: KotlinThrowable {
+  let error: Error
+  
+  init(wrapped error: Error) {
+    self.error = error
+    super.init()
+  }
+  
+  override func isEqual(_ object: Any?) -> Bool {
+    guard let object = object as? ErrorWrapper
+    else { return false }
+    
+    return (error as NSError) == (object.error as NSError)
+  }
+}
 
 extension Int {
   func isNetworkConnectionLost() -> Bool {

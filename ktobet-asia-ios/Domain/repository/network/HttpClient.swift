@@ -94,60 +94,46 @@ class HttpClient: CookieUtil {
       SDWebImageDownloader.shared.setValue(header.value, forHTTPHeaderField: header.key)
     }
   }
-
+  
   func request(_ target: TargetType) -> Single<Response> {
     getProvider(method: target.method)
       .rx
       .request(MultiTarget(target))
       .filterSuccessfulStatusCodes()
       .flatMap({ [weak self] response -> Single<Response> in
-        self?.printResponseData(target.method.rawValue, response: response)
+        guard let self else { return .error(KTOError.LostReference) }
 
-        if
-          let json = try? JSON(data: response.data),
-          let statusCode = json["statusCode"].string,
-          let errorMsg = json["errorMsg"].string,
-          statusCode.count > 0, errorMsg.count > 0
-        {
-          let domain = self?.host.path ?? ""
-          let code = Int(statusCode) ?? 0
-          let error = NSError(
-            domain: domain,
-            code: code,
-            userInfo: ["statusCode": statusCode, "errorMsg": errorMsg]) as Error
-          let err = ExceptionFactory.create(error)
-          return Single.error(err)
-        }
-
-        self?.refreshLastAPISuccessDate()
-
-        return Single.just(response)
+        return self.handleResponse(response)
       })
   }
 
   @available(*, deprecated, message: "Target should create in HTTPClient.")
   func requestJsonString(_ target: TargetType) -> Single<String> {
-    getProvider(method: target.method)
-      .rx
-      .request(MultiTarget(target))
-      .filterSuccessfulStatusCodes()
-      .flatMap { [weak self] response in
-        self?.printResponseData(target.method.rawValue, response: response)
-
-        if let str = String(data: response.data, encoding: .utf8) {
-          self?.refreshLastAPISuccessDate()
-          return Single.just(str)
-        }
-        else {
-          let domain = self?.host.path ?? ""
-          let error = NSError(
-            domain: domain,
-            code: response.statusCode,
-            userInfo: ["statusCode": response.statusCode, "errorMsg": ""]) as Error
-
-          return Single.error(error)
-        }
+    request(target)
+      .flatMap { response in
+        guard
+          let json = try? JSON(data: response.data),
+          let rawString = json.rawString()
+        else { return .error(ResponseParseError(rawData: response.data)) }
+        
+        return .just(rawString)
       }
+  }
+  
+  func handleResponse(_ response: Response) -> Single<Response> {
+    guard
+      let json = try? JSON(data: response.data),
+      let statusCode = json["statusCode"].string,
+      let errorMsg = json["errorMsg"].string
+    else { return .error(ResponseParseError(rawData: response.data)) }
+      
+    if statusCode.isEmpty, errorMsg.isEmpty {
+      refreshLastAPISuccessDate()
+      return .just(response)
+    }
+    else {
+      return .error(ExceptionFactory.companion.create(message: errorMsg, statusCode: statusCode))
+    }
   }
   
   func requestJsonString(
@@ -195,18 +181,6 @@ extension HttpClient {
 
       return Disposables.create { }
     }
-  }
-}
-
-// MARK: - Debug Print
-
-extension HttpClient {
-  private func printResponseData(_: String, response: Response) {
-    if debugDatas.count > 20 {
-      debugDatas.remove(at: 0)
-    }
-
-    debugDatas.append(.init(moyaResponse: response))
   }
 }
 

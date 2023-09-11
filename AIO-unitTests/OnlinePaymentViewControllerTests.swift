@@ -43,12 +43,7 @@ final class OnlinePaymentViewControllerTests: XCBaseTestCase {
   }
 
   func test_givenDepositCountOverLimit_InDepositOnlinePaymentPage_thenAlertRequestLater() {
-    let error = NSError(
-      domain: "",
-      code: 0,
-      userInfo: ["statusCode": "10101", "errorMsg": ""])
-
-    let playerDepositCountOverLimitError = ExceptionFactory.create(error)
+    let playerDepositCountOverLimitError = ExceptionFactory.companion.create(message: "", statusCode: "10101")
 
     let stubViewModel = getFakeOnlinePaymentViewModel()
 

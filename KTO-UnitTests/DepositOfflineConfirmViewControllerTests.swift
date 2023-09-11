@@ -26,8 +26,7 @@ final class DepositOfflineConfirmViewControllerTests: XCBaseTestCase {
   func test_givenDepositCountOverLimit_InDepositOfflineConfirmPage_thenAlertRequestLater() {
     injectStubCultureCode(.CN)
 
-    let error = NSError(domain: "", code: 0, userInfo: ["statusCode": "10101", "errorMsg": ""])
-    let playerDepositCountOverLimit = ExceptionFactory.create(error)
+    let playerDepositCountOverLimit = ExceptionFactory.companion.create(message: "", statusCode: "10101")
 
     let stubViewModel = mock(DepositOfflineConfirmViewModel.self)
       .initialize(

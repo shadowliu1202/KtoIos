@@ -178,12 +178,8 @@ final class AnyPublisherExtensionTests: XCTestCase {
     let completableWrapper = CompletableWrapper(inner: CompletableByEmitterKt.completable(onSubscribe: { emitter in
       let swiftDisposable = observable
         .subscribe(
-          onError: { error in
-            emitter.onError(error: ExceptionFactory.create(error))
-          },
-          onCompleted: {
-            emitter.onComplete()
-          })
+          onError: { emitter.onError(error: KotlinThrowable.wrapError($0)) },
+          onCompleted: { emitter.onComplete() })
 
       emitter.setDisposable(disposable: DisposableWrapper(disposable: swiftDisposable))
     }))
@@ -226,12 +222,8 @@ final class AnyPublisherExtensionTests: XCTestCase {
     let completableWrapper = CompletableWrapper(inner: CompletableByEmitterKt.completable(onSubscribe: { emitter in
       let swiftDisposable = observable
         .subscribe(
-          onError: { error in
-            emitter.onError(error: ExceptionFactory.create(error))
-          },
-          onCompleted: {
-            emitter.onComplete()
-          })
+          onError: { emitter.onError(error: KotlinThrowable.wrapError($0)) },
+          onCompleted: { emitter.onComplete() })
 
       emitter.setDisposable(disposable: DisposableWrapper(disposable: swiftDisposable))
     }))

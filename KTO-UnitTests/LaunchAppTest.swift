@@ -1,4 +1,5 @@
 import Mockingbird
+import Moya
 import RxSwift
 import SharedBu
 import XCTest
@@ -308,7 +309,7 @@ final class LaunchAppTest: XCBaseTestCase {
   }
 
   func test_givenUserLoggedInAndAllMaintenance_whenHotStart_thenEnterMaintenancePage() {
-    stubLoginStatus(isLogged: .error(NSError(domain: "", code: 410)))
+    stubLoginStatus(isLogged: .error(MoyaError.statusCode(Response(statusCode: 410, data: Data()))))
     stubMaintenanceStatus(isAllMaintenance: true)
 
     NavigationManagement.sharedInstance = mockNavigator
