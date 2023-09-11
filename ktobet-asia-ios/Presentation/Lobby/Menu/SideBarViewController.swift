@@ -55,7 +55,6 @@ class SideBarViewController: APPViewController {
   private var disposeBag = DisposeBag()
 
   private var gamerID = ""
-  private var firstTimeEntry = true
   private var isAlertShowing = false
 
   var sideMenuViewModel: SideMenuViewModel? = SideMenuViewModel()
@@ -103,12 +102,25 @@ class SideBarViewController: APPViewController {
     }
   }
 
-  func observeKickOutSignal() {
+  func observeSystemStatus() {
+    observeKickOutSignal()
+    observeMaintenanceStatus()
+  }
+  
+  private func observeKickOutSignal() {
     guard let sideMenuViewModel else { return }
     
     sideMenuViewModel.observeKickOutSignal()
       .observe(on: MainScheduler.instance)
       .subscribe(onNext: { [unowned self] in alertAndExitLobby($0) })
+      .disposed(by: disposeBag)
+  }
+  
+  private func observeMaintenanceStatus() {
+    guard let maintenanceViewModel else { return }
+    
+    maintenanceViewModel.portalMaintenanceStatus
+      .drive(onNext: { [unowned self] _ in alertAndExitLobby(KickOutSignal.Maintenance) })
       .disposed(by: disposeBag)
   }
 
@@ -290,7 +302,6 @@ class SideBarViewController: APPViewController {
     balanceBinding(sideMenuViewModel)
     productsListBinding(maintenanceViewModel)
     featuresBinding()
-    maintenanceStatusBinding(maintenanceViewModel)
     errorsHandingBinding()
   }
   
@@ -364,7 +375,7 @@ class SideBarViewController: APPViewController {
 
     cell.setup(data)
     cell.finishCountDown = { [weak self] in
-      self?.maintenanceViewModel?.refreshStatus()
+      Task { await self?.maintenanceViewModel?.pullMaintenanceStatus() }
     }
 
     cell.setSelectedIcon(isSelected: data.type == productSelectedSubject.value)
@@ -381,12 +392,6 @@ class SideBarViewController: APPViewController {
       cell.setup(data.name, image: UIImage(named: data.icon))
     }
     .disposed(by: disposeBag)
-  }
-
-  private func maintenanceStatusBinding(_ maintenanceViewModel: MaintenanceViewModel) {
-    maintenanceViewModel.portalMaintenanceStatus
-      .drive(onNext: { [unowned self] _ in alertAndExitLobby(KickOutSignal.Maintenance) })
-      .disposed(by: disposeBag)
   }
 
   func cleanProductSelected() {
@@ -523,13 +528,10 @@ class SideBarViewController: APPViewController {
 
 extension SideBarViewController: SideMenuNavigationControllerDelegate {
   func sideMenuWillAppear(menu _: SideMenuNavigationController, animated _: Bool) {
-    if !firstTimeEntry {
-      sideMenuViewModel?.refreshData()
-      maintenanceViewModel?.refreshStatus()
-    }
+    sideMenuViewModel?.refreshData()
+    Task { await maintenanceViewModel?.pullMaintenanceStatus() }
     
     CustomServicePresenter.shared.setFloatIconAvailable(false)
-    firstTimeEntry = false
   }
 
   func sideMenuWillDisappear(menu _: SideMenuNavigationController, animated _: Bool) {

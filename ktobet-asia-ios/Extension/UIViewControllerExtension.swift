@@ -31,40 +31,34 @@ extension UIViewController {
     @Injected var maintenanceViewModel: MaintenanceViewModel
     @Injected var customerServiceViewModel: CustomerServiceViewModel
     
-    maintenanceViewModel.refreshStatus()
-    
-    _ = Single.zip(
-      maintenanceViewModel.fetchMaintenanceStatus(),
-      customerServiceViewModel.isPlayerInChat.first())
-      .observe(on: MainScheduler.instance)
-      .subscribe(onSuccess: {
-        let (status, isPlayerInChat) = $0
+    _Concurrency.Task { [maintenanceViewModel, customerServiceViewModel] in
+      async let maintenanceStatus = maintenanceViewModel.pullMaintenanceStatus()
+      async let isPlayerInChat = customerServiceViewModel.isPlayerInChat.first().value
+      
+      guard
+        await maintenanceStatus is MaintenanceStatus.AllPortal,
+        let isPlayerInChat = try? await isPlayerInChat
+      else { return }
+      
+      if isPlayerInChat {
+        try? await CustomServicePresenter.shared.closeService().value
         
-        guard
-          status is MaintenanceStatus.AllPortal,
-          let isPlayerInChat
-        else { return }
-        
-        if isPlayerInChat {
-          _ = CustomServicePresenter.shared.closeService()
-            .subscribe()
-          
-          Alert.shared.show(
-            Localize.string("common_maintenance_notify"),
-            Localize.string("common_maintenance_chat_close"),
-            confirm: {
-              NavigationManagement.sharedInstance.goTo(
-                storyboard: "Maintenance",
-                viewControllerId: "PortalMaintenanceViewController")
-            },
-            cancel: nil)
-        }
-        else {
-          NavigationManagement.sharedInstance.goTo(
-            storyboard: "Maintenance",
-            viewControllerId: "PortalMaintenanceViewController")
-        }
-      })
+        Alert.shared.show(
+          Localize.string("common_maintenance_notify"),
+          Localize.string("common_maintenance_chat_close"),
+          confirm: {
+            NavigationManagement.sharedInstance.goTo(
+              storyboard: "Maintenance",
+              viewControllerId: "PortalMaintenanceViewController")
+          },
+          cancel: nil)
+      }
+      else {
+        NavigationManagement.sharedInstance.goTo(
+          storyboard: "Maintenance",
+          viewControllerId: "PortalMaintenanceViewController")
+      }
+    }
   }
 
   func startActivityIndicator(activityIndicator: UIActivityIndicatorView) {

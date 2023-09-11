@@ -43,8 +43,12 @@ class GameWebViewViewController: WebViewBase {
     let value = UIInterfaceOrientation.portrait.rawValue
     UIDevice.current.setValue(value, forKey: "orientation")
     (UIApplication.shared.delegate as! AppDelegate).restrictRotation = .portrait
-    self.delegate?.gameDisappear()
     CustomServicePresenter.shared.setFloatIconAvailable(true)
+  }
+  
+  override func viewDidDisappear(_ animated: Bool) {
+    super.viewDidDisappear(animated)
+    delegate?.gameDisappear()
   }
 
   deinit {

@@ -58,7 +58,7 @@ class ProductsViewController: LobbyViewController {
 
   func gameDidDisappear() {
     syncAppVersionUpdate(viewDisappearBag)
-    maintenanceViewModel.refreshStatus()
+    Task { await maintenanceViewModel.pullMaintenanceStatus() }
   }
 
   func bindWebGameResult(with viewModel: ProductWebGameViewModelProtocol) {

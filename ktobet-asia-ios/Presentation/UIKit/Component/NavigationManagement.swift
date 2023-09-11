@@ -263,7 +263,7 @@ class NavigationManagement: Navigator {
     menu.menuWidth = viewController.view.bounds.width
     SideMenuManager.default.leftMenuNavigationController = menu
 
-    sideBarViewController.observeKickOutSignal()
+    sideBarViewController.observeSystemStatus()
   }
 
   private func getBarButtonItem(barItemType: BarItemType, action: Selector? = nil, image: String? = nil) -> UIBarButtonItem {

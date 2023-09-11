@@ -12,15 +12,16 @@ final class ProductsViewControllerTests: XCBaseTestCase {
   }
   
   func test_whenAddFavoriteGameOverLimit_thenDisplayAlert() {
-    let stubMaintenanceViewModel = mock(MaintenanceViewModel.self)
+    let dummyMaintenanceViewModel = mock(MaintenanceViewModel.self)
+      .initialize(mock(ISystemStatusUseCase.self), mock(AuthenticationUseCase.self))
     let mockAlert = mock(AlertProtocol.self)
     
-    given(stubMaintenanceViewModel.observeMaintenanceStatus()) ~> .empty()
-    given(stubMaintenanceViewModel.errors()) ~> .empty()
+    given(dummyMaintenanceViewModel.observeMaintenanceStatusChange()) ~> ()
+    given(dummyMaintenanceViewModel.errors()) ~> .empty()
     
     Injection.shared.container
       .register(MaintenanceViewModel.self) { _ in
-        stubMaintenanceViewModel
+        dummyMaintenanceViewModel
       }
     
     Injection.shared.container

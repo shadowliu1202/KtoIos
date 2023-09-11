@@ -922,8 +922,10 @@ final class Injection {
       }
 
     container
-      .register(MaintenanceViewModel.self) { _ in
-        .init()
+      .register(MaintenanceViewModel.self) { resolver in
+        .init(
+          resolver.resolveWrapper(ISystemStatusUseCase.self),
+          resolver.resolveWrapper(AuthenticationUseCase.self))
       }
       .inObjectScope(.locale)
 

@@ -184,6 +184,7 @@
 		3C24019C2861AC1100761FFC /* FontExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2401972861AC1000761FFC /* FontExtension.swift */; };
 		3C24019D2861AC1100761FFC /* FontExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2401972861AC1000761FFC /* FontExtension.swift */; };
 		3C24019E2861AC1100761FFC /* FontExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2401972861AC1000761FFC /* FontExtension.swift */; };
+		3C2458442AA6D0DB003B09F1 /* MaintenanceViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2458432AA6D0DB003B09F1 /* MaintenanceViewModelTests.swift */; };
 		3C25C70329E536FE0098DB57 /* WithdrawalCreateCryptoAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C25C70229E536FE0098DB57 /* WithdrawalCreateCryptoAccountView.swift */; };
 		3C25C70429E536FE0098DB57 /* WithdrawalCreateCryptoAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C25C70229E536FE0098DB57 /* WithdrawalCreateCryptoAccountView.swift */; };
 		3C25C70529E536FE0098DB57 /* WithdrawalCreateCryptoAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C25C70229E536FE0098DB57 /* WithdrawalCreateCryptoAccountView.swift */; };
@@ -7274,6 +7275,7 @@
 		3C1DF753299DD276007E5EF4 /* OnlinePaymentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlinePaymentViewController.swift; sourceTree = "<group>"; };
 		3C21F67D28D1D70900B2E5BE /* Mockingbird.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Mockingbird.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3C2401972861AC1000761FFC /* FontExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontExtension.swift; sourceTree = "<group>"; };
+		3C2458432AA6D0DB003B09F1 /* MaintenanceViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaintenanceViewModelTests.swift; sourceTree = "<group>"; };
 		3C25C70229E536FE0098DB57 /* WithdrawalCreateCryptoAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawalCreateCryptoAccountView.swift; sourceTree = "<group>"; };
 		3C25C70C29E5371B0098DB57 /* WithdrawalCreateCryptoAccountViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawalCreateCryptoAccountViewModelProtocol.swift; sourceTree = "<group>"; };
 		3C25C71629E537250098DB57 /* WithdrawalCreateCryptoAccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawalCreateCryptoAccountViewModel.swift; sourceTree = "<group>"; };
@@ -9403,6 +9405,7 @@
 			isa = PBXGroup;
 			children = (
 				485DF05425415454001F9D4A /* Info.plist */,
+				3C8B0ACC2A6FB8F900910341 /* AnyPublisherExtensionTests.swift */,
 				6D3DD77C283231560065D6B3 /* AppVersionTest.swift */,
 				6D885391296D3B4200AE2ED6 /* ArcadeViewControllerTests.swift */,
 				6D8AC5A528F562EA0029358A /* CommonVerifyOtpViewControllerTest.swift */,
@@ -9415,7 +9418,9 @@
 				3C17058F29505CC800531357 /* ExpandableBlockTest.swift */,
 				3CF9BB40295C37AB00EC91DC /* ItemSelectorTests.swift */,
 				FFCFB9A92902903500F585B3 /* LaunchAppTest.swift */,
+				3C2458432AA6D0DB003B09F1 /* MaintenanceViewModelTests.swift */,
 				3C26523E2A208C0900BBB342 /* PaginationTests.swift */,
+				3C7C290F2A6E27B800719E20 /* ProductsViewControllerTests.swift */,
 				3CA721E42913CA9800B94548 /* PromotionApiTests.swift */,
 				3CB8300C2914DAF3001246BB /* PromotionRepositoryImplTests.swift */,
 				3CB830152914F1D5001246BB /* PromotionUseCaseImplTests.swift */,
@@ -9427,8 +9432,6 @@
 				3CBC879428530FFB00B57607 /* StringExtensionTest.swift */,
 				3C17059129505CC900531357 /* SwiftUIDropDownTextTest.swift */,
 				3C17058D29505CC700531357 /* TermsViewTests.swift */,
-				3C7C290F2A6E27B800719E20 /* ProductsViewControllerTests.swift */,
-				3C8B0ACC2A6FB8F900910341 /* AnyPublisherExtensionTests.swift */,
 			);
 			path = "KTO-UnitTests";
 			sourceTree = "<group>";
@@ -13660,6 +13663,7 @@
 				3CDB7B59284F035B006DE0FA /* DateExtensionTest.swift in Sources */,
 				3C26523F2A208C0900BBB342 /* PaginationTests.swift in Sources */,
 				3C8B0ACD2A6FB8FA00910341 /* AnyPublisherExtensionTests.swift in Sources */,
+				3C2458442AA6D0DB003B09F1 /* MaintenanceViewModelTests.swift in Sources */,
 				3C17059C29505CCA00531357 /* StarMergerViewTest.swift in Sources */,
 				3C4242F52A863F0900D22A03 /* KTO_UnitTests-ktobet_asia_ios_qatMocks.generated.swift in Sources */,
 				3CB830182914F6BF001246BB /* PromotionViewModelTests.swift in Sources */,
