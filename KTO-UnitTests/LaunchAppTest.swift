@@ -75,12 +75,12 @@ final class LaunchAppTest: XCBaseTestCase {
     if isAllMaintenance {
       given(stubSystemUseCase.fetchMaintenanceStatus()) ~> .just(MaintenanceStatus.AllPortal(remainingSeconds: nil))
       given(stubSystemUseCase.observeMaintenanceStatusByFetch()) ~> .just(MaintenanceStatus.AllPortal(remainingSeconds: nil))
-      given(stubSystemUseCase.observeMaintenanceStatusChange()) ~> .empty()
+      given(stubSystemUseCase.observeMaintenanceStatusChange()) ~> .just(())
     }
     else {
       given(stubSystemUseCase.fetchMaintenanceStatus()) ~> .just(.Product(productsAvailable: [], status: [:]))
       given(stubSystemUseCase.observeMaintenanceStatusByFetch()) ~> .just(.Product(productsAvailable: [], status: [:]))
-      given(stubSystemUseCase.observeMaintenanceStatusChange()) ~> .empty()
+      given(stubSystemUseCase.observeMaintenanceStatusChange()) ~> .just(())
     }
 
     Injectable.register(ISystemStatusUseCase.self) { _ in
@@ -134,6 +134,7 @@ final class LaunchAppTest: XCBaseTestCase {
     given(fakeViewModel.getCultureCode()) ~> "zh-cn"
     given(fakeViewModel.loadBalanceHiddenState(by: any())) ~> false
     given(fakeViewModel.errors()) ~> .empty()
+    given(fakeViewModel.observeKickOutSignal()) ~> .never()
     
     return fakeViewModel
   }
@@ -259,6 +260,7 @@ final class LaunchAppTest: XCBaseTestCase {
     
     sut.loadViewIfNeeded()
     sut.viewDidAppear(true)
+    sut.observeSystemStatus()
     
     wait(for: 1)
     
@@ -321,6 +323,8 @@ final class LaunchAppTest: XCBaseTestCase {
     sut.loadViewIfNeeded()
     sut.viewDidAppear(true)
     
+    wait(for: 1)
+    
     verify(
       mockNavigator.goTo(
         storyboard: "Maintenance",
@@ -354,6 +358,8 @@ final class LaunchAppTest: XCBaseTestCase {
     NavigationManagement.sharedInstance = mockNavigator
 
     simulateApplicationWillEnterForeground()
+    
+    wait(for: 1)
 
     verify(
       mockNavigator.goTo(

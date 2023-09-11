@@ -138,7 +138,7 @@ extension SportBookViewController: WKNavigationDelegate, WKUIDelegate {
   }
 
   func webView(_ webView: WKWebView, didFinish _: WKNavigation!) {
-    maintenanceViewModel.refreshStatus()
+    Task { await maintenanceViewModel.pullMaintenanceStatus() }
     Logger.shared.info("\(String(describing: webView.url)) did finish")
     isWebLoadSuccess.accept(true)
     self.activityIndicator.stopAnimating()

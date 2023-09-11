@@ -4,42 +4,59 @@ import RxSwift
 import SharedBu
 
 class MaintenanceViewModel: CollectErrorViewModel {
-  @Injected private var systemStatusUseCase: ISystemStatusUseCase
-  @Injected private var authUseCase: AuthenticationUseCase
+  private let systemStatusUseCase: ISystemStatusUseCase
+  private let authUseCase: AuthenticationUseCase
   
   @Injected private var loading: Loading
-
-  private let maintenanceStatusTrigger = BehaviorRelay(value: ())
+  
   private let disposeBag = DisposeBag()
   
   private var loadingTracker: ActivityIndicator { loading.tracker }
   
-  private lazy var maintenanceStatus = observeMaintenanceStatus()
+  private let maintenanceStatus = BehaviorRelay<MaintenanceStatus>(value: .Product(productsAvailable: [], status: [:]))
   
   lazy var portalMaintenanceStatus = maintenanceStatus.compactMap { $0 as? MaintenanceStatus.AllPortal }
+    .asDriverOnErrorJustComplete()
   lazy var productMaintenanceStatus = maintenanceStatus.compactMap { $0 as? MaintenanceStatus.Product }
-
-  func observeMaintenanceStatus() -> Driver<MaintenanceStatus> {
-    Observable.merge(
-      maintenanceStatusTrigger.asObservable(),
-      systemStatusUseCase.observeMaintenanceStatusChange())
-      .flatMapLatest { [weak self, systemStatusUseCase] _ in
+    .asDriverOnErrorJustComplete()
+  
+  init(
+    _ systemStatusUseCase: ISystemStatusUseCase,
+    _ authUseCase: AuthenticationUseCase)
+  {
+    self.systemStatusUseCase = systemStatusUseCase
+    self.authUseCase = authUseCase
+    
+    super.init()
+    observeMaintenanceStatusChange()
+  }
+  
+  func observeMaintenanceStatusChange() {
+    systemStatusUseCase.observeMaintenanceStatusChange()
+      .flatMapLatest { [unowned self] _ in
         systemStatusUseCase.fetchMaintenanceStatus()
-          .catch {
-            self?.errorsSubject.onNext($0)
+          .catch { _ in
+            self.maintenanceStatus.accept(.AllPortal(duration: nil))
             return .never()
           }
       }
-      .asDriverOnErrorJustComplete()
+      .subscribe(onNext: { [maintenanceStatus] in
+        maintenanceStatus.accept($0)
+      })
+      .disposed(by: disposeBag)
   }
   
-  func fetchMaintenanceStatus() -> Single<MaintenanceStatus> {
-    refreshStatus()
-    return maintenanceStatus.asObservable().first().map { $0! }
-  }
-  
-  func refreshStatus() {
-    maintenanceStatusTrigger.accept(())
+  @discardableResult
+  func pullMaintenanceStatus() async -> MaintenanceStatus {
+    do {
+      return try await systemStatusUseCase.fetchMaintenanceStatus()
+        .do(onSuccess: { [maintenanceStatus] in maintenanceStatus.accept($0) })
+        .value
+    }
+    catch {
+      maintenanceStatus.accept(.AllPortal(duration: nil))
+      return .AllPortal(duration: nil)
+    }
   }
   
   func logout() -> Completable {
