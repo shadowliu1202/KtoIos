@@ -190,7 +190,9 @@ class WithdrawalOTPVerificationViewModel:
     Completable.from(
       withdrawalAppService.resendVerificationOTP(type: accountType))
       .observe(on: MainScheduler.instance)
-      .do(onSubscribe: { self.isResentOTPEnable = false })
+      .do(
+        onError: { _ in self.isResentOTPEnable = true },
+        onSubscribe: { self.isResentOTPEnable = false })
       .subscribe(
         onCompleted: {
           self.startCountdownTimer()
