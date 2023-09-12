@@ -5,6 +5,7 @@ import SharedBu
 
 class CustomerServiceViewModel {
   private let chatAppService: IChatAppService
+  private let loading: Loading
   
   private let chatRoomTempMapper = ChatRoomTempMapper()
   private let surveyTempMapper = SurveyTempMapper()
@@ -39,8 +40,12 @@ class CustomerServiceViewModel {
   }
   .catchAndReturn(0)
   
-  init(_ chatAppService: IChatAppService) {
+  init(
+    _ chatAppService: IChatAppService,
+    _ loading: Loading)
+  {
     self.chatAppService = chatAppService
+    self.loading = loading
   }
 
   func currentChatRoom() -> Observable<CustomerServiceDTO.ChatRoom> {
@@ -75,6 +80,7 @@ class CustomerServiceViewModel {
 
   func closeChatRoom(forceExit: Bool = false) -> Single<CustomerServiceDTO.ExitChat> {
     Single.from(chatAppService.exit(forceExit: forceExit))
+      .trackOnDispose(loading.tracker)
   }
 
   func send(message: String) -> Completable {

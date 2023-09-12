@@ -16,30 +16,27 @@ class NavigationViewModel {
     case setDefaultProduct
   }
 
-  private let playerUseCase: PlayerDataUseCase!
-  private let localizationPolicyUseCase: LocalizationPolicyUseCase!
-  private let systemStatusUseCase: ISystemStatusUseCase!
-  private let authUseCase: AuthenticationUseCase!
+  private let playerUseCase: PlayerDataUseCase
+  private let localizationPolicyUseCase: LocalizationPolicyUseCase
+  private let systemStatusUseCase: ISystemStatusUseCase
+  private let authUseCase: AuthenticationUseCase
   private let localStorageRepo: LocalStorageRepository
-
-  private let checkIsLoggedTracker = ActivityIndicator()
-
-  var isCheckingLogged: Bool {
-    checkIsLoggedTracker.isLoading
-  }
+  private let checkIsLoggedTracker: ActivityIndicator
 
   init(
     _ authUseCase: AuthenticationUseCase,
     _ playerUseCase: PlayerDataUseCase,
     _ localizationPolicyUseCase: LocalizationPolicyUseCase,
     _ systemStatusUseCase: ISystemStatusUseCase,
-    _ localStorageRepo: LocalStorageRepository)
+    _ localStorageRepo: LocalStorageRepository,
+    _ checkIsLoggedTracker: ActivityIndicator)
   {
     self.authUseCase = authUseCase
     self.playerUseCase = playerUseCase
     self.localizationPolicyUseCase = localizationPolicyUseCase
     self.systemStatusUseCase = systemStatusUseCase
     self.localStorageRepo = localStorageRepo
+    self.checkIsLoggedTracker = checkIsLoggedTracker
   }
 
   func checkIsLogged() -> Single<isLogged> {

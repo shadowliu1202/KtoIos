@@ -73,9 +73,10 @@ private func injectStubAppVersionUpdateUseCase() {
 
 private func injectStubCustomServicePresenter() {
   let stubChatAppService = mock(AbsCustomerServiceAppService.self)
+  let dummyLoading = LoadingImpl.shared
 
   let stubCustomerServiceViewModel = mock(CustomerServiceViewModel.self)
-    .initialize(stubChatAppService)
+    .initialize(stubChatAppService, dummyLoading)
 
   let stubSurveyViewModel = mock(SurveyViewModel.self)
     .initialize(
