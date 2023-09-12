@@ -670,17 +670,13 @@ final class Injection {
 
     container
       .register(NavigationViewModel.self) { resolver in
-        let usecaseAuth = resolver.resolveWrapper(AuthenticationUseCase.self)
-        let playerUseCase = resolver.resolveWrapper(PlayerDataUseCase.self)
-        let localizationUseCase = resolver.resolveWrapper(LocalizationPolicyUseCase.self)
-        let getSystemStatusUseCase = resolver.resolveWrapper(ISystemStatusUseCase.self)
-        let localStorageRepo = resolver.resolveWrapper(LocalStorageRepository.self)
-        return NavigationViewModel(
-          usecaseAuth,
-          playerUseCase,
-          localizationUseCase,
-          getSystemStatusUseCase,
-          localStorageRepo)
+        .init(
+          resolver.resolveWrapper(AuthenticationUseCase.self),
+          resolver.resolveWrapper(PlayerDataUseCase.self),
+          resolver.resolveWrapper(LocalizationPolicyUseCase.self),
+          resolver.resolveWrapper(ISystemStatusUseCase.self),
+          resolver.resolveWrapper(LocalStorageRepository.self),
+          resolver.resolveWrapper(ActivityIndicator.self, name: "CheckingIsLogged"))
       }
 
     container
@@ -811,7 +807,9 @@ final class Injection {
 
     container
       .register(CustomerServiceViewModel.self) { resolver in
-        .init(resolver.resolveWrapper(IChatAppService.self))
+        .init(
+          resolver.resolveWrapper(IChatAppService.self),
+          resolver.resolveWrapper(Loading.self))
       }
       .inObjectScope(.locale)
 

@@ -25,7 +25,9 @@ final class ChatRoomViewControllerTests: XCBaseTestCase {
 
   private func getDummyCustomerServiceViewModel() -> CustomerServiceViewModel {
     let dummyCustomerServiceViewModel = mock(CustomerServiceViewModel.self)
-      .initialize(mock(AbsCustomerServiceAppService.self))
+      .initialize(
+        mock(AbsCustomerServiceAppService.self),
+        mock(Loading.self))
     
     given(dummyCustomerServiceViewModel.currentChatRoom()) ~> .never()
 
