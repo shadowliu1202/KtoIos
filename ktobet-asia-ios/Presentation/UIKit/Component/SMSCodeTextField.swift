@@ -1,28 +1,35 @@
 import Foundation
+import RxRelay
 import UIKit
 
-protocol SMSCodeTextFieldDelegate: AnyObject {
-  func textFieldDidDelete(_ sender: SMSCodeTextField)
-}
-
 class SMSCodeTextField: UITextField {
-  weak var myDelegate: SMSCodeTextFieldDelegate?
+  private let onInput: (() -> Void)
+  private let onDelete: (() -> Void)
   
-  override init(frame: CGRect) {
-    super.init(frame: frame)
+  init(
+    onInput: @escaping (() -> Void) = { },
+    onDelete: @escaping (() -> Void) = { })
+  {
+    self.onInput = onInput
+    self.onDelete = onDelete
+    
+    super.init(frame: .init())
+    
     delegate = self
     initUI()
   }
   
   required init?(coder: NSCoder) {
-    super.init(coder: coder)
-    delegate = self
-    initUI()
+    fatalError("init(coder:) has not been implemented")
   }
+  
+  override var undoManager: UndoManager? { nil }
   
   override func deleteBackward() {
     super.deleteBackward()
-    myDelegate?.textFieldDidDelete(self)
+    
+    changeText(to: "")
+    onDelete()
   }
   
   private func initUI() {
@@ -41,6 +48,11 @@ class SMSCodeTextField: UITextField {
     widthAnchor.constraint(equalToConstant: 40).isActive = true
     heightAnchor.constraint(equalToConstant: 40).isActive = true
   }
+  
+  private func changeText(to newText: String) {
+    text = newText
+    sendActions(for: .editingChanged)
+  }
 }
 
 extension SMSCodeTextField: UITextFieldDelegate {
@@ -54,10 +66,16 @@ extension SMSCodeTextField: UITextFieldDelegate {
     return true
   }
   
-  func textFieldDidBeginEditing(_ textField: UITextField) {
-    let newPosition = textField.endOfDocument
-    DispatchQueue.main.async {
-      textField.selectedTextRange = textField.textRange(from: newPosition, to: newPosition)
+  func textField(_ textField: UITextField, shouldChangeCharactersIn _: NSRange, replacementString string: String) -> Bool {
+    if string.count == 1 {
+      changeText(to: string)
+      onInput()
     }
+    else if string.isEmpty {
+      changeText(to: string)
+      onDelete()
+    }
+    
+    return false
   }
 }
