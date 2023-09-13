@@ -25,14 +25,12 @@ class SMSVerifyCodeInputView: UIView {
     }
     
     for index in 0..<Int(otpLength) {
-      let code = SMSCodeTextField()
-
-      code.myDelegate = self
-      code.tag = index
-      code.addTarget(self, action: #selector(textEditingChaged(_:)), for: .editingChanged)
+      let otpCodeCell = SMSCodeTextField(
+        onInput: { [unowned self]  in focusToNext(current: index) },
+        onDelete: { [unowned self]  in focusToPrevious(current: index) })
       
-      codes.append(code)
-      codeStackView.insertArrangedSubview(code, at: index)
+      codes.append(otpCodeCell)
+      codeStackView.insertArrangedSubview(otpCodeCell, at: index)
     }
 
     backgroundColor = .clear
@@ -46,24 +44,16 @@ class SMSVerifyCodeInputView: UIView {
         stringElement.reduce("") { $0 + $1 }
       }
   }
-
-  @objc
-  private func textEditingChaged(_ sender: UITextField) {
-    if let text = sender.text, text.count >= 1, text.count < otpLength {
-      guard let lastText = text.last else { return }
-      sender.text = String(lastText)
-
-      let index = sender.tag + 1 > otpLength - 1 ? otpLength - 1 : sender.tag + 1
-      codes[index].becomeFirstResponder()
-    }
+  
+  private func focusToNext(current index: Int) {
+    guard index < codes.count - 1 else { return }
+    
+    codes[index + 1].becomeFirstResponder()
   }
-}
-
-extension SMSVerifyCodeInputView: SMSCodeTextFieldDelegate, UITextFieldDelegate {
-  func textFieldDidDelete(_ sender: SMSCodeTextField) {
-    if (sender.text?.count ?? 0) == 0 {
-      let index = sender.tag - 1 < 0 ? 0 : sender.tag - 1
-      codes[index].becomeFirstResponder()
-    }
+  
+  private func focusToPrevious(current index: Int) {
+    guard index > 0 else { return }
+    
+    codes[index - 1].becomeFirstResponder()
   }
 }
