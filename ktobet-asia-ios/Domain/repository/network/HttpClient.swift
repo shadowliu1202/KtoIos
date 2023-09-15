@@ -43,17 +43,11 @@ class HttpClient: CookieUtil {
     {
       return URL(string: "\(Configuration.internetProtocol)")!
     }
-    return URL(string: ktoUrl.baseURL)!
-  }
-
-  var domain: String {
-    host.absoluteString
-      .replacingOccurrences(of: "\(Configuration.internetProtocol)", with: "")
-      .replacingOccurrences(of: "/", with: "")
+    return URL(string: ktoUrl.currentURL)!
   }
 
   var affiliateUrl: URL? {
-    URL(string: "\(ktoUrl.baseURL)affiliate")
+    URL(string: "\(ktoUrl.currentURL)affiliate")
   }
 
   init(_ localStorageRepo: LocalStorageRepository, _ ktoUrl: KtoURL) {

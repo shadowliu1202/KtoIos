@@ -4,7 +4,8 @@ import UIKit
 class UITestAdapter {
   static func getViewController(_ viewName: String) -> UIViewController? {
     if viewName == "LoginView" {
-      return UIHostingController(rootView: LoginView(onLogin: { _, _ in }, onResetPassword: { }))
+      @Injected var viewModel: LoginViewModel
+      return UIHostingController(rootView: LoginView(viewModel: viewModel, onLogin: { _, _ in }, onResetPassword: { }))
     }
     else if viewName == "PasteableTextField" {
       let vc = UIViewController()

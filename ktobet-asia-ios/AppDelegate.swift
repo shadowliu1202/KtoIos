@@ -15,6 +15,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CookieUtil {
   @Injected private var applicationStorage: ApplicationStorable
   @Injected private var keychain: KeychainStorable
 
+  private let cookieHandler = CookieHandler()
+  
   private(set) var reachabilityObserver: NetworkStateMonitor?
 
   private weak var timer: Timer?
@@ -59,7 +61,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CookieUtil {
 
     loadCookiesFromUserDefault()
 
-    checkingPortalHost()
+    cookieHandler.replaceCookiesToCurrentDomain()
 
     #if !DEV
       FirebaseApp.configure()
@@ -277,11 +279,6 @@ extension AppDelegate {
         NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LandingNavigation")
       })
       .disposed(by: disposeBag)
-  }
-
-  private func checkingPortalHost() {
-    @Injected var ktoURL: KtoURL
-    ktoURL.observeCookiesChanged()
   }
 }
 

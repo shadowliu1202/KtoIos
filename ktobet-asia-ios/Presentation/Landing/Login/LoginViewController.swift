@@ -6,7 +6,7 @@ import UIKit
 class LoginViewController: LandingViewController {
   @IBOutlet weak var logoItem: UIBarButtonItem!
 
-  var barButtonItems: [UIBarButtonItem] = []
+  @Injected var viewModel: LoginViewModel
 
   private let segueSignup = "GoToSignup"
 
@@ -15,6 +15,8 @@ class LoginViewController: LandingViewController {
   private let spacing = UIBarButtonItem.kto(.text(text: "|")).isEnable(false)
   private let update = UIBarButtonItem.kto(.manulUpdate).isEnable(true)
 
+  private let cookieHandler = CookieHandler()
+  
   private let disposeBag = DisposeBag()
   private var viewDisappearBag = DisposeBag()
 
@@ -22,6 +24,13 @@ class LoginViewController: LandingViewController {
     .kto(.cs(serviceStatusViewModel: serviceStatusViewModel, delegate: self, disposeBag: disposeBag))
   private lazy var serviceStatusViewModel = Injectable.resolveWrapper(ServiceStatusViewModel.self)
   private lazy var getSystemStatusUseCase = Injectable.resolveWrapper(ISystemStatusUseCase.self)
+  
+  var barButtonItems: [UIBarButtonItem] = []
+  
+  required init?(coder: NSCoder) {
+    super.init(coder: coder)
+    cookieHandler.replaceCulture(to: viewModel.getCultureCode())
+  }
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -78,6 +87,7 @@ class LoginViewController: LandingViewController {
     UIHostingController(
       coder: coder,
       rootView: LoginView(
+        viewModel: viewModel,
         onLogin: { [weak self] pageNavigation, generalError in
           if let pageNavigation {
             self?.executeNavigation(pageNavigation)
