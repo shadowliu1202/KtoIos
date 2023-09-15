@@ -336,7 +336,6 @@ class NavigationManagement: Navigator {
     sideBarViewController?.deallocate()
     sideBarViewController = nil
     menu = nil
-    UIApplication.shared.windows.filter { $0.isKeyWindow }.first?.rootViewController = nil
     SideMenuManager.default.leftMenuNavigationController = nil
   }
 }
