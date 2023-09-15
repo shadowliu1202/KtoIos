@@ -2,15 +2,12 @@ import Alamofire
 import RxSwift
 
 protocol KtoURL {
-  var hosts: [String] { get }
-  var baseURL: String { get }
-
-  func observeCookiesChanged()
+  var allHosts: [String] { get }
+  var currentURL: String { get }
+  var currentDomain: String { get }
 }
 
 extension KtoURL {
-  func observeCookiesChanged() { }
-
   func checkingHosts(_ hosts: [String]) -> String {
     mergeRequestsAndBlocking(
       hosts.map {
@@ -58,21 +55,25 @@ extension KtoURL {
 }
 
 class PortalURL: KtoURL {
-  private let cookieHandler = CookieHandler()
-
-  let hosts = Configuration.hostName.values.flatMap { $0 }
-  lazy var baseURL = checkingHosts(hosts)
-
-  func observeCookiesChanged() {
-    cookieHandler.observeCookiesChanged(
-      allHosts: hosts,
-      checkedHost: baseURL
-        .replacingOccurrences(of: "\(Configuration.internetProtocol)", with: "")
-        .replacingOccurrences(of: "/", with: ""))
-  }
+  static let shared = PortalURL()
+  
+  let allHosts = Configuration.hostName.values.flatMap { $0 }
+  lazy var currentURL = checkingHosts(allHosts)
+  lazy var currentDomain = currentURL
+    .replacingOccurrences(of: "\(Configuration.internetProtocol)", with: "")
+    .replacingOccurrences(of: "/", with: "")
+  
+  private init() { }
 }
 
 class VersionUpdateURL: KtoURL {
-  let hosts = Configuration.versionUpdateHostName.values.flatMap { $0 }
-  lazy var baseURL = checkingHosts(hosts)
+  static let shared = VersionUpdateURL()
+  
+  let allHosts = Configuration.versionUpdateHostName.values.flatMap { $0 }
+  lazy var currentURL = checkingHosts(allHosts)
+  lazy var currentDomain = currentURL
+    .replacingOccurrences(of: "\(Configuration.internetProtocol)", with: "")
+    .replacingOccurrences(of: "/", with: "")
+  
+  private init() { }
 }

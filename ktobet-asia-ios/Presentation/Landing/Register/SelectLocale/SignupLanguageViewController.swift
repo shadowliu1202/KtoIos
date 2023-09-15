@@ -25,6 +25,8 @@ class SignupLanguageViewController: LandingViewController {
 
   private let localStorageRepo = Injectable.resolve(LocalStorageRepository.self)!
   private let serviceStatusViewModel = Injectable.resolve(ServiceStatusViewModel.self)!
+  private let cookieHandler = CookieHandler()
+  
   private let segueLogin = "BackToLogin"
   private let segueInfo = "GoToInfo"
   private let segueTerms = "GoToTermsOfService"
@@ -136,6 +138,7 @@ class SignupLanguageViewController: LandingViewController {
     if let locale = arrLangs.filter({ data -> Bool in data.selected }).first?.type {
       localStorageRepo.setCultureCode(locale.cultureCode())
       Theme.shared.changeEntireAPPFont(by: locale)
+      cookieHandler.replaceCulture(to: locale.cultureCode())
       changeViewFont(by: locale)
     }
     refreshLocalize()

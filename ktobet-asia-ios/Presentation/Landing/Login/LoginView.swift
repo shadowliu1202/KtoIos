@@ -2,14 +2,22 @@ import SharedBu
 import SwiftUI
 
 struct LoginView: View {
-  @StateObject var viewModel: NewLoginViewModel = Injectable.resolve(NewLoginViewModel.self)!
+  @StateObject var viewModel: LoginViewModel
 
   @State private var isLoadedData = false
 
-  var onLogin = { (_: NavigationViewModel.LobbyPageNavigation?, _: Error?) in }
-  var onResetPassword = { () in }
-
-  private let localStorageRepo = Injectable.resolve(LocalStorageRepository.self)!
+  var onLogin: (NavigationViewModel.LobbyPageNavigation?, Error?) -> Void
+  var onResetPassword: () -> Void
+  
+  init(
+    viewModel: LoginViewModel,
+    onLogin: @escaping (NavigationViewModel.LobbyPageNavigation?, Error?) -> Void,
+    onResetPassword: @escaping () -> Void)
+  {
+    self._viewModel = .init(wrappedValue: viewModel)
+    self.onLogin = onLogin
+    self.onResetPassword = onResetPassword
+  }
 
   var body: some View {
     ScrollView {
@@ -53,7 +61,7 @@ struct LoginView: View {
       }
     }
     .pageBackgroundColor(.greyScaleDefault)
-    .environment(\.playerLocale, localStorageRepo.getSupportLocale())
+    .environment(\.playerLocale, viewModel.getSupportLocale())
     .onAppear {
       if !isLoadedData {
         viewModel.initRememberAccount()
@@ -205,6 +213,9 @@ struct LoginView: View {
 
 struct LoginView_Previews: PreviewProvider {
   static var previews: some View {
-    LoginView(onLogin: { _, _ in }, onResetPassword: { })
+    LoginView(
+      viewModel: Injectable.resolveWrapper(LoginViewModel.self),
+      onLogin: { _, _ in },
+      onResetPassword: { })
   }
 }

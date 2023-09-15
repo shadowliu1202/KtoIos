@@ -31,13 +31,13 @@ final class Injection {
   func registerHttpClient() {
     container
       .register(KtoURL.self) { _ in
-        PortalURL()
+        PortalURL.shared
       }
       .inObjectScope(.application)
 
     container
       .register(KtoURL.self, name: "update") { _ in
-        VersionUpdateURL()
+        VersionUpdateURL.shared
       }
 
     container
@@ -876,12 +876,12 @@ final class Injection {
       }
 
     container
-      .register(NewLoginViewModel.self) { resolver in
+      .register(LoginViewModel.self) { resolver in
         let authenticationUseCase = resolver.resolveWrapper(AuthenticationUseCase.self)
         let configurationUseCase = resolver.resolveWrapper(ConfigurationUseCase.self)
         let navigationViewModel = resolver.resolveWrapper(NavigationViewModel.self)
         let localStorageRepo = resolver.resolveWrapper(LocalStorageRepository.self)
-        return NewLoginViewModel(authenticationUseCase, configurationUseCase, navigationViewModel, localStorageRepo)
+        return LoginViewModel(authenticationUseCase, configurationUseCase, navigationViewModel, localStorageRepo)
       }
 
     container

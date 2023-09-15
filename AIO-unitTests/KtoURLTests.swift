@@ -17,7 +17,7 @@ final class KtoURLTests: XCBaseTestCase {
         stubRequest(name: $0.key, delay: $0.value).asObservable()
       }
 
-    let sut = PortalURL()
+    let sut = PortalURL.shared
 
     let actual = sut.mergeRequestsAndBlocking(
       stubRequests,
@@ -32,7 +32,7 @@ final class KtoURLTests: XCBaseTestCase {
         stubRequest(name: $0.key, delay: $0.value).asObservable()
       }
 
-    let sut = PortalURL()
+    let sut = PortalURL.shared
 
     let actual = sut.mergeRequestsAndBlocking(
       stubRequests,
@@ -47,7 +47,7 @@ final class KtoURLTests: XCBaseTestCase {
         stubRequest(name: $0.key, delay: $0.value).asObservable()
       }
 
-    let sut = PortalURL()
+    let sut = PortalURL.shared
 
     let actual = sut.mergeRequestsAndBlocking(
       stubRequests,

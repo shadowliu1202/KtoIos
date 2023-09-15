@@ -3,7 +3,7 @@ import RxSwift
 import SharedBu
 import SwiftUI
 
-class NewLoginViewModel: ObservableObject {
+class LoginViewModel: ObservableObject {
   @Published var account = ""
   @Published var password = ""
   @Published var isRememberMe = false
@@ -204,5 +204,13 @@ class NewLoginViewModel: ObservableObject {
 
         self.checkLoginInputFormat()
       })
+  }
+  
+  func getSupportLocale() -> SupportLocale {
+    localStorageRepo.getSupportLocale()
+  }
+  
+  func getCultureCode() -> String {
+    localStorageRepo.getCultureCode()
   }
 }

@@ -2,36 +2,43 @@ import Foundation
 import RxSwift
 
 class CookieHandler: CookieUtil {
-  @Injected private var localRepo: LocalStorageRepository
+  @Injected var portalURL: KtoURL
 
   private let disposeBag = DisposeBag()
 
-  func observeCookiesChanged(
-    allHosts: [String],
-    checkedHost: String)
-  {
+  func replaceCookiesToCurrentDomain() {
     NotificationCenter.default.rx
       .notification(.NSHTTPCookieManagerCookiesChanged)
       .distinct()
       .subscribe(onNext: { [unowned self] _ in
-        self.modifyCookies(allHosts: allHosts, to: checkedHost)
+        self.modifyCookies()
       })
       .disposed(by: disposeBag)
   }
 
-  private func modifyCookies(allHosts: [String], to domain: String) {
+  private func modifyCookies() {
     HTTPCookieStorage.shared
       .cookies?
       .filter { $0.name != "kd" }
       .forEach { cookie in
-        guard allHosts.contains(cookie.domain) else { return }
+        guard portalURL.allHosts.contains(cookie.domain) else { return }
 
-        if cookie.name == "culture" {
-          replaceCookie(cookie, domain: domain, value: localRepo.getCultureCode())
-        }
-        else if cookie.domain != domain {
-          replaceCookie(cookie, domain: domain)
+        if cookie.domain != portalURL.currentDomain {
+          replaceCookie(cookie, domain: portalURL.currentDomain)
         }
       }
+  }
+  
+  func replaceCulture(to cultureCode: String) {
+    guard
+      let cookie = HTTPCookie(properties: [
+        .domain: portalURL.currentDomain,
+        .path: "/",
+        .name: "culture",
+        .value: cultureCode
+      ])
+    else { return }
+    
+    HTTPCookieStorage.shared.setCookie(cookie)
   }
 }
