@@ -4,6 +4,15 @@ import Moya
 import RxSwift
 import SharedBu
 
+extension APPError {
+  enum DefaultStatusCode: Int {
+    case sharedBuError = -1
+    case moyaError = -2
+    case responseParseError = -3
+    case navigationManagement = -4
+  }
+}
+
 enum APPError: Equatable {
   case unknown(NSError)
   case regionRestricted(NSError)
@@ -33,13 +42,13 @@ enum APPError: Equatable {
     case let error as ApiException:
       nsError = NSError(
         domain: "ApiException",
-        code: Int(error.errorCode) ?? -1,
+        code: Int(error.errorCode) ?? DefaultStatusCode.sharedBuError.rawValue,
         userInfo: ["StatusCode": error.errorCode, "ErrorMessage": error.message ?? "", "ExceptionName": error.exceptionName])
     
     case let error as KtoException:
       nsError = NSError(
         domain: "KtoException",
-        code: Int(error.errorCode ?? "") ?? -1,
+        code: Int(error.errorCode ?? "") ?? DefaultStatusCode.sharedBuError.rawValue,
         userInfo: [
           "StatusCode": error.errorCode ?? "",
           "ErrorMessage": error.message ?? "",
@@ -75,7 +84,7 @@ enum APPError: Equatable {
     
     let nsError = NSError(
       domain: "MoyaError",
-      code: Int(statusCode) ?? -2,
+      code: Int(statusCode) ?? DefaultStatusCode.moyaError.rawValue,
       userInfo: [
         "RequestURL": requestURL,
         "ErrorDescription": errorDescription,
@@ -178,7 +187,10 @@ enum APPError: Equatable {
   }
   
   private static func handleResponseParseError(_ error: ResponseParseError) -> Self {
-    let nsError = NSError(domain: "ResponseParseError", code: -3, userInfo: ["RawData": error.rawData])
+    let nsError = NSError(
+      domain: "ResponseParseError",
+      code: DefaultStatusCode.responseParseError.rawValue,
+      userInfo: ["RawData": error.rawData])
     
     return .unknown(nsError)
   }

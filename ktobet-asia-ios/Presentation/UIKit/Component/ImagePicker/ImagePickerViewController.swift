@@ -121,7 +121,7 @@ class ImagePickerViewController: UIViewController {
   }
 
   private func showCamera() {
-    let cameraPicer = UIImagePickerController()
+    let cameraPicer = CustomImagePickerController()
     cameraPicer.sourceType = .camera
     cameraPicer.delegate = delegate
     self.present(cameraPicer, animated: true)

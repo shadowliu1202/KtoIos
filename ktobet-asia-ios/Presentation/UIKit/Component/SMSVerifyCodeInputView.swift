@@ -26,8 +26,8 @@ class SMSVerifyCodeInputView: UIView {
     
     for index in 0..<Int(otpLength) {
       let otpCodeCell = SMSCodeTextField(
-        onInput: { [unowned self]  in focusToNext(current: index) },
-        onDelete: { [unowned self]  in focusToPrevious(current: index) })
+        onInput: { [unowned self] in focusToNext(current: index) },
+        onDelete: { [unowned self] in focusToPrevious(current: index) })
       
       codes.append(otpCodeCell)
       codeStackView.insertArrangedSubview(otpCodeCell, at: index)

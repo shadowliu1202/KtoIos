@@ -85,7 +85,19 @@ class NavigationManagement: Navigator {
   var sideBarViewController: SideBarViewController!
   var menu: SideMenuNavigationController!
 
-  var viewController: UIViewController!
+  var viewController: UIViewController! {
+    willSet {
+      if newValue == nil {
+        let error = NSError(
+          domain: "NavigationManagement.NullViewController",
+          code: APPError.DefaultStatusCode.navigationManagement.rawValue,
+          userInfo: ["LastViewController": viewController.description])
+        
+        Logger.shared.error(error)
+      }
+    }
+  }
+
   var previousRootViewController: UIViewController?
   weak var unwindNavigate: NotificationNavigate?
 

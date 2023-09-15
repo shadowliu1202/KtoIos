@@ -3,8 +3,8 @@ import RxRelay
 import UIKit
 
 class SMSCodeTextField: UITextField {
-  private let onInput: (() -> Void)
-  private let onDelete: (() -> Void)
+  private let onInput: () -> Void
+  private let onDelete: () -> Void
   
   init(
     onInput: @escaping (() -> Void) = { },
@@ -19,7 +19,7 @@ class SMSCodeTextField: UITextField {
     initUI()
   }
   
-  required init?(coder: NSCoder) {
+  required init?(coder _: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
   
@@ -66,7 +66,7 @@ extension SMSCodeTextField: UITextFieldDelegate {
     return true
   }
   
-  func textField(_ textField: UITextField, shouldChangeCharactersIn _: NSRange, replacementString string: String) -> Bool {
+  func textField(_: UITextField, shouldChangeCharactersIn _: NSRange, replacementString string: String) -> Bool {
     if string.count == 1 {
       changeText(to: string)
       onInput()
