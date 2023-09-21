@@ -31,26 +31,11 @@ extension UIViewController {
       Logger.shared.error(nsError)
       handleUnknownError(nsError.code)
       
-    case .regionRestricted(let nsError):
-      Logger.shared.error(nsError)
-      presentRestrictView()
-      
-    case .tooManyRequest(let nsError):
-      Logger.shared.error(nsError)
-      showTooManyRequest()
-      
-    case .temporary(let nsError):
-      Logger.shared.error(nsError)
-      showTemporaryError()
-      
-    case .cdn(let nsError):
-      Logger.shared.error(nsError)
-      presentCDNErrorView()
-      
-    case .maintenance(let nsError):
-      Logger.shared.error(nsError)
-      handleMaintenance()
-      
+    case .regionRestricted: presentRestrictView()
+    case .tooManyRequest: showTooManyRequest()
+    case .temporary: showTemporaryError()
+    case .cdn: presentCDNErrorView()
+    case .maintenance: handleMaintenance()
     case .wrongFormat: showWrongFormat()
     case .ignorable: break
     }

@@ -100,7 +100,7 @@ final class APPErrorTests: XCTestCase {
     let stubError = MoyaError.statusCode(.init(statusCode: 403, data: .init()))
     
     let actual = APPError.convert(by: stubError)
-    let expect = APPError.regionRestricted(moyaDomainNSError(statusCode: 403))
+    let expect = APPError.regionRestricted
     
     XCTAssertEqual(expect, actual)
   }
@@ -118,7 +118,7 @@ final class APPErrorTests: XCTestCase {
     let stubError = MoyaError.statusCode(.init(statusCode: 410, data: .init()))
     
     let actual = APPError.convert(by: stubError)
-    let expect = APPError.maintenance(moyaDomainNSError(statusCode: 410))
+    let expect = APPError.maintenance
     
     XCTAssertEqual(expect, actual)
   }
@@ -127,7 +127,7 @@ final class APPErrorTests: XCTestCase {
     let stubError = MoyaError.statusCode(.init(statusCode: 429, data: .init()))
     
     let actual = APPError.convert(by: stubError)
-    let expect = APPError.tooManyRequest(moyaDomainNSError(statusCode: 429))
+    let expect = APPError.tooManyRequest
     
     XCTAssertEqual(expect, actual)
   }
@@ -145,7 +145,7 @@ final class APPErrorTests: XCTestCase {
     let stubError = MoyaError.statusCode(.init(statusCode: 503, data: .init()))
     
     let actual = APPError.convert(by: stubError)
-    let expect = APPError.temporary(moyaDomainNSError(statusCode: 503))
+    let expect = APPError.temporary
     
     XCTAssertEqual(expect, actual)
   }
@@ -154,7 +154,7 @@ final class APPErrorTests: XCTestCase {
     let stubError = MoyaError.statusCode(.init(statusCode: 608, data: .init()))
     
     let actual = APPError.convert(by: stubError)
-    let expect = APPError.cdn(moyaDomainNSError(statusCode: 608))
+    let expect = APPError.cdn
     
     XCTAssertEqual(expect, actual)
   }

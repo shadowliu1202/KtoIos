@@ -15,11 +15,11 @@ extension APPError {
 
 enum APPError: Equatable {
   case unknown(NSError)
-  case regionRestricted(NSError)
-  case tooManyRequest(NSError)
-  case temporary(NSError)
-  case cdn(NSError)
-  case maintenance(NSError)
+  case regionRestricted
+  case tooManyRequest
+  case temporary
+  case cdn
+  case maintenance
   case wrongFormat
   case ignorable
   
@@ -128,13 +128,13 @@ enum APPError: Equatable {
     
     switch statusCode {
     case 401: return process401(nsError)
-    case 403: return .regionRestricted(nsError)
+    case 403: return .regionRestricted
     case 404: return .unknown(nsError)
-    case 410: return .maintenance(nsError)
-    case 429: return .tooManyRequest(nsError)
+    case 410: return .maintenance
+    case 429: return .tooManyRequest
     case 502: return process502(nsError, errorResponse)
-    case 503: return .temporary(nsError)
-    case 608: return .cdn(nsError)
+    case 503: return .temporary
+    case 608: return .cdn
     default: return .unknown(nsError)
     }
   }
