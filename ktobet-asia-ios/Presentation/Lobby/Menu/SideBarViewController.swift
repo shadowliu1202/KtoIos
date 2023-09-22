@@ -205,8 +205,20 @@ class SideBarViewController: APPViewController {
   }
 
   override func handleErrors(_ error: Error) {
-    if !error.isNetworkLost() {
+    guard !error.isNetworkLost() else { return }
+    
+    if error.isUnauthorized() {
+      logoutToLanding()
+    }
+    else {
       super.handleErrors(error)
+    }
+  }
+  
+  private func logoutToLanding() {
+    Task {
+      try? await maintenanceViewModel?.logout().value
+      NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LandingNavigation")
     }
   }
 

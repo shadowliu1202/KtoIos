@@ -58,7 +58,7 @@ enum APPError: Equatable {
     default:
       nsError = NSError(
         domain: "KotlinException",
-        code: -1,
+        code: DefaultStatusCode.sharedBuError.rawValue,
         userInfo: ["ErrorMessage": error.message ?? "", "ExceptionName": error.exceptionName])
     }
     
@@ -68,33 +68,35 @@ enum APPError: Equatable {
   private static func handleMoyaError(_ error: MoyaError) -> Self {
     guard !isExplicitlyCancelledError(error) else { return .ignorable }
     guard !isMappingError(error) else { return .wrongFormat }
-    
-    let errorDescription = error.errorDescription ?? ""
-    var statusCode = ""
-    var requestURL = ""
-    var responseHeader = ["": ""]
-    var responseBody = ""
-    
-    if let moyaResponse = error.response {
-      statusCode = "\(moyaResponse.statusCode)"
-      requestURL = moyaResponse.request?.url?.absoluteString ?? ""
-      responseHeader = moyaResponse.request?.allHTTPHeaderFields ?? ["": ""]
-      responseBody = String(data: moyaResponse.data, encoding: .utf8) ?? ""
+      
+    var domain = "MoyaError"
+    var code = error.response?.statusCode ?? DefaultStatusCode.moyaError.rawValue
+    var userInfo: [String: Any?] = ["ErrorDescription": error.errorDescription]
+      
+    if
+      let underlyingError = error.errorUserInfo[NSUnderlyingErrorKey] as? AFError,
+      let afUnderlyingError = underlyingError.underlyingError as? NSError
+    {
+      userInfo.merge(afUnderlyingError.userInfo) { _, new in new }
+      userInfo["Source"] = "Moya"
+      domain = afUnderlyingError.domain
+      code = afUnderlyingError.code
     }
-    
+      
+    if let moyaResponse = error.response {
+      userInfo["RequestURL"] = moyaResponse.request?.url?.absoluteString
+      userInfo["ResponseHeader"] = moyaResponse.request?.allHTTPHeaderFields
+      userInfo["ResponseBody"] = String(data: moyaResponse.data, encoding: .utf8)
+    }
+      
     let nsError = NSError(
-      domain: "MoyaError",
-      code: Int(statusCode) ?? DefaultStatusCode.moyaError.rawValue,
-      userInfo: [
-        "RequestURL": requestURL,
-        "ErrorDescription": errorDescription,
-        "ResponseHeader": responseHeader,
-        "ResponseBody": responseBody
-      ])
-    
+      domain: domain,
+      code: code,
+      userInfo: userInfo.compactMapValues { $0 })
+      
     return processHTTPCode(nsError)
   }
-  
+
   private static func isExplicitlyCancelledError(_ error: MoyaError) -> Bool {
     if
       case .underlying(let underlyingError, _) = error,

@@ -10,9 +10,7 @@ final class APPErrorTests: XCTestCase {
   
   private func moyaDomainNSError(statusCode: Int) -> NSError {
     NSError(domain: "MoyaError", code: statusCode, userInfo: [
-      "RequestURL": "",
       "ErrorDescription": "Status code didn't fall within the given range.",
-      "ResponseHeader": ["": ""],
       "ResponseBody": ""
     ])
   }

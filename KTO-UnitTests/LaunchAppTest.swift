@@ -42,15 +42,12 @@ final class LaunchAppTest: XCBaseTestCase {
     stubLocalStorageRepository: LocalStorageRepositoryMock = mock(LocalStorageRepository.self))
     -> NavigationViewModel
   {
-    let dummyActivityIndicator = ActivityIndicator()
-    
-    return NavigationViewModel(
+    .init(
       stubAuthenticationUseCase,
       stubPlayerDataUseCase,
       stubLocalizationPolicyUseCase,
       stubGetSystemStatusUseCase,
-      stubLocalStorageRepository,
-      dummyActivityIndicator)
+      stubLocalStorageRepository)
   }
 
   private func stubLoginStatus(isLogged: Single<Bool>) {
@@ -98,7 +95,6 @@ final class LaunchAppTest: XCBaseTestCase {
     let dummyLocalizationPolicyUseCase = mock(LocalizationPolicyUseCase.self)
     let dummyGetSystemStatusUseCase = mock(ISystemStatusUseCase.self)
     let dummyLocalStorageRepository = mock(LocalStorageRepository.self)
-    let dummyActivityIndicator = ActivityIndicator()
 
     return mock(NavigationViewModel.self)
       .initialize(
@@ -106,8 +102,7 @@ final class LaunchAppTest: XCBaseTestCase {
         dummyPlayerDataUseCase,
         dummyLocalizationPolicyUseCase,
         dummyGetSystemStatusUseCase,
-        dummyLocalStorageRepository,
-        dummyActivityIndicator)
+        dummyLocalStorageRepository)
   }
 
   private func getFakePlayerViewModelMock() -> PlayerViewModelMock {

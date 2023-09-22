@@ -43,7 +43,7 @@ class CSSignalRClient: CSEventSubject {
       .withHttpConnectionOptions(configureHttpOptions: { option in
         option.skipNegotiation = true
       })
-      .withLogging(minLogLevel: .debug)
+      .withLogging(minLogLevel: .warning)
       .withAutoReconnect(reconnectPolicy: KeepReconnectPolicy(timeInterval: .seconds(5)))
       .withHubConnectionDelegate(delegate: self)
       .build()

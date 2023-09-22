@@ -46,7 +46,7 @@ class SignalRepositoryImpl: SignalRepository {
           option.skipNegotiation = true
           option.headers["Cookie"] = self.httpClient.cookiesHeader
         })
-        .withLogging(minLogLevel: .debug)
+        .withLogging(minLogLevel: .warning)
         .withAutoReconnect()
         .build()
 
