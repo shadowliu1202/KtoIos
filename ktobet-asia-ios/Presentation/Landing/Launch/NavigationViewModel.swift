@@ -21,28 +21,23 @@ class NavigationViewModel {
   private let systemStatusUseCase: ISystemStatusUseCase
   private let authUseCase: AuthenticationUseCase
   private let localStorageRepo: LocalStorageRepository
-  private let checkIsLoggedTracker: ActivityIndicator
 
   init(
     _ authUseCase: AuthenticationUseCase,
     _ playerUseCase: PlayerDataUseCase,
     _ localizationPolicyUseCase: LocalizationPolicyUseCase,
     _ systemStatusUseCase: ISystemStatusUseCase,
-    _ localStorageRepo: LocalStorageRepository,
-    _ checkIsLoggedTracker: ActivityIndicator)
+    _ localStorageRepo: LocalStorageRepository)
   {
     self.authUseCase = authUseCase
     self.playerUseCase = playerUseCase
     self.localizationPolicyUseCase = localizationPolicyUseCase
     self.systemStatusUseCase = systemStatusUseCase
     self.localStorageRepo = localStorageRepo
-    self.checkIsLoggedTracker = checkIsLoggedTracker
   }
 
   func checkIsLogged() -> Single<isLogged> {
-    authUseCase
-      .isLogged()
-      .trackOnDispose(checkIsLoggedTracker)
+    authUseCase.isLogged()
   }
 
   func initLaunchNavigation() -> LaunchPageNavigation {

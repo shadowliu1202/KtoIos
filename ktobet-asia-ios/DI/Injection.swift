@@ -675,8 +675,7 @@ final class Injection {
           resolver.resolveWrapper(PlayerDataUseCase.self),
           resolver.resolveWrapper(LocalizationPolicyUseCase.self),
           resolver.resolveWrapper(ISystemStatusUseCase.self),
-          resolver.resolveWrapper(LocalStorageRepository.self),
-          resolver.resolveWrapper(ActivityIndicator.self, name: "CheckingIsLogged"))
+          resolver.resolveWrapper(LocalStorageRepository.self))
       }
 
     container
