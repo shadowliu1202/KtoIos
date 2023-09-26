@@ -466,6 +466,7 @@ vui lòng thử lại lúc %@";
 "register_step2_password_not_match" = "Mật Khẩu không đồng nhất.";
 "register_step2_sms_inactive" = "Xin lỗi, Phương Thức Đăng Ký này tạm thời không khả dụng.";
 "register_step2_email_inactive" = "Xin lỗi, Phương Thức Đăng Ký này tạm thời không khả dụng.";
+"register_step2_unusual_activity" = "Chúng tôi đã phát hiện hoạt động bất thường. Vui lòng thử lại sau.";
 "register_step3_title_1" = "Đăng Ký 3/3";
 "register_step3_verify_by_email_title" = "Xác Minh Email";
 "register_step3_verify_by_phone_title" = "Xác Minh Số Di Động";

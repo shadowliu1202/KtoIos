@@ -70,6 +70,22 @@ class SignupUserinfoViewController: LandingViewController {
     defaultStyle()
     setViewModel()
   }
+  
+  override func handleErrors(_ error: Error) {
+    switch error {
+    case is PlayerIpOverOtpDailyLimit: displayError(error: Localize.string("common_email_otp_exeed_send_limit"))
+    case is DBPlayerAlreadyExist:
+      switch viewModel.currentAccountType() {
+      case .email: displayError(error: Localize.string("common_error_email_verify"))
+      case .phone: displayError(error: Localize.string("common_error_phone_verify"))
+      }
+    case is PlayerOtpMailInactive,
+         is PlayerOtpSmsInactive:
+      viewModel.refreshOtpStatus()
+    case is KtoPlayerRegisterBlock: alertRegistrationBlock()
+    default: displayError(error: String(format: Localize.string("common_unknownerror"), "\((error as NSError).code)"))
+    }
+  }
 
   // MARK: METHOD
   func localize() {
@@ -234,6 +250,7 @@ class SignupUserinfoViewController: LandingViewController {
         }
         self?.view.endEditing(true)
         self?.inputAccount.setContent("")
+        self?.inputAccount.textContent.sendActions(for: .editingChanged)
         self?.hideError()
       }).disposed(by: disposeBag)
   }
@@ -262,10 +279,10 @@ class SignupUserinfoViewController: LandingViewController {
       return ""
     }()
     
-    initEmptyStateView(hint: emptyStateHint)
+    showEmptyStateView(hint: emptyStateHint)
   }
   
-  private func initEmptyStateView(hint: String) {
+  private func showEmptyStateView(hint: String) {
     emptyStateView?.removeFromSuperview()
     emptyStateView = EmptyStateView(
       icon: UIImage(named: "Maintenance"),
@@ -279,6 +296,14 @@ class SignupUserinfoViewController: LandingViewController {
       make.top.equalTo(viewButtons.snp.bottom)
       make.leading.trailing.bottom.equalToSuperview()
     }
+  }
+  
+  private func alertRegistrationBlock() {
+    Alert.shared.show(
+      Localize.string("common_tip_title_warm"),
+      Localize.string("register_step2_unusual_activity"),
+      confirm: { [unowned self] in navigationController?.dismiss(animated: true) },
+      confirmText: Localize.string("common_determine"))
   }
 
   func displayError(error: String) {
@@ -337,38 +362,20 @@ extension SignupUserinfoViewController {
   @IBAction
   func btnSubmitPressed(_: Any) {
     viewModel.register()
-      .subscribe(onSuccess: { [weak self] info in
-        guard let self else { return }
-        let para = [
-          "account": info.account,
-          "password": info.password
-        ]
-        switch info.type {
-        case .email: self.performSegue(withIdentifier: self.segueEmail, sender: para)
-        case .phone: self.navigateToPhoneVerifyPage(para["account"] ?? "")
-        }
-      }, onFailure: { [weak self] error in
-        let message: String = {
-          switch error {
-          case is PlayerIpOverOtpDailyLimit: return Localize.string("common_email_otp_exeed_send_limit")
-          case is DBPlayerAlreadyExist:
-            switch self?.viewModel.currentAccountType() {
-            case .email: return Localize.string("common_error_email_verify")
-            case .phone: return Localize.string("common_error_phone_verify")
-            default: return ""
-            }
-          case is PlayerOtpMailInactive,
-               is PlayerOtpSmsInactive:
-            self?.viewModel.refreshOtpStatus()
-            return ""
-          default: return String(format: Localize.string("common_unknownerror"), "\((error as NSError).code)")
+      .subscribe(
+        onSuccess: { [weak self] info in
+          guard let self else { return }
+          let para = [
+            "account": info.account,
+            "password": info.password
+          ]
+          switch info.type {
+          case .email: self.performSegue(withIdentifier: self.segueEmail, sender: para)
+          case .phone: self.navigateToPhoneVerifyPage(para["account"] ?? "")
           }
-        }()
-
-        if !message.isEmpty {
-          self?.displayError(error: message)
-        }
-      }).disposed(by: disposeBag)
+        },
+        onFailure: { [unowned self] in handleErrors($0) })
+      .disposed(by: disposeBag)
   }
 
   func navigateToPhoneVerifyPage(_ account: String) {
