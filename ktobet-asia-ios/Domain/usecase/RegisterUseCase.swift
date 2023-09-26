@@ -20,6 +20,7 @@ class RegisterUseCaseImpl: RegisterUseCase {
 
   func register(account: UserAccount, password: UserPassword, locale: SupportLocale) -> Completable {
     repoAuth.register(account, password, locale)
+      .catch { throw ($0 is PlayerRegisterBlock) ? KtoPlayerRegisterBlock() : $0 }
   }
 
   func loginFrom(otp: String) -> Single<Player> {

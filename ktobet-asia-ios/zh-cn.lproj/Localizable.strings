@@ -457,6 +457,7 @@
 "register_step2_password_not_match" = "密码不一致";
 "register_step2_sms_inactive" = "非常抱歉，该注册方式暂不可用。";
 "register_step2_email_inactive" = "非常抱歉，该注册方式暂不可用。";
+"register_step2_unusual_activity" = "我们检测到异常行为。请稍后再试。";
 "register_step3_title_1" = "注册 3/3";
 "register_step3_verify_by_email_title" = "验证电子邮箱";
 "register_step3_verify_by_phone_title" = "验证手机";
