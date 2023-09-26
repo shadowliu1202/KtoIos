@@ -161,8 +161,10 @@ extension WithdrawalDto.Log: LogRowModel {
       return .cancel
     case .fail:
       return .fail
+    case .other:
+      return .other
     default:
-      return .fail
+      return .other
     }
   }
 
