@@ -25,7 +25,7 @@ struct WithdrawalRecordDetailView<ViewModel>: View
         .status(
           date: viewModel.log?.status == .pending ?
             nil : viewModel.log?.createdDate.toDateTimeString(),
-          content: viewModel.log?.paymentStatus.toLogString()),
+          content: viewModel.log?.status.toString()),
         .applyDate(viewModel.log?.createdDate.toDateTimeString()),
         .withdrawalId(viewModel.log?.displayId),
         .remark(.init(
