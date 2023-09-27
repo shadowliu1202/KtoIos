@@ -147,31 +147,13 @@ extension WithdrawalDto.LogFilterStatus: Selectable {
 }
 
 // MARK: - LogRowModel
-
 extension WithdrawalDto.Log: LogRowModel {
-  var paymentStatus: PaymentStatus {
-    switch self.status {
-    case .pending:
-      return .pending
-    case .floating:
-      return .floating
-    case .approved:
-      return .approved
-    case .cancel:
-      return .cancel
-    case .fail:
-      return .fail
-    default:
-      return .fail
-    }
-  }
-
   var createdDateText: String {
     createdDate.toTimeString()
   }
 
   var statusConfig: (text: String, color: UIColor)? {
-    (paymentStatus.toLogString(), paymentStatus.toLogColor())
+    (status.toString(), status.toColor())
   }
 
   var amountConfig: (text: String, color: UIColor) {

@@ -116,19 +116,7 @@ class WithdrawalMainViewModel:
   }
 
   private func parseLogStatus(_ log: WithdrawalDto.Log) -> WithdrawalMainViewDataModel.TransactionStatus {
-    var title = ""
-    var color: UIColor = .textPrimary
-
-    title = StringMapper.parse(log)
-
-    switch log.status {
-    case .floating:
-      color = .alert
-    default:
-      break
-    }
-
-    return .init(title: title, color: color)
+    .init(title: log.status.toString(), color: log.status.toColor())
   }
 
   func getSupportLocale() -> SupportLocale {
