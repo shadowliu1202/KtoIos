@@ -22,7 +22,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="T6w-zZ-WVA">
-                                        <rect key="frame" x="30" y="26" width="354" height="379.5"/>
+                                        <rect key="frame" x="30" y="26" width="354" height="399.5"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="BYl-of-szE">
                                                 <rect key="frame" x="0.0" y="0.0" width="354" height="54"/>
@@ -114,7 +114,7 @@
                                                 </constraints>
                                             </view>
                                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vU4-U7-kdW">
-                                                <rect key="frame" x="0.0" y="275.5" width="354" height="104"/>
+                                                <rect key="frame" x="0.0" y="275.5" width="354" height="124"/>
                                                 <subviews>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SbV-zQ-pJ4">
                                                         <rect key="frame" x="0.0" y="0.0" width="354" height="48"/>
@@ -134,11 +134,11 @@
                                                             <action selector="btnVerifyPressed:" destination="Ek1-ha-cKE" eventType="touchUpInside" id="WOC-j0-uvS"/>
                                                         </connections>
                                                     </button>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="HXE-pP-a1j">
-                                                        <rect key="frame" x="0.0" y="72" width="354" height="32"/>
+                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="HXE-pP-a1j">
+                                                        <rect key="frame" x="0.0" y="72" width="354" height="52"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="若没收到验证码，可于 00:59 后 " textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BbD-up-363">
-                                                                <rect key="frame" x="0.0" y="6" width="205.5" height="20"/>
+                                                                <rect key="frame" x="74.5" y="0.0" width="205.5" height="20"/>
                                                                 <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="14"/>
                                                                 <color key="textColor" red="0.60784313729999995" green="0.60784313729999995" blue="0.60784313729999995" alpha="1" colorSpace="calibratedRGB"/>
                                                                 <nil key="highlightedColor"/>
@@ -147,7 +147,7 @@
                                                                 </userDefinedRuntimeAttributes>
                                                             </label>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="9lw-11-5dg">
-                                                                <rect key="frame" x="205.5" y="0.0" width="148.5" height="32"/>
+                                                                <rect key="frame" x="149" y="20" width="56" height="32"/>
                                                                 <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="14"/>
                                                                 <state key="normal" title="重新发送">
                                                                     <color key="titleColor" red="0.85098039219999999" green="0.0039215686269999999" blue="0.0039215686269999999" alpha="0.5" colorSpace="custom" customColorSpace="calibratedRGB"/>
