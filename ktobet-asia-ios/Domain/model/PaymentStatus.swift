@@ -14,6 +14,8 @@ extension PaymentStatus {
       return Localize.string("common_cancel")
     case .fail:
       return Localize.string("common_reject")
+    case .other:
+      return ""
     default:
       return ""
     }

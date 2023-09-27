@@ -20,7 +20,7 @@ extension WithdrawalCryptoRecordDetailViewModelProtocol {
         content: log.displayId)),
       .info(.init(
         title: Localize.string("common_status"),
-        content: StringMapper.parse(log))),
+        content: log.status.toString())),
       .table(
         [
           .init(title: Localize.string("common_cps_apply_info")),

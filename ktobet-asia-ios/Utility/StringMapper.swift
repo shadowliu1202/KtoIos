@@ -3,53 +3,6 @@ import SharedBu
 import UIKit
 
 class StringMapper {
-  @available(*, deprecated, message: "Delete after Withdrawal refactor.")
-  static func parse(_ transactionStatus: TransactionStatus, isPendingHold: Bool, ignorePendingHold: Bool) -> String {
-    switch transactionStatus {
-    case .approved:
-      return Localize.string("common_approved")
-    case .cancel:
-      return Localize.string("common_cancel")
-    case .floating:
-      return Localize.string("common_floating")
-    case .reject,
-         .void_:
-      return Localize.string("common_reject")
-    case .pending:
-      if isPendingHold {
-        return ignorePendingHold ? Localize.string("common_pending") : Localize.string("common_pending_hold")
-      }
-      else {
-        return Localize.string("common_pending")
-      }
-    default:
-      return ""
-    }
-  }
-
-  static func parse(_ log: WithdrawalDto.Log) -> String {
-    switch log.status {
-    case .pending:
-      return log.isPendingHold
-        ? Localize.string("common_pending_hold")
-        : Localize.string("common_pending")
-    case .pendinghold:
-      return Localize.string("common_pending")
-    case .floating:
-      return Localize.string("common_floating")
-    case .approved:
-      return Localize.string("common_approved")
-    case .cancel:
-      return Localize.string("common_cancel")
-    case .fail:
-      return Localize.string("common_reject")
-    case .other:
-      return ""
-    default:
-      return ""
-    }
-  }
-
   static func getVerifyStatus(status: PlayerBankCardVerifyStatus) -> (text: String, color: UIColor) {
     switch status {
     case .pending:
