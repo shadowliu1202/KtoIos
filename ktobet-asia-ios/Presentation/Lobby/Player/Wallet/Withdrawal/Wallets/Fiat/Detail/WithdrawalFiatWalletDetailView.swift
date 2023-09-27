@@ -32,7 +32,7 @@ struct WithdrawalFiatWalletDetailView<ViewModel>: View
           title: Localize.string("withdrawal_bankcity"),
           content: viewModel.wallet?.bankAccount.city),
         .init(
-          title: Localize.string("withdrawal_bankstate"),
+          title: Localize.string("withdrawal_accountnumber"),
           content: viewModel.wallet?.accountNumber),
       ],
       status: viewModel.wallet?.verifyStatus.statusConfig(isCrypto: false).text ?? "",
