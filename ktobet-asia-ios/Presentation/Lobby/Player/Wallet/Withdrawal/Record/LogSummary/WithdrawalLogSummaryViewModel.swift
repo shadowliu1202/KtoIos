@@ -163,6 +163,8 @@ extension WithdrawalDto.Log: LogRowModel {
       return .fail
     case .other:
       return .other
+    case .pendinghold:
+      return .pending
     default:
       return .other
     }

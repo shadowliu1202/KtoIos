@@ -30,11 +30,9 @@ class StringMapper {
   static func parse(_ log: WithdrawalDto.Log) -> String {
     switch log.status {
     case .pending:
-      return log.isPendingHold
-        ? Localize.string("common_pending_hold")
-        : Localize.string("common_pending")
-    case .pendinghold:
       return Localize.string("common_pending")
+    case .pendinghold:
+      return Localize.string("common_pending_hold")
     case .floating:
       return Localize.string("common_floating")
     case .approved:
