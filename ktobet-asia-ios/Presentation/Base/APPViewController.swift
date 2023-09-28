@@ -38,6 +38,7 @@ class APPViewController: UIViewController {
     if let banner = UIHostingController(rootView: BannerView()).view {
       self.banner = banner
       banner.backgroundColor = .clear
+      banner.isUserInteractionEnabled = false
       self.view.addSubview(banner)
       banner.snp.makeConstraints { [unowned self] make in
         make.width.equalToSuperview()
