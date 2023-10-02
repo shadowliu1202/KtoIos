@@ -44,7 +44,7 @@ class WithdrawalRecordDetailViewController:
   }
 
   override func handleErrors(_ error: Error) {
-    if error is KtoWithdrawalTicketBatched {
+    if error is WithdrawalException.CancelExceptionTicketBatched {
       alert.show(
         nil,
         Localize.string("withdrawal_cancel_locked"),
