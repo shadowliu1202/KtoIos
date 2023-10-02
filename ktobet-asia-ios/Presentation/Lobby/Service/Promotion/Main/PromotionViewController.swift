@@ -80,7 +80,7 @@ class PromotionViewController: LobbyViewController {
               make.top.equalTo(self.view.safeAreaLayoutGuide)
               make.centerX.equalToSuperview()
             }
-              
+            
             self.view.layoutIfNeeded()
           })
           
@@ -108,7 +108,7 @@ class PromotionViewController: LobbyViewController {
       keyboardAppearance: .impossible)
     emptyStateView.isHidden = true
     
-    view.addSubview(emptyStateView)
+    view.insertSubview(emptyStateView, at: 0)
 
     emptyStateView.snp.makeConstraints { make in
       make.top.equalToSuperview().offset(dropDownFilterViewCollapseHeight)
