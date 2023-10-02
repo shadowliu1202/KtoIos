@@ -115,6 +115,18 @@ extension UIDevice {
 
     case "iPhone15,3":
       return "iPhone 14 Pro Max"
+      
+    case "iPhone15,4":
+      return "iPhone 15"
+      
+    case "iPhone15,5":
+      return "iPhone 15 Plus"
+      
+    case "iPhone16,1":
+      return "iPhone 15 Pro"
+      
+    case "iPhone16,2":
+      return "iPhone 15 Pro Max"
 
     // MARK: - iPad
 
