@@ -34,6 +34,6 @@ class RestrictedViewController: UIViewController {
   }
 
   private func showLanding() {
-    NavigationManagement.sharedInstance.goTo(storyboard: "Lanunch", viewControllerId: "LaunchViewController")
+    NavigationManagement.sharedInstance.goTo(storyboard: "Launch", viewControllerId: "LaunchViewController")
   }
 }
