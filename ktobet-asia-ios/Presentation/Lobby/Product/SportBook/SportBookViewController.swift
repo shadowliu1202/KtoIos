@@ -7,6 +7,7 @@ import WebKit
 
 class SportBookViewController: LobbyViewController {
   private let isWebLoadSuccess = BehaviorRelay<Bool>(value: false)
+  private var isFirstWebLoaded = true
 
   private var webView = WKWebView(frame: .zero, configuration: WKWebViewConfiguration())
   private var sbkWebUrlString: String { httpClient.host.absoluteString + "sbk" }
@@ -41,6 +42,11 @@ class SportBookViewController: LobbyViewController {
     setupWebView()
 
     binding()
+  }
+  
+  override func networkDisconnectHandler() {
+    guard isFirstWebLoaded else { return }
+    super.networkDisconnectHandler()
   }
 
   private func setupWebView() {
@@ -141,6 +147,7 @@ extension SportBookViewController: WKNavigationDelegate, WKUIDelegate {
     Task { await maintenanceViewModel.pullMaintenanceStatus() }
     Logger.shared.info("\(String(describing: webView.url)) did finish")
     isWebLoadSuccess.accept(true)
+    isFirstWebLoaded = false
     self.activityIndicator.stopAnimating()
   }
 
