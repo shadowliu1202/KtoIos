@@ -147,7 +147,7 @@ extension AppDelegate {
     }
 
     window = .init(frame: UIScreen.main.bounds)
-    let launchController = UIHostingController(rootView: Text("測試畫面"))
+    let launchController = UIHostingController(rootView: Text("測試畫面1"))
     window?.rootViewController = launchController
     window?.makeKeyAndVisible()
   }
