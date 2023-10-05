@@ -211,7 +211,13 @@ extension LoginViewController: BarButtonItemable {
   func pressedRightBarButtonItems(_ sender: UIBarButtonItem) {
     switch sender.tag {
     case registerBarBtnId:
-      btnSignupPressed()
+      let language = Language(rawValue: viewModel.getCultureCode())
+      if language == .CN {
+        showServiceDownAlert()
+      }
+      else {
+        btnSignupPressed()
+      }
     case manualUpdateBtnId:
       Configuration.isAutoUpdate = true
       appSyncViewModel.getLatestAppVersion().subscribe(onSuccess: { [weak self] inComingAppVersion in
@@ -254,6 +260,17 @@ extension LoginViewController: BarButtonItemable {
     else {
       Alert.shared.show(title, msg, confirm: { }, confirmText: "無需更新", cancel: nil)
     }
+  }
+  
+  private func showServiceDownAlert() {
+    Alert.shared
+      .show(
+        Localize.string("common_tip_title_warm"),
+        Localize.string("common_cn_service_down"),
+        confirm: { [weak self] in
+          self?.btnSignupPressed()
+        },
+        confirmText: Localize.string("common_confirm"))
   }
 }
 
