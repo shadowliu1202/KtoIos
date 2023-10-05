@@ -34,16 +34,8 @@ class SignupLanguageViewController: LandingViewController {
   private let rowSpace: CGFloat = 12
 
   private var disposeBag = DisposeBag()
-  private lazy var arrLangs: [LanguageListData] = {
-    let supportLocals = [SupportLocale.China(), SupportLocale.Vietnam()]
-    let arr: [LanguageListData] = supportLocals.map({
-      let item = LanguageListData(
-        title: registerOptionText($0),
-        type: $0,
-        selected: $0.cultureCode() == localStorageRepo.getCultureCode())
-      return item
-    })
-    return arr
+  private var arrLangs: [SupportLocale] = {
+    [SupportLocale.Vietnam()]
   }()
 
   private var padding = UIBarButtonItem.kto(.text(text: "")).isEnable(false)
@@ -60,6 +52,9 @@ class SignupLanguageViewController: LandingViewController {
     self.bind(position: .right, barButtonItems: padding, login, spacing, customService)
     setTableViewHeight()
     setupStyle()
+    if let locale = arrLangs.first {
+      onLocaleChange(locale: locale)
+    }
   }
 
   deinit {
@@ -130,17 +125,11 @@ class SignupLanguageViewController: LandingViewController {
     Alert.shared.show(title, message, confirm: nil, cancel: nil)
   }
 
-  private func didSelectRowAt(indexPath: IndexPath) {
-    guard indexPath.row < arrLangs.count else { return }
-    for idx in 0..<arrLangs.count {
-      arrLangs[idx].selected = indexPath.row == idx
-    }
-    if let locale = arrLangs.filter({ data -> Bool in data.selected }).first?.type {
-      localStorageRepo.setCultureCode(locale.cultureCode())
-      Theme.shared.changeEntireAPPFont(by: locale)
-      cookieHandler.replaceCulture(to: locale.cultureCode())
-      changeViewFont(by: locale)
-    }
+  private func onLocaleChange(locale: SupportLocale) {
+    localStorageRepo.setCultureCode(locale.cultureCode())
+    Theme.shared.changeEntireAPPFont(by: locale)
+    cookieHandler.replaceCulture(to: locale.cultureCode())
+    changeViewFont(by: locale)
     refreshLocalize()
     languageChangeHandler?()
     Injectable.resetObjectScope(.locale)
@@ -169,15 +158,20 @@ extension SignupLanguageViewController: UITableViewDelegate, UITableViewDataSour
   func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     let identifier = String(describing: LanguageAndCurrencyCell.self)
     let cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath) as! LanguageAndCurrencyCell
-    cell.setup(arrLangs[indexPath.row])
+    let locale = arrLangs[indexPath.row]
+    let data = LanguageListData(
+      title: registerOptionText(locale),
+      type: locale,
+      selected: locale.cultureCode() == localStorageRepo.getCultureCode())
+    cell.setup(data)
     cell.didSelectOn = { [weak self] _ in
-      self?.didSelectRowAt(indexPath: indexPath)
+      self?.onLocaleChange(locale: locale)
     }
     return cell
   }
-
+  
   func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
-    self.didSelectRowAt(indexPath: indexPath)
+    self.onLocaleChange(locale: arrLangs[indexPath.row])
   }
 
   func tableView(_: UITableView, heightForRowAt _: IndexPath) -> CGFloat {
@@ -193,10 +187,9 @@ extension SignupLanguageViewController {
 
   override func prepare(for segue: UIStoryboardSegue, sender _: Any?) {
     if
-      let vc = segue.destination as? SignupUserinfoViewController,
-      let locale = arrLangs.filter({ data -> Bool in data.selected }).first?.type
+      let vc = segue.destination as? SignupUserinfoViewController
     {
-      vc.locale = locale
+      vc.locale = localStorageRepo.getSupportLocale()
     }
   }
 }
