@@ -15,6 +15,7 @@ extension APPError {
 
 enum APPError: Equatable {
   case unknown(NSError)
+  case networkLost
   case regionRestricted
   case tooManyRequest
   case temporary
@@ -77,6 +78,8 @@ enum APPError: Equatable {
       let underlyingError = error.errorUserInfo[NSUnderlyingErrorKey] as? AFError,
       let afUnderlyingError = underlyingError.underlyingError as? NSError
     {
+      guard !afUnderlyingError.code.isNetworkConnectionLost() else { return .networkLost }
+      
       userInfo.merge(afUnderlyingError.userInfo) { _, new in new }
       userInfo["Source"] = "Moya"
       domain = afUnderlyingError.domain
