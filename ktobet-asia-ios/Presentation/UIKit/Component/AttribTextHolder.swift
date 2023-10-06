@@ -11,6 +11,45 @@ class AttribTextHolder {
 
   let originalText: String
   var attributes: [(text: String, type: AttrType, value: Any)]
+  var attributedString: NSMutableAttributedString {
+    let style = NSMutableParagraphStyle()
+    style.alignment = .left
+    let attributedOriginalText = NSMutableAttributedString(string: originalText)
+
+    for item in attributes {
+      let arange = attributedOriginalText.mutableString.range(of: item.text)
+      switch item.type {
+      case .link(let showUnderline):
+        attributedOriginalText.addAttribute(NSAttributedString.Key.link, value: item.value, range: arange)
+        if !showUnderline {
+          attributedOriginalText.addAttribute(
+            NSAttributedString.Key.underlineColor,
+            value: UIColor.clear,
+            range: arange)
+        }
+
+      case .color:
+        var color = UIColor.black
+        if let c = item.value as? UIColor { color = c }
+        attributedOriginalText.addAttribute(NSAttributedString.Key.foregroundColor, value: color, range: arange)
+      case .font:
+        let boldFontAttribute = [NSAttributedString.Key.font: item.value]
+        attributedOriginalText.addAttributes(
+          boldFontAttribute,
+          range: NSRange(
+            originalText.range(of: item.text) ?? originalText.startIndex..<originalText.endIndex,
+            in: originalText))
+      case .center:
+        style.alignment = .center
+      case .attachment:
+        if let attachment = item.value as? NSTextAttachment {
+          let attrAttachment = NSAttributedString(attachment: attachment)
+          attributedOriginalText.append(attrAttachment)
+        }
+      }
+    }
+    return attributedOriginalText
+  }
 
   init(text: String, attrs: [(text: String, type: AttrType, value: Any)] = []) {
     originalText = text

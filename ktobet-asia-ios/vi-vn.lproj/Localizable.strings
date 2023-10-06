@@ -436,6 +436,7 @@ vui lòng thử lại lúc %@";
 "common_notify_currency_ratio" = "Tiền tệ VND được hiển thị theo Tỷ lệ 1:1,000";
 "common_unknown_exception" = "Đã xảy ra lỗi không xác định";
 "common_cn_service_down" = "";
+"common_cn_service_down_highlight" = "";
 
 //MARK: - SportsBook
 "sportsbook_bet_rules" = "Luật Thể Thao";

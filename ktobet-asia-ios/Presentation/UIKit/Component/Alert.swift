@@ -10,6 +10,14 @@ protocol AlertProtocol: AnyObject {
     cancel: (() -> Void)?,
     cancelText: String?,
     tintColor: UIColor?)
+  func show(
+    _ title: String?,
+    _ message: NSAttributedString?,
+    confirm: (() -> Void)?,
+    confirmText: String?,
+    cancel: (() -> Void)?,
+    cancelText: String?,
+    tintColor: UIColor?)
   func dismiss(completion: (() -> Void)?)
   func isShown() -> Bool
 }
@@ -18,6 +26,25 @@ extension AlertProtocol {
   func show(
     _ title: String?,
     _ message: String?,
+    confirm: (() -> Void)? = nil,
+    confirmText: String? = nil,
+    cancel: (() -> Void)? = nil,
+    cancelText: String? = nil,
+    tintColor: UIColor? = nil)
+  {
+    self.show(
+      title,
+      message,
+      confirm: confirm,
+      confirmText: confirmText,
+      cancel: cancel,
+      cancelText: cancelText,
+      tintColor: tintColor)
+  }
+  
+  func show(
+    _ title: String?,
+    _ message: NSAttributedString?,
     confirm: (() -> Void)? = nil,
     confirmText: String? = nil,
     cancel: (() -> Void)? = nil,
@@ -62,6 +89,50 @@ class Alert: AlertProtocol {
         alert.view.layer.cornerRadius = 14
         alert.view.clipsToBounds = true
 
+        let confirmAction = UIAlertAction(title: confirmText ?? Localize.string("common_confirm"), style: .default) { _ in
+          self.removeBackgroundView()
+          confirm?()
+        }
+
+        let cancelction = UIAlertAction(title: cancelText ?? Localize.string("common_cancel"), style: .cancel) { _ in
+          self.removeBackgroundView()
+          cancel?()
+        }
+
+        cancelction.setValue(tintColor ?? UIColor.primaryForLight, forKey: "titleTextColor")
+        confirmAction.setValue(tintColor ?? UIColor.primaryForLight, forKey: "titleTextColor")
+        alert.addAction(confirmAction)
+
+        if cancel != nil {
+          alert.addAction(cancelction)
+        }
+
+        topVc.present(alert, animated: true, completion: nil)
+
+        if !(UIWindow.key?.subviews.contains(self.alertOutsideBackground) ?? false) {
+          UIWindow.key?.addSubview(self.alertOutsideBackground)
+        }
+      }
+    }
+  }
+  
+  func show(
+    _ title: String?,
+    _ message: NSAttributedString?,
+    confirm: (() -> Void)?,
+    confirmText: String? = nil,
+    cancel: (() -> Void)?,
+    cancelText: String? = nil,
+    tintColor: UIColor? = nil)
+  {
+    if let topVc = UIApplication.topViewController() {
+      DispatchQueue.main.async {
+        let alert = UIAlertController(title: title, message: nil, preferredStyle: .alert)
+        alert.view.backgroundColor = UIColor.greyScaleWhite
+        alert.view.layer.cornerRadius = 14
+        alert.view.clipsToBounds = true
+        alert.setValue(message, forKey: "attributedMessage")
+        
         let confirmAction = UIAlertAction(title: confirmText ?? Localize.string("common_confirm"), style: .default) { _ in
           self.removeBackgroundView()
           confirm?()

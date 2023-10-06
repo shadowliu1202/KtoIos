@@ -427,8 +427,11 @@
 "common_notify_currency_ratio" = "";
 "common_unknown_exception" = "出现未知错误";
 "common_cn_service_down" = "感谢大家对KTO亚洲的支持，KTO将于2023年10月31日在中国大陆区域内全面停止服务。
+
 请大家于31日前申请提现，再次感谢大家的支持与关注，祝生活顺心。
+
 若有任何疑问，您可以于11/1 前联系在线客服或客服邮箱：cn@thekto.com 进行咨询，感谢您的理解。";
+"common_cn_service_down_highlight" = "cn@thekto.com";
 
 //MARK: - SportsBook
 "sportsbook_bet_rules" = "投注规则";
