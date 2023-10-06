@@ -54,7 +54,7 @@ final class DepositViewTests: XCBaseTestCase {
     let sut = DepositView<DepositViewModelProtocolMock>.Payments()
 
     let expectation = sut.inspection.inspect { view in
-      let expect = "目前暂无可用的充值方式"
+      let expect = "10/12日起充值通道已全面关闭，详情请您查看网站公告，感谢您的理解与配合。"
       let actual = try view
         .find(viewWithId: "paymentsEmptyReminder")
         .localizedText()
