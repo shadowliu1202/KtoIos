@@ -29,8 +29,9 @@ extension UIViewController {
     switch error {
     case .unknown(let nsError):
       Logger.shared.error(nsError)
-      handleUnknownError(nsError.code)
+      showUnknownError(nsError.code)
       
+    case .networkLost: showNetworkLost()
     case .regionRestricted: presentRestrictView()
     case .tooManyRequest: showTooManyRequest()
     case .temporary: showTemporaryError()
@@ -41,33 +42,32 @@ extension UIViewController {
     }
   }
   
-  func handleUnknownError(_ statusCode: Int) {
-    if statusCode.isNetworkConnectionLost() {
-      showToast(Localize.string("common_unknownhostexception"), barImg: .failed)
-    }
-    else {
-      showToast(Localize.string("common_unknownerror", "\(statusCode)"), barImg: .failed)
-    }
+  private func showUnknownError(_ statusCode: Int) {
+    showToast(Localize.string("common_unknownerror", "\(statusCode)"), barImg: .failed)
+  }
+  
+  private func showNetworkLost() {
+    showToast(Localize.string("common_unknownhostexception"), barImg: .failed)
   }
 
-  func presentRestrictView() {
+  private func presentRestrictView() {
     let restrictedVC = UIStoryboard(name: "slideMenu", bundle: nil).instantiateViewController(withIdentifier: "restrictedVC")
     present(restrictedVC, animated: true, completion: nil)
   }
 
-  func showTooManyRequest() {
+  private func showTooManyRequest() {
     showToast(Localize.string("common_retry_later"), barImg: nil)
   }
 
-  func showWrongFormat() {
+  private func showWrongFormat() {
     showToast(Localize.string("common_malformedexception"), barImg: .failed)
   }
 
-  func showTemporaryError() {
+  private func showTemporaryError() {
     showToast(Localize.string("common_http_503", "\(503)"), barImg: .failed)
   }
 
-  func presentCDNErrorView() {
+  private func presentCDNErrorView() {
     let cndErrorVC = UIStoryboard(name: "slideMenu", bundle: nil)
       .instantiateViewController(withIdentifier: "CDNErrorViewController")
     present(cndErrorVC, animated: true, completion: nil)
