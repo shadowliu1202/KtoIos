@@ -575,7 +575,7 @@
 "deposit_payment_terminate" = "%@将中断并结束。";
 "deposit_crypto_terminate" = "在线充值将中断并结束。";
 "deposit_select_method" = "选择充值渠道";
-"deposit_no_available_type" = "目前暂无可用的充值方式";
+"deposit_no_available_type" = "10/12日起充值通道已全面关闭，详情请您查看网站公告，感谢您的理解与配合。";
 "deposit_no_records" = "目前暂无与您充值相关的纪录";
 "deposit_execeed_limitation" = "你的档案大小超过系统限制10MB";
 "deposit_name" = "汇款人姓名";
