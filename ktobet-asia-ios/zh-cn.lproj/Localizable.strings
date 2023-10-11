@@ -575,7 +575,7 @@
 "deposit_payment_terminate" = "%@将中断并结束。";
 "deposit_crypto_terminate" = "在线充值将中断并结束。";
 "deposit_select_method" = "选择充值渠道";
-"deposit_no_available_type" = "10/12日起充值通道已全面关闭，详情请您查看网站公告，感谢您的理解与配合。 
+"deposit_no_available_type" = "10/12日起充值通道已全面关闭，详情请您查看网站公告，感谢您的理解与配合。
 
 请您不要充值至先前的保留账户，若保留收款信息支付，您需要自行承担误存损失，感谢您的理解。";
 "deposit_no_records" = "目前暂无与您充值相关的纪录";

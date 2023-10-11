@@ -54,7 +54,12 @@ final class DepositViewTests: XCBaseTestCase {
     let sut = DepositView<DepositViewModelProtocolMock>.Payments()
 
     let expectation = sut.inspection.inspect { view in
-      let expect = "10/12日起充值通道已全面关闭，详情请您查看网站公告，感谢您的理解与配合。"
+      let expect = """
+      10/12日起充值通道已全面关闭，详情请您查看网站公告，感谢您的理解与配合。
+      
+      请您不要充值至先前的保留账户，若保留收款信息支付，您需要自行承担误存损失，感谢您的理解。
+      """
+      
       let actual = try view
         .find(viewWithId: "paymentsEmptyReminder")
         .localizedText()
@@ -62,7 +67,7 @@ final class DepositViewTests: XCBaseTestCase {
 
       XCTAssertEqual(expect, actual)
     }
-
+    
     ViewHosting.host(
       view: sut.environmentObject(stubViewModel))
 
