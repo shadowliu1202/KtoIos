@@ -269,7 +269,7 @@ extension LoginViewController: BarButtonItemable {
         text: Localize.string("common_cn_service_down"),
         type: .font,
         value: UIFont(name: "PingFangSC-Regular", size: 14)!)])
-      .addAttr((text: Localize.string("common_cn_service_down_highlight"), type: .color, value: UIColor.primaryForLight))
+    
     Alert.shared
       .show(
         Localize.string("common_tip_title_warm"),
