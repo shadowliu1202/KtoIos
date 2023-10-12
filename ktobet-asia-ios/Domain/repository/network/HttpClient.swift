@@ -115,18 +115,17 @@ class HttpClient: CookieUtil {
   }
   
   func handleResponse(_ response: Response) -> Single<Response> {
-    guard
+    if
       let json = try? JSON(data: response.data),
       let statusCode = json["statusCode"].string,
-      let errorMsg = json["errorMsg"].string
-    else { return .error(ResponseParseError(rawData: response.data)) }
-      
-    if statusCode.isEmpty, errorMsg.isEmpty {
-      refreshLastAPISuccessDate()
-      return .just(response)
+      let errorMsg = json["errorMsg"].string,
+      !statusCode.isEmpty
+    {
+      return .error(ExceptionFactory.companion.create(message: errorMsg, statusCode: statusCode))
     }
     else {
-      return .error(ExceptionFactory.companion.create(message: errorMsg, statusCode: statusCode))
+      refreshLastAPISuccessDate()
+      return .just(response)
     }
   }
   
