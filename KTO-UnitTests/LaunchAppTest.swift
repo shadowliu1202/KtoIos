@@ -6,6 +6,7 @@ import XCTest
 
 @testable import ktobet_asia_ios_qat
 
+@MainActor
 final class LaunchAppTest: XCBaseTestCase {
   private let loggedPlayer = PlayerInfoCacheBean(
     displayID: "",
@@ -16,7 +17,7 @@ final class LaunchAppTest: XCBaseTestCase {
 
   private lazy var mockNavigator = mock(Navigator.self)
   private lazy var mockAlert = mock(AlertProtocol.self)
-
+  
   override func tearDown() {
     super.tearDown()
     reset(mockNavigator, mockAlert)
@@ -24,10 +25,6 @@ final class LaunchAppTest: XCBaseTestCase {
 
   private func simulateApplicationWillEnterForeground() {
     (UIApplication.shared.delegate as? AppDelegate)?.applicationWillEnterForeground(UIApplication.shared)
-  }
-
-  private func simulateAnimationEnd() {
-    NotificationCenter.default.post(name: .AVPlayerItemDidPlayToEndTime, object: nil)
   }
 
   private func makeLaunchSUT() -> LaunchViewController {
@@ -140,7 +137,7 @@ final class LaunchAppTest: XCBaseTestCase {
     return fakeViewModel
   }
 
-  func test_givenUserLoggedInAndUnexpired_whenColdStart_thenEnterLobbyPage() {
+  func test_givenUserLoggedInAndUnexpired_whenColdStart_thenEnterLobbyPage() async {
     let stubAuthUseCase = mock(AuthenticationUseCase.self)
     given(stubAuthUseCase.isLastAPISuccessDateExpire()) ~> false
 
@@ -157,7 +154,7 @@ final class LaunchAppTest: XCBaseTestCase {
     sut.viewModel = stubNavigationViewModel
 
     sut.loadViewIfNeeded()
-    sut.executeNavigation()
+    await sut.executeNavigation()
 
     verify(
       mockNavigator.goTo(
@@ -166,7 +163,7 @@ final class LaunchAppTest: XCBaseTestCase {
       .wasCalled()
   }
 
-  func test_givenUserLoggedInAndExpired_whenColdStart_thenEnterLandingPage() {
+  func test_givenUserLoggedInAndExpired_whenColdStart_thenEnterLandingPage() async {
     let stubAuthUseCase = mock(AuthenticationUseCase.self)
     given(stubAuthUseCase.isLastAPISuccessDateExpire()) ~> true
 
@@ -183,9 +180,7 @@ final class LaunchAppTest: XCBaseTestCase {
     sut.viewModel = stubNavigationViewModel
 
     sut.loadViewIfNeeded()
-    sut.executeNavigation()
-
-    simulateAnimationEnd()
+    await sut.executeNavigation(videoURL: nil)
 
     verify(
       mockNavigator.goTo(
@@ -194,7 +189,7 @@ final class LaunchAppTest: XCBaseTestCase {
       .wasCalled()
   }
 
-  func test_givenUserNotLoggedInAndUnexpired_whenColdStart_thenEnterLandingPage() {
+  func test_givenUserNotLoggedInAndUnexpired_whenColdStart_thenEnterLandingPage() async {
     let stubAuthUseCase = mock(AuthenticationUseCase.self)
     given(stubAuthUseCase.isLastAPISuccessDateExpire()) ~> false
 
@@ -211,9 +206,7 @@ final class LaunchAppTest: XCBaseTestCase {
     sut.viewModel = stubNavigationViewModel
 
     sut.loadViewIfNeeded()
-    sut.executeNavigation()
-
-    simulateAnimationEnd()
+    await sut.executeNavigation(videoURL: nil)
 
     verify(
       mockNavigator.goTo(
@@ -222,7 +215,7 @@ final class LaunchAppTest: XCBaseTestCase {
       .wasCalled()
   }
 
-  func test_givenUserNotLoggedInAndExpired_whenColdStart_thenEnterLandingPage() {
+  func test_givenUserNotLoggedInAndExpired_whenColdStart_thenEnterLandingPage() async {
     let stubAuthUseCase = mock(AuthenticationUseCase.self)
     given(stubAuthUseCase.isLastAPISuccessDateExpire()) ~> true
 
@@ -239,9 +232,7 @@ final class LaunchAppTest: XCBaseTestCase {
     sut.viewModel = stubNavigationViewModel
 
     sut.loadViewIfNeeded()
-    sut.executeNavigation()
-
-    simulateAnimationEnd()
+    await sut.executeNavigation(videoURL: nil)
 
     verify(
       mockNavigator.goTo(

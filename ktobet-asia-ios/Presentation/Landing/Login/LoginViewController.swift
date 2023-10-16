@@ -7,6 +7,7 @@ class LoginViewController: LandingViewController {
   @IBOutlet weak var logoItem: UIBarButtonItem!
 
   @Injected var viewModel: LoginViewModel
+  @Injected private var cookieManager: CookieManager
 
   private let segueSignup = "GoToSignup"
 
@@ -14,8 +15,6 @@ class LoginViewController: LandingViewController {
   private let register = UIBarButtonItem.kto(.register)
   private let spacing = UIBarButtonItem.kto(.text(text: "|")).isEnable(false)
   private let update = UIBarButtonItem.kto(.manulUpdate).isEnable(true)
-
-  private let cookieHandler = CookieHandler()
   
   private let disposeBag = DisposeBag()
   private var viewDisappearBag = DisposeBag()
@@ -29,7 +28,7 @@ class LoginViewController: LandingViewController {
   
   required init?(coder: NSCoder) {
     super.init(coder: coder)
-    cookieHandler.replaceCulture(to: viewModel.getCultureCode())
+    cookieManager.replaceCulture(to: viewModel.getCultureCode())
   }
 
   override func viewDidLoad() {

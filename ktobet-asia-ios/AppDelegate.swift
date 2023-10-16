@@ -10,12 +10,10 @@ import UIKit
 import WebKit
 
 @main
-class AppDelegate: UIResponder, UIApplicationDelegate, CookieUtil {
+class AppDelegate: UIResponder, UIApplicationDelegate {
   @Injected private var localStorageRepo: LocalStorageRepository
   @Injected private var applicationStorage: ApplicationStorable
   @Injected private var keychain: KeychainStorable
-
-  private let cookieHandler = CookieHandler()
   
   private(set) var reachabilityObserver: NetworkStateMonitor?
 
@@ -59,10 +57,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CookieUtil {
 
     Logger.shared.info("APP launch.")
 
-    loadCookiesFromUserDefault()
-
-    cookieHandler.replaceCookiesToCurrentDomain()
-
+    Task { await Injection.shared.setupNetworkInfa() }
+    
     #if !DEV
       FirebaseApp.configure()
     #endif
@@ -105,11 +101,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CookieUtil {
   }
 
   func applicationWillTerminate(_: UIApplication) {
+    lazy var cookieManager = Injectable.resolveWrapper(CookieManager.self)
+    
     WKWebsiteDataStore.default().removeData(
       ofTypes: WKWebsiteDataStore.allWebsiteDataTypes(),
       modifiedSince: Date(timeIntervalSince1970: 0),
       completionHandler: { })
-    saveCookieToUserDefault()
+    
+    if Injection.shared.networkReadyRelay.value {
+      cookieManager.saveCookiesToUserDefault()
+    }
+    
     Logger.shared.info("APP terminate.")
   }
 }
@@ -327,6 +329,8 @@ extension AppDelegate {
     window = UIWindow(frame: UIScreen.main.bounds)
     window?.rootViewController = target
     window?.makeKeyAndVisible()
+    
+    Injection.shared.networkReadyRelay.accept(true)
   }
 
   private func isInSwiftUIPreviewLiveMode() -> Bool {

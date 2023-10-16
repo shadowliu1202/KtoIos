@@ -3,6 +3,8 @@ import UIKit
 import WebKit
 
 class DepositThirdPartWebViewController: LobbyViewController {
+  @Injected private var cookieManager: CookieManager
+  
   private var httpClient = Injectable.resolveWrapper(HttpClient.self)
 
   private let webView = WKWebView()
@@ -29,7 +31,7 @@ class DepositThirdPartWebViewController: LobbyViewController {
 
     NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .close, action: #selector(close))
 
-    for cookie in httpClient.getCookies() {
+    for cookie in cookieManager.cookies {
       webView.configuration.websiteDataStore.httpCookieStore.setCookie(cookie, completionHandler: nil)
     }
     let MockWebViewUserAgent = Configuration.getKtoAgent()

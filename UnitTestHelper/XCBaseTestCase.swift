@@ -22,14 +22,16 @@ private func injectFakeHttpClient() {
     .register(HttpClient.self) { resolver in
       FakeHttpClient(
         resolver.resolveWrapper(LocalStorageRepository.self),
-        resolver.resolveWrapper(KtoURL.self))
+        resolver.resolveWrapper(CookieManager.self),
+        currentURL: URL(string: "https://")!)
     }
 
   Injection.shared.container
     .register(HttpClient.self, name: "update") { resolver in
       FakeHttpClient(
         resolver.resolveWrapper(LocalStorageRepository.self),
-        resolver.resolveWrapper(KtoURL.self, name: "update"))
+        resolver.resolveWrapper(CookieManager.self),
+        currentURL: URL(string: "https://")!)
     }
 }
 

@@ -72,14 +72,18 @@ class AuthenticationUseCaseImpl: AuthenticationUseCase {
   }
 
   func logout() -> Completable {
-    repoAuth.deAuthorize()
-      .do(onCompleted: { [weak self] in
-        self?.settingStore.clearCache()
-        FirebaseLog.shared.clearUserID()
-        self?.localStorageRepo.setPlayerInfo(nil)
-        self?.localStorageRepo.setLastAPISuccessDate(nil)
-        Logger.shared.debug("clear player info.")
-      })
+    .create { [weak self] completable -> Disposable in
+      self?.repoAuth.deAuthorize()
+      self?.settingStore.clearCache()
+      FirebaseLog.shared.clearUserID()
+      self?.localStorageRepo.setPlayerInfo(nil)
+      self?.localStorageRepo.setLastAPISuccessDate(nil)
+      Logger.shared.debug("clear player info.")
+      
+      completable(.completed)
+
+      return Disposables.create { }
+    }
   }
 
   func isLastAPISuccessDateExpire() -> Bool {

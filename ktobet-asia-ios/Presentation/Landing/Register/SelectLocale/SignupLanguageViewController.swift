@@ -23,9 +23,10 @@ class SignupLanguageViewController: LandingViewController {
   @IBOutlet private weak var tableView: UITableView!
   @IBOutlet private weak var constraintTableHeight: NSLayoutConstraint!
 
+  @Injected private var cookieManager: CookieManager
+  
   private let localStorageRepo = Injectable.resolve(LocalStorageRepository.self)!
   private let serviceStatusViewModel = Injectable.resolve(ServiceStatusViewModel.self)!
-  private let cookieHandler = CookieHandler()
   
   private let segueLogin = "BackToLogin"
   private let segueInfo = "GoToInfo"
@@ -128,7 +129,7 @@ class SignupLanguageViewController: LandingViewController {
   private func onLocaleChange(locale: SupportLocale) {
     localStorageRepo.setCultureCode(locale.cultureCode())
     Theme.shared.changeEntireAPPFont(by: locale)
-    cookieHandler.replaceCulture(to: locale.cultureCode())
+    cookieManager.replaceCulture(to: locale.cultureCode())
     changeViewFont(by: locale)
     refreshLocalize()
     languageChangeHandler?()

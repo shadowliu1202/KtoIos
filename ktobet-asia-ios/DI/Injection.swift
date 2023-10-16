@@ -1,4 +1,5 @@
 import Foundation
+import RxSwift
 import SharedBu
 import Swinject
 
@@ -7,6 +8,8 @@ final class Injection {
 
   private(set) var container = Container()
 
+  let networkReadyRelay = BehaviorRelay(value: false)
+  
   private init() {
     HelperKt.doInitKoin()
 
@@ -14,7 +17,7 @@ final class Injection {
   }
 
   func registerAllDependency() {
-    registerHttpClient()
+    registerFakeNetworkInfa()
     registerCustomServicePresenter()
     registApi()
     registRepo()
@@ -26,35 +29,72 @@ final class Injection {
     registerSharedBuModule()
   }
 
+  // MARK: - Setup Network Infa
+  
+  func setupNetworkInfa() async {
+    let ktoURLManager = KtoURLManager()
+    await ktoURLManager.checkHosts()
+    
+    let cookieManager = CookieManager(
+      allHosts: Configuration.hostName.values.flatMap { $0 },
+      currentURL: ktoURLManager.portalURL,
+      currentDomain: ktoURLManager.currentDomain)
+
+    registerKtoURLManager(ktoURLManager)
+    registerCookieManager(cookieManager)
+
+    registerHttpClient(
+      cookieManager: cookieManager,
+      portalURL: ktoURLManager.portalURL,
+      versionUpdateURL: ktoURLManager.versionUpdateURL)
+    
+    networkReadyRelay.accept(true)
+  }
+  
+  private func registerKtoURLManager(_ ktoURLManager: KtoURLManager) {
+    container
+      .register(KtoURLManager.self) { _ in ktoURLManager }
+      .inObjectScope(.application)
+  }
+  
+  private func registerCookieManager(_ cookieManager: CookieManager) {
+    container
+      .register(CookieManager.self) { _ in cookieManager }
+      .inObjectScope(.application)
+  }
+  
   // MARK: - HttpClient
   
-  func registerHttpClient() {
+  private func registerFakeNetworkInfa() {
+    let fakeURL = URL(string: "https://")!
+    
     container
-      .register(KtoURL.self) { _ in
-        PortalURL.shared
+      .register(CookieManager.self) { _ in CookieManager(allHosts: [], currentURL: fakeURL, currentDomain: "") }
+      .inObjectScope(.application)
+    
+    lazy var fakeHttpClient = HttpClient(
+      container.resolveWrapper(LocalStorageRepository.self),
+      container.resolveWrapper(CookieManager.self),
+      currentURL: fakeURL)
+    
+    container.register(HttpClient.self) { _ in fakeHttpClient }
+    container.register(HttpClient.self, name: "update") { _ in fakeHttpClient }
+  }
+  
+  func registerHttpClient(cookieManager: CookieManager, portalURL: URL, versionUpdateURL: URL) {
+    container
+      .register(HttpClient.self) { resolver in
+        let localStorageRepo = resolver.resolveWrapper(LocalStorageRepository.self)
+        return HttpClient(localStorageRepo, cookieManager, currentURL: portalURL)
       }
       .inObjectScope(.application)
 
     container
-      .register(KtoURL.self, name: "update") { _ in
-        VersionUpdateURL.shared
-      }
-
-    container
-      .register(HttpClient.self) { resolver in
-        let localStorageRepo = resolver.resolveWrapper(LocalStorageRepository.self)
-        let ktoUrl = resolver.resolveWrapper(KtoURL.self)
-        return HttpClient(localStorageRepo, ktoUrl)
-      }
-      .inObjectScope(.locale)
-
-    container
       .register(HttpClient.self, name: "update") { resolver in
         let localStorageRepo = resolver.resolveWrapper(LocalStorageRepository.self)
-        let ktoUrl = resolver.resolveWrapper(KtoURL.self, name: "update")
-        return HttpClient(localStorageRepo, ktoUrl)
+        return HttpClient(localStorageRepo, cookieManager, currentURL: versionUpdateURL)
       }
-      .inObjectScope(.locale)
+      .inObjectScope(.application)
   }
 
   // MARK: - CustomerServicePresenter
@@ -205,23 +245,26 @@ final class Injection {
 
     container
       .register(IAuthRepository.self) { resolver in
-        let api = resolver.resolveWrapper(AuthenticationApi.self)
-        let httpClient = resolver.resolveWrapper(HttpClient.self)
-        return IAuthRepositoryImpl(api, httpClient)
+        IAuthRepositoryImpl(
+          resolver.resolveWrapper(AuthenticationApi.self),
+          resolver.resolveWrapper(HttpClient.self),
+          resolver.resolveWrapper(CookieManager.self))
       }
 
     container
       .register(SystemRepository.self) { resolver in
-        let api = resolver.resolveWrapper(PortalApi.self)
-        let httpClient = resolver.resolveWrapper(HttpClient.self)
-        return SystemRepositoryImpl(api, httpClient: httpClient)
+        SystemRepositoryImpl(
+          resolver.resolveWrapper(PortalApi.self),
+          resolver.resolveWrapper(HttpClient.self),
+          resolver.resolveWrapper(CookieManager.self))
       }
 
     container
       .register(ResetPasswordRepository.self) { resolver in
-        let api = resolver.resolveWrapper(AuthenticationApi.self)
-        let httpClient = resolver.resolveWrapper(HttpClient.self)
-        return IAuthRepositoryImpl(api, httpClient)
+        IAuthRepositoryImpl(
+          resolver.resolveWrapper(AuthenticationApi.self),
+          resolver.resolveWrapper(HttpClient.self),
+          resolver.resolveWrapper(CookieManager.self))
       }
 
     container
@@ -427,8 +470,9 @@ final class Injection {
 
     container
       .register(SignalRepository.self) { resolver in
-        let httpClient = resolver.resolveWrapper(HttpClient.self)
-        return SignalRepositoryImpl(httpClient: httpClient)
+        SignalRepositoryImpl(
+          resolver.resolveWrapper(HttpClient.self),
+          resolver.resolveWrapper(CookieManager.self))
       }
       .inObjectScope(.locale)
   }

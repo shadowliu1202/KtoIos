@@ -5,11 +5,9 @@ import UIKit
 class LaunchViewController: UIViewController {
   var viewModel: NavigationViewModel = Injectable.resolveWrapper(NavigationViewModel.self)
 
-  private var disposeBag = DisposeBag()
-
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
-    executeNavigation()
+    Task { await executeNavigation() }
   }
 
   deinit {
@@ -21,27 +19,25 @@ class LaunchViewController: UIViewController {
     Alert.shared.show(title, message, confirm: { exit(0) }, confirmText: Localize.string("common_confirm"), cancel: nil)
   }
 
-  func executeNavigation() {
+  func executeNavigation(videoURL: URL? = Bundle.main.url(forResource: "KTO", withExtension: "mp4")) async {
     switch viewModel.initLaunchNavigation() {
     case .Landing:
-      playVideo(onCompleted: { [weak self] in
-        self?.navigateToLandingPage()
-      })
+      await playVideo(videoURL)
+      _ = try? await Injection.shared.networkReadyRelay.values.first(where: { $0 })
+      navigateToLandingPage()
+      
     case .Lobby(let productType):
+      _ = try? await Injection.shared.networkReadyRelay.values.first(where: { $0 })
       navigateToProductPage(productType)
     }
   }
 
-  private func playVideo(onCompleted: @escaping (() -> Void)) {
+  private func playVideo(_ videoURL: URL?) async {
+    guard let videoURL else { return }
+    
     let videoView = VideoView()
-    NotificationCenter.default.addObserver(
-      forName: .AVPlayerItemDidPlayToEndTime,
-      object: nil,
-      queue: nil,
-      using: { _ in onCompleted() })
-    let videoURL = Bundle.main.url(forResource: "KTO", withExtension: "mp4")!
-    self.view.addSubview(videoView, constraints: .fill())
-    videoView.play(with: videoURL, fail: onCompleted)
+    view.addSubview(videoView, constraints: .fill())
+    try? await videoView.play(with: videoURL)
   }
 
   private func navigateToLandingPage() {
