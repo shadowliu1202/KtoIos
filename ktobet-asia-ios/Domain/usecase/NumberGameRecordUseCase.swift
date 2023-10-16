@@ -1,6 +1,6 @@
 import Foundation
 import RxSwift
-import SharedBu
+import sharedbu
 
 protocol NumberGameRecordUseCase {
   func getLatestRecords() -> Observable<[NumberGameSummary.RecentlyBet]>

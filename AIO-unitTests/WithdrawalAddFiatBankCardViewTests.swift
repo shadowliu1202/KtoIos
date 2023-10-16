@@ -1,6 +1,6 @@
 import Combine
 import Mockingbird
-import SharedBu
+import sharedbu
 import SwiftUI
 import ViewInspector
 import XCTest

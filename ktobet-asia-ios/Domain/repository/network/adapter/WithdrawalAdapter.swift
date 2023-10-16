@@ -1,6 +1,6 @@
 import Foundation
 import RxSwift
-import SharedBu
+import sharedbu
 
 class WithdrawalAdapter: WithdrawalProtocol {
   private let withdrawalAPI: WithdrawalAPI

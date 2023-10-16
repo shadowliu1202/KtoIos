@@ -1,5 +1,5 @@
 import Foundation
-import SharedBu
+import sharedbu
 
 class CasinoMyBetAdapter: CasinoMyBetProtocol {
   private let casinoMyBetAPI: CasinoMyBetAPI

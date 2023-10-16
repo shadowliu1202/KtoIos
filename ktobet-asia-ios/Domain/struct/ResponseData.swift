@@ -1,5 +1,5 @@
 import Foundation
-import SharedBu
+import sharedbu
 
 struct ResponseData<T: Codable>: Codable {
   var statusCode: String
@@ -1486,8 +1486,8 @@ extension BonusBean.Coupon {
     self.amount.toAccountCurrency()
   }
 
-  var knMaxAmount: SharedBu.Promotion.IMaxAmount {
-    SharedBu.Promotion.companion.create(amount: self.maxAmount.toAccountCurrency())
+  var knMaxAmount: sharedbu.Promotion.IMaxAmount {
+    sharedbu.Promotion.companion.create(amount: self.maxAmount.toAccountCurrency())
   }
 
   var knMinCapital: AccountCurrency {
@@ -1825,10 +1825,10 @@ struct Log: Codable {
 
   class Transaction: ITransaction {
     var amount: AccountCurrency
-    var date: SharedBu.LocalDateTime
+    var date: sharedbu.LocalDateTime
     var id_: String
 
-    init(amount: AccountCurrency, date: SharedBu.LocalDateTime, id_: String) {
+    init(amount: AccountCurrency, date: sharedbu.LocalDateTime, id_: String) {
       self.amount = amount
       self.date = date
       self.id_ = id_
@@ -2234,8 +2234,8 @@ struct Attributes: Codable {
   var size: String? = nil
   var underline: Bool? = nil
 
-  func convert() -> SharedBu.Attributes {
-    SharedBu.Attributes(
+  func convert() -> sharedbu.Attributes {
+    sharedbu.Attributes(
       align: KotlinInt(value: Int32(align ?? 0)),
       background: background,
       bold: KotlinBoolean(value: bold ?? false),
@@ -2248,8 +2248,8 @@ struct Attributes: Codable {
       underline: KotlinBoolean(value: underline ?? false))
   }
   
-  func convert() -> SharedBu.Attributes_ {
-    SharedBu.Attributes_(
+  func convert() -> sharedbu.Attributes_ {
+    sharedbu.Attributes_(
       align: KotlinInt(value: Int32(align ?? 0)),
       background: background,
       bold: KotlinBoolean(value: bold ?? false),

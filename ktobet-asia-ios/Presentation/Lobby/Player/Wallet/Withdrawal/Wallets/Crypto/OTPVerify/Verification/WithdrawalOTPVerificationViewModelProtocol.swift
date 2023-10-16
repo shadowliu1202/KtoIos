@@ -1,4 +1,4 @@
-import SharedBu
+import sharedbu
 
 protocol WithdrawalOTPVerificationViewModelProtocol: AnyObject {
   var headerTitle: String { get }
@@ -16,7 +16,7 @@ protocol WithdrawalOTPVerificationViewModelProtocol: AnyObject {
 
   var otpCode: String { get set }
 
-  func setup(accountType: SharedBu.AccountType)
+  func setup(accountType: sharedbu.AccountType)
 
   func verifyOTP(onCompleted: (() -> Void)?, onErrorRedirect: ((Error) -> Void)?)
 

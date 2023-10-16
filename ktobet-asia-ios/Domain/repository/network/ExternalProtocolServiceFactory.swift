@@ -1,5 +1,5 @@
 import Foundation
-import SharedBu
+import sharedbu
 
 class ExternalProtocolServiceFactory: ExternalProtocolService {
   private var httpClient: HttpClient!

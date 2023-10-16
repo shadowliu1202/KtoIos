@@ -1,6 +1,6 @@
 import Foundation
 import RxSwift
-import SharedBu
+import sharedbu
 
 class Connected: ChatRoomVisitor {
   private let httpClient: HttpClient
@@ -14,8 +14,8 @@ class Connected: ChatRoomVisitor {
     // Do nothing
   }
 
-  func visit(connection: SharedBu.Connection) {
-    connection.update(connectStatus: SharedBu.Connection.StatusConnected())
+  func visit(connection: sharedbu.Connection) {
+    connection.update(connectStatus: sharedbu.Connection.StatusConnected())
   }
 
   func visit(messageManager: MessageManager) {

@@ -1,6 +1,6 @@
 import RxDataSources
 import RxSwift
-import SharedBu
+import sharedbu
 import UIKit
 
 class P2PSummaryViewController: LobbyViewController {

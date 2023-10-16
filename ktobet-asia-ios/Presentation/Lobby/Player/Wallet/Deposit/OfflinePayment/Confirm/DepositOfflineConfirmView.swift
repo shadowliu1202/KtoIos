@@ -1,5 +1,5 @@
 import RxCocoa
-import SharedBu
+import sharedbu
 import SwiftUI
 
 struct DepositOfflineConfirmView<ViewModel>: View

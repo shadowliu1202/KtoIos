@@ -1,5 +1,5 @@
 import Foundation
-import SharedBu
+import sharedbu
 
 class PromotionAdapter: PromotionProtocol {
   func getCurrentTurnover() -> SingleWrapper<ResponseItem<TurnoverBean>> {

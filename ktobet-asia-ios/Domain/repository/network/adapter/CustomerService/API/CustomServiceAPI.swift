@@ -1,7 +1,7 @@
 import Foundation
 import Moya
 import RxSwift
-import SharedBu
+import sharedbu
 
 class CustomServiceAPI: CustomServiceAPIConvertor {
   private let httpClient: HttpClient

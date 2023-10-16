@@ -2,7 +2,7 @@ import Alamofire
 import Foundation
 import Moya
 import RxSwift
-import SharedBu
+import sharedbu
 
 extension APPError {
   enum DefaultStatusCode: Int {
@@ -27,7 +27,7 @@ enum APPError: Equatable {
   static func convert(by error: Error) -> Self {
     switch error {
     case let error as KotlinThrowable:
-      return handleSharedBuError(error)
+      return handlesharedbuError(error)
     case let error as MoyaError:
       return handleMoyaError(error)
     case let error as ResponseParseError:
@@ -37,7 +37,7 @@ enum APPError: Equatable {
     }
   }
   
-  private static func handleSharedBuError(_ error: KotlinThrowable) -> Self {
+  private static func handlesharedbuError(_ error: KotlinThrowable) -> Self {
     let nsError: NSError
     switch error {
     case let error as ApiException:

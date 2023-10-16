@@ -1,4 +1,4 @@
-import SharedBu
+import sharedbu
 
 extension WagerType {
   class func convert(_ type: Int32) -> WagerType {

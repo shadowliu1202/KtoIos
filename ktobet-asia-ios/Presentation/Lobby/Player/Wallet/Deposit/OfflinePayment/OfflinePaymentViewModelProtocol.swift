@@ -1,5 +1,5 @@
 import Foundation
-import SharedBu
+import sharedbu
 
 protocol OfflinePaymentViewModelProtocol {
   var gateways: [OfflinePaymentDataModel.Gateway] { get }

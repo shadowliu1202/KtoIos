@@ -1,7 +1,7 @@
 import AlignedCollectionViewFlowLayout
 import RxCocoa
 import RxSwift
-import SharedBu
+import sharedbu
 import SideMenu
 import UIKit
 

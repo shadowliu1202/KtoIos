@@ -2,7 +2,7 @@
 import Foundation
 import RxCocoa
 import RxSwift
-import SharedBu
+import sharedbu
 
 protocol StarMergerViewModel: ObservableObject {
   var amountRange: AmountRange? { get set }

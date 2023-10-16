@@ -1,5 +1,5 @@
 import Foundation
-import SharedBu
+import sharedbu
 
 extension Date {
   var calendar: Calendar {
@@ -177,7 +177,7 @@ extension Date {
     var calendar = Calendar.current
     calendar.timeZone = timeZone
     
-    return SharedBu.LocalDateTime(
+    return sharedbu.LocalDateTime(
       year: Int32(calendar.component(.year, from: self)),
       monthNumber: Int32(calendar.component(.month, from: self)),
       dayOfMonth: Int32(calendar.component(.day, from: self)),
@@ -191,14 +191,14 @@ extension Date {
     var calendar = Calendar.current
     calendar.timeZone = timeZone
     
-    return SharedBu.LocalDate(
+    return sharedbu.LocalDate(
       year: Int32(calendar.component(.year, from: self)),
       monthNumber: Int32(calendar.component(.month, from: self)),
       dayOfMonth: Int32(calendar.component(.day, from: self)))
   }
 
   func toUTCOffsetDateTime() -> OffsetDateTime {
-    let createLocalDateTime = SharedBu.LocalDateTime(
+    let createLocalDateTime = sharedbu.LocalDateTime(
       year: self.getYear(),
       monthNumber: self.getMonth(),
       dayOfMonth: self.getDayOfMonth(),
@@ -289,7 +289,7 @@ extension OffsetDateTime {
   }
 }
 
-extension SharedBu.LocalDateTime {
+extension sharedbu.LocalDateTime {
   func convertToDate(with SeparatorSymbol: String = "-") -> Date {
     let date = String(
       format: "%02d\(SeparatorSymbol)%02d\(SeparatorSymbol)%02d %02d:%02d:%02d.%03d",
@@ -330,14 +330,14 @@ extension SharedBu.LocalDateTime {
     return String(format: "%02d\(SeparatorSymbol)%02d\(SeparatorSymbol)%02d", hour, minute, second)
   }
 
-  func toQueryFormatString(timeZone: SharedBu.TimeZone) -> String {
-    let instant = SharedBu.TimeZone.companion.UTC.toInstant(self)
+  func toQueryFormatString(timeZone: sharedbu.TimeZone) -> String {
+    let instant = sharedbu.TimeZone.companion.UTC.toInstant(self)
     let utcOffset = instant.offsetIn(timeZone: timeZone)
     return "\(self)\(utcOffset)"
   }
 }
 
-extension SharedBu.LocalDate {
+extension sharedbu.LocalDate {
   func convertToDate(with SeparatorSymbol: String = "-") -> Date {
     let date = String(
       format: "%02d\(SeparatorSymbol)%02d\(SeparatorSymbol)%02d",
@@ -372,7 +372,7 @@ extension SharedBu.LocalDate {
   }
 }
 
-extension SharedBu.Instant {
+extension sharedbu.Instant {
   private func convertToDate() -> Date {
     Date(timeIntervalSince1970: TimeInterval(self.epochSeconds))
   }
@@ -407,12 +407,12 @@ extension SharedBu.Instant {
   }
 }
 
-extension SharedBu.TimeZone {
+extension sharedbu.TimeZone {
   func toFoundation() -> Foundation.TimeZone {
     Foundation.TimeZone(identifier: self.id)!
   }
 
-  static func fromFoundation(_ timeZone: Foundation.TimeZone) -> SharedBu.TimeZone {
-    SharedBu.TimeZone.companion.of(zoneId: timeZone.identifier)
+  static func fromFoundation(_ timeZone: Foundation.TimeZone) -> sharedbu.TimeZone {
+    sharedbu.TimeZone.companion.of(zoneId: timeZone.identifier)
   }
 }

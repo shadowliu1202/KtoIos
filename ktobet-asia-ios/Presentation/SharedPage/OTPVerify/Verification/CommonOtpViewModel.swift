@@ -1,5 +1,5 @@
 import Foundation
-import SharedBu
+import sharedbu
 
 class CommonOtpViewModel {
   private var configurationUseCase: ConfigurationUseCase!

@@ -1,4 +1,4 @@
-import SharedBu
+import sharedbu
 
 @available(*, deprecated, message: "should be removed after ui refactor")
 class ChatRoomTempMapper {
@@ -7,13 +7,13 @@ class ChatRoomTempMapper {
   
   func convertToStatus(_ chatRoomDTO: CustomerServiceDTO.ChatRoom) -> PortalChatRoom.ConnectStatus {
     switch chatRoomDTO.status {
-    case let status as SharedBu.Connection.StatusNotExist:
+    case let status as sharedbu.Connection.StatusNotExist:
       return .notexist
-    case let status as SharedBu.Connection.StatusConnected:
+    case let status as sharedbu.Connection.StatusConnected:
       return .connected
-    case let status as SharedBu.Connection.StatusConnecting:
+    case let status as sharedbu.Connection.StatusConnecting:
       return .connecting
-    case let status as SharedBu.Connection.StatusClose:
+    case let status as sharedbu.Connection.StatusClose:
       return .closed
     default:
       fatalError("should not reach here.")
@@ -94,14 +94,14 @@ class ChatRoomTempMapper {
   }
 }
 
-extension SharedBu.Instant {
+extension sharedbu.Instant {
   func toLocalDateTime(_ timeZone: Foundation.TimeZone) -> LocalDateTime {
     Date(timeIntervalSince1970: TimeInterval(Double(self.epochSeconds)))
       .toLocalDateTime(timeZone)
   }
 }
 
-extension SharedBu.Instant? {
+extension sharedbu.Instant? {
   func toLocalDateTime(_ timeZone: Foundation.TimeZone) -> LocalDateTime {
     guard let self
     else {

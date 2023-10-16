@@ -1,14 +1,14 @@
 import Foundation
 import RxSwift
-import SharedBu
+import sharedbu
 
 protocol ArcadeRecordRepository {
-  func getBetSummary(zoneOffset: SharedBu.UtcOffset) -> Single<[DateSummary]>
-  func getBetSummaryByDate(localDate: String, zoneOffset: SharedBu.UtcOffset, skip: Int, take: Int)
+  func getBetSummary(zoneOffset: sharedbu.UtcOffset) -> Single<[DateSummary]>
+  func getBetSummaryByDate(localDate: String, zoneOffset: sharedbu.UtcOffset, skip: Int, take: Int)
     -> Single<[GameGroupedRecord]>
   func getBetSummaryByGame(
-    beginDate: SharedBu.LocalDateTime,
-    endDate: SharedBu.LocalDateTime,
+    beginDate: sharedbu.LocalDateTime,
+    endDate: sharedbu.LocalDateTime,
     gameId: Int32,
     skip: Int,
     take: Int) -> Single<[ArcadeGameBetRecord]>
@@ -25,7 +25,7 @@ class ArcadeRecordRepositoryImpl: ArcadeRecordRepository {
     self.httpClient = httpClient
   }
 
-  func getBetSummary(zoneOffset: SharedBu.UtcOffset) -> Single<[DateSummary]> {
+  func getBetSummary(zoneOffset: sharedbu.UtcOffset) -> Single<[DateSummary]> {
     let secondsToHours = zoneOffset.totalSeconds / 3600
     return arcadeApi.getBetSummary(offset: secondsToHours).map({ response -> [DateSummary] in
       guard let data = response.data else { return [] }
@@ -35,7 +35,7 @@ class ArcadeRecordRepositoryImpl: ArcadeRecordRepository {
 
   func getBetSummaryByDate(
     localDate: String,
-    zoneOffset: SharedBu.UtcOffset,
+    zoneOffset: sharedbu.UtcOffset,
     skip: Int,
     take: Int) -> Single<[GameGroupedRecord]>
   {
@@ -48,8 +48,8 @@ class ArcadeRecordRepositoryImpl: ArcadeRecordRepository {
   }
 
   func getBetSummaryByGame(
-    beginDate: SharedBu.LocalDateTime,
-    endDate: SharedBu.LocalDateTime,
+    beginDate: sharedbu.LocalDateTime,
+    endDate: sharedbu.LocalDateTime,
     gameId: Int32,
     skip: Int,
     take: Int) -> Single<[ArcadeGameBetRecord]>

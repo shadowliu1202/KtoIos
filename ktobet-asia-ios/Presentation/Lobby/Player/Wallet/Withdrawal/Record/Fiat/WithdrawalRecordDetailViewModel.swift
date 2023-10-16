@@ -1,6 +1,6 @@
 import Foundation
 import RxSwift
-import SharedBu
+import sharedbu
 
 protocol WithdrawalRecordDetailViewModelProtocol: AnyObject {
   var log: WithdrawalDto.Log? { get }

@@ -1,6 +1,6 @@
 import Foundation
 import RxSwift
-import SharedBu
+import sharedbu
 
 protocol WithdrawalCryptoRequestStep2ViewModelProtocol: AnyObject {
   var requestInfo: [DefaultRow.Common] { get }

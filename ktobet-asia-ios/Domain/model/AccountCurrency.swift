@@ -1,4 +1,4 @@
-import SharedBu
+import sharedbu
 
 extension AccountCurrency {
   class func zero() -> AccountCurrency {

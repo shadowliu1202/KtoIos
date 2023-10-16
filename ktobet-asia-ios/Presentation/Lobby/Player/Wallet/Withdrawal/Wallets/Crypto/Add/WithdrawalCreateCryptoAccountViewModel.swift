@@ -1,7 +1,7 @@
 import Combine
 import RxCocoa
 import RxSwift
-import SharedBu
+import sharedbu
 
 extension WithdrawalCreateCryptoAccountViewModel {
   enum AddressVerifyStatus {

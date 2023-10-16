@@ -1,5 +1,5 @@
 import Foundation
-import SharedBu
+import sharedbu
 
 class P2PStringServiceAdapter: P2PStringService {
   let productBanker = ResourceKey(key: Localize.string("product_banker"))

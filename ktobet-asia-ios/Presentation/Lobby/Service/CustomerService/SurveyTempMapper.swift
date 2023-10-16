@@ -1,4 +1,4 @@
-import SharedBu
+import sharedbu
 
 @available(*, deprecated, message: "should be removed after ui refactor")
 class SurveyTempMapper {

@@ -1,6 +1,6 @@
 import Foundation
 import RxSwift
-import SharedBu
+import sharedbu
 
 class ArcadeRecordViewModel {
   private var arcadeRecordUseCase: ArcadeRecordUseCase!

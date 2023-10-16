@@ -1,4 +1,4 @@
-import SharedBu
+import sharedbu
 import SwiftUI
 
 struct P2PBetDetailView<ViewModel>: View

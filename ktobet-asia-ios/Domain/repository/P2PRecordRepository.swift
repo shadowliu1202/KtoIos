@@ -1,11 +1,11 @@
 import Foundation
 import RxSwift
-import SharedBu
+import sharedbu
 
 protocol P2PRecordRepository {
-  func getBetSummary(zoneOffset: SharedBu.UtcOffset) -> Single<[DateSummary]>
-  func getBetSummaryByDate(localDate: String, zoneOffset: SharedBu.UtcOffset) -> Single<[GameGroupedRecord]>
-  func getBetSummaryByGame(beginDate: SharedBu.LocalDateTime, endDate: SharedBu.LocalDateTime, gameId: Int32)
+  func getBetSummary(zoneOffset: sharedbu.UtcOffset) -> Single<[DateSummary]>
+  func getBetSummaryByDate(localDate: String, zoneOffset: sharedbu.UtcOffset) -> Single<[GameGroupedRecord]>
+  func getBetSummaryByGame(beginDate: sharedbu.LocalDateTime, endDate: sharedbu.LocalDateTime, gameId: Int32)
     -> Single<[P2PGameBetRecord]>
 }
 
@@ -20,7 +20,7 @@ class P2PRecordRepositoryImpl: P2PRecordRepository {
     self.httpClient = httpClient
   }
 
-  func getBetSummary(zoneOffset: SharedBu.UtcOffset) -> Single<[DateSummary]> {
+  func getBetSummary(zoneOffset: sharedbu.UtcOffset) -> Single<[DateSummary]> {
     let secondsToHours = zoneOffset.totalSeconds / 3600
 
     return p2pApi
@@ -33,7 +33,7 @@ class P2PRecordRepositoryImpl: P2PRecordRepository {
 
   func getBetSummaryByDate(
     localDate: String,
-    zoneOffset: SharedBu.UtcOffset) -> Single<[GameGroupedRecord]>
+    zoneOffset: sharedbu.UtcOffset) -> Single<[GameGroupedRecord]>
   {
     let secondsToHours = zoneOffset.totalSeconds / 3600
 
@@ -62,8 +62,8 @@ class P2PRecordRepositoryImpl: P2PRecordRepository {
   }
 
   func getBetSummaryByGame(
-    beginDate: SharedBu.LocalDateTime,
-    endDate: SharedBu.LocalDateTime,
+    beginDate: sharedbu.LocalDateTime,
+    endDate: sharedbu.LocalDateTime,
     gameId: Int32) -> Single<[P2PGameBetRecord]>
   {
     p2pApi

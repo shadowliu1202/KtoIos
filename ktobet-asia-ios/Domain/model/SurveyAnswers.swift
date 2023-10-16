@@ -1,4 +1,4 @@
-import SharedBu
+import sharedbu
 
 extension SurveyAnswers {
   func toSurveyAnswerBean() -> [SurveyAnswerBean] {

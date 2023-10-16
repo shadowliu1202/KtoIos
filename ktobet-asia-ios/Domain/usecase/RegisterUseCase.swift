@@ -1,6 +1,6 @@
 import Foundation
 import RxSwift
-import SharedBu
+import sharedbu
 
 protocol RegisterUseCase {
   func register(account: UserAccount, password: UserPassword, locale: SupportLocale) -> Completable

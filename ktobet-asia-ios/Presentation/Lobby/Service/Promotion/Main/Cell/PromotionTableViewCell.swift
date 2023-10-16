@@ -1,6 +1,6 @@
 import RxCocoa
 import RxSwift
-import SharedBu
+import sharedbu
 import UIKit
 
 let TopMargin: CGFloat = 6.0

@@ -1,4 +1,4 @@
-import SharedBu
+import sharedbu
 
 extension CryptoCurrency {
   static func * (lhs: CryptoCurrency, rhs: IExchangeRate) -> AccountCurrency {

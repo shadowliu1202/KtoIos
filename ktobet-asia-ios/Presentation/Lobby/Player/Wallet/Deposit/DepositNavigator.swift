@@ -1,5 +1,5 @@
 import Foundation
-import SharedBu
+import sharedbu
 
 @available(*, deprecated, message: "If want to use navigator, please refactor NavigationManagement")
 protocol DepositNavigator { }

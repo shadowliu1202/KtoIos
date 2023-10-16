@@ -1,7 +1,7 @@
 import Foundation
 import RxCocoa
 import RxSwift
-import SharedBu
+import sharedbu
 
 class AppSynchronizeViewModel {
   private let appUpdateUseCase: AppVersionUpdateUseCase
@@ -15,7 +15,7 @@ class AppSynchronizeViewModel {
     self.appStorage = appStorage
   }
 
-  func getLatestAppVersion() -> Single<SharedBu.Version> {
+  func getLatestAppVersion() -> Single<sharedbu.Version> {
     self.appUpdateUseCase.getLatestAppVersion()
   }
 

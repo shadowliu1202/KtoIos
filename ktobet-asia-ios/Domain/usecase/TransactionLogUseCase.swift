@@ -1,6 +1,6 @@
 import Foundation
 import RxSwift
-import SharedBu
+import sharedbu
 
 typealias HtmlString = String
 protocol TransactionLogUseCase {

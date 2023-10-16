@@ -2,7 +2,7 @@ import RxCocoa
 import RxRelay
 import RxSwift
 import RxSwiftExt
-import SharedBu
+import sharedbu
 import UIKit
 
 let endChatBarBtnId = 1003

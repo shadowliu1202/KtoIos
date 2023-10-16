@@ -1,6 +1,6 @@
 import Foundation
 import RxSwift
-import SharedBu
+import sharedbu
 
 class ReceiveMessage: ChatRoomVisitor {
   let bean: SpeakingAsyncBean
@@ -13,7 +13,7 @@ class ReceiveMessage: ChatRoomVisitor {
     // Do nothing
   }
   
-  func visit(connection _: SharedBu.Connection) {
+  func visit(connection _: sharedbu.Connection) {
     // Do nothing
   }
   

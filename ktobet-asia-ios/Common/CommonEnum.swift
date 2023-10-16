@@ -1,6 +1,6 @@
 import Foundation
 import Lottie
-import SharedBu
+import sharedbu
 
 public enum AccountType: Int {
   case phone = 2

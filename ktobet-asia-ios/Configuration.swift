@@ -1,5 +1,5 @@
 import Foundation
-import SharedBu
+import sharedbu
 import UIKit
 
 /// reference: https://cocoacasts.com/tips-and-tricks-managing-build-configurations-in-xocde

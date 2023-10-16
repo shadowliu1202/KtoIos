@@ -1,4 +1,4 @@
-import SharedBu
+import sharedbu
 
 class AccountPatternGeneratorFactory {
   static func create(_ supportLocale: SupportLocale) -> AccountPatternGenerator {

@@ -1,5 +1,5 @@
 import RxSwift
-import SharedBu
+import sharedbu
 import UIKit
 
 class OldEmailVerifyViewController: OtpViewControllerProtocol {
@@ -28,7 +28,7 @@ class OldEmailVerifyViewController: OtpViewControllerProtocol {
   }
 
   func validateAccountType(validator: OtpValidatorDelegation) {
-    validator.otpAccountType.onNext(SharedBu.AccountType.email)
+    validator.otpAccountType.onNext(sharedbu.AccountType.email)
   }
 
   func verifyOnCompleted() {

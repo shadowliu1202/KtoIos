@@ -1,6 +1,6 @@
 import Lottie
 import RxSwift
-import SharedBu
+import sharedbu
 import UIKit
 
 class CallingViewController: CommonViewController {
@@ -33,7 +33,7 @@ class CallingViewController: CommonViewController {
     super.viewDidAppear(animation)
     
     csViewModel.chatRoomConnection
-      .filter { $0 is SharedBu.Connection.StatusConnected }
+      .filter { $0 is sharedbu.Connection.StatusConnected }
       .observe(on: MainScheduler.instance)
       .subscribe(
         onNext: { _ in

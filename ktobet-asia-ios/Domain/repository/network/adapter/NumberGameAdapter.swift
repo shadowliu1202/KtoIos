@@ -1,5 +1,5 @@
 import Foundation
-import SharedBu
+import sharedbu
 
 class NumberGameAdapter: NumberGameProtocol {
   private let numberGameApi: NumberGameApi!

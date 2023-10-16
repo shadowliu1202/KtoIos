@@ -1,4 +1,4 @@
-import SharedBu
+import sharedbu
 
 extension ProductType {
   class func convert(_ type: Int) -> ProductType {

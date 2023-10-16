@@ -2,7 +2,7 @@ import Foundation
 import RxCocoa
 import RxSwift
 import RxSwiftExt
-import SharedBu
+import sharedbu
 
 protocol DepositOfflineConfirmViewModelProtocol {
   var receiverInfo: DepositOfflineConfirmModel.ReceiverInfo { get }

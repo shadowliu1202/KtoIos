@@ -1,6 +1,6 @@
 import Foundation
 import RxSwift
-import SharedBu
+import sharedbu
 import UIKit
 
 class WithdrawalMainViewController:

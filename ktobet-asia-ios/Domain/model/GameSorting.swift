@@ -1,4 +1,4 @@
-import SharedBu
+import sharedbu
 
 extension GameSorting {
   static func convertCasinoGameOrder(sortBy: GameSorting) -> Int {

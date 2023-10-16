@@ -2,7 +2,7 @@ import AlignedCollectionViewFlowLayout
 import RxCocoa
 import RxDataSources
 import RxSwift
-import SharedBu
+import sharedbu
 import SnapKit
 import UIKit
 

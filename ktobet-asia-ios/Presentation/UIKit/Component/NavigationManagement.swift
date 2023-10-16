@@ -1,5 +1,5 @@
 import Foundation
-import SharedBu
+import sharedbu
 import SideMenu
 import UIKit
 

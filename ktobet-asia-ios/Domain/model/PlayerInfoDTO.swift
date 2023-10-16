@@ -1,5 +1,5 @@
 import Foundation
-import SharedBu
+import sharedbu
 
 struct PlayerInfoDTO {
   let displayID: String

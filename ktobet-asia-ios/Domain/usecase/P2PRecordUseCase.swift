@@ -1,11 +1,11 @@
 import Foundation
 import RxSwift
-import SharedBu
+import sharedbu
 
 protocol P2PRecordUseCase {
   func getBetSummary() -> Single<[DateSummary]>
   func getBetSummaryByDate(localDate: String) -> Single<[GameGroupedRecord]>
-  func getBetRecord(startDate: SharedBu.LocalDateTime, endDate: SharedBu.LocalDateTime, gameId: Int32)
+  func getBetRecord(startDate: sharedbu.LocalDateTime, endDate: sharedbu.LocalDateTime, gameId: Int32)
     -> Single<[P2PGameBetRecord]>
 }
 
@@ -35,8 +35,8 @@ class P2PRecordUseCaseImpl: P2PRecordUseCase {
   }
 
   func getBetRecord(
-    startDate: SharedBu.LocalDateTime,
-    endDate: SharedBu.LocalDateTime,
+    startDate: sharedbu.LocalDateTime,
+    endDate: sharedbu.LocalDateTime,
     gameId: Int32) -> Single<[P2PGameBetRecord]>
   {
     p2pRecordRepository.getBetSummaryByGame(

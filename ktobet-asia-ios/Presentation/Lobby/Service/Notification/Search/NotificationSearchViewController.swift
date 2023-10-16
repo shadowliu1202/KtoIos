@@ -1,6 +1,6 @@
 import RxSwift
 import RxSwiftExt
-import SharedBu
+import sharedbu
 import UIKit
 
 class NotificationSearchViewController: LobbyViewController {

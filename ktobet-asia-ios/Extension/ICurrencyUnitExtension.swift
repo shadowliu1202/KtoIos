@@ -1,4 +1,4 @@
-import SharedBu
+import sharedbu
 
 extension ICurrencyUnit {
   func formatString(_ sign: FormatPattern.Sign = .normal) -> String {

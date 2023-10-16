@@ -1,7 +1,7 @@
 import Foundation
 import RxCocoa
 import RxSwift
-import SharedBu
+import sharedbu
 
 class CasinoViewModel: CollectErrorViewModel, ProductViewModel {
   @Injected private var loading: Loading
@@ -34,7 +34,7 @@ class CasinoViewModel: CollectErrorViewModel, ProductViewModel {
 
   lazy var betSummary = casinoRecordUseCase.getBetSummary()
 
-  var betTime: [SharedBu.LocalDateTime] = []
+  var betTime: [sharedbu.LocalDateTime] = []
 
   var section = 0
 
@@ -238,11 +238,11 @@ extension CasinoViewModel {
       .asObservable()
   }
 
-  func getUnsettledRecords(betTime: SharedBu.LocalDateTime) -> Single<[SharedBu.LocalDateTime: [UnsettledBetRecord]]> {
+  func getUnsettledRecords(betTime: sharedbu.LocalDateTime) -> Single<[sharedbu.LocalDateTime: [UnsettledBetRecord]]> {
     casinoRecordUseCase.getUnsettledRecords(date: betTime).map { [betTime: $0] }
   }
 
-  func getUnsettledRecords() -> Observable<[SharedBu.LocalDateTime: [UnsettledBetRecord]]> {
+  func getUnsettledRecords() -> Observable<[sharedbu.LocalDateTime: [UnsettledBetRecord]]> {
     let allObservables = betTime.map { getUnsettledRecords(betTime: $0).asObservable() }
     return Observable.merge(allObservables)
   }

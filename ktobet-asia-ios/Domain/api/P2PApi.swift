@@ -1,7 +1,7 @@
 import Foundation
 import Moya
 import RxSwift
-import SharedBu
+import sharedbu
 
 class P2PApi: ApiService {
   let prefix = "p2p/api"

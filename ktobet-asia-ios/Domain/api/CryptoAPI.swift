@@ -1,6 +1,6 @@
 import Foundation
 import RxSwift
-import SharedBu
+import sharedbu
 
 class CryptoAPI {
   private let httpClient: HttpClient

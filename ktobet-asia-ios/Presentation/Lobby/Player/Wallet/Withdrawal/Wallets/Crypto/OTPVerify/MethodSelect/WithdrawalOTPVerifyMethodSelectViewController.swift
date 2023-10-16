@@ -1,5 +1,5 @@
 import RxSwift
-import SharedBu
+import sharedbu
 import SwiftUI
 import UIKit
 
@@ -85,7 +85,7 @@ extension WithdrawalOTPVerifyMethodSelectViewController {
 // MARK: - Navigation
 
 extension WithdrawalOTPVerifyMethodSelectViewController {
-  func pushToOTPVerificationPage(_ selectedAccountType: SharedBu.AccountType) {
+  func pushToOTPVerificationPage(_ selectedAccountType: sharedbu.AccountType) {
     navigationController?
       .pushViewController(
         WithdrawalOTPVerificationViewController(accountType: selectedAccountType),

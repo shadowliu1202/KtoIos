@@ -1,5 +1,5 @@
 import Foundation
-import SharedBu
+import sharedbu
 
 class CSSurveyAdapter: CSSurveyProtocol {
   private let surveyAPI: SurveyAPI

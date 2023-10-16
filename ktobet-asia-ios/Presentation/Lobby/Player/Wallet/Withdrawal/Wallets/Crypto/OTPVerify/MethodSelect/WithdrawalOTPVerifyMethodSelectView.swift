@@ -1,4 +1,4 @@
-import SharedBu
+import sharedbu
 import SwiftUI
 
 struct WithdrawalOTPVerifyMethodSelectView<ViewModel>: View
@@ -11,13 +11,13 @@ struct WithdrawalOTPVerifyMethodSelectView<ViewModel>: View
   private let bankCardID: String?
 
   private let otpServiceUnavailable: (() -> Void)?
-  private let otpRequestOnCompleted: ((_ selectedAccountType: SharedBu.AccountType) -> Void)?
+  private let otpRequestOnCompleted: ((_ selectedAccountType: sharedbu.AccountType) -> Void)?
 
   init(
     viewModel: ViewModel,
     bankCardID: String? = nil,
     otpServiceUnavailable: (() -> Void)? = nil,
-    otpRequestOnCompleted: ((_ selectedAccountType: SharedBu.AccountType) -> Void)? = nil)
+    otpRequestOnCompleted: ((_ selectedAccountType: sharedbu.AccountType) -> Void)? = nil)
   {
     self._viewModel = .init(wrappedValue: viewModel)
 
@@ -94,7 +94,7 @@ extension WithdrawalOTPVerifyMethodSelectView {
 
     private let bankCardID: String
 
-    private let otpRequestOnCompleted: ((_ selectedAccountType: SharedBu.AccountType) -> Void)?
+    private let otpRequestOnCompleted: ((_ selectedAccountType: sharedbu.AccountType) -> Void)?
 
     var inspection = Inspection<Self>()
 
@@ -102,7 +102,7 @@ extension WithdrawalOTPVerifyMethodSelectView {
       _ infoHint: String,
       _ isRequestAvailable: Bool,
       _ bankCardID: String,
-      _ otpRequestOnCompleted: ((_ selectedAccountType: SharedBu.AccountType) -> Void)?)
+      _ otpRequestOnCompleted: ((_ selectedAccountType: sharedbu.AccountType) -> Void)?)
     {
       self.infoHint = infoHint
       self.isRequestAvailable = isRequestAvailable
@@ -150,7 +150,7 @@ struct WithdrawalOTPVerifyMethodSelectView_Previews: PreviewProvider {
     @Published var otpServiceAvailability: WithdrawalOTPVerifyMethodSelectDataModel.OTPServiceStatus
     @Published var isLoading = false
     @Published var isOTPRequestInProgress = false
-    @Published var selectedAccountType: SharedBu.AccountType = .email
+    @Published var selectedAccountType: sharedbu.AccountType = .email
 
     init(otpServiceAvailability: WithdrawalOTPVerifyMethodSelectDataModel.OTPServiceStatus) {
       self.otpServiceAvailability = otpServiceAvailability
@@ -160,7 +160,7 @@ struct WithdrawalOTPVerifyMethodSelectView_Previews: PreviewProvider {
 
     func requestOTP(
       bankCardID _: String,
-      onCompleted _: ((_ selectedAccountType: SharedBu.AccountType) -> Void)?) { }
+      onCompleted _: ((_ selectedAccountType: sharedbu.AccountType) -> Void)?) { }
   }
 
   static var previews: some View {

@@ -4,7 +4,7 @@ import FirebaseCore
 import IQKeyboardManagerSwift
 import RxSwift
 import SDWebImage
-import SharedBu
+import sharedbu
 import SwiftUI
 import UIKit
 import WebKit
@@ -65,7 +65,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     Theme.shared.changeEntireAPPFont(by: localStorageRepo.getSupportLocale())
 
-    SharedBu.Platform().debugBuild()
+    sharedbu.Platform().debugBuild()
 
     updateAndLogInstallDate(applicationStorage, keychain)
 

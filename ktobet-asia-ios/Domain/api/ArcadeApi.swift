@@ -1,7 +1,7 @@
 import Foundation
 import Moya
 import RxSwift
-import SharedBu
+import sharedbu
 
 class ArcadeApi: ApiService, WebGameApi {
   let prefix = "arcade/api"

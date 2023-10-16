@@ -1,5 +1,5 @@
 import Foundation
-import SharedBu
+import sharedbu
 
 class ImageAdapter: ImageProtocol {
   private var imageApi: ImageApi!

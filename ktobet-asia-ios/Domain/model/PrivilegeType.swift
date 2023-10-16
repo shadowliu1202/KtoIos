@@ -1,4 +1,4 @@
-import SharedBu
+import sharedbu
 
 extension PrivilegeType {
   class func convert(_ type: Int32) -> PrivilegeType {

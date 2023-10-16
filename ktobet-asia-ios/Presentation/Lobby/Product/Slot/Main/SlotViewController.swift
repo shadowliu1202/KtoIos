@@ -2,7 +2,7 @@ import AlignedCollectionViewFlowLayout
 import RxCocoa
 import RxSwift
 import SDWebImage
-import SharedBu
+import sharedbu
 import TYCyclePagerView
 import UIKit
 

@@ -1,5 +1,5 @@
 import RxSwift
-import SharedBu
+import sharedbu
 import SwiftUI
 
 class WithdrawalOTPVerificationViewModel:
@@ -32,7 +32,7 @@ class WithdrawalOTPVerificationViewModel:
 
   private let disposeBag = DisposeBag()
 
-  private var accountType: SharedBu.AccountType?
+  private var accountType: sharedbu.AccountType?
 
   init(
     _ playerConfiguration: PlayerConfiguration,
@@ -44,7 +44,7 @@ class WithdrawalOTPVerificationViewModel:
     self.withdrawalAppService = withdrawalAppService
   }
 
-  func setup(accountType: SharedBu.AccountType) {
+  func setup(accountType: sharedbu.AccountType) {
     setupIsVerifiedFailRefreshing()
 
     cacheAccountType(accountType)
@@ -67,7 +67,7 @@ class WithdrawalOTPVerificationViewModel:
       .disposed(by: disposeBag)
   }
 
-  private func cacheAccountType(_ accountType: SharedBu.AccountType) {
+  private func cacheAccountType(_ accountType: sharedbu.AccountType) {
     self.accountType = accountType
   }
 

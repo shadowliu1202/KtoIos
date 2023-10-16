@@ -5,7 +5,7 @@ import Moya
 import RxBlocking
 import RxSwift
 import SDWebImage
-import SharedBu
+import sharedbu
 import SwiftyJSON
 import UIKit
 

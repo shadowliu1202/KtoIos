@@ -1,7 +1,7 @@
 import Foundation
 import RxCocoa
 import RxSwift
-import SharedBu
+import sharedbu
 
 protocol ArcadeRepository: WebGameRepository {
   func searchGames(isRecommend: Bool, isNew: Bool) -> Observable<[ArcadeGame]>

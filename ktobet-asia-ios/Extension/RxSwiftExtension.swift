@@ -1,7 +1,7 @@
 import Foundation
 import RxCocoa
 import RxSwift
-import SharedBu
+import sharedbu
 import SwiftyJSON
 
 // MARK: - ObservableType
@@ -263,7 +263,7 @@ extension Single where PrimitiveSequence.Trait == RxSwift.SingleTrait, Element =
     })
   }
 
-  func asReaktiveResponseNothing() -> SingleWrapper<SharedBu.Response<KotlinNothing>> {
+  func asReaktiveResponseNothing() -> SingleWrapper<sharedbu.Response<KotlinNothing>> {
     SingleWrapper(inner: SingleByEmitterKt.single { emitter in
       let swiftDisposable = self
         .subscribe(
@@ -340,7 +340,7 @@ extension RxCocoa.SharedSequenceConvertibleType where Element: AnyObject, Sharin
   }
 }
 
-class DisposableWrapper: SharedBu.Disposable {
+class DisposableWrapper: sharedbu.Disposable {
   private var _disposable: Disposable
   var isDisposed = false
 

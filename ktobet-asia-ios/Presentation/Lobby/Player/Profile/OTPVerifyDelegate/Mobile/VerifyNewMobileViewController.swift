@@ -1,6 +1,6 @@
 import Foundation
 import RxSwift
-import SharedBu
+import sharedbu
 
 class VerifyNewMobileViewController: OtpViewControllerProtocol {
   private let viewModel = Injectable.resolve(ModifyProfileViewModel.self)!
@@ -26,7 +26,7 @@ class VerifyNewMobileViewController: OtpViewControllerProtocol {
   }
 
   func validateAccountType(validator: OtpValidatorDelegation) {
-    validator.otpAccountType.onNext(SharedBu.AccountType.phone)
+    validator.otpAccountType.onNext(sharedbu.AccountType.phone)
   }
 
   func onCloseVerifyProcess() {

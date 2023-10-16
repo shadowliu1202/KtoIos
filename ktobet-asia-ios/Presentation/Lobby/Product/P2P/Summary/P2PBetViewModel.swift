@@ -1,6 +1,6 @@
 import Foundation
 import RxSwift
-import SharedBu
+import sharedbu
 
 class P2PBetViewModel {
   private(set) var betSummary = PublishSubject<MyBetSummary>()
@@ -37,8 +37,8 @@ class P2PBetViewModel {
   }
 
   func getBetDetail(
-    startDate: SharedBu.LocalDateTime,
-    endDate: SharedBu.LocalDateTime,
+    startDate: sharedbu.LocalDateTime,
+    endDate: sharedbu.LocalDateTime,
     gameId: Int32) -> Single<[P2PGameBetRecord]>
   {
     p2pRecordUseCase.getBetRecord(

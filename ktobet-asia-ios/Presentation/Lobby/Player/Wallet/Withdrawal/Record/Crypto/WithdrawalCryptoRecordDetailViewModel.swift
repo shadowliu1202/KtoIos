@@ -1,6 +1,6 @@
 import Foundation
 import RxSwift
-import SharedBu
+import sharedbu
 
 protocol WithdrawalCryptoRecordDetailViewModelProtocol: CryptoRecordDetailViewModel {
   func getLog(displayId: String)

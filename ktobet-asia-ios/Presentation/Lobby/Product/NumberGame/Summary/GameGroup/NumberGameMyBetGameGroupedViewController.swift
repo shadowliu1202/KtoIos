@@ -1,7 +1,7 @@
 import RxCocoa
 import RxDataSources
 import RxSwift
-import SharedBu
+import sharedbu
 import UIKit
 
 class NumberGameMyBetGameGroupedViewController: LobbyViewController {
@@ -12,7 +12,7 @@ class NumberGameMyBetGameGroupedViewController: LobbyViewController {
 
   @IBOutlet private weak var tableView: UITableView!
 
-  var betDate: SharedBu.LocalDate!
+  var betDate: sharedbu.LocalDate!
   var betStatus: NumberGameSummary.CompanionStatus!
 
   fileprivate var activityIndicator = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.large)
@@ -121,7 +121,7 @@ class NumberGameMyBetGameGroupedViewController: LobbyViewController {
         let parameter = sender as! (
           gameId: Int32,
           status: NumberGameSummary.CompanionStatus,
-          betDate: SharedBu.LocalDate,
+          betDate: sharedbu.LocalDate,
           gameName: String)
         dest.betDate = parameter.betDate
         dest.betStatus = parameter.status

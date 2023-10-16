@@ -1,5 +1,5 @@
 import Foundation
-import SharedBu
+import sharedbu
 import UIKit
 
 extension String {
@@ -76,12 +76,12 @@ extension String {
     return OffsetDateTime.Companion().create(localDateTime: localDateTime, zoneId: timeZone.identifier)
   }
 
-  func toLocalDateTime(timeZone: Foundation.TimeZone = String.getPlayerTimeZone()) throws -> SharedBu.LocalDateTime {
+  func toLocalDateTime(timeZone: Foundation.TimeZone = String.getPlayerTimeZone()) throws -> sharedbu.LocalDateTime {
     var offsetDate = try DateUtils.parseOffsetDate(string: self)
     let offsetTime = TimeInterval(timeZone.secondsFromGMT())
     offsetDate.addTimeInterval(offsetTime)
     let localDate = offsetDate
-    return SharedBu.LocalDateTime(
+    return sharedbu.LocalDateTime(
       year: localDate.getYear(),
       monthNumber: localDate.getMonth(),
       dayOfMonth: localDate.getDayOfMonth(),
@@ -91,9 +91,9 @@ extension String {
       nanosecond: localDate.getNanosecond())
   }
 
-  func toLocalDateTimeWithAccountTimeZone() throws -> SharedBu.LocalDateTime {
+  func toLocalDateTimeWithAccountTimeZone() throws -> sharedbu.LocalDateTime {
     let localDate = try DateUtils.parseLocalDate(string: self)
-    return SharedBu.LocalDateTime(
+    return sharedbu.LocalDateTime(
       year: localDate.getYear(),
       monthNumber: localDate.getMonth(),
       dayOfMonth: localDate.getDayOfMonth(),
@@ -103,20 +103,20 @@ extension String {
       nanosecond: localDate.getNanosecond())
   }
 
-  func toLocalDate(timeZone: Foundation.TimeZone = String.getPlayerTimeZone()) throws -> SharedBu.LocalDate {
+  func toLocalDate(timeZone: Foundation.TimeZone = String.getPlayerTimeZone()) throws -> sharedbu.LocalDate {
     var offsetDate = try DateUtils.parseOffsetDate(string: self)
     let offsetTime = TimeInterval(timeZone.secondsFromGMT())
     offsetDate.addTimeInterval(offsetTime)
     let localDate = offsetDate
-    return SharedBu.LocalDate(
+    return sharedbu.LocalDate(
       year: localDate.getYear(),
       monthNumber: localDate.getMonth(),
       dayOfMonth: localDate.getDayOfMonth())
   }
 
-  func toLocalDateWithAccountTimeZone() throws -> SharedBu.LocalDate {
+  func toLocalDateWithAccountTimeZone() throws -> sharedbu.LocalDate {
     let localDate = try DateUtils.parseLocalDate(string: self)
-    return SharedBu.LocalDate(
+    return sharedbu.LocalDate(
       year: localDate.getYear(),
       monthNumber: localDate.getMonth(),
       dayOfMonth: localDate.getDayOfMonth())

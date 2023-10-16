@@ -1,6 +1,6 @@
 import Combine
 import Foundation
-import SharedBu
+import sharedbu
 
 class ObservableWrapperPublisher<T, Upstream: ObservableWrapper<T>>: Publisher where T: AnyObject {
   typealias Output = T
@@ -20,7 +20,7 @@ class ObservableWrapperPublisher<T, Upstream: ObservableWrapper<T>>: Publisher w
 class ObservableWrapperSubscription<T, Upstream: ObservableWrapper<T>, Downstream: Subscriber>: Combine.Subscription
   where T: AnyObject, Downstream.Input == T, Downstream.Failure == Swift.Error
 {
-  private var disposable: SharedBu.Disposable?
+  private var disposable: sharedbu.Disposable?
   private let buffer: DemandBuffer<Downstream>
 
   init(

@@ -1,5 +1,5 @@
 import Foundation
-import SharedBu
+import sharedbu
 
 class DepositStringServiceAdapter: DepositStringService {
   let cpsCryptoCurrencyDepositFeeMaximumHint = ResourceKey(key: Localize.string("cps_crypto_currency_deposit_hint"))

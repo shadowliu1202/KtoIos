@@ -1,7 +1,7 @@
 import Foundation
 import Moya
 import RxSwift
-import SharedBu
+import sharedbu
 import SwiftyJSON
 
 protocol ImageApiProtocol {

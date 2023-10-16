@@ -1,5 +1,5 @@
 import RxSwift
-import SharedBu
+import sharedbu
 
 class MyBetSummary {
   var unfinishGameCount: Int32 = 0

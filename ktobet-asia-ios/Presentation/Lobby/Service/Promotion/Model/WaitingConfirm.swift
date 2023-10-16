@@ -1,6 +1,6 @@
 import Foundation
 import RxSwift
-import SharedBu
+import sharedbu
 
 class WaitingConfirm {
   fileprivate func addUseCouponHandler(_ error: Error) -> Single<WaitingConfirm> {
