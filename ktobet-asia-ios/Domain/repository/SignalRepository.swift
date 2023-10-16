@@ -8,12 +8,14 @@ protocol SignalRepository {
 
 class SignalRepositoryImpl: SignalRepository {
   private let httpClient: HttpClient
+  private let cookieManager: CookieManager
   private let _observeSignal = PublishSubject<any BackendSignal>()
 
   private var socketConnection: HubConnection?
 
-  init(httpClient: HttpClient) {
+  init(_ httpClient: HttpClient, _ cookieManager: CookieManager) {
     self.httpClient = httpClient
+    self.cookieManager = cookieManager
   }
 
   deinit {
@@ -44,7 +46,7 @@ class SignalRepositoryImpl: SignalRepository {
         .withJSONHubProtocol()
         .withHttpConnectionOptions(configureHttpOptions: { option in
           option.skipNegotiation = true
-          option.headers["Cookie"] = self.httpClient.cookiesHeader
+          option.headers["Cookie"] = cookieManager.cookieHeaderValue
         })
         .withLogging(minLogLevel: .warning)
         .withAutoReconnect()

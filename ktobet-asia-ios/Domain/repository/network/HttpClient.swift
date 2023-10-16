@@ -9,30 +9,21 @@ import SharedBu
 import SwiftyJSON
 import UIKit
 
-class HttpClient: CookieUtil {
+class HttpClient {
   private let localStorageRepo: LocalStorageRepository
-  private let ktoUrl: KtoURL
+  private let currentURL: URL
+  private let cookieManager: CookieManager
 
   private let provider: MoyaProvider<MultiTarget>
   private let retryProvider: MoyaProvider<MultiTarget>
 
   private(set) var debugDatas: [DebugData] = []
 
-  var cookiesHeader: String {
-    syncCookies()
-
-    return cookies(for: host)
-      .map {
-        $0.name + "=" + $0.value
-      }
-      .joined(separator: ";")
-  }
-
   var headers: [String: String] {
     [
       "Accept": "application/json",
       "User-Agent": "AppleWebKit/" + Configuration.getKtoAgent(),
-      "Cookie": cookiesHeader,
+      "Cookie": cookieManager.cookieHeaderValue,
     ]
   }
 
@@ -43,16 +34,13 @@ class HttpClient: CookieUtil {
     {
       return URL(string: "\(Configuration.internetProtocol)")!
     }
-    return URL(string: ktoUrl.currentURL)!
+    return currentURL
   }
 
-  var affiliateUrl: URL? {
-    URL(string: "\(ktoUrl.currentURL)affiliate")
-  }
-
-  init(_ localStorageRepo: LocalStorageRepository, _ ktoUrl: KtoURL) {
+  init(_ localStorageRepo: LocalStorageRepository, _ cookieManager: CookieManager, currentURL: URL) {
     self.localStorageRepo = localStorageRepo
-    self.ktoUrl = ktoUrl
+    self.cookieManager = cookieManager
+    self.currentURL = currentURL
 
     let configuration = URLSessionConfiguration.default
     configuration.headers = .default
@@ -95,6 +83,7 @@ class HttpClient: CookieUtil {
       .request(MultiTarget(target))
       .filterSuccessfulStatusCodes()
       .flatMap({ [weak self] response -> Single<Response> in
+        self?.printResponseData(target.method.rawValue, response: response)
         guard let self else { return .error(KTOError.LostReference) }
 
         return self.handleResponse(response)
@@ -104,7 +93,9 @@ class HttpClient: CookieUtil {
   @available(*, deprecated, message: "Target should create in HTTPClient.")
   func requestJsonString(_ target: TargetType) -> Single<String> {
     request(target)
-      .flatMap { response in
+      .flatMap { [weak self] response in
+        self?.printResponseData(target.method.rawValue, response: response)
+        
         guard
           let json = try? JSON(data: response.data),
           let rawString = json.rawString()
@@ -154,27 +145,15 @@ class HttpClient: CookieUtil {
   }
 }
 
-// MARK: - Cookie
+// MARK: - Debug Print
 
 extension HttpClient {
-  func getCookies() -> [HTTPCookie] {
-    cookies(for: host)
-  }
-
-  func syncCookies() {
-    NotificationCenter.default.post(name: .NSHTTPCookieManagerCookiesChanged, object: nil)
-  }
-
-  func clearCookie() -> Completable {
-    .create { [weak self] completable -> Disposable in
-      guard let self else { return Disposables.create { } }
-
-      self.removeAllCookies()
-
-      completable(.completed)
-
-      return Disposables.create { }
+  private func printResponseData(_: String, response: Response) {
+    if debugDatas.count > 20 {
+      debugDatas.remove(at: 0)
     }
+
+    debugDatas.append(.init(moyaResponse: response))
   }
 }
 

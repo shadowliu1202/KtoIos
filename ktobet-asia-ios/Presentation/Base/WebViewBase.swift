@@ -2,6 +2,8 @@ import UIKit
 import WebKit
 
 class WebViewBase: UIViewController {
+  @Injected private var cookieManager: CookieManager
+  
   private(set) var httpClient = Injectable.resolveWrapper(HttpClient.self)
   private(set) lazy var webView = setupWebView()
 
@@ -27,7 +29,7 @@ class WebViewBase: UIViewController {
   }
 
   func setupCookies() {
-    for cookie in httpClient.getCookies() {
+    for cookie in cookieManager.cookies {
       webView.configuration.websiteDataStore.httpCookieStore.setCookie(cookie, completionHandler: nil)
     }
   }

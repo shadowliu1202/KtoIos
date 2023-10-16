@@ -6,6 +6,8 @@ import UIKit
 import WebKit
 
 class SportBookViewController: LobbyViewController {
+  @Injected private var cookieManager: CookieManager
+  
   private let isWebLoadSuccess = BehaviorRelay<Bool>(value: false)
   private var isFirstWebLoaded = true
 
@@ -64,7 +66,7 @@ class SportBookViewController: LobbyViewController {
     webView.scrollView.showsVerticalScrollIndicator = false
     webView.allowsBackForwardNavigationGestures = true
     webView.isOpaque = false
-    for cookie in httpClient.getCookies() {
+    for cookie in cookieManager.cookies {
       webView.configuration.websiteDataStore.httpCookieStore.setCookie(cookie, completionHandler: nil)
     }
     webView.navigationDelegate = self

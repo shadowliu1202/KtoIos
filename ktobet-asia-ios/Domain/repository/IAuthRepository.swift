@@ -7,7 +7,7 @@ protocol IAuthRepository {
   func register(_ account: UserAccount, _ password: UserPassword, _ locale: SupportLocale) -> Completable
   func authorize(_ otp: String) -> Single<String>
   func authorize(_ account: String, _ password: String, _ captcha: Captcha) -> Single<LoginStatus>
-  func deAuthorize() -> Completable
+  func deAuthorize()
   func checkAuthorization() -> Single<Bool>
   func resendRegisterOtp() -> Completable
   func checkRegistration(_ account: String) -> Single<Bool>
@@ -22,12 +22,14 @@ protocol ResetPasswordRepository {
 }
 
 class IAuthRepositoryImpl: IAuthRepository {
-  private var api: AuthenticationApi!
-  private var httpClient: HttpClient!
-
-  init(_ api: AuthenticationApi, _ httpClient: HttpClient) {
+  private let api: AuthenticationApi
+  private let httpClient: HttpClient
+  private let cookieManager: CookieManager
+  
+  init(_ api: AuthenticationApi, _ httpClient: HttpClient, _ cookieManager: CookieManager) {
     self.api = api
     self.httpClient = httpClient
+    self.cookieManager = cookieManager
   }
 
   func register(_ account: UserAccount, _ password: UserPassword, _ locale: SupportLocale) -> Completable {
@@ -73,8 +75,8 @@ class IAuthRepositoryImpl: IAuthRepository {
     }
   }
 
-  func deAuthorize() -> Completable {
-    httpClient.clearCookie()
+  func deAuthorize() {
+    cookieManager.removeAllCookies()
   }
 
   func checkAuthorization() -> Single<Bool> {

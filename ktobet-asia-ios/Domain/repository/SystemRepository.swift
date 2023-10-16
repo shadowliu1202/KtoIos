@@ -15,6 +15,7 @@ class SystemRepositoryImpl: SystemRepository {
   private let portalMaintenanceStateRefresh = PublishSubject<Void>()
   private let portalApi: PortalApi
   private let httpClient: HttpClient
+  private let cookieManager: CookieManager
   private let productStatusChange = BehaviorSubject<MaintenanceStatus>(value: MaintenanceStatus.AllPortal(duration: nil))
 
   private var maintenanceStatus: Observable<MaintenanceStatus>!
@@ -22,9 +23,10 @@ class SystemRepositoryImpl: SystemRepository {
   let csMailCookieName = "csm"
   let maintenanceTimeCookieName = "dist"
 
-  init(_ portalApi: PortalApi, httpClient: HttpClient) {
+  init(_ portalApi: PortalApi, _ httpClient: HttpClient, _ cookieManager: CookieManager) {
     self.portalApi = portalApi
     self.httpClient = httpClient
+    self.cookieManager = cookieManager
 
     maintenanceStatus = portalMaintenanceStateRefresh
       .startWith(())
@@ -103,7 +105,7 @@ class SystemRepositoryImpl: SystemRepository {
 
   private func getMaintenanceTimeFromCookies() -> KotlinInt? {
     if
-      let str = httpClient.getCookies().first(where: { $0.name == maintenanceTimeCookieName })?.value,
+      let str = cookieManager.cookies.first(where: { $0.name == maintenanceTimeCookieName })?.value,
       let doubleValue = Double(str)
     {
       return KotlinInt(value: Int32(ceil(doubleValue)))
@@ -112,7 +114,7 @@ class SystemRepositoryImpl: SystemRepository {
   }
 
   private func maintainCsEmail() -> String {
-    httpClient.getCookies().first(where: { $0.name == csMailCookieName })?.value ?? ""
+    cookieManager.cookies.first(where: { $0.name == csMailCookieName })?.value ?? ""
   }
 
   func fetchCopyRight() -> Single<String> {

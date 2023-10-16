@@ -4,10 +4,10 @@ import UIKit
 import WebKit
 
 class DepositCryptoWebViewController: LobbyViewController {
+  @Injected private var cookieManager: CookieManager
+  
   private let webView = WKWebView()
   private let delegate = WebViewSSLErrorLogger()
-
-  private let httpClient = Injectable.resolveWrapper(HttpClient.self)
   private let disposeBag = DisposeBag()
 
   let url: String?
@@ -32,8 +32,7 @@ class DepositCryptoWebViewController: LobbyViewController {
     NavigationManagement.sharedInstance
       .addBarButtonItem(vc: self, barItemType: .close, action: #selector(close))
 
-    httpClient
-      .getCookies()
+    cookieManager.cookies
       .forEach {
         webView.configuration.websiteDataStore.httpCookieStore
           .setCookie($0, completionHandler: nil)

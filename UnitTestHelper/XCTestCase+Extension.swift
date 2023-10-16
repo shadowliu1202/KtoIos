@@ -11,14 +11,15 @@ extension XCTestCase {
   }
 
   func stubHttpClientRequest(responseJsonString: String) -> HttpClientMock {
+    let dummyURL = URL(string: "https://")!
     let dummyLocalStorageRepo = mock(LocalStorageRepository.self)
-    let dummyKtoURL = mock(KtoURL.self)
+    let dummyCookieManager = mock(CookieManager.self).initialize(allHosts: [], currentURL: dummyURL, currentDomain: "")
 
     let apiResponse = Response(
       statusCode: 200,
       data: responseJsonString.data(using: .utf8)!)
 
-    let stubHttpClient = mock(HttpClient.self).initialize(dummyLocalStorageRepo, dummyKtoURL)
+    let stubHttpClient = mock(HttpClient.self).initialize(dummyLocalStorageRepo, dummyCookieManager, currentURL: dummyURL)
     given(stubHttpClient.host) ~> URL(string: "https://")!
     given(stubHttpClient.headers) ~> ["": ""]
     given(stubHttpClient.request(any())) ~> .just(apiResponse)
@@ -27,10 +28,11 @@ extension XCTestCase {
   }
 
   func getFakeHttpClient() -> HttpClientMock {
+    let dummyURL = URL(string: "https://")!
     let dummyLocalStorageRepo = mock(LocalStorageRepository.self)
-    let dummyKtoURL = mock(KtoURL.self)
+    let dummyCookieManager = mock(CookieManager.self).initialize(allHosts: [], currentURL: dummyURL, currentDomain: "")
 
-    return mock(HttpClient.self).initialize(dummyLocalStorageRepo, dummyKtoURL)
+    return mock(HttpClient.self).initialize(dummyLocalStorageRepo, dummyCookieManager, currentURL: dummyURL)
   }
 
   @available(*, deprecated, message: "Use injectLocalStorageRepository().")
