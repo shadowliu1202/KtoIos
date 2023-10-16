@@ -1,7 +1,7 @@
 import Foundation
 import RxCocoa
 import RxSwift
-import SharedBu
+import sharedbu
 
 class SideMenuViewModel: CollectErrorViewModel {
   @Injected private var systemStatusUseCase: ISystemStatusUseCase

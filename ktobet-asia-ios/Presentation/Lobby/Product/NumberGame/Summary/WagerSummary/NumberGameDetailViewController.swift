@@ -1,7 +1,7 @@
 import RxCocoa
 import RxDataSources
 import RxSwift
-import SharedBu
+import sharedbu
 import UIKit
 
 class NumberGameDetailViewController: LobbyViewController {
@@ -15,7 +15,7 @@ class NumberGameDetailViewController: LobbyViewController {
 
   var gameId: Int32?
   var gameName: String?
-  var betDate: SharedBu.LocalDate?
+  var betDate: sharedbu.LocalDate?
   var betStatus: NumberGameSummary.CompanionStatus?
   var totalCounts: Int32?
 

@@ -1,4 +1,4 @@
-import SharedBu
+import sharedbu
 
 extension BetStatus_ {
   class func convert(_ type: Int32) -> BetStatus_ {

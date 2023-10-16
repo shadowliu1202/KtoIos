@@ -2,7 +2,7 @@ import Foundation
 import RxCocoa
 import RxDataSources
 import RxSwift
-import SharedBu
+import sharedbu
 
 class SignupPhoneViewModel {
   private var failCount = 0

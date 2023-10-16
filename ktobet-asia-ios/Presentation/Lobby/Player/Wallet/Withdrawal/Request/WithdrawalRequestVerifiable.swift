@@ -1,6 +1,6 @@
 import RxCocoa
 import RxSwift
-import SharedBu
+import sharedbu
 
 protocol WithdrawalRequestVerifiable { }
 

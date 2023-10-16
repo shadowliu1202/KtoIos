@@ -1,7 +1,7 @@
 import Combine
 import Mockingbird
 import RxSwift
-import SharedBu
+import sharedbu
 import XCTest
 
 @testable import ktobet_asia_ios_qat
@@ -175,7 +175,7 @@ final class WithdrawalOTPVerifyMethodSelectViewModelTests: XCBaseTestCase {
       sut.$selectedAccountType
         .dropFirst()
         .sink { actual in
-          let expect = SharedBu.AccountType.email
+          let expect = sharedbu.AccountType.email
 
           XCTAssertEqual(expect, actual)
           continuation.resume()
@@ -206,7 +206,7 @@ final class WithdrawalOTPVerifyMethodSelectViewModelTests: XCBaseTestCase {
       sut.$selectedAccountType
         .dropFirst()
         .sink { actual in
-          let expect = SharedBu.AccountType.email
+          let expect = sharedbu.AccountType.email
 
           XCTAssertEqual(expect, actual)
           continuation.resume()

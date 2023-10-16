@@ -1,5 +1,5 @@
 import Foundation
-import SharedBu
+import sharedbu
 
 class P2PMyBetAdapter: P2PMyBetProtocol {
   private let p2pMyBetAPI: P2PMyBetAPI

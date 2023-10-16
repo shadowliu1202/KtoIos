@@ -1,13 +1,13 @@
 import Foundation
 import RxSwift
-import SharedBu
+import sharedbu
 
 class Maintenance: ChatRoomVisitor {
   func visit(config: Config) {
     config.isMaintained = true
   }
   
-  func visit(connection _: SharedBu.Connection) {
+  func visit(connection _: sharedbu.Connection) {
     // Do nothing
   }
   

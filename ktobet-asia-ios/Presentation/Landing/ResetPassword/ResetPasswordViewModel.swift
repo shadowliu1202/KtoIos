@@ -3,7 +3,7 @@ import RxCocoa
 import RxDataSources
 import RxSwift
 import RxSwiftExt
-import SharedBu
+import sharedbu
 
 class ResetPasswordViewModel: CollectErrorViewModel {
   private let resetUseCase: ResetPasswordUseCase

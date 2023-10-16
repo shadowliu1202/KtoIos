@@ -1,7 +1,7 @@
 import Foundation
 import RxCocoa
 import RxSwift
-import SharedBu
+import sharedbu
 
 protocol CasinoRepository: WebGameRepository {
   func getTags(cultureCode: String) -> Single<[CasinoGameTag]>

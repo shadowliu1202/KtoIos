@@ -1,4 +1,4 @@
-import SharedBu
+import sharedbu
 import SwiftUI
 
 // FIXME: workaround display vn localize string in preview

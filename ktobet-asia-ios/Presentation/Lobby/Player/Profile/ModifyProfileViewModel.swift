@@ -1,7 +1,7 @@
 import Foundation
 import RxCocoa
 import RxSwift
-import SharedBu
+import sharedbu
 
 enum AuthenticationState {
   case unauthenticated // Initial state, the user needs to authenticate

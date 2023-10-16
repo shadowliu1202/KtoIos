@@ -1,5 +1,5 @@
 import Foundation
-import SharedBu
+import sharedbu
 
 final class CryptoDepositItemViewModel {
   let option: PaymentsDTO.TypeOptions

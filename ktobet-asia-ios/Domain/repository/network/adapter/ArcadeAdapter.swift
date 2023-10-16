@@ -1,5 +1,5 @@
 import Foundation
-import SharedBu
+import sharedbu
 
 class ArcadeAdapter: ArcadeProtocol {
   private let arcadeApi: ArcadeApi!

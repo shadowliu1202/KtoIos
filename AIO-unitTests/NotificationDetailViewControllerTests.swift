@@ -1,12 +1,12 @@
 import Mockingbird
-import SharedBu
+import sharedbu
 import XCTest
 
 @testable import ktobet_asia_ios_qat
 
 final class NotificationDetailViewControllerTests: XCBaseTestCase {
-  private func buildNotificationItem(type: MyActivityType) -> SharedBu.Notification {
-    SharedBu.Notification.Activity(
+  private func buildNotificationItem(type: MyActivityType) -> sharedbu.Notification {
+    sharedbu.Notification.Activity(
       messageId: "",
       title: "",
       message: "",

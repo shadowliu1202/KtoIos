@@ -1,4 +1,4 @@
-import SharedBu
+import sharedbu
 import XCTest
 
 @testable import ktobet_asia_ios_qat
@@ -17,40 +17,40 @@ class DateExtensionTest: XCBaseTestCase {
       minute: 0,
       second: 0).date
 
-    let actualLocalDateTime = SharedBu.LocalDateTime(
+    let actualLocalDateTime = sharedbu.LocalDateTime(
       year: 2022,
-      month: SharedBu.Month.june,
+      month: sharedbu.Month.june,
       dayOfMonth: 7,
       hour: 12,
       minute: 0,
       second: 0,
       nanosecond: 0)
-    let actualTimeZone = SharedBu.TimeZone.companion.of(zoneId: timeZoneID)
-    let offsetDateTime = SharedBu.OffsetDateTime(localDateTime: actualLocalDateTime, timeZone: actualTimeZone)
+    let actualTimeZone = sharedbu.TimeZone.companion.of(zoneId: timeZoneID)
+    let offsetDateTime = sharedbu.OffsetDateTime(localDateTime: actualLocalDateTime, timeZone: actualTimeZone)
 
     let actual: Date = offsetDateTime.convertToDate()
 
     XCTAssertEqual(expect, actual)
   }
 
-  func testSharedBuTimeZoneToFoundation() {
+  func testsharedbuTimeZoneToFoundation() {
     let timeZoneID = "Asia/Taipei"
 
     let expect = Foundation.TimeZone(identifier: timeZoneID)
-    let sharedBuTimeZone = SharedBu.TimeZone.companion.of(zoneId: timeZoneID)
+    let sharedBuTimeZone = sharedbu.TimeZone.companion.of(zoneId: timeZoneID)
 
     let actual = sharedBuTimeZone.toFoundation()
 
     XCTAssertEqual(expect, actual)
   }
 
-  func testSharedBuTimeZoneFromFoundation() {
+  func testsharedbuTimeZoneFromFoundation() {
     let timeZoneID = "Asia/Taipei"
 
-    let expect = SharedBu.TimeZone.companion.of(zoneId: timeZoneID)
+    let expect = sharedbu.TimeZone.companion.of(zoneId: timeZoneID)
     let foundationTimeZone = Foundation.TimeZone(identifier: timeZoneID)!
 
-    let actual = SharedBu.TimeZone.fromFoundation(foundationTimeZone)
+    let actual = sharedbu.TimeZone.fromFoundation(foundationTimeZone)
 
     XCTAssertEqual(expect, actual)
   }
@@ -67,7 +67,7 @@ class DateExtensionTest: XCBaseTestCase {
       minute: 0,
       second: 0,
       nanosecond: 0).date!
-    let localDateTime = SharedBu.LocalDateTime(
+    let localDateTime = sharedbu.LocalDateTime(
       year: 2022,
       monthNumber: 6,
       dayOfMonth: 15,
@@ -76,7 +76,7 @@ class DateExtensionTest: XCBaseTestCase {
       second: 0,
       nanosecond: 0)
 
-    let expect = SharedBu.OffsetDateTime.companion.create(localDateTime: localDateTime, zoneId: "UTC+0")
+    let expect = sharedbu.OffsetDateTime.companion.create(localDateTime: localDateTime, zoneId: "UTC+0")
     let actual = now.toUTCOffsetDateTime()
 
     XCTAssertEqual(expect, actual)
@@ -92,7 +92,7 @@ class DateExtensionTest: XCBaseTestCase {
       minute: 0,
       second: 0,
       nanosecond: 0).date!
-    let localDateTime1 = SharedBu.LocalDateTime(
+    let localDateTime1 = sharedbu.LocalDateTime(
       year: 2022,
       monthNumber: 6,
       dayOfMonth: 15,
@@ -101,7 +101,7 @@ class DateExtensionTest: XCBaseTestCase {
       second: 0,
       nanosecond: 0)
 
-    let expect1 = SharedBu.OffsetDateTime.companion.create(localDateTime: localDateTime1, zoneId: "UTC+0")
+    let expect1 = sharedbu.OffsetDateTime.companion.create(localDateTime: localDateTime1, zoneId: "UTC+0")
     let actual1 = now1.toUTCOffsetDateTime()
 
     XCTAssertEqual(expect1, actual1)
@@ -113,7 +113,7 @@ class DateExtensionTest: XCBaseTestCase {
     
     let actual = date.toLocalDateTime(Foundation.TimeZone(identifier: "Asia/Taipei")!)
     
-    let expect = SharedBu.LocalDateTime(year: 2023, month: .june, dayOfMonth: 16, hour: 7, minute: 0, second: 0, nanosecond: 0)
+    let expect = sharedbu.LocalDateTime(year: 2023, month: .june, dayOfMonth: 16, hour: 7, minute: 0, second: 0, nanosecond: 0)
     
     XCTAssertEqual(expect, actual)
   }
@@ -124,7 +124,7 @@ class DateExtensionTest: XCBaseTestCase {
     
     let actual = date.toLocalDate(Foundation.TimeZone(identifier: "Asia/Taipei")!)
     
-    let expect = SharedBu.LocalDate(year: 2023, month: .june, dayOfMonth: 16)
+    let expect = sharedbu.LocalDate(year: 2023, month: .june, dayOfMonth: 16)
     
     XCTAssertEqual(expect, actual)
   }

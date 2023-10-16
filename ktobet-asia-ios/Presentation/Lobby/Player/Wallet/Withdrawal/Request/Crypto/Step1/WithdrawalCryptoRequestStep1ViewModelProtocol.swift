@@ -1,6 +1,6 @@
 import Foundation
 import RxSwift
-import SharedBu
+import sharedbu
 
 protocol WithdrawalCryptoRequestStep1ViewModelProtocol: AnyObject {
   var supportLocale: SupportLocale { get }

@@ -2,7 +2,7 @@ import Foundation
 import RxCocoa
 import RxDataSources
 import RxSwift
-import SharedBu
+import sharedbu
 
 class SlotViewModel: CollectErrorViewModel, ProductViewModel {
   @Injected private var loading: Loading

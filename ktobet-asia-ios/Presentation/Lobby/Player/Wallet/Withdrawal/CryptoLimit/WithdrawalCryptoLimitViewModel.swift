@@ -1,5 +1,5 @@
 import RxSwift
-import SharedBu
+import sharedbu
 import SwiftUI
 
 class WithdrawalCryptoLimitViewModel:

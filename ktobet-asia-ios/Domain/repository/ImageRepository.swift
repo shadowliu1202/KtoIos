@@ -1,7 +1,7 @@
 import Foundation
 import Moya
 import RxSwift
-import SharedBu
+import sharedbu
 
 protocol ImageRepository {
   var imageApi: ImageApiProtocol { get }

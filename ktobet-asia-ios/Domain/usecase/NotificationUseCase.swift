@@ -1,5 +1,5 @@
 import Foundation
-import SharedBu
+import sharedbu
 
 protocol NotificationUseCase {
   func getActivityNotification() -> Single<NotificationSummary>
@@ -21,7 +21,7 @@ class NotificationUseCaseImpl: NotificationUseCase {
   func getActivityNotification() -> Single<NotificationSummary> {
     repo.getActivityNotification().map { summary in
       let notifications = summary.notifications.filter({ [unowned self] notification in
-        self.isShown(myActivityType: (notification as! SharedBu.Notification.Activity).myActivityType)
+        self.isShown(myActivityType: (notification as! sharedbu.Notification.Activity).myActivityType)
       })
 
       return NotificationSummary(totalCount: Int32(notifications.count), notifications: notifications)

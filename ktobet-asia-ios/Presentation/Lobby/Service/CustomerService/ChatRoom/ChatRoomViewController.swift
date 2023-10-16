@@ -2,7 +2,7 @@ import IQKeyboardManagerSwift
 import Photos
 import RxSwift
 import SDWebImage
-import SharedBu
+import sharedbu
 import SwiftUI
 import UIKit
 
@@ -593,7 +593,7 @@ class MixTableViewCell: UITableViewCell {
     return []
   }
 
-  private func updateText(label: UILabel, attributes: SharedBu.Attributes) {
+  private func updateText(label: UILabel, attributes: sharedbu.Attributes) {
     let bold = attributes.bold?.boolValue ?? false
     let italic = attributes.italic?.boolValue ?? false
     let underline = attributes.underline?.boolValue ?? false

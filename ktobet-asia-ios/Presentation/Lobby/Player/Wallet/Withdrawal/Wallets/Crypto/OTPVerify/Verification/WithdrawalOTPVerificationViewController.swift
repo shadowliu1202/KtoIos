@@ -1,5 +1,5 @@
 import RxSwift
-import SharedBu
+import sharedbu
 import SwiftUI
 import UIKit
 
@@ -7,14 +7,14 @@ class WithdrawalOTPVerificationViewController: LobbyViewController {
   @Injected private var viewModel: WithdrawalOTPVerificationViewModel
   @Injected private var alert: AlertProtocol
 
-  private let accountType: SharedBu.AccountType
+  private let accountType: sharedbu.AccountType
 
   private let disposeBag = DisposeBag()
 
   init(
     viewModel: WithdrawalOTPVerificationViewModel? = nil,
     alert: AlertProtocol? = nil,
-    accountType: SharedBu.AccountType)
+    accountType: sharedbu.AccountType)
   {
     if let viewModel {
       self._viewModel.wrappedValue = viewModel

@@ -1,7 +1,7 @@
 import RxCocoa
 import RxDataSources
 import RxSwift
-import SharedBu
+import sharedbu
 import UIKit
 
 class SettleViewController: UIViewController {
@@ -95,7 +95,7 @@ class SettleViewController: UIViewController {
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     if segue.identifier == NumberGameMyBetGameGroupedViewController.segueIdentifier {
       if let dest = segue.destination as? NumberGameMyBetGameGroupedViewController {
-        let parameter = sender as! (betDate: SharedBu.LocalDate, status: NumberGameSummary.CompanionStatus)
+        let parameter = sender as! (betDate: sharedbu.LocalDate, status: NumberGameSummary.CompanionStatus)
         dest.betDate = parameter.betDate
         dest.betStatus = parameter.status
       }

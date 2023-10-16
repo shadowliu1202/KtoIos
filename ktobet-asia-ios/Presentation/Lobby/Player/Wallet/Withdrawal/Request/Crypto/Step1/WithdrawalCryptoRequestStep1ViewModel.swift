@@ -2,7 +2,7 @@ import Combine
 import Foundation
 import RxCocoa
 import RxSwift
-import SharedBu
+import sharedbu
 
 class WithdrawalCryptoRequestStep1ViewModel:
   CollectErrorViewModel,

@@ -1,6 +1,6 @@
 import Combine
 import Foundation
-import SharedBu
+import sharedbu
 
 class CompletableWrapperPublisher<Upstream: CompletableWrapper>: Publisher {
   typealias Output = Never
@@ -20,7 +20,7 @@ class CompletableWrapperPublisher<Upstream: CompletableWrapper>: Publisher {
 class CompletableWrapperSubscription<Upstream: CompletableWrapper, Downstream: Subscriber>: Combine.Subscription
   where Downstream.Input == Never, Downstream.Failure == Swift.Error
 {
-  private var disposable: SharedBu.Disposable?
+  private var disposable: sharedbu.Disposable?
   private let buffer: DemandBuffer<Downstream>
 
   init(

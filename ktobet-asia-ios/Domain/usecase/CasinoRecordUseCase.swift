@@ -1,11 +1,11 @@
 import Foundation
 import RxSwift
-import SharedBu
+import sharedbu
 
 protocol CasinoRecordUseCase {
   func getBetSummary() -> Single<BetSummary>
   func getUnsettledSummary() -> Single<[UnsettledBetSummary]>
-  func getUnsettledRecords(date: SharedBu.LocalDateTime) -> Single<[UnsettledBetRecord]>
+  func getUnsettledRecords(date: sharedbu.LocalDateTime) -> Single<[UnsettledBetRecord]>
   func getBetSummaryByDate(localDate: String) -> Single<[PeriodOfRecord]>
   func getBetRecords(periodOfRecord: PeriodOfRecord, offset: Int) -> Single<[BetRecord]>
 }
@@ -33,7 +33,7 @@ class CasinoRecordUseCaseImpl: CasinoRecordUseCase {
     }
   }
 
-  func getUnsettledRecords(date: SharedBu.LocalDateTime) -> Single<[UnsettledBetRecord]> {
+  func getUnsettledRecords(date: sharedbu.LocalDateTime) -> Single<[UnsettledBetRecord]> {
     casinoRecordRepository.getUnsettledRecords(date: date)
   }
 

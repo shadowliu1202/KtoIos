@@ -1,5 +1,5 @@
 import Foundation
-import SharedBu
+import sharedbu
 
 class CSHistoryAdapter: CSHistoryProtocol {
   private let chatHistoryAPI: ChatHistoryAPI

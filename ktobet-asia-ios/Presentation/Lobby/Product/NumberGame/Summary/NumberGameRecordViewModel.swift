@@ -1,6 +1,6 @@
 import Foundation
 import RxSwift
-import SharedBu
+import sharedbu
 
 class NumberGameRecordViewModel {
   private var numberGameRecordUseCase: NumberGameRecordUseCase!
@@ -11,7 +11,7 @@ class NumberGameRecordViewModel {
 
   var pagination: Pagination<NumberGameSummary.Game>!
   var betPagination: Pagination<NumberGameSummary.Bet>!
-  var selectedDate: SharedBu.LocalDate?
+  var selectedDate: sharedbu.LocalDate?
   var selectedStatus: NumberGameSummary.CompanionStatus?
 
   init(numberGameRecordUseCase: NumberGameRecordUseCase) {
@@ -65,7 +65,7 @@ class NumberGameRecordViewModel {
   }
 
   var selectedGameId: Int32?
-  var selectedBetDate: SharedBu.LocalDate?
+  var selectedBetDate: sharedbu.LocalDate?
   var selectedBetStatus: NumberGameSummary.CompanionStatus?
   func getGameBetsByDate(
     gameId: Int32,

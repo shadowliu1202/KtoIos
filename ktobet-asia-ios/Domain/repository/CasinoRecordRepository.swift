@@ -1,12 +1,12 @@
 import Foundation
 import RxSwift
-import SharedBu
+import sharedbu
 
 protocol CasinoRecordRepository {
-  func getBetSummary(zoneOffset: SharedBu.UtcOffset) -> Single<BetSummary>
-  func getUnsettledSummary(zoneOffset: SharedBu.UtcOffset) -> Single<[UnsettledBetSummary]>
-  func getUnsettledRecords(date: SharedBu.LocalDateTime) -> Single<[UnsettledBetRecord]>
-  func getPeriodRecords(localDate: String, zoneOffset: SharedBu.UtcOffset) -> Single<[PeriodOfRecord]>
+  func getBetSummary(zoneOffset: sharedbu.UtcOffset) -> Single<BetSummary>
+  func getUnsettledSummary(zoneOffset: sharedbu.UtcOffset) -> Single<[UnsettledBetSummary]>
+  func getUnsettledRecords(date: sharedbu.LocalDateTime) -> Single<[UnsettledBetRecord]>
+  func getPeriodRecords(localDate: String, zoneOffset: sharedbu.UtcOffset) -> Single<[PeriodOfRecord]>
   func getBetRecords(periodOfRecord: PeriodOfRecord, offset: Int) -> Single<[BetRecord]>
 }
 
@@ -19,7 +19,7 @@ class CasinoRecordRepositoryImpl: CasinoRecordRepository {
     self.localStorageRepo = localStorageRepo
   }
 
-  func getBetSummary(zoneOffset: SharedBu.UtcOffset) -> Single<BetSummary> {
+  func getBetSummary(zoneOffset: sharedbu.UtcOffset) -> Single<BetSummary> {
     let secondsToHours = zoneOffset.totalSeconds / 3600
     return casinoApi.getCasinoBetSummary(offset: secondsToHours).map { response -> BetSummary in
       guard let d = response.data else { return BetSummary(unFinishedGames: 0, finishedGame: []) }
@@ -35,7 +35,7 @@ class CasinoRecordRepositoryImpl: CasinoRecordRepository {
     }
   }
 
-  func getUnsettledSummary(zoneOffset: SharedBu.UtcOffset) -> Single<[UnsettledBetSummary]> {
+  func getUnsettledSummary(zoneOffset: sharedbu.UtcOffset) -> Single<[UnsettledBetSummary]> {
     let secondsToHours = zoneOffset.totalSeconds / 3600
     return casinoApi.getUnsettledSummary(offset: secondsToHours).map { response -> [UnsettledBetSummary] in
       guard let data = response.data else { return [] }
@@ -50,7 +50,7 @@ class CasinoRecordRepositoryImpl: CasinoRecordRepository {
     }
   }
 
-  func getUnsettledRecords(date: SharedBu.LocalDateTime) -> Single<[UnsettledBetRecord]> {
+  func getUnsettledRecords(date: sharedbu.LocalDateTime) -> Single<[UnsettledBetRecord]> {
     casinoApi.getUnsettledRecords(date: date.toQueryFormatString(timeZone: localStorageRepo.timezone()))
       .map { response -> [UnsettledBetRecord] in
         guard let data = response.data else { return [] }
@@ -71,7 +71,7 @@ class CasinoRecordRepositoryImpl: CasinoRecordRepository {
       }
   }
 
-  func getPeriodRecords(localDate: String, zoneOffset: SharedBu.UtcOffset) -> Single<[PeriodOfRecord]> {
+  func getPeriodRecords(localDate: String, zoneOffset: sharedbu.UtcOffset) -> Single<[PeriodOfRecord]> {
     let secondsToHours = zoneOffset.totalSeconds / 3600
     return casinoApi.getGameGroup(date: localDate, offset: secondsToHours).map { response -> [PeriodOfRecord] in
       guard let data = response.data else { return [] }

@@ -1,6 +1,6 @@
 import Combine
 import Foundation
-import SharedBu
+import sharedbu
 
 extension AnyPublisher {
   enum AsyncError: Error {

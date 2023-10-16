@@ -1,5 +1,5 @@
 import Foundation
-import SharedBu
+import sharedbu
 
 class CasinoMyBetAPI {
   private let httpClient: HttpClient

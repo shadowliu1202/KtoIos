@@ -1,7 +1,7 @@
 import Foundation
 import RxCocoa
 import RxSwift
-import SharedBu
+import sharedbu
 import SwiftUI
 
 protocol CouponFilterable: ObservableObject {

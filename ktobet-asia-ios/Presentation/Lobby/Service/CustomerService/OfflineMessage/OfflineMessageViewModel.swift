@@ -2,7 +2,7 @@ import Combine
 import Foundation
 import RxCocoa
 import RxSwift
-import SharedBu
+import sharedbu
 
 protocol OfflineMessageViewModelProtocol: AnyObject {
   var isLogin: Bool { get }

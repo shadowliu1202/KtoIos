@@ -1,5 +1,5 @@
 import Foundation
-import SharedBu
+import sharedbu
 
 class CommonAdapter: CommonProtocol {
   private let commonAPI: CommonAPI

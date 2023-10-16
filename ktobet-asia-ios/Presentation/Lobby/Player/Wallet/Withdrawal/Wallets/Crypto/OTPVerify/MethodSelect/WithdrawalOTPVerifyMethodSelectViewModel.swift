@@ -1,7 +1,7 @@
 import Combine
 import RxCocoa
 import RxSwift
-import SharedBu
+import sharedbu
 
 class WithdrawalOTPVerifyMethodSelectViewModel:
   WithdrawalOTPVerifyMethodSelectViewModelProtocol &
@@ -12,7 +12,7 @@ class WithdrawalOTPVerifyMethodSelectViewModel:
   @Published private(set) var isLoading = true
   @Published private(set) var isOTPRequestInProgress = false
 
-  @Published var selectedAccountType: SharedBu.AccountType = .phone
+  @Published var selectedAccountType: sharedbu.AccountType = .phone
 
   private let otpStatusSubject = PublishSubject<OtpStatus>()
 
@@ -115,7 +115,7 @@ class WithdrawalOTPVerifyMethodSelectViewModel:
   }
 
   private func updateOtpServiceAvailability(
-    for contactType: SharedBu.AccountType,
+    for contactType: sharedbu.AccountType,
     otpStatus: OtpStatus,
     contactInfo: PlayerInfo.Contact)
     -> WithdrawalOTPVerifyMethodSelectDataModel.OTPServiceStatus
@@ -178,7 +178,7 @@ class WithdrawalOTPVerifyMethodSelectViewModel:
 
   func requestOTP(
     bankCardID: String,
-    onCompleted: ((_ selectedAccountType: SharedBu.AccountType) -> Void)?)
+    onCompleted: ((_ selectedAccountType: sharedbu.AccountType) -> Void)?)
   {
     Completable.from(
       withdrawalAppService

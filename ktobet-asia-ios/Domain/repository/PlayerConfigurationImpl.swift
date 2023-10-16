@@ -1,4 +1,4 @@
-import SharedBu
+import sharedbu
 
 class PlayerConfigurationImpl: PlayerConfiguration,
   LocalStorable

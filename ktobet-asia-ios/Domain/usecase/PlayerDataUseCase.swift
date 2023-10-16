@@ -1,6 +1,6 @@
 import Foundation
 import RxSwift
-import SharedBu
+import sharedbu
 
 protocol PlayerDataUseCase {
   func getBalance() -> Single<AccountCurrency>

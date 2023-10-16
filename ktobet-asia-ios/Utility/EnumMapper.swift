@@ -1,18 +1,18 @@
 import Foundation
-import SharedBu
+import sharedbu
 
 class EnumMapper {
-  static func convert(messageType: Int32) -> SharedBu.MessageType {
+  static func convert(messageType: Int32) -> sharedbu.MessageType {
     try! EnumMapper.convert(messageType: messageType).1
   }
 
-  static func convert(messageType: SharedBu.MessageType) -> Int32 {
+  static func convert(messageType: sharedbu.MessageType) -> Int32 {
     try! EnumMapper.convert(messageType: messageType).0
   }
 
-  private static func convert(messageType: Any) throws -> (Int32, SharedBu.MessageType) {
+  private static func convert(messageType: Any) throws -> (Int32, sharedbu.MessageType) {
     switch messageType {
-    case let type as SharedBu.MessageType:
+    case let type as sharedbu.MessageType:
       switch type {
       case .text:
         return (0, .text)
@@ -76,17 +76,17 @@ class EnumMapper {
     }
   }
 
-  static func convert(accountType: Int) -> SharedBu.AccountType {
+  static func convert(accountType: Int) -> sharedbu.AccountType {
     try! EnumMapper.convert(accountType: accountType).1
   }
 
-  static func convert(accountType: SharedBu.AccountType) -> Int {
+  static func convert(accountType: sharedbu.AccountType) -> Int {
     try! EnumMapper.convert(accountType: accountType).0
   }
 
-  private static func convert(accountType: Any) throws -> (Int, SharedBu.AccountType) {
+  private static func convert(accountType: Any) throws -> (Int, sharedbu.AccountType) {
     switch accountType {
-    case let type as SharedBu.AccountType:
+    case let type as sharedbu.AccountType:
       switch type {
       case .email:
         return (1, .email)

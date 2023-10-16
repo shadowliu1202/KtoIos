@@ -1,5 +1,5 @@
 import Foundation
-import SharedBu
+import sharedbu
 
 struct LoginRequest: Encodable {
   var account: String

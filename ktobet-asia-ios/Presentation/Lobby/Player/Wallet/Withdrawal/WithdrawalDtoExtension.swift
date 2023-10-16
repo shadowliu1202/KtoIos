@@ -1,4 +1,4 @@
-import SharedBu
+import sharedbu
 import UIKit
 
 extension WithdrawalDto.LogStatus {

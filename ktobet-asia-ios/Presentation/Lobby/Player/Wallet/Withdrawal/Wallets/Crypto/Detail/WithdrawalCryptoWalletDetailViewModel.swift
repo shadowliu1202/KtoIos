@@ -1,6 +1,6 @@
 import Foundation
 import RxSwift
-import SharedBu
+import sharedbu
 
 protocol WithdrawalCryptoWalletDetailViewModelProtocol {
   var supportLocale: SupportLocale { get }

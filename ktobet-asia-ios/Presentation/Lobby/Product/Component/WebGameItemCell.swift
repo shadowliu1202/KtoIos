@@ -1,6 +1,6 @@
 import RxSwift
 import SDWebImage
-import SharedBu
+import sharedbu
 import UIKit
 
 class WebGameItemCell: UICollectionViewCell {

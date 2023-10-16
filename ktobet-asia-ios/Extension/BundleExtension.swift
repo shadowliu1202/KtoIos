@@ -1,5 +1,5 @@
 import Foundation
-import SharedBu
+import sharedbu
 
 extension Bundle {
   var releaseVersionNumber: String {

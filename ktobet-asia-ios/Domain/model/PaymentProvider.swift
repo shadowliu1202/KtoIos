@@ -1,4 +1,4 @@
-import SharedBu
+import sharedbu
 
 extension PaymentProvider {
   class func convert(_ id: Int) -> PaymentProvider {

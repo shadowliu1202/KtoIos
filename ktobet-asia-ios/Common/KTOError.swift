@@ -1,7 +1,7 @@
 import Alamofire
 import Foundation
 import Moya
-import SharedBu
+import sharedbu
 
 enum KTOError: Error {
   case EmptyData

@@ -1,5 +1,5 @@
 import Combine
-import SharedBu
+import sharedbu
 import SwiftUI
 
 extension OfflinePaymentView {

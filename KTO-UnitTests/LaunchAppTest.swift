@@ -1,7 +1,7 @@
 import Mockingbird
 import Moya
 import RxSwift
-import SharedBu
+import sharedbu
 import XCTest
 
 @testable import ktobet_asia_ios_qat

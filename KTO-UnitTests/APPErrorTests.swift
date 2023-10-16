@@ -1,6 +1,6 @@
 import Alamofire
 import Moya
-import SharedBu
+import sharedbu
 import XCTest
 
 @testable import ktobet_asia_ios_qat
@@ -23,7 +23,7 @@ final class APPErrorTests: XCTestCase {
       .inObjectScope(.application)
   }
   
-  func test_givenSharedBuError_whenGenerateResult_thenResultIsUnknownError() {
+  func test_givensharedbuError_whenGenerateResult_thenResultIsUnknownError() {
     let stubError = ApiException(message: "Test", errorCode: "1234")
     let actual = APPError.convert(by: stubError)
     
@@ -34,7 +34,7 @@ final class APPErrorTests: XCTestCase {
         userInfo: [
           "StatusCode": "1234",
           "ErrorMessage": "Test",
-          "ExceptionName": "SharedBuApiException"
+          "ExceptionName": "SharedbuApiException"
         ]))
     
     XCTAssertEqual(expect, actual)

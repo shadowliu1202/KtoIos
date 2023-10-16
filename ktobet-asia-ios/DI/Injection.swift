@@ -1,6 +1,6 @@
 import Foundation
 import RxSwift
-import SharedBu
+import sharedbu
 import Swinject
 
 final class Injection {
@@ -26,7 +26,7 @@ final class Injection {
     registViewModel()
     registSingleton()
 
-    registerSharedBuModule()
+    registersharedbuModule()
   }
 
   // MARK: - Setup Network Infa
@@ -1137,9 +1137,9 @@ final class Injection {
       .inObjectScope(.application)
   }
 
-  // MARK: - SharedBu
+  // MARK: - sharedbu
   
-  func registerSharedBuModule() {
+  func registersharedbuModule() {
     registerExternalProtocol()
     registerProductModule()
     registerWalletModule()

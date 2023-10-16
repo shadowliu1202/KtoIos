@@ -1,5 +1,5 @@
 import Foundation
-import SharedBu
+import sharedbu
 
 protocol NotificationRepository {
   func getActivityNotification() -> Single<NotificationSummary>
@@ -17,10 +17,10 @@ class NotificationRepositoryImpl: NotificationRepository {
   func searchNotification(keyword: String, page: Int) -> Single<NotificationSummary> {
     api.getPlayerAllNotification(page: page, keyword: keyword).flatMap { response in
       guard let data = response.data else { return Single.error(KTOError.EmptyData) }
-      let notifications = try data.documents.map { internalMessageBean -> SharedBu.Notification? in
+      let notifications = try data.documents.map { internalMessageBean -> sharedbu.Notification? in
         switch internalMessageBean.messageType {
         case 0:
-          return SharedBu.Notification.Maintenance(
+          return sharedbu.Notification.Maintenance(
             messageId: internalMessageBean.messageId,
             title: internalMessageBean.title,
             message: internalMessageBean.message,
@@ -31,13 +31,13 @@ class NotificationRepositoryImpl: NotificationRepository {
             maintenanceEnd: try internalMessageBean.maintenanceEndTime
               .toShareOffsetDateTime())
         case 1:
-          return SharedBu.Notification.General(
+          return sharedbu.Notification.General(
             messageId: internalMessageBean.messageId,
             title: internalMessageBean.title,
             message: internalMessageBean.message,
             displayTime: try internalMessageBean.showTime.toShareOffsetDateTime())
         case 2:
-          return SharedBu.Notification.Personal(
+          return sharedbu.Notification.Personal(
             messageId: internalMessageBean.messageId,
             title: internalMessageBean.title,
             message: internalMessageBean.message,
@@ -55,7 +55,7 @@ class NotificationRepositoryImpl: NotificationRepository {
     api.getActivityNotification().flatMap { response in
       guard let data = response.data else { return Single.error(KTOError.EmptyData) }
       let notifications = try data.documents.map { activityMessageBean in
-        SharedBu.Notification.Activity(
+        sharedbu.Notification.Activity(
           messageId: activityMessageBean.itemId,
           title: activityMessageBean.notifyTitle,
           message: activityMessageBean.notifyContent.replacingOccurrences(

@@ -1,11 +1,11 @@
 import Foundation
 import RxSwift
-import SharedBu
+import sharedbu
 
 protocol ArcadeRecordUseCase {
   func getBetSummary() -> Single<[DateSummary]>
   func getBetSummaryByDate(localDate: String, skip: Int, take: Int) -> Single<[GameGroupedRecord]>
-  func getBetRecord(startDate: SharedBu.LocalDateTime, endDate: SharedBu.LocalDateTime, gameId: Int32, skip: Int, take: Int)
+  func getBetRecord(startDate: sharedbu.LocalDateTime, endDate: sharedbu.LocalDateTime, gameId: Int32, skip: Int, take: Int)
     -> Single<[ArcadeGameBetRecord]>
 }
 
@@ -33,8 +33,8 @@ class ArcadeRecordUseCaseImpl: ArcadeRecordUseCase {
   }
 
   func getBetRecord(
-    startDate: SharedBu.LocalDateTime,
-    endDate: SharedBu.LocalDateTime,
+    startDate: sharedbu.LocalDateTime,
+    endDate: sharedbu.LocalDateTime,
     gameId: Int32,
     skip: Int,
     take: Int) -> Single<[ArcadeGameBetRecord]>

@@ -17,7 +17,7 @@ def default_pods
   pod 'IQKeyboardManagerSwift', '6.5.6'
   source 'git@gitlab.higgstar.com:mobile/ios_pod_repo.git'
   source 'https://github.com/CocoaPods/Specs.git'
-  pod 'sharedbu', '2.38.1'
+  pod 'sharedbu', '2.38.5'
   pod 'SideMenu', '6.5.0'
   pod 'Moya/RxSwift', '15.0.0'
   pod 'SDWebImage', '5.10.4'
@@ -111,7 +111,6 @@ end
 post_install do |installer|
       installer.pods_project.build_configurations.each do |config|
         config.build_settings['CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER'] = 'NO'
-        config.build_settings["EXCLUDED_ARCHS[sdk=iphonesimulator*]"] = "arm64"
         config.build_settings['GCC_WARN_INHIBIT_ALL_WARNINGS'] = "YES"
         config.build_settings['SWIFT_SUPPRESS_WARNINGS'] = "YES"
       end

@@ -1,5 +1,5 @@
 import RxSwift
-import SharedBu
+import sharedbu
 
 protocol WithdrawalFiatRequestStep1ViewModelProtocol: AnyObject {
   var supportLocale: SupportLocale { get }

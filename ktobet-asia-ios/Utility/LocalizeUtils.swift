@@ -1,5 +1,5 @@
 import Foundation
-import SharedBu
+import sharedbu
 
 private var _Localize = Injectable.resolve(LocalizeUtils.self)!
 

@@ -1,14 +1,14 @@
 import Foundation
 import RxSwift
-import SharedBu
+import sharedbu
 
 class Close: ChatRoomVisitor {
   func visit(config _: Config) {
     // Do nothing
   }
   
-  func visit(connection: SharedBu.Connection) {
-    connection.update(connectStatus: SharedBu.Connection.StatusClose())
+  func visit(connection: sharedbu.Connection) {
+    connection.update(connectStatus: sharedbu.Connection.StatusClose())
   }
   
   func visit(messageManager _: MessageManager) {

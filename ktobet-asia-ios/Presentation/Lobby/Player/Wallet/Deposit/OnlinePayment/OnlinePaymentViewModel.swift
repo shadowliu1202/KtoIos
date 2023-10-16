@@ -1,6 +1,6 @@
 import Foundation
 import RxSwift
-import SharedBu
+import sharedbu
 
 class OnlinePaymentViewModel:
   OnlinePaymentViewModelProtocol &

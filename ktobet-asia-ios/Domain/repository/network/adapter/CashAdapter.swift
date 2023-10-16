@@ -1,5 +1,5 @@
 import Foundation
-import SharedBu
+import sharedbu
 
 class CashAdapter: CashProtocol {
   private var playerAPI: PlayerApi!

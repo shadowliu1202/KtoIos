@@ -1,5 +1,5 @@
 import RxSwift
-import SharedBu
+import sharedbu
 import UIKit
 
 class CommonVerifyOtpViewController: CommonViewController {
@@ -236,14 +236,14 @@ extension OtpViewControllerProtocol {
 }
 
 protocol OtpValidatorDelegation {
-  var otpAccountType: ReplaySubject<SharedBu.AccountType?> { get set }
+  var otpAccountType: ReplaySubject<sharedbu.AccountType?> { get set }
   var otpPattern: Observable<OtpPattern> { get set }
   var otp: ReplaySubject<String> { get set }
   var isOtpValid: Observable<Bool> { get set }
 }
 
 class OtpValidator: OtpValidatorDelegation {
-  var otpAccountType = ReplaySubject<SharedBu.AccountType?>.create(bufferSize: 1)
+  var otpAccountType = ReplaySubject<sharedbu.AccountType?>.create(bufferSize: 1)
   var otpPattern: Observable<OtpPattern>
   var otp = ReplaySubject<String>.create(bufferSize: 1)
   var isOtpValid: Observable<Bool>

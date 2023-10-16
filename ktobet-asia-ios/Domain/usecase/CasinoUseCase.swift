@@ -1,6 +1,6 @@
 import Foundation
 import RxSwift
-import SharedBu
+import sharedbu
 
 protocol CasinoUseCase: WebGameUseCase {
   func getCasinoBetTypeTags() -> Single<[CasinoGameTag]>

@@ -1,5 +1,5 @@
 import Foundation
-import SharedBu
+import sharedbu
 
 class DepositAdapter: DepositProtocol {
   private let depositAPI: DepositAPI
@@ -11,7 +11,7 @@ class DepositAdapter: DepositProtocol {
   func getCryptoCurrency() -> SingleWrapper<ResponseItem<CryptoCurrencyBean>> {
     depositAPI
       .getCryptoCurrency()
-      .asReaktiveResponseItem(serial: SharedBu.CryptoCurrencyBean.companion.serializer())
+      .asReaktiveResponseItem(serial: sharedbu.CryptoCurrencyBean.companion.serializer())
   }
 
   func getCryptoExchangeFeeSetting(cryptoExchange: Int32) -> SingleWrapper<ResponseItem<FeeSettingBean>> {
@@ -78,7 +78,7 @@ class DepositAdapter: DepositProtocol {
       .asReaktiveResponseItem(serial: CryptoDepositResponseBean.companion.serializer())
   }
 
-  func putDepositImages(displayId: String, imageMappingRequest: ImageMappingRequestBean) -> SharedBu.Completable {
+  func putDepositImages(displayId: String, imageMappingRequest: ImageMappingRequestBean) -> sharedbu.Completable {
     depositAPI
       .bindingImageWithDepositRecord(id: displayId, bean: imageMappingRequest)
       .asReaktiveCompletable()

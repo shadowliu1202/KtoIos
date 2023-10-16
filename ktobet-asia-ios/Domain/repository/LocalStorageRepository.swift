@@ -1,5 +1,5 @@
 import Foundation
-import SharedBu
+import sharedbu
 
 protocol LocalStorageRepository {
   func getRememberMe() -> Bool
@@ -35,7 +35,7 @@ protocol LocalStorageRepository {
   func updatePlayerInfoCache(level: Int32?, productType: ProductType?)
   func setLastAPISuccessDate(_ time: Date?)
   func setLastLoginDate(_ day: Date?)
-  func timezone() -> SharedBu.TimeZone
+  func timezone() -> sharedbu.TimeZone
   func localeTimeZone() -> Foundation.TimeZone
 }
 
@@ -245,7 +245,7 @@ class LocalStorageRepositoryImpl: LocalStorageRepository,
     set(value: day, key: .lastLoginDate)
   }
 
-  func timezone() -> SharedBu.TimeZone {
+  func timezone() -> sharedbu.TimeZone {
     playerConfiguration.timezone()
   }
 

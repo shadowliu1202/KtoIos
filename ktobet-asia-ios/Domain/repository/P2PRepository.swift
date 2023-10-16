@@ -1,6 +1,6 @@
 import Foundation
 import RxSwift
-import SharedBu
+import sharedbu
 
 protocol P2PRepository: WebGameCreateRepository {
   func getTurnOverStatus() -> Single<P2PTurnOver>

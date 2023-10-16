@@ -1,4 +1,4 @@
-import SharedBu
+import sharedbu
 
 extension ArcadeGame: WebGameWithDuplicatable {
   func duplicate(isFavorite: Bool) -> WebGameWithDuplicatable {

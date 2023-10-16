@@ -1,18 +1,18 @@
 import Foundation
-import SharedBu
+import sharedbu
 
 protocol WithdrawalOTPVerifyMethodSelectViewModelProtocol: AnyObject {
   var otpServiceAvailability: WithdrawalOTPVerifyMethodSelectDataModel.OTPServiceStatus { get }
   var isLoading: Bool { get }
   var isOTPRequestInProgress: Bool { get }
 
-  var selectedAccountType: SharedBu.AccountType { get set }
+  var selectedAccountType: sharedbu.AccountType { get set }
 
   func setup(_ otpServiceUnavailable: (() -> Void)?)
 
   func requestOTP(
     bankCardID: String,
-    onCompleted: ((_ selectedAccountType: SharedBu.AccountType) -> Void)?)
+    onCompleted: ((_ selectedAccountType: sharedbu.AccountType) -> Void)?)
 }
 
 struct WithdrawalOTPVerifyMethodSelectDataModel {

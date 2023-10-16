@@ -1,4 +1,4 @@
-import SharedBu
+import sharedbu
 import SwiftUI
 
 struct WithdrawalCryptoWalletDetailView<ViewModel>: View

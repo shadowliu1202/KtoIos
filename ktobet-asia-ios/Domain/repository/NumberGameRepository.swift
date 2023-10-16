@@ -1,7 +1,7 @@
 import Foundation
 import RxCocoa
 import RxSwift
-import SharedBu
+import sharedbu
 
 protocol NumberGameRepository: WebGameRepository {
   func searchGames(order: GameSorting, tags: Set<GameFilter>) -> Observable<[NumberGame]>

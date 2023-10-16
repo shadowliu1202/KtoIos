@@ -1,4 +1,4 @@
-import SharedBu
+import sharedbu
 
 enum DepositType: Int {
   case OfflinePayment = 0

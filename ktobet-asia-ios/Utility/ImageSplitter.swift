@@ -1,7 +1,7 @@
 import Foundation
 import Photos
 import RxSwift
-import SharedBu
+import sharedbu
 
 class ImageSplitter {
   static let chunkSize = 512 * 1024

@@ -1,5 +1,5 @@
 import Foundation
-import SharedBu
+import sharedbu
 
 protocol OnlinePaymentViewModelProtocol {
   var remitMethodName: String { get }

@@ -1,6 +1,6 @@
 import CoreGraphics
 import Foundation
-import SharedBu
+import sharedbu
 import UIKit
 
 final class Theme {

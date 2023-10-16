@@ -1,6 +1,6 @@
 import RxGesture
 import RxSwift
-import SharedBu
+import sharedbu
 import UIKit
 
 class CryptoSelectorViewController:

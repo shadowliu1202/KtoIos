@@ -1,7 +1,7 @@
 import Foundation
 import RxCocoa
 import RxSwift
-import SharedBu
+import sharedbu
 
 class CustomerServiceMainViewModel {
   private let chatAppService: IChatAppService
@@ -13,7 +13,7 @@ class CustomerServiceMainViewModel {
   func getIsChatRoomExist() -> Observable<Bool> {
     Observable
       .from(chatAppService.observeChatRoom())
-      .map { $0.status != SharedBu.Connection.StatusNotExist() }
+      .map { $0.status != sharedbu.Connection.StatusNotExist() }
   }
   
   func leftCustomerService() -> Observable<Void> {

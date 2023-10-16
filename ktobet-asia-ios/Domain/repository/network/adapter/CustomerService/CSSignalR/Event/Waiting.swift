@@ -1,6 +1,6 @@
 import Foundation
 import RxSwift
-import SharedBu
+import sharedbu
 
 class Waiting: ChatRoomVisitor {
   private let queueNumber: Int?
@@ -13,9 +13,9 @@ class Waiting: ChatRoomVisitor {
     // Do nothing
   }
   
-  func visit(connection: SharedBu.Connection) {
+  func visit(connection: sharedbu.Connection) {
     switch connection.status {
-    case let status as SharedBu.Connection.StatusConnecting:
+    case let status as sharedbu.Connection.StatusConnecting:
       let currentQueueNumber = { [queueNumber] in
         if let queueNumber {
           return Int32(queueNumber)
@@ -26,13 +26,13 @@ class Waiting: ChatRoomVisitor {
       }()
       
       connection.update(
-        connectStatus: SharedBu.Connection.StatusConnecting(waitInLine: currentQueueNumber))
+        connectStatus: sharedbu.Connection.StatusConnecting(waitInLine: currentQueueNumber))
       
-    case is SharedBu.Connection.StatusNotExist:
-      connection.update(connectStatus: SharedBu.Connection.StatusConnecting(waitInLine: connection.initialWaiting))
+    case is sharedbu.Connection.StatusNotExist:
+      connection.update(connectStatus: sharedbu.Connection.StatusConnecting(waitInLine: connection.initialWaiting))
       
-    case is SharedBu.Connection.StatusClose,
-         is SharedBu.Connection.StatusConnected: break
+    case is sharedbu.Connection.StatusClose,
+         is sharedbu.Connection.StatusConnected: break
       
     default: break
     }

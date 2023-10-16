@@ -1,4 +1,4 @@
-import SharedBu
+import sharedbu
 import UIKit
 
 let subTagOneLineHeight: CGFloat = 17

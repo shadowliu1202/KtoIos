@@ -1,4 +1,4 @@
-import SharedBu
+import sharedbu
 
 extension WithdrawalSystem {
   static func create() -> WithdrawalSystem {

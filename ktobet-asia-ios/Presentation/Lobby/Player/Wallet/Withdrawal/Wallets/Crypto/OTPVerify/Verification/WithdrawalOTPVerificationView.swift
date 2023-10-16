@@ -1,4 +1,4 @@
-import SharedBu
+import sharedbu
 import SwiftUI
 
 struct WithdrawalOTPVerificationView<ViewModel>: View
@@ -8,7 +8,7 @@ struct WithdrawalOTPVerificationView<ViewModel>: View
 {
   @StateObject private var viewModel: ViewModel
 
-  private let accountType: SharedBu.AccountType?
+  private let accountType: sharedbu.AccountType?
 
   private let otpVerifyOnCompleted: (() -> Void)?
   private let otpResentOnCompleted: (() -> Void)?
@@ -17,7 +17,7 @@ struct WithdrawalOTPVerificationView<ViewModel>: View
 
   init(
     viewModel: ViewModel,
-    accountType: SharedBu.AccountType?,
+    accountType: sharedbu.AccountType?,
     otpVerifyOnCompleted: (() -> Void)? = nil,
     otpResentOnCompleted: (() -> Void)? = nil,
     onErrorRedirect: ((Error) -> Void)? = nil)
@@ -67,13 +67,13 @@ extension WithdrawalOTPVerificationView {
 
     @Binding private var otpCode: String
 
-    private let accountType: SharedBu.AccountType?
+    private let accountType: sharedbu.AccountType?
 
     var inspection = Inspection<Self>()
 
     init(
       _ otpCode: Binding<String>,
-      _ accountType: SharedBu.AccountType?)
+      _ accountType: sharedbu.AccountType?)
     {
       self._otpCode = otpCode
       self.accountType = accountType
@@ -125,7 +125,7 @@ extension WithdrawalOTPVerificationView {
 
     private let otpCode: String
 
-    private let accountType: SharedBu.AccountType?
+    private let accountType: sharedbu.AccountType?
 
     private let otpVerifyOnCompleted: (() -> Void)?
     private let otpResentOnCompleted: (() -> Void)?
@@ -134,7 +134,7 @@ extension WithdrawalOTPVerificationView {
 
     init(
       _ otpCode: String,
-      _ accountType: SharedBu.AccountType?,
+      _ accountType: sharedbu.AccountType?,
       _ otpVerifyOnCompleted: (() -> Void)?,
       _ otpResentOnCompleted: (() -> Void)?,
       _ onErrorRedirect: ((Error) -> Void)?)
@@ -220,7 +220,7 @@ struct WithdrawalOTPVerificationView_Previews: PreviewProvider {
 
     @Published var otpCode = ""
 
-    func setup(accountType _: SharedBu.AccountType) { }
+    func setup(accountType _: sharedbu.AccountType) { }
 
     func verifyOTP(onCompleted _: (() -> Void)?, onErrorRedirect _: ((Error) -> Void)?) { }
     

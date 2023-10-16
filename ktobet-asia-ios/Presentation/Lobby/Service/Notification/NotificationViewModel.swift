@@ -1,7 +1,7 @@
 import Foundation
 import RxCocoa
 import RxSwift
-import SharedBu
+import sharedbu
 
 class NotificationViewModel: CollectErrorViewModel {
   private(set) var input: Input!
@@ -14,7 +14,7 @@ class NotificationViewModel: CollectErrorViewModel {
   private let selectedMessageId = BehaviorSubject<String>(value: "")
   private let refreshTrigger = PublishSubject<Void>()
   private let deleteTrigger = PublishSubject<Void>()
-  private var pagination: Pagination<SharedBu.Notification>!
+  private var pagination: Pagination<sharedbu.Notification>!
 
   init(useCase: NotificationUseCase, configurationUseCase: ConfigurationUseCase, systemStatusUseCase: ISystemStatusUseCase) {
     super.init()
@@ -45,10 +45,10 @@ class NotificationViewModel: CollectErrorViewModel {
   }
 
   private func initPagination() {
-    pagination = Pagination<SharedBu.Notification>(
+    pagination = Pagination<sharedbu.Notification>(
       startIndex: 1,
       offset: 1,
-      observable: { [unowned self] page -> Observable<[SharedBu.Notification]> in
+      observable: { [unowned self] page -> Observable<[sharedbu.Notification]> in
         self.searchNotification(page: page)
       })
   }
@@ -77,8 +77,8 @@ class NotificationViewModel: CollectErrorViewModel {
   }
 
   private func sortedNotifications(
-    activityNotifications: [SharedBu.Notification],
-    playerNotifications: [SharedBu.Notification]) -> [NotificationItem]
+    activityNotifications: [sharedbu.Notification],
+    playerNotifications: [sharedbu.Notification]) -> [NotificationItem]
   {
     let supportLocale = configurationUseCase.locale()
     let allNotification = activityNotifications + playerNotifications
@@ -114,7 +114,7 @@ class NotificationViewModel: CollectErrorViewModel {
       })
   }
 
-  private func searchNotification(page: Int) -> Observable<[SharedBu.Notification]> {
+  private func searchNotification(page: Int) -> Observable<[sharedbu.Notification]> {
     useCase.searchNotification(keyword: try! keyword.value(), page: page)
       .map { $0.notifications }
       .compose(self.applySingleErrorHandler()).asObservable()
@@ -157,41 +157,41 @@ class NotificationItem {
   var transactionId: String?
   var displayCsContact: Bool?
 
-  init(_ bean: SharedBu.Notification, supportLocale: SupportLocale) {
+  init(_ bean: sharedbu.Notification, supportLocale: SupportLocale) {
     self.messageId = bean.messageId
     self.title = createActivityTitle(notification: bean)
     self.dateTime = bean.displayTime.toDateTimeString()
     self.content = createActivityContent(notification: bean, supportLocale: supportLocale)
     self.deletable = bean.deletable
-    if let maintenanceNotification = bean as? SharedBu.Notification.Maintenance {
+    if let maintenanceNotification = bean as? sharedbu.Notification.Maintenance {
       self.maintenanceTime = maintenanceNotification.maintenanceStart
       self.maintenanceEndTime = maintenanceNotification.maintenanceEnd
     }
-    else if let activityNotification = bean as? SharedBu.Notification.Activity {
+    else if let activityNotification = bean as? sharedbu.Notification.Activity {
       self.activityType = activityNotification.myActivityType
       self.transactionId = activityNotification.transactionId
     }
-    self.displayCsContact = bean is SharedBu.Notification.Activity ? false : true
+    self.displayCsContact = bean is sharedbu.Notification.Activity ? false : true
     self.typeTitle = createTypeTitle(bean)
   }
 
-  private func createTypeTitle(_ element: SharedBu.Notification) -> String {
+  private func createTypeTitle(_ element: sharedbu.Notification) -> String {
     switch element {
-    case is SharedBu.Notification.Maintenance:
+    case is sharedbu.Notification.Maintenance:
       return Localize.string("notification_type_0")
-    case is SharedBu.Notification.Activity:
+    case is sharedbu.Notification.Activity:
       return Localize.string("notification_type_activity")
-    case is SharedBu.Notification.General:
+    case is sharedbu.Notification.General:
       return Localize.string("notification_type_1")
-    case is SharedBu.Notification.Personal:
+    case is sharedbu.Notification.Personal:
       return Localize.string("notification_type_2")
     default:
       return ""
     }
   }
 
-  private func createActivityTitle(notification: SharedBu.Notification) -> String {
-    guard let notify = notification as? SharedBu.Notification.Activity else {
+  private func createActivityTitle(notification: sharedbu.Notification) -> String {
+    guard let notify = notification as? sharedbu.Notification.Activity else {
       return notification.title
     }
     let type = notify.myActivityType
@@ -217,8 +217,8 @@ class NotificationItem {
     }
   }
 
-  private func createActivityContent(notification: SharedBu.Notification, supportLocale: SupportLocale) -> String {
-    guard let item = notification as? SharedBu.Notification.Activity else {
+  private func createActivityContent(notification: sharedbu.Notification, supportLocale: SupportLocale) -> String {
+    guard let item = notification as? sharedbu.Notification.Activity else {
       return notification.message
     }
     switch item.myActivityType {

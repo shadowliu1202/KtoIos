@@ -1,4 +1,4 @@
-import SharedBu
+import sharedbu
 import XCTest
 
 @testable import ktobet_asia_ios_qat
@@ -7,7 +7,7 @@ class StringExtensionTest: XCBaseTestCase {
   func testToLocalDateTime() {
     let apiReturnDate = "2022-06-10T00:00:00+08:00"
 
-    let expect = SharedBu.LocalDateTime(
+    let expect = sharedbu.LocalDateTime(
       year: 2022,
       monthNumber: 6,
       dayOfMonth: 9,
@@ -19,7 +19,7 @@ class StringExtensionTest: XCBaseTestCase {
 
     XCTAssertEqual(expect, actual)
 
-    let expect1 = SharedBu.LocalDateTime(
+    let expect1 = sharedbu.LocalDateTime(
       year: 2022,
       monthNumber: 6,
       dayOfMonth: 10,
@@ -35,7 +35,7 @@ class StringExtensionTest: XCBaseTestCase {
   func testToLocalDateTimeWithAccountTimeZone() {
     let apiReturnDate = "2022-06-10"
 
-    let expect = SharedBu.LocalDateTime(
+    let expect = sharedbu.LocalDateTime(
       year: 2022,
       monthNumber: 6,
       dayOfMonth: 10,
@@ -49,7 +49,7 @@ class StringExtensionTest: XCBaseTestCase {
 
     let apiReturnDate1 = "2022/06/10"
 
-    let expect1 = SharedBu.LocalDateTime(
+    let expect1 = sharedbu.LocalDateTime(
       year: 2022,
       monthNumber: 6,
       dayOfMonth: 10,
@@ -65,12 +65,12 @@ class StringExtensionTest: XCBaseTestCase {
   func testToLocalDate() {
     let apiReturnDate = "2022-06-10T00:00:00+08:00"
 
-    let expect = SharedBu.LocalDate(year: 2022, monthNumber: 6, dayOfMonth: 9)
+    let expect = sharedbu.LocalDate(year: 2022, monthNumber: 6, dayOfMonth: 9)
     let actual = try! apiReturnDate.toLocalDate(timeZone: TimeZone(identifier: "Asia/Saigon")!)
 
     XCTAssertEqual(expect, actual)
 
-    let expect1 = SharedBu.LocalDate(year: 2022, monthNumber: 6, dayOfMonth: 10)
+    let expect1 = sharedbu.LocalDate(year: 2022, monthNumber: 6, dayOfMonth: 10)
     let actual1 = try! apiReturnDate.toLocalDate(timeZone: TimeZone(identifier: "Asia/Taipei")!)
 
     XCTAssertEqual(expect1, actual1)
@@ -79,14 +79,14 @@ class StringExtensionTest: XCBaseTestCase {
   func testToLocalDateWithAccountTimeZone() {
     let apiReturnDate = "2022-06-10"
 
-    let expect = SharedBu.LocalDate(year: 2022, monthNumber: 6, dayOfMonth: 10)
+    let expect = sharedbu.LocalDate(year: 2022, monthNumber: 6, dayOfMonth: 10)
     let actual = try! apiReturnDate.toLocalDateWithAccountTimeZone()
 
     XCTAssertEqual(expect, actual)
 
     let apiReturnDate1 = "2022/06/10"
 
-    let expect1 = SharedBu.LocalDate(year: 2022, monthNumber: 6, dayOfMonth: 10)
+    let expect1 = sharedbu.LocalDate(year: 2022, monthNumber: 6, dayOfMonth: 10)
     let actual1 = try! apiReturnDate1.toLocalDateWithAccountTimeZone()
 
     XCTAssertEqual(expect1, actual1)
@@ -95,7 +95,7 @@ class StringExtensionTest: XCBaseTestCase {
   func testToOffsetDateTime() {
     let apiReturnDate = "2022-06-10T00:00:00+08:00"
     let timeZone = TimeZone(identifier: "Asia/Taipei")!
-    let localDateTime = SharedBu.LocalDateTime(
+    let localDateTime = sharedbu.LocalDateTime(
       year: 2022,
       monthNumber: 6,
       dayOfMonth: 10,
@@ -104,7 +104,7 @@ class StringExtensionTest: XCBaseTestCase {
       second: 0,
       nanosecond: 0)
 
-    let expect = SharedBu.OffsetDateTime.companion.create(localDateTime: localDateTime, zoneId: timeZone.identifier)
+    let expect = sharedbu.OffsetDateTime.companion.create(localDateTime: localDateTime, zoneId: timeZone.identifier)
     let actual = try! apiReturnDate.toOffsetDateTime()
 
     XCTAssertEqual(expect.epochSeconds, actual.epochSeconds)
@@ -113,7 +113,7 @@ class StringExtensionTest: XCBaseTestCase {
   func testToOffsetDateTimeWithAccountTimeZone() {
     let apiReturnDate = "2022-06-10"
     let timeZone = TimeZone(identifier: "Asia/Taipei")!
-    let localDateTime = SharedBu.LocalDateTime(
+    let localDateTime = sharedbu.LocalDateTime(
       year: 2022,
       monthNumber: 6,
       dayOfMonth: 10,
@@ -122,7 +122,7 @@ class StringExtensionTest: XCBaseTestCase {
       second: 0,
       nanosecond: 0)
 
-    let expect = SharedBu.OffsetDateTime.companion.create(localDateTime: localDateTime, zoneId: timeZone.identifier)
+    let expect = sharedbu.OffsetDateTime.companion.create(localDateTime: localDateTime, zoneId: timeZone.identifier)
     let actual = try! apiReturnDate.toOffsetDateTimeWithAccountTimeZone(timeZone: timeZone)
 
     XCTAssertEqual(expect.epochSeconds, actual.epochSeconds)

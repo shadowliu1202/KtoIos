@@ -1,5 +1,5 @@
 import Foundation
-import SharedBu
+import sharedbu
 
 class CasinoStringServiceAdapter: CasinoStringService {
   let productBanker = ResourceKey(key: Localize.string("product_banker"))

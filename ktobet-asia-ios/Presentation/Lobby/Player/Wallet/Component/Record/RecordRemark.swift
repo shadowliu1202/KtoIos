@@ -1,4 +1,4 @@
-import SharedBu
+import sharedbu
 import SwiftUI
 
 @available(*, deprecated, message: "Waiting for refactor.")

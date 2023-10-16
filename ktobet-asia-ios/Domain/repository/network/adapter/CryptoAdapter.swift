@@ -1,5 +1,5 @@
 import Foundation
-import SharedBu
+import sharedbu
 
 class CryptoAdapter: CryptoProtocol {
   private let cryptoAPI: CryptoAPI
@@ -46,13 +46,13 @@ class CryptoAdapter: CryptoProtocol {
       .asReaktiveCompletable()
   }
 
-  func postCryptoSendOTP(verifyRequest: AccountVerifyRequest) -> SingleWrapper<SharedBu.Response<KotlinNothing>> {
+  func postCryptoSendOTP(verifyRequest: AccountVerifyRequest) -> SingleWrapper<sharedbu.Response<KotlinNothing>> {
     cryptoAPI
       .sendAccountVerifyOTP(request: verifyRequest)
       .asReaktiveResponseNothing()
   }
 
-  func postCryptoVerifyOTP(verifyOtp: OTPVerifyRequest) -> SingleWrapper<SharedBu.Response<KotlinNothing>> {
+  func postCryptoVerifyOTP(verifyOtp: OTPVerifyRequest) -> SingleWrapper<sharedbu.Response<KotlinNothing>> {
     cryptoAPI
       .verifyOTP(request: verifyOtp)
       .asReaktiveResponseNothing()

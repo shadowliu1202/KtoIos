@@ -1,7 +1,7 @@
 import Foundation
 import RxCocoa
 import RxSwift
-import SharedBu
+import sharedbu
 
 class ArcadeViewModel: CollectErrorViewModel, ProductViewModel {
   @Injected private var loading: Loading

@@ -1,6 +1,6 @@
 import RxDataSources
 import RxSwift
-import SharedBu
+import sharedbu
 import SnapKit
 import UIKit
 
@@ -75,7 +75,7 @@ class SlotSummaryViewController: LobbyViewController {
             DateSummary(
               totalStakes: 0.toAccountCurrency(),
               totalWinLoss: 0.toAccountCurrency(),
-              createdDateTime: SharedBu.LocalDate(year: 0, monthNumber: 1, dayOfMonth: 1),
+              createdDateTime: sharedbu.LocalDate(year: 0, monthNumber: 1, dayOfMonth: 1),
               count: 0),
             at: 0)
         }

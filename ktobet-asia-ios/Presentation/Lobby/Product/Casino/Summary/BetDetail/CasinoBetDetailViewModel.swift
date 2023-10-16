@@ -1,7 +1,7 @@
 import Combine
 import Foundation
 import RxSwift
-import SharedBu
+import sharedbu
 import SwiftUI
 
 protocol ICasinoBetDetailViewModel {

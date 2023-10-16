@@ -1,7 +1,7 @@
 import Foundation
 import RxCocoa
 import RxSwift
-import SharedBu
+import sharedbu
 
 class CustomerServiceViewModel {
   private let chatAppService: IChatAppService
@@ -31,7 +31,7 @@ class CustomerServiceViewModel {
   lazy var chatRoomConnection = observeChatRoom.map { $0.status }
   
   lazy var currentQueueNumber = chatRoomConnection.map {
-    if let connecting = $0 as? SharedBu.Connection.StatusConnecting {
+    if let connecting = $0 as? sharedbu.Connection.StatusConnecting {
       return Int(connecting.waitInLine)
     }
     else {
@@ -59,7 +59,7 @@ class CustomerServiceViewModel {
       .first()
       .value
     
-    if try await status == SharedBu.Connection.StatusNotExist() {
+    if try await status == sharedbu.Connection.StatusNotExist() {
       try await create()
     }
   }

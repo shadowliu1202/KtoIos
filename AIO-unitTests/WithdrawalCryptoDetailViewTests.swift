@@ -1,5 +1,5 @@
 import Mockingbird
-import SharedBu
+import sharedbu
 import ViewInspector
 import XCTest
 

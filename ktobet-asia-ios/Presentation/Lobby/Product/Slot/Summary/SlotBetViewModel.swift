@@ -1,7 +1,7 @@
 import Foundation
 import RxCocoa
 import RxSwift
-import SharedBu
+import sharedbu
 
 class SlotBetViewModel: CollectErrorViewModel, ProductWebGameViewModelProtocol {
   @Injected private var loading: Loading
@@ -68,8 +68,8 @@ class SlotBetViewModel: CollectErrorViewModel, ProductWebGameViewModelProtocol {
 
   private func getBetRecords(
     offset: Int,
-    startDate: SharedBu.LocalDateTime,
-    endDate: SharedBu.LocalDateTime,
+    startDate: sharedbu.LocalDateTime,
+    endDate: sharedbu.LocalDateTime,
     gameId: Int32) -> Single<CommonPage<SlotBetRecord>>
   {
     slotRecordUseCase.getBetRecordByPage(
@@ -107,7 +107,7 @@ class SlotBetViewModel: CollectErrorViewModel, ProductWebGameViewModelProtocol {
     fetchNextUnsettledRecords(betTime: section.betTime, 0).subscribe().disposed(by: disposeBag)
   }
 
-  func fetchNextUnsettledRecords(betTime: SharedBu.LocalDateTime, _ lastIndex: Int) -> Single<CommonPage<SlotUnsettledRecord>> {
+  func fetchNextUnsettledRecords(betTime: sharedbu.LocalDateTime, _ lastIndex: Int) -> Single<CommonPage<SlotUnsettledRecord>> {
     let offset = lastIndex == 0 ? 0 : lastIndex + 1
     return self.getUnsettledRecords(betTime: betTime, offset: offset).do(onSuccess: { [weak self] response in
       guard
@@ -124,7 +124,7 @@ class SlotBetViewModel: CollectErrorViewModel, ProductWebGameViewModelProtocol {
     })
   }
 
-  private func getUnsettledRecords(betTime: SharedBu.LocalDateTime, offset: Int) -> Single<CommonPage<SlotUnsettledRecord>> {
+  private func getUnsettledRecords(betTime: sharedbu.LocalDateTime, offset: Int) -> Single<CommonPage<SlotUnsettledRecord>> {
     slotRecordUseCase.getUnsettledRecords(betTime: betTime, offset: offset, take: PaginationTake)
   }
 }
@@ -153,7 +153,7 @@ class SlotUnsettledSection {
   private let summary: SlotUnsettledSummary
   var records: [SlotUnsettledRecord] = []
 
-  var betTime: SharedBu.LocalDateTime {
+  var betTime: sharedbu.LocalDateTime {
     summary.betTime
   }
 
