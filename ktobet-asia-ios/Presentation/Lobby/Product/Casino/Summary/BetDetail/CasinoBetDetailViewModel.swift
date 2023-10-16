@@ -39,7 +39,7 @@ class CasinoBetDetailViewModel:
   func bindBetDetail(_ wagerID: String) {
     AnyPublisher.from(casinoMyBetAppService.getDetail(id: wagerID))
       .receive(on: DispatchQueue.main)
-      .redirectErrors(to: errorsSubject)
+      .redirectErrors(to: self)
       .assignOptional(to: &$betDetail)
   }
   

@@ -41,34 +41,6 @@ class SurveyViewModel {
     return true
   })
 
-  var offlineSurveyAccount = BehaviorRelay<String?>(value: nil)
-  var offlineSurveyContent = BehaviorRelay<String?>(value: nil)
-
-  lazy var accontValid: Observable<ValidError> = offlineSurveyAccount.skip(InitAndKeyboardFirstEvent).compactMap({ $0 })
-    .map { text -> ValidError in
-      if text.count == 0 {
-        return .empty
-      }
-      else if !Account.Email(email: text).isValid() {
-        return .regex
-      }
-      else {
-        return .none
-      }
-    }
-
-  private lazy var isAccountValid = accontValid.map({ $0 == .none ? true : false })
-  lazy var isSurveyContentValid: Observable<Bool> = offlineSurveyContent.compactMap({ $0 }).map({ !$0.isEmpty })
-  lazy var isGuest: Single<Bool> = self.authenticationUseCase.accountValidation().map({ !$0 })
-  lazy var isOfflineSurveyValid = isGuest.catch({ _ in Single.just(false) }).asObservable()
-    .flatMap({ [unowned self] isGuest -> Observable<Bool> in
-      if isGuest {
-        return Observable.combineLatest(self.isAccountValid, self.isSurveyContentValid).compactMap({ ($0, $1) })
-          .map({ $0 && $1 })
-      }
-      return self.isSurveyContentValid
-    }).startWith(false)
-
   init(
     _ surveyAppService: ISurveyAppService,
     _ authenticationUseCase: AuthenticationUseCase)
@@ -124,7 +96,7 @@ class SurveyViewModel {
             roomId: roomId,
             answer: surveyTempMapper.convertToCSSurveyAnswersDTO(surveyAnswers)))
   }
-
+  
   private func convertSurveyAnswerItems(with survey: Survey) -> SurveyAnswers {
     var answers: [SurveyQuestion_: [SurveyQuestion_.SurveyQuestionOption]] = [:]
     cachedSurveyAnswers?.forEach({
@@ -135,16 +107,6 @@ class SurveyViewModel {
       surveyId: survey.surveyId,
       answers: answers,
       surveyType: survey.surveyType)
-  }
-
-  func createOfflineSurvey() -> Completable {
-    let msg = offlineSurveyContent.value ?? ""
-    let email = offlineSurveyAccount.value ?? ""
-    
-    return Completable
-      .from(
-        surveyAppService
-          .answerOfflineSurvey(message: msg, email: email))
   }
 }
 

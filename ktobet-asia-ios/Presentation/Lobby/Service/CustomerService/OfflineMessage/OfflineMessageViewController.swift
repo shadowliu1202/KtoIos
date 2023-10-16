@@ -1,81 +1,49 @@
-import RxSwift
-import SharedBu
+import Combine
+import SwiftUI
 import UIKit
 
-class OfflineMessageViewController: CommonViewController {
+final class OfflineMessageViewController: CommonViewController {
   var barButtonItems: [UIBarButtonItem] = []
-
-  @IBOutlet weak var emailInputText: InputText!
-  @IBOutlet weak var emailErrorLabel: UILabel!
-  @IBOutlet weak var messageContent: UITextView!
-  @IBOutlet weak var completeBtn: UIButton!
-  @IBOutlet weak var emailInputTextHetght: NSLayoutConstraint!
-  @IBOutlet weak var emailInputTextTopMargin: NSLayoutConstraint!
-
-  private var viewModel = Injectable.resolve(SurveyViewModel.self)!
-  private var disposeBag = DisposeBag()
-
+  
+  private var viewModel: OfflineMessageViewModel
+  private var cancellables = Set<AnyCancellable>()
+  
+  init(viewModel: OfflineMessageViewModel) {
+    self.viewModel = viewModel
+    super.init(nibName: nil, bundle: nil)
+  }
+  
+  required init?(coder _: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
-    initUI()
-    dataBinding()
+    setupUI()
+    binding()
   }
-
-  private func initUI() {
-    emailInputText.setTitle(Localize.string("common_email"))
-    emailInputText.setCorner(topCorner: true, bottomCorner: true)
-    emailInputText.setKeyboardType(.emailAddress)
-    emailInputText.maxLength = Account.Email.companion.MAX_LENGTH
-    messageContent.delegate = self
-    messageContent.text = Localize.string("customerservice_offline_survey_hint")
-    messageContent.textColor = UIColor.textPrimary
-    messageContent.textContainer.lineFragmentPadding = 0
-    messageContent.textContainerInset = UIEdgeInsets(top: 15, left: 15, bottom: 15, right: 15)
+  
+  deinit {
+    Logger.shared.info("\(type(of: self)) deinit")
   }
-
-  private func dataBinding() {
-    viewModel.isGuest.subscribe(onSuccess: { [weak self] in
-      if $0 == false {
-        self?.emailInputTextHetght.constant = 0
-        self?.emailInputTextTopMargin.constant = 18
-      }
-    }, onFailure: { [weak self] in
-      self?.handleErrors($0)
-    }).disposed(by: disposeBag)
-    (emailInputText.textContent.rx.text <-> viewModel.offlineSurveyAccount).disposed(by: disposeBag)
-    viewModel.accontValid.subscribe(onNext: { [weak self] in
-      let message = self?.transferError($0)
-      self?.emailErrorLabel.text = message
-      self?.emailInputText.showUnderline(message?.count ?? 0 > 0)
-      self?.emailInputText.setCorner(topCorner: true, bottomCorner: message?.count == 0)
-    }).disposed(by: disposeBag)
-    viewModel.isOfflineSurveyValid.bind(to: completeBtn.rx.isValid).disposed(by: disposeBag)
+  
+  private func setupUI() {
+    view.backgroundColor = .greyScaleDefault
+    
+    addSubView(from: { [unowned self] in
+      OfflineMessageView(
+        viewModel: self.viewModel,
+        submitOnComplete: { [unowned self] in surveySentSuccess() })
+    }, to: view)
   }
-
-  func transferError(_ error: ValidError) -> String {
-    switch error {
-    case .length,
-         .regex:
-      return Localize.string("common_error_email_format")
-    case .empty:
-      return Localize.string("common_field_must_fill")
-    case .none:
-      return ""
-    }
+  
+  private func binding() {
+    viewModel.errors()
+      .sink(receiveValue: { [unowned self] in handleErrors($0) })
+      .store(in: &cancellables)
   }
-
-  @IBAction
-  func pressSend(_: Any) {
-    self.completeBtn.isEnabled = false
-    viewModel.createOfflineSurvey().subscribe(onCompleted: { [weak self] in
-      self?.notifySurveySentSuccessfully()
-    }, onError: { [weak self] in
-      self?.completeBtn.isEnabled = true
-      self?.handleErrors($0)
-    }).disposed(by: disposeBag)
-  }
-
-  private func notifySurveySentSuccessfully() {
+  
+  private func surveySentSuccess() {
     Alert.shared.show(
       Localize.string("customerservice_offline_survey_confirm_title"),
       Localize.string("customerservice_offline_survey_confirm_content"),
@@ -84,35 +52,10 @@ class OfflineMessageViewController: CommonViewController {
       },
       cancel: nil)
   }
-
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
 }
 
 extension OfflineMessageViewController: BarButtonItemable {
   func pressedRightBarButtonItems(_: UIBarButtonItem) {
     CustomServicePresenter.shared.resetStatus()
-  }
-}
-
-extension OfflineMessageViewController: UITextViewDelegate {
-  func textViewDidBeginEditing(_ textView: UITextView) {
-    if textView.textColor == UIColor.textPrimary {
-      textView.text = nil
-      textView.textColor = UIColor.greyScaleWhite
-    }
-  }
-
-  func textViewDidEndEditing(_ textView: UITextView) {
-    viewModel.offlineSurveyContent.accept(textView.text)
-    if textView.text.isEmpty {
-      textView.text = Localize.string("customerservice_offline_survey_hint")
-      textView.textColor = UIColor.textPrimary
-    }
-  }
-
-  func textViewDidChange(_ textView: UITextView) {
-    viewModel.offlineSurveyContent.accept(textView.text)
   }
 }
