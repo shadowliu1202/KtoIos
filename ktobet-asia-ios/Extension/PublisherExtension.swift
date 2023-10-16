@@ -2,9 +2,9 @@ import Combine
 import Foundation
 
 extension Publisher where Failure == Error {
-  func redirectErrors(to subject: PassthroughSubject<Error, Never>) -> AnyPublisher<Output, Never> {
-    self.catch { [weak subject] error in
-      subject?.send(error)
+  func redirectErrors(to viewModel: ErrorCollectable) -> AnyPublisher<Output, Never> {
+    self.catch { [weak viewModel] in
+      viewModel?.collectError($0)
       return Empty(completeImmediately: false, outputType: Output.self, failureType: Never.self)
     }
     .eraseToAnyPublisher()

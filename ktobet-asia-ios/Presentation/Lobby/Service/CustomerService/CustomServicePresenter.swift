@@ -278,8 +278,10 @@ class CustomServicePresenter: NSObject {
   }
 
   func switchToOfflineMessage(from vc: UIViewController?, isRoot: Bool = false) {
-    let offlineMessageVC = storyboard
-      .instantiateViewController(identifier: "OfflineMessageViewController") as OfflineMessageViewController
+    let viewModel = OfflineMessageViewModel(
+      surveyAppService: Injectable.resolve(ISurveyAppService.self)!,
+      authenticationUseCase: Injectable.resolve(AuthenticationUseCase.self)!)
+    let offlineMessageVC = OfflineMessageViewController(viewModel: viewModel)
     let padding = UIBarButtonItem.kto(.text(text: "")).isEnable(false)
     let skip = UIBarButtonItem.kto(.text(text: Localize.string("common_skip")))
     offlineMessageVC.bind(position: .right, barButtonItems: padding, skip)

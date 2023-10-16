@@ -41,8 +41,7 @@ class CasinoBetDetailViewController: LobbyViewController {
   }
   
   private func bindErrorHandle() {
-    viewModel.errorsSubject
-      .receive(on: DispatchQueue.main)
+    viewModel.errors()
       .sink(receiveValue: { [unowned self] it in handleErrors(it) })
       .store(in: &cancellables)
   }
