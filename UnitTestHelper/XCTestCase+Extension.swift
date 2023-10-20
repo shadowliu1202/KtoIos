@@ -19,7 +19,8 @@ extension XCTestCase {
       statusCode: 200,
       data: responseJsonString.data(using: .utf8)!)
 
-    let stubHttpClient = mock(HttpClient.self).initialize(dummyLocalStorageRepo, dummyCookieManager, currentURL: dummyURL)
+    let stubHttpClient = mock(HttpClient.self)
+      .initialize(dummyLocalStorageRepo, dummyCookieManager, currentURL: dummyURL, provider: nil)
     given(stubHttpClient.host) ~> URL(string: "https://")!
     given(stubHttpClient.headers) ~> ["": ""]
     given(stubHttpClient.request(any())) ~> .just(apiResponse)
@@ -32,7 +33,7 @@ extension XCTestCase {
     let dummyLocalStorageRepo = mock(LocalStorageRepository.self)
     let dummyCookieManager = mock(CookieManager.self).initialize(allHosts: [], currentURL: dummyURL, currentDomain: "")
 
-    return mock(HttpClient.self).initialize(dummyLocalStorageRepo, dummyCookieManager, currentURL: dummyURL)
+    return mock(HttpClient.self).initialize(dummyLocalStorageRepo, dummyCookieManager, currentURL: dummyURL, provider: nil)
   }
 
   @available(*, deprecated, message: "Use injectLocalStorageRepository().")

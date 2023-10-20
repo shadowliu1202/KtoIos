@@ -62,9 +62,9 @@
 		0DEF96B52AD69CAC004C635B /* AsyncButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEF96AD2AD69CAC004C635B /* AsyncButton.swift */; };
 		0DEF96B62AD69CAC004C635B /* AsyncButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DEF96AD2AD69CAC004C635B /* AsyncButton.swift */; };
 		0EBB6490B7D51036E6D53851 /* Pods_ktobet_asia_iosUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 537F2361E1319879A0FE4DEE /* Pods_ktobet_asia_iosUITests.framework */; };
-		14015EC86E821C390DD2103F /* BuildFile in Frameworks */ = {isa = PBXBuildFile; };
+		14015EC86E821C390DD2103F /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		1B4F52A59010C0CAA6098D2B /* Pods_ktobet_asia_ios_prod_backup.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9705553C592493AB2DD7D915 /* Pods_ktobet_asia_ios_prod_backup.framework */; };
-		1CF06C02A6512DB1ADB9C616 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; };
+		1CF06C02A6512DB1ADB9C616 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		359994EF259D7A600020EF5A /* UIButtonExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 359994EE259D7A600020EF5A /* UIButtonExtension.swift */; };
 		35B9B37E259AE7CD00050914 /* ResetPassword.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 35B9B37D259AE7CD00050914 /* ResetPassword.storyboard */; };
 		35B9B382259AFB4A00050914 /* ResetPasswordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B9B381259AFB4A00050914 /* ResetPasswordViewController.swift */; };
@@ -1570,6 +1570,7 @@
 		3CFFD45A2A24A196004B179F /* PromotionDropDownFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CFFD4522A24A196004B179F /* PromotionDropDownFilter.swift */; };
 		3CFFD45B2A24A196004B179F /* PromotionDropDownFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CFFD4522A24A196004B179F /* PromotionDropDownFilter.swift */; };
 		3D01375440F0609296BEF9DC /* Pods_ktobet_asia_ios_preprod.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 259EBEDD4AD22EE794241603 /* Pods_ktobet_asia_ios_preprod.framework */; };
+		3E6D05332ADD1F55004327D0 /* HttpClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E6D05322ADD1F55004327D0 /* HttpClientTests.swift */; };
 		41077D9325BA62E30057B340 /* PlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60BCC2CF25B6D8AF00C56D6E /* PlayerViewModel.swift */; };
 		41077D9925BA63140057B340 /* KTOError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4139BA4725B01B0C00872D39 /* KTOError.swift */; };
 		41077D9F25BA63330057B340 /* LocalStorageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418C605A25B92E12009F7101 /* LocalStorageRepository.swift */; };
@@ -6371,9 +6372,9 @@
 		6DF907A62697DE3A0086AF54 /* MyBetSummaryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6DF9079E2697DE3A0086AF54 /* MyBetSummaryTableViewCell.xib */; };
 		7D5827E7B12A7402702E088A /* Pods_KTO_UnitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 44B3C05C10203C4C917EA13F /* Pods_KTO_UnitTests.framework */; };
 		8C59B7AC25F0DE0D9C2120C0 /* Pods_ktobet_asia_ios_production_vn.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EADBA7962EA62CDC46DA11FF /* Pods_ktobet_asia_ios_production_vn.framework */; };
-		8D7526F526D8CD3108747E0B /* BuildFile in Frameworks */ = {isa = PBXBuildFile; };
+		8D7526F526D8CD3108747E0B /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		9CB331F8E72D176EEA84430E /* Pods_ktobet_asia_ios_prod_selftest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DBFBF75C2E482D4AC211EE7 /* Pods_ktobet_asia_ios_prod_selftest.framework */; };
-		9D251F82C849689504792088 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; };
+		9D251F82C849689504792088 /* (null) in Frameworks */ = {isa = PBXBuildFile; };
 		A302969341B855DF466256F6 /* Pods_AIO_unitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF163CA944153669043E6AFD /* Pods_AIO_unitTests.framework */; };
 		A90406692FFAFE5F9229F987 /* Pods_ktobet_asia_ios_staging_vn.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B22B4F5947BD4AF480E78D0A /* Pods_ktobet_asia_ios_staging_vn.framework */; };
 		AB59C90B72DCECE8EA4239F3 /* Pods_ktobet_asia_ios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F68243D1E50476A66392D4EF /* Pods_ktobet_asia_ios.framework */; };
@@ -7495,6 +7496,7 @@
 		3CFFD4482A249843004B179F /* FlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowLayout.swift; sourceTree = "<group>"; };
 		3CFFD4522A24A196004B179F /* PromotionDropDownFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromotionDropDownFilter.swift; sourceTree = "<group>"; };
 		3D51ABCE22D9D883083050B3 /* Pods-ktobet-asia-iosUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-iosUITests.debug.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-iosUITests/Pods-ktobet-asia-iosUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		3E6D05322ADD1F55004327D0 /* HttpClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpClientTests.swift; sourceTree = "<group>"; };
 		41077DF025BA71D00057B340 /* UINavigationControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationControllerExtension.swift; sourceTree = "<group>"; };
 		4139BA4725B01B0C00872D39 /* KTOError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KTOError.swift; sourceTree = "<group>"; };
 		414930E625F3319D008F32C5 /* FilterPresentProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterPresentProtocol.swift; sourceTree = "<group>"; };
@@ -8242,8 +8244,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8D7526F526D8CD3108747E0B /* BuildFile in Frameworks */,
-				1CF06C02A6512DB1ADB9C616 /* BuildFile in Frameworks */,
+				8D7526F526D8CD3108747E0B /* (null) in Frameworks */,
+				1CF06C02A6512DB1ADB9C616 /* (null) in Frameworks */,
 				B76C7E6E0EBA3435E3B8BA27 /* Pods_ktobet_asia_ios_staging.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -8252,8 +8254,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				14015EC86E821C390DD2103F /* BuildFile in Frameworks */,
-				9D251F82C849689504792088 /* BuildFile in Frameworks */,
+				14015EC86E821C390DD2103F /* (null) in Frameworks */,
+				9D251F82C849689504792088 /* (null) in Frameworks */,
 				CD530C4A449B7A6EA9D1D275 /* Pods_ktobet_asia_ios_production.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -9433,6 +9435,7 @@
 		485DF05125415454001F9D4A /* KTO-UnitTests */ = {
 			isa = PBXGroup;
 			children = (
+				485DF05425415454001F9D4A /* Info.plist */,
 				3C8B0ACC2A6FB8F900910341 /* AnyPublisherExtensionTests.swift */,
 				3C3D3D3D2AAB1F1D000408AE /* APPErrorTests.swift */,
 				6D3DD77C283231560065D6B3 /* AppVersionTest.swift */,
@@ -9445,7 +9448,6 @@
 				3CF9BB41295C37AB00EC91DC /* DepositOfflineConfirmViewTests.swift */,
 				6D1612E129BB0BF100BA1827 /* DropdownSelectorTests.swift */,
 				3C17058F29505CC800531357 /* ExpandableBlockTest.swift */,
-				485DF05425415454001F9D4A /* Info.plist */,
 				3CF9BB40295C37AB00EC91DC /* ItemSelectorTests.swift */,
 				3C3D3D3B2AAB15C6000408AE /* KotlinThrowableTests.swift */,
 				FFCFB9A92902903500F585B3 /* LaunchAppTest.swift */,
@@ -9457,6 +9459,7 @@
 				3CB830152914F1D5001246BB /* PromotionUseCaseImplTests.swift */,
 				3CB830172914F6BF001246BB /* PromotionViewModelTests.swift */,
 				3CCAFDF12AC27E160087C050 /* RegisterUseCaseTests.swift */,
+				3CCAFDF32AC284230087C050 /* SignupUserinfoViewControllerTests.swift */,
 				6D1062E82A00DF290055C947 /* SingleExtensionTests.swift */,
 				FFB70490296D5AF7008834D3 /* SlotViewControllerTests.swift */,
 				6D1612F829C04CDA00BA1827 /* SnackBarTests.swift */,
@@ -9464,7 +9467,7 @@
 				3CBC879428530FFB00B57607 /* StringExtensionTest.swift */,
 				3C17059129505CC900531357 /* SwiftUIDropDownTextTest.swift */,
 				3C17058D29505CC700531357 /* TermsViewTests.swift */,
-				3CCAFDF32AC284230087C050 /* SignupUserinfoViewControllerTests.swift */,
+				3E6D05322ADD1F55004327D0 /* HttpClientTests.swift */,
 			);
 			path = "KTO-UnitTests";
 			sourceTree = "<group>";
@@ -13714,6 +13717,7 @@
 				3C3D3D3E2AAB1F1D000408AE /* APPErrorTests.swift in Sources */,
 				FFBD377A294ACBB6009E9A97 /* InspectableView+Extension.swift in Sources */,
 				3C17059729505CCA00531357 /* TermsViewTests.swift in Sources */,
+				3E6D05332ADD1F55004327D0 /* HttpClientTests.swift in Sources */,
 				3CA721E52913CA9800B94548 /* PromotionApiTests.swift in Sources */,
 				6D425202299DE0240045ABC6 /* DepositOfflineConfirmViewControllerTests.swift in Sources */,
 				6D1612F929C04CDA00BA1827 /* SnackBarTests.swift in Sources */,

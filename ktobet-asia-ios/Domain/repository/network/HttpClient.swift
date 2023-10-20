@@ -37,7 +37,12 @@ class HttpClient {
     return currentURL
   }
 
-  init(_ localStorageRepo: LocalStorageRepository, _ cookieManager: CookieManager, currentURL: URL) {
+  init(
+    _ localStorageRepo: LocalStorageRepository,
+    _ cookieManager: CookieManager,
+    currentURL: URL,
+    provider: MoyaProvider<MultiTarget>? = nil)
+  {
     self.localStorageRepo = localStorageRepo
     self.cookieManager = cookieManager
     self.currentURL = currentURL
@@ -46,13 +51,13 @@ class HttpClient {
     configuration.headers = .default
     configuration.timeoutIntervalForRequest = .infinity
 
-    self.provider = .init(
+    self.provider = provider ?? .init(
       session: .init(
         configuration: configuration,
         startRequestsImmediately: false),
       plugins: [NetworkLoggerPlugin.debug()])
 
-    self.retryProvider = .init(
+    self.retryProvider = provider ?? .init(
       session: .init(
         configuration: configuration,
         startRequestsImmediately: false,
@@ -89,7 +94,22 @@ class HttpClient {
         return self.handleResponse(response)
       })
   }
-
+  
+  private func handleResponse(_ response: Response) -> Single<Response> {
+    if
+      let json = try? JSON(data: response.data),
+      let statusCode = json["statusCode"].string,
+      let errorMsg = json["errorMsg"].string,
+      !statusCode.isEmpty
+    {
+      return .error(ExceptionFactory.companion.create(message: errorMsg, statusCode: statusCode))
+    }
+    else {
+      refreshLastAPISuccessDate()
+      return .just(response)
+    }
+  }
+  
   @available(*, deprecated, message: "Target should create in HTTPClient.")
   func requestJsonString(_ target: TargetType) -> Single<String> {
     request(target)
@@ -103,22 +123,6 @@ class HttpClient {
         
         return .just(rawString)
       }
-  }
-  
-  func handleResponse(_ response: Response) -> Single<Response> {
-    guard
-      let json = try? JSON(data: response.data),
-      let statusCode = json["statusCode"].string,
-      let errorMsg = json["errorMsg"].string
-    else { return .error(ResponseParseError(rawData: response.data)) }
-      
-    if statusCode.isEmpty, errorMsg.isEmpty {
-      refreshLastAPISuccessDate()
-      return .just(response)
-    }
-    else {
-      return .error(ExceptionFactory.companion.create(message: errorMsg, statusCode: statusCode))
-    }
   }
   
   func requestJsonString(
