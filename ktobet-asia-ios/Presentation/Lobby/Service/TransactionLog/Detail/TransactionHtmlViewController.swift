@@ -5,13 +5,20 @@ class TransactionHtmlViewController: LobbyViewController {
   private var httpClient = Injectable.resolve(HttpClient.self)!
   var html: String!
   @IBOutlet weak var webView: WKWebView!
-  @IBOutlet weak var closeBtn: UIButton!
-
+  @IBOutlet weak var titleLabel: UILabel!
+  
   override func viewDidLoad() {
     super.viewDidLoad()
+    setupNavigationView()
+    
     let contents = buildUpHtml()
     webView.loadHTMLString(contents, baseURL: nil)
     webView.scrollView.isScrollEnabled = false
+  }
+  
+  private func setupNavigationView() {
+    titleLabel.text = Localize.string("common_transaction")
+    NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back)
   }
 
   func buildUpHtml() -> String {
@@ -27,10 +34,5 @@ class TransactionHtmlViewController: LobbyViewController {
       Logger.shared.debug("File reading error")
     }
     return ""
-  }
-
-  @IBAction
-  func pressClose(_: Any) {
-    self.dismiss(animated: true, completion: nil)
   }
 }
