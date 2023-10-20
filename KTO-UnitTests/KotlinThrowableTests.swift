@@ -8,21 +8,21 @@ final class KotlinThrowableTests: XCTestCase {
     let expect = ApiException(message: "test", errorCode: "200")
     let actual = KotlinThrowable.wrapError(ApiException(message: "test", errorCode: "200")) as! ApiException
     
-    XCTAssertTrue(expect.isEqual(actual))
+    XCTAssertEqual(expect, actual)
   }
   
   func testWrapErrorWithSwiftError() {
     let expect = ErrorWrapper(wrapped: NSError(domain: "test", code: 200))
     let actual = KotlinThrowable.wrapError(NSError(domain: "test", code: 200)) as! ErrorWrapper
     
-    XCTAssertTrue(expect.isEqual(actual))
+    XCTAssertEqual(expect, actual)
   }
   
   func testUnwrapErrorWithKotlinThrowable() {
     let expect = ApiException(message: "test", errorCode: "200")
     let actual = ApiException(message: "test", errorCode: "200").unwrapToError() as! ApiException
     
-    XCTAssertTrue(expect.isEqual(actual))
+    XCTAssertEqual(expect, actual)
   }
   
   func testUnWrapErrorWithSwiftError() {
