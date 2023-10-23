@@ -10,15 +10,14 @@
     <style>
       .pop-detail__wrapper .pop-detail__body {
         overflow-y: auto;
-        border-radius: 10px;
         background-color: #FFF;
         z-index: 3000;
         margin: 0 auto;
         max-width: 448px;
-        top: 16px;
-        bottom: 16px;
-        left: 16px;
-        right: 16px;
+        top: 0px;
+        bottom: 0px;
+        left: 0px;
+        right: 0px;
         position: fixed;
         padding: 0;
         display: flex;
@@ -330,6 +329,44 @@
       a {
         text-decoration: none;
       }
+      
+      body {
+        background-color: #131313;
+      }
+
+      .wager-detail {
+        background-color: #131313;
+        color: #fff;
+      }
+
+      .wager-detail .sbk .wager-detail__title {
+        border-bottom: 1px solid #3c3e40;
+      }
+
+      .wager-detail .sbk .wager-detail__title h5 {
+        font-size: 16px;
+      }
+
+      .wager-detail .sbk .wager-detail__content .detail-box h5 {
+        color: #9b9b9b;
+      }
+
+      .wager-detail .sbk .wager-detail__content .detail-box {
+        border-bottom: 1px solid #3c3e40;
+      }
+
+      .wager-detail .sbk .wager-detail__content {
+        padding-bottom: 96px;
+      }
+      .wager-detail .sbk .wager-detail__content .detail-box:nth-last-child(2) {
+        border-bottom: none;
+      }
+      .wager-detail .sbk .wager-detail__content .detail-box:last-child {
+        margin-left: 0;
+        padding-left: 32px;
+        border-top: 1px solid #3c3e40;
+      }
+
     </style>
   </head>
   <body>
