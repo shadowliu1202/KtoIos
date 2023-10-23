@@ -13,6 +13,7 @@ class TransactionLogViewController: LobbyViewController {
     super.viewDidLoad()
 
     setupUI()
+    binding()
   }
   
   override func viewWillAppear(_ animated: Bool) {
@@ -45,15 +46,7 @@ class TransactionLogViewController: LobbyViewController {
       super.handleErrors(error)
     }
   }
-
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
-}
-
-// MARK: - UI
-
-extension TransactionLogViewController {
+  
   private func setupUI() {
     NavigationManagement.sharedInstance.addMenuToBarButtonItem(
       vc: self,
@@ -92,7 +85,7 @@ extension TransactionLogViewController {
     viewModel.pagination.refreshTrigger.onNext(())
     viewModel.summaryRefreshTrigger.onNext(())
   }
-
+  
   private func presentDateViewController(_ didSelected: ((DateType) -> Void)?) {
     present(
       DateViewController
@@ -112,6 +105,12 @@ extension TransactionLogViewController {
         })
         .embedToNavigation(),
       animated: true)
+  }
+  
+  private func binding() {
+    viewModel.errors()
+      .subscribe(onNext: { [unowned self] in handleErrors($0) })
+      .disposed(by: disposeBag)
   }
 }
 

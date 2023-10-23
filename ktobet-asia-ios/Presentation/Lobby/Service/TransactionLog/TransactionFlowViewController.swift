@@ -30,10 +30,6 @@ class TransactionFlowController {
     Logger.shared.info("\(type(of: self)) deinit")
   }
 
-  func goNext(_ wagerId: String) {
-    goCasinoDetail(wagerId)
-  }
-
   func goNext(_ transactionLog: TransactionLog) {
     switch transactionLog {
     case let log as TransactionLog.GameProduct:
@@ -83,23 +79,29 @@ class TransactionFlowController {
     case is TransactionLog.GameProductCasinoGameResultMode:
       goCasinoDetail(casino.detailId())
     case is TransactionLog.GameProductCasinoUnknownDetail:
-      guard let delegate, decideNavigationTask == nil else { return }
-      
-      decideNavigationTask = Task {
-        guard let isWagerDetailExist = await delegate.getIsCasinoWagerDetailExist(by: casino.detailId())
-        else {
-          resetDecideNavigationTask()
-          return
-        }
-
-        await MainActor.run {
-          isWagerDetailExist
-            ? goCasinoDetail(casino.detailId())
-            : goTransactionLogDetail(LogDetail(title: casino.name, transactionId: casino.id_))
-        }
-      }
+      navigateBaseOnCasinoHasDetail(name: casino.name, displayID: casino.id_, wagerID: casino.detailId())
     default:
       break
+    }
+  }
+  
+  private func navigateBaseOnCasinoHasDetail(name: String, displayID: String, wagerID: String) {
+    guard let delegate, decideNavigationTask == nil else { return }
+    
+    decideNavigationTask = Task {
+      guard let isWagerDetailExist = await delegate.getIsCasinoWagerDetailExist(by: wagerID)
+      else {
+        resetDecideNavigationTask()
+        return
+      }
+
+      await MainActor.run {
+        isWagerDetailExist
+          ? goCasinoDetail(wagerID)
+          : goTransactionLogDetail(LogDetail(title: name, transactionId: displayID))
+        
+        resetDecideNavigationTask()
+      }
     }
   }
 
@@ -115,10 +117,21 @@ class TransactionFlowController {
   }
   
   private func consider(_ p2pLog: TransactionLog.GameProductP2P) {
+    switch p2pLog {
+    case is TransactionLog.GameProductP2PGeneral:
+      goTransactionLogDetail(LogDetail(title: p2pLog.name, transactionId: p2pLog.id_))
+    case is TransactionLog.GameProductP2PUnknownDetail:
+      navigateBaseOnP2PHasDetail(name: p2pLog.name, displayID: p2pLog.id_, wagerID: p2pLog.detailId())
+    default:
+      break
+    }
+  }
+  
+  private func navigateBaseOnP2PHasDetail(name: String, displayID: String, wagerID: String) {
     guard let delegate, decideNavigationTask == nil else { return }
     
     decideNavigationTask = Task {
-      guard let isWagerDetailExist = await delegate.getIsP2PWagerDetailExist(by: p2pLog.detailId())
+      guard let isWagerDetailExist = await delegate.getIsP2PWagerDetailExist(by: wagerID)
       else {
         resetDecideNavigationTask()
         return
@@ -126,8 +139,10 @@ class TransactionFlowController {
 
       await MainActor.run {
         isWagerDetailExist
-          ? goP2PMyBetDetail(p2pLog.detailId())
-          : goTransactionLogDetail(LogDetail(title: p2pLog.name, transactionId: p2pLog.id_))
+          ? goP2PMyBetDetail(wagerID)
+          : goTransactionLogDetail(LogDetail(title: name, transactionId: displayID))
+        
+        resetDecideNavigationTask()
       }
     }
   }
@@ -141,7 +156,7 @@ class TransactionFlowController {
     self.navi?.pushViewController(detailViewController, animated: true)
   }
 
-  private func goCasinoDetail(_ wagerId: String) {
+  func goCasinoDetail(_ wagerId: String) {
     self.navi?.pushViewController(CasinoBetDetailViewController(wagerID: wagerId), animated: true)
   }
 
@@ -186,6 +201,14 @@ class TransactionFlowController {
   
   private func goP2PMyBetDetail(_ wagerID: String) {
     navi?.pushViewController(P2PBetDetailViewController(wagerID: wagerID), animated: true)
+  }
+  
+  func navigateBaseOnProductHasDetail(type: ProductType, gameName: String, displayID: String, wagerID: String) {
+    switch type {
+    case .casino: navigateBaseOnCasinoHasDetail(name: gameName, displayID: displayID, wagerID: wagerID)
+    case .p2p: navigateBaseOnP2PHasDetail(name: gameName, displayID: displayID, wagerID: wagerID)
+    default: break
+    }
   }
   
   func resetDecideNavigationTask() {

@@ -10,18 +10,20 @@ struct LogDetail {
 }
 
 class TransactionLogDetailViewController: LobbyViewController {
+  @IBOutlet weak var tableView: UITableView!
+  
+  private let disposeBag = DisposeBag()
+  private let viewModel = TransactionLogViewModel()
+
+  private var resultViewHeight: CGFloat = 0
+  private lazy var flowController = TransactionFlowController(self, disposeBag: disposeBag)
+  
   var param: LogDetail?
   var detailItem: LogDetailRowItem? {
     didSet {
       self.tableView.reloadData()
     }
   }
-
-  private var resultViewHeight: CGFloat = 0
-  @IBOutlet weak var tableView: UITableView!
-  let disposeBag = DisposeBag()
-  let viewModel = TransactionLogViewModel()
-  private lazy var flow = TransactionFlowController(self, disposeBag: disposeBag)
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -41,6 +43,7 @@ class TransactionLogDetailViewController: LobbyViewController {
     tableView.setHeaderFooterDivider()
     setHeaderView()
     tableView.tableFooterView?.frame.size.height += resultViewHeight
+    flowController.delegate = self
   }
 
   private func setHeaderView() {
@@ -100,10 +103,6 @@ class TransactionLogDetailViewController: LobbyViewController {
       })
       .disposed(by: disposeBag)
   }
-
-  private func goToCasinoDetail(_ wagerId: String) {
-    self.flow.goNext(wagerId)
-  }
 }
 
 extension TransactionLogDetailViewController: UITableViewDataSource {
@@ -117,8 +116,31 @@ extension TransactionLogDetailViewController: UITableViewDataSource {
     }
 
     let cell = self.tableView.dequeueReusableCell(withIdentifier: "LogDetailCell", cellType: LogDetailCell.self)
-      .configure(index: indexPath.row, data: item) { [weak self] externalId in
-        self?.goToCasinoDetail(externalId)
+      .configure(index: indexPath.row, data: item) { [unowned self] displayID, wagerID in
+        guard let detailItem else { return }
+        
+        switch detailItem.bean.productType {
+        case .casino:
+          if detailItem.isSmartBet {
+            flowController.goCasinoDetail(wagerID)
+          }
+          else {
+            flowController.navigateBaseOnProductHasDetail(
+              type: .casino,
+              gameName: param?.title ?? "",
+              displayID: displayID,
+              wagerID: wagerID)
+          }
+          
+        case .p2p:
+          flowController.navigateBaseOnProductHasDetail(
+            type: .p2p,
+            gameName: param?.title ?? "",
+            displayID: displayID,
+            wagerID: wagerID)
+        default:
+          break
+        }
       }
 
     cell.removeBorder()
@@ -130,13 +152,53 @@ extension TransactionLogDetailViewController: UITableViewDataSource {
   }
 }
 
+// MARK: - TransactionFlowDelegate
+
+extension TransactionLogDetailViewController: TransactionFlowDelegate {
+  func getIsCasinoWagerDetailExist(by wagerID: String) async -> Bool? {
+    do {
+      return try await viewModel.getIsCasinoWagerDetailExist(by: wagerID)
+    }
+    catch {
+      handleErrors(error)
+      return nil
+    }
+  }
+  
+  func getIsP2PWagerDetailExist(by wagerID: String) async -> Bool? {
+    do {
+      return try await viewModel.getIsP2PWagerDetailExist(by: wagerID)
+    }
+    catch {
+      handleErrors(error)
+      return nil
+    }
+  }
+  
+  func displaySportsBookDetail(wagerId: String) {
+    viewModel
+      .getSportsBookWagerDetail(wagerId: wagerId)
+      .subscribe(onSuccess: { [weak self] html in
+        let controller = TransactionHtmlViewController.initFrom(storyboard: "TransactionLog")
+        controller.html = html
+        self?.navigationController?.pushViewController(controller, animated: true)
+      })
+      .disposed(by: disposeBag)
+  }
+}
+
 class LogDetailCell: UITableViewCell, UITextViewDelegate {
   @IBOutlet weak var titleLabel: UILabel!
   @IBOutlet weak var descriptionLabel: UILabel!
   @IBOutlet weak var stackView: UIStackView!
-  private var callback: ((String) -> Void)?
+  private var callback: ((_ displayID: String, _ wagerID: String) -> Void)?
 
-  func configure(index: Int, data: LogDetailRowItem, callback: ((String) -> Void)?) -> Self {
+  func configure(
+    index: Int,
+    data: LogDetailRowItem,
+    callback: ((_ displayID: String, _ wagerID: String) -> Void)?)
+    -> Self
+  {
     if index == 0 {
       setTilte("balancelog_detail_amount")
       setValue(data.balancelogAmount)
@@ -157,31 +219,10 @@ class LogDetailCell: UITableViewCell, UITextViewDelegate {
     else if index == 4 {
       setTilte("common_remark")
       setValue(data.remark)
+      
       if let links = data.linkRemark {
         self.callback = callback
-        links.forEach({ remark in
-          let (first, second) = remark
-          guard let displayId = first, let wagerId = second else { return }
-          let textView = UITextView(frame: .zero)
-          textView.textColor = .systemRed
-          textView.backgroundColor = .clear
-          textView.textAlignment = .left
-          textView.isSelectable = true
-          textView.isEditable = false
-          textView.isScrollEnabled = false
-          textView.textContainerInset = UIEdgeInsets(top: 0, left: -5, bottom: 0, right: 0)
-          var txt = AttribTextHolder(text: displayId)
-            .addAttr((text: displayId, type: .color, UIColor.greyScaleWhite))
-            .addAttr((text: displayId, type: .font, UIFont(name: "PingFangSC-Regular", size: 16) as Any))
-          if displayId.isValidRegex(format: .numbers) {
-            txt = txt
-              .addAttr((text: displayId, type: .link(true), "Casino://\(wagerId)"))
-              .addAttr((text: displayId, type: .color, UIColor.systemRed))
-          }
-          txt.setTo(textView: textView)
-          stackView.addArrangedSubview(textView)
-          textView.delegate = self
-        })
+        links.forEach { configureLink($0) }
       }
       else if let vvipCashback = data.vvipCashback {
         descriptionLabel.isHidden = true
@@ -209,7 +250,34 @@ class LogDetailCell: UITableViewCell, UITextViewDelegate {
   private func setValue(_ txt: String?) {
     descriptionLabel.text = txt ?? " "
   }
-
+  
+  private func configureLink(_ remark: (String?, String?)) {
+    guard
+      let displayID = remark.0,
+      let wagerID = remark.1
+    else { return }
+    
+    let textView = TappableTextView(frame: .zero)
+    let attributedText = AttribTextHolder(text: displayID)
+      .addAttr((text: displayID, type: .color, value: UIColor.systemRed))
+      .addAttr((text: displayID, type: .underLine, value: UIColor.systemRed))
+      .attributedString
+    
+    textView.attributedText = attributedText
+    textView.font = UIFont(name: "PingFangSC-Regular", size: 16)
+    textView.backgroundColor = .clear
+    textView.textAlignment = .left
+    textView.isSelectable = false
+    textView.isEditable = false
+    textView.isScrollEnabled = false
+    textView.textContainerInset = UIEdgeInsets(top: 0, left: -5, bottom: 0, right: 0)
+    textView.tapAction = { [unowned self] in
+      callback?(displayID, wagerID)
+    }
+    
+    stackView.addArrangedSubview(textView)
+  }
+  
   private func cashbackRemark(_ vvipCashback: BalanceLogDetailRemark.CashBack) -> [ListRow.RowConfig] {
     [
       ListRow.RowConfig(title: Localize.string("bonus_cashback_remark_title"), content: vvipCashback.title),
@@ -234,15 +302,6 @@ class LogDetailCell: UITableViewCell, UITextViewDelegate {
         title: Localize.string("bonus_cashback_remark_formula"),
         content: Localize.string("bonus_cashback_remark_formula_content", "\(vvipCashback.percent.description())"))
     ]
-  }
-
-  func textView(_: UITextView, shouldInteractWith URL: URL, in _: NSRange, interaction _: UITextItemInteraction) -> Bool {
-    if URL.scheme == "Casino" {
-      let wagerId = String(URL.absoluteString.dropFirst("Casino://".count))
-      self.callback?(wagerId)
-      return false
-    }
-    return true
   }
 
   func textViewDidChangeSelection(_ textView: UITextView) {
@@ -356,9 +415,29 @@ class LogDetailRowItem {
     case is ProductGroup.P2P:
       let status = getBetStatus(type)
       self.logId = bean.productGroup.supportProvider.provider == Provider.Support.v8 ? bean.wagerMappingId : ""
-      let remarkStr = bean.productGroup.supportProvider.provider == Provider.Support.gpi ? bean.externalId : bean
-        .wagerMappingId
-      self.remark = status.isEmpty ? remarkStr : "\(status)\n\(remarkStr)"
+      
+      switch bean.remark {
+      case let remark as BalanceLogDetailRemark.TransferWallet:
+        if remark.isDetailActive {
+          self.linkRemark = remark.ids.map({ ($0.first as String?, $0.second as String?) })
+          self.remark = status
+        }
+        else {
+          let remarkStr = bean.productGroup.supportProvider.provider == Provider.Support.gpi ? bean.externalId : bean
+            .wagerMappingId
+          self.remark = status.isEmpty ? remarkStr : "\(status)\n\(remarkStr)"
+        }
+        
+      case is BalanceLogDetailRemark.Bonus,
+           is BalanceLogDetailRemark.CashBack,
+           is BalanceLogDetailRemark.General,
+           is BalanceLogDetailRemark.None:
+        let remarkStr = bean.productGroup.supportProvider.provider == Provider.Support.gpi ? bean.externalId : bean
+          .wagerMappingId
+        self.remark = status.isEmpty ? remarkStr : "\(status)\n\(remarkStr)"
+      default: break
+      }
+      
     case is ProductGroup.Arcade,
          is ProductGroup.NumberGame,
          is ProductGroup.Slot: if let remark = bean.remark as? BalanceLogDetailRemark.General
@@ -385,14 +464,27 @@ class LogDetailRowItem {
       switch bean.remark {
       case let r as BalanceLogDetailRemark.General:
         remarks.append(r.lobbyName)
-        if self.isSmartBet {
-          self.linkRemark = r.ids.map({ ($0.first as String?, $0.second as String?) })
+        logId = r.ids.count > 1 ? bean.wagerMappingId : r.ids.first?.first as String?
+        
+        if isSmartBet {
+          linkRemark = r.ids.map({ ($0.first as String?, $0.second as String?) })
         }
         else {
           let remarkStr = r.ids.count > 1 ? displayRemarks(r.ids) : bean.wagerMappingId
           remarks.append(remarkStr)
         }
-        self.logId = r.ids.count > 1 ? bean.wagerMappingId : r.ids.first?.first as String?
+      case let remark as BalanceLogDetailRemark.TransferWallet:
+        remarks.append(remark.lobbyName)
+        logId = remark.ids.count > 1 ? bean.wagerMappingId : remark.ids.first?.first as String?
+        
+        if remark.isDetailActive {
+          self.linkRemark = remark.ids.map({ ($0.first as String?, $0.second as String?) })
+        }
+        else {
+          let remarkStr = remark.ids.count > 1 ? displayRemarks(remark.ids) : bean.wagerMappingId
+          remarks.append(remarkStr)
+        }
+        
       case is BalanceLogDetailRemark.Bonus,
            is BalanceLogDetailRemark.None:
         let remarkStr = bean.productGroup.supportProvider.provider == Provider.Support.gpi ? bean.externalId : bean
