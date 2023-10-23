@@ -89,11 +89,14 @@ class TransactionLogRepositoryImpl: TransactionLogRepository {
       switch transactionType {
       case is TransactionTypes.Adjustment,
            is TransactionTypes.DepositFeeRefund:
-        return try self.convertToBalanceLogDetail(detail: data)
+        return try convertToBalanceLogDetail(detail: data)
+      case is TransactionTypes.ProductEnterTable,
+           is TransactionTypes.ProductLeaveTable:
+        return getGeneralBalanceLogDetail(detail: data, isTransferWallet: true)
       case is TransactionTypes.Bonus:
-        return self.getBonusBalanceLogDetail(detail: data)
+        return getBonusBalanceLogDetail(detail: data)
       default:
-        return self.getGeneralBalanceLogDetail(detail: data)
+        return getGeneralBalanceLogDetail(detail: data, isTransferWallet: false)
       }
     })
   }
@@ -101,7 +104,7 @@ class TransactionLogRepositoryImpl: TransactionLogRepository {
   func getCasinoWagerDetail(wagerId: String, zoneOffset: sharedbu.UtcOffset) -> Single<String> {
     let secondsToHours = zoneOffset.totalSeconds / 3600
     return transactionLogApi.getBalanceLogCasinoWagerDetail(wagerId: wagerId, offset: secondsToHours).map {
-      return $0.data ?? ""
+      $0.data ?? ""
     }
   }
 
@@ -113,7 +116,7 @@ class TransactionLogRepositoryImpl: TransactionLogRepository {
   }
 
   private func convertToBalanceLogDetail(detail: BalanceLogDetailBean) throws -> Single<BalanceLogDetail> {
-    Single.just(try detail.toBalanceLogDetail())
+    try Single.just(detail.toBalanceLogDetail())
   }
 
   private func getBonusBalanceLogDetail(detail: BalanceLogDetailBean) -> Single<BalanceLogDetail> {
@@ -122,9 +125,9 @@ class TransactionLogRepositoryImpl: TransactionLogRepository {
     })
   }
 
-  private func getGeneralBalanceLogDetail(detail: BalanceLogDetailBean) -> Single<BalanceLogDetail> {
+  private func getGeneralBalanceLogDetail(detail: BalanceLogDetailBean, isTransferWallet: Bool) -> Single<BalanceLogDetail> {
     transactionLogApi.getBalanceLogDetailRemark(externalId: detail.wagerMappingId ?? detail.externalId).map { response in
-      try detail.toBalanceLogDetail(remark: response.data?.toBalanceLogDetailRemark())
+      try detail.toBalanceLogDetail(remark: response.data?.toBalanceLogDetailRemark(isTransferWallet: isTransferWallet))
     }
   }
 }

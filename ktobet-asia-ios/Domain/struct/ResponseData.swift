@@ -45,18 +45,18 @@ struct PromotionHistoryBean: Codable {
   var totalCount: Int
 
   func convertToPromotions() throws -> CouponHistorySummary {
-    CouponHistorySummary(
+    try CouponHistorySummary(
       summary: self.summary.toAccountCurrency(),
       totalCoupon: self.totalCount,
-      couponHistory: try self.payload.map({ p -> CouponHistory in
-        CouponHistory(
+      couponHistory: self.payload.map({ p -> CouponHistory in
+        try CouponHistory(
           amount: p.coupon.amount.toAccountCurrency(),
           bonusLockReceivingStatus: BonusReceivingStatus.values().get(index: p.coupon.bonusLockStatus)!,
           promotionId: p.coupon.id,
           name: p.coupon.name,
           bonusId: p.coupon.no,
           type: BonusType.convert(p.coupon.type),
-          receiveDate: try p.coupon.updatedDate.toLocalDateTime(),
+          receiveDate: p.coupon.updatedDate.toLocalDateTime(),
           issue: KotlinInt(int: p.coupon.issue),
           productType: ProductType.convert(p.coupon.productType),
           percentage: Percentage(percent: p.coupon.percentage),
@@ -345,40 +345,40 @@ struct WithdrawalRecordDetailData: Codable {
     playerLocale: SupportLocale) throws
     -> WithdrawalDetail
   {
-    let withdrawalRecord = WithdrawalRecord(
+    let withdrawalRecord = try WithdrawalRecord(
       transactionTransactionType: transactionTransactionType,
       displayId: displayId,
       transactionStatus: TransactionStatus.Companion().convertTransactionStatus(ticketStatus_: status),
-      createDate: try self.createdDate.toOffsetDateTime(),
+      createDate: self.createdDate.toOffsetDateTime(),
       cashAmount: self.requestAmount.toAccountCurrency(),
       isPendingHold: isPendingHold,
-      groupDay: try self.createdDate.toLocalDate())
+      groupDay: self.createdDate.toLocalDate())
 
     switch transactionTransactionType {
     case .p2atransferout,
          .p2ptransferout,
          .withdrawal:
-      return WithdrawalDetail.General(
+      return try WithdrawalDetail.General(
         record: withdrawalRecord,
         isBatched: isBatched,
         isPendingHold: isPendingHold,
         statusChangeHistories: statusChangeHistories,
-        updatedDate: try self.updatedDate.toOffsetDateTime())
+        updatedDate: self.updatedDate.toOffsetDateTime())
     case .cryptowithdrawal:
-      return WithdrawalDetail.Crypto(
+      return try WithdrawalDetail.Crypto(
         record: withdrawalRecord,
         isBatched: isBatched,
         isPendingHold: isPendingHold,
         statusChangeHistories: statusChangeHistories,
-        updatedDate: try updatedDate.toOffsetDateTime(),
-        requestCryptoAmount: try toCryptoExchangeRecord(
+        updatedDate: updatedDate.toOffsetDateTime(),
+        requestCryptoAmount: toCryptoExchangeRecord(
           "\(requestCryptoAmount ?? 0)",
           cryptoCurrency,
           "\(requestAmount)",
           "\(requestRate ?? 0)",
           createdDate,
           playerLocale: playerLocale),
-        actualCryptoAmount: try toCryptoExchangeRecord(
+        actualCryptoAmount: toCryptoExchangeRecord(
           "\(actualCryptoAmount ?? 0)",
           cryptoCurrency,
           "\(actualAmount ?? 0)",
@@ -387,7 +387,7 @@ struct WithdrawalRecordDetailData: Codable {
           playerLocale: playerLocale),
         playerCryptoAddress: playerCryptoAddress ?? "",
         providerCryptoAddress: providerCryptoAddress ?? "",
-        approvedDate: try approvedDate.toOffsetDateTime(),
+        approvedDate: approvedDate.toOffsetDateTime(),
         hashId: hashId ?? "")
     default:
       return WithdrawalDetail.Unknown()
@@ -407,11 +407,11 @@ struct WithdrawalRecordDetailData: Codable {
       let crypto = cryptoCurrency.toCryptoCurrency(cryptoCurrencyCode: cryptoCurrencyCode)
       let cryptoType = try SupportCryptoType.companion.typeOf(cryptoCurrency: crypto)
       let exchangeRate = CryptoExchangeFactory().create(from: cryptoType, to: playerLocale, exRate: exchangeRate)
-      return CryptoExchangeRecord(
+      return try CryptoExchangeRecord(
         cryptoAmount: crypto,
         exchangeRate: exchangeRate,
         cashAmount: accountCurrency.toAccountCurrency(),
-        date: try createdDate.toOffsetDateTime())
+        date: createdDate.toOffsetDateTime())
     }
     catch {
       fatalError("SupportCryptoType.companion.typeOf got error = \(error.localizedDescription)")
@@ -518,14 +518,14 @@ struct CasinoData: Codable {
 
   func toCasinoGame(host: String) throws -> CasinoGame {
     let thumbnail = CasinoThumbnail(host: host, thumbnailId: self.imageID)
-    return CasinoGame(
+    return try CasinoGame(
       gameId: Int32(self.gameID),
       gameName: self.name,
       isFavorite: self.isFavorite,
       gameStatus: GameStatus.Companion().convert(gameMaintenance: self.isGameMaintenance, status: self.status),
       thumbnail: thumbnail,
       requireNoBonusLock: self.isCheckBonusLock,
-      releaseDate: try self.releaseDate?.toLocalDate())
+      releaseDate: self.releaseDate?.toLocalDate())
   }
 }
 
@@ -707,10 +707,10 @@ struct SlotBetSummaryBean: Codable {
     let winloss: Double
 
     func toDateSummary() throws -> DateSummary {
-      DateSummary(
+      try DateSummary(
         totalStakes: self.stakes.toAccountCurrency(),
         totalWinLoss: self.winloss.toAccountCurrency(),
-        createdDateTime: try betDate.toLocalDateWithAccountTimeZone(),
+        createdDateTime: betDate.toLocalDateWithAccountTimeZone(),
         count: self.count)
     }
   }
@@ -750,13 +750,13 @@ struct SlotDateGameRecordBean: Codable {
 
   func toSlotGroupedRecord(host: String) throws -> SlotGroupedRecord {
     let thumbnail = SlotThumbnail(host: host, thumbnailId: imageId)
-    return SlotGroupedRecord(
+    return try SlotGroupedRecord(
       slotThumbnail: thumbnail,
-      endDate: try endDate.toLocalDateTime(),
+      endDate: endDate.toLocalDateTime(),
       gameId: gameId,
       gameName: gameName,
       stakes: stakes.toAccountCurrency(),
-      startDate: try startDate.toLocalDateTime(),
+      startDate: startDate.toLocalDateTime(),
       winloss: winloss.toAccountCurrency(),
       recordCount: count)
   }
@@ -853,16 +853,16 @@ struct RecordSummary: Codable {
   let winLoss: Double
 
   func toNumberGame() throws -> NumberGameSummary.Date {
-    NumberGameSummary.Date(
-      betDate: try self.betDate.toLocalDateWithAccountTimeZone(),
+    try NumberGameSummary.Date(
+      betDate: self.betDate.toLocalDateWithAccountTimeZone(),
       count: count,
       stakes: stakes.toAccountCurrency(),
       winLoss: winLoss.toAccountCurrency())
   }
 
   func toUnSettleNumberGame() throws -> NumberGameSummary.Date {
-    NumberGameSummary.Date(
-      betDate: try self.betDate.toLocalDateWithAccountTimeZone(),
+    try NumberGameSummary.Date(
+      betDate: self.betDate.toLocalDateWithAccountTimeZone(),
       count: count,
       stakes: stakes.toAccountCurrency(),
       winLoss: nil)
@@ -999,20 +999,20 @@ struct BetSummaryDataResponse: Codable {
   var winLoss: Double
 
   func toUnSettleGameSummary() throws -> NumberGameSummary.Bet {
-    NumberGameSummary.Bet(
+    try NumberGameSummary.Bet(
       displayId: betId,
       wagerId: wagerId,
-      time: try betTime.toLocalDateTime(),
+      time: betTime.toLocalDateTime(),
       betAmount: stakes.toAccountCurrency(),
       winLoss: nil,
       hasDetail: hasDetails)
   }
 
   func toSettleGameSummary() throws -> NumberGameSummary.Bet {
-    NumberGameSummary.Bet(
+    try NumberGameSummary.Bet(
       displayId: betId,
       wagerId: wagerId,
-      time: try settleTime.toLocalDateTime(),
+      time: settleTime.toLocalDateTime(),
       betAmount: stakes.toAccountCurrency(),
       winLoss: winLoss.toAccountCurrency(),
       hasDetail: hasDetails)
@@ -1099,10 +1099,10 @@ struct CryptoWithdrawalTransaction: Codable {
   let requestTicketDetails, achievedTicketDetails: [TicketDetail]
 
   func toSummary() throws -> CpsWithdrawalSummary {
-    CpsWithdrawalSummary(
+    try CpsWithdrawalSummary(
       remainTurnOver: sumOfTurnOver(infos: cryptoWithdrawalRequestInfos),
-      requestTurnOver: try toTurnOver(list: requestTicketDetails, amount: totalRequestAmount),
-      achievedTurnOver: try toTurnOver(list: achievedTicketDetails, amount: totalAchievedAmount))
+      requestTurnOver: toTurnOver(list: requestTicketDetails, amount: totalRequestAmount),
+      achievedTurnOver: toTurnOver(list: achievedTicketDetails, amount: totalAchievedAmount))
   }
 
   private func sumOfTurnOver(infos: [CryptoWithdrawalRequestInfo]) -> AccountCurrency {
@@ -1110,7 +1110,7 @@ struct CryptoWithdrawalTransaction: Codable {
   }
 
   private func toTurnOver(list: [TicketDetail], amount: Double) throws -> CpsWithdrawalSummary.TurnOverTransaction {
-    CpsWithdrawalSummary.TurnOverTransaction(total: amount.toAccountCurrency(), record: try list.map({ try $0.toDetail() }))
+    try CpsWithdrawalSummary.TurnOverTransaction(total: amount.toAccountCurrency(), record: list.map({ try $0.toDetail() }))
   }
 }
 
@@ -1126,10 +1126,10 @@ struct TicketDetail: Codable {
   }
 
   func toDetail() throws -> CpsWithdrawalSummary.TurnOverDetail {
-    CpsWithdrawalSummary.TurnOverDetail(
+    try CpsWithdrawalSummary.TurnOverDetail(
       displayId: "\(displayID)",
       cryptoAmount: cryptoAmount.toCryptoCurrency(cryptoCurrency),
-      approvedDate: try approvedDate.toOffsetDateTime(),
+      approvedDate: approvedDate.toOffsetDateTime(),
       flatAmount: fiatAmount.toAccountCurrency())
   }
 }
@@ -1172,9 +1172,9 @@ struct LockedBonusDataBean: Codable {
   }
 
   func toTurnOverDetail() throws -> TurnOverDetail {
-    TurnOverDetail(
+    try TurnOverDetail(
       achieved: achieved.currencyAmountToDouble()?.toAccountCurrency() ?? 0.toAccountCurrency(),
-      formula: formula, informPlayerDate: try self.informPlayerDate.toOffsetDateTime(),
+      formula: formula, informPlayerDate: self.informPlayerDate.toOffsetDateTime(),
       name: self.name,
       bonusId: self.no,
       remainAmount: self.remainingAmount.currencyAmountToDouble()?.toAccountCurrency() ?? 0.toAccountCurrency(),
@@ -1235,10 +1235,10 @@ struct SummaryBean: Codable {
   let winLoss: Double
 
   func toDateSummary() throws -> DateSummary {
-    DateSummary(
+    try DateSummary(
       totalStakes: self.stakes.toAccountCurrency(),
       totalWinLoss: self.winLoss.toAccountCurrency(),
-      createdDateTime: try betDate.toLocalDateWithAccountTimeZone(),
+      createdDateTime: betDate.toLocalDateWithAccountTimeZone(),
       count: self.count)
   }
 }
@@ -1270,15 +1270,15 @@ struct P2PDateBetRecordBean: Codable {
 
   func toGameGroupedRecord(host: String) throws -> GameGroupedRecord {
     let thumbnail = P2PThumbnail(host: host, thumbnailId: imageId)
-    return GameGroupedRecord(
+    return try GameGroupedRecord(
       gameId: gameGroupId,
       gameName: gameName,
       thumbnail: thumbnail,
       recordsCount: count,
       stakes: stakes.toAccountCurrency(),
       winLoss: winLoss.toAccountCurrency(),
-      startDate: try startDate.toLocalDateTime(),
-      endDate: try endDate.toLocalDateTime())
+      startDate: startDate.toLocalDateTime(),
+      endDate: endDate.toLocalDateTime())
   }
 }
 
@@ -1305,15 +1305,15 @@ struct ArcadeDateDataRecordBean: Codable {
 
   func toGameGroupedRecord(host: String) throws -> GameGroupedRecord {
     let thumbnail = P2PThumbnail(host: host, thumbnailId: imageId)
-    return GameGroupedRecord(
+    return try GameGroupedRecord(
       gameId: gameId,
       gameName: gameName,
       thumbnail: thumbnail,
       recordsCount: count,
       stakes: stakes.toAccountCurrency(),
       winLoss: winLoss.toAccountCurrency(),
-      startDate: try startDate.toLocalDateTime(),
-      endDate: try endDate.toLocalDateTime())
+      startDate: startDate.toLocalDateTime(),
+      endDate: endDate.toLocalDateTime())
   }
 }
 
@@ -1361,11 +1361,11 @@ struct ArcadeGameBetRecordBean: Codable {
   let hasDetails: Bool
 
   func toArcadeGameBetRecord() throws -> ArcadeGameBetRecord {
-    ArcadeGameBetRecord(
+    try ArcadeGameBetRecord(
       wagerId: self.wagerId,
       betId: self.betId,
-      betTime: try self.betTime.toOffsetDateTime(),
-      settleTime: try self.settleTime.toOffsetDateTime(),
+      betTime: self.betTime.toOffsetDateTime(),
+      settleTime: self.settleTime.toOffsetDateTime(),
       hasDetails: self.hasDetails,
       stakes: self.stakes.toAccountCurrency(),
       winLoss: self.winLoss.toAccountCurrency())
@@ -1522,7 +1522,7 @@ extension BonusBean.Coupon {
   }
 
   private func toFreebet() throws -> BonusCoupon {
-    BonusCoupon.FreeBet(
+    try BonusCoupon.FreeBet(
       promotionId: self.displayId,
       bonusId: self.no,
       name: self.name,
@@ -1532,66 +1532,66 @@ extension BonusBean.Coupon {
       maxAmount: self.knMaxAmount,
       betMultiple: self.betMultiple,
       fixTurnoverRequirement: self.fixTurnoverRequirement,
-      informPlayerDate: try self.informPlayerDate.toOffsetDateTime(),
-      updatedDate: try self.updatedDate.toLocalDateTime(),
+      informPlayerDate: self.informPlayerDate.toOffsetDateTime(),
+      updatedDate: self.updatedDate.toLocalDateTime(),
       validPeriod: ValidPeriod.Companion().create(
-        start: try self.effectiveDate.toOffsetDateTime(),
-        end: try self.expiryDate.toOffsetDateTime()),
+        start: self.effectiveDate.toOffsetDateTime(),
+        end: self.expiryDate.toOffsetDateTime()),
       minCapital: self.knMinCapital)
   }
 
   private func toDepositReturnCustomize() throws -> BonusCoupon {
-    BonusCoupon.DepositReturnCustomize(property: try self.toDepositReturnProperty())
+    try BonusCoupon.DepositReturnCustomize(property: self.toDepositReturnProperty())
   }
 
   private func toProduct() throws -> BonusCoupon {
-    BonusCoupon.Product(
+    try BonusCoupon.Product(
       promotionId: self.displayId,
       bonusId: self.no,
       issueNumber: self.issueNumber,
       productType: ProductType.convert(self.productType),
-      informPlayerDate: try self.informPlayerDate.toOffsetDateTime(),
+      informPlayerDate: self.informPlayerDate.toOffsetDateTime(),
       maxAmount: self.knMaxAmount,
-      endDate: try self.effectiveDate.toLocalDateTime(),
+      endDate: self.effectiveDate.toLocalDateTime(),
       name: self.name,
       betMultiple: self.betMultiple,
       fixTurnoverRequirement: self.fixTurnoverRequirement,
       validPeriod: ValidPeriod.Companion().create(
-        start: try self.effectiveDate.toOffsetDateTime(),
-        end: try self.expiryDate.toOffsetDateTime()),
-      updatedDate: try self.updatedDate.toLocalDateTime(),
+        start: self.effectiveDate.toOffsetDateTime(),
+        end: self.expiryDate.toOffsetDateTime()),
+      updatedDate: self.updatedDate.toLocalDateTime(),
       couponStatus: self.couponStatus,
       minCapital: self.knMinCapital)
   }
 
   private func toRebate() throws -> BonusCoupon {
-    let property = BonusCoupon.Property(
+    let property = try BonusCoupon.Property(
       promotionId: self.displayId,
       bonusId: self.no,
       name: self.name,
       issueNumber: self.issueNumber == 0 ? nil : KotlinInt(value: self.issueNumber),
       percentage: self.knPercentage,
       amount: self.knAmount,
-      endDate: try self.effectiveDate.toLocalDateTime(),
+      endDate: self.effectiveDate.toLocalDateTime(),
       betMultiple: self.betMultiple,
       fixTurnoverRequirement: self.fixTurnoverRequirement,
       validPeriod: ValidPeriod.Companion().create(
-        start: try self.effectiveDate.toOffsetDateTime(),
-        end: try self.expiryDate
+        start: self.effectiveDate.toOffsetDateTime(),
+        end: self.expiryDate
           .toOffsetDateTime()),
       couponStatus: self.couponStatus,
-      updatedDate: try self.updatedDate.toLocalDateTime(),
-      informPlayerDate: try self.informPlayerDate.toOffsetDateTime(),
+      updatedDate: self.updatedDate.toLocalDateTime(),
+      informPlayerDate: self.informPlayerDate.toOffsetDateTime(),
       minCapital: self.knMinCapital)
     return BonusCoupon.Rebate(property: property, rebateFrom: ProductType.convert(self.productType))
   }
 
   private func toDepositReturnLevel() throws -> BonusCoupon {
-    BonusCoupon.DepositReturnLevel(level: self.level, property: try self.toDepositReturnProperty())
+    try BonusCoupon.DepositReturnLevel(level: self.level, property: self.toDepositReturnProperty())
   }
 
   private func toDepositReturnProperty() throws -> BonusCoupon.DepositReturnProperty {
-    BonusCoupon.DepositReturnProperty(
+    try BonusCoupon.DepositReturnProperty(
       promotionId: self.displayId,
       bonusId: self.no,
       couponStatus: self.couponStatus,
@@ -1600,73 +1600,73 @@ extension BonusBean.Coupon {
       maxAmount: self.knMaxAmount,
       betMultiple: self.betMultiple,
       fixTurnoverRequirement: self.fixTurnoverRequirement,
-      informPlayerDate: try self.informPlayerDate.toOffsetDateTime(),
-      updatedDate: try self.updatedDate.toLocalDateTime(),
+      informPlayerDate: self.informPlayerDate.toOffsetDateTime(),
+      updatedDate: self.updatedDate.toLocalDateTime(),
       name: self.name,
       validPeriod: ValidPeriod.Companion().create(
-        start: try self.effectiveDate.toOffsetDateTime(),
-        end: try self.expiryDate.toOffsetDateTime()),
+        start: self.effectiveDate.toOffsetDateTime(),
+        end: self.expiryDate.toOffsetDateTime()),
       minCapital: self.knMinCapital)
   }
 
   private func toVVIPCashback() throws -> BonusCoupon.VVIPCashback {
-    BonusCoupon.VVIPCashback(property: BonusCoupon.Property(
+    try BonusCoupon.VVIPCashback(property: BonusCoupon.Property(
       promotionId: self.displayId,
       bonusId: self.no,
       name: self.name,
       issueNumber: KotlinInt(value: Int32(self.issueNumber)),
       percentage: self.knPercentage,
       amount: self.knAmount,
-      endDate: try self.effectiveDate.toLocalDateTime(),
+      endDate: self.effectiveDate.toLocalDateTime(),
       betMultiple: self.betMultiple,
       fixTurnoverRequirement: self.fixTurnoverRequirement,
       validPeriod: ValidPeriod.Companion()
         .create(
-          start: try self.effectiveDate.toOffsetDateTime(),
-          end: try self
+          start: self.effectiveDate.toOffsetDateTime(),
+          end: self
             .expiryDate
             .toOffsetDateTime(
             )),
       couponStatus: self.couponStatus,
-      updatedDate: try self.updatedDate.toLocalDateTime(),
-      informPlayerDate: try self.informPlayerDate.toOffsetDateTime(),
+      updatedDate: self.updatedDate.toLocalDateTime(),
+      informPlayerDate: self.informPlayerDate.toOffsetDateTime(),
       minCapital: self.knMinCapital))
   }
 }
 
 extension BonusBean.Promotion {
   func toCashbackPromotion() throws -> PromotionEvent.VVIPCashback {
-    PromotionEvent.VVIPCashbackCompanion()
+    try PromotionEvent.VVIPCashbackCompanion()
       .create(
         promotionId: self.displayId,
         issueNumber: self.issue,
-        informPlayerDate: try self.informPlayerDate.toLocalDateTime(),
+        informPlayerDate: self.informPlayerDate.toLocalDateTime(),
         percentage: Percentage(percent: self.percentage),
         maxBonusAmount: self.maxAmount.toAccountCurrency(),
-        endDate: try self.endDate.toOffsetDateTime())
+        endDate: self.endDate.toOffsetDateTime())
   }
 
   func toProductPromotion() throws -> PromotionEvent.Product {
-    PromotionEvent.ProductCompanion()
+    try PromotionEvent.ProductCompanion()
       .create(
         promotionId: self.displayId,
         issueNumber: self.issue,
-        informPlayerDate: try self.informPlayerDate.toLocalDateTime(),
-        endDate: try self.endDate.toOffsetDateTime(),
+        informPlayerDate: self.informPlayerDate.toLocalDateTime(),
+        endDate: self.endDate.toOffsetDateTime(),
         maxBonusAmount: self.maxAmount.toAccountCurrency(),
         type: ProductType.convert(self.productType))
   }
 
   func toRebatePromotion() throws -> PromotionEvent.Rebate {
-    PromotionEvent.RebateCompanion()
+    try PromotionEvent.RebateCompanion()
       .create(
         promotionId: self.displayId,
         issueNumber: self.issue,
-        informPlayerDate: try self.informPlayerDate.toLocalDateTime(),
+        informPlayerDate: self.informPlayerDate.toLocalDateTime(),
         type: ProductType.convert(self.productType),
         percentage: Percentage(percent: self.percentage),
         maxBonusAmount: self.maxAmount.toAccountCurrency(),
-        endDate: try self.endDate.toOffsetDateTime(),
+        endDate: self.endDate.toOffsetDateTime(),
         isAutoUse: self.isAutoUse)
   }
 }
@@ -1785,6 +1785,7 @@ struct Log: Codable {
   let isDetail: Bool
   let bonusType, productType, issueNumber: Int32
   let transactionSubType: Int32
+  let isBonusLock: Bool
 
   enum CodingKeys: String, CodingKey {
     case transactionID = "transactionId"
@@ -1793,6 +1794,7 @@ struct Log: Codable {
     case amount, previousBalance, afterBalance, createdDate, transactionMode, subTitle, wagerType, ticketType
     case wagerID = "wagerId"
     case isDetail, bonusType, productType, issueNumber, transactionSubType
+    case isBonusLock
   }
 
   func toBalanceLog(transactionFactory: TransactionFactory) throws -> TransactionLog {
@@ -1803,7 +1805,7 @@ struct Log: Codable {
     let transferType = ticketType != nil ? TransactionType.Companion()
       .convertTransactionType(transactionType_: ticketType!) : TransactionType.none
     let transactionAmount = amount.toAccountCurrency()
-    let transaction = Transaction(amount: transactionAmount, date: try createdDate.toLocalDateTime(), id_: transactionID)
+    let transaction = try Transaction(amount: transactionAmount, date: createdDate.toLocalDateTime(), id_: transactionID)
     let wagerType = WagerType.convert(self.wagerType)
     let transactionMode = self.transactionMode != nil ? try! TransactionModes
       .convert(self.transactionMode!) : TransactionModes.normal
@@ -1820,7 +1822,8 @@ struct Log: Codable {
       externalId: externalID,
       subTitle: subTitle,
       transactionMode: transactionMode,
-      transactionSubType: toTransactionSubType(transactionSubType))
+      transactionSubType: toTransactionSubType(transactionSubType),
+      isBonusLock: isBonusLock)
   }
 
   class Transaction: ITransaction {
@@ -1881,10 +1884,10 @@ struct BalanceLogDetailBean: Codable {
   let wagerMappingId: String?
 
   func toBalanceLogDetail(remark: BalanceLogDetailRemark? = nil) throws -> BalanceLogDetail {
-    BalanceLogDetail(
+    try BalanceLogDetail(
       afterBalance: afterBalance.toAccountCurrency(),
       amount: amount.toAccountCurrency(),
-      date: try createdDate.toLocalDateTime(),
+      date: createdDate.toLocalDateTime(),
       wagerMappingId: wagerMappingId ?? externalId,
       productGroup: ProductProviders.Companion().createProductGroup(provider: productProvider),
       productType: ProductType.convert(productType),
@@ -1967,23 +1970,37 @@ struct BalanceLogDetailRemarkBean: Codable {
   let productType: Int32
   let wagerId: [String]?
 
-  func toBalanceLogDetailRemark() -> BalanceLogDetailRemark {
+  func toBalanceLogDetailRemark(isTransferWallet: Bool) -> BalanceLogDetailRemark {
     if lobbyName.isNullOrEmpty(), displayIds.isNullOrEmpty(), wagerId.isNullOrEmpty() {
       return BalanceLogDetailRemark.None()
     }
-    else {
-      var pair: [KotlinPair<NSString, NSString>] = []
-      if
-        let displayIds = displayIds?.compactMap({ $0 as? NSString }),
-        let wagerId = wagerId?.compactMap({ $0 as NSString }),
-        displayIds.count == wagerId.count
-      {
-        displayIds.enumerated().forEach { index, element in
-          pair.append(KotlinPair(first: element, second: wagerId[index]))
-        }
-      }
-      return BalanceLogDetailRemark.General(betStatus: BetStatus_.convert(betStatus), lobbyName: lobbyName ?? "", ids: pair)
+    else if isTransferWallet {
+      return BalanceLogDetailRemark.TransferWallet(
+        betStatus: BetStatus_.convert(betStatus),
+        lobbyName: lobbyName ?? "",
+        ids: createPairedArray(),
+        isDetailActive: isDetail)
     }
+    else {
+      return BalanceLogDetailRemark.General(
+        betStatus: BetStatus_.convert(betStatus),
+        lobbyName: lobbyName ?? "",
+        ids: createPairedArray())
+    }
+  }
+  
+  private func createPairedArray() -> [KotlinPair<NSString, NSString>] {
+    guard
+      let displayIds = displayIds?.compactMap({ $0 as? NSString }),
+      let wagerId = wagerId?.compactMap({ $0 as NSString }),
+      displayIds.count == wagerId.count
+    else { return [] }
+    
+    return displayIds
+      .enumerated()
+      .map { index, element in
+        KotlinPair(first: element, second: wagerId[index])
+      }
   }
 }
 
@@ -2187,7 +2204,7 @@ struct OldChatHistories: Codable {
     let title: String?
 
     func toChatHistory(timeZone _: Foundation.TimeZone) throws -> ChatHistory {
-      ChatHistory(createDate: try createdDate.toLocalDateTime(), title: title ?? "", roomId: roomId)
+      try ChatHistory(createDate: createdDate.toLocalDateTime(), title: title ?? "", roomId: roomId)
     }
   }
 }
@@ -2334,15 +2351,15 @@ struct ProductStatusBean: Codable {
   let productsAvailable: [Int]
 
   func toMaintenanceStatus() throws -> MaintenanceStatus {
-    MaintenanceStatus.Product(
+    try MaintenanceStatus.Product(
       productsAvailable: productsAvailable.map { ProductType.convert($0) },
       status: [
-        ProductType.numbergame: try numberGameMaintenanceEndTime?.toOffsetDateTime() as Any,
-        ProductType.sbk: try sbkMaintenanceEndTime?.toOffsetDateTime() as Any,
-        ProductType.slot: try slotMaintenanceEndTime?.toOffsetDateTime() as Any,
-        ProductType.casino: try casinoMaintenanceEndTime?.toOffsetDateTime() as Any,
-        ProductType.p2p: try p2pMaintenanceEndTime?.toOffsetDateTime() as Any,
-        ProductType.arcade: try arcadeMaintenanceEndTime?.toOffsetDateTime() as Any
+        ProductType.numbergame: numberGameMaintenanceEndTime?.toOffsetDateTime() as Any,
+        ProductType.sbk: sbkMaintenanceEndTime?.toOffsetDateTime() as Any,
+        ProductType.slot: slotMaintenanceEndTime?.toOffsetDateTime() as Any,
+        ProductType.casino: casinoMaintenanceEndTime?.toOffsetDateTime() as Any,
+        ProductType.p2p: p2pMaintenanceEndTime?.toOffsetDateTime() as Any,
+        ProductType.arcade: arcadeMaintenanceEndTime?.toOffsetDateTime() as Any
       ])
   }
 }

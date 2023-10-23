@@ -7,6 +7,7 @@ class AttribTextHolder {
     case font
     case center
     case attachment
+    case underLine
   }
 
   let originalText: String
@@ -46,6 +47,10 @@ class AttribTextHolder {
           let attrAttachment = NSAttributedString(attachment: attachment)
           attributedOriginalText.append(attrAttachment)
         }
+      case .underLine:
+        guard let color = item.value as? UIColor else { break }
+        attributedOriginalText.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: arange)
+        attributedOriginalText.addAttribute(NSAttributedString.Key.underlineColor, value: color, range: arange)
       }
     }
     return attributedOriginalText
@@ -105,6 +110,9 @@ class AttribTextHolder {
           let attrAttachment = NSAttributedString(attachment: attachment)
           attributedOriginalText.append(attrAttachment)
         }
+      case .underLine:
+        guard let color = item.value as? UIColor else { break }
+        attributedOriginalText.addAttribute(NSAttributedString.Key.underlineColor, value: color, range: arange)
       }
     }
 

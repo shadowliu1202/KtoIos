@@ -1570,6 +1570,15 @@
 		3CFFD45A2A24A196004B179F /* PromotionDropDownFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CFFD4522A24A196004B179F /* PromotionDropDownFilter.swift */; };
 		3CFFD45B2A24A196004B179F /* PromotionDropDownFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CFFD4522A24A196004B179F /* PromotionDropDownFilter.swift */; };
 		3D01375440F0609296BEF9DC /* Pods_ktobet_asia_ios_preprod.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 259EBEDD4AD22EE794241603 /* Pods_ktobet_asia_ios_preprod.framework */; };
+		3E8B26442AE233A10080F0F4 /* TappableTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E8B26432AE233A10080F0F4 /* TappableTextView.swift */; };
+		3E8B26452AE233A10080F0F4 /* TappableTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E8B26432AE233A10080F0F4 /* TappableTextView.swift */; };
+		3E8B26462AE233A10080F0F4 /* TappableTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E8B26432AE233A10080F0F4 /* TappableTextView.swift */; };
+		3E8B26472AE233A10080F0F4 /* TappableTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E8B26432AE233A10080F0F4 /* TappableTextView.swift */; };
+		3E8B26482AE233A10080F0F4 /* TappableTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E8B26432AE233A10080F0F4 /* TappableTextView.swift */; };
+		3E8B26492AE233A10080F0F4 /* TappableTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E8B26432AE233A10080F0F4 /* TappableTextView.swift */; };
+		3E8B264A2AE233A10080F0F4 /* TappableTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E8B26432AE233A10080F0F4 /* TappableTextView.swift */; };
+		3E8B264B2AE233A10080F0F4 /* TappableTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E8B26432AE233A10080F0F4 /* TappableTextView.swift */; };
+		3E8B264C2AE233A10080F0F4 /* TappableTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E8B26432AE233A10080F0F4 /* TappableTextView.swift */; };
 		3E6D05332ADD1F55004327D0 /* HttpClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E6D05322ADD1F55004327D0 /* HttpClientTests.swift */; };
 		41077D9325BA62E30057B340 /* PlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60BCC2CF25B6D8AF00C56D6E /* PlayerViewModel.swift */; };
 		41077D9925BA63140057B340 /* KTOError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4139BA4725B01B0C00872D39 /* KTOError.swift */; };
@@ -7496,6 +7505,7 @@
 		3CFFD4482A249843004B179F /* FlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowLayout.swift; sourceTree = "<group>"; };
 		3CFFD4522A24A196004B179F /* PromotionDropDownFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromotionDropDownFilter.swift; sourceTree = "<group>"; };
 		3D51ABCE22D9D883083050B3 /* Pods-ktobet-asia-iosUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-iosUITests.debug.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-iosUITests/Pods-ktobet-asia-iosUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		3E8B26432AE233A10080F0F4 /* TappableTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TappableTextView.swift; sourceTree = "<group>"; };
 		3E6D05322ADD1F55004327D0 /* HttpClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpClientTests.swift; sourceTree = "<group>"; };
 		41077DF025BA71D00057B340 /* UINavigationControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationControllerExtension.swift; sourceTree = "<group>"; };
 		4139BA4725B01B0C00872D39 /* KTOError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KTOError.swift; sourceTree = "<group>"; };
@@ -9666,6 +9676,7 @@
 				3C98B4C02A2DC7210072FEA0 /* MonthCollectionViewCell */,
 				6D1612ED29BEC1A300BA1827 /* SnackBar */,
 				6034626626327E5A00F5D1D9 /* UIBarButtonItem */,
+				3E8B26432AE233A10080F0F4 /* TappableTextView.swift */,
 			);
 			path = Component;
 			sourceTree = "<group>";
@@ -13599,6 +13610,7 @@
 				6DB8320128DAC18100E0A704 /* Inspection.swift in Sources */,
 				601041E926B934E300B28FC8 /* ArcadeBetSummaryByDateViewController.swift in Sources */,
 				6034623026327DC800F5D1D9 /* GameWebViewViewController.swift in Sources */,
+				3E8B26452AE233A10080F0F4 /* TappableTextView.swift in Sources */,
 				3CFC0B9628EFD8A40012DD73 /* LogRecordViewModel.swift in Sources */,
 				601F0FD027D74DC40036D9C7 /* OldAccountModifyConfirmationViewController.swift in Sources */,
 				6D0D8FD726DF668500733C4D /* UseBonusCoupon.swift in Sources */,
@@ -14361,6 +14373,7 @@
 				3C1967A32A4A98C9007026D8 /* KeepReconnectPolicy.swift in Sources */,
 				3CC06511287FDD9D008AAC09 /* StarMergerViewController.swift in Sources */,
 				6034624D26327E3200F5D1D9 /* UIStackViewExtension.swift in Sources */,
+				3E8B26442AE233A10080F0F4 /* TappableTextView.swift in Sources */,
 				3C7E47D22A5FD5B900A22B79 /* P2PStringServiceAdapter.swift in Sources */,
 				6D0C89EE27CDF83000DA95C7 /* NewPasswordValidator.swift in Sources */,
 				FF8C26DD29B98896009523BE /* Publisher+Rx.swift in Sources */,
@@ -15108,6 +15121,7 @@
 				609013302640EE7000419F8E /* Injection.swift in Sources */,
 				3C1DF72E299A186D007E5EF4 /* FromBankForm.swift in Sources */,
 				60AC5C0D2766E7F7008F0281 /* PortalMaintenanceViewController.swift in Sources */,
+				3E8B26462AE233A10080F0F4 /* TappableTextView.swift in Sources */,
 				609013312640EE7000419F8E /* GameWebViewViewController.swift in Sources */,
 				3CF19A592939F04300BB22FF /* PositionDetectModifier.swift in Sources */,
 				FF80C9A729E67E1000EBF4BB /* WithdrawalCryptoWalletDetailViewModel.swift in Sources */,
@@ -15832,6 +15846,7 @@
 				60E5817927F190E4008CE5A9 /* Injection.swift in Sources */,
 				3C1DF731299A186D007E5EF4 /* FromBankForm.swift in Sources */,
 				60E5817A27F190E4008CE5A9 /* PortalMaintenanceViewController.swift in Sources */,
+				3E8B26492AE233A10080F0F4 /* TappableTextView.swift in Sources */,
 				60E5817B27F190E4008CE5A9 /* GameWebViewViewController.swift in Sources */,
 				6DF112452A1357AB007C4CC1 /* CSHistoryAdapter.swift in Sources */,
 				3CF19A5A2939F04300BB22FF /* PositionDetectModifier.swift in Sources */,
@@ -16556,6 +16571,7 @@
 				6D0EDCB528743FAC004A9E3C /* DepositCryptoWebViewController.swift in Sources */,
 				6D0EDCB728743FAC004A9E3C /* Injection.swift in Sources */,
 				6D0EDCB828743FAC004A9E3C /* PortalMaintenanceViewController.swift in Sources */,
+				3E8B26472AE233A10080F0F4 /* TappableTextView.swift in Sources */,
 				6D0EDCB928743FAC004A9E3C /* GameWebViewViewController.swift in Sources */,
 				3C724DEE29D2C13D00C490A6 /* WithdrawalCryptoLimitViewModelProtocol.swift in Sources */,
 				6D98EBAC28EFDAF200065D68 /* KtoURLManager.swift in Sources */,
@@ -17280,6 +17296,7 @@
 				6D0EDF1328744704004A9E3C /* PortalMaintenanceViewController.swift in Sources */,
 				6D0EDF1428744704004A9E3C /* GameWebViewViewController.swift in Sources */,
 				6D98EBAD28EFDAF200065D68 /* KtoURLManager.swift in Sources */,
+				3E8B264A2AE233A10080F0F4 /* TappableTextView.swift in Sources */,
 				FF1B76B129C9A5C300B5B893 /* PageLoadingModifier.swift in Sources */,
 				6D0EDF1528744704004A9E3C /* TopLevelTableViewCell.swift in Sources */,
 				6D0EDF1728744704004A9E3C /* GameApi.swift in Sources */,
@@ -18066,6 +18083,7 @@
 				3C1DF733299A186D007E5EF4 /* FromBankForm.swift in Sources */,
 				6D966D0827FEE3FA006086B7 /* PortalMaintenanceViewController.swift in Sources */,
 				6D966D0927FEE3FA006086B7 /* GameWebViewViewController.swift in Sources */,
+				3E8B264B2AE233A10080F0F4 /* TappableTextView.swift in Sources */,
 				3CF19A5B2939F04300BB22FF /* PositionDetectModifier.swift in Sources */,
 				6DF112472A1357AB007C4CC1 /* CSHistoryAdapter.swift in Sources */,
 				6D966D0A27FEE3FA006086B7 /* TopLevelTableViewCell.swift in Sources */,
@@ -18790,6 +18808,7 @@
 				3C724DF329D2C13D00C490A6 /* WithdrawalCryptoLimitViewModelProtocol.swift in Sources */,
 				6D966F5427FEE416006086B7 /* Injection.swift in Sources */,
 				3C1DF734299A186D007E5EF4 /* FromBankForm.swift in Sources */,
+				3E8B264C2AE233A10080F0F4 /* TappableTextView.swift in Sources */,
 				3CED7D1B2A5E4B4700479A9D /* PokerSetHorizontalView.swift in Sources */,
 				6D966F5527FEE416006086B7 /* PortalMaintenanceViewController.swift in Sources */,
 				3C7E47BB2A5FD12400A22B79 /* P2PMyBetAdapter.swift in Sources */,
@@ -19514,6 +19533,7 @@
 				6D55C73929657E2A0038E8FB /* SBKMaintenanceViewController.swift in Sources */,
 				3C724DEF29D2C13D00C490A6 /* WithdrawalCryptoLimitViewModelProtocol.swift in Sources */,
 				6D55C68C29657DB40038E8FB /* DateModel.swift in Sources */,
+				3E8B26482AE233A10080F0F4 /* TappableTextView.swift in Sources */,
 				6D55C9D1296662DE0038E8FB /* SuperSignStatus.swift in Sources */,
 				FF8C267D29B9866F009523BE /* DepositLogSummaryViewModel.swift in Sources */,
 				FF2E4D7129E7A4E900B0C048 /* WithdrawalFiatRequestSetp2ViewController.swift in Sources */,
