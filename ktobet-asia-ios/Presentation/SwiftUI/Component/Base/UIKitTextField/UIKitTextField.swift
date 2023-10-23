@@ -1,10 +1,12 @@
 import SwiftUI
 
 struct UIKitTextField: UIViewRepresentable {
+  @State private var oldText = ""
+  
   @Binding var text: String
   @Binding var isFirstResponder: Bool
   @Binding var showPassword: Bool
-
+  
   private let isPasswordType: Bool
   private let textFieldType: any TextFieldType
 
@@ -20,6 +22,8 @@ struct UIKitTextField: UIViewRepresentable {
     initConfiguration: @escaping (UITextField) -> Void = { (_: UITextField) in },
     updateConfiguration: @escaping (UITextField) -> Void = { (_: UITextField) in })
   {
+    oldText = text.wrappedValue
+    
     self._text = text
     self._isFirstResponder = isFirstResponder
     self._showPassword = showPassword
@@ -31,14 +35,12 @@ struct UIKitTextField: UIViewRepresentable {
   }
 
   func makeCoordinator() -> Coordinator {
-    Coordinator(
-      $text,
-      $isFirstResponder,
-      textFieldType)
+    Coordinator(self)
   }
 
   func makeUIView(context: Context) -> UITextField {
     let view = PasteableTextField()
+    view.delegate = context.coordinator
     view.disableAutoFillOnIos16()
     view.text = text
     view.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
@@ -65,26 +67,26 @@ struct UIKitTextField: UIViewRepresentable {
     }
   }
 
-  class Coordinator: NSObject {
-    @Binding private var text: String
-    @Binding private var isFirstResponder: Bool
-
-    private let textFieldType: any TextFieldType
-
-    lazy var oldText: String = text
-
-    init(
-      _ text: Binding<String>,
-      _ isFirstResponder: Binding<Bool>,
-      _ textFieldType: some TextFieldType)
-    {
-      self._text = text
-      self._isFirstResponder = isFirstResponder
-      self.textFieldType = textFieldType
+  class Coordinator: NSObject, UITextFieldDelegate {
+    private let parent: UIKitTextField
+    
+    init(_ parent: UIKitTextField) {
+      self.parent = parent
+      
+      super.init()
+    }
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+      guard let currentText = textField.text as NSString? else { return false }
+          
+      textField.text = currentText.replacingCharacters(in: range, with: string)
+      textField.sendActions(for: .editingChanged)
+      
+      return false
     }
 
     @objc
-    func textEditChanged(_ sender: UITextField) {
+    func textEditChanged(_ sender: PasteableTextField) {
       if
         let markedRange = sender.markedTextRange,
         sender.position(from: markedRange.start, offset: 0) != nil
@@ -94,18 +96,30 @@ struct UIKitTextField: UIViewRepresentable {
 
       guard let newText = sender.text?.halfWidth else { return }
 
-      textFieldType.format(oldText, newText) {
-        $text.wrappedValue = $0
+      parent.textFieldType.format(parent.oldText, newText) {
+        parent.text = $0
         sender.remainCursor(to: $0)
-        oldText = $0
+        
+        if parent.text != parent.oldText {
+          guard let undoManager = sender.undoManager as? TextFieldUndoManager else { return }
+          
+          undoManager.registerUndo(
+            parent.oldText,
+            registerCompletion: { [unowned self] currentText in
+              parent.oldText = currentText
+            },
+            undoCompletion: { [unowned self] undoText in
+              parent.oldText = undoText
+              parent.text = undoText
+            })
+        }
       }
     }
 
     @objc
     func textEditEnd(_: UITextField) {
-      isFirstResponder = false
-
-      textFieldType.onEditEnd($text)
+      parent.isFirstResponder = false
+      parent.textFieldType.onEditEnd(parent._text)
     }
   }
 }
