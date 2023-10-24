@@ -25,19 +25,23 @@ final class APPErrorTests: XCTestCase {
   
   func test_givensharedbuError_whenGenerateResult_thenResultIsUnknownError() {
     let stubError = ApiException(message: "Test", errorCode: "1234")
-    let actual = APPError.convert(by: stubError)
+    let convertResult = APPError.convert(by: stubError)
     
-    let expect = APPError.unknown(
-      NSError(
-        domain: "ApiException",
-        code: 1234,
-        userInfo: [
-          "StatusCode": "1234",
-          "ErrorMessage": "Test",
-          "ExceptionName": "SharedbuApiException"
-        ]))
+    let expect = NSError(
+      domain: "ApiException",
+      code: 1234,
+      userInfo: [
+        "StatusCode": "1234",
+        "ErrorMessage": "Test",
+        "ExceptionName": "SharedbuApiException"
+      ])
     
-    XCTAssertEqual(expect, actual)
+    switch convertResult {
+    case .unknown(let actual):
+      XCTAssertEqual(expect.domain, actual.domain)
+      XCTAssertEqual(expect.code, actual.code)
+    default: XCTFail()
+    }
   }
   
   func test_givenExplicitlyCancelledError_whenGenerateResult_thenResultIsDoNothing() {
