@@ -47,6 +47,11 @@ class CommonVerifyOtpViewController: CommonViewController {
     showToast(Localize.string("common_otp_send_success"), barImg: .success)
     showPasscodeUncorrectTip(false)
   }
+  
+  override func viewWillAppear(_ animated: Bool) {
+    super.viewWillAppear(animated)
+    NavigationManagement.sharedInstance.viewController = self
+  }
 
   private func initUI() {
     if !delegate.commonVerifyOtpArgs.isHiddenCSBarItem {
