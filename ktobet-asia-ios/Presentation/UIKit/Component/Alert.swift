@@ -84,7 +84,7 @@ class Alert: AlertProtocol {
   {
     if let topVc = UIApplication.topViewController() {
       DispatchQueue.main.async {
-        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let alert = CustomAlert(title: title, message: message, preferredStyle: .alert)
         alert.view.backgroundColor = UIColor.greyScaleWhite
         alert.view.layer.cornerRadius = 14
         alert.view.clipsToBounds = true
@@ -127,7 +127,7 @@ class Alert: AlertProtocol {
   {
     if let topVc = UIApplication.topViewController() {
       DispatchQueue.main.async {
-        let alert = UIAlertController(title: title, message: nil, preferredStyle: .alert)
+        let alert = CustomAlert(title: title, message: nil, preferredStyle: .alert)
         alert.view.backgroundColor = UIColor.greyScaleWhite
         alert.view.layer.cornerRadius = 14
         alert.view.clipsToBounds = true
@@ -183,5 +183,17 @@ class Alert: AlertProtocol {
       return true
     }
     return false
+  }
+}
+
+final class CustomAlert: UIAlertController {
+  override func viewWillDisappear(_ animated: Bool) {
+    super.viewWillDisappear(animated)
+    UIView.setAnimationsEnabled(false)
+  }
+      
+  override func viewDidDisappear(_ animated: Bool) {
+    super.viewDidDisappear(animated)
+    UIView.setAnimationsEnabled(true)
   }
 }
