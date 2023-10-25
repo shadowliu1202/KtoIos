@@ -44,7 +44,12 @@ enum APPError: Equatable {
       nsError = NSError(
         domain: "ApiException",
         code: Int(error.errorCode) ?? DefaultStatusCode.sharedBuError.rawValue,
-        userInfo: ["StatusCode": error.errorCode, "ErrorMessage": error.message ?? "", "ExceptionName": error.exceptionName])
+        userInfo: [
+          "StatusCode": error.errorCode,
+          "ErrorMessage": error.message ?? "",
+          "ExceptionName": error.exceptionName,
+          "StackTrace": convertKotlinStringArrayToString(error.getStackTrace())
+        ])
     
     case let error as KtoException:
       nsError = NSError(
@@ -53,17 +58,33 @@ enum APPError: Equatable {
         userInfo: [
           "StatusCode": error.errorCode ?? "",
           "ErrorMessage": error.message ?? "",
-          "ExceptionName": error.exceptionName
+          "ExceptionName": error.exceptionName,
+          "StackTrace": convertKotlinStringArrayToString(error.getStackTrace())
         ])
     
     default:
       nsError = NSError(
         domain: "KotlinException",
         code: DefaultStatusCode.sharedBuError.rawValue,
-        userInfo: ["ErrorMessage": error.message ?? "", "ExceptionName": error.exceptionName])
+        userInfo: [
+          "ErrorMessage": error.message ?? "",
+          "ExceptionName": error.description(),
+          "StackTrace": convertKotlinStringArrayToString(error.getStackTrace())
+        ])
     }
     
     return .unknown(nsError)
+  }
+  
+  private static func convertKotlinStringArrayToString(_ kotlinArray: KotlinArray<NSString>) -> String {
+    var swiftArray: [String] = []
+    for i in 0..<kotlinArray.size {
+      if let str = kotlinArray.get(index: i) as String? {
+        swiftArray.append(str)
+      }
+    }
+    
+    return swiftArray.joined(separator: "\n")
   }
   
   private static func handleMoyaError(_ error: MoyaError) -> Self {
