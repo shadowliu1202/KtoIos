@@ -35,7 +35,9 @@ class SignupLanguageViewController: LandingViewController {
   private let rowSpace: CGFloat = 12
 
   private var disposeBag = DisposeBag()
-  private var arrLangs: [SupportLocale] = [SupportLocale.Vietnam()]
+  private var arrLangs: [SupportLocale] = {
+    [SupportLocale.Vietnam()]
+  }()
 
   private var padding = UIBarButtonItem.kto(.text(text: "")).isEnable(false)
   private lazy var login = UIBarButtonItem.kto(.login)
@@ -43,7 +45,7 @@ class SignupLanguageViewController: LandingViewController {
   private lazy var customService = UIBarButtonItem
     .kto(.cs(serviceStatusViewModel: serviceStatusViewModel, delegate: self, disposeBag: disposeBag))
 
-  var languageChangeHandler: ((_ currentLocale: SupportLocale) -> Void)?
+  var languageChangeHandler: (() -> Void)?
 
   // MARK: Life Cycle
   override func viewDidLoad() {
@@ -54,6 +56,10 @@ class SignupLanguageViewController: LandingViewController {
     if let locale = arrLangs.first {
       onLocaleChange(locale: locale)
     }
+  }
+
+  deinit {
+    Logger.shared.info("\(type(of: self)) deinit")
   }
 
   // MARK: METHOD
@@ -125,9 +131,8 @@ class SignupLanguageViewController: LandingViewController {
     Theme.shared.changeEntireAPPFont(by: locale)
     cookieManager.replaceCulture(to: locale.cultureCode())
     changeViewFont(by: locale)
-    (customService as! CustomerServiceButtonItem).changeLocale(locale)
     refreshLocalize()
-    languageChangeHandler?(locale)
+    languageChangeHandler?()
     Injectable.resetObjectScope(.locale)
     CustomServicePresenter.shared.changeCsDomainIfNeed()
     tableView.reloadData()

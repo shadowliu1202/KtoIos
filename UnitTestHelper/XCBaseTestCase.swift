@@ -75,11 +75,10 @@ private func injectStubAppVersionUpdateUseCase() {
 
 private func injectStubCustomServicePresenter() {
   let stubChatAppService = mock(AbsCustomerServiceAppService.self)
-  let dummyPlayerConfiguration = mock(PlayerConfiguration.self)
   let dummyLoading = LoadingImpl.shared
 
   let stubCustomerServiceViewModel = mock(CustomerServiceViewModel.self)
-    .initialize(stubChatAppService, dummyPlayerConfiguration, dummyLoading)
+    .initialize(stubChatAppService, dummyLoading)
 
   let stubSurveyViewModel = mock(SurveyViewModel.self)
     .initialize(
@@ -94,7 +93,6 @@ private func injectStubCustomServicePresenter() {
   given(customServicePresenter.initService()) ~> { }
   given(stubCustomerServiceViewModel.currentChatRoom()) ~>
     .just(.init(roomId: "", readMessage: [], unReadMessage: [], status: Connection.StatusNotExist(), isMaintained: false))
-  given(stubCustomerServiceViewModel.getSupportLocale()) ~> .China()
 
   Injectable
     .register(CustomServicePresenter.self) { _ in

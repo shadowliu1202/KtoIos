@@ -435,13 +435,8 @@ vui lòng thử lại lúc %@";
 "common_retry_later" = "Vui lòng thử lại sau";
 "common_notify_currency_ratio" = "Tiền tệ VND được hiển thị theo Tỷ lệ 1:1,000";
 "common_unknown_exception" = "Đã xảy ra lỗi không xác định";
-"common_cn_service_down" = "感谢大家对KTO亚洲的支持，KTO已于2023年10月31日全面停止中文网站服务。
-
-请联系客服邮箱申请提取账户余额，再次感谢大家的支持与关注，祝生活顺心。
-
-客服邮箱 cn@thekto.com";
-"common_tip_cn_down_title_warm" = "温馨提示";
-"common_cn_down_confirm" = "确认";
+"common_cn_service_down" = "";
+"common_cn_service_down_highlight" = "";
 
 //MARK: - SportsBook
 "sportsbook_bet_rules" = "Luật Thể Thao";
