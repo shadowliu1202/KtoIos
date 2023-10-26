@@ -182,17 +182,17 @@ struct LoginView: View {
 
   @ViewBuilder
   private func loginButton(_ countDownSecond: Int?, _ disabled: Bool, onPressed: @escaping () -> Void) -> some View {
-    Button {
-      onPressed()
-    } label: {
-      HStack(spacing: 0) {
-        Text(Localize.string("common_login"))
-        Text("(\(countDownSecond ?? 0))")
-          .visibility(countDownSecond == nil ? .gone : .visible)
-      }
-    }
-    .buttonStyle(.confirmRed)
-    .disabled(disabled)
+    Button(
+      action: { onPressed() },
+      label: {
+        HStack(spacing: 0) {
+          Text(Localize.string("common_login"))
+          Text("(\(countDownSecond ?? 0))")
+            .visibility(countDownSecond == nil ? .gone : .visible)
+        }
+      })
+      .buttonStyle(.confirmRed)
+      .disabled(disabled)
   }
 
   @ViewBuilder

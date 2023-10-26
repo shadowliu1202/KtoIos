@@ -112,6 +112,7 @@ struct ILoginData: Codable {
   var phase: Int
   var isLocked: Bool
   var status: Int
+  var platformIsAvailable: Bool
 }
 
 struct SkillData: Codable {
