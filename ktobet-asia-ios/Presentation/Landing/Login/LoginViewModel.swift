@@ -135,12 +135,12 @@ class LoginViewModel: ObservableObject {
         self.disableLoginButton = false
         callBack(navigation, nil)
       }, onFailure: { [unowned self] error in
-        guard let loginFail = error as? LoginException else {
+        guard let loginFail = error as? LoginWarningException else {
           callBack(nil, error)
           return
         }
         self.disableLoginButton = false
-        self.loginOnError(loginFail)
+        self.loginOnError(loginFail, callBack)
       })
       .disposed(by: self.disposeBag)
   }
@@ -159,23 +159,28 @@ class LoginViewModel: ObservableObject {
     localStorageRepo.setLastOverLoginLimitDate(nil)
   }
 
-  private func loginOnError(_ loginFail: LoginException) {
+  private func loginOnError(
+    _ loginFail: LoginWarningException,
+    _ callBack: @escaping (NavigationViewModel.LobbyPageNavigation?, Error?) -> Void)
+  {
     switch loginFail {
-    case is LoginException.Failed1to5Exception:
-      loginError = loginFail
-    case is LoginException.Failed6to10Exception:
+    case let error as LoginException.Failed1to5Exception:
+      loginError = error
+    case let error as LoginException.Failed6to10Exception:
       if captchaImage == nil {
-        loginError = loginFail
+        loginError = error
         getCaptchaImage()
       }
       else {
-        loginError = loginFail
+        loginError = error
       }
-    case is LoginException.AboveVerifyLimitation:
-      loginError = loginFail
+    case let error as LoginException.AboveVerifyLimitation:
+      loginError = error
       let lastLoginLimitDate = Date(timeIntervalSince1970: Date().timeIntervalSince1970 + 60)
       setLastOverLoginLimitDate(lastLoginLimitDate)
       launchLoginLimitTimer(lastLoginLimitDate)
+    case is InvalidPlatformException:
+      callBack(nil, loginFail)
     default:
       fatalError("Should not reach here.")
     }

@@ -13,6 +13,10 @@ class APPViewController: UIViewController {
 
   let networkConnectRelay = BehaviorRelay<Bool>(value: true)
 
+  deinit {
+    Logger.shared.info("\(type(of: self)) deinit")
+  }
+  
   override func viewDidLoad() {
     super.viewDidLoad()
     view.accessibilityIdentifier = "\(type(of: self))"
