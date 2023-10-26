@@ -71,8 +71,7 @@ class IAuthRepositoryImpl: IAuthRepository {
         }
       }()
       let isLocked = response.data?.isLocked ?? false
-      let isPlatformValid = response.data?.platformIsAvailable ?? false
-      return LoginStatus(status: tryStatus, isLocked: isLocked, isPlatformValid: isPlatformValid)
+      return LoginStatus(status: tryStatus, isLocked: isLocked)
     }
   }
 

@@ -6,9 +6,8 @@ import UIKit
 class LoginViewController: LandingViewController {
   @IBOutlet weak var logoItem: UIBarButtonItem!
 
-  @Injected private var viewModel: LoginViewModel
+  @Injected var viewModel: LoginViewModel
   @Injected private var cookieManager: CookieManager
-  @Injected private var alert: AlertProtocol
 
   private let segueSignup = "GoToSignup"
 
@@ -88,21 +87,17 @@ class LoginViewController: LandingViewController {
       coder: coder,
       rootView: LoginView(
         viewModel: viewModel,
-        onLogin: { [unowned self] pageNavigation, error in
+        onLogin: { [weak self] pageNavigation, generalError in
           if let pageNavigation {
-            executeNavigation(pageNavigation)
+            self?.executeNavigation(pageNavigation)
           }
 
-          if let error {
-            switch error {
-            case is InvalidPlatformException:
-              showServiceDownAlert()
-            default:
-              handleErrors(error)
-            }
+          if let generalError {
+            self?.handleErrors(generalError)
           }
-        },
-        onResetPassword: { [unowned self] in navigateToResetPasswordPage() }))
+        }, onResetPassword: { [weak self] in
+          self?.navigateToResetPasswordPage()
+        }))
   }
 
   private func executeNavigation(_ navigation: NavigationViewModel.LobbyPageNavigation) {
@@ -117,48 +112,44 @@ class LoginViewController: LandingViewController {
   }
 
   private func navigateToPortalMaintenancePage() {
-    alert.show(
-      Localize.string("common_maintenance_notify"),
-      Localize.string("common_maintenance_contact_later"),
-      confirm: {
-        NavigationManagement.sharedInstance.goTo(
-          storyboard: "Maintenance",
-          viewControllerId: "PortalMaintenanceViewController")
-      },
-      cancel: nil)
+    NavigationManagement.sharedInstance.goTo(storyboard: "Maintenance", viewControllerId: "PortalMaintenanceViewController")
   }
 
   private func navigateToProductPage(_ productType: ProductType) {
     NavigationManagement.sharedInstance.goTo(productType: productType)
   }
 
+  private func navigateToMaintainPage(_ type: ProductType) {
+    NavigationManagement.sharedInstance.goTo(productType: type, isMaintenance: true)
+  }
+
+  private func alertMaintenance(product: ProductType, onConfirm: @escaping (() -> Void)) {
+    Alert.shared.show(
+      Localize.string("common_maintenance_notify"),
+      Localize.string(
+        "common_default_product_maintain_content",
+        StringMapper.parseProductTypeString(productType: product)),
+      confirm: onConfirm,
+      cancel: nil)
+  }
+
   private func navigateToSetDefaultProductPage() {
     NavigationManagement.sharedInstance.goToSetDefaultProduct()
   }
-  
-  private func showServiceDownAlert() {
-    alert.show(
-      Localize.string("common_tip_cn_down_title_warm"),
-      Localize.string("common_cn_service_down"),
-      confirm: nil,
-      confirmText: Localize.string("common_cn_down_confirm"))
-  }
-  
-  private func navigateToResetPasswordPage() {
-    serviceStatusViewModel.output.otpService
-      .subscribe(
-        onSuccess: { [unowned self] otpStatus in
-          if otpStatus.isSmsActive || otpStatus.isMailActive {
-            performSegue(withIdentifier: ResetPasswordViewController.segueIdentifier, sender: nil)
-          }
-          else {
-            alert.show(
-              Localize.string("common_error"),
-              Localize.string("login_resetpassword_service_down"))
-          }
-        },
-        onFailure: { [unowned self] in handleErrors($0) })
-      .disposed(by: self.disposeBag)
+
+  private func navigateToSignUpPage() {
+    serviceStatusViewModel.output.otpService.subscribe { [weak self] otpStatus in
+      if !otpStatus.isMailActive, !otpStatus.isSmsActive {
+        let title = Localize.string("common_error")
+        let message = Localize.string("register_service_down")
+        Alert.shared.show(title, message, confirm: nil, cancel: nil)
+      }
+      else {
+        self?.performSegue(withIdentifier: self!.segueSignup, sender: nil)
+      }
+    } onFailure: { [weak self] error in
+      self?.handleErrors(error)
+    }.disposed(by: disposeBag)
   }
 
   @IBAction
@@ -170,6 +161,27 @@ class LoginViewController: LandingViewController {
       }
     }
   }
+
+  private func navigateToResetPasswordPage() {
+    self.serviceStatusViewModel.output.otpService.subscribe(onSuccess: { [weak self] otpStatus in
+      if otpStatus.isSmsActive || otpStatus.isMailActive {
+        self?.performSegue(withIdentifier: ResetPasswordViewController.segueIdentifier, sender: nil)
+      }
+      else {
+        Alert.shared.show(
+          Localize.string("common_error"),
+          Localize.string("login_resetpassword_service_down"),
+          confirm: { },
+          cancel: nil)
+      }
+    }, onFailure: { [weak self] error in
+      self?.handleErrors(error)
+    }).disposed(by: self.disposeBag)
+  }
+
+  deinit {
+    Logger.shared.info("\(type(of: self)) deinit")
+  }
 }
 
 extension LoginViewController {
@@ -178,8 +190,7 @@ extension LoginViewController {
       let navi = segue.destination as? UINavigationController,
       let signupVc = navi.viewControllers.first as? SignupLanguageViewController
     {
-      signupVc.languageChangeHandler = { currentLocale in
-        (self.customService as! CustomerServiceButtonItem).changeLocale(currentLocale)
+      signupVc.languageChangeHandler = {
         self.localize()
       }
       signupVc.presentationController?.delegate = self
@@ -201,10 +212,10 @@ extension LoginViewController: BarButtonItemable {
     case registerBarBtnId:
       let language = Language(rawValue: viewModel.getCultureCode())
       if language == .CN {
-        alertServiceDownThenToSignUpPage()
+        showServiceDownAlert()
       }
       else {
-        navigateToSignUpPage()
+        btnSignupPressed()
       }
     case manualUpdateBtnId:
       Configuration.isAutoUpdate = true
@@ -217,40 +228,20 @@ extension LoginViewController: BarButtonItemable {
       break
     }
   }
-  
-  private func alertServiceDownThenToSignUpPage() {
-    let content = AttribTextHolder(
-      text: Localize.string("common_cn_service_down"),
-      attrs: [(
-        text: Localize.string("common_cn_service_down"),
-        type: .font,
-        value: UIFont(name: "PingFangSC-Regular", size: 14)!)])
-    
-    alert.show(
-      Localize.string("common_tip_cn_down_title_warm"),
-      content.attributedString,
-      confirm: { [weak self] in
-        self?.navigateToSignUpPage()
-      },
-      confirmText: Localize.string("common_cn_down_confirm"))
-  }
-  
-  private func navigateToSignUpPage() {
-    serviceStatusViewModel.output.otpService
-      .subscribe(
-        onSuccess: { [unowned self] otpStatus in
-          if
-            !otpStatus.isMailActive,
-            !otpStatus.isSmsActive
-          {
-            alert.show(Localize.string("common_error"), Localize.string("register_service_down"))
-          }
-          else {
-            performSegue(withIdentifier: segueSignup, sender: nil)
-          }
-        },
-        onFailure: { [unowned self] in handleErrors($0) })
-      .disposed(by: disposeBag)
+
+  private func btnSignupPressed() {
+    serviceStatusViewModel.output.otpService.subscribe { [weak self] otpStatus in
+      if !otpStatus.isMailActive, !otpStatus.isSmsActive {
+        let title = Localize.string("common_error")
+        let message = Localize.string("register_service_down")
+        Alert.shared.show(title, message, confirm: nil, cancel: nil)
+      }
+      else {
+        self?.performSegue(withIdentifier: self!.segueSignup, sender: nil)
+      }
+    } onFailure: { [weak self] error in
+      self?.handleErrors(error)
+    }.disposed(by: disposeBag)
   }
 
   private func versionAlert(_ newVer: Version) {
@@ -260,14 +251,32 @@ extension LoginViewController: BarButtonItemable {
     let title = Localize.string("update_proceed_now")
     let msg = "目前版本 : \(currentVersion)+\(currentVersionCode) \n最新版本 : \(newVer)+\(newVersionCode)"
     if currentVersion.compareTo(other: newVer) < 0 {
-      alert.show(title, msg, confirm: { [weak self] in
+      Alert.shared.show(title, msg, confirm: { [weak self] in
         guard let self else { return }
         self.syncAppVersionUpdate(self.viewDisappearBag)
       }, confirmText: Localize.string("update_proceed_now"), cancel: { }, cancelText: "稍後")
     }
     else {
-      alert.show(title, msg, confirm: { }, confirmText: "無需更新", cancel: nil)
+      Alert.shared.show(title, msg, confirm: { }, confirmText: "無需更新", cancel: nil)
     }
+  }
+  
+  private func showServiceDownAlert() {
+    let content = AttribTextHolder(
+      text: Localize.string("common_cn_service_down"),
+      attrs: [(
+        text: Localize.string("common_cn_service_down"),
+        type: .font,
+        value: UIFont(name: "PingFangSC-Regular", size: 14)!)])
+    
+    Alert.shared
+      .show(
+        Localize.string("common_tip_title_warm"),
+        content.attributedString,
+        confirm: { [weak self] in
+          self?.btnSignupPressed()
+        },
+        confirmText: Localize.string("common_confirm"))
   }
 }
 

@@ -852,7 +852,6 @@ final class Injection {
       .register(CustomerServiceViewModel.self) { resolver in
         .init(
           resolver.resolveWrapper(IChatAppService.self),
-          resolver.resolveWrapper(PlayerConfiguration.self),
           resolver.resolveWrapper(Loading.self))
       }
       .inObjectScope(.locale)

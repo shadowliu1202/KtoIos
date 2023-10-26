@@ -43,8 +43,6 @@ class AuthenticationUseCaseImpl: AuthenticationUseCase {
   func login(account: String, pwd: String, captcha: Captcha) -> Single<Player> {
     repoAuth.authorize(account, pwd, captcha)
       .flatMap { data -> Single<Player> in
-        guard data.isPlatformValid else { return .error(InvalidPlatformException()) }
-        
         switch data.status {
         case .success: return self.repoPlayer.loadPlayer()
         case .failed1to5: return Single.error(LoginException.Failed1to5Exception(isLocked: data.isLocked))
