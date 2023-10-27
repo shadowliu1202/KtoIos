@@ -27,7 +27,10 @@ struct DepositView<ViewModel>: View
     .environmentObject(viewModel)
     .environment(\.playerLocale, playerConfig.supportLocale)
     .onAppear {
-      viewModel.fetchMethods()
+      viewModel.setup()
+    }
+    .onDisappear {
+      viewModel.resetSubscription()
     }
   }
 }
@@ -285,15 +288,7 @@ struct DepositView_Previews: PreviewProvider {
     @Published var recentLogs: [PaymentLogDTO.Log]?
     @Published var selections: [DepositSelection]?
 
-    func getPayments() -> Observable<PaymentsDTO> {
-      fatalError("No need to implement")
-    }
-
-    func getRecentPaymentLogs() -> Observable<[PaymentLogDTO.Log]> {
-      fatalError("No need to implement")
-    }
-
-    func fetchMethods() {
+    func setup() {
       DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
         self.recentLogs = [.approved, .floating, .cancel, .fail]
           .enumerated()
@@ -321,6 +316,8 @@ struct DepositView_Previews: PreviewProvider {
         }
       }
     }
+    
+    func resetSubscription() { }
   }
 
   struct Preview: View {
