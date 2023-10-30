@@ -82,14 +82,11 @@ struct WithdrawalFiatRequestStep2View<ViewModel>: View
 
           LimitSpacer(24)
 
-          Button(
+          PrimaryButton(
+            title: Localize.string("common_submit"),
             action: {
               onSubmit?()
-            },
-            label: {
-              Text(key: "common_submit")
             })
-            .buttonStyle(ConfirmRed(size: 16))
             .padding(.horizontal, 30)
         }
       }

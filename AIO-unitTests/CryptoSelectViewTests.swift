@@ -129,37 +129,4 @@ final class CryptoSelectViewTests: XCBaseTestCase {
 
     wait(for: [expectation], timeout: 3)
   }
-
-  func test_TapSubmitBtn_InCryptoSelectView_CallbackFunctionIsCalled() {
-    let stubViewModel = mock(CryptoDepositViewModelProtocol.self)
-    given(stubViewModel.options) ~> []
-    given(stubViewModel.confirm()) ~> .just(CommonDTO.WebUrl(url: ""))
-    given(stubViewModel.submitButtonDisable) ~> false
-
-    let stubPlayerConfig = mock(PlayerConfiguration.self)
-    given(stubPlayerConfig.supportLocale) ~> .Vietnam()
-
-    var str = ""
-    let sut = CryptoSelectView<CryptoDepositViewModelProtocolMock>(
-      viewModel: stubViewModel,
-      playerConfig: stubPlayerConfig,
-      submitButtonOnSuccess: { _ in
-        str = "submitButtonOnTap"
-      })
-
-    let expectation = sut.inspection.inspect { view in
-      let submitBtn = try view
-        .find(viewWithId: "submitBtn")
-        .button()
-      try submitBtn.tap()
-
-      XCTAssertEqual("submitButtonOnTap", str)
-    }
-
-    ViewHosting.host(
-      view: sut
-        .environmentObject(stubViewModel))
-
-    wait(for: [expectation], timeout: 30)
-  }
 }

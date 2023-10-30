@@ -212,14 +212,11 @@ extension RecordRemark {
         LimitSpacer(40)
 
         if isDeposit {
-          Button(
+          PrimaryButton(
+            title: Localize.string("common_submit"),
             action: {
               imagesOnSend?()
-            },
-            label: {
-              Text(Localize.string("common_submit"))
             })
-            .buttonStyle(.confirmRed(size: 16))
             .disabled(!isAllowSendImages)
         }
         else {
@@ -230,7 +227,7 @@ extension RecordRemark {
             label: {
               Text(Localize.string("common_submit"))
             })
-            .buttonStyle(.clearBorder)
+            .buttonStyle(.border)
             .disabled(!isAllowSendImages)
         }
       }

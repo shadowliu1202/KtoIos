@@ -29,14 +29,13 @@ struct WithdrawalAddFiatBankCardView<ViewModel>: View
             }
             .zIndex(1)
 
-            Button(
-              Localize.string("withdrawal_setbankaccount_button"),
+            PrimaryButton(
+              title: Localize.string("withdrawal_setbankaccount_button"),
               action: {
                 viewModel.addWithdrawalAccount {
                   submitSuccess()
                 }
               })
-              .buttonStyle(.confirmRed)
               .disabled(viewModel.isSubmitButtonDisable)
           }
         }

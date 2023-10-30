@@ -53,14 +53,11 @@ struct DepositOfflineConfirmView<ViewModel>: View
 
           LimitSpacer(40)
 
-          Button(
+          PrimaryButton(
+            title: Localize.string("common_submit2"),
             action: {
               viewModel.depositTrigger.onNext(())
-            },
-            label: {
-              Text(Localize.string("common_submit2"))
             })
-            .buttonStyle(ConfirmRed(size: 16))
             .disabled(!viewModel.isAllowConfirm)
         }
       }

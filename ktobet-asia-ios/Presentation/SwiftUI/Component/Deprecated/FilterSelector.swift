@@ -34,19 +34,12 @@ struct FilterSelector<Presenter>: View
         }
       }
 
-      Button(
+      PrimaryButton(
+        title: Localize.string("common_done"),
         action: {
           presenter.selectedItems = selectedItems
           onDone?()
-        },
-        label: {
-          Text(Localize.string("common_done"))
-            .localized(
-              weight: .regular,
-              size: 16,
-              color: .greyScaleWhite)
         })
-        .buttonStyle(.confirmRed)
         .padding(.horizontal, 30)
     }
     .frame(maxWidth: .infinity)

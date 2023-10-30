@@ -28,18 +28,16 @@ struct CryptoSelectView<ViewModel>: View
             SelectorList()
             Separator()
           }
-          Button(
+          
+          PrimaryButton(
+            title: Localize.string("deposit_offline_step1_button"),
             action: {
               viewModel.confirm()
                 .subscribe(onSuccess: {
                   submitButtonOnSuccess($0)
                 })
                 .disposed(by: disposeBag)
-            },
-            label: {
-              Text(Localize.string("deposit_offline_step1_button"))
             })
-            .buttonStyle(.confirmRed)
             .disabled(viewModel.submitButtonDisable)
             .padding(.horizontal, 30)
             .id(CryptoSelectView.Identifier.submitBtn.rawValue)

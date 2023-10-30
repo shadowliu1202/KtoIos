@@ -62,14 +62,11 @@ struct WithdrawalCreateCryptoAccountView<ViewModel>: View
               }
               .zIndex(1)
 
-              Button(
+              PrimaryButton(
+                title: Localize.string("cps_add_account"),
                 action: {
                   viewModel.createCryptoAccount(onSuccess: createAccountOnSuccess)
-                },
-                label: {
-                  Text(Localize.string("cps_add_account"))
                 })
-                .buttonStyle(.confirmRed)
                 .disabled(!viewModel.isCreateAccountEnable)
             }
           }

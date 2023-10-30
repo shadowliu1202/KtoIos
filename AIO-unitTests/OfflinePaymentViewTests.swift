@@ -82,7 +82,11 @@ final class OfflinePaymentViewTests: XCBaseTestCase {
     let sut = OfflinePaymentView(viewModel: stubViewModel, submitRemittanceOnClick: { _, _ in })
 
     let exp1 = sut.inspection.inspect { view in
-      let isRemitButtonDisable = try view.find(viewWithId: "remitButton").button().isDisabled()
+      let isRemitButtonDisable = try view
+        .find(viewWithId: "remitButton")
+        .find(viewWithId: "asyncButton")
+        .button()
+        .isDisabled()
 
       XCTAssertTrue(isRemitButtonDisable)
     }

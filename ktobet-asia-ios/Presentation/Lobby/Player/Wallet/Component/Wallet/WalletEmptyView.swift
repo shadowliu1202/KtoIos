@@ -26,15 +26,12 @@ struct WalletEmptyView: View {
       }
 
       VStack(spacing: 24) {
-        Button(
+        PrimaryButton(
+          title: Localize.string("common_continue"),
           action: {
             toAddWallet?()
-          },
-          label: {
-            Text(key: "common_continue")
           })
-          .buttonStyle(ConfirmRed(size: 16))
-
+        
         Button(
           action: {
             toBack?()

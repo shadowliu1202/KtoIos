@@ -63,14 +63,11 @@ struct OfflinePaymentView<ViewModel>: View
           .padding(.bottom, 40)
         }
 
-        Button(
+        PrimaryButton(
+          title: Localize.string("deposit_offline_step1_button"),
           action: {
             viewModel.submitRemittance(gatewayId: selectedGatewayId, onClick: submitRemittanceOnClick)
-          },
-          label: {
-            Text(Localize.string("deposit_offline_step1_button"))
           })
-          .buttonStyle(.confirmRed)
           .disabled(viewModel.submitButtonDisable)
           .padding(.horizontal, 30)
           .padding(.vertical, 16)

@@ -119,16 +119,13 @@ extension WithdrawalOTPVerifyMethodSelectView {
           .frame(maxWidth: .infinity)
           .multilineTextAlignment(.center)
 
-        Button(
+        PrimaryButton(
+          title: Localize.string("common_get_code"),
           action: {
             viewModel.requestOTP(
               bankCardID: bankCardID,
               onCompleted: otpRequestOnCompleted)
-          },
-          label: {
-            Text(key: "common_get_code")
           })
-          .buttonStyle(.confirmRed)
           .disabled(viewModel.isOTPRequestInProgress)
           .visibility(isRequestAvailable ? .visible : .gone)
       }

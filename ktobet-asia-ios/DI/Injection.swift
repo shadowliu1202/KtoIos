@@ -864,11 +864,6 @@ final class Injection {
       }
 
     container
-      .register(CustomerServiceMainViewModel.self) { resolver in
-        .init(resolver.resolveWrapper(IChatAppService.self))
-      }
-
-    container
       .register(CustomerServiceHistoryViewModel.self) { resolver in
         CustomerServiceHistoryViewModel(resolver.resolveWrapper(IChatHistoryAppService.self))
       }
@@ -1101,6 +1096,16 @@ final class Injection {
           resolver.resolveWrapper(IWithdrawalAppService.self),
           resolver.resolveWrapper(PlayerConfiguration.self))
       }
+    
+    container
+      .register(CustomerServiceMainViewModel.self) { resolver in
+        .init(
+          resolver.resolveWrapper(IChatHistoryAppService.self),
+          resolver.resolveWrapper(IChatAppService.self),
+          resolver.resolveWrapper(PlayerConfiguration.self),
+          resolver.resolveWrapper(ISurveyAppService.self))
+      }
+      .inObjectScope(.depositFlow)
   }
 
   // MARK: - Singleton

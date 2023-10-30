@@ -22,13 +22,14 @@ struct StarMergerView<ViewModel: StarMergerViewModel>: View {
           starMergerInfo
 
           LimitSpacer(40)
-
-          Button(Localize.string("common_submit2")) {
-            confirmButtonAction(viewModel.paymentLink)
-          }
-          .buttonStyle(.confirmRed)
-          .disabled(viewModel.paymentLink == nil ? true : false)
-          .id(Identifier.submitButton.rawValue)
+          
+          PrimaryButton(
+            title: Localize.string("common_submit2"),
+            action: {
+              confirmButtonAction(viewModel.paymentLink)
+            })
+            .disabled(viewModel.paymentLink == nil ? true : false)
+            .id(Identifier.submitButton.rawValue)
         }
         .padding(.horizontal, 30)
       }

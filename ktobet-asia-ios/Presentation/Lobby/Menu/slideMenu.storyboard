@@ -82,7 +82,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EBk-Uj-oGO">
-                                <rect key="frame" x="0.0" y="92" width="414" height="770"/>
+                                <rect key="frame" x="0.0" y="92" width="414" height="804"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zAz-CK-M4v">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="60"/>
@@ -406,7 +406,7 @@
                         <constraints>
                             <constraint firstItem="EBk-Uj-oGO" firstAttribute="leading" secondItem="2V4-gV-4i6" secondAttribute="leading" id="bYx-oq-FxU"/>
                             <constraint firstItem="EBk-Uj-oGO" firstAttribute="top" secondItem="2V4-gV-4i6" secondAttribute="top" id="fk7-tx-evJ"/>
-                            <constraint firstItem="2V4-gV-4i6" firstAttribute="bottom" secondItem="EBk-Uj-oGO" secondAttribute="bottom" id="nCe-ku-B29"/>
+                            <constraint firstAttribute="bottom" secondItem="EBk-Uj-oGO" secondAttribute="bottom" id="nCe-ku-B29"/>
                             <constraint firstItem="2V4-gV-4i6" firstAttribute="trailing" secondItem="EBk-Uj-oGO" secondAttribute="trailing" id="p90-6D-G8O"/>
                         </constraints>
                     </view>

@@ -537,6 +537,7 @@ final class OnlinePaymentViewTests: XCBaseTestCase {
     let exp = sut.inspection.inspect { view in
       let isRemitButtonDisable = try view
         .find(viewWithId: "remittanceButton")
+        .find(viewWithId: "asyncButton")
         .button()
         .isDisabled()
 
@@ -567,6 +568,7 @@ final class OnlinePaymentViewTests: XCBaseTestCase {
     let exp = sut.inspection.inspect { view in
       let isRemitButtonDisable = try view
         .find(viewWithId: "remittanceButton")
+        .find(viewWithId: "asyncButton")
         .button()
         .isDisabled()
 

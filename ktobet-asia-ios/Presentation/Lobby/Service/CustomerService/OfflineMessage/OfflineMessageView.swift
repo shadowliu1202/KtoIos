@@ -30,14 +30,13 @@ struct OfflineMessageView<ViewModel>: View
           
           LimitSpacer(40)
           
-          AsyncButton(
-            title: Localize.string("common_done"))
-          {
-            await viewModel.createOfflineSurvey()
-            submitOnComplete?()
-          }
-          .buttonStyle(.confirmRed)
-          .disabled(!viewModel.isAllowSubmit)
+          PrimaryButton(
+            title: Localize.string("common_done"),
+            action: {
+              await viewModel.createOfflineSurvey()
+              submitOnComplete?()
+            })
+            .disabled(!viewModel.isAllowSubmit)
         }
         .padding(.horizontal, 30)
       }

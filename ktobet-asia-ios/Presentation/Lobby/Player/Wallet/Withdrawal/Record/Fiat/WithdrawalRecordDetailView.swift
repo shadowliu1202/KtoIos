@@ -41,15 +41,12 @@ struct WithdrawalRecordDetailView<ViewModel>: View
       shouldShowButtons: viewModel.isCancelable,
       isLoading: viewModel.log == nil,
       buttons: {
-        Button(
+        PrimaryButton(
+          title: Localize.string("withdrawal_cancel"),
           action: {
             viewModel.cancelWithdrawal()
-          },
-          label: {
-            Text(Localize.string("withdrawal_cancel"))
           })
           .visibility(viewModel.isCancelable ? .visible : .gone)
-          .buttonStyle(ConfirmRed(size: 16))
       })
       .environment(\.playerLocale, viewModel.supportLocale)
       .environmentObject(viewModel)
