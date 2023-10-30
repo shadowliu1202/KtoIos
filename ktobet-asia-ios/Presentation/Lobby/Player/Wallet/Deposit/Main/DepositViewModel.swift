@@ -7,10 +7,8 @@ protocol DepositViewModelProtocol {
   var selections: [DepositSelection]? { get }
   var recentLogs: [PaymentLogDTO.Log]? { get }
 
-  func getPayments() -> Observable<PaymentsDTO>
-  func getRecentPaymentLogs() -> Observable<[PaymentLogDTO.Log]>
-
-  func fetchMethods()
+  func setup()
+  func resetSubscription()
 }
 
 class DepositViewModel: CollectErrorViewModel,
@@ -19,7 +17,7 @@ class DepositViewModel: CollectErrorViewModel,
 {
   private let depositService: IDepositAppService
 
-  private let disposeBag = DisposeBag()
+  private var disposeBag = DisposeBag()
 
   @Published private(set) var selections: [DepositSelection]?
   @Published private(set) var recentLogs: [PaymentLogDTO.Log]?
@@ -36,8 +34,14 @@ class DepositViewModel: CollectErrorViewModel,
 // MARK: - API
 
 extension DepositViewModel {
-  func fetchMethods() {
-    getPayments()
+  func setup() {
+    fetchPayments()
+    fetchRecentPaymentLogs()
+  }
+
+  private func fetchPayments() {
+    Observable.from(depositService.getPayments())
+      .compose(applyObservableErrorHandle())
       .map { [unowned self] in
         self.buildSelections($0)
       }
@@ -46,26 +50,22 @@ extension DepositViewModel {
         self.selections = $0
       })
       .disposed(by: disposeBag)
+  }
 
-    getRecentPaymentLogs()
+  private func fetchRecentPaymentLogs() {
+    Observable.from(
+      depositService.getRecentPaymentLogs())
+      .map { $0.compactMap { $0 as? PaymentLogDTO.Log } }
+      .compose(applyObservableErrorHandle())
       .catchAndReturn([])
       .subscribe(onNext: { [unowned self] in
         self.recentLogs = $0
       })
       .disposed(by: disposeBag)
   }
-
-  func getPayments() -> Observable<PaymentsDTO> {
-    Observable
-      .from(depositService.getPayments())
-      .compose(applyObservableErrorHandle())
-  }
-
-  func getRecentPaymentLogs() -> Observable<[PaymentLogDTO.Log]> {
-    Observable.from(
-      depositService.getRecentPaymentLogs())
-      .map { $0.compactMap { $0 as? PaymentLogDTO.Log } }
-      .compose(applyObservableErrorHandle())
+  
+  func resetSubscription() {
+    disposeBag = .init()
   }
 }
 
