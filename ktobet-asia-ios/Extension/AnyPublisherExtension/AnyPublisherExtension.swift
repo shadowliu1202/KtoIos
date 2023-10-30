@@ -78,7 +78,7 @@ extension AnyPublisher where Output == Never, Failure: Error {
 }
 
 // MARK: - Combine without Error to Async/Await
-extension AnyPublisher where Output: AnyObject, Failure == Never {
+extension AnyPublisher where Output: Any, Failure == Never {
   func waitFirst() async -> Output? {
     await withCheckedContinuation { continuation in
       var cancellable: AnyCancellable?

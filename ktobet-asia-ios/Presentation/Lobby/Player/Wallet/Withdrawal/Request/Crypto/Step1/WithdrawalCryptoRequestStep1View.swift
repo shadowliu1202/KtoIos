@@ -63,11 +63,12 @@ struct WithdrawalCryptoRequestStep1View<ViewModel>: View
 
           LimitSpacer(40)
 
-          Button(Localize.string("common_next")) {
-            tapSubmit(viewModel.generateRequestConfirmModel())
-          }
-          .buttonStyle(ConfirmRed(size: 16))
-          .disabled(viewModel.submitButtonDisable)
+          PrimaryButton(
+            title: Localize.string("common_next"),
+            action: {
+              tapSubmit(viewModel.generateRequestConfirmModel())
+            })
+            .disabled(viewModel.submitButtonDisable)
         }
       }
       .environmentObject(viewModel)

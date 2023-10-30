@@ -5,6 +5,8 @@ struct PageContainer<Content: View>: View {
   private let bottomPadding: CGFloat
 
   private let backgroundColor: UIColor
+  
+  private let alignment: Alignment
 
   private let content: Content
 
@@ -12,16 +14,18 @@ struct PageContainer<Content: View>: View {
     backgroundColor: UIColor = .clear,
     topPadding: CGFloat = 26,
     bottomPadding: CGFloat = 96,
+    alignment: Alignment = .center,
     @ViewBuilder content: () -> Content)
   {
     self.backgroundColor = backgroundColor
     self.topPadding = topPadding
     self.bottomPadding = bottomPadding
+    self.alignment = alignment
     self.content = content()
   }
 
   var body: some View {
-    ZStack {
+    ZStack(alignment: alignment) {
       Color.from(backgroundColor)
         .ignoresSafeArea()
 

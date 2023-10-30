@@ -393,7 +393,8 @@ extension OnlinePaymentView {
     }
 
     var body: some View {
-      Button(
+      PrimaryButton(
+        title: Localize.string("deposit_offline_step1_button"),
         action: {
           viewModel.submitRemittance(
             info: .init(
@@ -405,14 +406,9 @@ extension OnlinePaymentView {
           { url in
             remitButtonOnSuccess(url)
           }
-        },
-        label: {
-          Text(Localize.string("deposit_offline_step1_button"))
         })
-        .buttonStyle(.confirmRed)
         .padding(.horizontal, 30)
         .padding(.vertical, 16)
-        .backgroundColor(.greyScaleDefault)
         .disabled(viewModel.submitButtonDisable)
         .id(OnlinePaymentView.Identifier.remittanceButton.rawValue)
         .onInspected(inspection, self)

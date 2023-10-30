@@ -1,32 +1,19 @@
 import SwiftUI
 
-struct ConfirmRed: ButtonStyle {
-  private let size: CGFloat
-
-  init(size: CGFloat = 14) {
-    self.size = size
-  }
-
+struct Fill: ButtonStyle {
   func makeBody(configuration: Self.Configuration) -> some View {
     ButtonStyleContent { isEnabled in
       configuration.label
         .foregroundColor(isEnabled ? .from(.greyScaleWhite) : .from(.greyScaleWhite, alpha: 0.4))
-        .localized(
-          weight: .regular,
-          size: size)
-        .padding(10)
-        .frame(maxWidth: .infinity)
-        .lineLimit(1)
         .background(
           RoundedRectangle(cornerRadius: 8)
-            .frame(height: 48)
             .foregroundColor(isEnabled ? .from(.primaryDefault) : .from(.primaryDefault, alpha: 0.3)))
         .opacity(configuration.isPressed ? 0.8 : 1.0)
     }
   }
 }
 
-struct ConfirmRed_Previews: PreviewProvider {
+struct Fill_Previews: PreviewProvider {
   struct Preview: View {
     @State private var isSelected = true
 
@@ -38,8 +25,9 @@ struct ConfirmRed_Previews: PreviewProvider {
           },
           label: {
             Text("Press Me")
+              .padding(10)
           })
-          .buttonStyle(.confirmRed)
+          .buttonStyle(.fill)
           .frame(width: 150)
         
         Button(
@@ -48,8 +36,9 @@ struct ConfirmRed_Previews: PreviewProvider {
           },
           label: {
             Text("Press Me")
+              .padding(10)
           })
-          .buttonStyle(.confirmRed)
+          .buttonStyle(.fill)
           .frame(width: 150)
           .disabled(true)
       }
@@ -61,8 +50,6 @@ struct ConfirmRed_Previews: PreviewProvider {
   }
 }
 
-extension ButtonStyle where Self == ConfirmRed {
-  static var confirmRed: ConfirmRed { self.init() }
-
-  static func confirmRed(size: CGFloat) -> ConfirmRed { self.init(size: size) }
+extension ButtonStyle where Self == Fill {
+  static var fill: Fill { self.init() }
 }

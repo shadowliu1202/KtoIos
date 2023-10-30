@@ -196,7 +196,7 @@ class CustomServicePresenter: NSObject {
       })
   }
 
-  private func switchToPrechat(from vc: UIViewController?, vm: SurveyViewModel, csViewModel: CustomerServiceViewModel) {
+  func switchToPrechat(from vc: UIViewController?, vm: SurveyViewModel, csViewModel: CustomerServiceViewModel) {
     let prechatVC = storyboard
       .instantiateViewController(identifier: "PrechatServeyViewController") as PrechatServeyViewController
     prechatVC.bind(position: .left, barButtonItems: .kto(.close))
@@ -222,7 +222,7 @@ class CustomServicePresenter: NSObject {
     if isRoot {
       let navi = storyboard
         .instantiateViewController(withIdentifier: "CustomServiceNavigationController") as! UINavigationController
-      navi.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
+      navi.modalPresentationStyle = UIModalPresentationStyle.fullScreen
       navi.setViewControllers([callingVC], animated: false)
       topViewController?.present(navi, animated: false, completion: nil)
     }
@@ -256,7 +256,7 @@ class CustomServicePresenter: NSObject {
     if isRoot {
       let navi = storyboard
         .instantiateViewController(withIdentifier: "CustomServiceNavigationController") as! UINavigationController
-      navi.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
+      navi.modalPresentationStyle = UIModalPresentationStyle.fullScreen
       navi.setViewControllers([chatRoomVC], animated: false)
       topViewController?.present(navi, animated: true, completion: nil)
     }

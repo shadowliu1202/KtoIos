@@ -63,14 +63,11 @@ struct WalletDetail: View {
         Group {
           LimitSpacer(40)
 
-          Button(
+          PrimaryButton(
+            title: Localize.string("withdrawal_bankcard_delete"),
             action: {
               onDelete?()
-            },
-            label: {
-              Text(key: "withdrawal_bankcard_delete")
             })
-            .buttonStyle(ConfirmRed(size: 16))
             .disabled(deleteActionDisable)
             .padding(.horizontal, 30)
         }

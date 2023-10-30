@@ -1,30 +1,17 @@
 import SwiftUI
 
-struct ClearBorder: ButtonStyle {
-  private let size: CGFloat
-
-  init(size: CGFloat = 16) {
-    self.size = size
-  }
-
+struct Border: ButtonStyle {
   func makeBody(configuration: Self.Configuration) -> some View {
     ButtonStyleContent { isEnabled in
       configuration.label
         .foregroundColor(isEnabled ? .from(.primaryDefault) : .from(.textSecondary))
-        .localized(
-          weight: .regular,
-          size: size)
-        .padding(10)
-        .frame(maxWidth: .infinity)
-        .lineLimit(1)
-        .frame(height: 48)
         .stroke(color: .textSecondary, cornerRadius: 8)
         .opacity(configuration.isPressed ? 0.8 : 1.0)
     }
   }
 }
 
-struct ClearBorder_Previews: PreviewProvider {
+struct Border_Previews: PreviewProvider {
   struct Preview: View {
     @State private var isSelected = true
 
@@ -36,9 +23,9 @@ struct ClearBorder_Previews: PreviewProvider {
           },
           label: {
             Text("Press Me")
+              .padding(10)
           })
-          .buttonStyle(.clearBorder)
-          .frame(width: 150)
+          .buttonStyle(.border)
 
         Button(
           action: {
@@ -46,9 +33,9 @@ struct ClearBorder_Previews: PreviewProvider {
           },
           label: {
             Text("Press Me")
+              .padding(10)
           })
-          .buttonStyle(.clearBorder)
-          .frame(width: 150)
+          .buttonStyle(.border)
           .disabled(true)
       }
     }
@@ -59,6 +46,6 @@ struct ClearBorder_Previews: PreviewProvider {
   }
 }
 
-extension ButtonStyle where Self == ClearBorder {
-  static var clearBorder: ClearBorder { self.init() }
+extension ButtonStyle where Self == Border {
+  static var border: Border { self.init() }
 }

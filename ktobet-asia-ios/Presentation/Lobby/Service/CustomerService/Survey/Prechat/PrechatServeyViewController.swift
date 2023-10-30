@@ -46,12 +46,15 @@ class PrechatServeyViewController: CommonViewController {
     networkConnectRelay.bind(onNext: { [weak self] in
       self?.barButtonItems.first(where: { $0.tag == skipBarBtnId })?.isEnabled = $0
     }).disposed(by: disposeBag)
-    viewModel.cachedSurvey.subscribe(onNext: { [weak self] in
-      guard let self else { return }
-      self.surveyInfo = $0
-      self.surveyVC.surveyInfo = $0
-      self.surveyVC.dataSource = $0?.surveyQuestions ?? []
-    }).disposed(by: disposeBag)
+    
+    viewModel.getPreChatSurvey()
+      .subscribe(onSuccess: { [weak self] in
+        guard let self else { return }
+        self.surveyInfo = $0
+        self.surveyVC.surveyInfo = $0
+        self.surveyVC.dataSource = $0.surveyQuestions
+      })
+      .disposed(by: disposeBag)
 
     Observable.combineLatest(viewModel.isAnswersValid, networkConnectRelay.asObservable()).map({ $0 && $1 })
       .bind(to: completeBtn.rx.isValid).disposed(by: disposeBag)

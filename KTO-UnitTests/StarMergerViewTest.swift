@@ -22,9 +22,13 @@ class StarMergerViewTest: XCBaseTestCase {
     let sut = StarMergerView(viewModel: stubObject, { _ in })
 
     let exp = sut.inspection.inspect { view in
-      let submitButton = try view.find(viewWithId: "submitButton").button()
+      let isSubmitButtonDisable = try view
+        .find(viewWithId: "submitButton")
+        .find(viewWithId: "asyncButton")
+        .button()
+        .isDisabled()
 
-      XCTAssertFalse(submitButton.isDisabled())
+      XCTAssertFalse(isSubmitButtonDisable)
     }
 
     ViewHosting.host(view: sut)
@@ -38,7 +42,7 @@ class StarMergerViewTest: XCBaseTestCase {
     let sut = StarMergerView(viewModel: stubObject, { _ in })
 
     let exp = sut.inspection.inspect { view in
-      let submitButton = try view.find(viewWithId: "submitButton").button()
+      let submitButton = try view.find(viewWithId: "submitButton")
 
       XCTAssertTrue(submitButton.isDisabled())
     }

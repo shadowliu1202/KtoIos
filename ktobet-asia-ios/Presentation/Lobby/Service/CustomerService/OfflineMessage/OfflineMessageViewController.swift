@@ -28,8 +28,6 @@ final class OfflineMessageViewController: CommonViewController {
   }
   
   private func setupUI() {
-    view.backgroundColor = .greyScaleDefault
-    
     addSubView(from: { [unowned self] in
       OfflineMessageView(
         viewModel: self.viewModel,

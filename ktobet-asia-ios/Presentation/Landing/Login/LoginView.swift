@@ -190,8 +190,11 @@ struct LoginView: View {
         Text("(\(countDownSecond ?? 0))")
           .visibility(countDownSecond == nil ? .gone : .visible)
       }
+      .frame(maxWidth: .infinity)
+      .frame(height: 48)
     }
-    .buttonStyle(.confirmRed)
+    .buttonStyle(.fill)
+    .localized(weight: .regular, size: 16)
     .disabled(disabled)
   }
 

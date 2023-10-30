@@ -461,9 +461,7 @@ class SideBarViewController: APPViewController {
         case .deposit:
           NavigationManagement.sharedInstance.goTo(storyboard: "Deposit", viewControllerId: "DepositNavigation")
         case .callService:
-          NavigationManagement.sharedInstance.goTo(
-            storyboard: "CustomService",
-            viewControllerId: "CustomerServiceMainNavigationController")
+          navigationController?.pushViewController(CustomerServiceMainViewController(), animated: false)
         }
 
         listFeature.deselectRow(at: indexPath, animated: true)

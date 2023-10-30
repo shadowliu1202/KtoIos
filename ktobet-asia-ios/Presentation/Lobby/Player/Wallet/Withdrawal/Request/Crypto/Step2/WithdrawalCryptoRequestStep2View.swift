@@ -30,14 +30,15 @@ struct WithdrawalCryptoRequestStep2View<ViewModel>: View
 
         LimitSpacer(40)
 
-        Button(Localize.string("common_submit")) {
-          viewModel.requestCryptoWithdrawalTo {
-            submitSuccess()
-          }
-        }
-        .padding(.horizontal, 30)
-        .buttonStyle(ConfirmRed(size: 16))
-        .disabled(viewModel.submitDisable)
+        PrimaryButton(
+          title: Localize.string("common_submit"),
+          action: {
+            viewModel.requestCryptoWithdrawalTo {
+              submitSuccess()
+            }
+          })
+          .padding(.horizontal, 30)
+          .disabled(viewModel.submitDisable)
       }
     }
     .environmentObject(viewModel)

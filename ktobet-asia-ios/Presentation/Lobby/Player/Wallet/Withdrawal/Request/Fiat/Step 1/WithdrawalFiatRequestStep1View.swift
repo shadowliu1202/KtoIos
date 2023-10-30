@@ -80,15 +80,12 @@ struct WithdrawalFiatRequestStep1View<ViewModel>: View
 
           LimitSpacer(40)
 
-          Button(
+          PrimaryButton(
+            title: Localize.string("common_next"),
             action: {
               toStep2?()
-            },
-            label: {
-              Text(key: "common_next")
             })
             .disabled(!viewModel.isAllowSubmit)
-            .buttonStyle(ConfirmRed(size: 16))
             .padding(.horizontal, 30)
         }
       }

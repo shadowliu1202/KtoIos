@@ -33,14 +33,11 @@ struct SharedOTPVerificationFailureView: View {
         .multilineTextAlignment(.center)
         .frame(maxWidth: .infinity)
 
-        Button(
+        PrimaryButton(
+          title: Localize.string("common_back"),
           action: {
             buttonOnClick?()
-          },
-          label: {
-            Text(key: "common_back")
           })
-          .buttonStyle(.confirmRed)
       }
       .padding(.horizontal, 30)
       .frame(maxHeight: .infinity, alignment: .top)

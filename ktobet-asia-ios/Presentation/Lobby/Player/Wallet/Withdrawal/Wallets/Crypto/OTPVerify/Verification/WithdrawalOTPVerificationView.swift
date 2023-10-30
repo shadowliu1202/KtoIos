@@ -150,16 +150,13 @@ extension WithdrawalOTPVerificationView {
 
     var body: some View {
       VStack(spacing: 24) {
-        Button(
+        PrimaryButton(
+          title: Localize.string("common_verify"),
           action: {
             viewModel.verifyOTP(
               onCompleted: otpVerifyOnCompleted,
               onErrorRedirect: onErrorRedirect)
-          },
-          label: {
-            Text(key: "common_verify")
           })
-          .buttonStyle(.confirmRed)
           .disabled(
             otpCode.count < viewModel.otpCodeLength ||
               viewModel.isOTPVerifyInProgress)
