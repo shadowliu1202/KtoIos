@@ -77,21 +77,14 @@ class LocalizeUtils: NSObject {
   private var yRegex = "[ỲỴÝỶỸỳỵỷỹý]"
 
   func removeAccent(str: String) -> String {
-    var result: String
-    do {
-      result = try str.replacingRegex(matching: aRegex, with: "a")
+    (
+      try? str.replacingRegex(matching: aRegex, with: "a")
         .replacingRegex(matching: eRegex, with: "e")
         .replacingRegex(matching: iRegex, with: "i")
         .replacingRegex(matching: oRegex, with: "o")
         .replacingRegex(matching: uRegex, with: "u")
         .replacingRegex(matching: dRegex, with: "d")
-        .replacingRegex(matching: yRegex, with: "y")
-    }
-    catch {
-      result = str
-      Logger.shared.debug(error.localizedDescription)
-    }
-    return result
+        .replacingRegex(matching: yRegex, with: "y")) ?? ""
   }
 }
 

@@ -50,12 +50,15 @@ class CommonViewController: APPViewController, VersionUpdateProtocol {
   private func executeLogout() {
     playerViewModel
       .logout()
-      .subscribe(on: MainScheduler.instance).subscribe(onCompleted: { [weak self] in
-        self?.disposeBag = DisposeBag()
-        NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LandingNavigation")
-      }, onError: {
-        Logger.shared.debug($0.localizedDescription)
-      })
+      .subscribe(on: MainScheduler.instance)
+      .subscribe(
+        onCompleted: { [weak self] in
+          self?.disposeBag = DisposeBag()
+          NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LandingNavigation")
+        },
+        onError: { [weak self] in
+          self?.handleErrors($0)
+        })
       .disposed(by: disposeBag)
   }
 }

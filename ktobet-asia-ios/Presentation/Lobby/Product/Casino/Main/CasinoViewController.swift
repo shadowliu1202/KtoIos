@@ -141,7 +141,7 @@ extension CasinoViewController {
       .combineLatest(
         gamesCollectionView.rx.observe(\.contentSize),
         lobbyCollectionView.rx.observe(\.contentSize))
-      .asDriverLogError()
+      .asDriverOnErrorJustComplete()
       .map { [unowned self] game, lobby -> CGFloat in
         let aboveHeight = self.titleLabel.frame.size.height + self.tagsStackView.frame.size.height
         let space: CGFloat = 8 + 34 + 24 * 2

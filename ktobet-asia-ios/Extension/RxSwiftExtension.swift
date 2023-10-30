@@ -12,16 +12,6 @@ extension ObservableType {
       Driver.empty()
     }
   }
-
-  public func asDriverLogError(
-    _ file: StaticString = #file,
-    _ line: UInt = #line) -> SharedSequence<DriverSharingStrategy, Element>
-  {
-    asDriver(onErrorRecover: {
-      Logger.shared.debug("Error: \($0) in file: \(file) atLine: \(line)")
-      return .empty()
-    })
-  }
 }
 
 extension ObservableType where Element: Sequence {

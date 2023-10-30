@@ -28,7 +28,7 @@ extension Publisher {
     self
       .receive(on: RunLoop.main)
       .asObservable()
-      .asDriverLogError()
+      .asDriverOnErrorJustComplete()
   }
 
   func skipOneThenAsDriver() -> Driver<Output> {
@@ -36,6 +36,6 @@ extension Publisher {
       .dropFirst()
       .receive(on: RunLoop.main)
       .asObservable()
-      .asDriverLogError()
+      .asDriverOnErrorJustComplete()
   }
 }

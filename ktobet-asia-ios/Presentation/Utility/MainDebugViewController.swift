@@ -108,26 +108,16 @@ class MainDebugViewController: UIViewController {
   }
 
   private func loadLogFile() {
-    do {
-      let fileURL = PuppyLog.shared.fileURL
-      let text2 = try String(contentsOf: fileURL, encoding: .utf8)
-      let data = [DebugData(response: text2)]
-      loadData(data)
-    }
-    catch {
-      Logger.shared.debug(error.localizedDescription)
-    }
+    let fileURL = PuppyLog.shared.fileURL
+    let text2 = try? String(contentsOf: fileURL, encoding: .utf8)
+    let data = [DebugData(response: text2)]
+    loadData(data)
   }
 
   @IBAction
   func clickClean(_: Any) {
-    do {
-      let fileURL = PuppyLog.shared.fileURL
-      try "".write(to: fileURL, atomically: false, encoding: .utf8)
-    }
-    catch {
-      Logger.shared.debug(error.localizedDescription)
-    }
+    let fileURL = PuppyLog.shared.fileURL
+    try? "".write(to: fileURL, atomically: false, encoding: .utf8)
 
     loadLogFile()
   }

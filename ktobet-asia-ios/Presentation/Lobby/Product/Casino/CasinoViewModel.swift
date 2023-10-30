@@ -39,7 +39,7 @@ class CasinoViewModel: CollectErrorViewModel, ProductViewModel {
   var section = 0
 
   var webGameResultDriver: Driver<WebGameResult> {
-    webGameResultSubject.asDriverLogError()
+    webGameResultSubject.asDriverOnErrorJustComplete()
   }
 
   var loadingWebTracker: ActivityIndicator { loading.tracker }

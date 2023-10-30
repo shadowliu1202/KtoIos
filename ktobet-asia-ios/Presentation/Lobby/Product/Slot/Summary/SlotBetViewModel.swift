@@ -19,7 +19,7 @@ class SlotBetViewModel: CollectErrorViewModel, ProductWebGameViewModelProtocol {
 
   private let webGameResultSubject = PublishSubject<WebGameResult>()
   var webGameResultDriver: Driver<WebGameResult> {
-    webGameResultSubject.asDriverLogError()
+    webGameResultSubject.asDriverOnErrorJustComplete()
   }
 
   init(slotUseCase: SlotUseCase, slotRecordUseCase: SlotRecordUseCase) {

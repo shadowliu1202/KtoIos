@@ -247,7 +247,7 @@ class OfflinePaymentViewModel:
 
       onClick(memoDTO, bankCardDTO)
     case .failure:
-      Logger.shared.debug("should not reach here.")
+      fatalError("should not reach here.")
     }
   }
 }

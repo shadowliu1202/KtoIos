@@ -110,7 +110,7 @@ class ResetPasswordViewModel: CollectErrorViewModel {
           }
       }
       .compactMap { $0 }
-      .asDriverLogError()
+      .asDriverOnErrorJustComplete()
 
     let password = relayPassword.asObservable()
     let confirmPassword = relayConfirmPassword.asObservable()

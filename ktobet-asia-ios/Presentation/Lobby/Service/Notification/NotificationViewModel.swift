@@ -59,7 +59,7 @@ class NotificationViewModel: CollectErrorViewModel {
         self.useCase.deleteNotification(messageId: id)
           .andThen(Single.just(()))
           .compose(self.applySingleErrorHandler())
-      }.asDriverLogError()
+      }.asDriverOnErrorJustComplete()
   }
 
   private func getCustomerServiceEmail() -> Driver<String> {

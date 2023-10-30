@@ -96,7 +96,6 @@ class PlayerRepositoryImpl: PlayerRepository {
         localStorageRepo.setUserName(player.playerInfo.withdrawalName)
         localStorageRepo.setPlayerInfo(player)
         localStorageRepo.setLastAPISuccessDate(Date())
-        Logger.shared.debug("set player info.")
       })
   }
   

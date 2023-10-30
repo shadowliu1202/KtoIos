@@ -57,10 +57,7 @@ class SetMainPageViewController: LobbyViewController {
     viewModel
       .saveDefaultProduct(productType: self.selectedProduct)
       .subscribe(onCompleted: { [weak self] in
-        guard let self else {
-          Logger.shared.debug("Missing reference.")
-          return
-        }
+        guard let self else { return }
 
         self.popThenToastSuccess()
         self.viewModel.refreshPlayerInfoCache(self.selectedProduct)

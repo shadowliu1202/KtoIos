@@ -111,7 +111,7 @@ class CSAdapter: CustomerServiceProtocol {
           let m8 = MultipartFormData(provider: .data(imageFileName.data(using: .utf8)!), name: "resumableRelativePath")
           let m9 = MultipartFormData(provider: .data(String(chunks.count).data(using: .utf8)!), name: "resumableTotalChunks")
           let multiPartData = MultipartFormData(provider: .data(chunk), name: "file", fileName: imageFileName, mimeType: mimiType)
-          let query = self.createQuery(chunkImageDetil: chunkImageDetil)
+          let query = try self.createQuery(chunkImageDetil: chunkImageDetil)
           
           return self.customServiceApi.uploadImage(query: query, imageData: [m1, m2, m3, m4, m5, m6, m7, m8, m9, multiPartData])
             .map { $0.data ?? "" }
@@ -128,16 +128,11 @@ class CSAdapter: CustomerServiceProtocol {
     .asWrapper()
   }
 
-  private func createQuery(chunkImageDetil: ChunkImageDetil) -> [String: Any] {
-    var query: [String: Any] = [:]
-    do {
-      let encoder = JSONEncoder()
-      let data = try encoder.encode(chunkImageDetil)
-      query = try (JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any])!
-    }
-    catch {
-      Logger.shared.debug(error.localizedDescription)
-    }
+  private func createQuery(chunkImageDetil: ChunkImageDetil) throws -> [String: Any] {
+    let encoder = JSONEncoder()
+    
+    let data = try encoder.encode(chunkImageDetil)
+    var query = try (JSONSerialization.jsonObject(with: data, options: .allowFragments) as? [String: Any])!
 
     if let idx = query.index(forKey: "file") {
       query.remove(at: idx)
