@@ -311,8 +311,8 @@ struct DepositOfflineConfirmView_Previews: PreviewProvider {
     var locale: SupportLocale = .China()
 
     var depositTrigger: PublishSubject<Void> = .init()
-    var expiredDriver: Driver<Void> { Observable.just(()).asDriverLogError() }
-    var depositSuccessDriver: Driver<Void> { Observable.just(()).asDriverLogError() }
+    var expiredDriver: Driver<Void> { Observable.just(()).asDriverOnErrorJustComplete() }
+    var depositSuccessDriver: Driver<Void> { Observable.just(()).asDriverOnErrorJustComplete() }
     var isAllowConfirm = false
 
     func startCounting() { }

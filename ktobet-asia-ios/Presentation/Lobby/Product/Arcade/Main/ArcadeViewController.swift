@@ -31,7 +31,7 @@ class ArcadeViewController: DisplayProduct {
   private func initUI() {
     gamesCollectionView.rx
       .observe(\.contentSize)
-      .asDriverLogError()
+      .asDriverOnErrorJustComplete()
       .map { [weak self] size -> CGFloat in
         guard let self else { return 0 }
         let aboveHeight = self.titleLabel.frame.size.height + self.tagsStackView.frame.size.height

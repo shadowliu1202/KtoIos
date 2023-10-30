@@ -35,7 +35,7 @@ class ArcadeViewModel: CollectErrorViewModel, ProductViewModel {
   let placeholderTracker = ActivityIndicator()
 
   var webGameResultDriver: Driver<WebGameResult> {
-    webGameResultSubject.asDriverLogError()
+    webGameResultSubject.asDriverOnErrorJustComplete()
   }
 
   init(

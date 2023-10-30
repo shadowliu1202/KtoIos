@@ -56,7 +56,7 @@ class SlotViewModel: CollectErrorViewModel, ProductViewModel {
 
   var slotFilter = BehaviorRelay<[SlotGameFilter]>(value: [])
   var webGameResultDriver: Driver<WebGameResult> {
-    webGameResultSubject.asDriverLogError()
+    webGameResultSubject.asDriverOnErrorJustComplete()
   }
 
   var loadingWebTracker: ActivityIndicator { loading.tracker }

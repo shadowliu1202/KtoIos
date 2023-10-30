@@ -145,7 +145,6 @@ class HttpClient {
 
   private func refreshLastAPISuccessDate() {
     localStorageRepo.setLastAPISuccessDate(Date())
-    Logger.shared.debug("refresh API success date.")
   }
 }
 

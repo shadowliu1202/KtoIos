@@ -78,7 +78,6 @@ class AuthenticationUseCaseImpl: AuthenticationUseCase {
       FirebaseLog.shared.clearUserID()
       self?.localStorageRepo.setPlayerInfo(nil)
       self?.localStorageRepo.setLastAPISuccessDate(nil)
-      Logger.shared.debug("clear player info.")
       
       completable(.completed)
 

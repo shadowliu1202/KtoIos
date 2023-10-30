@@ -76,13 +76,7 @@ class PromotionRepositoryImpl: PromotionRepository {
     couponsAndPromotions
       .map { bonus in
         bonus.coupons
-          .compactMap {
-            do {
-              return try $0.toBonusCoupon()
-            }
-            catch { Logger.shared.debug(error.localizedDescription) }
-            return nil
-          }
+          .compactMap { try? $0.toBonusCoupon() }
       }
       .asSingle()
   }
@@ -91,13 +85,7 @@ class PromotionRepositoryImpl: PromotionRepository {
     couponsAndPromotions
       .map { bonus in
         bonus.productPromotions
-          .compactMap {
-            do {
-              return try $0.toProductPromotion()
-            }
-            catch { Logger.shared.debug(error.localizedDescription) }
-            return nil
-          }
+          .compactMap { try? $0.toProductPromotion() }
       }
       .asSingle()
   }
@@ -106,13 +94,7 @@ class PromotionRepositoryImpl: PromotionRepository {
     couponsAndPromotions
       .map { bonus in
         bonus.rebatePromotions
-          .compactMap {
-            do {
-              return try $0.toRebatePromotion()
-            }
-            catch { Logger.shared.debug(error.localizedDescription) }
-            return nil
-          }
+          .compactMap { try? $0.toRebatePromotion() }
       }
       .asSingle()
   }
@@ -121,13 +103,7 @@ class PromotionRepositoryImpl: PromotionRepository {
     couponsAndPromotions
       .map { bonus in
         bonus.cashbackPromotions
-          .compactMap {
-            do {
-              return try $0.toCashbackPromotion()
-            }
-            catch { Logger.shared.debug(error.localizedDescription) }
-            return nil
-          }
+          .compactMap { try? $0.toCashbackPromotion() }
       }
       .asSingle()
   }

@@ -119,46 +119,23 @@ class SportBookViewController: LobbyViewController {
 }
 
 extension SportBookViewController: WKNavigationDelegate, WKUIDelegate {
-  func webView(_ webView: WKWebView, didStartProvisionalNavigation _: WKNavigation!) {
-    Logger.shared.info("\(String(describing: webView.url)) start to loading")
-  }
-
-  func webView(_ webView: WKWebView, didReceiveServerRedirectForProvisionalNavigation _: WKNavigation!) {
-    Logger.shared.info("\(String(describing: webView.url)) did receive server redirect")
-  }
-
-  func webView(_ webView: WKWebView, didFailProvisionalNavigation _: WKNavigation!, withError error: Error) {
-    Logger.shared.debug("\(String(describing: webView.url)) did fail navigation with \(error.localizedDescription)")
+  func webView(_: WKWebView, didFailProvisionalNavigation _: WKNavigation!, withError _: Error) {
     isWebLoadSuccess.accept(false)
     self.activityIndicator.stopAnimating()
   }
 
-  func webView(_ webView: WKWebView, didCommit _: WKNavigation!) {
-    Logger.shared.info("\(String(describing: webView.url)) did commit")
-  }
-
-  func webView(_ webView: WKWebView, didFail _: WKNavigation!, withError error: Error) {
-    Logger.shared.debug("\(String(describing: webView.url)) did fail with \(error.localizedDescription)")
-  }
-
-  func webViewWebContentProcessDidTerminate(_ webView: WKWebView) {
-    Logger.shared.info("\(String(describing: webView.url)) did terminate")
-  }
-
-  func webView(_ webView: WKWebView, didFinish _: WKNavigation!) {
+  func webView(_: WKWebView, didFinish _: WKNavigation!) {
     Task { await maintenanceViewModel.pullMaintenanceStatus() }
-    Logger.shared.info("\(String(describing: webView.url)) did finish")
     isWebLoadSuccess.accept(true)
     isFirstWebLoaded = false
     self.activityIndicator.stopAnimating()
   }
 
   func webView(
-    _ webView: WKWebView,
+    _: WKWebView,
     didReceive challenge: URLAuthenticationChallenge,
     completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void)
   {
-    Logger.shared.info("\(String(describing: webView.url)) did receive challenge \(challenge.protectionSpace.host)")
     if challenge.protectionSpace.host == httpClient.host.absoluteString {
       completionHandler(.useCredential, URLCredential(trust: challenge.protectionSpace.serverTrust!))
     }

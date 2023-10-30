@@ -55,8 +55,7 @@ class ImagePickerViewController: UIViewController {
       case .authorized,
            .limited:
         self.getPhotoAssets()
-      default:
-        Logger.shared.debug("\(status)")
+      default: break
       }
     }
     uploadButton.isValid = false

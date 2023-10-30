@@ -35,7 +35,7 @@ class PromotionHistoryViewModel: CollectErrorViewModel {
   }
 
   var historiesDriver: Driver<[CouponHistory]> {
-    recordPagination.elements.skip(1).asDriverLogError()
+    recordPagination.elements.skip(1).asDriverOnErrorJustComplete()
   }
 
   init(

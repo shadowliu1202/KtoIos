@@ -59,7 +59,7 @@ class NumberGameViewModel: CollectErrorViewModel, ProductViewModel {
   var gameSorting = BehaviorRelay<GameSorting>(value: .popular)
 
   var webGameResultDriver: Driver<WebGameResult> {
-    webGameResultSubject.asDriverLogError()
+    webGameResultSubject.asDriverOnErrorJustComplete()
   }
 
   var loadingWebTracker: ActivityIndicator { loading.tracker }
