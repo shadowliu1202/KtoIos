@@ -261,20 +261,33 @@ class CustomServicePresenter: NSObject {
       topViewController?.present(navi, animated: true, completion: nil)
     }
     else {
-      Alert.shared.dismiss { [weak self] in
-        self?.setToChatRoom(chatRoomVC)
-      }
+      setToChatRoom(chatRoomVC)
     }
   }
   
   private func setToChatRoom(_ chatRoomVC: ChatRoomViewController) {
     guard topViewController?.navigationController is CustomServiceNavigationController
     else {
-      let navigationControllerName = topViewController?.navigationController?.description ?? ""
-      fatalError("Wrong NavigationController: \(navigationControllerName)")
+      guard
+        let targetViewController = findNavigationController() as? CustomServiceNavigationController else { return }
+      targetViewController.setViewControllers([chatRoomVC], animated: false)
+      topViewController?.present(targetViewController, animated: true, completion: nil)
+      return
     }
     
     topViewController?.navigationController?.setViewControllers([chatRoomVC], animated: false)
+  }
+  
+  private func findNavigationController() -> UIViewController? {
+    let rootViewController = UIApplication.shared.windows.first?.rootViewController
+    let presentedViewController = rootViewController?.presentedViewController
+    let controllersToCheck = [rootViewController, presentedViewController] + (rootViewController?.children ?? [])
+    for controller in controllersToCheck {
+      if let customController = controller as? CustomServiceNavigationController {
+        return customController
+      }
+    }
+    return nil
   }
 
   func switchToOfflineMessage(from vc: UIViewController?, isRoot: Bool = false) {
