@@ -5,7 +5,7 @@ extension Publisher where Failure == Error {
   func redirectErrors(to viewModel: ErrorCollectable) -> AnyPublisher<Output, Never> {
     self.catch { [weak viewModel] in
       viewModel?.collectError($0)
-      return Empty(completeImmediately: false, outputType: Output.self, failureType: Never.self)
+      return Empty(completeImmediately: true, outputType: Output.self, failureType: Never.self)
     }
     .eraseToAnyPublisher()
   }
