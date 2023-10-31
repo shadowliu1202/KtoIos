@@ -1,12 +1,9 @@
-import SwiftUI
 import UIKit
 
 class PasteableTextField: UITextField {
   @IBInspectable public var disablePaste = false
   
-  private lazy var textUndoManager = TextFieldUndoManager(textField: self)
-  
-  override var undoManager: UndoManager? { textUndoManager }
+  override var undoManager: UndoManager? { nil }
   
   override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
     if action == #selector(UIResponderStandardEditActions.paste(_:)) {
