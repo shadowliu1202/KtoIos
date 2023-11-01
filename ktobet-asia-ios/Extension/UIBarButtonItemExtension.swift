@@ -1,4 +1,5 @@
 import RxSwift
+import sharedbu
 import UIKit
 
 extension UIBarButtonItem {
@@ -26,8 +27,20 @@ extension UIBarButtonItem {
       return CloseBarButtonItem()
     case .customIamge(let name):
       return CustomImageBarButtonItem(imgName: name)
-    case .cs(let serviceStatusViewModel, let delegate, let disposeBag):
-      return CustomerServiceButtonItem(serviceStatusViewModel: serviceStatusViewModel, delegate, disposeBag)
+    case .cs(
+      let supportLocale,
+      let customerServiceViewModel,
+      let serviceStatusViewModel,
+      let alert,
+      let delegate,
+      let disposeBag):
+      return CustomerServiceButtonItem.create(
+        by: supportLocale,
+        customerServiceViewModel: customerServiceViewModel,
+        serviceStatusViewModel: serviceStatusViewModel,
+        alert: alert,
+        delegate,
+        disposeBag)
     case .register:
       return RegisterButtonItem()
     case .login:
@@ -74,7 +87,13 @@ enum KTOBarButtonItemStyle {
   case history
   case close
   case customIamge(named: String)
-  case cs(serviceStatusViewModel: ServiceStatusViewModel, delegate: CustomServiceDelegate, disposeBag: DisposeBag)
+  case cs(
+    supportLocale: SupportLocale,
+    customerServiceViewModel: CustomerServiceViewModel,
+    serviceStatusViewModel: ServiceStatusViewModel,
+    alert: AlertProtocol,
+    delegate: CustomServiceDelegate,
+    disposeBag: DisposeBag)
   case register
   case login
   case manulUpdate

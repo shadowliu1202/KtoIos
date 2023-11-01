@@ -5,6 +5,7 @@ import sharedbu
 
 class CustomerServiceViewModel {
   private let chatAppService: IChatAppService
+  private let playerConfiguration: PlayerConfiguration
   private let loading: Loading
   
   private let chatRoomTempMapper = ChatRoomTempMapper()
@@ -42,9 +43,11 @@ class CustomerServiceViewModel {
   
   init(
     _ chatAppService: IChatAppService,
+    _ playerConfiguration: PlayerConfiguration,
     _ loading: Loading)
   {
     self.chatAppService = chatAppService
+    self.playerConfiguration = playerConfiguration
     self.loading = loading
   }
 
@@ -143,6 +146,10 @@ class CustomerServiceViewModel {
 
   func setupSurveyAnswer(answers: SurveyAnswers?) {
     surveyAnswers = answers
+  }
+  
+  func getSupportLocale() -> SupportLocale {
+    playerConfiguration.supportLocale
   }
 }
 

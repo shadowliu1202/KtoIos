@@ -23,15 +23,59 @@ let manualUpdateBtnId = 1004
 let skipBarBtnId = 1005
 
 class CustomerServiceButtonItem: TextBarButtonItem {
-  @Injected private var customerServiceViewModel: CustomerServiceViewModel
-  
   required init?(coder: NSCoder) {
     super.init(coder: coder)
   }
 
-  init(serviceStatusViewModel: ServiceStatusViewModel, _ delegate: CustomServiceDelegate, _ disposeBag: DisposeBag) {
+  init() {
     super.init(title: Localize.string("customerservice_action_bar_title"))
     self.senderId(customerServiceBarBtnId)
+  }
+  
+  static func create(
+    by supportLocale: SupportLocale,
+    customerServiceViewModel: CustomerServiceViewModel,
+    serviceStatusViewModel: ServiceStatusViewModel,
+    alert: AlertProtocol,
+    _ delegate: CustomServiceDelegate,
+    _ disposeBag: DisposeBag)
+    -> CustomerServiceButtonItem
+  {
+    switch supportLocale {
+    case .China():
+      return ServiceDownCustomerServiceButton(alert: alert)
+      
+    case .Vietnam():
+      return ActiveCustomerServiceButton(
+        customerServiceViewModel: customerServiceViewModel,
+        serviceStatusViewModel: serviceStatusViewModel,
+        alert: alert,
+        delegate,
+        disposeBag)
+      
+    default:
+      fatalError("should not reach here.")
+    }
+  }
+}
+
+class ActiveCustomerServiceButton: CustomerServiceButtonItem {
+  required init?(coder: NSCoder) {
+    super.init(coder: coder)
+  }
+
+  override private init() {
+    super.init()
+  }
+  
+  init(
+    customerServiceViewModel: CustomerServiceViewModel,
+    serviceStatusViewModel: ServiceStatusViewModel,
+    alert: AlertProtocol,
+    _ delegate: CustomServiceDelegate,
+    _ disposeBag: DisposeBag)
+  {
+    super.init()
     self.isEnabled = false
     
     customerServiceViewModel.isPlayerInChat
@@ -52,33 +96,58 @@ class CustomerServiceButtonItem: TextBarButtonItem {
         let serviceStatusViewModel
       else { return }
       
-      self.isEnabled = false
+      serviceStatusViewModel.output.portalMaintenanceStatus
+        .subscribe(onNext: { [weak self] maintenanceStatus in
+          switch maintenanceStatus {
+          case is MaintenanceStatus.AllPortal:
+            alert.show(
+              Localize.string("common_maintenance_notify"),
+              Localize.string("common_maintenance_contact_later"),
+              confirm: {
+                self?.isEnabled = true
+                NavigationManagement.sharedInstance.goTo(
+                  storyboard: "Maintenance",
+                  viewControllerId: "PortalMaintenanceViewController")
+              },
+              cancel: nil)
+          case is MaintenanceStatus.Product:
+            CustomServicePresenter.shared.startCustomerService(from: vc)
+              .subscribe(
+                onCompleted: {
+                  self?.isEnabled = true
+                },
+                onError: {
+                  self?.isEnabled = true
+                  vc.handleErrors($0)
+                })
+              .disposed(by: disposeBag)
+          default:
+            self?.isEnabled = true
+          }
+        })
+        .disposed(by: disposeBag)
+    })
+  }
+}
 
-      serviceStatusViewModel.output.portalMaintenanceStatus.subscribe(onNext: { maintenanceStatus in
-        switch maintenanceStatus {
-        case is MaintenanceStatus.AllPortal:
-          Alert.shared.show(
-            Localize.string("common_maintenance_notify"),
-            Localize.string("common_maintenance_contact_later"),
-            confirm: {
-              self.isEnabled = true
-              NavigationManagement.sharedInstance.goTo(
-                storyboard: "Maintenance",
-                viewControllerId: "PortalMaintenanceViewController")
-            },
-            cancel: nil)
-        case is MaintenanceStatus.Product:
-          CustomServicePresenter.shared.startCustomerService(from: vc)
-            .subscribe(onCompleted: {
-              self.isEnabled = true
-            }, onError: {
-              self.isEnabled = true
-              vc.handleErrors($0)
-            }).disposed(by: disposeBag)
-        default:
-          self.isEnabled = true
-        }
-      }).disposed(by: disposeBag)
+class ServiceDownCustomerServiceButton: CustomerServiceButtonItem {
+  required init?(coder: NSCoder) {
+    super.init(coder: coder)
+  }
+
+  override private init() {
+    super.init()
+  }
+  
+  init(alert: AlertProtocol) {
+    super.init()
+    
+    self.actionHandler({ _ in
+      alert.show(
+        Localize.string("common_tip_cn_down_title_warm"),
+        Localize.string("common_cn_service_down"),
+        confirm: nil,
+        confirmText: Localize.string("common_cn_down_confirm"))
     })
   }
 }

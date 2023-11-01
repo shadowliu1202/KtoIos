@@ -13,13 +13,22 @@ class ResetPasswordStep3ViewController: LandingViewController {
   @IBOutlet private weak var labDesc: UILabel!
   @IBOutlet private weak var labPasswordTip: UILabel!
   @IBOutlet private weak var labPasswordDesc: UILabel!
-
+  
+  @Injected private var viewModel: ResetPasswordViewModel
+  @Injected private var customerServiceViewModel: CustomerServiceViewModel
+  @Injected private var serviceStatusViewModel: ServiceStatusViewModel
+  @Injected private var alert: AlertProtocol
+  
   private var padding = UIBarButtonItem.kto(.text(text: "")).isEnable(false)
   private lazy var customService = UIBarButtonItem
-    .kto(.cs(serviceStatusViewModel: serviceStatusViewModel, delegate: self, disposeBag: disposeBag))
+    .kto(.cs(
+      supportLocale: viewModel.getSupportLocale(),
+      customerServiceViewModel: customerServiceViewModel,
+      serviceStatusViewModel: serviceStatusViewModel,
+      alert: alert,
+      delegate: self,
+      disposeBag: disposeBag))
 
-  private var viewModel = Injectable.resolve(ResetPasswordViewModel.self)!
-  private let serviceStatusViewModel = Injectable.resolve(ServiceStatusViewModel.self)!
   private var disposeBag = DisposeBag()
 
   var barButtonItems: [UIBarButtonItem] = []

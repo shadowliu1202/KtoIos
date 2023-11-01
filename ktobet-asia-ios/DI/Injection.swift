@@ -271,14 +271,12 @@ final class Injection {
       .register(PlayerConfiguration.self) { _ in
         PlayerConfigurationImpl()
       }
-      .inObjectScope(.locale)
 
     container
       .register(LocalStorageRepository.self) {
         LocalStorageRepositoryImpl(
           playerConfiguration: $0.resolveWrapper(PlayerConfiguration.self))
       }
-      .inObjectScope(.locale)
 
     container
       .register(SettingStore.self) { _ in
@@ -852,6 +850,7 @@ final class Injection {
       .register(CustomerServiceViewModel.self) { resolver in
         .init(
           resolver.resolveWrapper(IChatAppService.self),
+          resolver.resolveWrapper(PlayerConfiguration.self),
           resolver.resolveWrapper(Loading.self))
       }
       .inObjectScope(.locale)
