@@ -5,8 +5,7 @@ import UIKit
 
 class CommonFailViewController: CommonViewController {
   static let segueIdentifier = "GoToFail"
-  var barButtonItems: [UIBarButtonItem] = []
-
+  
   @IBOutlet private weak var naviItem: UINavigationItem!
   @IBOutlet private weak var imgFailIcon: UIImageView!
   @IBOutlet private weak var labTitle: UILabel!
@@ -14,13 +13,25 @@ class CommonFailViewController: CommonViewController {
   @IBOutlet private weak var btnRestart: UIButton!
   @IBOutlet private weak var scollView: UIScrollView!
 
-  private var padding = UIBarButtonItem.kto(.text(text: "")).isEnable(false)
-  private let serviceStatusViewModel = Injectable.resolve(ServiceStatusViewModel.self)!
-  private lazy var customService = UIBarButtonItem
-    .kto(.cs(serviceStatusViewModel: serviceStatusViewModel, delegate: self, disposeBag: disposeBag))
+  @Injected private var customerServiceViewModel: CustomerServiceViewModel
+  @Injected private var serviceStatusViewModel: ServiceStatusViewModel
+  @Injected private var playerConfiguration: PlayerConfiguration
+  @Injected private var alert: AlertProtocol
+  
+  private let disposeBag = DisposeBag()
 
+  private var padding = UIBarButtonItem.kto(.text(text: "")).isEnable(false)
+  private lazy var customService = UIBarButtonItem
+    .kto(.cs(
+      supportLocale: playerConfiguration.supportLocale,
+      customerServiceViewModel: customerServiceViewModel,
+      serviceStatusViewModel: serviceStatusViewModel,
+      alert: alert,
+      delegate: self,
+      disposeBag: disposeBag))
+
+  var barButtonItems: [UIBarButtonItem] = []
   var commonFailedType: CommonFailedTypeProtocol!
-  private var disposeBag = DisposeBag()
 
   override func viewDidLoad() {
     super.viewDidLoad()

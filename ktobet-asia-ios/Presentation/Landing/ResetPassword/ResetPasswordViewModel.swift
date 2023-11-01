@@ -173,4 +173,8 @@ class ResetPasswordViewModel: CollectErrorViewModel {
   func doResetPassword() -> Completable {
     resetUseCase.resetPassword(password: relayPassword.value)
   }
+  
+  func getSupportLocale() -> SupportLocale {
+    localStorageRepo.getSupportLocale()
+  }
 }

@@ -32,23 +32,32 @@ class SignupUserinfoViewController: LandingViewController {
 
   @IBOutlet private weak var constraintRegistErrMessageHeight: NSLayoutConstraint!
   
-  private var emptyStateView: EmptyStateView?
+  @Injected private var viewModel: SignupUserInfoViewModel
+  @Injected private var accountPatternGenerator: AccountPatternGenerator
+  @Injected private var customerServiceViewModel: CustomerServiceViewModel
+  @Injected private var serviceStatusViewModel: ServiceStatusViewModel
+  @Injected private var localStorageRepo: LocalStorageRepository
+  @Injected private var alert: AlertProtocol
   
-  var barButtonItems: [UIBarButtonItem] = []
-  lazy var locale: SupportLocale = localStorageRepo.getSupportLocale()
-  private var padding = UIBarButtonItem.kto(.text(text: "")).isEnable(false)
-  private lazy var customService = UIBarButtonItem
-    .kto(.cs(serviceStatusViewModel: serviceStatusViewModel, delegate: self, disposeBag: disposeBag))
-
-  private let localStorageRepo = Injectable.resolve(LocalStorageRepository.self)!
-  private let errMsgHeight = CGFloat(56)
+  private let disposeBag = DisposeBag()
+  
   private let segueLanguage = "BackToLanguageList"
   private let seguePhone = "GoToPhone"
   private let segueEmail = "GoToEmail"
+  private let errMsgHeight = CGFloat(56)
+  
+  private var padding = UIBarButtonItem.kto(.text(text: "")).isEnable(false)
+  private lazy var customService = UIBarButtonItem
+    .kto(.cs(
+      supportLocale: localStorageRepo.getSupportLocale(),
+      customerServiceViewModel: customerServiceViewModel,
+      serviceStatusViewModel: serviceStatusViewModel,
+      alert: alert,
+      delegate: self,
+      disposeBag: disposeBag))
+
+  private var emptyStateView: EmptyStateView?
   private var isFirstTimeEnter = true
-  private var accountPatternGenerator = Injectable.resolve(AccountPatternGenerator.self)!
-  private var viewModel = Injectable.resolve(SignupUserInfoViewModel.self)!
-  private let serviceStatusViewModel = Injectable.resolve(ServiceStatusViewModel.self)!
   private var inputAccount: InputText {
     switch viewModel.currentAccountType() {
     case .email: return inputEmail
@@ -60,7 +69,7 @@ class SignupUserinfoViewController: LandingViewController {
     "+\(accountPatternGenerator.mobileNumber().areaCode())"
   }
 
-  private var disposeBag = DisposeBag()
+  var barButtonItems: [UIBarButtonItem] = []
 
   // MARK: LIFE CYCLE
   override func viewDidLoad() {
@@ -141,7 +150,7 @@ class SignupUserinfoViewController: LandingViewController {
 
   func setViewModel() {
     viewModel.inputAccountType(.phone)
-    viewModel.inputLocale(locale)
+    viewModel.inputLocale(localStorageRepo.getSupportLocale())
 
     (self.inputMobile.text <-> self.viewModel.relayMobile).disposed(by: self.disposeBag)
     (self.inputEmail.text <-> self.viewModel.relayEmail).disposed(by: self.disposeBag)

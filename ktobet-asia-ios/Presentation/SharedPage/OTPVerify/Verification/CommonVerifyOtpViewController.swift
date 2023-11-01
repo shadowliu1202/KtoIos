@@ -17,8 +17,11 @@ class CommonVerifyOtpViewController: CommonViewController {
   @IBOutlet weak var btnResend: UIButton!
   @IBOutlet private weak var labTipButtonConstraint: NSLayoutConstraint!
 
-  private let accountPatternGenerator = Injectable.resolve(AccountPatternGenerator.self)!
-  private let serviceStatusViewModel = Injectable.resolve(ServiceStatusViewModel.self)!
+  @Injected private var accountPatternGenerator: AccountPatternGenerator
+  @Injected private var customerServiceViewModel: CustomerServiceViewModel
+  @Injected private var serviceStatusViewModel: ServiceStatusViewModel
+  @Injected private var playerConfiguration: PlayerConfiguration
+  @Injected private var alert: AlertProtocol
 
   private let resendTimer = CountDownTimer()
   private let step2CountDownTimer = CountDownTimer()
@@ -29,7 +32,13 @@ class CommonVerifyOtpViewController: CommonViewController {
   private var overStep2TimeLimit = false
   private var otpRetryCount = 0
   private lazy var customService = UIBarButtonItem
-    .kto(.cs(serviceStatusViewModel: serviceStatusViewModel, delegate: self, disposeBag: disposeBag))
+    .kto(.cs(
+      supportLocale: playerConfiguration.supportLocale,
+      customerServiceViewModel: customerServiceViewModel,
+      serviceStatusViewModel: serviceStatusViewModel,
+      alert: alert,
+      delegate: self,
+      disposeBag: disposeBag))
 
   lazy var validator: OtpValidatorDelegation = OtpValidator(accountPatternGenerator: accountPatternGenerator)
   var delegate: OtpViewControllerProtocol!
@@ -210,10 +219,6 @@ class CommonVerifyOtpViewController: CommonViewController {
     else {
       UIApplication.topViewController()?.navigationController?.pushViewController(commonFailViewController, animated: true)
     }
-  }
-
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
   }
 }
 

@@ -4,8 +4,6 @@ import sharedbu
 import UIKit
 
 class SignupLanguageViewController: LandingViewController {
-  var barButtonItems: [UIBarButtonItem] = []
-
   struct LanguageListData {
     var title: String
     var type: SupportLocale
@@ -23,10 +21,11 @@ class SignupLanguageViewController: LandingViewController {
   @IBOutlet private weak var tableView: UITableView!
   @IBOutlet private weak var constraintTableHeight: NSLayoutConstraint!
 
+  @Injected private var customerServiceViewModel: CustomerServiceViewModel
+  @Injected private var serviceStatusViewModel: ServiceStatusViewModel
+  @Injected private var localStorageRepo: LocalStorageRepository
   @Injected private var cookieManager: CookieManager
-  
-  private let localStorageRepo = Injectable.resolve(LocalStorageRepository.self)!
-  private let serviceStatusViewModel = Injectable.resolve(ServiceStatusViewModel.self)!
+  @Injected private var alert: AlertProtocol
   
   private let segueLogin = "BackToLogin"
   private let segueInfo = "GoToInfo"
@@ -35,31 +34,32 @@ class SignupLanguageViewController: LandingViewController {
   private let rowSpace: CGFloat = 12
 
   private var disposeBag = DisposeBag()
-  private var arrLangs: [SupportLocale] = {
-    [SupportLocale.Vietnam()]
-  }()
+  private var arrLangs: [SupportLocale] = [SupportLocale.Vietnam()]
 
   private var padding = UIBarButtonItem.kto(.text(text: "")).isEnable(false)
   private lazy var login = UIBarButtonItem.kto(.login)
   private var spacing = UIBarButtonItem.kto(.text(text: "|")).isEnable(false)
   private lazy var customService = UIBarButtonItem
-    .kto(.cs(serviceStatusViewModel: serviceStatusViewModel, delegate: self, disposeBag: disposeBag))
+    .kto(.cs(
+      supportLocale: localStorageRepo.getSupportLocale(),
+      customerServiceViewModel: customerServiceViewModel,
+      serviceStatusViewModel: serviceStatusViewModel,
+      alert: alert,
+      delegate: self,
+      disposeBag: disposeBag))
 
-  var languageChangeHandler: (() -> Void)?
+  var languageChangeHandler: ((_ currentLocale: SupportLocale) -> Void)?
+  lazy var barButtonItems: [UIBarButtonItem] = [padding, login, spacing, customService]
 
   // MARK: Life Cycle
   override func viewDidLoad() {
     super.viewDidLoad()
-    self.bind(position: .right, barButtonItems: padding, login, spacing, customService)
+    self.bind(position: .right, barButtonItems: barButtonItems)
     setTableViewHeight()
     setupStyle()
     if let locale = arrLangs.first {
       onLocaleChange(locale: locale)
     }
-  }
-
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
   }
 
   // MARK: METHOD
@@ -131,9 +131,9 @@ class SignupLanguageViewController: LandingViewController {
     Theme.shared.changeEntireAPPFont(by: locale)
     cookieManager.replaceCulture(to: locale.cultureCode())
     changeViewFont(by: locale)
+    changeCSButton(locale)
     refreshLocalize()
-    languageChangeHandler?()
-    Injectable.resetObjectScope(.locale)
+    languageChangeHandler?(locale)
     CustomServicePresenter.shared.changeCsDomainIfNeed()
     tableView.reloadData()
   }
@@ -147,6 +147,28 @@ class SignupLanguageViewController: LandingViewController {
     labDesc.font = fontDictionary["labDesc"]
     labTermsTip.font = fontDictionary["labTermsTip"]
     btnTermsOfService.titleLabel?.font = fontDictionary["btnTermsOfService"]
+  }
+  
+  private func changeCSButton(_ currentLocale: SupportLocale) {
+    customService = UIBarButtonItem
+      .kto(.cs(
+        supportLocale: currentLocale,
+        customerServiceViewModel: customerServiceViewModel,
+        serviceStatusViewModel: serviceStatusViewModel,
+        alert: alert,
+        delegate: self,
+        disposeBag: disposeBag))
+    
+    let index = barButtonItems.firstIndex(where: { $0 is CustomerServiceButtonItem })!
+    barButtonItems[index] = customService
+    
+    if
+      var rightBarButtonItems = navigationItem.rightBarButtonItems,
+      let currentCSIndex = rightBarButtonItems.firstIndex(where: { $0 is CustomerServiceButtonItem })
+    {
+      rightBarButtonItems[currentCSIndex] = customService
+      bind(position: .right, barButtonItems: rightBarButtonItems)
+    }
   }
 }
 
@@ -185,14 +207,6 @@ extension SignupLanguageViewController {
   @IBAction
   func backToLanguageList(segue _: UIStoryboardSegue) { }
   override func unwind(for _: UIStoryboardSegue, towards _: UIViewController) { }
-
-  override func prepare(for segue: UIStoryboardSegue, sender _: Any?) {
-    if
-      let vc = segue.destination as? SignupUserinfoViewController
-    {
-      vc.locale = localStorageRepo.getSupportLocale()
-    }
-  }
 }
 
 extension SignupLanguageViewController: BarButtonItemable {

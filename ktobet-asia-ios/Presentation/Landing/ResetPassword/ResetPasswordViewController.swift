@@ -23,10 +23,22 @@ class ResetPasswordViewController: LandingViewController {
   @IBOutlet private weak var constraintResetErrorView: NSLayoutConstraint!
   @IBOutlet private weak var constraintResetErrorViewPadding: NSLayoutConstraint!
 
+  @Injected private var viewModel: ResetPasswordViewModel
+  @Injected private var customerServiceViewModel: CustomerServiceViewModel
+  @Injected private var serviceStatusViewModel: ServiceStatusViewModel
+  @Injected private var alert: AlertProtocol
+  
   private var emptyStateView: EmptyStateView?
   private var padding = UIBarButtonItem.kto(.text(text: "")).isEnable(false)
   private lazy var customService = UIBarButtonItem
-    .kto(.cs(serviceStatusViewModel: serviceStatusViewModel, delegate: self, disposeBag: disposeBag))
+    .kto(.cs(
+      supportLocale: viewModel.getSupportLocale(),
+      customerServiceViewModel: customerServiceViewModel,
+      serviceStatusViewModel: serviceStatusViewModel,
+      alert: alert,
+      delegate: self,
+      disposeBag: disposeBag))
+  
   private var inputAccount: InputText {
     switch selectedVerifyWay {
     case .email: return inputEmail
@@ -40,13 +52,10 @@ class ResetPasswordViewController: LandingViewController {
   private var selectedVerifyWay: AccountType = .phone
   private var remainTime = 0
 
-  private let localStorageRepo = Injectable.resolve(LocalStorageRepository.self)!
-  private let serviceStatusViewModel = Injectable.resolve(ServiceStatusViewModel.self)!
-  private let viewModel = Injectable.resolve(ResetPasswordViewModel.self)!
   private let disposeBag = DisposeBag()
 
   private let timerResend = CountDownTimer()
-  private lazy var locale: SupportLocale = localStorageRepo.getSupportLocale()
+  private lazy var locale: SupportLocale = viewModel.getSupportLocale()
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -55,10 +64,6 @@ class ResetPasswordViewController: LandingViewController {
     setViewModel()
     checkLimitAndLock()
     viewModel.refreshOtpStatus()
-  }
-
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
   }
 
   private func initialize() {

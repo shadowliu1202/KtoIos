@@ -16,17 +16,28 @@ class SignupEmailViewController: LandingViewController {
   @IBOutlet private weak var btnCheckVerify: UIButton!
   @IBOutlet private weak var imgSendOtpIcon: UIImageView!
   @IBOutlet private weak var viewSendOtpTip: UIView!
+  
+  @Injected private var viewModel: SignupEmailViewModel
+  @Injected private var customerServiceViewModel: CustomerServiceViewModel
+  @Injected private var serviceStatusViewModel: ServiceStatusViewModel
+  @Injected private var playerConfiguration: PlayerConfiguration
+  @Injected private var alert: AlertProtocol
 
   var barButtonItems: [UIBarButtonItem] = []
   private var padding = UIBarButtonItem.kto(.text(text: "")).isEnable(false)
   private lazy var customService = UIBarButtonItem
-    .kto(.cs(serviceStatusViewModel: serviceStatusViewModel, delegate: self, disposeBag: disposeBag))
+    .kto(.cs(
+      supportLocale: playerConfiguration.supportLocale,
+      customerServiceViewModel: customerServiceViewModel,
+      serviceStatusViewModel: serviceStatusViewModel,
+      alert: alert,
+      delegate: self,
+      disposeBag: disposeBag))
+  
   private var disposeBag = DisposeBag()
   private let segueUserInfo = "BackToUserInfo"
   private let segueDefault = "GoToDefault"
-  private var viewModel = Injectable.resolve(SignupEmailViewModel.self)!
-  private let serviceStatusViewModel = Injectable.resolve(ServiceStatusViewModel.self)!
-  private var disposebag = DisposeBag()
+  
   private var timerResend = CountDownTimer()
   private var timerVerify = CountDownTimer()
   private var checking = false
@@ -222,7 +233,7 @@ class SignupEmailViewController: LandingViewController {
         }, onFailure: { [weak self] error in
           self?.checking = false
           if manual { self?.handleError(error) }
-        }).disposed(by: self.disposebag)
+        }).disposed(by: self.disposeBag)
     }
   }
 
@@ -270,7 +281,7 @@ class SignupEmailViewController: LandingViewController {
       }, onError: { [weak self] error in
         self?.btnResend.isEnabled = true
         self?.handleError(error)
-      }).disposed(by: self.disposebag)
+      }).disposed(by: self.disposeBag)
   }
 
   @IBAction
