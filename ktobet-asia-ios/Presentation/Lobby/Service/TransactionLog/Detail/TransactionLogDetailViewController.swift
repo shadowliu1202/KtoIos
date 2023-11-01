@@ -258,11 +258,9 @@ class LogDetailCell: UITableViewCell, UITextViewDelegate {
     else { return }
     
     let textView = TappableTextView(frame: .zero)
-    let attributedText = AttribTextHolder(text: displayID)
-      .addAttr((text: displayID, type: .color, value: UIColor.systemRed))
-      .addAttr((text: displayID, type: .underLine, value: UIColor.systemRed))
-      .attributedString
-    
+    let attributedText = AttributedText(text: displayID)
+      .color(.systemRed)
+      .underline(.single, color: .systemRed)
     textView.attributedText = attributedText
     textView.font = UIFont(name: "PingFangSC-Regular", size: 16)
     textView.backgroundColor = .clear

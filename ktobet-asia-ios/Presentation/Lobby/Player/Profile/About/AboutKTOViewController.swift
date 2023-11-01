@@ -24,6 +24,7 @@ class AboutKTOViewController: LobbyViewController {
     setCsLinkTextView()
 
     vnPartner.isHidden = playerConfig.supportLocale != .Vietnam()
+    view.backgroundColor = .white
   }
 
   private func initImage() {
@@ -34,10 +35,10 @@ class AboutKTOViewController: LobbyViewController {
 
   private func setKtoWebLinkTextView() {
     let link = Localize.string("license_ktoglobal_link")
-    let txt = AttribTextHolder(text: link)
-      .addAttr((text: link, type: .color, UIColor.primaryForLight))
-      .addAttr((text: link, type: .link(true), link))
-    txt.setTo(textView: webLink)
+    let attributedText = AttributedText(text: link)
+      .link(link)
+    webLink.attributedText = attributedText
+    webLink.setLinkColor(.primaryForLight)
     webLink.textContainerInset = .zero
   }
 
@@ -45,10 +46,11 @@ class AboutKTOViewController: LobbyViewController {
     csLink.textContainerInset = .zero
     viewModel.getCustomerServiceEmail.subscribe(onSuccess: { [unowned self] in
       let csEmail = Localize.string("common_cs_email", "\($0)")
-      let txt = AttribTextHolder(text: csEmail)
-        .addAttr((text: csEmail, type: .color, UIColor.primaryForLight))
-        .addAttr((text: $0, type: .link(true), URL(string: "mailto:\($0)") as Any))
-      txt.setTo(textView: self.csLink)
+      let attributedText = AttributedText(text: csEmail)
+        .color(.primaryForLight)
+        .link("\(URL(string: "mailto:\($0)")!)", for: $0)
+      csLink.attributedText = attributedText
+      csLink.setLinkColor(.primaryForLight)
     }, onFailure: { [weak self] in
       self?.handleErrors($0)
     }).disposed(by: disposeBag)
