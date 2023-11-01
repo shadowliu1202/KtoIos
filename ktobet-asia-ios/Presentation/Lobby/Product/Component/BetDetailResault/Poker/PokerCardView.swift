@@ -2,36 +2,84 @@ import sharedbu
 import SwiftUI
 
 struct PokerCardView: View {
-  private let card: PokerCard
+  private let card: Poker
   
-  init(_ card: PokerCard) {
+  init(_ card: Poker) {
     self.card = card
   }
   
   var body: some View {
+    PockerBackgroundView()
+      .overlay(
+        VStack {
+          switch card {
+          case let card as PokerStandard:
+            StandarContentView(card)
+          case let card as PokerJoker:
+            JokerContentView(card)
+          default:
+            fatalError("should not reach here.")
+          }
+        })
+  }
+}
+
+private struct PockerBackgroundView: View {
+  var body: some View {
+    RoundedRectangle(cornerRadius: 8)
+      .foregroundColor(.from(.greyScaleWhite))
+      .padding(1)
+      .frame(width: 36, height: 54)
+      .overlay(
+        RoundedRectangle(cornerRadius: 8)
+          .strokeBorder(Color.from(.greyScaleChatWindow), lineWidth: 2))
+  }
+}
+    
+private struct StandarContentView: View {
+  private let card: PokerStandard
+  
+  init(_ card: PokerStandard) {
+    self.card = card
+  }
+    
+  var body: some View {
     VStack(spacing: 0) {
       card.pokerNumber.mapToImage()
-      
+        
       card.pokerSuits.mapToImage()
     }
     .foregroundColor(card.pokerSuits.mapToTint())
     .padding(.top, 4)
     .padding(.bottom, 8)
-    .frame(width: 36, height: 54)
-    .background(
-      RoundedRectangle(cornerRadius: 8)
-        .foregroundColor(.from(.greyScaleWhite))
-        .padding(1)
-        .overlay(
-          RoundedRectangle(cornerRadius: 8)
-            .strokeBorder(Color.from(.greyScaleChatWindow), lineWidth: 2)))
   }
 }
 
+private struct JokerContentView: View {
+  private let card: PokerJoker
+  
+  init(_ card: PokerJoker) {
+    self.card = card
+  }
+     
+  var body: some View {
+    VStack(spacing: 2) {
+      Image("PokerNumber-Star")
+         
+      Image("PokerSuit-Joker")
+    }
+    .foregroundColor(card.mapToTint())
+  }
+}
+ 
 struct PokerCardView_Previews: PreviewProvider {
   static var previews: some View {
-    PokerCardView(.init(pokerSuits: .clover, pokerNumber: .king))
-      .frame(maxWidth: .infinity, maxHeight: .infinity)
+    HStack(spacing: 10) {
+      PokerCardView(PokerStandard(pokerSuits: .clover, pokerNumber: .king))
+      
+      PokerCardView(PokerJoker.big)
+    }
+    .previewLayout(.fixed(width: 100, height: 100))
   }
 }
 
@@ -96,6 +144,19 @@ extension PokerNumber {
       return Image("PokerNumber-Queen")
     case .king:
       return Image("PokerNumber-King")
+    default:
+      fatalError("should not reach here.")
+    }
+  }
+}
+
+extension PokerJoker {
+  func mapToTint() -> Color {
+    switch self {
+    case PokerJoker.little:
+      return .from(.greyScaleBlack)
+    case PokerJoker.big:
+      return .from(.primaryForLight)
     default:
       fatalError("should not reach here.")
     }
