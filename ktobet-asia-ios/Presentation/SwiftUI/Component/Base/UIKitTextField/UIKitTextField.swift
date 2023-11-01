@@ -75,15 +75,6 @@ struct UIKitTextField: UIViewRepresentable {
       
       super.init()
     }
-    
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-      guard let currentText = textField.text as NSString? else { return false }
-          
-      textField.text = currentText.replacingCharacters(in: range, with: string)
-      textField.sendActions(for: .editingChanged)
-      
-      return false
-    }
 
     @objc
     func textEditChanged(_ sender: PasteableTextField) {
@@ -99,20 +90,7 @@ struct UIKitTextField: UIViewRepresentable {
       parent.textFieldType.format(parent.oldText, newText) {
         parent.text = $0
         sender.remainCursor(to: $0)
-        
-        if parent.text != parent.oldText {
-          guard let undoManager = sender.undoManager as? TextFieldUndoManager else { return }
-          
-          undoManager.registerUndo(
-            parent.oldText,
-            registerCompletion: { [unowned self] currentText in
-              parent.oldText = currentText
-            },
-            undoCompletion: { [unowned self] undoText in
-              parent.oldText = undoText
-              parent.text = undoText
-            })
-        }
+        parent.oldText = $0
       }
     }
 
