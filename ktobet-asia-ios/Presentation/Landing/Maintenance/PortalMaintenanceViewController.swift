@@ -59,12 +59,12 @@ class PortalMaintenanceViewController: LandingViewController {
     textView.textContainerInset = .zero
     let suffix = Localize.string("common_kto")
     let maintenance = Localize.string("common_maintenance_description")
-    let txt = AttribTextHolder(text: maintenance)
-      .addAttr((text: maintenance, type: .color, UIColor.textPrimary))
-      .addAttr((text: maintenance, type: .font, UIFont(name: "PingFangSC-Semibold", size: 24)!))
-      .addAttr((text: suffix, type: .color, UIColor.primaryDefault))
-      .addAttr((text: maintenance, type: .center, ""))
-    txt.setTo(textView: textView)
+    let attributedText = AttributedText(text: maintenance)
+      .color(.textPrimary)
+      .font(UIFont(name: "PingFangSC-Semibold", size: 24)!)
+      .color(.primaryDefault, for: suffix)
+      .alignment(.center)
+    textView.attributedText = attributedText
   }
 
   private func startCountDown(seconds: Int32?) {
