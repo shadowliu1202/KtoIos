@@ -283,16 +283,16 @@ struct CasinoBetDetailView_Previews: PreviewProvider {
     static let stubPokerGroup: [PokerGroup] = [
       .init(title: "banker", cards: [
         .init(title: "", cards: [
-          .init(pokerSuits: .heart, pokerNumber: .king),
-          .init(pokerSuits: .clover, pokerNumber: .three),
-          .init(pokerSuits: .clover, pokerNumber: .seven)
+          PokerStandard(pokerSuits: .heart, pokerNumber: .king),
+          PokerStandard(pokerSuits: .clover, pokerNumber: .three),
+          PokerStandard(pokerSuits: .clover, pokerNumber: .seven)
         ])
       ]),
       .init(title: "Player 1", cards: [
         .init(title: "", cards: [
-          .init(pokerSuits: .spades, pokerNumber: .king),
-          .init(pokerSuits: .diamond, pokerNumber: .six),
-          .init(pokerSuits: .heart, pokerNumber: .ten)
+          PokerStandard(pokerSuits: .spades, pokerNumber: .king),
+          PokerStandard(pokerSuits: .diamond, pokerNumber: .six),
+          PokerStandard(pokerSuits: .heart, pokerNumber: .ten)
         ])
       ]),
       .init(title: "Player 2", cards: [
@@ -300,13 +300,13 @@ struct CasinoBetDetailView_Previews: PreviewProvider {
       ]),
       .init(title: "Player 3", cards: [
         .init(title: "Split", cards: [
-          .init(pokerSuits: .heart, pokerNumber: .three),
-          .init(pokerSuits: .heart, pokerNumber: .five),
-          .init(pokerSuits: .spades, pokerNumber: .king)
+          PokerStandard(pokerSuits: .heart, pokerNumber: .three),
+          PokerStandard(pokerSuits: .heart, pokerNumber: .five),
+          PokerStandard(pokerSuits: .spades, pokerNumber: .king)
         ]),
         .init(title: "Split", cards: [
-          .init(pokerSuits: .spades, pokerNumber: .three),
-          .init(pokerSuits: .spades, pokerNumber: .jack),
+          PokerStandard(pokerSuits: .spades, pokerNumber: .three),
+          PokerStandard(pokerSuits: .spades, pokerNumber: .jack),
         ])
       ]),
     ]
