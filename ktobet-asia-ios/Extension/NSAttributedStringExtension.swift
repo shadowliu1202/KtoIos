@@ -1,6 +1,11 @@
 import UIKit
 
 extension NSAttributedString {
+  convenience init(text: String) {
+    let attributedString = NSAttributedString(string: text).font(UIFont(name: "PingFangSC-Semibold", size: 16)!)
+    self.init(attributedString: attributedString)
+  }
+  
   func color(_ color: UIColor, for subString: String? = nil) -> NSAttributedString {
     NSMutableAttributedString(attributedString: self)
       .add(key: .foregroundColor, value: color, for: subString)

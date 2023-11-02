@@ -258,7 +258,7 @@ class LogDetailCell: UITableViewCell, UITextViewDelegate {
     else { return }
     
     let textView = TappableTextView(frame: .zero)
-    let attributedText = AttributedText(text: displayID)
+    let attributedText = NSAttributedString(text: displayID)
       .color(.systemRed)
       .underline(.single, color: .systemRed)
     textView.attributedText = attributedText
