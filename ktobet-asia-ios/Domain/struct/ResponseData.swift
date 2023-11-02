@@ -1783,7 +1783,7 @@ struct Log: Codable {
   let wagerType: Int32
   let ticketType: Int32?
   let wagerID: String?
-  let isDetail: Bool
+  let shouldDisplayTransactionLogDetails: Bool
   let bonusType, productType, issueNumber: Int32
   let transactionSubType: Int32
   let isBonusLock: Bool
@@ -1794,7 +1794,7 @@ struct Log: Codable {
     case externalID = "externalId"
     case amount, previousBalance, afterBalance, createdDate, transactionMode, subTitle, wagerType, ticketType
     case wagerID = "wagerId"
-    case isDetail, bonusType, productType, issueNumber, transactionSubType
+    case shouldDisplayTransactionLogDetails, bonusType, productType, issueNumber, transactionSubType
     case isBonusLock
   }
 
