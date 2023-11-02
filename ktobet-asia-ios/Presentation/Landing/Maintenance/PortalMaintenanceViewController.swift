@@ -59,7 +59,7 @@ class PortalMaintenanceViewController: LandingViewController {
     textView.textContainerInset = .zero
     let suffix = Localize.string("common_kto")
     let maintenance = Localize.string("common_maintenance_description")
-    let attributedText = AttributedText(text: maintenance)
+    let attributedText = NSAttributedString(text: maintenance)
       .color(.textPrimary)
       .font(UIFont(name: "PingFangSC-Semibold", size: 24)!)
       .color(.primaryDefault, for: suffix)

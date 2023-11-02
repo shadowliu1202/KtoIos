@@ -246,7 +246,7 @@ extension LoginViewController: BarButtonItemable {
   }
   
   private func alertServiceDownThenToSignUpPage() {
-    let attributedText = AttributedText(text: Localize.string("common_cn_service_down"))
+    let attributedText = NSAttributedString(text: Localize.string("common_cn_service_down"))
       .font(UIFont(name: "PingFangSC-Regular", size: 14)!)
     
     alert.show(

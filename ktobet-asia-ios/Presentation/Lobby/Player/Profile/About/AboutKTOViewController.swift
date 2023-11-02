@@ -35,7 +35,7 @@ class AboutKTOViewController: LobbyViewController {
 
   private func setKtoWebLinkTextView() {
     let link = Localize.string("license_ktoglobal_link")
-    let attributedText = AttributedText(text: link)
+    let attributedText = NSAttributedString(text: link)
       .link(link)
     webLink.attributedText = attributedText
     webLink.setLinkColor(.primaryForLight)
@@ -46,7 +46,7 @@ class AboutKTOViewController: LobbyViewController {
     csLink.textContainerInset = .zero
     viewModel.getCustomerServiceEmail.subscribe(onSuccess: { [unowned self] in
       let csEmail = Localize.string("common_cs_email", "\($0)")
-      let attributedText = AttributedText(text: csEmail)
+      let attributedText = NSAttributedString(text: csEmail)
         .color(.primaryForLight)
         .link("\(URL(string: "mailto:\($0)")!)", for: $0)
       csLink.attributedText = attributedText
