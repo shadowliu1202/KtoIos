@@ -34,6 +34,7 @@ class InputPassword: UIView {
     labTitle.backgroundColor = .clear
 
     textContent.keyboardType = .alphabet
+    textContent.tintColor = .primaryDefault
     textContent.textColor = .white
     textContent.backgroundColor = .clear
     textContent.font = UIFont(name: "PingFangSC-Regular", size: 16)
@@ -74,12 +75,12 @@ class InputPassword: UIView {
     else {
       position = editedPosition()
     }
+    self.textContent.frame = position.content
     let changePosition = {
       self.labTitle.font = position.titleFont
       self.labTitle.frame = position.title
       self.btnHideContent.frame = position.hideBtn
-      self.textContent.frame = position.content
-      self.underline.frame = CGRect(x: 0, y: self.bounds.maxY - 1, width: self.bounds.width, height: 1)
+      self.underline.frame = CGRect(x: 0, y: self.bounds.maxY - 2, width: self.bounds.width, height: 2)
       self.backgroundColor = self.getAllFocus() ? UIColor.inputFocus : UIColor.inputDefault
     }
     if firstPosition {
