@@ -58,6 +58,18 @@ extension PromotionHistoryViewController {
       forCellReuseIdentifier: "PromotionHistoryTableViewCell")
 
     let filterController = PromotionFilterViewController.initFrom(storyboard: "Filter")
+    
+    var filterItems = filterPersenter.getDatasource() as! [PromotionItem]
+    filterItems = filterItems.filter {
+      if viewModel.getSupportLocale() == .Vietnam() {
+        return $0.privilegeType != .vvipcashback
+      }
+      else {
+        return true
+      }
+    }
+    
+    filterPersenter.setConditions(filterItems)
 
     filterBtn
       .set(filterPersenter)

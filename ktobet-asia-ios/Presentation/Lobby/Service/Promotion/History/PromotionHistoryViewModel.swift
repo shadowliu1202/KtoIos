@@ -92,8 +92,8 @@ class PromotionHistoryViewModel: CollectErrorViewModel {
   func fetchNextPage() {
     recordPagination.loadNextPageTrigger.onNext(())
   }
-
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
+  
+  func getSupportLocale() -> SupportLocale {
+    localRepo.getSupportLocale()
   }
 }
