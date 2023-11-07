@@ -371,9 +371,12 @@ extension SignupUserinfoViewController {
   @IBAction
   func btnSubmitPressed(_: Any) {
     viewModel.register()
+      .observe(on: MainScheduler.instance)
+      .do(
+        onSubscribe: { [unowned self] in btnSubmit.isValid = false },
+        onDispose: { [unowned self] in btnSubmit.isValid = true })
       .subscribe(
-        onSuccess: { [weak self] info in
-          guard let self else { return }
+        onSuccess: { [unowned self] info in
           let para = [
             "account": info.account,
             "password": info.password
