@@ -60,7 +60,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     Task { await Injection.shared.setupNetworkInfa() }
     
     #if !DEV
-      FirebaseApp.configure()
+      crashHandler()
     #endif
 
     Theme.shared.changeEntireAPPFont(by: localStorageRepo.getSupportLocale())
@@ -72,6 +72,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     configUISetting(application)
     
     return true
+  }
+  
+  private func crashHandler() {
+    FirebaseApp.configure()
+    Crashlytics.crashlytics().setCrashlyticsCollectionEnabled(true)
+  
+    NSSetUncaughtExceptionHandler { exception in
+      let currentVC = UIApplication.topViewController()
+      Crashlytics.crashlytics().setCustomValue(currentVC, forKey: "current vc")
+      
+      guard let error = exception as? Error else {
+        Crashlytics.crashlytics().setCustomValue(exception, forKey: "exception")
+        return
+      }
+      Crashlytics.crashlytics().record(error: error)
+    }
   }
 
   func applicationWillEnterForeground(_: UIApplication) {
