@@ -88,6 +88,7 @@ struct WithdrawalFiatRequestStep2View<ViewModel>: View
               onSubmit?()
             })
             .padding(.horizontal, 30)
+            .disabled(viewModel.isSubmitDisable)
         }
       }
     }
