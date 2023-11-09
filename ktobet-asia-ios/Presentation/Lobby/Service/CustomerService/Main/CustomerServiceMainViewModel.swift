@@ -92,6 +92,7 @@ class CustomerServiceMainViewModel:
   
   func refreshData() {
     histories = []
+    itemsTotalCount = 0
     getChatHistories(page: 1)
   }
   
