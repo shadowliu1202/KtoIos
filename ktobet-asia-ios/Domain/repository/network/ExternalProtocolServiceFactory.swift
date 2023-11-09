@@ -45,10 +45,10 @@ class ExternalProtocolServiceFactory: ExternalProtocolService {
   }
 
   func getCustomerService() -> CustomerServiceProtocol {
-    CSAdapter(CustomServiceAPI(httpClient))
+    CSAdapter(httpClient)
   }
 
   func getSurveyService() -> CSSurveyProtocol {
-    CSSurveyAdapter(SurveyAPI(httpClient))
+    CSSurveyAdapter(httpClient)
   }
 }
