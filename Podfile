@@ -10,7 +10,7 @@ def default_pods
   pod 'Alamofire', '5.4.1'
   pod 'RxSwift', '6.5.0'
   pod 'RxCocoa', '6.5.0'
-  pod 'RxSwiftExt', '6.0.1'
+  pod 'RxSwiftExt', '6.2.1'
   pod 'RxDataSources', '5.0.0'
   pod 'Swinject', '2.7.1'
   pod 'SwiftyJSON', '5.0.0'
