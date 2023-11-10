@@ -192,21 +192,6 @@ final class Injection {
         let httpClient = resolver.resolveWrapper(HttpClient.self)
         return TransactionLogApi(httpClient)
       }
-    
-    container
-      .register(ChatHistoryAPI.self) { resolver in
-        ChatHistoryAPI(resolver.resolveWrapper(HttpClient.self))
-      }
-    
-    container
-      .register(CustomServiceAPI.self) { resolver in
-        .init(resolver.resolveWrapper(HttpClient.self))
-      }
-    
-    container
-      .register(SurveyAPI.self) { resolver in
-        .init(resolver.resolveWrapper(HttpClient.self))
-      }
   }
 
   // MARK: - Repo
@@ -1155,13 +1140,8 @@ final class Injection {
 
   // MARK: - ExternalProtocol
   
+  // Old (ApplicationFactory)
   func registerExternalProtocol() {
-    container
-      .register(PlayerConfiguration.self) { _ in
-        PlayerConfigurationImpl()
-      }
-      .inObjectScope(.locale)
-
     container
       .register(ExternalProtocolService.self) { resolver in
         let httpClient = resolver.resolveWrapper(HttpClient.self)
@@ -1193,6 +1173,31 @@ final class Injection {
           externalProtocolService: protocolFactory,
           stringServiceFactory: stringServiceFactory,
           stringSupporter: localize)
+      }
+      .inObjectScope(.locale)
+    
+    // New (Koin DI)
+    container
+      .register(PlayerConfiguration.self) { _ in
+        PlayerConfigurationImpl()
+      }
+      .inObjectScope(.locale)
+    
+    container
+      .register(CustomerServiceProtocol.self) { resolver in
+        CSAdapter(resolver.resolveWrapper(HttpClient.self))
+      }
+      .inObjectScope(.locale)
+    
+    container
+      .register(CSSurveyProtocol.self) { resolver in
+        CSSurveyAdapter(resolver.resolveWrapper(HttpClient.self))
+      }
+      .inObjectScope(.locale)
+    
+    container
+      .register(CSHistoryProtocol.self) { resolver in
+        CSHistoryAdapter(resolver.resolveWrapper(HttpClient.self))
       }
       .inObjectScope(.locale)
   }
@@ -1240,24 +1245,6 @@ final class Injection {
   // MARK: - CustomerServiceModule
   
   func registerCustomerServiceModule() {
-    container
-      .register(CustomerServiceProtocol.self) { resolver in
-        CSAdapter(resolver.resolveWrapper(CustomServiceAPI.self))
-      }
-      .inObjectScope(.locale)
-    
-    container
-      .register(CSSurveyProtocol.self) { resolver in
-        CSSurveyAdapter(resolver.resolveWrapper(SurveyAPI.self))
-      }
-      .inObjectScope(.locale)
-    
-    container
-      .register(CSHistoryProtocol.self) { resolver in
-        CSHistoryAdapter(resolver.resolveWrapper(ChatHistoryAPI.self))
-      }
-      .inObjectScope(.locale)
-    
     container
       .register(CSEventService.self) { resolver in
         CSEventServiceAdapter(
