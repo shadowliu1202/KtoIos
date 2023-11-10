@@ -76,4 +76,12 @@ extension XCTestCase {
     keyWindow?.makeKeyAndVisible()
     keyWindow?.layoutIfNeeded()
   }
+  
+  func injectFakeObject<T>(_ objectType: T.Type, object: T) {
+    Injectable.register(objectType) { _ in object }
+  }
+  
+  func AssertEqual<E: Equatable>(expect: E, actual: E) {
+    XCTAssertEqual(expect, actual)
+  }
 }

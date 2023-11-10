@@ -54,16 +54,15 @@ final class WithdrawalCryptoWalletsViewControllerTests: XCBaseTestCase {
 
     let sut = WithdrawalCryptoWalletsViewController(viewModel: stubViewModel, alert: stubAlert)
 
-    let mockNavigationController = NavigationControllerMock(rootViewController: sut)
+    let mockNavigationController = FakeNavigationController(rootViewController: sut)
 
     sut.loadViewIfNeeded()
 
     sut.handleWalletSelect(dummyWallet(status: .verified), isEditing: false)
 
-    let expect = WithdrawalCryptoRequestStep1ViewController.self
-    let actual = mockNavigationController.pushedViewControllerType
+    let actual = mockNavigationController.lastNavigatedViewController
 
-    XCTAssertTrue(expect == actual)
+    XCTAssertTrue(actual is WithdrawalCryptoRequestStep1ViewController)
   }
 
   func test_AtCryptoWalletsPageAndIsNotEditing_ClickUnVerifiedWallet_DisplayAlert_KTO_TC_159() {
@@ -90,15 +89,14 @@ final class WithdrawalCryptoWalletsViewControllerTests: XCBaseTestCase {
 
     let sut = WithdrawalCryptoWalletsViewController(viewModel: stubViewModel, alert: stubAlert)
 
-    let mockNavigationController = NavigationControllerMock(rootViewController: sut)
+    let mockNavigationController = FakeNavigationController(rootViewController: sut)
 
     sut.loadViewIfNeeded()
 
     sut.handleWalletSelect(dummyWallet(status: .verified), isEditing: true)
 
-    let expect = WithdrawalCryptoWalletDetailViewController.self
-    let actual = mockNavigationController.pushedViewControllerType
+    let actual = mockNavigationController.lastNavigatedViewController
 
-    XCTAssertTrue(expect == actual)
+    XCTAssertTrue(actual is WithdrawalCryptoWalletDetailViewController)
   }
 }
