@@ -25,6 +25,11 @@ class APPViewController: UIViewController {
     initNetworkConnectRelay()
     handleNetworkStatus()
   }
+  
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
+    EventLogger.shared.log("\(type(of: self))")
+  }
 
   func networkDidConnectedHandler() {
     dismissBanner()

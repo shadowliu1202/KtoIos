@@ -60,16 +60,19 @@ class PlayerRepositoryImpl: PlayerRepository {
   }
 
   func loadPlayer() -> Single<Player> {
-    let favorProduct = getDefaultProduct()
-    let localization = playerApi.getCultureCode()
-    let playerInfo = playerApi.getPlayerInfo().do(onSuccess: { [weak self] in
-      if let data = $0.data {
-        self?.settingStore.playerInfo = data
-        FirebaseLog.shared.setUserID(data.gameId)
-      }
-    })
-    let contactInfo = playerApi.getPlayerContact()
-
+    let favorProduct = getDefaultProduct().do(onSubscribe: { EventLogger.shared.log("GetFavoriteProduct_onSubscribe") })
+    let localization = playerApi.getCultureCode().do(onSubscribe: { EventLogger.shared.log("GetCultureCode_onSubscribe") })
+    let contactInfo = playerApi.getPlayerContact().do(onSubscribe: { EventLogger.shared.log("GetContactInfo_onSubscribe") })
+    let playerInfo = playerApi.getPlayerInfo()
+      .do(
+        onSuccess: { [weak self] in
+          if let data = $0.data {
+            self?.settingStore.playerInfo = data
+            FirebaseLog.shared.setUserID(data.gameId)
+          }
+        },
+        onSubscribe: { EventLogger.shared.log("GetPlayerInfo_onSubscribe") })
+    
     return Single
       .zip(favorProduct, localization, playerInfo, contactInfo)
       .map { defaultProduct, responseLocalization, responsePlayerInfo, responseContactInfo -> Player in
@@ -195,7 +198,7 @@ class PlayerRepositoryImpl: PlayerRepository {
 
   private func convert(levelBean: LevelBean) throws -> LevelOverview {
     let privileges = levelBean.data?.map { self.convert(level: levelBean.level, privilegeBean: $0) } ?? []
-    return LevelOverview(level: levelBean.level, timeStamp: try levelBean.timestamp.toLocalDateTime(), privileges: privileges)
+    return try LevelOverview(level: levelBean.level, timeStamp: levelBean.timestamp.toLocalDateTime(), privileges: privileges)
   }
 
   private func convert(level: Int32, privilegeBean: PrivilegeBean) -> LevelPrivilege {
