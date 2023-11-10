@@ -60,20 +60,27 @@ class IAuthRepositoryImpl: IAuthRepository {
   }
 
   func authorize(_ account: String, _ password: String, _ captcha: Captcha) -> Single<LoginStatus> {
-    api.login(account, password, captcha).map { response -> LoginStatus in
-      let tryStatus: LoginStatus.TryStatus = {
-        switch response.data?.phase {
-        case 0: return LoginStatus.TryStatus.success
-        case 1: return LoginStatus.TryStatus.failed1to5
-        case 2: return LoginStatus.TryStatus.failed6to10
-        case 3: return LoginStatus.TryStatus.failedabove11
-        default: return LoginStatus.TryStatus.failedabove11
+    api.login(account, password, captcha)
+      .do(onSubscribe: { EventLogger.shared.log("Login_onSubscribe") })
+      .map { response -> LoginStatus in
+        let tryStatus: LoginStatus.TryStatus = {
+          switch response.data?.phase {
+          case 0: return LoginStatus.TryStatus.success
+          case 1: return LoginStatus.TryStatus.failed1to5
+          case 2: return LoginStatus.TryStatus.failed6to10
+          case 3: return LoginStatus.TryStatus.failedabove11
+          default: return LoginStatus.TryStatus.failedabove11
+          }
+        }()
+        let isLocked = response.data?.isLocked ?? false
+        let isPlatformValid = response.data?.platformIsAvailable ?? false
+      
+        if tryStatus == .success {
+          EventLogger.shared.log("Player_login")
         }
-      }()
-      let isLocked = response.data?.isLocked ?? false
-      let isPlatformValid = response.data?.platformIsAvailable ?? false
-      return LoginStatus(status: tryStatus, isLocked: isLocked, isPlatformValid: isPlatformValid)
-    }
+      
+        return LoginStatus(status: tryStatus, isLocked: isLocked, isPlatformValid: isPlatformValid)
+      }
   }
 
   func deAuthorize() {

@@ -1,7 +1,7 @@
 import FirebaseAnalytics
 
-class AnalyticsLog {
-  static let shared = AnalyticsLog()
+class EventLogger {
+  static let shared = EventLogger()
 
   private init() { }
 
@@ -20,7 +20,7 @@ class AnalyticsLog {
     log("player_is_login", nil)
   }
 
-  private func log(_ name: String, _ parameters: [String: Any]?) {
+  func log(_ name: String, _ parameters: [String: Any]? = nil) {
     Analytics.logEvent(name, parameters: parameters)
   }
 }
