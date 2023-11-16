@@ -325,7 +325,7 @@ struct DepositOfflineConfirmView_Previews: PreviewProvider {
         identity: "",
         remitter: .init(name: "", account: "", bankName: ""),
         remittance: "".toAccountCurrency(),
-        beneficiary: .init(name: "", branch: "", account: .init(accountName: "", accountNumber: "")),
+        beneficiary: .init(bankId: "", name: "", branch: "", account: .init(accountName: "", accountNumber: "")),
         expiredHour: 0),
       selectedBank: .init(identity: "", bankId: "", name: "", verifier: .init()))
   }
