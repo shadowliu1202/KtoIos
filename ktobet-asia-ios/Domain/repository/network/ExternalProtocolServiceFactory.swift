@@ -51,4 +51,8 @@ class ExternalProtocolServiceFactory: ExternalProtocolService {
   func getSurveyService() -> CSSurveyProtocol {
     CSSurveyAdapter(httpClient)
   }
+  
+  func getPortal() -> PortalProtocol {
+    PortalAdapter(httpClient)
+  }
 }

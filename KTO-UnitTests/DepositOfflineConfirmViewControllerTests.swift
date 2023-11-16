@@ -18,6 +18,7 @@ final class DepositOfflineConfirmViewControllerTests: XCBaseTestCase {
       remitter: .init(name: "Test remiiter", account: "", bankName: ""),
       remittance: "123".toAccountCurrency(),
       beneficiary: .init(
+        bankId: "",
         name: "",
         branch: "Test branch",
         account: .init(accountName: "Test receiver", accountNumber: "1234-5678-9011")),

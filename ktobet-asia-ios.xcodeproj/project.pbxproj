@@ -1579,6 +1579,15 @@
 		3CFFD45A2A24A196004B179F /* PromotionDropDownFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CFFD4522A24A196004B179F /* PromotionDropDownFilter.swift */; };
 		3CFFD45B2A24A196004B179F /* PromotionDropDownFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CFFD4522A24A196004B179F /* PromotionDropDownFilter.swift */; };
 		3D01375440F0609296BEF9DC /* Pods_ktobet_asia_ios_preprod.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 259EBEDD4AD22EE794241603 /* Pods_ktobet_asia_ios_preprod.framework */; };
+		3E0039AA2AFB34DA0064BC20 /* PortalAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0039A92AFB34DA0064BC20 /* PortalAdapter.swift */; };
+		3E0039AB2AFB34DA0064BC20 /* PortalAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0039A92AFB34DA0064BC20 /* PortalAdapter.swift */; };
+		3E0039AC2AFB34DA0064BC20 /* PortalAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0039A92AFB34DA0064BC20 /* PortalAdapter.swift */; };
+		3E0039AD2AFB34DA0064BC20 /* PortalAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0039A92AFB34DA0064BC20 /* PortalAdapter.swift */; };
+		3E0039AE2AFB34DA0064BC20 /* PortalAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0039A92AFB34DA0064BC20 /* PortalAdapter.swift */; };
+		3E0039AF2AFB34DA0064BC20 /* PortalAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0039A92AFB34DA0064BC20 /* PortalAdapter.swift */; };
+		3E0039B02AFB34DA0064BC20 /* PortalAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0039A92AFB34DA0064BC20 /* PortalAdapter.swift */; };
+		3E0039B12AFB34DA0064BC20 /* PortalAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0039A92AFB34DA0064BC20 /* PortalAdapter.swift */; };
+		3E0039B22AFB34DA0064BC20 /* PortalAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E0039A92AFB34DA0064BC20 /* PortalAdapter.swift */; };
 		3E6D05332ADD1F55004327D0 /* HttpClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E6D05322ADD1F55004327D0 /* HttpClientTests.swift */; };
 		3E8B26442AE233A10080F0F4 /* TappableTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E8B26432AE233A10080F0F4 /* TappableTextView.swift */; };
 		3E8B26452AE233A10080F0F4 /* TappableTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E8B26432AE233A10080F0F4 /* TappableTextView.swift */; };
@@ -7498,6 +7507,7 @@
 		3CFFD4482A249843004B179F /* FlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowLayout.swift; sourceTree = "<group>"; };
 		3CFFD4522A24A196004B179F /* PromotionDropDownFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromotionDropDownFilter.swift; sourceTree = "<group>"; };
 		3D51ABCE22D9D883083050B3 /* Pods-ktobet-asia-iosUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-iosUITests.debug.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-iosUITests/Pods-ktobet-asia-iosUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		3E0039A92AFB34DA0064BC20 /* PortalAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PortalAdapter.swift; sourceTree = "<group>"; };
 		3E6D05322ADD1F55004327D0 /* HttpClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpClientTests.swift; sourceTree = "<group>"; };
 		3E8B26432AE233A10080F0F4 /* TappableTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TappableTextView.swift; sourceTree = "<group>"; };
 		41077DF025BA71D00057B340 /* UINavigationControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationControllerExtension.swift; sourceTree = "<group>"; };
@@ -9909,6 +9919,7 @@
 				6083DC912795194100794145 /* ImageAdapter.swift */,
 				6D5A033A28A4AC40005D0960 /* NumberGameAdapter.swift */,
 				3C50CB2629BF1112000F3183 /* PlayerAdapter.swift */,
+				3E0039A92AFB34DA0064BC20 /* PortalAdapter.swift */,
 				3C45C09729B98E42007AE8BA /* WithdrawalAdapter.swift */,
 				3C2A597D2A4AB7F300520A2D /* Casino */,
 				6D0F09962A24586F004274E6 /* CustomerService */,
@@ -13032,6 +13043,7 @@
 				4199A02C25AE9918002E2D7E /* InputConfirmPassword.swift in Sources */,
 				3C49948629E52A0B00A8829F /* DefaultRow.swift in Sources */,
 				6D02BBF927D0BBC900824F53 /* DatePickerPopup.swift in Sources */,
+				3E0039AB2AFB34DA0064BC20 /* PortalAdapter.swift in Sources */,
 				6DB5CF2C276722410018B0E8 /* LandingViewController.swift in Sources */,
 				FFA7588529BECED10089A21F /* LoadingPlaceholder.swift in Sources */,
 				60CAED2A25E349DE00FB5283 /* DepositThirdPartWebViewController.swift in Sources */,
@@ -14190,6 +14202,7 @@
 				48AAA145256E458800E075CA /* SignupPhoneViewController.swift in Sources */,
 				6034626B26327E5A00F5D1D9 /* KTOBarButtonItem.swift in Sources */,
 				48AAA146256E458800E075CA /* DefaultProductCell.swift in Sources */,
+				3E0039AA2AFB34DA0064BC20 /* PortalAdapter.swift in Sources */,
 				3C832D722A7398B6006E492D /* ErrorCollectViewModel.swift in Sources */,
 				6D73C84329D16FF400110BD7 /* WithdrawalCryptoRecordDetailViewModel.swift in Sources */,
 				3C18A958298A16840097DE19 /* BackendSignal.swift in Sources */,
@@ -14541,6 +14554,7 @@
 				3C724E0B29D3EF0900C490A6 /* WithdrawalCryptoLimitViewController.swift in Sources */,
 				3C4994E229E52B9D00A8829F /* InfoTable.swift in Sources */,
 				609012822640EE7000419F8E /* InputPassword.swift in Sources */,
+				3E0039AC2AFB34DA0064BC20 /* PortalAdapter.swift in Sources */,
 				6D98EBA728EFDAF200065D68 /* KtoURLManager.swift in Sources */,
 				6010410F26B29FEA00B28FC8 /* ArcadeRepository.swift in Sources */,
 				6010411B26B2A41E00B28FC8 /* ArcadeApi.swift in Sources */,
@@ -15265,6 +15279,7 @@
 				60E57FE927F190E4008CE5A9 /* CasinoRecordUseCase.swift in Sources */,
 				3C49948A29E52A0B00A8829F /* DefaultRow.swift in Sources */,
 				60E57FEA27F190E4008CE5A9 /* TransactionLogApi.swift in Sources */,
+				3E0039AF2AFB34DA0064BC20 /* PortalAdapter.swift in Sources */,
 				3C62450329BED6E400F3813F /* CryptoAPI.swift in Sources */,
 				60E57FEC27F190E4008CE5A9 /* InputPassword.swift in Sources */,
 				6D98EBA828EFDAF200065D68 /* KtoURLManager.swift in Sources */,
@@ -15989,6 +16004,7 @@
 				6D0EDB1C28743FAC004A9E3C /* SMSVerifyCodeInputView.swift in Sources */,
 				6D0EDB1D28743FAC004A9E3C /* CasinoRecordUseCase.swift in Sources */,
 				3C49948829E52A0B00A8829F /* DefaultRow.swift in Sources */,
+				3E0039AD2AFB34DA0064BC20 /* PortalAdapter.swift in Sources */,
 				6D0EDB1E28743FAC004A9E3C /* TransactionLogApi.swift in Sources */,
 				6D0EDB2028743FAC004A9E3C /* InputPassword.swift in Sources */,
 				6D0EDB2228743FAC004A9E3C /* ArcadeRepository.swift in Sources */,
@@ -16713,6 +16729,7 @@
 				3C724DF129D2C13D00C490A6 /* WithdrawalCryptoLimitViewModelProtocol.swift in Sources */,
 				3C49948B29E52A0B00A8829F /* DefaultRow.swift in Sources */,
 				3C724E0F29D3EF0900C490A6 /* WithdrawalCryptoLimitViewController.swift in Sources */,
+				3E0039B02AFB34DA0064BC20 /* PortalAdapter.swift in Sources */,
 				6D0EDD7B28744704004A9E3C /* InputPassword.swift in Sources */,
 				6D0EDD7D28744704004A9E3C /* ArcadeRepository.swift in Sources */,
 				6D1612EA29BEC19B00BA1827 /* SnackBar.swift in Sources */,
@@ -17500,6 +17517,7 @@
 				6D966B7827FEE3FA006086B7 /* TransactionLogApi.swift in Sources */,
 				3C724DF229D2C13D00C490A6 /* WithdrawalCryptoLimitViewModelProtocol.swift in Sources */,
 				3C62450529BED6E400F3813F /* CryptoAPI.swift in Sources */,
+				3E0039B12AFB34DA0064BC20 /* PortalAdapter.swift in Sources */,
 				3C49948C29E52A0B00A8829F /* DefaultRow.swift in Sources */,
 				3C724E1029D3EF0900C490A6 /* WithdrawalCryptoLimitViewController.swift in Sources */,
 				6D966B7A27FEE3FA006086B7 /* InputPassword.swift in Sources */,
@@ -18224,6 +18242,7 @@
 				6D966DC527FEE416006086B7 /* TransactionLogApi.swift in Sources */,
 				3C62450629BED6E400F3813F /* CryptoAPI.swift in Sources */,
 				6D966DC727FEE416006086B7 /* InputPassword.swift in Sources */,
+				3E0039B22AFB34DA0064BC20 /* PortalAdapter.swift in Sources */,
 				6D98EBAA28EFDAF200065D68 /* KtoURLManager.swift in Sources */,
 				6D966DC927FEE416006086B7 /* ArcadeRepository.swift in Sources */,
 				6D966DCA27FEE416006086B7 /* ArcadeApi.swift in Sources */,
@@ -18948,6 +18967,7 @@
 				3C064D6A29E52FF7005D06B4 /* DelegatedScrollView.swift in Sources */,
 				6D55C993296662AB0038E8FB /* CasinoViewModel.swift in Sources */,
 				6D55C65429657D960038E8FB /* Alert.swift in Sources */,
+				3E0039AE2AFB34DA0064BC20 /* PortalAdapter.swift in Sources */,
 				6D55C94E2966626D0038E8FB /* ResetPasswordViewModel.swift in Sources */,
 				3C49948929E52A0B00A8829F /* DefaultRow.swift in Sources */,
 				6D55C985296662A00038E8FB /* NumberGameViewController.swift in Sources */,
