@@ -76,11 +76,17 @@ merge-job:
           TITLE=$(echo "$(jq -r .title <<< ${RESULT})" | tr "[:upper:]" "[:lower:]")        
           DESCRIPTION=$(echo "$(jq -r .description <<< ${RESULT})")        
           echo -e "\033[34;1m Merge Request:$TITLE, Description:$DESCRIPTION\033[0;m"
-        - >           
-            if ! [[ "${TITLE}" =~ "ci" ]] && [[ "${ISSUE_NAME}" =~ "bug" ]] && ! [[ "${DESCRIPTION}" =~ $BUGFIX_PATTERN ]]; then                
-                echo -e "\033[31mdescription of fix type should follow pattern as fix:APP-XXX #comment rootcause:xxx \\ solution:xxx\033[0;m"
-                exit 1
-            fi;
+        - >
+            if ! [[ "${TITLE}" =~ "ci" ]]; then
+                echo "title does not contain ci"
+                if [[ "${ISSUE_NAME}" =~ "bug" ]]; then
+                    echo "Issue relate to bug"
+                    if ! [[ "${DESCRIPTION}" =~ $BUGFIX_PATTERN ]] || ! [[ "${DESCRIPTION}" =~ "${CI_MERGE_REQUEST_SOURCE_BRANCH_NAME}" ]]; then
+                        echo -e "\033[31mdescription of fix type should follow pattern as fix:BRANCH_NAME #comment rootcause:xxx \\ solution:xxx\033[0;m"
+                        exit 1
+                    fi
+                fi
+            fi
         - >
             if [[ "${ISSUE_TYPE}" =~ "Sub-task" ]]; then                            
                 curl --request POST --url "https://jira.higgstar.com/rest/api/2/issue/${CI_MERGE_REQUEST_SOURCE_BRANCH_NAME}/transitions" --data '{"transition":{"id":"'${JIRA_SUB_MR_ACTION}'"}}' --header "Authorization: Bearer $JIRA_TOKEN" --header "Content-Type: application/json"
