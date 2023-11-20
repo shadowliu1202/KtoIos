@@ -1200,11 +1200,6 @@ final class Injection {
         CSHistoryAdapter(resolver.resolveWrapper(HttpClient.self))
       }
       .inObjectScope(.locale)
-    
-    container
-      .register(PortalProtocol.self) { resolver in
-        PortalAdapter(resolver.resolveWrapper(HttpClient.self))
-      }
   }
 
   // MARK: - ProductModule
@@ -1242,8 +1237,7 @@ final class Injection {
             withdrawalProtocol: resolver.resolveWrapper(ExternalProtocolService.self).getWithdrawal(),
             imageProtocol: resolver.resolveWrapper(ExternalProtocolService.self).getImage(),
             cryptoProtocol: resolver.resolveWrapper(ExternalProtocolService.self).getCrypto(),
-            playerProtocol: resolver.resolveWrapper(ExternalProtocolService.self).getPlayer(),
-            portalProtocol: resolver.resolveWrapper(PortalProtocol.self))
+            playerProtocol: resolver.resolveWrapper(ExternalProtocolService.self).getPlayer())
       }
       .inObjectScope(.withdrawalFlow)
   }
