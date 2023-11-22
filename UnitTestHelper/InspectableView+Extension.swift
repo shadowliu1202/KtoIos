@@ -35,16 +35,36 @@ extension InspectableView {
     }
   }
 
-  func isExistByVisibleModifier(viewWithId id: String) -> Bool {
-    let empty = try? self.find(viewWithId: id)
+  func isExistByVisibility(viewWithId id: String) throws -> Bool {
+    let view = try self.find(viewWithId: id)
       .modifier(VisibilityModifier.self)
-      .emptyView()
 
-    return empty == nil
+    do {
+      _ = try view.viewModifierContent()
+      return true
+    }
+    catch {
+      return false
+    }
   }
 
-  func isHideByLocale() -> Bool {
-    let empty = try? self.modifier(VisibleLocaleModifier.self).emptyView()
-    return empty != nil
+  func isExistByLocale(viewWithId id: String) throws -> Bool {
+    let view = try self.find(viewWithId: id)
+      .modifier(VisibleLocaleModifier.self)
+
+    do {
+      _ = try view.viewModifierContent()
+      return true
+    }
+    catch {
+      return false
+    }
+  }
+  
+  func isAsyncButtonDisable(viewWithId id: String) throws -> Bool {
+    try find(viewWithId: id)
+      .find(viewWithId: "asyncButton")
+      .button()
+      .isDisabled()
   }
 }

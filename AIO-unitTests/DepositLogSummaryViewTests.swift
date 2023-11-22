@@ -109,11 +109,10 @@ final class DepositLogSummaryViewTests: XCBaseTestCase {
     let sut = DepositLogSummaryView<DepositLogSummaryViewModelProtocolMock>.Header()
 
     let expectation = sut.inspection.inspect { view in
-      let summary = try view
-        .find(viewWithId: "summary")
-        .hStack()
+      let isSummaryExist = try view
+        .isExistByVisibility(viewWithId: "summary")
 
-      XCTAssertNotNil(summary)
+      XCTAssertTrue(isSummaryExist)
 
       let amount = try view
         .find(viewWithId: "summaryAmount")

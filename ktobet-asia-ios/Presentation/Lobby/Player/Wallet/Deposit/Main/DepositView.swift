@@ -102,9 +102,9 @@ extension DepositView {
             weight: .medium,
             size: 14,
             color: .greyScaleWhite)
+          .id(DepositView.Identifier.paymentsEmptyReminder.rawValue)
           .padding(.horizontal, 30)
           .visibility(isEmpty ? .visible : .gone)
-          .id(DepositView.Identifier.paymentsEmptyReminder.rawValue)
       }
     }
   }

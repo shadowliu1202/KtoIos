@@ -187,14 +187,14 @@ extension NetworkLoggerPlugin {
 
 private class APIRequestRetrier: Retrier {
   private let disposeBag = DisposeBag()
-  private var status: NetworkStateMonitor.Status?
+  private var status: NetworkStatus?
 
   private var retryEvents: [(RetryResult) -> Void] = []
 
   init() {
     super.init { _, _, _, _ in }
 
-    NetworkStateMonitor.shared.listener
+    NetworkStateMonitor.shared.status
       .subscribe(onNext: { [weak self] in
         self?.status = $0
 

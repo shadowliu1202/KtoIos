@@ -20,7 +20,8 @@ struct VisibilityModifier: ViewModifier {
     case .visible:
       content
     case .invisible:
-      content.hidden()
+      content
+        .hidden()
     case .gone:
       EmptyView()
     }

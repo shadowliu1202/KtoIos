@@ -47,7 +47,7 @@ final class WithdrawalCryptoWalletDetailViewTests: XCBaseTestCase {
     let exp = sut.inspection.inspect { view in
 
       let accountStatusText = try view.find(viewWithId: "accountStatusText").localizedText().string()
-      let accountButtonIsExist = view.isExist(viewWithId: "deleteAccountButton")
+      let accountButtonIsExist = try view.isExistByVisibility(viewWithId: "deleteAccountButton")
 
       let expect = Localize.string("cps_account_status_verified")
 
@@ -69,8 +69,8 @@ final class WithdrawalCryptoWalletDetailViewTests: XCBaseTestCase {
       onDelete: nil)
 
     let exp = sut.inspection.inspect { view in
-      let accountButtonIsExist = view
-        .isExistByVisibleModifier(viewWithId: "deleteAccountButton")
+      let accountButtonIsExist = try view
+        .isExistByVisibility(viewWithId: "deleteAccountButton")
 
       XCTAssertFalse(accountButtonIsExist)
     }

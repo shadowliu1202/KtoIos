@@ -127,7 +127,7 @@ extension CustomerServiceMainView {
       
       List(histories.indices, id: \.self) { index in
         let item = histories[index]
-        ItemRow(history: item, timeZone: timeZone)
+        CustomerServiceMainView.ItemRow(history: item, timeZone: timeZone)
           .onAppear {
             if item == histories.last {
               viewModel.getMoreHistories()

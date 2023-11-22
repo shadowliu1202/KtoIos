@@ -12,11 +12,9 @@ extension CryptoSelectView.SelectorList: Inspecting { }
 
 final class CryptoSelectViewTests: XCBaseTestCase {
   func test_TapTutorialBtn_InCryptoSelectView_CallbackFunctionIsCalled() {
-    let stubViewModel = mock(CryptoDepositViewModelProtocol.self)
-    given(stubViewModel.submitButtonDisable) ~> false
-
     var str = ""
     let sut = CryptoSelectView<CryptoDepositViewModelProtocolMock>.Header(
+      locale: .Vietnam(),
       userGuideOnTap: { },
       tutorialOnTap: {
         str = "tutorialOnTap"
@@ -31,18 +29,14 @@ final class CryptoSelectViewTests: XCBaseTestCase {
       XCTAssertEqual("tutorialOnTap", str)
     }
 
-    ViewHosting.host(
-      view: sut
-        .environmentObject(stubViewModel)
-        .environment(\.playerLocale, .Vietnam()))
+    ViewHosting.host(view: sut)
 
     wait(for: [expectation], timeout: 30)
   }
 
   func test_AtVNEnviroment_InCryptoSelectorPage_VideoTutorialBtnIsDisplayed_KTO_TC_41() {
-    let stubViewModel = mock(CryptoDepositViewModelProtocol.self)
-
     let sut = CryptoSelectView<CryptoDepositViewModelProtocolMock>.Header(
+      locale: .Vietnam(),
       userGuideOnTap: { },
       tutorialOnTap: { })
 
@@ -54,33 +48,25 @@ final class CryptoSelectViewTests: XCBaseTestCase {
       XCTAssertNotNil(tutorial)
     }
 
-    ViewHosting.host(
-      view: sut
-        .environmentObject(stubViewModel)
-        .environment(\.playerLocale, .Vietnam()))
+    ViewHosting.host(view: sut)
 
     wait(for: [expectation], timeout: 30)
   }
 
   func test_AtCNEnvironment_InCryptoSelectorPage_VideoTutorialBtnIsNotDisplayed_KTO_TC_42() {
-    let stubViewModel = mock(CryptoDepositViewModelProtocol.self)
-
     let sut = CryptoSelectView<CryptoDepositViewModelProtocolMock>.Header(
+      locale: .China(),
       userGuideOnTap: { },
       tutorialOnTap: { })
 
     let expectation = sut.inspection.inspect { view in
-      let isHide = try view
-        .find(viewWithId: "tutorial")
-        .isHideByLocale()
+      let isTutorialExist = try view
+        .isExistByLocale(viewWithId: "tutorial")
 
-      XCTAssertTrue(isHide)
+      XCTAssertFalse(isTutorialExist)
     }
 
-    ViewHosting.host(
-      view: sut
-        .environmentObject(stubViewModel)
-        .environment(\.playerLocale, .Vietnam()))
+    ViewHosting.host(view: sut)
 
     wait(for: [expectation], timeout: 30)
   }
@@ -88,6 +74,7 @@ final class CryptoSelectViewTests: XCBaseTestCase {
   func test_TapCryptoGuideText_InCryptoSelectView_CallbackFunctionIsCalled() {
     var str = ""
     let sut = CryptoSelectView<CryptoDepositViewModelProtocolMock>.Header(
+      locale: .Vietnam(),
       userGuideOnTap: {
         str = "userGuideOnTap"
       },

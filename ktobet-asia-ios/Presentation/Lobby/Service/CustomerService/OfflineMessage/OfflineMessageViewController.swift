@@ -3,19 +3,11 @@ import SwiftUI
 import UIKit
 
 final class OfflineMessageViewController: CommonViewController {
+  @Injected private var viewModel: OfflineMessageViewModel
+  
   var barButtonItems: [UIBarButtonItem] = []
   
-  private var viewModel: OfflineMessageViewModel
   private var cancellables = Set<AnyCancellable>()
-  
-  init(viewModel: OfflineMessageViewModel) {
-    self.viewModel = viewModel
-    super.init(nibName: nil, bundle: nil)
-  }
-  
-  required init?(coder _: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
-  }
   
   override func viewDidLoad() {
     super.viewDidLoad()

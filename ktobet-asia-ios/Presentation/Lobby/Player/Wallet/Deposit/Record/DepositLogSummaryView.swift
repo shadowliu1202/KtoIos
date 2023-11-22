@@ -74,8 +74,8 @@ extension DepositLogSummaryView {
               .localized(weight: .medium, size: 14, color: .greyScaleWhite)
               .id(DepositLogSummaryView.Identifier.summaryAmount.rawValue)
           }
-          .visibility(viewModel.totalAmount.isNullOrEmpty() ? .gone : .visible)
           .id(DepositLogSummaryView.Identifier.summary.rawValue)
+          .visibility(viewModel.totalAmount.isNullOrEmpty() ? .gone : .visible)
         })
         .onInspected(inspection, self)
     }

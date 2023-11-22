@@ -1,136 +1,121 @@
-import Lottie
-import RxSwift
+import Combine
 import sharedbu
+import SwiftUI
 import UIKit
 
 class CallingViewController: CommonViewController {
+  @Injected private var viewModel: CallingViewModel
+  
+  private var cancellables = Set<AnyCancellable>()
+  
   var barButtonItems: [UIBarButtonItem] = []
-  var csViewModel: CustomerServiceViewModel!
-  var svViewModel: SurveyViewModel!
-  private let disposeBag = DisposeBag()
-
-  @IBOutlet weak var waitingCountLabel: UILabel!
-  @IBOutlet weak var lottieView: UIView!
-
-  private lazy var animationView: AnimationView = {
-    let animationView = AnimationView()
-    animationView.animation = Animation.named("cs_connection")
-    animationView.frame = .zero
-    animationView.center = self.lottieView.center
-    animationView.contentMode = .scaleAspectFit
-    animationView.loopMode = .loop
-    animationView.play()
-    return animationView
-  }()
-
-  override func viewDidLoad() {
-    super.viewDidLoad()
-    initUI()
-    dataBinding()
+  var surveyAnswers: CustomerServiceDTO.CSSurveyAnswers?
+  
+  init(surveyAnswers: CustomerServiceDTO.CSSurveyAnswers?) {
+    self.surveyAnswers = surveyAnswers
+    super.init(nibName: nil, bundle: nil)
   }
   
-  override func viewDidAppear(_ animation: Bool) {
-    super.viewDidAppear(animation)
+  required init?(coder _: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    setupUI()
+    binding()
+  }
+  
+  override func viewDidAppear(_ animated: Bool) {
+    super.viewDidAppear(animated)
     
-    csViewModel.chatRoomConnection
+    viewModel.getChatRoomStatus()
+  }
+  
+  private func setupUI() {
+    bind(position: .left, barButtonItems: .kto(.close))
+    
+    addSubView(from: { [unowned self] in
+      CallingView(
+        viewModel: viewModel,
+        surveyAnswers: surveyAnswers)
+    }, to: view)
+  }
+  
+  private func binding() {
+    viewModel.$chatRoomStatus
       .filter { $0 is sharedbu.Connection.StatusConnected }
-      .observe(on: MainScheduler.instance)
-      .subscribe(
-        onNext: { _ in
-          CustomServicePresenter.shared.switchToChatRoom(isRoot: false)
-        })
-      .disposed(by: disposeBag)
-  }
-
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
-
-  private func initUI() {
-    lottieView.addSubview(animationView, constraints: .fill())
-    NotificationCenter.default.rx.notification(UIApplication.willEnterForegroundNotification)
-      .take(until: self.rx.deallocated)
-      .subscribe(onNext: { [weak self] _ in
-        self?.animationView.play()
-      })
-      .disposed(by: disposeBag)
-  }
-
-  private func dataBinding() {
-    csViewModel.currentQueueNumber
-      .map { Localize.string("customerservice_chat_room_your_queue_number", "\($0)") }
-      .bind(to: self.waitingCountLabel.rx.text)
-      .disposed(by: self.disposeBag)
+      .sink { [unowned self] _ in
+        toChatRoom()
+      }
+      .store(in: &cancellables)
     
-    connectChatRoom()
+    viewModel.$showLeaveMessageAlert
+      .filter { $0 == true }
+      .sink { [unowned self] _ in showLeaveMessageAlert() }
+      .store(in: &cancellables)
+    
+    viewModel.errors()
+      .sink(receiveValue: { [unowned self] in handleErrors($0) })
+      .store(in: &cancellables)
   }
-
-  private func connectChatRoom() {
-    Task {
-      do {
-        try await csViewModel.createChatRoom()
-      }
-      catch {
-        handleError(error)
-      }
-    }
+  
+  func toChatRoom() {
+    CustomServicePresenter.shared.switchToChatRoom(isRoot: false)
   }
-
-  private func handleError(_ e: Error) {
-    switch e {
+  
+  private func handleError(_ error: Error) {
+    switch error {
     case is ChatCheckGuestIPFail,
          is ChatRoomNotExist,
          is ServiceUnavailableException:
-      
-      stopServiceAndShowServiceOccupied()
-      
+      showLeaveMessageAlert()
     default:
-      self.handleErrors(e)
+      self.handleErrors(error)
     }
   }
-
-  func confirmExitOrProceedToOfflineMessage() {
+  
+  func showStopCallingAlert() {
     Alert.shared.show(
       Localize.string("customerservice_stop_call_title"),
       Localize.string("customerservice_stop_call_content"),
       confirm: { },
       confirmText: Localize.string("common_continue"),
-      cancel: { [weak self] in
-        guard let self else { return }
-
-        self.csViewModel
-          .closeChatRoom()
-          .observe(on: MainScheduler.instance)
-          .subscribe(
-            onSuccess: { [weak self] _ in
-              guard let self else { return }
-
-              self.csViewModel.setupSurveyAnswer(answers: nil)
-              self.stopServiceAndShowServiceOccupied()
-            },
-            onFailure: { [weak self] in
-              self?.handleError($0)
-            })
-          .disposed(by: self.disposeBag)
+      cancel: { [unowned self] in
+        viewModel.closeChatRoom()
       },
       cancelText: Localize.string("common_stop"))
   }
-
-  func stopServiceAndShowServiceOccupied() {
+  
+  func showLeaveMessageAlert() {
     Alert.shared.show(
       Localize.string("customerservice_leave_a_message_title"),
       Localize.string("customerservice_leave_a_message_content"),
-      confirm: { [weak self] in CustomServicePresenter.shared.switchToOfflineMessage(from: self) },
+      confirm: { [unowned self] in
+        let presentingVC = navigationController?.presentingViewController
+        dismiss(animated: false) { [unowned self] in
+          toOfflineMessageVC(presentingVC)
+        }
+      },
       confirmText: Localize.string("customerservice_leave_a_message_confirm"),
-      cancel: {
-        CustomServicePresenter.shared.resetStatus()
+      cancel: { [unowned self] in
+        dismiss(animated: true)
       },
       cancelText: Localize.string("common_skip"))
+  }
+  
+  func toOfflineMessageVC(_ presentingVC: UIViewController?) {
+    let to = OfflineMessageViewController()
+    let skip = UIBarButtonItem.kto(.text(text: Localize.string("common_skip")))
+    to.bind(position: .right, barButtonItems: skip)
+    let navi = UINavigationController(rootViewController: to)
+    navi.modalPresentationStyle = .fullScreen
+    presentingVC?.present(navi, animated: false)
   }
 }
 
 extension CallingViewController: BarButtonItemable {
   func pressedLeftBarButtonItems(_: UIBarButtonItem) {
-    confirmExitOrProceedToOfflineMessage()
+    showStopCallingAlert()
   }
 }

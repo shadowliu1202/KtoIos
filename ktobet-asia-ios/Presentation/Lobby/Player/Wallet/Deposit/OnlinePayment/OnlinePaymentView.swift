@@ -141,11 +141,11 @@ extension OnlinePaymentView {
           .localized(weight: .semibold, size: 24, color: .greyScaleWhite)
 
         instruction
+          .id(OnlinePaymentView.Identifier.instructionLink.rawValue)
           .visibility(
             selectedGateway?.isInstructionDisplayed ?? false
               ? .visible
               : .gone)
-          .id(OnlinePaymentView.Identifier.instructionLink.rawValue)
       }
       .frame(maxWidth: .infinity, alignment: .leading)
       .padding(.horizontal, 30)
@@ -336,8 +336,8 @@ extension OnlinePaymentView {
         Text(Localize.string(
           "common_notify_currency_ratio"))
           .localized(weight: .medium, size: 14, color: .textPrimary)
-          .visibleLocale([.Vietnam()])
           .id(OnlinePaymentView.Identifier.vnCurrencyHint.rawValue)
+          .visibleLocale(availableLocales: .Vietnam(), currentLocale: viewModel.getSupportLocale())
 
         LimitSpacer(12)
 
@@ -349,8 +349,8 @@ extension OnlinePaymentView {
           case .input(_, let isFloatAllowed):
             Text(Localize.string("deposit_float_hint"))
               .localized(weight: .medium, size: 14, color: .primaryForLight)
-              .visibility(isFloatAllowed ? .visible : .gone)
               .id(OnlinePaymentView.Identifier.amountFloatHint.rawValue)
+              .visibility(isFloatAllowed ? .visible : .gone)
           case .option:
             EmptyView()
           }
@@ -485,6 +485,8 @@ struct OnlinePaymentView_Previews: PreviewProvider {
     func submitRemittance(
       info _: OnlinePaymentDataModel.RemittanceInfo,
       remitButtonOnSuccess _: @escaping (_ url: String) -> Void) { }
+    
+    func getSupportLocale() -> SupportLocale { .Vietnam() }
   }
 
   // Mark onViewDidLoad to view preview.

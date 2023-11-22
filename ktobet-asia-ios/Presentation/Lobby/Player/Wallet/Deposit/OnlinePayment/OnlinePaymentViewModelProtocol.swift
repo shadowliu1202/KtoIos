@@ -15,6 +15,7 @@ protocol OnlinePaymentViewModelProtocol {
   func submitRemittance(
     info: OnlinePaymentDataModel.RemittanceInfo,
     remitButtonOnSuccess: @escaping (_ url: String) -> Void)
+  func getSupportLocale() -> SupportLocale
 }
 
 struct OnlinePaymentDataModel {

@@ -67,7 +67,7 @@ class APPViewController: UIViewController {
   }
 
   private func handleNetworkStatus() {
-    NetworkStateMonitor.shared.listener
+    NetworkStateMonitor.shared.status
       .subscribe(onNext: { [weak self] in
         switch $0 {
         case .connected:

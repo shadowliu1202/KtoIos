@@ -70,7 +70,7 @@ final class CustomerServiceMainViewTests<ViewModel>: XCBaseTestCase
     let exp = expectation(description: "ViewController pushed")
     
     let navigationController = UINavigationController(rootViewController: UIViewController())
-    let callingVC = CallingViewController()
+    let callingVC = CallingViewController(surveyAnswers: nil)
     navigationController.pushViewController(callingVC, animated: true)
     
     DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
@@ -91,7 +91,7 @@ final class CustomerServiceMainViewTests<ViewModel>: XCBaseTestCase
     let exp = expectation(description: "ViewController pushed")
     
     let navigationController = UINavigationController(rootViewController: UIViewController())
-    let callingVC = PrechatServeyViewController()
+    let callingVC = PrechatSurveyViewController()
     navigationController.pushViewController(callingVC, animated: true)
     
     DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {

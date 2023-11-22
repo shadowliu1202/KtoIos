@@ -27,7 +27,6 @@ struct PageBackgroundColorModifier_Previews: PreviewProvider {
 }
 
 extension View {
-  @available(*, deprecated, message: "Use PageContainer backgroundColor parameter instead.")
   func pageBackgroundColor(_ color: UIColor, alpha: CGFloat = 1) -> some View {
     modifier(PageBackgroundColorModifier(color, alpha))
   }

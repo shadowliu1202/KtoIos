@@ -1,5 +1,12 @@
 import SwiftUI
 
+extension AsyncButton {
+  enum Identifier: String {
+    case asyncButton
+    case asyncButtonText
+  }
+}
+
 @MainActor
 struct AsyncButton<Label: View>: View {
   @State private var isPerformingTask = false
@@ -17,9 +24,10 @@ struct AsyncButton<Label: View>: View {
       }
     }, label: {
       label()
+        .id(AsyncButton.Identifier.asyncButtonText.rawValue)
     })
     .disabled(isPerformingTask)
-    .id("asyncButton")
+    .id(AsyncButton.Identifier.asyncButton.rawValue)
   }
 }
 

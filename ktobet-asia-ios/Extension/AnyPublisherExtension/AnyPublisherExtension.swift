@@ -2,15 +2,8 @@ import Combine
 import Foundation
 import sharedbu
 
-extension AnyPublisher {
-  enum AsyncError: Error {
-    case finishedWithoutValue
-  }
-}
-
+// MARK: - RxKotlin to Combine
 extension AnyPublisher where Output: AnyObject, Failure == Swift.Error {
-  // MARK: - RxKotlin to Combine
-  
   static func from(_ observable: ObservableWrapper<Output>) -> AnyPublisher<Output, Swift.Error> {
     ObservableWrapperPublisher(upstream: observable).eraseToAnyPublisher()
   }
@@ -20,110 +13,200 @@ extension AnyPublisher where Output: AnyObject, Failure == Swift.Error {
   }
 }
 
-extension AnyPublisher where Output == Never, Failure == Swift.Error {
-  static func from(_ completable: CompletableWrapper) -> AnyPublisher<Never, Error> {
+extension AnyPublisher where Output == Void, Failure == Swift.Error {
+  static func from(_ completable: CompletableWrapper) -> AnyPublisher<Void, Error> {
     CompletableWrapperPublisher(upstream: completable).eraseToAnyPublisher()
   }
 }
 
 // MARK: - Combine with Error to Async/Await
-extension AnyPublisher where Output: AnyObject, Failure: Error {
-  func waitFirst() async throws -> Output {
-    try await withCheckedThrowingContinuation { continuation in
+extension AnyPublisher where Output: Any, Failure: Error {
+  var value: Output? {
+    get async throws {
       var cancellable: AnyCancellable?
       var finishedWithoutValue = true
-      
-      cancellable = first()
-        .sink(
-          receiveCompletion: {
-            switch $0 {
-            case .finished:
-              if finishedWithoutValue {
-                continuation.resume(throwing: AsyncError.finishedWithoutValue)
-              }
-            case .failure(let error):
-              continuation.resume(throwing: error)
-            }
-          
-            cancellable?.cancel()
-          },
-          receiveValue: {
-            finishedWithoutValue = false
-            continuation.resume(returning: $0)
-          })
+      return try await withTaskCancellationHandler(
+        operation: {
+          try await withCheckedThrowingContinuation { continuation in
+            cancellable = first()
+              .sink(
+                receiveCompletion: {
+                  switch $0 {
+                  case .finished:
+                    if finishedWithoutValue {
+                      continuation.resume(returning: nil)
+                    }
+                  case .failure(let error):
+                    continuation.resume(throwing: error)
+                  }
+                
+                  cancellable?.cancel()
+                },
+                receiveValue: {
+                  finishedWithoutValue = false
+                  continuation.resume(returning: $0)
+                })
+          }
+        },
+        onCancel: { [cancellable] in
+          cancellable?.cancel()
+        })
     }
+  }
+  
+  @available(*, deprecated, message: "Use `value`")
+  func waitFirst() async throws -> Output? {
+    var cancellable: AnyCancellable?
+    var finishedWithoutValue = true
+    return try await withTaskCancellationHandler(
+      operation: {
+        try await withCheckedThrowingContinuation { continuation in
+          cancellable = first()
+            .sink(
+              receiveCompletion: {
+                switch $0 {
+                case .finished:
+                  if finishedWithoutValue {
+                    continuation.resume(returning: nil)
+                  }
+                case .failure(let error):
+                  continuation.resume(throwing: error)
+                }
+              
+                cancellable?.cancel()
+              },
+              receiveValue: {
+                finishedWithoutValue = false
+                continuation.resume(returning: $0)
+              })
+        }
+      },
+      onCancel: { [cancellable] in
+        cancellable?.cancel()
+      })
   }
 }
 
 extension AnyPublisher where Output == Never, Failure: Error {
+  @available(*, deprecated, message: "Use `value`")
   func wait() async throws {
-    try await withCheckedThrowingContinuation { continuation in
-      var cancellable: AnyCancellable?
-      
-      cancellable = first()
-        .sink(
-          receiveCompletion: {
-            switch $0 {
-            case .finished:
-              continuation.resume()
-            case .failure(let error):
-              continuation.resume(throwing: error)
-            }
-          
-            cancellable?.cancel()
-          },
-          receiveValue: { _ in })
-    }
+    var cancellable: AnyCancellable?
+    return try await withTaskCancellationHandler(
+      operation: {
+        try await withCheckedThrowingContinuation { continuation in
+          cancellable = first()
+            .sink(
+              receiveCompletion: {
+                switch $0 {
+                case .finished:
+                  continuation.resume()
+                case .failure(let error):
+                  continuation.resume(throwing: error)
+                }
+              
+                cancellable?.cancel()
+              },
+              receiveValue: { _ in })
+        }
+      },
+      onCancel: { [cancellable] in
+        cancellable?.cancel()
+      })
   }
 }
 
 // MARK: - Combine without Error to Async/Await
 extension AnyPublisher where Output: Any, Failure == Never {
-  func waitFirst() async -> Output? {
-    await withCheckedContinuation { continuation in
+  var valueWithoutError: Output? {
+    get async {
       var cancellable: AnyCancellable?
       var finishedWithoutValue = true
-      
-      cancellable = first()
-        .sink(
-          receiveCompletion: {
-            switch $0 {
-            case .finished:
-              if finishedWithoutValue {
-                continuation.resume(returning: nil)
-              }
-            case .failure:
-              fatalError("should not reach here.")
-            }
-          
-            cancellable?.cancel()
-          },
-          receiveValue: {
-            finishedWithoutValue = false
-            continuation.resume(returning: $0)
-          })
+      return await withTaskCancellationHandler(
+        operation: {
+          await withCheckedContinuation { continuation in
+            cancellable = first()
+              .sink(
+                receiveCompletion: {
+                  switch $0 {
+                  case .finished:
+                    if finishedWithoutValue {
+                      continuation.resume(returning: nil)
+                    }
+                  case .failure:
+                    fatalError("should not reach here.")
+                  }
+
+                  cancellable?.cancel()
+                },
+                receiveValue: {
+                  finishedWithoutValue = false
+                  continuation.resume(returning: $0)
+                })
+          }
+        },
+        onCancel: { [cancellable] in
+          cancellable?.cancel()
+        })
     }
+  }
+  
+  @available(*, deprecated, message: "Use `value`")
+  func waitFirst() async -> Output? {
+    var cancellable: AnyCancellable?
+    var finishedWithoutValue = true
+    return await withTaskCancellationHandler(
+      operation: {
+        await withCheckedContinuation { continuation in
+          cancellable = first()
+            .sink(
+              receiveCompletion: {
+                switch $0 {
+                case .finished:
+                  if finishedWithoutValue {
+                    continuation.resume(returning: nil)
+                  }
+                case .failure:
+                  fatalError("should not reach here.")
+                }
+              
+                cancellable?.cancel()
+              },
+              receiveValue: {
+                finishedWithoutValue = false
+                continuation.resume(returning: $0)
+              })
+        }
+      },
+      onCancel: { [cancellable] in
+        cancellable?.cancel()
+      })
   }
 }
 
 extension AnyPublisher where Output == Never, Failure == Never {
+  @available(*, deprecated, message: "Use `value`")
   func wait() async {
-    await withCheckedContinuation { continuation in
-      var cancellable: AnyCancellable?
-      
-      cancellable = first()
-        .sink(
-          receiveCompletion: {
-            switch $0 {
-            case .finished:
-              continuation.resume()
-            case .failure:
-              fatalError("should not reach here.")
-            }
-          
-            cancellable?.cancel()
-          },
-          receiveValue: { _ in })
-    }
+    var cancellable: AnyCancellable?
+    return await withTaskCancellationHandler(
+      operation: {
+        await withCheckedContinuation { continuation in
+          cancellable = first()
+            .sink(
+              receiveCompletion: {
+                switch $0 {
+                case .finished:
+                  continuation.resume()
+                case .failure:
+                  fatalError("should not reach here.")
+                }
+              
+                cancellable?.cancel()
+              },
+              receiveValue: { _ in })
+        }
+      },
+      onCancel: { [cancellable] in
+        cancellable?.cancel()
+      })
   }
 }

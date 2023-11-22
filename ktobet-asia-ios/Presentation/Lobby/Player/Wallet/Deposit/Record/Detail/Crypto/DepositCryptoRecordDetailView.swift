@@ -56,8 +56,8 @@ extension DepositCryptoRecordDetailView {
 
           Text(Localize.string("common_cps_incomplete_field_placeholder_hint"))
             .localized(weight: .regular, size: 14, color: .textPrimary)
-            .visibility(viewModel.header?.showUnCompleteHint ?? true ? .visible : .gone)
             .id(DepositCryptoRecordDetailView.Identifier.headerCpsUnCompleteHint.rawValue)
+            .visibility(viewModel.header?.showUnCompleteHint ?? true ? .visible : .gone)
         }
       }
       .frame(maxWidth: .infinity, alignment: .leading)

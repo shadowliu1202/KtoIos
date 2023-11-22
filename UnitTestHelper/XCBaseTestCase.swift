@@ -13,7 +13,7 @@ class XCBaseTestCase: XCTestCase, StubProvidable {
     injectStubPlayerLoginStatus()
     injectStubGetProductStatus()
     injectStubAppVersionUpdateUseCase()
-    injectStubCustomServicePresenter()
+    injectCustomServicePresenterInfra()
   }
 }
 
@@ -39,6 +39,7 @@ private func injectStubPlayerLoginStatus() {
   let stubAuthenticationUseCase = mock(AuthenticationUseCase.self)
 
   given(stubAuthenticationUseCase.isLogged()) ~> .just(true)
+  given(stubAuthenticationUseCase.accountValidation()) ~> .just(true)
 
   Injectable
     .register(AuthenticationUseCase.self) { _ in
@@ -73,38 +74,32 @@ private func injectStubAppVersionUpdateUseCase() {
     }
 }
 
-private func injectStubCustomServicePresenter() {
-  let stubChatAppService = mock(AbsCustomerServiceAppService.self)
+private func injectCustomServicePresenterInfra() {
+  let dummyChatAppService = mock(AbsCustomerServiceAppService.self)
   let dummyPlayerConfiguration = mock(PlayerConfiguration.self)
   let dummyLoading = LoadingImpl.shared
 
   let stubCustomerServiceViewModel = mock(CustomerServiceViewModel.self)
-    .initialize(stubChatAppService, dummyPlayerConfiguration, dummyLoading)
+    .initialize(dummyChatAppService, dummyPlayerConfiguration, dummyLoading)
 
   let stubSurveyViewModel = mock(SurveyViewModel.self)
     .initialize(
       mock(AbsCustomerServiceAppService.self),
       mock(AuthenticationUseCase.self))
-
-  let customServicePresenter = mock(CustomServicePresenter.self)
-    .initialize(
-      stubCustomerServiceViewModel,
-      stubSurveyViewModel)
-
-  given(customServicePresenter.initService()) ~> { }
+  
   given(stubCustomerServiceViewModel.currentChatRoom()) ~>
     .just(.init(roomId: "", readMessage: [], unReadMessage: [], status: Connection.StatusNotExist(), isMaintained: false))
   given(stubCustomerServiceViewModel.getSupportLocale()) ~> .China()
-
-  Injectable
-    .register(CustomServicePresenter.self) { _ in
-      customServicePresenter
-    }
-    .inObjectScope(.application)
   
   Injectable
     .register(CustomerServiceViewModel.self) { _ in
       stubCustomerServiceViewModel
+    }
+    .inObjectScope(.locale)
+  
+  Injectable
+    .register(SurveyViewModel.self) { _ in
+      stubSurveyViewModel
     }
     .inObjectScope(.locale)
 }

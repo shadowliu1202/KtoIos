@@ -849,7 +849,15 @@ final class Injection {
 
     container
       .register(CustomerServiceHistoryViewModel.self) { resolver in
-        CustomerServiceHistoryViewModel(resolver.resolveWrapper(IChatHistoryAppService.self))
+        CustomerServiceHistoryViewModel(
+          resolver.resolveWrapper(IChatHistoryAppService.self))
+      }
+    
+    container
+      .register(ChatHistoriesEditViewModel.self) { resolver in
+        ChatHistoriesEditViewModel(
+          resolver.resolveWrapper(IChatHistoryAppService.self),
+          resolver.resolveWrapper(PlayerConfiguration.self))
       }
 
     container
@@ -1090,6 +1098,21 @@ final class Injection {
           resolver.resolveWrapper(ISurveyAppService.self))
       }
       .inObjectScope(.depositFlow)
+    
+    container
+      .register(PrechatSurveyViewModel.self) { resolver in
+        .init(
+          resolver.resolveWrapper(ISurveyAppService.self),
+          resolver.resolveWrapper(PlayerConfiguration.self),
+          resolver.resolveWrapper(INetworkMonitor.self))
+      }
+    
+    container
+      .register(ExitSurveyViewModel.self) { resolver in
+        .init(
+          resolver.resolveWrapper(ISurveyAppService.self),
+          resolver.resolveWrapper(PlayerConfiguration.self))
+      }
   }
 
   // MARK: - Singleton
@@ -1122,6 +1145,12 @@ final class Injection {
     container
       .register(ActivityIndicator.self, name: "CheckingIsLogged") { _ in
         .init()
+      }
+      .inObjectScope(.application)
+    
+    container
+      .register(INetworkMonitor.self) { _ in
+        NetworkStateMonitor.shared
       }
       .inObjectScope(.application)
   }
@@ -1279,6 +1308,30 @@ final class Injection {
     container
       .register(IChatHistoryAppService.self) { resolver in
         resolver.resolveWrapper(ICustomerServiceAppService.self)
+      }
+      .inObjectScope(.locale)
+    
+    container
+      .register(CustomerServiceMainViewModel.self) { resolver in
+        .init(
+          resolver.resolveWrapper(IChatHistoryAppService.self),
+          resolver.resolveWrapper(IChatAppService.self),
+          resolver.resolveWrapper(PlayerConfiguration.self),
+          resolver.resolveWrapper(ISurveyAppService.self))
+      }
+      .inObjectScope(.locale)
+    
+    container
+      .register(CallingViewModel.self) { resolver in
+        .init(
+          resolver.resolveWrapper(IChatAppService.self))
+      }
+    
+    container
+      .register(OfflineMessageViewModel.self) { resolver in
+        .init(
+          resolver.resolveWrapper(ISurveyAppService.self),
+          resolver.resolveWrapper(AuthenticationUseCase.self))
       }
       .inObjectScope(.locale)
   }

@@ -3,7 +3,6 @@ import SwiftUI
 
 extension SwiftUIDropDownText {
   enum Identifier: String {
-    case candidateWordList
     case entireView
   }
 }
@@ -81,23 +80,12 @@ struct SwiftUIDropDownText: View {
       disableInput: featureType == .select ? true : false,
       onInputTextTap: onInputTextTap,
       isFocus: $isFocus)
-      .positionDetect(result: $isInTopSide)
       .overlay(
-        GeometryReader { geometryProxy in
-          Color.clear
-            .onAppear {
-              viewHeight = geometryProxy.size.height
-            }
-            .onChange(of: geometryProxy.size) { size in
-
-              withAnimation(.easeOut(duration: 0.2)) {
-                viewHeight = size.height
-              }
-            }
-        })
-      .overlay(
-        topSideDetectList,
-        alignment: isInTopSide ? .top : .bottom)
+        DropDownList(
+          id: id,
+          items: filteredItems,
+          selectedItem: $textFieldText,
+          isFocus: $isFocus))
       .onAppear {
         filteredItems = items
       }
@@ -129,97 +117,9 @@ struct SwiftUIDropDownText: View {
           textFieldText = ""
         }
       }
-      .onReceive(
-        NotificationCenter.default.publisher(for: Notification.Name("collapseNotification")),
-        perform: { notification in
-          if
-            let userInfo = notification.userInfo,
-            let senderId = userInfo["senderId"] as? UUID,
-            senderId != self.id
-          {
-            isFocus = false
-          }
-        })
       .zIndex(isFocus ? 1 : 0)
       .onInspected(inspection, self)
       .id(Identifier.entireView.rawValue)
-  }
-
-  static func notifyClearFocusState(id: UUID) {
-    NotificationCenter.default.post(
-      name: Notification.Name("collapseNotification"),
-      object: nil,
-      userInfo: ["senderId": id])
-  }
-
-  // MARK: - TopSideDetectList
-
-  var topSideDetectList: some View {
-    VStack(alignment: .leading, spacing: 0) {
-      Image("Triangle16x8")
-        .alignmentGuide(.leading, computeValue: { $0[.leading] - 20 })
-        .visibility(isInTopSide ? .visible : .invisible)
-
-      ZStack {
-        Color.from(.greyScaleToast)
-          .cornerRadius(8)
-
-        ScrollView(showsIndicators: false) {
-          if filteredItems.isEmpty {
-            Text(Localize.string("common_empty_data"))
-              .localized(
-                weight: .regular,
-                size: 16,
-                color: .textSecondary)
-              .frame(height: 74)
-          }
-          else {
-            VStack(spacing: 0) {
-              ForEach(filteredItems, id: \.self) { itemDescription in
-                Text(itemDescription)
-                  .localized(
-                    weight: .regular,
-                    size: 16,
-                    color: .textPrimary)
-                  .padding(12)
-                  .frame(
-                    maxWidth: .infinity,
-                    alignment: .leading)
-                  .contentShape(Rectangle())
-                  .onTapGesture {
-                    textFieldText = itemDescription
-
-                    isFocus = false
-                    UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-                  }
-              }
-              .id(SwiftUIDropDownText.Identifier.candidateWordList.rawValue)
-            }
-            .padding(.vertical, 12)
-          }
-        }
-      }
-      .frame(height: filteredItems.isEmpty ? 72 : 225)
-      .zIndex(1)
-
-      Image("Triangle16x8")
-        .rotationEffect(
-          .degrees(180),
-          anchor: .center)
-        .alignmentGuide(.leading, computeValue: { $0[.leading] - 20 })
-        .visibility(isInTopSide ? .invisible : .visible)
-    }
-    .visibility(isFocus ? .visible : .gone)
-    .alignmentGuide(
-      .top,
-      computeValue: {
-        $0[.top] - (viewHeight + 2)
-      })
-    .alignmentGuide(
-      .bottom,
-      computeValue: {
-        $0[.bottom] + (viewHeight + 2)
-      })
   }
 }
 

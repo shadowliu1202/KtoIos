@@ -69,8 +69,8 @@ extension OfflineMessageView {
     
     var body: some View {
       SwiftUITextView(
-        text: $content,
-        placeholder: Localize.string("customerservice_offline_survey_hint"))
+        placeholder: Localize.string("customerservice_offline_survey_hint"),
+        text: $content)
         .frame(height: 128)
     }
   }
