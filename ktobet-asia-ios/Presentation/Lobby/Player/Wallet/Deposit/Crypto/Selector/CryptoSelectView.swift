@@ -22,6 +22,7 @@ struct CryptoSelectView<ViewModel>: View
         VStack(spacing: 40) {
           VStack(alignment: .leading, spacing: 16) {
             Header(
+              locale: playerConfig.supportLocale,
               userGuideOnTap: userGuideOnTap,
               tutorialOnTap: tutorialOnTap)
             Separator()
@@ -65,7 +66,7 @@ extension CryptoSelectView {
   }
 
   struct Header: View {
-    @Environment(\.playerLocale) var locale: SupportLocale
+    let locale: SupportLocale
 
     var userGuideOnTap: () -> Void
     var tutorialOnTap: () -> Void
@@ -102,8 +103,8 @@ extension CryptoSelectView {
             .onTapGesture {
               tutorialOnTap()
             }
-            .visibleLocale([.Vietnam()])
             .id(CryptoSelectView.Identifier.tutorial.rawValue)
+            .visibleLocale(availableLocales: .Vietnam(), currentLocale: locale)
         }
 
         Text(Localize.string("cps_select_crypto_type"))

@@ -3,7 +3,7 @@ import Foundation
 import sharedbu
 
 class CompletableWrapperPublisher<Upstream: CompletableWrapper>: Publisher {
-  typealias Output = Never
+  typealias Output = Void
   typealias Failure = Swift.Error
 
   private let upstream: Upstream
@@ -18,7 +18,7 @@ class CompletableWrapperPublisher<Upstream: CompletableWrapper>: Publisher {
 }
 
 class CompletableWrapperSubscription<Upstream: CompletableWrapper, Downstream: Subscriber>: Combine.Subscription
-  where Downstream.Input == Never, Downstream.Failure == Swift.Error
+  where Downstream.Input == Void, Downstream.Failure == Swift.Error
 {
   private var disposable: sharedbu.Disposable?
   private let buffer: DemandBuffer<Downstream>
@@ -31,7 +31,10 @@ class CompletableWrapperSubscription<Upstream: CompletableWrapper, Downstream: S
     disposable = upstream.subscribe(
       isThreadLocal: false,
       onError: { [buffer] in buffer.complete(completion: .failure($0)) },
-      onComplete: { [buffer] in buffer.complete(completion: .finished) })
+      onComplete: { [buffer] in
+        _ = buffer.buffer(value: ())
+        buffer.complete(completion: .finished)
+      })
   }
   
   func request(_ demand: Subscribers.Demand) {

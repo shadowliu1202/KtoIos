@@ -144,7 +144,7 @@ extension WithdrawalCryptoRequestStep1View {
                   maxAmount: maximumAmount),
                 cryptoName: requestInfo.crypto.name)
 
-              Separator(color: .textPrimary, lineWeight: 0.5)
+              Separator(color: .textPrimary, lineWidth: 0.5)
 
               WithdrawalCryptoRequestStep1View.InputRow(
                 icon: requestInfo.fiat.flagIcon,
@@ -179,7 +179,7 @@ extension WithdrawalCryptoRequestStep1View {
             LocalizeText(key: "common_notify_currency_ratio")
               .localized(weight: .medium, size: 14, color: .textPrimary)
               .id(WithdrawalCryptoRequestStep1View.Identifier.currencyRatioNotify.rawValue)
-              .visibleLocale([.Vietnam()])
+              .visibleLocale(availableLocales: .Vietnam(), currentLocale: viewModel.supportLocale)
           }
         }
       }

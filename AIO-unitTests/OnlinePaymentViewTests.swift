@@ -30,6 +30,7 @@ final class OnlinePaymentViewTests: XCBaseTestCase {
   func test_givenInputCashTypeAndRemitanceLimitRange50To100_whenInOnlinePaymentPage_thenDisplayAmountRangeHint50To100_KTO_TC_58(
   ) {
     let dummyViewModel = getFakeOnlinePaymentViewModelProtocol()
+    given(dummyViewModel.getSupportLocale()) ~> .Vietnam()
 
     let remitTypes: [PaymentsDTO.RemitType] = [
       .normal,
@@ -76,6 +77,7 @@ final class OnlinePaymentViewTests: XCBaseTestCase {
 
   func test_givenOptionCashType_whenInOnlinePaymentPage_thenDisplayAmountOptionHint_KTO_TC_59() {
     let dummyViewModel = getFakeOnlinePaymentViewModelProtocol()
+    given(dummyViewModel.getSupportLocale()) ~> .Vietnam()
 
     let remitTypes: [PaymentsDTO.RemitType] = [
       .normal,
@@ -121,6 +123,7 @@ final class OnlinePaymentViewTests: XCBaseTestCase {
 
   func test_givenInputCashTypeAndAllowedFloat_whenInOnlinePaymentPage_thenDisplayAmountFloatHint_KTO_TC_60() {
     let dummyViewModel = getFakeOnlinePaymentViewModelProtocol()
+    given(dummyViewModel.getSupportLocale()) ~> .Vietnam()
 
     let sut = OnlinePaymentView<OnlinePaymentViewModelProtocolMock>
       .RemittanceInfo(
@@ -156,9 +159,8 @@ final class OnlinePaymentViewTests: XCBaseTestCase {
   }
 
   func test_givenLocaleIsVietnam_whenInOnlinePaymentPage_thenDisplayVietnameseCurrencyHint_KTO_TC_61() {
-    injectStubCultureCode(.VN)
-
-    let dummyViewModel = getFakeOnlinePaymentViewModelProtocol()
+    let stubViewModel = getFakeOnlinePaymentViewModelProtocol()
+    given(stubViewModel.getSupportLocale()) ~> .China()
 
     let sut = OnlinePaymentView<OnlinePaymentViewModelProtocolMock>
       .RemittanceInfo(
@@ -170,16 +172,14 @@ final class OnlinePaymentViewTests: XCBaseTestCase {
 
     let exp = sut.inspection.inspect { view in
       let isVNCurrencyHintHidden = try view
-        .find(viewWithId: "vnCurrencyHint")
-        .localizedText()
-        .isHideByLocale()
+        .isExistByLocale(viewWithId: "vnCurrencyHint")
 
       XCTAssertFalse(isVNCurrencyHintHidden)
     }
 
     ViewHosting.host(
       view: sut
-        .environmentObject(dummyViewModel)
+        .environmentObject(stubViewModel)
         .environmentObject(SafeAreaMonitor()))
 
     wait(for: [exp], timeout: 30)
@@ -187,6 +187,7 @@ final class OnlinePaymentViewTests: XCBaseTestCase {
 
   func test_givenInputCashTypeAndRemitanceLimitRange50To100_whenRemitanceOverRange_thenDisplayErrorHint_KTO_TC_62() {
     let stubViewModel = getFakeOnlinePaymentViewModelProtocol()
+    given(stubViewModel.getSupportLocale()) ~> .Vietnam()
     given(stubViewModel.remitInfoErrorMessage)
       ~> .init(
         remitterName: "",
@@ -237,6 +238,7 @@ final class OnlinePaymentViewTests: XCBaseTestCase {
 
   func test_givenOptionCashTypeAndRemitanceLimitRange50To100_whenRemitanceOverRange_thenDisplayErrorHint_KTO_TC_63() {
     let stubViewModel = getFakeOnlinePaymentViewModelProtocol()
+    given(stubViewModel.getSupportLocale()) ~> .Vietnam()
     given(stubViewModel.remitInfoErrorMessage)
       ~> .init(
         remitterName: "",
@@ -287,6 +289,7 @@ final class OnlinePaymentViewTests: XCBaseTestCase {
 
   func test_givenGatewayNeedDisplayInstructions_whenInOnlinePaymentPage_thenDisplayInstructionsLink_KTO_TC_66() {
     let dummyViewModel = getFakeOnlinePaymentViewModelProtocol()
+    given(dummyViewModel.getSupportLocale()) ~> .Vietnam()
 
     let sut = OnlinePaymentView<OnlinePaymentViewModelProtocolMock>
       .Header(
@@ -302,8 +305,8 @@ final class OnlinePaymentViewTests: XCBaseTestCase {
         { })
 
     let exp = sut.inspection.inspect { view in
-      let isInstructionDisplay = view
-        .isExist(viewWithId: "instructionLink")
+      let isInstructionDisplay = try view
+        .isExistByVisibility(viewWithId: "instructionLink")
 
       XCTAssertTrue(isInstructionDisplay)
     }
@@ -318,6 +321,7 @@ final class OnlinePaymentViewTests: XCBaseTestCase {
 
   func test_givenPlayerHasOneGateway_whenInOnlinePaymentPage_thenShowOneGateway_KTO_TC_67() {
     let stubViewModel = getFakeOnlinePaymentViewModelProtocol()
+    given(stubViewModel.getSupportLocale()) ~> .Vietnam()
     given(stubViewModel.gateways) ~> [
       .init(
         id: "",
@@ -352,6 +356,7 @@ final class OnlinePaymentViewTests: XCBaseTestCase {
 
   func test_givenGatewayRemitTypeIsNormal_whenInOnlinePaymentPage_thenDisplayNormalForm_KTO_TC_69() {
     let dummyViewModel = getFakeOnlinePaymentViewModelProtocol()
+    given(dummyViewModel.getSupportLocale()) ~> .Vietnam()
 
     let sut = OnlinePaymentView<OnlinePaymentViewModelProtocolMock>
       .RemittanceInfo(
@@ -387,6 +392,7 @@ final class OnlinePaymentViewTests: XCBaseTestCase {
   func test_givenGatewayRemitTypeIsNormalAndDontNeedAccountNumber_whenInOnlinePaymentPage_thenNotDisplayAccountTextFeild_KTO_TC_70(
   ) {
     let dummyViewModel = getFakeOnlinePaymentViewModelProtocol()
+    given(dummyViewModel.getSupportLocale()) ~> .Vietnam()
 
     let sut = OnlinePaymentView<OnlinePaymentViewModelProtocolMock>
       .RemittanceInfo(
@@ -405,8 +411,8 @@ final class OnlinePaymentViewTests: XCBaseTestCase {
           isInstructionDisplayed: false))
 
     let exp = sut.inspection.inspect { view in
-      let isAccountNumberDisplay = view
-        .isExistByVisibleModifier(viewWithId: "textFieldAccountNumber")
+      let isAccountNumberDisplay = try view
+        .isExistByVisibility(viewWithId: "textFieldAccountNumber")
 
       XCTAssertFalse(isAccountNumberDisplay)
     }
@@ -421,6 +427,7 @@ final class OnlinePaymentViewTests: XCBaseTestCase {
 
   func test_givenGatewayRemitTypeIsFromBank_whenInOnlinePaymentPage_thenDisplayBankListTextField_KTO_TC_73() {
     let dummyViewModel = getFakeOnlinePaymentViewModelProtocol()
+    given(dummyViewModel.getSupportLocale()) ~> .Vietnam()
 
     let sut = OnlinePaymentView<OnlinePaymentViewModelProtocolMock>
       .RemittanceInfo(
@@ -455,6 +462,7 @@ final class OnlinePaymentViewTests: XCBaseTestCase {
 
   func test_givenGatewayRemitTypeIsDirectTo_whenInOnlinePaymentPage_thenDisplayBankListTextField_KTO_TC_76() {
     let dummyViewModel = getFakeOnlinePaymentViewModelProtocol()
+    given(dummyViewModel.getSupportLocale()) ~> .Vietnam()
 
     let sut = OnlinePaymentView<OnlinePaymentViewModelProtocolMock>
       .RemittanceInfo(
@@ -489,6 +497,7 @@ final class OnlinePaymentViewTests: XCBaseTestCase {
 
   func test_givenGatewayRemitTypeIsOnlyAmount_whenInOnlinePaymentPage_thenDisplayOnlyAmountForm_KTO_TC_79() {
     let dummyViewModel = getFakeOnlinePaymentViewModelProtocol()
+    given(dummyViewModel.getSupportLocale()) ~> .Vietnam()
 
     let sut = OnlinePaymentView<OnlinePaymentViewModelProtocolMock>
       .RemittanceInfo(
@@ -523,6 +532,7 @@ final class OnlinePaymentViewTests: XCBaseTestCase {
 
   func test_givenVaildRemittanceInfo_whenInOnlinePaymentPage_thenSubmitButtonEnable_KTO_TC_86() {
     let stubViewModel = getFakeOnlinePaymentViewModelProtocol()
+    given(stubViewModel.getSupportLocale()) ~> .Vietnam()
     given(stubViewModel.submitButtonDisable) ~> false
 
     let sut = OnlinePaymentView<OnlinePaymentViewModelProtocolMock>
@@ -554,6 +564,7 @@ final class OnlinePaymentViewTests: XCBaseTestCase {
 
   func test_givenInvaildRemittanceInfo_whenInOnlinePaymentPage_thenSubmitButtonDisable_KTO_TC_87() {
     let stubViewModel = getFakeOnlinePaymentViewModelProtocol()
+    given(stubViewModel.getSupportLocale()) ~> .Vietnam()
     given(stubViewModel.submitButtonDisable) ~> true
 
     let sut = OnlinePaymentView<OnlinePaymentViewModelProtocolMock>

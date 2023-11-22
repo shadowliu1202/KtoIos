@@ -71,8 +71,8 @@ struct WalletDetail: View {
             .disabled(deleteActionDisable)
             .padding(.horizontal, 30)
         }
-        .visibility(deletable ? .visible : .gone)
         .id(WalletDetail.Identifier.deleteAccountButton.rawValue)
+        .visibility(deletable ? .visible : .gone)
       }
     }
     .pageBackgroundColor(.greyScaleDefault)

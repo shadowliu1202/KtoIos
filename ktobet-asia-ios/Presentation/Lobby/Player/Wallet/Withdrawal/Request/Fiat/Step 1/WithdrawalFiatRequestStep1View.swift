@@ -69,7 +69,7 @@ struct WithdrawalFiatRequestStep1View<ViewModel>: View
                 viewModel.wallet?.limitation.oneOffMaximumAmount.formatString(sign: .normal) ?? "")
 
               Text(key: "common_notify_currency_ratio")
-                .visibleLocale([.Vietnam()])
+                .visibleLocale(availableLocales: .Vietnam(), currentLocale: viewModel.supportLocale)
             }
             .localized(
               weight: .medium,

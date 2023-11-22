@@ -9,6 +9,7 @@ final class CustomerServiceMainViewController: LobbyViewController {
   @Injected private var surveyViewModel: SurveyViewModel
   
   private var cancellables = Set<AnyCancellable>()
+  private var router = CustomerServiceMainRouter()
   
   var barButtonItems: [UIBarButtonItem] = []
   
@@ -23,6 +24,8 @@ final class CustomerServiceMainViewController: LobbyViewController {
   }
   
   private func setupUI() {
+    router.vc = self
+    
     NavigationManagement.sharedInstance.addMenuToBarButtonItem(
       vc: self,
       title: Localize.string("customerservice_online"))
@@ -44,7 +47,7 @@ final class CustomerServiceMainViewController: LobbyViewController {
         toPrechat()
       }
       else {
-        toCalling()
+        router.toCalling()
       }
     }
     else {
@@ -53,11 +56,9 @@ final class CustomerServiceMainViewController: LobbyViewController {
   }
   
   private func toPrechat() {
-    CustomServicePresenter.shared.switchToPrechat(from: self, vm: surveyViewModel, csViewModel: csViewModel)
-  }
-  
-  private func toCalling() {
-    CustomServicePresenter.shared.switchToCalling(isRoot: true)
+    let prechatVC = CustomServiceNavigationController(rootViewController: PrechatSurveyViewController())
+    prechatVC.modalPresentationStyle = .overCurrentContext
+    present(prechatVC, animated: true)
   }
   
   private func showToast() {
@@ -65,10 +66,7 @@ final class CustomerServiceMainViewController: LobbyViewController {
   }
   
   private func didSelectRowAt(roomId: String) {
-    let vc = UIStoryboard(name: "CustomService", bundle: nil)
-      .instantiateViewController(withIdentifier: "ChatHistoryViewController") as! ChatHistoryViewController
-    vc.roomId = roomId
-    navigationController?.pushViewController(vc, animated: true)
+    router.toHistory(roomId: roomId)
   }
   
   private func binding() {
@@ -96,9 +94,6 @@ final class CustomerServiceMainViewController: LobbyViewController {
 
 extension CustomerServiceMainViewController: BarButtonItemable {
   func pressedRightBarButtonItems(_: UIBarButtonItem) {
-    let vc = UIStoryboard(name: "CustomService", bundle: nil)
-      .instantiateViewController(
-        withIdentifier: "CustomerServiceHistoryEditViewController") as! CustomerServiceHistoryEditViewController
-    navigationController?.pushViewController(vc, animated: true)
+    router.toEdit()
   }
 }

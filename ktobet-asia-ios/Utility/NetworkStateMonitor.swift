@@ -1,17 +1,22 @@
+import Combine
 import Connectivity
 import RxCocoa
 
-final class NetworkStateMonitor {
-  enum Status: Int {
-    case connected
-    case reconnected
-    case disconnect
-  }
+enum NetworkStatus: Int {
+  case connected
+  case reconnected
+  case disconnect
+}
 
+protocol INetworkMonitor {
+  var status: Observable<NetworkStatus> { get }
+}
+
+final class NetworkStateMonitor: INetworkMonitor {
   static let shared = NetworkStateMonitor()
 
   private let connectivity = Connectivity()
-  private let _networkStatus = BehaviorRelay<Status?>(value: nil)
+  private let _networkStatus = BehaviorRelay<NetworkStatus?>(value: nil)
 
   var connectivityStatus: ConnectivityStatus {
     connectivity.status
@@ -25,8 +30,8 @@ final class NetworkStateMonitor {
       return true
     }
   }
-
-  var listener: Observable<Status> {
+  
+  var status: Observable<NetworkStatus> {
     _networkStatus.compactMap { $0 }.distinctUntilChanged()
   }
 

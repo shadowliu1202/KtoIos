@@ -256,7 +256,7 @@ final class AnyPublisherExtensionTests: XCTestCase {
     var completeWithoutFailure: Bool?
     
     do {
-      try await values.append(publisher.waitFirst().order)
+      try await values.append(publisher.value!.order)
       completeWithoutFailure = true
     }
     catch {
@@ -274,7 +274,10 @@ final class AnyPublisherExtensionTests: XCTestCase {
     var completeWithoutFailure: Bool?
     
     do {
-      try await values.append(publisher.waitFirst().order)
+      if let order = try await publisher.value?.order {
+        values.append(order)
+      }
+      
       completeWithoutFailure = true
     }
     catch {
@@ -286,12 +289,12 @@ final class AnyPublisherExtensionTests: XCTestCase {
   }
   
   func test_ThrowableNeverPublisherWithoutError() async {
-    let publisher = Empty(completeImmediately: true, outputType: Never.self, failureType: Error.self).eraseToAnyPublisher()
+    let publisher = Empty(completeImmediately: true, outputType: Void.self, failureType: Error.self).eraseToAnyPublisher()
     
     var completeWithoutFailure: Bool?
     
     do {
-      try await publisher.wait()
+      try await publisher.value
       completeWithoutFailure = true
     }
     catch {
@@ -302,12 +305,12 @@ final class AnyPublisherExtensionTests: XCTestCase {
   }
   
   func test_ThrowableNeverPublisherWithError() async {
-    let publisher = Fail(outputType: Never.self, failure: KTOError.EmptyData).eraseToAnyPublisher()
+    let publisher = Fail(outputType: Void.self, failure: KTOError.EmptyData).eraseToAnyPublisher()
     
     var completeWithoutFailure: Bool?
     
     do {
-      try await publisher.wait()
+      try await publisher.value
       completeWithoutFailure = true
     }
     catch {
@@ -323,7 +326,7 @@ final class AnyPublisherExtensionTests: XCTestCase {
     
     var values = [Int]()
     
-    if let testClass = await publisher.waitFirst() {
+    if let testClass = await publisher.valueWithoutError {
       values.append(testClass.order)
     }
     
@@ -331,11 +334,11 @@ final class AnyPublisherExtensionTests: XCTestCase {
   }
   
   func test_NotThrowableNeverPublisher() async {
-    let publisher = Empty(completeImmediately: true, outputType: Never.self, failureType: Never.self).eraseToAnyPublisher()
+    let publisher = Empty(completeImmediately: true, outputType: Void.self, failureType: Never.self).eraseToAnyPublisher()
     
     var completeWithoutFailure: Bool?
     
-    await publisher.wait()
+    await publisher.valueWithoutError
     completeWithoutFailure = true
     
     XCTAssertTrue(completeWithoutFailure!)

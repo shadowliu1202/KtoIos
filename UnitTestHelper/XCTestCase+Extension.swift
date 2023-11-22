@@ -5,6 +5,10 @@ import XCTest
 
 @testable import ktobet_asia_ios_qat
 
+func XCTAssertEqual<E: Equatable>(expect: E, actual: E) {
+  XCTAssertEqual(expect, actual)
+}
+
 extension XCTestCase {
   func test<T>(_ description: String, block: () throws -> T) rethrows -> T {
     try XCTContext.runActivity(named: description, block: { _ in try block() })
@@ -79,9 +83,5 @@ extension XCTestCase {
   
   func injectFakeObject<T>(_ objectType: T.Type, object: T) {
     Injectable.register(objectType) { _ in object }
-  }
-  
-  func AssertEqual<E: Equatable>(expect: E, actual: E) {
-    XCTAssertEqual(expect, actual)
   }
 }

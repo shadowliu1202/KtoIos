@@ -117,16 +117,16 @@ final class OfflinePaymentViewTests: XCBaseTestCase {
 
     let exp1 = sut.inspection.inspect { view in
       let isRemitBankErrorTextExist = try view.find(viewWithId: "remitBankDropDownText")
-        .isExist(viewWithId: "errorHint")
+        .isExistByVisibility(viewWithId: "errorHint")
 
       let isRemitterErrorTextExist = try view.find(viewWithId: "remitterInputText")
-        .isExist(viewWithId: "errorHint")
+        .isExistByVisibility(viewWithId: "errorHint")
 
       let isRemitBankCardErrorTextExist = try view.find(viewWithId: "remitBankCardInputText")
-        .isExist(viewWithId: "errorHint")
+        .isExistByVisibility(viewWithId: "errorHint")
 
       let isRemitAmountErrorTextExit = try view.find(viewWithId: "remitAmountInputText")
-        .isExist(viewWithId: "errorHint")
+        .isExistByVisibility(viewWithId: "errorHint")
 
       XCTAssertTrue(isRemitBankErrorTextExist)
       XCTAssertTrue(isRemitterErrorTextExist)

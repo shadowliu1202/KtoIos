@@ -29,11 +29,11 @@ struct TurnoverAlert<ViewModel>: View
 
         LimitSpacer(10)
 
-        Separator(color: .greyScaleList, lineWeight: 0.5)
+        Separator(color: .greyScaleList, lineWidth: 0.5)
 
         Info()
 
-        Separator(color: .greyScaleList, lineWeight: 0.5)
+        Separator(color: .greyScaleList, lineWidth: 0.5)
 
         Button(
           action: {
@@ -89,7 +89,7 @@ extension TurnoverAlert {
           title: Localize.string("bonus_total_request"),
           content: viewModel.detail.totalBetRequest)
 
-        Separator(color: .greyScaleList, lineWeight: 0.5)
+        Separator(color: .greyScaleList, lineWidth: 0.5)
 
         TurnoverAlert.Field(
           title: Localize.string("bonus_remain_request"),

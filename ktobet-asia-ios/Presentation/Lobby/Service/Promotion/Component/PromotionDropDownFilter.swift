@@ -50,7 +50,7 @@ struct PromotionDropDownFilter<ViewModel>: View
       .first(where: { $0.filter == viewModel.selectedPromotionFilter })
     
     VStack(spacing: 16) {
-      Separator(color: .textSecondary, lineWeight: 0.5)
+      Separator(color: .textSecondary, lineWidth: 0.5)
       
       HStack(spacing: 4) {
         Text(selectedPromotionTag?.name ?? "")
@@ -69,7 +69,7 @@ struct PromotionDropDownFilter<ViewModel>: View
       .padding(.horizontal, 30)
       .frame(maxWidth: .infinity, alignment: .leading)
       
-      Separator(color: .textSecondary, lineWeight: 0.5)
+      Separator(color: .textSecondary, lineWidth: 0.5)
     }
     .backgroundColor(.greyScaleList)
     .onTapGesture {
@@ -103,7 +103,7 @@ struct PromotionDropDownFilter<ViewModel>: View
         }
 
         if viewModel.selectedPromotionFilter == .product {
-          Separator(color: .textSecondary, lineWeight: 0.5)
+          Separator(color: .textSecondary, lineWidth: 0.5)
 
           FlowLayout(
             items: productFilters,

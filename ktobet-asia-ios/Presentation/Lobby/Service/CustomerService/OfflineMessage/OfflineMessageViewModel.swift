@@ -34,8 +34,8 @@ final class OfflineMessageViewModel:
   private var cancellables = Set<AnyCancellable>()
   
   init(
-    surveyAppService: ISurveyAppService,
-    authenticationUseCase: AuthenticationUseCase)
+    _ surveyAppService: ISurveyAppService,
+    _ authenticationUseCase: AuthenticationUseCase)
   {
     self.surveyAppService = surveyAppService
     self.authenticationUseCase = authenticationUseCase
@@ -101,6 +101,6 @@ final class OfflineMessageViewModel:
         .answerOfflineSurvey(message: content, email: email))
       .receive(on: DispatchQueue.main)
       .redirectErrors(to: self)
-      .wait()
+      .valueWithoutError
   }
 }

@@ -181,7 +181,7 @@ class CustomServicePresenter: NSObject {
           self.switchToCalling(isRoot: true, svViewModel: surveyViewModel)
         }
         else {
-          self.switchToPrechat(from: vc, vm: surveyViewModel, csViewModel: csViewModel)
+          self.switchToPrechat(from: vc)
         }
       })
       .asCompletable()
@@ -196,16 +196,8 @@ class CustomServicePresenter: NSObject {
       })
   }
 
-  func switchToPrechat(from vc: UIViewController?, vm: SurveyViewModel, csViewModel: CustomerServiceViewModel) {
-    let prechatVC = storyboard
-      .instantiateViewController(identifier: "PrechatServeyViewController") as PrechatServeyViewController
-    prechatVC.bind(position: .left, barButtonItems: .kto(.close))
-    let padding = UIBarButtonItem.kto(.text(text: "")).isEnable(false)
-    let skip = UIBarButtonItem.kto(.text(text: Localize.string("common_skip"))).senderId(skipBarBtnId)
-    prechatVC.bind(position: .right, barButtonItems: padding, skip)
-    prechatVC.additionalSafeAreaInsets.top = DIFF_NAVI_HEIGHT
-    prechatVC.viewModel = vm
-    prechatVC.csViewModel = csViewModel
+  func switchToPrechat(from vc: UIViewController?) {
+    let prechatVC = PrechatSurveyViewController()
     let navi = storyboard
       .instantiateViewController(withIdentifier: "CustomServiceNavigationController") as! UINavigationController
     navi.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
@@ -213,12 +205,8 @@ class CustomServicePresenter: NSObject {
     vc?.present(navi, animated: true, completion: nil)
   }
 
-  func switchToCalling(isRoot: Bool = false, svViewModel: SurveyViewModel? = nil) {
-    let callingVC = storyboard.instantiateViewController(identifier: "CallingViewController") as CallingViewController
-    callingVC.bind(position: .left, barButtonItems: .kto(.close))
-    callingVC.additionalSafeAreaInsets.top = DIFF_NAVI_HEIGHT
-    callingVC.csViewModel = csViewModel
-    callingVC.svViewModel = svViewModel
+  func switchToCalling(isRoot: Bool = false, svViewModel _: SurveyViewModel? = nil) {
+    let callingVC = CallingViewController(surveyAnswers: nil)
     if isRoot {
       let navi = storyboard
         .instantiateViewController(withIdentifier: "CustomServiceNavigationController") as! UINavigationController
@@ -229,10 +217,12 @@ class CustomServicePresenter: NSObject {
     else {
       guard topViewController?.navigationController is CustomServiceNavigationController
       else {
-        let navigationControllerName = topViewController?.navigationController?.description ?? ""
-        fatalError("Wrong NavigationController: \(navigationControllerName)")
+        guard
+          let targetViewController = findNavigationController() as? CustomServiceNavigationController else { return }
+        targetViewController.setViewControllers([callingVC], animated: false)
+        topViewController?.present(targetViewController, animated: true, completion: nil)
+        return
       }
-      
       topViewController?.navigationController?.setViewControllers([callingVC], animated: false)
     }
   }
@@ -265,7 +255,7 @@ class CustomServicePresenter: NSObject {
     }
   }
   
-  private func setToChatRoom(_ chatRoomVC: ChatRoomViewController) {
+  func setToChatRoom(_ chatRoomVC: ChatRoomViewController) {
     guard topViewController?.navigationController is CustomServiceNavigationController
     else {
       guard
@@ -291,10 +281,7 @@ class CustomServicePresenter: NSObject {
   }
 
   func switchToOfflineMessage(from vc: UIViewController?, isRoot: Bool = false) {
-    let viewModel = OfflineMessageViewModel(
-      surveyAppService: Injectable.resolve(ISurveyAppService.self)!,
-      authenticationUseCase: Injectable.resolve(AuthenticationUseCase.self)!)
-    let offlineMessageVC = OfflineMessageViewController(viewModel: viewModel)
+    let offlineMessageVC = OfflineMessageViewController()
     let padding = UIBarButtonItem.kto(.text(text: "")).isEnable(false)
     let skip = UIBarButtonItem.kto(.text(text: Localize.string("common_skip")))
     offlineMessageVC.bind(position: .right, barButtonItems: padding, skip)
@@ -308,22 +295,18 @@ class CustomServicePresenter: NSObject {
     }
     else {
       guard vc?.navigationController is CustomServiceNavigationController else {
-        fatalError("check NavigationController of presented VC")
+        guard
+          let targetViewController = findNavigationController() as? CustomServiceNavigationController else { return }
+        targetViewController.setViewControllers([offlineMessageVC], animated: false)
+        topViewController?.present(targetViewController, animated: true, completion: nil)
+        return
       }
       vc?.navigationController?.setViewControllers([offlineMessageVC], animated: false)
     }
   }
 
   func switchToExitSurvey(roomId: RoomId) {
-    let exitSurveyVC = storyboard
-      .instantiateViewController(identifier: "ExitSurveyViewController") as ExitSurveyViewController
-    exitSurveyVC.bind(position: .left, barButtonItems: .kto(.close))
-    let padding = UIBarButtonItem.kto(.text(text: "")).isEnable(false)
-    let skip = UIBarButtonItem.kto(.text(text: Localize.string("common_skip"))).senderId(skipBarBtnId)
-    exitSurveyVC.bind(position: .right, barButtonItems: padding, skip)
-    exitSurveyVC.additionalSafeAreaInsets.top = DIFF_NAVI_HEIGHT
-    exitSurveyVC.viewModel = surveyViewModel
-    exitSurveyVC.roomId = roomId
+    let exitSurveyVC = ExitSurveyViewController(roomID: roomId)
     self.topViewController?.navigationController?.setViewControllers([exitSurveyVC], animated: false)
   }
 

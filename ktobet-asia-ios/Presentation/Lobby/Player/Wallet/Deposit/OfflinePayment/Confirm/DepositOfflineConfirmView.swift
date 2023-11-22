@@ -49,7 +49,7 @@ struct DepositOfflineConfirmView<ViewModel>: View
                 size: 14,
                 color: .textPrimary)
           }
-          .visibleLocale([.China()])
+          .visibleLocale(availableLocales: .China(), currentLocale: viewModel.locale)
 
           LimitSpacer(40)
 

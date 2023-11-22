@@ -1,17 +1,27 @@
 import SwiftUI
 
 struct SwiftUITextView: View {
-  @State var isInFocus = false
+  @State private var isInFocus = false
   
-  @Binding var text: String
+  @Binding private var text: String
   
-  var placeholder: String
+  private let placeholder: String
+  private let maxLength: Int?
+  
+  private let id = UUID()
+  
+  init(placeholder: String, text: Binding<String>, maxLength: Int? = nil) {
+    self._text = text
+    self.placeholder = placeholder
+    self.maxLength = maxLength
+  }
   
   var body: some View {
     ZStack(alignment: .topLeading) {
       UIKitTextView(
         isInFocus: $isInFocus,
         text: $text,
+        maxLength: maxLength,
         initConfiguration: { textView in
           textView.font = UIFont(name: "PingFangSC-Regular", size: 14)
           textView.textColor = .greyScaleWhite
@@ -23,6 +33,9 @@ struct SwiftUITextView: View {
           textView.textContainerInset = .init(top: 15, left: 15, bottom: 15, right: 15)
           textView.autocapitalizationType = .none
         })
+        .onTapGesture {
+          DropDownList.notifyTopSideDetectListShouldCollapse(id: id)
+        }
       
       Text(placeholder)
         .padding(15)
@@ -35,8 +48,8 @@ struct SwiftUITextView: View {
 struct SwiftUITextView_Previews: PreviewProvider {
   static var previews: some View {
     SwiftUITextView(
-      text: .constant(""),
-      placeholder: "placeholder")
+      placeholder: "placeholder",
+      text: .constant(""))
       .frame(height: 100)
   }
 }

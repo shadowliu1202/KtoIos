@@ -66,15 +66,15 @@ struct SwiftUIInputText: View {
             showTextField = true
           }
 
-          SwiftUIDropDownText.notifyClearFocusState(id: id)
+          DropDownList.notifyTopSideDetectListShouldCollapse(id: id)
           syncIsFocus = true
 
           onInputTextTap?()
         }
 
       Text(errorText)
-        .id(SwiftUIInputText.Identifier.errorHint.rawValue)
         .localized(weight: .regular, size: 12, color: .alert)
+        .id(SwiftUIInputText.Identifier.errorHint.rawValue)
         .visibility(errorText.isEmpty ? .gone : .visible)
     }
     .onAppear {

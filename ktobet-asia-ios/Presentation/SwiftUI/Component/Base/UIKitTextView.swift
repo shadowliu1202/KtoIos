@@ -4,15 +4,18 @@ struct UIKitTextView: UIViewRepresentable {
   @Binding var isInFocus: Bool
   @Binding var text: String
   
-  private var initConfiguration = { (_: UITextView) in }
+  private let maxLength: Int?
+  private let initConfiguration: (UITextView) -> Void
   
   init(
     isInFocus: Binding<Bool>,
     text: Binding<String>,
+    maxLength: Int? = nil,
     initConfiguration: @escaping (UITextView) -> Void = { (_: UITextView) in })
   {
     self._isInFocus = isInFocus
     self._text = text
+    self.maxLength = maxLength
     self.initConfiguration = initConfiguration
   }
 
@@ -36,28 +39,37 @@ struct UIKitTextView: UIViewRepresentable {
   }
   
   func makeCoordinator() -> Coordinator {
-    Coordinator($text, $isInFocus)
+    Coordinator(self)
   }
 
   class Coordinator: NSObject, UITextViewDelegate {
-    var isInFocus: Binding<Bool>
-    var text: Binding<String>
-
-    init(_ text: Binding<String>, _ isInFocus: Binding<Bool>) {
-      self.text = text
-      self.isInFocus = isInFocus
+    let parent: UIKitTextView
+    
+    init(_ parent: UIKitTextView) {
+      self.parent = parent
     }
     
     func textViewDidChange(_ textView: UITextView) {
-      text.wrappedValue = textView.text
+      parent.text = textView.text
     }
     
     func textViewDidBeginEditing(_: UITextView) {
-      isInFocus.wrappedValue = true
+      parent.isInFocus = true
     }
     
     func textViewDidEndEditing(_: UITextView) {
-      isInFocus.wrappedValue = false
+      parent.isInFocus = false
+    }
+    
+    func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+      guard let maxLength = parent.maxLength else { return true }
+      
+      let currentText = textView.text ?? ""
+      guard let stringRange = Range(range, in: currentText) else { return false }
+            
+      let updatedText = currentText.replacingCharacters(in: stringRange, with: text)
+            
+      return updatedText.count <= maxLength
     }
   }
 }
