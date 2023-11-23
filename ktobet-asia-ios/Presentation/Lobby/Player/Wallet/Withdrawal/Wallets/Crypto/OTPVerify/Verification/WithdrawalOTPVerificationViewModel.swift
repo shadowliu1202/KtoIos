@@ -123,8 +123,7 @@ class WithdrawalOTPVerificationViewModel:
 
     switch playerConfiguration.supportLocale {
     case
-      is SupportLocale.China,
-      is SupportLocale.Unknown:
+      is SupportLocale.China:
       otpCodeLength = 6
 
     case is SupportLocale.Vietnam:

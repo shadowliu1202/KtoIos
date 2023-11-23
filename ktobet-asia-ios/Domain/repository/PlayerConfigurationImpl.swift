@@ -19,3 +19,14 @@ class PlayerConfigurationImpl: PlayerConfiguration,
     return SupportLocale.Companion().create(language: code)
   }
 }
+
+class ForceLocalePlayerConfiguration: PlayerConfiguration {
+  private let _supportLocale: SupportLocale
+
+  override var supportLocale: SupportLocale { _supportLocale }
+
+  init(forceLocale: SupportLocale) {
+    self._supportLocale = forceLocale
+    super.init()
+  }
+}
