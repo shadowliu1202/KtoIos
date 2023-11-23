@@ -56,10 +56,8 @@ extension XCTestCase {
         return "zh-cn"
       case is SupportLocale.Vietnam:
         return "vi-vn"
-      case is SupportLocale.Unknown:
-        return "zh-cn"
       default:
-        return "zh-cn"
+        return "vi-vn"
       }
     }()
     

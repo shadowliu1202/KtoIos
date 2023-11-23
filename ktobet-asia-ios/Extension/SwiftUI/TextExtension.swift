@@ -15,7 +15,7 @@ enum KTOFontWeight: String {
       case is SupportLocale.China:
         return "PingFangSC-Regular"
       default:
-        return "PingFangSC-Regular"
+        return "HelveticaNeue-Light"
       }
     case .medium:
       switch playerLocale {
@@ -24,7 +24,7 @@ enum KTOFontWeight: String {
       case is SupportLocale.China:
         return "PingFangSC-Medium"
       default:
-        return "PingFangSC-Medium"
+        return "HelveticaNeue-Medium"
       }
     case .semibold:
       switch playerLocale {
@@ -33,7 +33,7 @@ enum KTOFontWeight: String {
       case is SupportLocale.China:
         return "PingFangSC-Semibold"
       default:
-        return "PingFangSC-Semibold"
+        return "HelveticaNeue-Bold"
       }
     }
   }
