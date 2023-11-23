@@ -6,24 +6,27 @@ private var _Localize = Injectable.resolve(LocalizeUtils.self)!
 var Localize: LocalizeUtils {
   get { _Localize }
   set {
-    if !Configuration.isTesting {
-      fatalError("Only allow change when testing !!")
-    }
-    else {
+    #if DEBUG
       _Localize = newValue
-    }
+    #else
+      if Configuration.isTesting {
+        _Localize = newValue
+      }
+      else {
+        fatalError("Only allow change when testing !!")
+      }
+    #endif
   }
 }
 
 class LocalizeUtils: NSObject {
-  private let localStorageRepo: LocalStorageRepository
+  private let localizationFileName: String
 
-  init(localStorageRepo: LocalStorageRepository) {
-    self.localStorageRepo = localStorageRepo
+  init(localizationFileName: String) {
+    self.localizationFileName = localizationFileName
   }
 
   func string(_ key: String, _ parameters: [String]) -> String {
-    let localizationFileName = localStorageRepo.getCultureCode()
     let path = Bundle.main.path(forResource: localizationFileName, ofType: "lproj")
     let bundle = Bundle(path: path!)
     return String(
@@ -41,7 +44,6 @@ class LocalizeUtils: NSObject {
   }
 
   func string(_ key: String, _ parameters: String...) -> String {
-    let localizationFileName = localStorageRepo.getCultureCode()
     let path = Bundle.main.path(forResource: localizationFileName, ofType: "lproj")
     let bundle = Bundle(path: path!)
     return String(
@@ -50,7 +52,6 @@ class LocalizeUtils: NSObject {
   }
 
   func string(_ key: String, _ parameter: String? = nil) -> String {
-    let localizationFileName = localStorageRepo.getCultureCode()
     let path = Bundle.main.path(forResource: localizationFileName, ofType: "lproj")
     let bundle = Bundle(path: path!)
     if let parameter {
@@ -62,7 +63,6 @@ class LocalizeUtils: NSObject {
   }
 
   func string(_ key: String) -> String {
-    let localizationFileName = localStorageRepo.getCultureCode()
     let path = Bundle.main.path(forResource: localizationFileName, ofType: "lproj")
     let bundle = Bundle(path: path!)
     return NSLocalizedString(key, tableName: nil, bundle: bundle!, value: "", comment: "")

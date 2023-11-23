@@ -42,10 +42,17 @@ class LoginViewController: LandingViewController {
     super.viewDidLoad()
     Logger.shared.info("\(type(of: self)) viewDidLoad.")
     logoItem.image = UIImage(named: "KTO (D)")?.withRenderingMode(.alwaysOriginal)
-    if Configuration.manualUpdate {
+    #if DEBUG
+      logoItem.isEnabled = true
+    #else
+      logoItem.isEnabled = false
+    #endif
+    
+    #if QAT
       let spacing2 = UIBarButtonItem.kto(.text(text: "|")).isEnable(false)
       barButtonItems.append(contentsOf: [spacing2, update])
-    }
+    #endif
+    
     self.bind(position: .right, barButtonItems: barButtonItems)
   }
 
@@ -87,6 +94,14 @@ class LoginViewController: LandingViewController {
     update.title = Localize.string("update_title")
   }
 
+  @IBAction
+  func logoItemOnTap(_: UIBarButtonItem) {
+    Configuration.forceChinese.toggle()
+    Localize = LocalizeUtils(localizationFileName: Configuration.forceChinese ? "zh-cn" : "vi-vn")
+    let loginVC = LoginViewController.initFrom(storyboard: "Login")
+    navigationController?.viewControllers = [loginVC]
+  }
+  
   @IBSegueAction
   func segueToHostingController(_ coder: NSCoder) -> UIViewController? {
     UIHostingController(

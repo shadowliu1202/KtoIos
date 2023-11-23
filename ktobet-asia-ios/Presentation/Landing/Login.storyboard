@@ -45,7 +45,11 @@
                     <navigationItem key="navigationItem" id="eK9-oA-DBo">
                         <leftBarButtonItems>
                             <barButtonItem width="10" id="DZB-EC-Ou0"/>
-                            <barButtonItem enabled="NO" image="KTO (D)" style="plain" id="Lfn-s2-xH8"/>
+                            <barButtonItem enabled="NO" image="KTO (D)" style="plain" id="Lfn-s2-xH8">
+                                <connections>
+                                    <action selector="logoItemOnTap:" destination="Nyo-Kw-8Tr" id="8z8-PE-iYV"/>
+                                </connections>
+                            </barButtonItem>
                         </leftBarButtonItems>
                     </navigationItem>
                     <connections>

@@ -42,11 +42,7 @@ extension XCTestCase {
 
   @available(*, deprecated, message: "Use injectLocalStorageRepository().")
   func injectStubCultureCode(_ language: Language) {
-    let stubLocalStorageRepository = mock(LocalStorageRepository.self)
-
-    given(stubLocalStorageRepository.getCultureCode()) ~> language.rawValue
-
-    Localize = LocalizeUtils(localStorageRepo: stubLocalStorageRepository)
+    Localize = LocalizeUtils(localizationFileName: language.rawValue)
   }
   
   func injectLocalStorageRepository(_ supportLocale: SupportLocale) {

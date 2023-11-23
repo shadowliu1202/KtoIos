@@ -4282,8 +4282,6 @@
 		6D55C6E729657DDE0038E8FB /* ProductProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4E99482636907A00860FF7 /* ProductProtocol.swift */; };
 		6D55C6EB29657DE30038E8FB /* PromotionPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 600A8F7826CD019700F56412 /* PromotionPresenter.swift */; };
 		6D55C6F229657DF50038E8FB /* SurveyViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D993929271FFB390068A616 /* SurveyViewModel.swift */; };
-		6D55C6F429657DF50038E8FB /* CustomerServiceHistoryEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D5BE316273E3E730072F994 /* CustomerServiceHistoryEditViewController.swift */; };
-		6D55C6F329657DF50038E8FB /* ExitSurveyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D986A82271924C900194E0D /* ExitSurveyViewController.swift */; };
 		6D55C6F429657DF50038E8FB /* ChatHistoriesEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D5BE316273E3E730072F994 /* ChatHistoriesEditViewController.swift */; };
 		6D55C6F629657DF50038E8FB /* CustomServiceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D986A8E27192FC300194E0D /* CustomServiceViewModel.swift */; };
 		6D55C6FC29657DF50038E8FB /* CustomServiceNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DB4AC472726512F0084CF4D /* CustomServiceNavigationController.swift */; };
@@ -16430,7 +16428,6 @@
 				6D0EDB8A28743FAC004A9E3C /* LevelPrivilegeViewController.swift in Sources */,
 				6D0EDB8B28743FAC004A9E3C /* CommonVerifyOtp.swift in Sources */,
 				ACD8C54F2AF259B100B65706 /* SwiftUILottieView.swift in Sources */,
-				6D0EDB8C28743FAC004A9E3C /* SurveyViewController.swift in Sources */,
 				6D0EDB8D28743FAC004A9E3C /* PromotionRuleTermViewController.swift in Sources */,
 				3C5E370B2A2DD99F00427BCE /* PromotionFilterViewController.swift in Sources */,
 				3C8B0AFC2A7227D100910341 /* PublisherExtension.swift in Sources */,
@@ -20023,7 +20020,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "match AppStore com.kto.asia";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match Development com.kto.asia";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = PRODUCTION;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "PRODUCTION DEBUG";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -20089,7 +20086,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "match Development com.kto.asia.stg.vn";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match Development com.kto.asia.stg.vn";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = STAGING;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "STAGING DEBUG";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -20155,7 +20152,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.kto.asia.vn;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "match Development com.kto.asia.vn";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = PRODUCTION;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "PRODUCTION DEBUG";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -20435,6 +20432,7 @@
 					"-weak_framework",
 					"\"Network\"",
 				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -D COCOAPODS";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.kto.asia.qat-1";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "match Development com.kto.asia.qat-1";
@@ -20550,7 +20548,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "match AppStore com.kto.asia.selftest";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match Development com.kto.asia.selftest";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = PRODUCTION_SELFTEST;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "PRODUCTION_SELFTEST DEBUG";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -20616,7 +20614,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "match AppStore com.kto.asia.backup";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match Development com.kto.asia.backup";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = PRODUCTION_BACKUP;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "PRODUCTION_BACKUP DEBUG";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -20746,7 +20744,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match Development com.kto.asia.pre";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = PREPROD;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "PREPROD DEBUG";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -20944,7 +20942,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match Development com.kto.asia.dev";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEV;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEV DEBUG";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -21096,11 +21094,12 @@
 					"-weak_framework",
 					"\"Network\"",
 				);
+				OTHER_SWIFT_FLAGS = "$(inherited) -D COCOAPODS";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.kto.asia.qat-1";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "match Development com.kto.asia.qat-1";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match Development com.kto.asia.qat-1";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = QAT;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "QAT DEBUG";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -21135,7 +21134,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "match AppStore com.kto.asia.stg";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "match Development com.kto.asia.stg";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = STAGING;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "STAGING DEBUG";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
