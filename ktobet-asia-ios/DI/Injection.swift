@@ -1120,7 +1120,8 @@ final class Injection {
   func registSingleton() {
     container
       .register(LocalizeUtils.self) { resolver in
-        LocalizeUtils(localStorageRepo: resolver.resolveWrapper(LocalStorageRepository.self))
+        let localStorageRepo = resolver.resolveWrapper(LocalStorageRepository.self)
+        return LocalizeUtils(localizationFileName: localStorageRepo.getCultureCode())
       }
       .inObjectScope(.application)
 

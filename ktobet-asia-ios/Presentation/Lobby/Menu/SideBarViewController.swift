@@ -256,8 +256,12 @@ class SideBarViewController: APPViewController {
     labUserAcoount.lineBreakMode = .byWordWrapping
     let logoImageView = UIImageView(image: UIImage(named: "KTO (D)"))
     logoImageView.contentMode = .scaleAspectFit
-    logoImageView.isUserInteractionEnabled = true
-    logoImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(manualUpdate)))
+    
+    #if DEBUG
+      logoImageView.isUserInteractionEnabled = true
+      logoImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(logoItemOnTap)))
+    #endif
+    
     let logoView = UIView()
     logoView.addSubview(logoImageView)
     logoImageView.snp.makeConstraints { make in
@@ -527,10 +531,11 @@ class SideBarViewController: APPViewController {
   }
 
   @IBAction
-  func manualUpdate() {
-    if Configuration.manualUpdate {
-      Configuration.isAutoUpdate = true
-    }
+  func logoItemOnTap() {
+    Configuration.forceChinese.toggle()
+    Localize = LocalizeUtils(localizationFileName: Configuration.forceChinese ? "zh-cn" : "vi-vn")
+    let sideBarVC = SideBarViewController.initFrom(storyboard: "slideMenu")
+    navigationController?.viewControllers = [sideBarVC]
   }
 }
 

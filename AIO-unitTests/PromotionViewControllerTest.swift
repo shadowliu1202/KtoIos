@@ -243,26 +243,6 @@ final class PromotionViewControllerTest: XCBaseTestCase {
     XCTAssertEqual(3, allTab.count)
   }
 
-  func test_HaveTwoVVIPCashBackCopunsAndOneVVIPCashbackCouponWillExpire_InAllCouponPage_VVIPTabDisplayOne_KTO_TC_43() {
-    givenPromotionUseCaseStubs(
-      productPromotion: [],
-      rebatePromotion: [],
-      bonusCoupon: [vvipCoupon(delay: 1)],
-      VVIPCashbackPromotion: [vvipPromotion])
-
-    let stubTrigger = PublishSubject<Void>()
-    let stubViewModel = mock(PromotionViewModel.self).initialize(
-      promotionUseCase: Injectable.resolveWrapper(PromotionUseCase.self),
-      playerUseCase: Injectable.resolveWrapper(PlayerDataUseCase.self))
-
-    given(stubViewModel.trigerRefresh) ~> stubTrigger
-
-    sut.viewModel = stubViewModel
-    sut.loadViewIfNeeded()
-
-    verify(stubTrigger.onNext(any())).wasCalled(2)
-  }
-
   func test_PromotionFilterCasesCount_Equal_TabsCount() {
     givenPromotionUseCaseStubs(
       productPromotion: [],

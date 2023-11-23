@@ -56,7 +56,6 @@ enum Configuration: String {
   static var hostName: [String: [String]] = env.hostName
   static var versionUpdateHostName: [String: [String]] = env.versionUpdateHostName
   static var isAutoUpdate: Bool = env.isAutoUpdate
-  static var manualUpdate: Bool = env.manualUpdate
   static var debugGesture: Bool = env.debugGesture
   static var manualControlNetwork: Bool = env.manualControlNetwork
   static var enableFileLog: Bool = env.enableFileLog
@@ -71,6 +70,8 @@ enum Configuration: String {
   static var isTesting: Bool {
     ProcessInfo.processInfo.arguments.contains("isTesting")
   }
+  
+  static var forceChinese = false
 }
 
 protocol Env {
@@ -78,7 +79,6 @@ protocol Env {
   var hostName: [String: [String]] { get }
   var versionUpdateHostName: [String: [String]] { get }
   var isAutoUpdate: Bool { get }
-  var manualUpdate: Bool { get }
   var debugGesture: Bool { get }
   var manualControlNetwork: Bool { get }
   var enableFileLog: Bool { get }
@@ -93,7 +93,6 @@ private class DevConfig: Env {
   ]
   lazy var versionUpdateHostName = hostName
   var isAutoUpdate = false
-  var manualUpdate = true
   var debugGesture = true
   var manualControlNetwork = false
   var enableFileLog = false
@@ -110,7 +109,6 @@ private class QatConfig: Env {
     ]
   lazy var versionUpdateHostName = hostName
   var isAutoUpdate = false
-  var manualUpdate = true
   var debugGesture = true
   var manualControlNetwork = false
   var enableFileLog = true
@@ -134,7 +132,6 @@ private class StagingConfig: Env {
     #endif
   }
 
-  var manualUpdate = false
   var debugGesture = true
   var manualControlNetwork = false
   var enableFileLog = true
@@ -149,7 +146,6 @@ private class PreProductionConfig: Env {
   ]
   lazy var versionUpdateHostName = hostName
   var isAutoUpdate = true
-  var manualUpdate = false
   var debugGesture = false
   var manualControlNetwork = false
   var enableFileLog = true
@@ -169,7 +165,6 @@ private class ProductionConfig: Env {
         .cultureCode(): ["download5566.store", "downloadappgo5566.store"]
     ]
   var isAutoUpdate = true
-  var manualUpdate = false
   var debugGesture = false
   var manualControlNetwork = false
   var enableFileLog = false
@@ -189,7 +184,6 @@ private class ProductionSelftestConfig: Env {
         .cultureCode(): ["download5566.store", "downloadappgo5566.store"]
     ]
   var isAutoUpdate = false
-  var manualUpdate = false
   var debugGesture = true
   var manualControlNetwork = false
   var enableFileLog = true
@@ -209,7 +203,6 @@ private class ProductionBackupConfig: Env {
         .cultureCode(): ["download5566.store", "downloadappgo5566.store"]
     ]
   var isAutoUpdate = true
-  var manualUpdate = false
   var debugGesture = false
   var manualControlNetwork = false
   var enableFileLog = false
