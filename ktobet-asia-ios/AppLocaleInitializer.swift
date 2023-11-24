@@ -27,8 +27,6 @@ class AppLocaleInitializer: LocalStorable {
 
   private func systemLocaleToCultureCode() -> String {
     switch languageCode {
-    case "zh":
-      return SupportLocale.China.shared.cultureCode()
     case "vi":
       fallthrough
     default:
