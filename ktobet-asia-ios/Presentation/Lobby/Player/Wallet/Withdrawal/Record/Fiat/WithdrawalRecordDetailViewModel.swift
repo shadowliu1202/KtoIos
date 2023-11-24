@@ -11,6 +11,7 @@ protocol WithdrawalRecordDetailViewModelProtocol: AnyObject {
   var httpHeaders: [String: String] { get }
   var isCancelable: Bool { get }
   var isAllowConfirm: Bool { get }
+  var isSubmitButtonDisable: Bool { get }
 
   func prepareForAppear(transactionId: String)
 
@@ -28,6 +29,7 @@ class WithdrawalRecordDetailViewModel:
   @Published private(set) var log: WithdrawalDto.Log?
   @Published private(set) var remarks: [RecordRemark.Previous.Model] = []
   @Published private(set) var isCancelable = false
+  @Published private(set) var isSubmitButtonDisable = false
 
   @Published var selectedImages: [RecordRemark.Uploader.Model] = []
 
@@ -38,8 +40,6 @@ class WithdrawalRecordDetailViewModel:
   let disposeBag = DisposeBag()
 
   private var transactionId = ""
-
-  private var isSubmitButtonDisable = false
 
   var httpHeaders: [String: String] {
     httpClient.headers

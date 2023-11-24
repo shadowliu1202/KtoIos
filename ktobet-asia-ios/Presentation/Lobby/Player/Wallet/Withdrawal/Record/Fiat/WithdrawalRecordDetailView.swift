@@ -46,6 +46,7 @@ struct WithdrawalRecordDetailView<ViewModel>: View
           action: {
             viewModel.cancelWithdrawal()
           })
+          .disabled(viewModel.isSubmitButtonDisable)
           .visibility(viewModel.isCancelable ? .visible : .gone)
       })
       .environment(\.playerLocale, viewModel.supportLocale)
@@ -93,6 +94,7 @@ struct WithdrawalRecordDetailView_Previews: PreviewProvider {
     var httpHeaders: [String: String] = [:]
     var isAllowConfirm = true
     var isCancelable = false
+    var isSubmitButtonDisable = false
     var supportLocale: SupportLocale = .China()
 
     func prepareForAppear(transactionId _: String) { }
