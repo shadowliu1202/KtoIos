@@ -170,7 +170,8 @@ platform :ios do
       plistPath: "ktobet-asia-ios/ktobet-asia-ios-staging-vn-Info.plist",
       buildVersion: options[:buildVersion],
       appVersion: options[:appVersion])
-    
+
+    env = getEnviroment(preRelease: options[:releaseTarget])
     versionNum = options[:appVersion]
     
     build_app(
@@ -178,6 +179,7 @@ platform :ios do
       workspace: "ktobet-asia-ios.xcworkspace",
       include_symbols: true,
       clean: true,
+      archive_path: "./output/#{env}.xcarchive",
       output_directory: "#{versionNum}",
       output_name: "kto-asia-#{versionNum}-staging-vn.ipa",
       export_method: "ad-hoc",
@@ -283,6 +285,7 @@ platform :ios do
       buildVersion: options[:buildVersion],
       appVersion: options[:appVersion])
 
+    env = getEnviroment(preRelease: options[:releaseTarget])
     versionNum = options[:appVersion]
     
     build_app(
@@ -290,6 +293,7 @@ platform :ios do
       workspace: "ktobet-asia-ios.xcworkspace",
       include_symbols: true,
       clean: true,
+      archive_path: "./output/#{env}.xcarchive",
       output_directory: "#{versionNum}",
       output_name: "kto-asia-#{versionNum}-prod-vn.ipa",
       export_method: "ad-hoc",
