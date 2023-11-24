@@ -39,6 +39,7 @@ final class WithdrawalRecordDetailViewTests: XCBaseTestCase {
     given(stubViewModel.selectedImages) ~> []
     given(stubViewModel.isAllowConfirm) ~> false
     given(stubViewModel.isCancelable) ~> true
+    given(stubViewModel.isSubmitButtonDisable) ~> false
     return stubViewModel
   }
 
