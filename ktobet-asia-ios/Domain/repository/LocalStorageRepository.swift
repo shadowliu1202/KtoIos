@@ -30,7 +30,7 @@ protocol LocalStorageRepository {
   func setCountDownEndTime(date: Date?)
   func setBalanceHiddenState(isHidden: Bool, gameId: String)
   func setUserName(_ name: String)
-  func setCultureCode(_ cultureCode: String)
+  func setCultureCode(_ cultureCode: String?)
   func setPlayerInfo(_ player: Player?)
   func updatePlayerInfoCache(level: Int32?, productType: ProductType?)
   func setLastAPISuccessDate(_ time: Date?)
@@ -52,29 +52,6 @@ class LocalStorageRepositoryImpl: LocalStorageRepository,
 
   init(playerConfiguration: PlayerConfiguration) {
     self.playerConfiguration = playerConfiguration
-
-    guard let _: String = get(key: .cultureCode)
-    else {
-      initCultureCode()
-      return
-    }
-  }
-
-  private func initCultureCode() {
-    let localeCultureCode = systemLocaleToCultureCode()
-    setCultureCode(localeCultureCode)
-    Theme.shared.changeEntireAPPFont(by: getSupportLocale())
-  }
-
-  private func systemLocaleToCultureCode() -> String {
-    switch Locale.current.languageCode {
-    case "vi":
-      return SupportLocale.Vietnam.shared.cultureCode()
-    case "zh":
-      fallthrough
-    default:
-      return SupportLocale.China.shared.cultureCode()
-    }
   }
 
   func getRememberMe() -> Bool {
@@ -190,7 +167,7 @@ class LocalStorageRepositoryImpl: LocalStorageRepository,
     set(value: name, key: .userName)
   }
 
-  func setCultureCode(_ cultureCode: String) {
+  func setCultureCode(_ cultureCode: String?) {
     set(value: cultureCode, key: .cultureCode)
   }
 

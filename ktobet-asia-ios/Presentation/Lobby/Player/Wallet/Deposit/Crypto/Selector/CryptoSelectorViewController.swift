@@ -99,20 +99,19 @@ extension CryptoSelectorViewController {
 
   func navigateToGuide() {
     switch localStorageRepo.getSupportLocale() {
-    case is SupportLocale.Vietnam:
+    case is SupportLocale.China:
       navigationController?
         .pushViewController(
-          CryptoGuideVNDViewController(),
+          CryptoGuideViewController.initFrom(storyboard: "Deposit"),
           animated: true)
 
-    case is SupportLocale.China,
-         is SupportLocale.Unknown:
+    case is SupportLocale.Vietnam:
       fallthrough
 
     default:
       navigationController?
         .pushViewController(
-          CryptoGuideViewController.initFrom(storyboard: "Deposit"),
+          CryptoGuideVNDViewController(),
           animated: true)
     }
   }
