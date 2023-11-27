@@ -42,6 +42,7 @@ class NavigationViewModel {
 
   func initLaunchNavigation() -> LaunchPageNavigation {
     guard let playerInfoCache = localStorageRepo.getPlayerInfo() else { return .Landing }
+    AnalyticsManager.setUserID(playerInfoCache.gamerID)
     let defaultProduct = ProductType.convert(playerInfoCache.defaultProduct)
 
     if authUseCase.isLastAPISuccessDateExpire() {

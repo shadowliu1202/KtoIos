@@ -33,10 +33,6 @@ class ProductGameDataSourceDelegate: NSObject {
 
     super.init()
   }
-
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
   
   func handleGameUpdates(_ games: [WebGameWithDuplicatable]) -> DifferentGames {
     let oldGames = self.games

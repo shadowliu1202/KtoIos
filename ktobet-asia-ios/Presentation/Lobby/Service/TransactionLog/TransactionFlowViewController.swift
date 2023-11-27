@@ -25,10 +25,6 @@ class TransactionFlowController {
     self.vc = vc
     self.disposeBag = disposeBag
   }
-  
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
 
   func goNext(_ transactionLog: TransactionLog) {
     switch transactionLog {

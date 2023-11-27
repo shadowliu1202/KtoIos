@@ -23,10 +23,6 @@ class SlotBetDetailViewController: LobbyViewController {
     dataBinding()
   }
 
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
-
   private func initUI() {
     tableView.dataSource = self
     tableView.delegate = self

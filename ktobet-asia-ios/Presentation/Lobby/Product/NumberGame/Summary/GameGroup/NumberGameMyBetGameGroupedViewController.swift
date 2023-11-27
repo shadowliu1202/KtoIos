@@ -25,10 +25,6 @@ class NumberGameMyBetGameGroupedViewController: LobbyViewController {
     summaryDataHandler()
   }
 
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
-
   private func initUI() {
     activityIndicator.translatesAutoresizingMaskIntoConstraints = false
     self.view.addSubview(activityIndicator)

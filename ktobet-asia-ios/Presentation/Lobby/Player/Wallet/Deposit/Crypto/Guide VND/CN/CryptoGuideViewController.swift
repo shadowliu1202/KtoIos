@@ -49,10 +49,6 @@ class CryptoGuideViewController: LobbyViewController {
     }
     self.tableView.endUpdates()
   }
-
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
 }
 
 extension CryptoGuideViewController: UITableViewDelegate, UITableViewDataSource {

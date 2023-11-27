@@ -32,10 +32,6 @@ class LevelPrivilegeViewController: LobbyViewController {
     viewModel.fetchData()
   }
 
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
-
   @IBAction
   func showExpInfo(_: UIButton) {
     Alert.shared.show(

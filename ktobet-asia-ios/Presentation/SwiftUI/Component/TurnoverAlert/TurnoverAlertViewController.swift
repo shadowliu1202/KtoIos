@@ -30,10 +30,6 @@ class TurnoverAlertViewController:
 
     setupUI()
   }
-
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
 }
 
 // MARK: - UI

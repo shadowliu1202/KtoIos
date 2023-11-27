@@ -75,10 +75,6 @@ class TransactionLogViewModel:
       .subscribe()
       .disposed(by: disposeBag)
   }
-
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
   
   func getSupportLocale() -> SupportLocale {
     playerConfig.supportLocale

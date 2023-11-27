@@ -33,10 +33,6 @@ class P2PSummaryViewController: LobbyViewController {
       }
     }
   }
-
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
 }
 
 // MARK: - UI

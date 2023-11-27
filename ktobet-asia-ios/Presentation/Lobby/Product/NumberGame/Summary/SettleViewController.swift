@@ -101,10 +101,6 @@ class SettleViewController: UIViewController {
       }
     }
   }
-
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
 }
 
 extension SettleViewController: UITableViewDelegate {

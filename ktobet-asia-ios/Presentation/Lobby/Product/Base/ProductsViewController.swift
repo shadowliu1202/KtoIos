@@ -140,10 +140,6 @@ class ProductsViewController: LobbyViewController {
       super.handleErrors(error)
     }
   }
-
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
 }
 
 extension ProductsViewController: WebGameViewCallback {

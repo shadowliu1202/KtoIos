@@ -55,8 +55,4 @@ class AboutKTOViewController: LobbyViewController {
       self?.handleErrors($0)
     }).disposed(by: disposeBag)
   }
-
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
 }

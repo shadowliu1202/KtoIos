@@ -23,10 +23,6 @@ class DatePickerPopup: UIView {
     loadXib()
   }
 
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
-
   convenience init(
     locale: Locale,
     initDate: Date? = Date(),

@@ -38,10 +38,6 @@ class WithdrawalCryptoWalletDetailViewModel:
   func prepareForAppear(wallet: WithdrawalDto.CryptoWallet) {
     self.wallet = wallet
   }
-
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
 }
 
 // MARK: - API

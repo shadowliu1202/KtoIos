@@ -36,10 +36,6 @@ class PromotionViewController: LobbyViewController {
     viewModel.fetchData()
   }
 
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
-
   private func initUI() {
     NavigationManagement.sharedInstance.addMenuToBarButtonItem(vc: self, title: Localize.string("bonus_title"))
     self.bind(position: .right, barButtonItems: .kto(.history))

@@ -62,10 +62,6 @@ class WithdrawalFiatRequestStep2ViewController:
       super.handleErrors(error)
     }
   }
-
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
 }
 
 // MARK: - UI

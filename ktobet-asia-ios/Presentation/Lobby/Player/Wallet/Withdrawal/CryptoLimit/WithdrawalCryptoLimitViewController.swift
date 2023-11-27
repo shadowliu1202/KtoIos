@@ -21,13 +21,7 @@ class WithdrawalCryptoLimitViewController:
     fatalError("init(coder:) has not been implemented")
   }
 
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
-
   override func viewDidLoad() {
-    Logger.shared.info("\(type(of: self)) viewDidLoad")
-
     super.viewDidLoad()
     setupUI()
     binding()

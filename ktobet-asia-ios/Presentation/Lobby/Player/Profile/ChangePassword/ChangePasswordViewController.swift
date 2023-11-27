@@ -22,10 +22,6 @@ class ChangePasswordViewController: LobbyViewController, AuthProfileVerification
     dataBinding()
   }
 
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
-
   private func initUI() {
     inputPassword.setTitle(Localize.string("common_password"))
     inputConfirm.setTitle(Localize.string("common_password_2"))

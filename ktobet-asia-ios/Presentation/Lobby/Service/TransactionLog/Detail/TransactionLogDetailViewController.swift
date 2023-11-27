@@ -32,10 +32,6 @@ class TransactionLogDetailViewController: LobbyViewController {
     bindData()
   }
 
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
-
   private func initUI() {
     tableView.estimatedRowHeight = 81.0
     tableView.rowHeight = UITableView.automaticDimension

@@ -70,10 +70,6 @@ class DepositLogSummaryViewModel:
       .subscribe()
       .disposed(by: disposeBag)
   }
-  
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
 
   func getCashLogSummary() -> Single<CurrencyUnit> {
     let beginDate = dateType.result.from.toLocalDate(playerConfiguration.localeTimeZone())

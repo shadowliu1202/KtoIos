@@ -37,10 +37,6 @@ class WithdrawalFiatWalletsViewModel:
     self.supportLocale = playerConfig.supportLocale
   }
 
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
-
   func observeWallets() {
     Observable.from(
       withdrawalService.getFiatWallets())

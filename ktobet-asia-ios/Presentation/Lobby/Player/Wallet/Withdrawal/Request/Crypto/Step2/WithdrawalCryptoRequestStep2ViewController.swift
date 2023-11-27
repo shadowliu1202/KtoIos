@@ -90,10 +90,6 @@ class WithdrawalCryptoRequestStep2ViewController:
       super.handleErrors(error)
     }
   }
-
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
 }
 
 extension WithdrawalCryptoRequestStep2ViewController {

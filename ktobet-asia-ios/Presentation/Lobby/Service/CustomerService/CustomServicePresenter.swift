@@ -75,7 +75,6 @@ class CustomServicePresenter: NSObject {
   }
 
   init(_ customerServiceViewModel: CustomerServiceViewModel, _ surveyViewModel: SurveyViewModel) {
-    Logger.shared.info("\(type(of: self)) init.")
     csViewModel = customerServiceViewModel
     self.surveyViewModel = surveyViewModel
     super.init()

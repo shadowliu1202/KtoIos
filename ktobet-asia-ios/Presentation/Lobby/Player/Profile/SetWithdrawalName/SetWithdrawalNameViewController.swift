@@ -19,10 +19,6 @@ class SetWithdrawalNameViewController: LobbyViewController, AuthProfileVerificat
     dataBinding()
   }
 
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
-
   private func dataBinding() {
     (self.realNameInput.text <-> self.viewModel.relayRealName).disposed(by: self.disposeBag)
     viewModel.verifyAccountNameError.bind(onNext: { [unowned self] accountNameException in

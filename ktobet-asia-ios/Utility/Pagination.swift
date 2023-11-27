@@ -55,10 +55,6 @@ final class Pagination<T> {
 
     binding(observable)
   }
-
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
 }
 
 // MARK: - Binding

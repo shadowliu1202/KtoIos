@@ -70,10 +70,6 @@ class NumberGameMyBetDetailViewController: LobbyViewController {
       pageViewController.initialPageIndex = self.selectedIndex
     }
   }
-
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
 }
 
 extension NumberGameMyBetDetailViewController: NumberGameMyBetPageViewDelegate {

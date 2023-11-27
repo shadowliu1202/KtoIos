@@ -220,10 +220,6 @@ class ProfileViewController: LobbyViewController, AuthProfileVerification {
       confirm: { },
       cancel: nil)
   }
-
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
 }
 
 protocol AccountTypeProtocol {

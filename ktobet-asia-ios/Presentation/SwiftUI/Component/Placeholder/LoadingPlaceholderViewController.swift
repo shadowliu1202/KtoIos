@@ -39,8 +39,4 @@ final class LoadingPlaceholderViewController:
   func setIsLoading(_ isLoading: Bool) {
     viewModel.isLoading = isLoading
   }
-
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
 }

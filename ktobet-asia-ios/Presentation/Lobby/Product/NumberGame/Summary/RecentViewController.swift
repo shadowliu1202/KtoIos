@@ -97,10 +97,6 @@ class RecentViewController: UIViewController {
       }
     }
   }
-
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
 }
 
 class NumbergameRecentCell: UITableViewCell {

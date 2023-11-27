@@ -17,10 +17,6 @@ class P2PBetSummaryByDateViewController: LobbyViewController {
     dataBinding()
   }
 
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
-
   private func initUI() {
     tableView.setHeaderFooterDivider()
   }

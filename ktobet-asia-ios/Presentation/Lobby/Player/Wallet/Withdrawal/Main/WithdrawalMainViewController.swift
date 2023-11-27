@@ -32,12 +32,9 @@ class WithdrawalMainViewController:
 
   deinit {
     Injectable.resetObjectScope(.withdrawalFlow)
-    Logger.shared.info("\(type(of: self)) deinit")
   }
 
   override func viewDidLoad() {
-    Logger.shared.info("\(type(of: self)) viewDidLoad")
-
     super.viewDidLoad()
     setupUI()
     binding()

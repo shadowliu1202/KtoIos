@@ -31,10 +31,6 @@ class TermsViewController: LobbyViewController, TermsTableDelegate {
       .disposed(by: disposeBag)
   }
 
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
-
   override func prepare(for segue: UIStoryboardSegue, sender _: Any?) {
     if segue.identifier == TermsViewController.embedSegue, let tableVC = segue.destination as? TermsTableViewController {
       self.tableContainer = tableVC

@@ -37,8 +37,4 @@ class StarMergerViewController:
       }),
       to: view)
   }
-
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
 }

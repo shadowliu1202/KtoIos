@@ -395,7 +395,6 @@ class ChatRoomViewController: CommonViewController {
   deinit {
     NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
     NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
-    Logger.shared.info("\(type(of: self)) deinit")
   }
 }
 

@@ -22,10 +22,6 @@ class SetBirthdayViewController: LobbyViewController, AuthProfileVerification {
     dataBinding()
   }
 
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
-
   private func initUI() {
     birthdayInput.setIsEdited(false)
     self.submitBtn.isValid = false

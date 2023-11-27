@@ -51,10 +51,6 @@ class GameWebViewViewController: WebViewBase {
     delegate?.gameDisappear()
   }
 
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
-
   override func handleErrors(_ error: Error) {
     if error is KtoGameUnderMaintenance {
       let productType = viewModel?.getGameProductType()

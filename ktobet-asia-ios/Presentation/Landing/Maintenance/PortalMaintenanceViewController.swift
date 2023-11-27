@@ -91,8 +91,4 @@ class PortalMaintenanceViewController: LandingViewController {
   private func navigateToLogin() {
     NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LandingNavigation")
   }
-
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
 }

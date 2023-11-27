@@ -181,10 +181,6 @@ class MainDebugViewController: UIViewController {
     copyValue.insert(data, at: row)
     self.debugDatas.accept(copyValue)
   }
-
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
 }
 
 class MainDebugDataCell: UITableViewCell {

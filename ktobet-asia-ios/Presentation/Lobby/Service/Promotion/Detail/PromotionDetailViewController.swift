@@ -155,10 +155,6 @@ class PromotionDetailViewController: LobbyViewController {
       range: NSRange(location: index, length: value.count))
   }
 
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
-
   private func setView(
     productTypeTitle: String,
     productSubType: String,

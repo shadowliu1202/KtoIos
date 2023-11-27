@@ -695,8 +695,4 @@ class NoResultFooter: UIControl {
     self.backgroundColor = UIColor.white
     self.message = Localize.string("common_empty_data")
   }
-
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
 }

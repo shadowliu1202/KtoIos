@@ -15,10 +15,6 @@ final class OfflineMessageViewController: CommonViewController {
     binding()
   }
   
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
-  
   private func setupUI() {
     addSubView(from: { [unowned self] in
       OfflineMessageView(

@@ -40,7 +40,6 @@ class LoginViewController: LandingViewController {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    Logger.shared.info("\(type(of: self)) viewDidLoad.")
     logoItem.image = UIImage(named: "KTO (D)")?.withRenderingMode(.alwaysOriginal)
     #if DEBUG
       logoItem.isEnabled = true

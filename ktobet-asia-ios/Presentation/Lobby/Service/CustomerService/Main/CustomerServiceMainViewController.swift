@@ -19,10 +19,6 @@ final class CustomerServiceMainViewController: LobbyViewController {
     binding()
   }
   
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
-  
   private func setupUI() {
     router.vc = self
     

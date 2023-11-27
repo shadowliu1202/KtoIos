@@ -311,13 +311,13 @@ extension AppDelegate {
 
     if keychain.getInstallDate() == nil {
       keychain.setInstallDate(now)
-      EventLogger.shared.brandNewInstall()
+      AnalyticsManager.brandNewInstall()
     }
     else {
       let lastInstallDay = keychain.getInstallDate()!
       keychain.setInstallDate(now)
       let surviveDay = lastInstallDay.betweenTwoDay(sencondDate: now)
-      EventLogger.shared.appReinstall(
+      AnalyticsManager.appReinstall(
         lastInstallDate: lastInstallDay.convertdateToUTC().toDateString(),
         surviveDay: surviveDay)
     }

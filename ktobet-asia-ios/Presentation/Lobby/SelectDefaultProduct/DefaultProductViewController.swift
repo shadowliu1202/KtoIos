@@ -25,7 +25,6 @@ class DefaultProductViewController: LobbyViewController {
   // MARK: LIFE CYCLE
   override func viewDidLoad() {
     super.viewDidLoad()
-    Logger.shared.info("\(type(of: self)) viewDidLoad.")
     defaultStyle()
   }
 

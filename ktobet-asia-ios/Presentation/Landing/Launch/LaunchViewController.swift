@@ -11,7 +11,6 @@ class LaunchViewController: UIViewController {
   }
 
   deinit {
-    Logger.shared.info("\(type(of: self)) deinit.")
     CustomServicePresenter.shared.initService()
   }
 

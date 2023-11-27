@@ -36,10 +36,6 @@ class WithdrawalCryptoWalletsViewController:
     setupUI()
     binding()
   }
-
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
 }
 
 // MARK: - UI

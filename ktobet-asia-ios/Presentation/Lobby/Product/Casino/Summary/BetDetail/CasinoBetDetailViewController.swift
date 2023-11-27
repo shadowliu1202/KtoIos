@@ -16,15 +16,10 @@ class CasinoBetDetailViewController: LobbyViewController {
     self.wagerID = wagerID
       
     super.init(nibName: nil, bundle: nil)
-    Logger.shared.info("\(type(of: self)) init")
   }
     
   required init?(coder _: NSCoder) {
     fatalError("init(coder:) has not been implemented")
-  }
-  
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
   }
     
   override func viewDidLoad() {

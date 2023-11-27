@@ -15,14 +15,8 @@ class P2PViewController: ProductsViewController {
 
   var barButtonItems: [UIBarButtonItem] = []
 
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
-
   override func viewDidLoad() {
     super.viewDidLoad()
-
-    Logger.shared.info("\(type(of: self)) viewDidLoad.")
 
     setupUI()
     binding()

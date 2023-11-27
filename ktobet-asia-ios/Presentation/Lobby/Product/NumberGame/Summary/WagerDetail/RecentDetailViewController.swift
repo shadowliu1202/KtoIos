@@ -83,10 +83,6 @@ class RecentDetailViewController: LobbyViewController {
     circle.addSubview(label, constraints: .center)
     return circle
   }
-
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
 }
 
 extension RecentDetailViewController: UITableViewDataSource {

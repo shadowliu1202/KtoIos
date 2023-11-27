@@ -23,10 +23,6 @@ class SetMainPageViewController: LobbyViewController {
     dataBinding()
   }
 
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
-
   private func initUI() {
     let callback = methodPointer(obj: self, method: SetMainPageViewController.changeSelected(_:))
     sportbookView.setProductType(.sbk).setOnClick(callback)

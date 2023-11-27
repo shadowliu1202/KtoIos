@@ -9,10 +9,6 @@ class SettingsViewController: LobbyViewController, SettingsTableDelegate {
     NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back)
   }
 
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
-
   override func prepare(for segue: UIStoryboardSegue, sender _: Any?) {
     if
       segue.identifier == SettingsViewController.embedSegue,

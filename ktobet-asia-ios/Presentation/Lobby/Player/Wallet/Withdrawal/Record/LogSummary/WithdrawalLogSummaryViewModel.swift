@@ -63,10 +63,6 @@ class WithdrawalLogSummaryViewModel:
         }
       })
   }
-
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
   
   func buildSections(_ records: [WithdrawalDto.GroupLog]) -> [Section] {
     regrouping(

@@ -68,10 +68,6 @@ class DepositOfflineConfirmViewModel:
       })
       .disposed(by: disposeBag)
   }
-
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
 }
 
 // MARK: - API
