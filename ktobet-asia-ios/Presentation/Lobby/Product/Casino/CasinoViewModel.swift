@@ -91,10 +91,6 @@ class CasinoViewModel: CollectErrorViewModel, ProductViewModel {
     let gameFilters: [GameFilter] = gameTags.map({ GameFilter.Tag(tag: GameTag(type: $0.id, name: $0.name)) })
     memoryCache.setGameTag(.casinoGameTag, gameFilters)
   }
-
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
 }
 
 // MARK: - Game

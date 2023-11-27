@@ -41,10 +41,6 @@ class WithdrawalFiatRequestStep2ViewModel:
     self.supportLocale = playerConfig.supportLocale
   }
 
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
-
   func prepareForAppear(wallet: WithdrawalDto.FiatWallet, amount: String) {
     self.wallet = wallet
     self.amount = amount

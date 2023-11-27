@@ -26,14 +26,8 @@ class CasinoViewController: DisplayProduct {
 
   var viewModel = Injectable.resolveWrapper(CasinoViewModel.self)
 
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
-
   override func viewDidLoad() {
     super.viewDidLoad()
-
-    Logger.shared.info("\(type(of: self)) viewDidLoad.")
 
     setupUI()
     binding()

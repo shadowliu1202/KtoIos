@@ -68,7 +68,7 @@ class AuthenticationUseCaseImpl: AuthenticationUseCase {
     let now = Date().convertdateToUTC()
     let lastDay = localStorageRepo.getLastLoginDate()?.convertdateToUTC()
     if lastDay?.betweenTwoDay(sencondDate: now) != 0 {
-      EventLogger.shared.playerLogin()
+      AnalyticsManager.playerLogin()
       localStorageRepo.setLastLoginDate(now)
     }
   }
@@ -77,8 +77,8 @@ class AuthenticationUseCaseImpl: AuthenticationUseCase {
     .create { [weak self] completable -> Disposable in
       self?.repoAuth.deAuthorize()
       self?.settingStore.clearCache()
-      FirebaseLog.shared.clearUserID()
-      EventLogger.shared.log("Player_logout")
+      AnalyticsManager.clearUserID()
+      Logger.shared.info("Player_logout")
       self?.localStorageRepo.setPlayerInfo(nil)
       self?.localStorageRepo.setLastAPISuccessDate(nil)
       

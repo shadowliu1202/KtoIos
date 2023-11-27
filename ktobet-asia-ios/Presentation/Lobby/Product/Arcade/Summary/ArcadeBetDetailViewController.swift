@@ -20,7 +20,6 @@ class ArcadeBetDetailViewController: LobbyViewController {
   }
 
   deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
     viewModel.recordDetailPagination.elements.accept([])
   }
 

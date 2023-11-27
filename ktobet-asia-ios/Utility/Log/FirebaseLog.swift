@@ -2,20 +2,14 @@ import Firebase
 
 class FirebaseLog: LoggerDelegate {
   static let shared = FirebaseLog()
-
+  
   private init() { }
-
-  func setUserID(_ id: String) {
-    Crashlytics.crashlytics().setUserID(id)
-  }
-
-  func clearUserID() {
-    Crashlytics.crashlytics().setUserID("")
-  }
 
   func debug(_: String, tag _: String, function _: String, file _: String, line _: UInt) { }
 
-  func info(_: String, tag _: String, function _: String, file _: String, line _: UInt) { }
+  func info(_ message: String, tag _: String, function _: String, file _: String, line _: UInt) {
+    Crashlytics.crashlytics().log(message)
+  }
 
   func warning(_: String, tag _: String, function _: String, file _: String, line _: UInt) { }
 
@@ -28,7 +22,7 @@ class FirebaseLog: LoggerDelegate {
   {
     let log: [String: Any] = [
       "NetworkStatus": NetworkStateMonitor.shared.connectivityStatus.description,
-      "IP": getIP(),
+      "IP": getIP()
     ]
     .merging(customValues, uniquingKeysWith: { frist, _ in frist })
 

@@ -56,10 +56,6 @@ class DepositRecordDetailMainViewController: LobbyViewController {
     }
   }
 
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
-
   private func updateTransactionType() {
     viewModel
       .getDepositLog(displayId)

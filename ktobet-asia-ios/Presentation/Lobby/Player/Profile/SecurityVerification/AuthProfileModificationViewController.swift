@@ -96,10 +96,6 @@ class AuthProfileModificationViewController: LobbyViewController {
       },
       cancel: nil)
   }
-
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
 }
 
 extension AuthProfileModificationViewController: BarButtonItemable {

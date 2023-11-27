@@ -43,10 +43,6 @@ class SlotAllViewController: DisplayProduct {
       .disposed(by: disposeBag)
   }
 
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
-
   private func initUI() {
     dropDownView.setItems(dropDownItem)
     dropDownView.setSelectedItem(dropDownItem.first)

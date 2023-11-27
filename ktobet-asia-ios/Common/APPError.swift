@@ -10,6 +10,7 @@ extension APPError {
     case moyaError = -2
     case responseParseError = -3
     case navigationManagement = -4
+    case requestTimeout = -5
   }
 }
 

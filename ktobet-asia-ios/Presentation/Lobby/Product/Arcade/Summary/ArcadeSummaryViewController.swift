@@ -23,10 +23,6 @@ class ArcadeSummaryViewController: LobbyViewController {
     summaryDataHandler()
   }
 
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
-
   private func initUI() {
     tableView.rx.setDelegate(self).disposed(by: disposeBag)
     tableView.setHeaderFooterDivider()

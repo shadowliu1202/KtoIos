@@ -76,8 +76,4 @@ class NumberGameSummaryViewController: LobbyViewController {
       vc.additionalSafeAreaInsets = .init(top: headerView.frame.height, left: 0, bottom: 0, right: 0)
     }
   }
-
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
 }

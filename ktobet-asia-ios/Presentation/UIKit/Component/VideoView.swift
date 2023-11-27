@@ -26,7 +26,6 @@ class VideoView: UIView {
   deinit {
     self.observer?.invalidate()
     self.observer = nil
-    Logger.shared.info("\(type(of: self)) deinit")
   }
 
   func play(with url: URL) async throws {

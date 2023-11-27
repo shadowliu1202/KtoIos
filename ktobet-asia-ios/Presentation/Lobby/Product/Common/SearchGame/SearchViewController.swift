@@ -51,10 +51,6 @@ class SearchViewController: SearchProduct, UISearchBarDelegate {
       backgroundColor: UIColor.greyScaleDefault.withAlphaComponent(0.9))
   }
 
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
-
   private func initUI() {
     initSearchTitle()
     initEmptyStateView()

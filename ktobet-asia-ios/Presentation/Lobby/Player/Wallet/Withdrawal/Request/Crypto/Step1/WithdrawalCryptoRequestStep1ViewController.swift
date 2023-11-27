@@ -40,10 +40,6 @@ class WithdrawalCryptoRequestStep1ViewController:
     setupUI()
     binding()
   }
-
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
 }
 
 extension WithdrawalCryptoRequestStep1ViewController {

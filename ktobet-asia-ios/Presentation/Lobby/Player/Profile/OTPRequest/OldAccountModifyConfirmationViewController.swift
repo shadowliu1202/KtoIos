@@ -48,10 +48,6 @@ class OldAccountModifyConfirmationViewController: LobbyViewController {
     commonFailViewController.commonFailedType = delegate.oldAccountModifyArgs.failedType
     NavigationManagement.sharedInstance.pushViewController(vc: commonFailViewController)
   }
-
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
 }
 
 protocol OldAccountModifyProtocol {

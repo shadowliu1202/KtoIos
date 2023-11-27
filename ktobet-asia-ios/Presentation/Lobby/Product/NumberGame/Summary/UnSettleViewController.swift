@@ -94,10 +94,6 @@ class UnSettleViewController: UIViewController {
       }
     }
   }
-
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
 }
 
 extension UnSettleViewController: UITableViewDelegate {

@@ -21,10 +21,6 @@ class TurnoverAlertViewModel:
     self.locale = locale
   }
 
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
-
   func prepareForAppear(situation: TurnoverAlertDataModel.Situation, turnover: TurnOverDetail) {
     detail = .init(
       headerTitle: getHeaderTitle(

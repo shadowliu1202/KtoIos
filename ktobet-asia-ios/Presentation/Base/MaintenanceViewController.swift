@@ -26,7 +26,6 @@ class MaintenanceViewController: LobbyViewController {
 
   deinit {
     self.timer?.stop()
-    Logger.shared.info("\(type(of: self)) deinit")
   }
 
   private func getMaintainRemainTime() {

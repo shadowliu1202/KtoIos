@@ -67,7 +67,6 @@ class DepositOfflineConfirmViewController:
 
   deinit {
     Injectable.resetObjectScope(.depositFlow)
-    Logger.shared.info("\(type(of: self)) deinit")
   }
 }
 

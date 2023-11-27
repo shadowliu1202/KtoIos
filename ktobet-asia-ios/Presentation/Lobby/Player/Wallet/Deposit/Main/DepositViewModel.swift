@@ -25,10 +25,6 @@ class DepositViewModel: CollectErrorViewModel,
   init(depositService: IDepositAppService) {
     self.depositService = depositService
   }
-
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
 }
 
 // MARK: - API

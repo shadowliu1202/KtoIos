@@ -74,10 +74,6 @@ class ImagePickerViewController: UIViewController {
     footerView.isHidden = isHiddenFooterView
   }
 
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
-
   @IBAction
   private func upload(_: UIButton) {
     loading.setAppearance(isHidden: false)

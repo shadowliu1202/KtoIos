@@ -19,10 +19,6 @@ class CasinoSummaryViewController: LobbyViewController {
     bindingSummaryData()
     summaryDataHandler()
   }
-
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
   
   private func initUI() {
     NavigationManagement.sharedInstance.addBarButtonItem(

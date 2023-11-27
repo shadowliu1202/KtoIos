@@ -56,10 +56,6 @@ class DepositRecordDetailViewModel:
   func prepareForAppear(transactionId: String) {
     self.transactionId = transactionId
   }
-
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
 }
 
 // MARK: - API

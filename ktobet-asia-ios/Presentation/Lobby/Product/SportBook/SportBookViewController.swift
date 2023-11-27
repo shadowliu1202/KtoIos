@@ -22,13 +22,8 @@ class SportBookViewController: LobbyViewController {
 
   private var disposeBag = DisposeBag()
 
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
-
   override func viewDidLoad() {
     super.viewDidLoad()
-    Logger.shared.info("\(type(of: self)) viewDidLoad.")
 
     NavigationManagement.sharedInstance
       .addMenuToBarButtonItem(vc: self, title: Localize.string("common_sportsbook"))

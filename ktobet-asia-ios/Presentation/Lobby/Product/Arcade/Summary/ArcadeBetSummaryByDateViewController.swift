@@ -17,7 +17,6 @@ class ArcadeBetSummaryByDateViewController: LobbyViewController {
   }
 
   deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
     viewModel.recordByDatePagination.elements.accept([])
   }
 

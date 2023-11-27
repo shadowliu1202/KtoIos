@@ -12,10 +12,6 @@ class APPViewController: UIViewController {
   private let disposeBag = DisposeBag()
 
   let networkConnectRelay = BehaviorRelay<Bool>(value: true)
-
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
   
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -28,7 +24,7 @@ class APPViewController: UIViewController {
   
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)
-    EventLogger.shared.log("\(type(of: self))")
+    Logger.shared.info("\(type(of: self))")
   }
 
   func networkDidConnectedHandler() {

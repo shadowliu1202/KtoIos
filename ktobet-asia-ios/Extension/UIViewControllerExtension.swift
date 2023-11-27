@@ -29,7 +29,7 @@ extension UIViewController {
     switch error {
     case .unknown(let nsError):
       Logger.shared.error(nsError)
-      EventLogger.shared.log("Error_Occur")
+      Logger.shared.info("Error_Occur")
       showUnknownError(nsError.code)
       
     case .networkLost: showNetworkLost()

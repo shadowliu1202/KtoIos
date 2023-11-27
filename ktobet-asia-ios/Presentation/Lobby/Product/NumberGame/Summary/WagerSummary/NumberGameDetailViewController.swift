@@ -169,8 +169,4 @@ class NumberGameDetailViewController: LobbyViewController {
       }
     }).asObserver()
   }
-
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
 }

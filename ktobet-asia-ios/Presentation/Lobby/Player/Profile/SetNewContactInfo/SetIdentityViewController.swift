@@ -209,10 +209,6 @@ class SetIdentityViewController: LobbyViewController {
       NavigationManagement.sharedInstance.popToRootViewController()
     } cancel: { }
   }
-
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
 }
 
 protocol SetIdentityDelegate {

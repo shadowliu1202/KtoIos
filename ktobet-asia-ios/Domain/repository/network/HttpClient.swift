@@ -55,22 +55,24 @@ class HttpClient {
       session: .init(
         configuration: configuration,
         startRequestsImmediately: false),
-      plugins: [NetworkLoggerPlugin.debug()])
+      plugins: [
+        NetworkLoggerPlugin.debug(),
+        TimeoutRecorder()
+      ])
 
     self.retryProvider = provider ?? .init(
       session: .init(
         configuration: configuration,
         startRequestsImmediately: false,
         interceptor: APIRequestRetrier()),
-      plugins: [NetworkLoggerPlugin.debug()])
+      plugins: [
+        NetworkLoggerPlugin.debug(),
+        TimeoutRecorder()
+      ])
     
     configImageDownloader()
   }
 
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
-  
   private func configImageDownloader() {
     // Unit Test will fail without this check because headers use before stub in init().
     guard !Configuration.isTesting else { return }
@@ -204,10 +206,6 @@ private class APIRequestRetrier: Retrier {
         self?.retryEvents.removeAll()
       })
       .disposed(by: disposeBag)
-  }
-
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
   }
 
   override func retry(

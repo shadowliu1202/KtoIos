@@ -151,7 +151,6 @@ class NotificationSearchViewController: LobbyViewController {
   }
 
   deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
     NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
     NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
   }

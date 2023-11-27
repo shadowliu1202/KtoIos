@@ -41,10 +41,6 @@ class WithdrawalAddFiatBankCardViewController:
   func editNameAction(editable: Bool) {
     editable ? navigateToEditUsername() : showUsernameCannotEditAlert()
   }
-
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
 }
 
 extension WithdrawalAddFiatBankCardViewController {

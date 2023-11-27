@@ -44,13 +44,8 @@ class SlotViewController: ProductsViewController {
     return pagerView
   }()
 
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
-
   override func viewDidLoad() {
     super.viewDidLoad()
-    Logger.shared.info("\(type(of: self)) viewDidLoad.")
     NavigationManagement.sharedInstance.addMenuToBarButtonItem(vc: self)
     self.bind(position: .right, barButtonItems: .kto(.search), .kto(.favorite), .kto(.record))
     self.scrollView.addSubview(self.pagerView)

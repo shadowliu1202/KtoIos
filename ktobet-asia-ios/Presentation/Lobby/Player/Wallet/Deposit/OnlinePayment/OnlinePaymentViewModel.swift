@@ -36,10 +36,6 @@ class OnlinePaymentViewModel:
     self.playerConfiguration = playerConfiguration
   }
 
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
-
   func setupData(onlineDTO: PaymentsDTO.Online) {
     remitMethodName = onlineDTO.name
 

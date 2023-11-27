@@ -1579,15 +1579,6 @@
 		3CFFD45A2A24A196004B179F /* PromotionDropDownFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CFFD4522A24A196004B179F /* PromotionDropDownFilter.swift */; };
 		3CFFD45B2A24A196004B179F /* PromotionDropDownFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CFFD4522A24A196004B179F /* PromotionDropDownFilter.swift */; };
 		3D01375440F0609296BEF9DC /* Pods_ktobet_asia_ios_preprod.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 259EBEDD4AD22EE794241603 /* Pods_ktobet_asia_ios_preprod.framework */; };
-		3E53F4152B0C914900379978 /* ForceLocaleLocalStorageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E53F4142B0C914900379978 /* ForceLocaleLocalStorageRepository.swift */; };
-		3E53F4162B0C914900379978 /* ForceLocaleLocalStorageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E53F4142B0C914900379978 /* ForceLocaleLocalStorageRepository.swift */; };
-		3E53F4172B0C914900379978 /* ForceLocaleLocalStorageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E53F4142B0C914900379978 /* ForceLocaleLocalStorageRepository.swift */; };
-		3E53F4182B0C914900379978 /* ForceLocaleLocalStorageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E53F4142B0C914900379978 /* ForceLocaleLocalStorageRepository.swift */; };
-		3E53F4192B0C914900379978 /* ForceLocaleLocalStorageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E53F4142B0C914900379978 /* ForceLocaleLocalStorageRepository.swift */; };
-		3E53F41A2B0C914900379978 /* ForceLocaleLocalStorageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E53F4142B0C914900379978 /* ForceLocaleLocalStorageRepository.swift */; };
-		3E53F41B2B0C914900379978 /* ForceLocaleLocalStorageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E53F4142B0C914900379978 /* ForceLocaleLocalStorageRepository.swift */; };
-		3E53F41C2B0C914900379978 /* ForceLocaleLocalStorageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E53F4142B0C914900379978 /* ForceLocaleLocalStorageRepository.swift */; };
-		3E53F41D2B0C914900379978 /* ForceLocaleLocalStorageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E53F4142B0C914900379978 /* ForceLocaleLocalStorageRepository.swift */; };
 		3E172FA82B04D31D00E7C908 /* SurveyViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E172FA72B04D31D00E7C908 /* SurveyViewTests.swift */; };
 		3E5196182AFE143A00E4A493 /* PrechatSurveyViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E5196172AFE143A00E4A493 /* PrechatSurveyViewControllerTests.swift */; };
 		3E51963A2AFE1ABE00E4A493 /* PrechatSurveyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E5196372AFE1ABE00E4A493 /* PrechatSurveyViewController.swift */; };
@@ -1621,6 +1612,15 @@
 		3E5196572B01C28E00E4A493 /* InspectWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E5196552B01C28E00E4A493 /* InspectWrapper.swift */; };
 		3E5196592B01D0A400E4A493 /* PrechatSurveyViewModelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E5196582B01D0A400E4A493 /* PrechatSurveyViewModelTest.swift */; };
 		3E51965B2B01D0EF00E4A493 /* PrechatSurveyViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E51965A2B01D0EF00E4A493 /* PrechatSurveyViewTests.swift */; };
+		3E53F4152B0C914900379978 /* ForceLocaleLocalStorageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E53F4142B0C914900379978 /* ForceLocaleLocalStorageRepository.swift */; };
+		3E53F4162B0C914900379978 /* ForceLocaleLocalStorageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E53F4142B0C914900379978 /* ForceLocaleLocalStorageRepository.swift */; };
+		3E53F4172B0C914900379978 /* ForceLocaleLocalStorageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E53F4142B0C914900379978 /* ForceLocaleLocalStorageRepository.swift */; };
+		3E53F4182B0C914900379978 /* ForceLocaleLocalStorageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E53F4142B0C914900379978 /* ForceLocaleLocalStorageRepository.swift */; };
+		3E53F4192B0C914900379978 /* ForceLocaleLocalStorageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E53F4142B0C914900379978 /* ForceLocaleLocalStorageRepository.swift */; };
+		3E53F41A2B0C914900379978 /* ForceLocaleLocalStorageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E53F4142B0C914900379978 /* ForceLocaleLocalStorageRepository.swift */; };
+		3E53F41B2B0C914900379978 /* ForceLocaleLocalStorageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E53F4142B0C914900379978 /* ForceLocaleLocalStorageRepository.swift */; };
+		3E53F41C2B0C914900379978 /* ForceLocaleLocalStorageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E53F4142B0C914900379978 /* ForceLocaleLocalStorageRepository.swift */; };
+		3E53F41D2B0C914900379978 /* ForceLocaleLocalStorageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E53F4142B0C914900379978 /* ForceLocaleLocalStorageRepository.swift */; };
 		3E6D05332ADD1F55004327D0 /* HttpClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E6D05322ADD1F55004327D0 /* HttpClientTests.swift */; };
 		3E8069082B049B500003108E /* ExitSurveyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E8069052B049B500003108E /* ExitSurveyViewController.swift */; };
 		3E8069092B049B500003108E /* ExitSurveyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E8069052B049B500003108E /* ExitSurveyViewController.swift */; };
@@ -1667,16 +1667,6 @@
 		3E8B264A2AE233A10080F0F4 /* TappableTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E8B26432AE233A10080F0F4 /* TappableTextView.swift */; };
 		3E8B264B2AE233A10080F0F4 /* TappableTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E8B26432AE233A10080F0F4 /* TappableTextView.swift */; };
 		3E8B264C2AE233A10080F0F4 /* TappableTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E8B26432AE233A10080F0F4 /* TappableTextView.swift */; };
-		3EBB32B42B0CA16A00A9203F /* AppLocaleInitializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBB32B32B0CA16A00A9203F /* AppLocaleInitializer.swift */; };
-		3EBB32B52B0CA16A00A9203F /* AppLocaleInitializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBB32B32B0CA16A00A9203F /* AppLocaleInitializer.swift */; };
-		3EBB32B62B0CA16A00A9203F /* AppLocaleInitializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBB32B32B0CA16A00A9203F /* AppLocaleInitializer.swift */; };
-		3EBB32B72B0CA16A00A9203F /* AppLocaleInitializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBB32B32B0CA16A00A9203F /* AppLocaleInitializer.swift */; };
-		3EBB32B82B0CA16A00A9203F /* AppLocaleInitializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBB32B32B0CA16A00A9203F /* AppLocaleInitializer.swift */; };
-		3EBB32B92B0CA16A00A9203F /* AppLocaleInitializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBB32B32B0CA16A00A9203F /* AppLocaleInitializer.swift */; };
-		3EBB32BA2B0CA16A00A9203F /* AppLocaleInitializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBB32B32B0CA16A00A9203F /* AppLocaleInitializer.swift */; };
-		3EBB32BB2B0CA16A00A9203F /* AppLocaleInitializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBB32B32B0CA16A00A9203F /* AppLocaleInitializer.swift */; };
-		3EBB32BC2B0CA16A00A9203F /* AppLocaleInitializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBB32B32B0CA16A00A9203F /* AppLocaleInitializer.swift */; };
-		3EBB32BE2B0CAB3B00A9203F /* LocalizeUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBB32BD2B0CAB3B00A9203F /* LocalizeUtilsTests.swift */; };
 		3E9E85A22B0315C000297849 /* SurveyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E9E85A12B0315C000297849 /* SurveyView.swift */; };
 		3E9E85A32B0315C000297849 /* SurveyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E9E85A12B0315C000297849 /* SurveyView.swift */; };
 		3E9E85A42B0315C000297849 /* SurveyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E9E85A12B0315C000297849 /* SurveyView.swift */; };
@@ -1722,6 +1712,25 @@
 		3E9E85D02B035C6300297849 /* DropDownList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E9E85C92B035C6300297849 /* DropDownList.swift */; };
 		3E9E85D12B035C6300297849 /* DropDownList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E9E85C92B035C6300297849 /* DropDownList.swift */; };
 		3E9E85D22B035C6300297849 /* DropDownList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E9E85C92B035C6300297849 /* DropDownList.swift */; };
+		3EAD5B212B10775A0023B609 /* TimeoutRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EAD5B202B10775A0023B609 /* TimeoutRecorder.swift */; };
+		3EAD5B222B10775A0023B609 /* TimeoutRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EAD5B202B10775A0023B609 /* TimeoutRecorder.swift */; };
+		3EAD5B232B10775A0023B609 /* TimeoutRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EAD5B202B10775A0023B609 /* TimeoutRecorder.swift */; };
+		3EAD5B242B10775A0023B609 /* TimeoutRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EAD5B202B10775A0023B609 /* TimeoutRecorder.swift */; };
+		3EAD5B252B10775A0023B609 /* TimeoutRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EAD5B202B10775A0023B609 /* TimeoutRecorder.swift */; };
+		3EAD5B262B10775A0023B609 /* TimeoutRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EAD5B202B10775A0023B609 /* TimeoutRecorder.swift */; };
+		3EAD5B272B10775A0023B609 /* TimeoutRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EAD5B202B10775A0023B609 /* TimeoutRecorder.swift */; };
+		3EAD5B282B10775A0023B609 /* TimeoutRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EAD5B202B10775A0023B609 /* TimeoutRecorder.swift */; };
+		3EAD5B292B10775A0023B609 /* TimeoutRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EAD5B202B10775A0023B609 /* TimeoutRecorder.swift */; };
+		3EBB32B42B0CA16A00A9203F /* AppLocaleInitializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBB32B32B0CA16A00A9203F /* AppLocaleInitializer.swift */; };
+		3EBB32B52B0CA16A00A9203F /* AppLocaleInitializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBB32B32B0CA16A00A9203F /* AppLocaleInitializer.swift */; };
+		3EBB32B62B0CA16A00A9203F /* AppLocaleInitializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBB32B32B0CA16A00A9203F /* AppLocaleInitializer.swift */; };
+		3EBB32B72B0CA16A00A9203F /* AppLocaleInitializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBB32B32B0CA16A00A9203F /* AppLocaleInitializer.swift */; };
+		3EBB32B82B0CA16A00A9203F /* AppLocaleInitializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBB32B32B0CA16A00A9203F /* AppLocaleInitializer.swift */; };
+		3EBB32B92B0CA16A00A9203F /* AppLocaleInitializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBB32B32B0CA16A00A9203F /* AppLocaleInitializer.swift */; };
+		3EBB32BA2B0CA16A00A9203F /* AppLocaleInitializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBB32B32B0CA16A00A9203F /* AppLocaleInitializer.swift */; };
+		3EBB32BB2B0CA16A00A9203F /* AppLocaleInitializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBB32B32B0CA16A00A9203F /* AppLocaleInitializer.swift */; };
+		3EBB32BC2B0CA16A00A9203F /* AppLocaleInitializer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBB32B32B0CA16A00A9203F /* AppLocaleInitializer.swift */; };
+		3EBB32BE2B0CAB3B00A9203F /* LocalizeUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBB32BD2B0CAB3B00A9203F /* LocalizeUtilsTests.swift */; };
 		41077D9325BA62E30057B340 /* PlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60BCC2CF25B6D8AF00C56D6E /* PlayerViewModel.swift */; };
 		41077D9925BA63140057B340 /* KTOError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4139BA4725B01B0C00872D39 /* KTOError.swift */; };
 		41077D9F25BA63330057B340 /* LocalStorageRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 418C605A25B92E12009F7101 /* LocalStorageRepository.swift */; };
@@ -4452,19 +4461,19 @@
 		6D55C8A82965806B0038E8FB /* KeychainStorable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D55C8982965806A0038E8FB /* KeychainStorable.swift */; };
 		6D55C8A92965806B0038E8FB /* KeychainStorable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D55C8982965806A0038E8FB /* KeychainStorable.swift */; };
 		6D55C8AA2965806B0038E8FB /* KeychainStorable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D55C8982965806A0038E8FB /* KeychainStorable.swift */; };
-		6D55C8AC296580E90038E8FB /* EventLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D55C8AB296580E90038E8FB /* EventLogger.swift */; };
-		6D55C8AD296580E90038E8FB /* EventLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D55C8AB296580E90038E8FB /* EventLogger.swift */; };
-		6D55C8AE296580E90038E8FB /* EventLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D55C8AB296580E90038E8FB /* EventLogger.swift */; };
-		6D55C8AF296580E90038E8FB /* EventLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D55C8AB296580E90038E8FB /* EventLogger.swift */; };
-		6D55C8B1296580E90038E8FB /* EventLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D55C8AB296580E90038E8FB /* EventLogger.swift */; };
-		6D55C8B2296580E90038E8FB /* EventLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D55C8AB296580E90038E8FB /* EventLogger.swift */; };
-		6D55C8B3296580E90038E8FB /* EventLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D55C8AB296580E90038E8FB /* EventLogger.swift */; };
-		6D55C8B4296580E90038E8FB /* EventLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D55C8AB296580E90038E8FB /* EventLogger.swift */; };
+		6D55C8AC296580E90038E8FB /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D55C8AB296580E90038E8FB /* AnalyticsManager.swift */; };
+		6D55C8AD296580E90038E8FB /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D55C8AB296580E90038E8FB /* AnalyticsManager.swift */; };
+		6D55C8AE296580E90038E8FB /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D55C8AB296580E90038E8FB /* AnalyticsManager.swift */; };
+		6D55C8AF296580E90038E8FB /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D55C8AB296580E90038E8FB /* AnalyticsManager.swift */; };
+		6D55C8B1296580E90038E8FB /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D55C8AB296580E90038E8FB /* AnalyticsManager.swift */; };
+		6D55C8B2296580E90038E8FB /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D55C8AB296580E90038E8FB /* AnalyticsManager.swift */; };
+		6D55C8B3296580E90038E8FB /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D55C8AB296580E90038E8FB /* AnalyticsManager.swift */; };
+		6D55C8B4296580E90038E8FB /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D55C8AB296580E90038E8FB /* AnalyticsManager.swift */; };
 		6D55C8B52965810E0038E8FB /* UITestAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFDBCF52290FD97000C0735F /* UITestAdapter.swift */; };
 		6D55C8B629658DAA0038E8FB /* KeychainStorable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D55C8982965806A0038E8FB /* KeychainStorable.swift */; };
 		6D55C8B729658DAD0038E8FB /* LocalStorable.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFC6B8B92907BB6C002D843B /* LocalStorable.swift */; };
 		6D55C8B829658DB90038E8FB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485DF03B25415453001F9D4A /* AppDelegate.swift */; };
-		6D55C8B929658DC10038E8FB /* EventLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D55C8AB296580E90038E8FB /* EventLogger.swift */; };
+		6D55C8B929658DC10038E8FB /* AnalyticsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D55C8AB296580E90038E8FB /* AnalyticsManager.swift */; };
 		6D55C8BA296661C80038E8FB /* APITarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4854640525675B1C00FF4B72 /* APITarget.swift */; };
 		6D55C8BB296661CF0038E8FB /* WebGameApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D09CEFC26BD1C5100695C65 /* WebGameApi.swift */; };
 		6D55C8BC296661F00038E8FB /* UserDefaultCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CCD218228F6942C00313212 /* UserDefaultCodable.swift */; };
@@ -7662,7 +7671,6 @@
 		3CFFD4482A249843004B179F /* FlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlowLayout.swift; sourceTree = "<group>"; };
 		3CFFD4522A24A196004B179F /* PromotionDropDownFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromotionDropDownFilter.swift; sourceTree = "<group>"; };
 		3D51ABCE22D9D883083050B3 /* Pods-ktobet-asia-iosUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-iosUITests.debug.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-iosUITests/Pods-ktobet-asia-iosUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		3E53F4142B0C914900379978 /* ForceLocaleLocalStorageRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForceLocaleLocalStorageRepository.swift; sourceTree = "<group>"; };
 		3E172FA72B04D31D00E7C908 /* SurveyViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyViewTests.swift; sourceTree = "<group>"; };
 		3E5196172AFE143A00E4A493 /* PrechatSurveyViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrechatSurveyViewControllerTests.swift; sourceTree = "<group>"; };
 		3E5196372AFE1ABE00E4A493 /* PrechatSurveyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrechatSurveyViewController.swift; sourceTree = "<group>"; };
@@ -7671,19 +7679,21 @@
 		3E5196552B01C28E00E4A493 /* InspectWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InspectWrapper.swift; sourceTree = "<group>"; };
 		3E5196582B01D0A400E4A493 /* PrechatSurveyViewModelTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrechatSurveyViewModelTest.swift; sourceTree = "<group>"; };
 		3E51965A2B01D0EF00E4A493 /* PrechatSurveyViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrechatSurveyViewTests.swift; sourceTree = "<group>"; };
+		3E53F4142B0C914900379978 /* ForceLocaleLocalStorageRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForceLocaleLocalStorageRepository.swift; sourceTree = "<group>"; };
 		3E6D05322ADD1F55004327D0 /* HttpClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpClientTests.swift; sourceTree = "<group>"; };
 		3E8069052B049B500003108E /* ExitSurveyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExitSurveyViewController.swift; sourceTree = "<group>"; };
 		3E8069062B049B500003108E /* ExitSurveyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExitSurveyView.swift; sourceTree = "<group>"; };
 		3E8069072B049B500003108E /* ExitSurveyViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExitSurveyViewModel.swift; sourceTree = "<group>"; };
 		3E8069232B04C4A40003108E /* SwiftUILoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUILoadingView.swift; sourceTree = "<group>"; };
 		3E8B26432AE233A10080F0F4 /* TappableTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TappableTextView.swift; sourceTree = "<group>"; };
-		3EBB32B32B0CA16A00A9203F /* AppLocaleInitializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLocaleInitializer.swift; sourceTree = "<group>"; };
-		3EBB32BD2B0CAB3B00A9203F /* LocalizeUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizeUtilsTests.swift; sourceTree = "<group>"; };
 		3E9E85A12B0315C000297849 /* SurveyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyView.swift; sourceTree = "<group>"; };
 		3E9E85AB2B03162100297849 /* SimpleOptionQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimpleOptionQuestion.swift; sourceTree = "<group>"; };
 		3E9E85B52B03162C00297849 /* MultipleOptionQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleOptionQuestion.swift; sourceTree = "<group>"; };
 		3E9E85BF2B03163700297849 /* DescriptionQuestion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptionQuestion.swift; sourceTree = "<group>"; };
 		3E9E85C92B035C6300297849 /* DropDownList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropDownList.swift; sourceTree = "<group>"; };
+		3EAD5B202B10775A0023B609 /* TimeoutRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeoutRecorder.swift; sourceTree = "<group>"; };
+		3EBB32B32B0CA16A00A9203F /* AppLocaleInitializer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppLocaleInitializer.swift; sourceTree = "<group>"; };
+		3EBB32BD2B0CAB3B00A9203F /* LocalizeUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizeUtilsTests.swift; sourceTree = "<group>"; };
 		41077DF025BA71D00057B340 /* UINavigationControllerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UINavigationControllerExtension.swift; sourceTree = "<group>"; };
 		4139BA4725B01B0C00872D39 /* KTOError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KTOError.swift; sourceTree = "<group>"; };
 		414930E625F3319D008F32C5 /* FilterPresentProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterPresentProtocol.swift; sourceTree = "<group>"; };
@@ -8082,7 +8092,7 @@
 		6D53B71427D85BB2007B7F8E /* TermsPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsPresenter.swift; sourceTree = "<group>"; };
 		6D55C8972965806A0038E8FB /* ApplicationStorable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ApplicationStorable.swift; sourceTree = "<group>"; };
 		6D55C8982965806A0038E8FB /* KeychainStorable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainStorable.swift; sourceTree = "<group>"; };
-		6D55C8AB296580E90038E8FB /* EventLogger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventLogger.swift; sourceTree = "<group>"; };
+		6D55C8AB296580E90038E8FB /* AnalyticsManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyticsManager.swift; sourceTree = "<group>"; };
 		6D5A033A28A4AC40005D0960 /* NumberGameAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberGameAdapter.swift; sourceTree = "<group>"; };
 		6D5A034428A511A8005D0960 /* ArcadeAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArcadeAdapter.swift; sourceTree = "<group>"; };
 		6D5A034E28AA39B9005D0960 /* GameTagStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameTagStackView.swift; sourceTree = "<group>"; };
@@ -8594,7 +8604,6 @@
 				3C2F124E28C0C58D0044CBA7 /* LoggerDelegate.swift */,
 				3CFC666128BF03F1006060FD /* PuppyLog.swift */,
 				6D0094F228C741D900A98D03 /* FirebaseLog.swift */,
-				6D55C8AB296580E90038E8FB /* EventLogger.swift */,
 				6DCCD5262A1628B800FACA12 /* WebViewSSLErrorLogger.swift */,
 			);
 			path = Log;
@@ -9498,6 +9507,14 @@
 			path = Component;
 			sourceTree = "<group>";
 		};
+		3E1B43072B10B19700279A4F /* Firebase */ = {
+			isa = PBXGroup;
+			children = (
+				6D55C8AB296580E90038E8FB /* AnalyticsManager.swift */,
+			);
+			path = Firebase;
+			sourceTree = "<group>";
+		};
 		3E9E85A02B0315A400297849 /* Component */ = {
 			isa = PBXGroup;
 			children = (
@@ -9507,6 +9524,14 @@
 				3E9E85BF2B03163700297849 /* DescriptionQuestion.swift */,
 			);
 			path = Component;
+			sourceTree = "<group>";
+		};
+		3EAD5B1F2B10772C0023B609 /* Moya */ = {
+			isa = PBXGroup;
+			children = (
+				3EAD5B202B10775A0023B609 /* TimeoutRecorder.swift */,
+			);
+			path = Moya;
 			sourceTree = "<group>";
 		};
 		4808020C25428EA50002AD41 /* ResetPassword */ = {
@@ -9876,6 +9901,8 @@
 		48702AD2255BE829000D94F5 /* Library */ = {
 			isa = PBXGroup;
 			children = (
+				3E1B43072B10B19700279A4F /* Firebase */,
+				3EAD5B1F2B10772C0023B609 /* Moya */,
 				6DAEA6352601DD3C00995A6E /* iOSDropDown */,
 				60095DAF25F5C42200F5DCE6 /* Koyomi */,
 			);
@@ -13330,7 +13357,7 @@
 				6D31CF95278837CD00DF920D /* APPViewController.swift in Sources */,
 				3CA0C0B629C1BC4400FD6ACF /* WithdrawalMainViewController.swift in Sources */,
 				FF890FAB29E541B10087F04E /* WithdrawalCryptoWalletsView.swift in Sources */,
-				6D55C8AD296580E90038E8FB /* EventLogger.swift in Sources */,
+				6D55C8AD296580E90038E8FB /* AnalyticsManager.swift in Sources */,
 				AC9AA4E02B03845A001D19B2 /* ChatHistoriesEditViewModel.swift in Sources */,
 				3C7E47DD2A5FD6BB00A22B79 /* P2PBetDetailViewController.swift in Sources */,
 				6D6E708727560307005D88A6 /* AccountPatternGeneratorFactory.swift in Sources */,
@@ -13814,6 +13841,7 @@
 				3CED7D0A2A5D52DF00479A9D /* PokerCardView.swift in Sources */,
 				601F0FD827D758250036D9C7 /* OldMobileVerifyViewController.swift in Sources */,
 				3CA0C0A229C042E500FD6ACF /* WithdrawalMainViewModelProtocol.swift in Sources */,
+				3EAD5B222B10775A0023B609 /* TimeoutRecorder.swift in Sources */,
 				6D9E58A2264140C500E6942A /* SlotSeeMoreViewController.swift in Sources */,
 				3C4994B229E52AA700A8829F /* LogHeader.swift in Sources */,
 				6D7C1D812779C38800D45654 /* MaintenanceViewController.swift in Sources */,
@@ -14145,7 +14173,7 @@
 				6083DC9727953C8000794145 /* ExternalStringServiceFactory.swift in Sources */,
 				FF77F0F329261D3E001BD5B5 /* PlayerConfigurationImpl.swift in Sources */,
 				6D31CF94278837CD00DF920D /* APPViewController.swift in Sources */,
-				6D55C8AC296580E90038E8FB /* EventLogger.swift in Sources */,
+				6D55C8AC296580E90038E8FB /* AnalyticsManager.swift in Sources */,
 				6D6E708627560307005D88A6 /* AccountPatternGeneratorFactory.swift in Sources */,
 				3C1DF74A299B86D6007E5EF4 /* OnlinePaymentViewModel.swift in Sources */,
 				6D1062CB2A00B58B0055C947 /* WithdrawalCryptoRequestStep2ViewModelProtocol.swift in Sources */,
@@ -14575,6 +14603,7 @@
 				FFC6B8AF2907BAEF002D843B /* UserDefaultsExtension.swift in Sources */,
 				6DE36B8926563BE30058A1BC /* UnSettleViewController.swift in Sources */,
 				3CFFD43F2A247678004B179F /* FavoriteGameEmptyStateView.swift in Sources */,
+				3EAD5B212B10775A0023B609 /* TimeoutRecorder.swift in Sources */,
 				6D4E8F7D28FE770C00D5AD03 /* PasteableTextField.swift in Sources */,
 				6D4083D7265212ED00BECD0E /* NumberGameRecordUseCase.swift in Sources */,
 				6034620B26327DC800F5D1D9 /* BetRecordTableViewCell.swift in Sources */,
@@ -15343,7 +15372,7 @@
 				3CC064BF287E7BF9008AAC09 /* StarMergerView.swift in Sources */,
 				609013232640EE7000419F8E /* CasinoApi.swift in Sources */,
 				FF80C9B129E67E1E00EBF4BB /* WithdrawalCryptoWalletDetailViewController.swift in Sources */,
-				6D55C8AE296580E90038E8FB /* EventLogger.swift in Sources */,
+				6D55C8AE296580E90038E8FB /* AnalyticsManager.swift in Sources */,
 				3CB20B6229964870003943FD /* MaintenanceViewModel.swift in Sources */,
 				FF77F0F529261F41001BD5B5 /* PlayerConfigurationImpl.swift in Sources */,
 				6D48BA442760847600C8DC2D /* CryptoGuideViewController.swift in Sources */,
@@ -15361,6 +15390,7 @@
 				609A0D3127589EC6003242AE /* TermsViewModel.swift in Sources */,
 				609013272640EE7000419F8E /* TableViewCell.swift in Sources */,
 				60FE05B827CDF63200B7914A /* SetEmailIdentity.swift in Sources */,
+				3EAD5B232B10775A0023B609 /* TimeoutRecorder.swift in Sources */,
 				3C4994B329E52AA700A8829F /* LogHeader.swift in Sources */,
 				3C4DAC3829680B0A00A48AE8 /* GeneralType.swift in Sources */,
 				3C7A415B2A0506BE00B9C619 /* VisibilityModifier.swift in Sources */,
@@ -16084,7 +16114,7 @@
 				60E5815627F190E4008CE5A9 /* SlotSummaryViewController.swift in Sources */,
 				3CC064C0287E7BF9008AAC09 /* StarMergerView.swift in Sources */,
 				60E5815727F190E4008CE5A9 /* CasinoApi.swift in Sources */,
-				6D55C8B1296580E90038E8FB /* EventLogger.swift in Sources */,
+				6D55C8B1296580E90038E8FB /* AnalyticsManager.swift in Sources */,
 				3CB20B6529964870003943FD /* MaintenanceViewModel.swift in Sources */,
 				FFBA843929E5332C0022FE6A /* WithdrawalRecordDetailViewModel.swift in Sources */,
 				FF77F0F629261F42001BD5B5 /* PlayerConfigurationImpl.swift in Sources */,
@@ -16102,6 +16132,7 @@
 				60E5816427F190E4008CE5A9 /* SetEmailIdentity.swift in Sources */,
 				3C4DAC3B29680B0A00A48AE8 /* GeneralType.swift in Sources */,
 				3C7E47CD2A5FD59200A22B79 /* CasinoStringServiceAdapter.swift in Sources */,
+				3EAD5B262B10775A0023B609 /* TimeoutRecorder.swift in Sources */,
 				60E5816727F190E4008CE5A9 /* LandingViewController.swift in Sources */,
 				60E5816827F190E4008CE5A9 /* CasinoRecordRepository.swift in Sources */,
 				3CCA7CDB29BB041D00750148 /* DepositAPI.swift in Sources */,
@@ -16569,7 +16600,7 @@
 				3C4431FE29233AEF0031B984 /* UseCouponPresenter.swift in Sources */,
 				6D0EDBDA28743FAC004A9E3C /* PlayerConfiguration.swift in Sources */,
 				FF8C267C29B9866F009523BE /* DepositLogSummaryViewModel.swift in Sources */,
-				6D55C8AF296580E90038E8FB /* EventLogger.swift in Sources */,
+				6D55C8AF296580E90038E8FB /* AnalyticsManager.swift in Sources */,
 				3CDF66E429ED3B430094BD1E /* WithdrawalOTPVerificationView.swift in Sources */,
 				3C4DAC2F29680AFB00A48AE8 /* CurrencyType.swift in Sources */,
 				6D0EDBDC28743FAC004A9E3C /* UIViewExtension.swift in Sources */,
@@ -16843,6 +16874,7 @@
 				6D0EDC9D28743FAC004A9E3C /* CustomerServiceIconViewWindow.swift in Sources */,
 				6D0EDC9E28743FAC004A9E3C /* SlotGame.swift in Sources */,
 				3CED7D0C2A5D52DF00479A9D /* PokerCardView.swift in Sources */,
+				3EAD5B242B10775A0023B609 /* TimeoutRecorder.swift in Sources */,
 				6D0EDCA028743FAC004A9E3C /* TermsViewModel.swift in Sources */,
 				6D0EDCA128743FAC004A9E3C /* TableViewCell.swift in Sources */,
 				3C4994B429E52AA700A8829F /* LogHeader.swift in Sources */,
@@ -17311,7 +17343,7 @@
 				6D0EDE3528744704004A9E3C /* PlayerConfiguration.swift in Sources */,
 				FF8C267F29B9866F009523BE /* DepositLogSummaryViewModel.swift in Sources */,
 				6DB67E0B29EE327400A3A40B /* WithdrawalCryptoRequestStep2ViewModel.swift in Sources */,
-				6D55C8B2296580E90038E8FB /* EventLogger.swift in Sources */,
+				6D55C8B2296580E90038E8FB /* AnalyticsManager.swift in Sources */,
 				3C4DAC3229680AFB00A48AE8 /* CurrencyType.swift in Sources */,
 				6D0EDE3728744704004A9E3C /* UIViewExtension.swift in Sources */,
 				6D0EDE3828744704004A9E3C /* DepositViewModel.swift in Sources */,
@@ -17436,7 +17468,6 @@
 				6D0EDE9128744704004A9E3C /* UnsettleGameDelegate.swift in Sources */,
 				FF8D273629CEDA5A00513EE5 /* WithdrawalLogSummaryViewController.swift in Sources */,
 				3E53F41B2B0C914900379978 /* ForceLocaleLocalStorageRepository.swift in Sources */,
-				6D0EDE9228744704004A9E3C /* PrechatServeyViewController.swift in Sources */,
 				3C37660329F111DF00180013 /* SharedOTPVerificationFailureView.swift in Sources */,
 				FF890FBA29E543060087F04E /* WithdrawalCryptoWalletsViewController.swift in Sources */,
 				6D0EDE9328744704004A9E3C /* SlotFilterViewController.swift in Sources */,
@@ -17585,6 +17616,7 @@
 				6D0EDEF628744704004A9E3C /* Decimal.swift in Sources */,
 				6D0EDEF728744704004A9E3C /* P2PRepository.swift in Sources */,
 				6D0EDEF828744704004A9E3C /* CustomerServiceIconViewWindow.swift in Sources */,
+				3EAD5B272B10775A0023B609 /* TimeoutRecorder.swift in Sources */,
 				3CED7D0F2A5D52DF00479A9D /* PokerCardView.swift in Sources */,
 				6D0EDEF928744704004A9E3C /* SlotGame.swift in Sources */,
 				6D0EDEFB28744704004A9E3C /* TermsViewModel.swift in Sources */,
@@ -18380,7 +18412,7 @@
 				6D966CE427FEE3FA006086B7 /* SlotSummaryViewController.swift in Sources */,
 				3CC064C1287E7BF9008AAC09 /* StarMergerView.swift in Sources */,
 				6D966CE527FEE3FA006086B7 /* CasinoApi.swift in Sources */,
-				6D55C8B3296580E90038E8FB /* EventLogger.swift in Sources */,
+				6D55C8B3296580E90038E8FB /* AnalyticsManager.swift in Sources */,
 				3CB20B6729964870003943FD /* MaintenanceViewModel.swift in Sources */,
 				FF77F0F729261F43001BD5B5 /* PlayerConfigurationImpl.swift in Sources */,
 				6D966CE627FEE3FA006086B7 /* CryptoGuideViewController.swift in Sources */,
@@ -18396,6 +18428,7 @@
 				3C4994B829E52AA700A8829F /* LogHeader.swift in Sources */,
 				3C4DAC3D29680B0A00A48AE8 /* GeneralType.swift in Sources */,
 				3C7E47CF2A5FD59200A22B79 /* CasinoStringServiceAdapter.swift in Sources */,
+				3EAD5B282B10775A0023B609 /* TimeoutRecorder.swift in Sources */,
 				6D966CF527FEE3FA006086B7 /* LandingViewController.swift in Sources */,
 				6D966CF627FEE3FA006086B7 /* CasinoRecordRepository.swift in Sources */,
 				3CCA7CDD29BB041D00750148 /* DepositAPI.swift in Sources */,
@@ -19121,7 +19154,7 @@
 				6D966F3127FEE416006086B7 /* SlotSummaryViewController.swift in Sources */,
 				3CC064C2287E7BF9008AAC09 /* StarMergerView.swift in Sources */,
 				6D966F3227FEE416006086B7 /* CasinoApi.swift in Sources */,
-				6D55C8B4296580E90038E8FB /* EventLogger.swift in Sources */,
+				6D55C8B4296580E90038E8FB /* AnalyticsManager.swift in Sources */,
 				3CB20B6829964870003943FD /* MaintenanceViewModel.swift in Sources */,
 				FFBA843C29E5332C0022FE6A /* WithdrawalRecordDetailViewModel.swift in Sources */,
 				FF77F0F829261F43001BD5B5 /* PlayerConfigurationImpl.swift in Sources */,
@@ -19137,6 +19170,7 @@
 				3C4994B929E52AA700A8829F /* LogHeader.swift in Sources */,
 				3CA0C0A929C042E500FD6ACF /* WithdrawalMainViewModelProtocol.swift in Sources */,
 				6D966F3D27FEE416006086B7 /* TermsViewModel.swift in Sources */,
+				3EAD5B292B10775A0023B609 /* TimeoutRecorder.swift in Sources */,
 				6D966F3E27FEE416006086B7 /* TableViewCell.swift in Sources */,
 				6D966F3F27FEE416006086B7 /* SetEmailIdentity.swift in Sources */,
 				3C4DAC3E29680B0A00A48AE8 /* GeneralType.swift in Sources */,
@@ -19618,7 +19652,7 @@
 				6D55C6BC29657DC30038E8FB /* UIImageExtension.swift in Sources */,
 				6D55C98D296662A50038E8FB /* SlotBetDetailViewController.swift in Sources */,
 				6D55C67F29657DA90038E8FB /* Constraint.swift in Sources */,
-				6D55C8B929658DC10038E8FB /* EventLogger.swift in Sources */,
+				6D55C8B929658DC10038E8FB /* AnalyticsManager.swift in Sources */,
 				6D55C8EE2966621F0038E8FB /* LocalizeUtils.swift in Sources */,
 				6D55C91D296662340038E8FB /* ReactiveExtension.swift in Sources */,
 				6D55C67C29657DA90038E8FB /* AccountMask.swift in Sources */,
@@ -19878,6 +19912,7 @@
 				6D55C8DA296662150038E8FB /* InputPassword.swift in Sources */,
 				3C4994B529E52AA700A8829F /* LogHeader.swift in Sources */,
 				3CED7D0D2A5D52DF00479A9D /* PokerCardView.swift in Sources */,
+				3EAD5B252B10775A0023B609 /* TimeoutRecorder.swift in Sources */,
 				3CA0C0A529C042E500FD6ACF /* WithdrawalMainViewModelProtocol.swift in Sources */,
 				6D55C84C29657ED00038E8FB /* PlayerApi.swift in Sources */,
 				3C7A415D2A0506BE00B9C619 /* VisibilityModifier.swift in Sources */,

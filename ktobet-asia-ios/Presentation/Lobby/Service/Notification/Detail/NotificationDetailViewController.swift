@@ -30,10 +30,6 @@ class NotificationDetailViewController: LobbyViewController, NotificationNavigat
     dateBinding()
   }
 
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
-
   private func dateBinding() {
     viewModel.setup()
     viewModel.input.selectedMessageId.onNext(data.messageId)

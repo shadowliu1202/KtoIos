@@ -22,7 +22,7 @@ class ReceiveMessage: ChatRoomVisitor {
       messageManager.update(unReadMessage: try ChatMapper.convert(bean: bean))
     }
     catch {
-      Logger.shared.info(error.localizedDescription)
+      Logger.shared.error(error)
     }
   }
   

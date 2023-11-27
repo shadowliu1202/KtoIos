@@ -52,10 +52,6 @@ class CasinoBetSummaryByDateViewController: LobbyViewController {
       .disposed(by: disposeBag)
   }
   
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
-  
   private func setupTableView(periodOfRecords: [PeriodOfRecord]) {
     sections = periodOfRecords.map { Section(periodOfRecord: $0) }
 

@@ -24,14 +24,6 @@ class CasinoBetDetailViewModel:
   
   private let disposeBag = DisposeBag()
   
-  override init() {
-    Logger.shared.info("\(type(of: self)) init")
-  }
-  
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
-  
   func setup(with wagerID: String) {
     bindBetDetail(wagerID)
   }

@@ -69,10 +69,6 @@ class NumberGameMyBetPageViewController: UIPageViewController {
     }
     return detailVC
   }
-
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
 }
 
 extension NumberGameMyBetPageViewController: UIPageViewControllerDataSource {

@@ -34,10 +34,6 @@ class SlotUnsettleRecordsViewController: ProductsViewController {
     viewModel.fetchUnsettledBetSummary()
   }
 
-  deinit {
-    Logger.shared.info("\(type(of: self)) deinit")
-  }
-
   private func initUI() {
     tableView.delegate = unsettleGameDelegate
     tableView.dataSource = self

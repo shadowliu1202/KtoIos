@@ -61,7 +61,7 @@ class IAuthRepositoryImpl: IAuthRepository {
 
   func authorize(_ account: String, _ password: String, _ captcha: Captcha) -> Single<LoginStatus> {
     api.login(account, password, captcha)
-      .do(onSubscribe: { EventLogger.shared.log("Login_onSubscribe") })
+      .do(onSubscribe: { Logger.shared.info("Login_onSubscribe") })
       .map { response -> LoginStatus in
         let tryStatus: LoginStatus.TryStatus = {
           switch response.data?.phase {
@@ -76,7 +76,7 @@ class IAuthRepositoryImpl: IAuthRepository {
         let isPlatformValid = response.data?.platformIsAvailable ?? false
       
         if tryStatus == .success {
-          EventLogger.shared.log("Player_login")
+          Logger.shared.info("Player_login")
         }
       
         return LoginStatus(status: tryStatus, isLocked: isLocked, isPlatformValid: isPlatformValid)
