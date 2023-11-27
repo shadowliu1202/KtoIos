@@ -60,7 +60,11 @@ class AuthenticationApi {
       method: .post,
       task: .requestJSONEncodable(para),
       header: httpClient.headers)
-    return httpClient.request(target).map(ResponseData<ILoginData>.self)
+    return httpClient.request(target)
+      .do(onSuccess: {
+        Logger.shared.info(($0.response?.headers.description) ?? "")
+      })
+      .map(ResponseData<ILoginData>.self)
   }
 
   func isLogged() -> Single<ResponseData<Bool>> {
