@@ -43,7 +43,9 @@ struct ChatHistoriesEditView<ViewModel>: View
       RecordList()
         .id(ChatHistoriesEditView.TestTag.list.rawValue)
       
-      DeleteButton()
+      DeleteButton(onTapDelete: {
+        onTapDelete?()
+        })
         .id(ChatHistoriesEditView.TestTag.deleteButton.rawValue)
     }
     .environmentObject(viewModel)
@@ -143,11 +145,14 @@ extension ChatHistoriesEditView {
   struct DeleteButton: View {
     @EnvironmentObject var viewModel: ViewModel
     
+    var onTapDelete: (() -> Void)?
+    
     var body: some View {
       PrimaryButton(
         title: viewModel.selectedHistories.deleteButtonText,
         action: {
           await viewModel.deleteHistories()
+          onTapDelete?()
         })
         .disabled(viewModel.selectedHistories.deleteCount == 0)
         .padding(.horizontal, 30)

@@ -14,6 +14,7 @@ class CallingViewModel:
 {
   @Published private(set) var chatRoomStatus: sharedbu.Connection.Status = sharedbu.Connection.StatusNotExist()
   @Published private(set) var currentNumber = 0
+  @Published private(set) var isCloseEnable = true
   
   @Published var showLeaveMessageAlert = false
   
@@ -56,17 +57,25 @@ class CallingViewModel:
   func closeChatRoom() {
     AnyPublisher.from(chatAppService.exit(forceExit: false))
       .receive(on: DispatchQueue.main)
+      .handleEvents(
+        receiveSubscription: { [unowned self] _ in
+        isCloseEnable = false
+      }, receiveCompletion: { [unowned self] _ in
+        isCloseEnable = true
+      }, receiveCancel: { [unowned self] in
+        isCloseEnable = true
+      })
       .sink(
-        receiveCompletion: { [weak self] completion in
+        receiveCompletion: { [unowned self] completion in
           switch completion {
           case .finished:
             break
           case .failure(let error):
-            self?.collectError(error)
+            collectError(error)
           }
         },
-        receiveValue: { [weak self] _ in
-          self?.showLeaveMessageAlert = true
+        receiveValue: { [unowned self] _ in
+          showLeaveMessageAlert = true
         })
       .store(in: &cancellables)
   }
