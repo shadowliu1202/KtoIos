@@ -5,7 +5,7 @@ import UIKit
 
 class CallingViewController: CommonViewController {
   @Injected private var viewModel: CallingViewModel
-  
+
   private var cancellables = Set<AnyCancellable>()
   
   var barButtonItems: [UIBarButtonItem] = []
@@ -56,7 +56,13 @@ class CallingViewController: CommonViewController {
       .store(in: &cancellables)
     
     viewModel.errors()
-      .sink(receiveValue: { [unowned self] in handleErrors($0) })
+      .sink(receiveValue: { [unowned self] in handleCallingErrors($0) })
+      .store(in: &cancellables)
+    
+    viewModel.$isCloseEnable
+      .sink(receiveValue: { [unowned self] in
+        navigationItem.leftBarButtonItem?.isEnabled = $0
+      })
       .store(in: &cancellables)
   }
   
@@ -64,14 +70,16 @@ class CallingViewController: CommonViewController {
     CustomServicePresenter.shared.switchToChatRoom(isRoot: false)
   }
   
-  private func handleError(_ error: Error) {
+  private func handleCallingErrors(_ error: Error) {
     switch error {
     case is ChatCheckGuestIPFail,
          is ChatRoomNotExist,
          is ServiceUnavailableException:
-      showLeaveMessageAlert()
+      viewModel.closeChatRoom()
+    case is ChatRoomIsCreated:
+      break
     default:
-      self.handleErrors(error)
+      handleErrors(error)
     }
   }
   
@@ -79,7 +87,7 @@ class CallingViewController: CommonViewController {
     Alert.shared.show(
       Localize.string("customerservice_stop_call_title"),
       Localize.string("customerservice_stop_call_content"),
-      confirm: { },
+      confirm: {},
       confirmText: Localize.string("common_continue"),
       cancel: { [unowned self] in
         viewModel.closeChatRoom()
