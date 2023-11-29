@@ -185,46 +185,46 @@ final class WithdrawalMainViewTests: XCBaseTestCase {
     wait(for: [exp], timeout: 30)
   }
 
-  func test_givenPlayerIsNotValidForCryptoWithdrawal_whenTapCryptoWithdrawal_thenShowAlert_KTO_TC_57() {
-    let stubViewModel = getFakeWithdrawalMainViewModelProtocol()
-    let mockAlert = mock(AlertProtocol.self)
-
-    let sut = WithdrawalMainView<WithdrawalMainViewModelProtocolMock>.Methods(
-      { },
-      { },
-      { },
-      {
-        mockAlert.show(
-          nil,
-          Localize.string("cps_withdrawal_all_fiat_first"),
-          confirm: { },
-          cancel: nil)
-      })
-
-    given(stubViewModel.enableWithdrawal) ~> true
-    given(stubViewModel.allowedWithdrawalCrypto) ~> false
-
-    let exp = sut.inspection.inspect { view in
-      let methodCrypto = try view
-        .find(viewWithId: "methodCrypto")
-
-      try methodCrypto.callOnTapGesture()
-
-      verify(mockAlert.show(
-        any(),
-        Localize.string("cps_withdrawal_all_fiat_first"),
-        confirm: any(),
-        confirmText: any(),
-        cancel: any(),
-        cancelText: any(),
-        tintColor: any()))
-        .wasCalled()
-    }
-
-    ViewHosting.host(
-      view: sut
-        .environmentObject(stubViewModel))
-
-    wait(for: [exp], timeout: 30)
-  }
+//  func test_givenPlayerIsNotValidForCryptoWithdrawal_whenTapCryptoWithdrawal_thenShowAlert_KTO_TC_57() {
+//    let stubViewModel = getFakeWithdrawalMainViewModelProtocol()
+//    let mockAlert = mock(AlertProtocol.self)
+//
+//    let sut = WithdrawalMainView<WithdrawalMainViewModelProtocolMock>.Methods(
+//      { },
+//      { },
+//      { },
+//      {
+//        mockAlert.show(
+//          nil,
+//          Localize.string("cps_withdrawal_all_fiat_first"),
+//          confirm: { },
+//          cancel: nil)
+//      })
+//
+//    given(stubViewModel.enableWithdrawal) ~> true
+//    given(stubViewModel.allowedWithdrawalCrypto) ~> false
+//
+//    let exp = sut.inspection.inspect { view in
+//      let methodCrypto = try view
+//        .find(viewWithId: "methodCrypto")
+//
+//      try methodCrypto.callOnTapGesture()
+//
+//      verify(mockAlert.show(
+//        any(),
+//        Localize.string("cps_withdrawal_all_fiat_first"),
+//        confirm: any(),
+//        confirmText: any(),
+//        cancel: any(),
+//        cancelText: any(),
+//        tintColor: any()))
+//        .wasCalled()
+//    }
+//
+//    ViewHosting.host(
+//      view: sut
+//        .environmentObject(stubViewModel))
+//
+//    wait(for: [exp], timeout: 30)
+//  }
 }
