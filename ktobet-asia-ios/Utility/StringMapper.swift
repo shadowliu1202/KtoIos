@@ -101,8 +101,7 @@ class StringMapper {
     switch supportLocale {
     case is SupportLocale.Vietnam:
       return tuple.map { "(\($0.shortName)) \($0.name)" }
-    case is SupportLocale.China,
-         is SupportLocale.Unknown:
+    case is SupportLocale.China:
       return tuple.map { $0.name }
     default:
       return []
@@ -111,13 +110,12 @@ class StringMapper {
 
   static func splitShortNameAndBankName(bankName: String, supportLocale: SupportLocale) -> String {
     switch supportLocale {
+    case is SupportLocale.China:
+      return bankName
     case is SupportLocale.Vietnam:
-      return bankName.components(separatedBy: ") ").last ?? bankName
-    case is SupportLocale.China,
-         is SupportLocale.Unknown:
       fallthrough
     default:
-      return bankName
+      return bankName.components(separatedBy: ") ").last ?? bankName
     }
   }
 }

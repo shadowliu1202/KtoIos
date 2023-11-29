@@ -254,13 +254,14 @@ final class Injection {
 
     container
       .register(PlayerConfiguration.self) { _ in
-        PlayerConfigurationImpl()
+        ForceLocalePlayerConfiguration(forceLocale: .Vietnam())
       }
 
     container
       .register(LocalStorageRepository.self) {
-        LocalStorageRepositoryImpl(
-          playerConfiguration: $0.resolveWrapper(PlayerConfiguration.self))
+        ForceLocaleLocalStorageRepository(
+          forceLocale: .Vietnam(),
+          $0.resolveWrapper(PlayerConfiguration.self))
       }
 
     container

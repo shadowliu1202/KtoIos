@@ -256,13 +256,12 @@ class OnlinePaymentViewModel:
 
   func getTerminateAlertMessage() -> String {
     switch playerConfiguration.supportLocale {
+    case is SupportLocale.China:
+      return Localize.string("deposit_online_terminate")
     case is SupportLocale.Vietnam:
-      return Localize.string("deposit_payment_terminate", remitMethodName)
-    case is SupportLocale.China,
-         is SupportLocale.Unknown:
       fallthrough
     default:
-      return Localize.string("deposit_online_terminate")
+      return Localize.string("deposit_payment_terminate", remitMethodName)
     }
   }
 }

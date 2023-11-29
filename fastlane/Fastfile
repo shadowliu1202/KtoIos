@@ -92,9 +92,9 @@ platform :ios do
 		when 'dev'
 			"com.kto.asia.qat-1"
 		when 'rc'
-			"com.kto.asia.stg"
+			"com.kto.asia.stg.vn"
 		when 'release'
-			"com.kto.asia"
+			"com.kto.asia.vn"
 		when 'hotfix'
 			"com.kto.asia.pre"
 		when 'selftest'
@@ -160,38 +160,8 @@ platform :ios do
 
   lane :buildIpaStaging  do |options|
     setupKeyStore()
-    buildIpaStgCN(options)
     buildIpaStgVN(options)
 	end
-
-  private_lane :buildIpaStgCN  do |options|
-    match(type: "adhoc", readonly: is_ci, app_identifier:"com.kto.asia.stg")
-    
-    SyncVersion(
-      plistPath: "ktobet-asia-ios/ktobet-asia-ios-staging-Info.plist",
-      buildVersion: options[:buildVersion],
-      appVersion: options[:appVersion])
-    
-    env = getEnviroment(preRelease: options[:releaseTarget])
-    versionNum = options[:appVersion]
-    
-    build_app(
-      scheme: "ktobet-asia-ios-staging",
-      workspace: "ktobet-asia-ios.xcworkspace",
-      include_symbols: true,
-      clean: true,
-      archive_path: "./output/#{env}.xcarchive",
-      output_directory: "#{versionNum}",
-      output_name: "kto-asia-#{versionNum}-staging-cn.ipa",
-      export_method: "ad-hoc",
-      export_options: {
-        method: "ad-hoc",
-      })
-            
-    upload_symbols_to_crashlytics(
-      dsym_path: "./#{versionNum}/kto-asia-#{versionNum}-staging-cn.app.dSYM.zip",
-      gsp_path:"./ktobet-asia-ios/Firebase/stg/GoogleService-Info.plist")
-  end
     
   private_lane :buildIpaStgVN  do |options|
     match(type: "adhoc", readonly: is_ci, app_identifier:"com.kto.asia.stg.vn")
@@ -200,7 +170,8 @@ platform :ios do
       plistPath: "ktobet-asia-ios/ktobet-asia-ios-staging-vn-Info.plist",
       buildVersion: options[:buildVersion],
       appVersion: options[:appVersion])
-    
+
+    env = getEnviroment(preRelease: options[:releaseTarget])
     versionNum = options[:appVersion]
     
     build_app(
@@ -208,6 +179,7 @@ platform :ios do
       workspace: "ktobet-asia-ios.xcworkspace",
       include_symbols: true,
       clean: true,
+      archive_path: "./output/#{env}.xcarchive",
       output_directory: "#{versionNum}",
       output_name: "kto-asia-#{versionNum}-staging-vn.ipa",
       export_method: "ad-hoc",
@@ -302,38 +274,8 @@ platform :ios do
 	
 	lane :buildIpaProduction do |options|
      setupKeyStore()
-     buildIpaProdCN(options)
      buildIpaProdVN(options)
 	end
- 
-  private_lane :buildIpaProdCN do |options|
-    match(type: "adhoc", readonly: is_ci, app_identifier:"com.kto.asia")
-    
-    SyncVersion(
-      plistPath: "ktobet-asia-ios/ktobet-asia-ios-production-Info.plist",
-      buildVersion: options[:buildVersion],
-      appVersion: options[:appVersion])
-      
-    env = getEnviroment(preRelease: options[:releaseTarget])
-    versionNum = options[:appVersion]
-    
-    build_app(
-      scheme: "ktobet-asia-ios-production",
-      workspace: "ktobet-asia-ios.xcworkspace",
-      include_symbols: true,
-      clean: true,
-      archive_path: "./output/#{env}.xcarchive",
-      output_directory: "#{versionNum}",
-      output_name: "kto-asia-#{versionNum}-prod-cn.ipa",
-      export_method: "ad-hoc",
-      export_options: {
-        method: "ad-hoc",
-      })
-                    
-    upload_symbols_to_crashlytics(
-      dsym_path: "./#{versionNum}/kto-asia-#{versionNum}-prod-cn.app.dSYM.zip",
-      gsp_path: "./ktobet-asia-ios/Firebase/prod/GoogleService-Info.plist")
-  end
     
   private_lane :buildIpaProdVN do |options|
     match(type: "adhoc", readonly: is_ci, app_identifier:"com.kto.asia.vn")
@@ -343,6 +285,7 @@ platform :ios do
       buildVersion: options[:buildVersion],
       appVersion: options[:appVersion])
 
+    env = getEnviroment(preRelease: options[:releaseTarget])
     versionNum = options[:appVersion]
     
     build_app(
@@ -350,6 +293,7 @@ platform :ios do
       workspace: "ktobet-asia-ios.xcworkspace",
       include_symbols: true,
       clean: true,
+      archive_path: "./output/#{env}.xcarchive",
       output_directory: "#{versionNum}",
       output_name: "kto-asia-#{versionNum}-prod-vn.ipa",
       export_method: "ad-hoc",

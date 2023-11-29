@@ -1,4 +1,3 @@
-
 import Firebase
 import FirebaseCore
 import IQKeyboardManagerSwift
@@ -63,7 +62,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       crashHandler()
     #endif
 
-    Theme.shared.changeEntireAPPFont(by: localStorageRepo.getSupportLocale())
+    AppLocaleInitializer(localStorageRepo).initLocale()
 
     sharedbu.Platform().debugBuild()
 

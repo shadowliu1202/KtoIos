@@ -237,15 +237,14 @@ extension Date {
     let dateFormatter = DateFormatter()
     
     switch supportLocale {
-    case is SupportLocale.Vietnam:
-      dateFormatter.locale = Locale(identifier: "en_US_POSIX")
-      dateFormatter.dateFormat = "yyyy/MM/dd (EEE) HH:mm:ss"
-    case is SupportLocale.China,
-         is SupportLocale.Unknown:
-      fallthrough
-    default:
+    case is SupportLocale.China:
       dateFormatter.locale = Locale(identifier: "zh_Hans_CN")
       dateFormatter.dateFormat = "yyyy/MM/dd (EEEEE) HH:mm:ss"
+    case is SupportLocale.Vietnam:
+      fallthrough
+    default:
+      dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+      dateFormatter.dateFormat = "yyyy/MM/dd (EEE) HH:mm:ss"
     }
     
     return dateFormatter.string(from: self)

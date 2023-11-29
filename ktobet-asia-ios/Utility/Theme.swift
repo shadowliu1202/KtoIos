@@ -10,26 +10,24 @@ final class Theme {
 
   func getDatePickerTitleLabel(by playerLocale: SupportLocale, _ koyomi: Koyomi) -> String {
     switch playerLocale {
+    case is SupportLocale.China:
+      return koyomi.currentDateString() + Localize.string("common_month")
     case is SupportLocale.Vietnam:
-      return Localize.string("common_month") + " " + koyomi.currentDateString(withFormat: "M") + "/" + koyomi
-        .currentDateString(withFormat: "yyyy")
-    case is SupportLocale.China,
-         is SupportLocale.Unknown:
       fallthrough
     default:
-      return koyomi.currentDateString() + Localize.string("common_month")
+      return Localize.string("common_month") + " " + koyomi.currentDateString(withFormat: "M") + "/" + koyomi
+        .currentDateString(withFormat: "yyyy")
     }
   }
 
   func getDateSegmentTitleFontSize(by playerLocale: SupportLocale) -> CGFloat {
     switch playerLocale {
+    case is SupportLocale.China:
+      return 14
     case is SupportLocale.Vietnam:
-      return 12
-    case is SupportLocale.China,
-         is SupportLocale.Unknown:
       fallthrough
     default:
-      return 14
+      return 12
     }
   }
 
@@ -40,13 +38,12 @@ final class Theme {
       Localize.string("common_select_month")
     ]
     switch playerLocale {
+    case is SupportLocale.China:
+      return dateSegmentTitle
     case is SupportLocale.Vietnam:
-      return insertNewLineBeforeLastWord(dateSegmentTitle)
-    case is SupportLocale.China,
-         is SupportLocale.Unknown:
       fallthrough
     default:
-      return dateSegmentTitle
+      return insertNewLineBeforeLastWord(dateSegmentTitle)
     }
   }
 
@@ -68,74 +65,51 @@ final class Theme {
 
   func getUIImage(name: String, by playerLocale: SupportLocale) -> UIImage {
     switch playerLocale {
+    case is SupportLocale.China:
+      return UIImage(named: name)!
     case is SupportLocale.Vietnam:
-      return UIImage(named: "\(name)-VN")!
-    case is SupportLocale.China,
-         is SupportLocale.Unknown:
       fallthrough
     default:
-      return UIImage(named: name)!
+      return UIImage(named: "\(name)-VN")!
     }
   }
 
   func getMonthCollectionViewCellTitle(_ month: Int, by playerLocale: SupportLocale) -> String {
     switch playerLocale {
+    case is SupportLocale.China:
+      return "\(month)\(Localize.string("common_month"))"
     case is SupportLocale.Vietnam:
-      return "\(month)"
-    case is SupportLocale.China,
-         is SupportLocale.Unknown:
       fallthrough
     default:
-      return "\(month)\(Localize.string("common_month"))"
+      return "\(month)"
     }
   }
 
   func getRemitterBankCardHeight(by playerLocale: SupportLocale) -> CGFloat {
     switch playerLocale {
+    case is SupportLocale.China:
+      return 60
     case is SupportLocale.Vietnam:
-      return 75
-    case is SupportLocale.China,
-         is SupportLocale.Unknown:
       fallthrough
     default:
-      return 60
+      return 75
     }
   }
 
   func getDefaultProductTextPadding(by playerLocale: SupportLocale) -> CGFloat {
     switch playerLocale {
+    case is SupportLocale.China:
+      return 24
     case is SupportLocale.Vietnam:
-      return 12
-    case is SupportLocale.China,
-         is SupportLocale.Unknown:
       fallthrough
     default:
-      return 24
+      return 12
     }
   }
 
   func changeEntireAPPFont(by playerLocale: SupportLocale) {
     switch playerLocale {
-    case is SupportLocale.Vietnam:
-      UILabel.appearance().substituteFontFamilyName = "HelveticaNeue"
-      UITextView.appearance().substituteFontFamilyName = "HelveticaNeue"
-      UITextField.appearance().substituteFontFamilyName = "HelveticaNeue"
-
-      let barAppearance = UINavigationBarAppearance()
-      barAppearance.configureWithTransparentBackground()
-      barAppearance.titleTextAttributes = [
-        .foregroundColor: UIColor.greyScaleWhite,
-        .font: UIFont(name: "HelveticaNeue-Bold", size: 16)!
-      ]
-      barAppearance.backgroundColor = UIColor.greyScaleDefault.withAlphaComponent(0.9)
-      UINavigationBar.appearance().isTranslucent = true
-      UINavigationBar.appearance().scrollEdgeAppearance = barAppearance
-      UINavigationBar.appearance().standardAppearance = barAppearance
-
-    case is SupportLocale.China,
-         is SupportLocale.Unknown:
-      fallthrough
-    default:
+    case is SupportLocale.China:
       UILabel.appearance().substituteFontFamilyName = "PingFangSC"
       UITextView.appearance().substituteFontFamilyName = "PingFangSC"
       UITextField.appearance().substituteFontFamilyName = "PingFangSC"
@@ -150,27 +124,32 @@ final class Theme {
       UINavigationBar.appearance().isTranslucent = true
       UINavigationBar.appearance().scrollEdgeAppearance = barAppearance
       UINavigationBar.appearance().standardAppearance = barAppearance
+      
+    case is SupportLocale.Vietnam:
+      fallthrough
+      
+    default:
+      UILabel.appearance().substituteFontFamilyName = "HelveticaNeue"
+      UITextView.appearance().substituteFontFamilyName = "HelveticaNeue"
+      UITextField.appearance().substituteFontFamilyName = "HelveticaNeue"
+
+      let barAppearance = UINavigationBarAppearance()
+      barAppearance.configureWithTransparentBackground()
+      barAppearance.titleTextAttributes = [
+        .foregroundColor: UIColor.greyScaleWhite,
+        .font: UIFont(name: "HelveticaNeue-Bold", size: 16)!
+      ]
+      barAppearance.backgroundColor = UIColor.greyScaleDefault.withAlphaComponent(0.9)
+      UINavigationBar.appearance().isTranslucent = true
+      UINavigationBar.appearance().scrollEdgeAppearance = barAppearance
+      UINavigationBar.appearance().standardAppearance = barAppearance
     }
   }
 
   func getSignupLanguageViewFont(by playerLocale: SupportLocale) -> [String: UIFont] {
     var fontDictionary: [String: UIFont]
     switch playerLocale {
-    case is SupportLocale.Vietnam:
-      fontDictionary = [
-        "btnNext": UIFont(name: "HelveticaNeue", size: 16)!,
-        "btnTerms": UIFont(name: "HelveticaNeue", size: 14)!,
-        "labTitle": UIFont(name: "HelveticaNeue-Light", size: 14)!,
-        "labDesc": UIFont(name: "HelveticaNeue", size: 24)!,
-        "labTermsTip": UIFont(name: "HelveticaNeue-Light", size: 12)!,
-        "btnTermsOfService": UIFont(name: "HelveticaNeue-Light", size: 12)!
-      ]
-
-      return fontDictionary
-    case is SupportLocale.China,
-         is SupportLocale.Unknown:
-      fallthrough
-    default:
+    case is SupportLocale.China:
       fontDictionary = [
         "btnNext": UIFont(name: "PingFangSC-Regular", size: 16)!,
         "btnTerms": UIFont(name: "PingFangSC-Regular", size: 14)!,
@@ -180,30 +159,40 @@ final class Theme {
         "btnTermsOfService": UIFont(name: "PingFangSC-Medium", size: 12)!
       ]
       return fontDictionary
+    case is SupportLocale.Vietnam:
+      fallthrough
+    default:
+      fontDictionary = [
+        "btnNext": UIFont(name: "HelveticaNeue", size: 16)!,
+        "btnTerms": UIFont(name: "HelveticaNeue", size: 14)!,
+        "labTitle": UIFont(name: "HelveticaNeue-Light", size: 14)!,
+        "labDesc": UIFont(name: "HelveticaNeue", size: 24)!,
+        "labTermsTip": UIFont(name: "HelveticaNeue-Light", size: 12)!,
+        "btnTermsOfService": UIFont(name: "HelveticaNeue-Light", size: 12)!
+      ]
+      return fontDictionary
     }
   }
 
   func getNavigationTitleFont(by playerLocale: SupportLocale) -> UIFont {
     switch playerLocale {
+    case is SupportLocale.China:
+      return UIFont(name: "PingFangSC-Semibold", size: 16)!
     case is SupportLocale.Vietnam:
-      return UIFont(name: "HelveticaNeue-Bold", size: 16)!
-    case is SupportLocale.China,
-         is SupportLocale.Unknown:
       fallthrough
     default:
-      return UIFont(name: "PingFangSC-Semibold", size: 16)!
+      return UIFont(name: "HelveticaNeue-Bold", size: 16)!
     }
   }
 
   func getTextFieldCellMaxLength(by playerLocale: SupportLocale) -> Int {
     switch playerLocale {
+    case is SupportLocale.China:
+      return 100
     case is SupportLocale.Vietnam:
-      return 300
-    case is SupportLocale.China,
-         is SupportLocale.Unknown:
       fallthrough
     default:
-      return 100
+      return 300
     }
   }
   
@@ -211,15 +200,14 @@ final class Theme {
   func getBetTimeWeekdayFormat(by playerLocale: SupportLocale) -> DateFormatter {
     let dateFormatter = DateFormatter()
     switch playerLocale {
-    case is SupportLocale.Vietnam:
-      dateFormatter.locale = Locale(identifier: "en_US_POSIX")
-      dateFormatter.dateFormat = "yyyy/MM/dd (EEE) HH:mm:ss"
-    case is SupportLocale.China,
-         is SupportLocale.Unknown:
-      fallthrough
-    default:
+    case is SupportLocale.China:
       dateFormatter.locale = Locale(identifier: "zh_Hans_CN")
       dateFormatter.dateFormat = "yyyy/MM/dd (EEEEE) HH:mm:ss"
+    case is SupportLocale.Vietnam:
+      fallthrough
+    default:
+      dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+      dateFormatter.dateFormat = "yyyy/MM/dd (EEE) HH:mm:ss"
     }
     return dateFormatter
   }
