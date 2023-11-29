@@ -201,6 +201,7 @@ extension WithdrawalMainView {
         methodCell(
           iconName: "IconPayWithdrawal",
           methodName: Localize.string("withdrawal_cash_withdrawal"),
+          isLastCell: true,
           isDisable: !viewModel.enableWithdrawal)
           .onTapGesture {
             guard let allowedWithdrawal = viewModel.allowedWithdrawalFiat
@@ -215,23 +216,25 @@ extension WithdrawalMainView {
           }
           .id(WithdrawalMainView.Identifier.methodFiat.rawValue)
 
-        methodCell(
-          iconName: "IconPayCrypto",
-          methodName: Localize.string("cps_crpyto_withdrawal"),
-          isLastCell: true,
-          isDisable: !viewModel.enableWithdrawal)
-          .onTapGesture {
-            guard let allowedWithdrawal = viewModel.allowedWithdrawalCrypto
-            else { return }
-
-            if allowedWithdrawal {
-              withdrawalOnAllowedCrypto()
+        if false {
+          methodCell(
+            iconName: "IconPayCrypto",
+            methodName: Localize.string("cps_crpyto_withdrawal"),
+            isLastCell: true,
+            isDisable: !viewModel.enableWithdrawal)
+            .onTapGesture {
+              guard let allowedWithdrawal = viewModel.allowedWithdrawalCrypto
+              else { return }
+            
+              if allowedWithdrawal {
+                withdrawalOnAllowedCrypto()
+              }
+              else {
+                withdrawalOnDisAllowedCrypto()
+              }
             }
-            else {
-              withdrawalOnDisAllowedCrypto()
-            }
-          }
-          .id(WithdrawalMainView.Identifier.methodCrypto.rawValue)
+            .id(WithdrawalMainView.Identifier.methodCrypto.rawValue)
+        }
 
         Separator()
       }
