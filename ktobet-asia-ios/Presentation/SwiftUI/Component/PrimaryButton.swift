@@ -10,12 +10,13 @@ struct PrimaryButton: View {
         Text(title)
           .frame(maxWidth: .infinity)
           .padding(10)
+          .frame(height: 48)
+          .localized(weight: .regular, size: 16, color: nil)
       },
       action: {
         await action()
       })
       .buttonStyle(.fill)
-      .localized(weight: .regular, size: 16, lineHeight: 24)
       .lineLimit(1)
   }
 }
