@@ -4,6 +4,7 @@ import UIKit
 
 protocol WithdrawalMainViewModelProtocol {
   var instruction: WithdrawalMainViewDataModel.Instruction? { get }
+  var methods: [WithdrawalDto.Method] { get }
   var recentRecords: [WithdrawalMainViewDataModel.Record]? { get }
 
   var enableWithdrawal: Bool { get }
@@ -38,3 +39,5 @@ struct WithdrawalMainViewDataModel {
     let color: UIColor
   }
 }
+
+extension WithdrawalDto.Method: Identifiable { }

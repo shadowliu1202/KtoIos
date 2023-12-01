@@ -40,41 +40,41 @@ class WebGameRepositoryImpl: WebGameRepository {
   func addFavorite(game: WebGameWithDuplicatable) -> Completable {
     api.addFavoriteGame(id: game.gameId)
       .do(onCompleted: { [weak self] in
-      defer { self?.lock.unlock() }
-      self?.lock.lock()
+        defer { self?.lock.unlock() }
+        self?.lock.lock()
       
-      guard let self else { return }
-      var copyValue = self.favoriteRecord.value
-      if let i = copyValue.firstIndex(where: { $0.gameId == game.gameId }) {
-        copyValue[i] = game.duplicate(isFavorite: true)
-      }
-      else {
-        let game = game.duplicate(isFavorite: true)
-        copyValue.append(game)
-      }
-      self.favoriteRecord.accept(copyValue)
-    })
-        .delay(.milliseconds(50), scheduler: MainScheduler.instance)
+        guard let self else { return }
+        var copyValue = self.favoriteRecord.value
+        if let i = copyValue.firstIndex(where: { $0.gameId == game.gameId }) {
+          copyValue[i] = game.duplicate(isFavorite: true)
+        }
+        else {
+          let game = game.duplicate(isFavorite: true)
+          copyValue.append(game)
+        }
+        self.favoriteRecord.accept(copyValue)
+      })
+      .delay(.milliseconds(50), scheduler: MainScheduler.instance)
   }
 
   func removeFavorite(game: WebGameWithDuplicatable) -> Completable {
     api.removeFavoriteGame(id: game.gameId)
       .do(onCompleted: { [weak self] in
-      defer { self?.lock.unlock() }
-      self?.lock.lock()
+        defer { self?.lock.unlock() }
+        self?.lock.lock()
       
-      guard let self else { return }
-      var copyValue = self.favoriteRecord.value
-      if let i = copyValue.firstIndex(where: { $0.gameId == game.gameId }) {
-        copyValue[i] = game.duplicate(isFavorite: false)
-      }
-      else {
-        let game = game.duplicate(isFavorite: false)
-        copyValue.append(game)
-      }
-      self.favoriteRecord.accept(copyValue)
-    })
-        .delay(.milliseconds(50), scheduler: MainScheduler.instance)
+        guard let self else { return }
+        var copyValue = self.favoriteRecord.value
+        if let i = copyValue.firstIndex(where: { $0.gameId == game.gameId }) {
+          copyValue[i] = game.duplicate(isFavorite: false)
+        }
+        else {
+          let game = game.duplicate(isFavorite: false)
+          copyValue.append(game)
+        }
+        self.favoriteRecord.accept(copyValue)
+      })
+      .delay(.milliseconds(50), scheduler: MainScheduler.instance)
   }
 
   func getFavorites() -> Observable<[WebGameWithDuplicatable]> {

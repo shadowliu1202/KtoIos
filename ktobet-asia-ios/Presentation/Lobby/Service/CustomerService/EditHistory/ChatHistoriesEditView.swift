@@ -45,8 +45,8 @@ struct ChatHistoriesEditView<ViewModel>: View
       
       DeleteButton(onTapDelete: {
         onTapDelete?()
-        })
-        .id(ChatHistoriesEditView.TestTag.deleteButton.rawValue)
+      })
+      .id(ChatHistoriesEditView.TestTag.deleteButton.rawValue)
     }
     .environmentObject(viewModel)
     .onInspected(inspection, self)

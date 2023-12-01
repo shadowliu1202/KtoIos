@@ -92,6 +92,6 @@ class CryptoAPI {
   }
   
   func getCryptoAvailable() -> Single<String> {
-    httpClient.requestJsonString(path: "/api/withdrawal/crypto-available", method: .get)
+    httpClient.requestJsonString(path: "api/withdrawal/crypto-available", method: .get)
   }
 }
