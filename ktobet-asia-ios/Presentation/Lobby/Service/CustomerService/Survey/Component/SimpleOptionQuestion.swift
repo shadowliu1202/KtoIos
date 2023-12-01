@@ -32,6 +32,7 @@ extension SurveyView {
               .frame(maxWidth: .infinity, alignment: .leading)
             
             Image("ArrowDropDown")
+              .rotationEffect(.degrees(isFocus ? 180 : 0))
           }
           .padding(.horizontal, 30)
           .padding(.vertical, 12)

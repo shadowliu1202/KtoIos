@@ -75,7 +75,7 @@ class CallingViewController: CommonViewController {
     case is ChatCheckGuestIPFail,
          is ChatRoomNotExist,
          is ServiceUnavailableException:
-      viewModel.closeChatRoom()
+      showStopCallingAlert()
     case is ChatRoomIsCreated:
       break
     default:
@@ -87,9 +87,10 @@ class CallingViewController: CommonViewController {
     Alert.shared.show(
       Localize.string("customerservice_stop_call_title"),
       Localize.string("customerservice_stop_call_content"),
-      confirm: {},
+      confirm: { },
       confirmText: Localize.string("common_continue"),
       cancel: { [unowned self] in
+        guard let _ = CustomServicePresenter.shared.topViewController as? CallingViewController else { return }
         viewModel.closeChatRoom()
       },
       cancelText: Localize.string("common_stop"))

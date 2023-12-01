@@ -36,16 +36,15 @@ struct DropDownList: View {
     self._isFocus = isFocus
   }
 
-  var list: some View {
+  var conversationList: some View {
     VStack(alignment: .leading, spacing: 0) {
       Image("Triangle16x8")
         .alignmentGuide(.leading, computeValue: { $0[.leading] - 20 })
         .visibility(isBaseComponentInTopSide ? .visible : .invisible)
-        .visibility(listStyle == .conversation ? .visible : .gone)
 
       ZStack {
         Color.from(.greyScaleToast)
-          .cornerRadius(listStyle == .conversation ? 8 : 0)
+          .cornerRadius(8)
 
         ScrollView(showsIndicators: false) {
           if items.isEmpty {
@@ -81,7 +80,41 @@ struct DropDownList: View {
         .rotationEffect(.degrees(180), anchor: .center)
         .alignmentGuide(.leading, computeValue: { $0[.leading] - 20 })
         .visibility(isBaseComponentInTopSide ? .invisible : .visible)
-        .visibility(listStyle == .conversation ? .visible : .gone)
+    }
+  }
+  
+  var rectangleList: some View {
+    VStack(alignment: .leading, spacing: 0) {
+      ZStack {
+        Color.from(.greyScaleToast)
+
+        if items.isEmpty {
+          Text(Localize.string("common_empty_data"))
+            .localized(weight: .regular, size: 16, color: .textSecondary)
+            .frame(height: 74)
+        }
+        else {
+          VStack(spacing: 0) {
+            ForEach(items, id: \.self) { item in
+              Text(item)
+                .localized(weight: .regular, size: 16, color: .textPrimary)
+                .padding(.vertical, 12)
+                .padding(.horizontal, 30)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .contentShape(Rectangle())
+                .onTapGesture {
+                  selectedItem = item
+
+                  isFocus = false
+                  UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                }
+            }
+            .id(DropDownList.Identifier.candidateWordList.rawValue)
+          }
+          .padding(.vertical, 12)
+        }
+      }
+      .zIndex(1)
     }
   }
   
@@ -101,16 +134,23 @@ struct DropDownList: View {
     }
     .positionDetect(result: $isBaseComponentInTopSide)
     .overlay(
-      list
-        .visibility(isFocus ? .visible : .gone)
-        .alignmentGuide(.top, computeValue: {
-          let offset: CGFloat = listStyle == .conversation ? 2 : 0
-          return $0[.top] - (baseComponentHeight + offset)
-        })
-        .alignmentGuide(.bottom, computeValue: {
-          let offset: CGFloat = listStyle == .conversation ? 2 : 0
-          return $0[.bottom] + (baseComponentHeight + offset)
-        }),
+      Group {
+        switch listStyle {
+        case .conversation:
+          conversationList
+        case .rectangle:
+          rectangleList
+        }
+      }
+      .visibility(isFocus ? .visible : .gone)
+      .alignmentGuide(.top, computeValue: {
+        let offset: CGFloat = listStyle == .conversation ? 2 : 0
+        return $0[.top] - (baseComponentHeight + offset)
+      })
+      .alignmentGuide(.bottom, computeValue: {
+        let offset: CGFloat = listStyle == .conversation ? 2 : 0
+        return $0[.bottom] + (baseComponentHeight + offset)
+      }),
       alignment: isBaseComponentInTopSide ? .top : .bottom)
     .onReceive(
       NotificationCenter.default.publisher(for: Notification.Name("TopSideDetectListShouldCollapse")),

@@ -14,9 +14,9 @@ struct PrimaryButton: View {
       action: {
         await action()
       })
-      .lineLimit(1)
       .buttonStyle(.fill)
-      .localized(weight: .regular, size: 16)
+      .localized(weight: .regular, size: 16, lineHeight: 24)
+      .lineLimit(1)
   }
 }
 

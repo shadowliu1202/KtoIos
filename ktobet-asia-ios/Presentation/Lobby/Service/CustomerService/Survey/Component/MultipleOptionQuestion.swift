@@ -75,6 +75,7 @@ extension SurveyView.MultipleOptionQuestion {
           Text(option.values)
             .localized(weight: .medium, size: 14, color: .greyScaleWhite)
             .frame(maxWidth: .infinity, alignment: .leading)
+            .fixedSize(horizontal: false, vertical: true)
           
           Image(isSelected ? "iconDoubleSelectionSelected24" : "iconDoubleSelectionEmpty24")
         }

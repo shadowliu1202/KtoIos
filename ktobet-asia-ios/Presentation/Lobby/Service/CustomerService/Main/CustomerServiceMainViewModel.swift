@@ -10,6 +10,7 @@ protocol CustomerServiceMainViewModelProtocol {
   func hasPreChatSurvey() async -> Bool
   func getMoreHistories()
   func refreshData()
+  func setup()
 }
 
 class CustomerServiceMainViewModel:
@@ -41,8 +42,9 @@ class CustomerServiceMainViewModel:
     self.chatAppService = chatAppService
     self.playerConfig = playerConfig
     self.surveyAppService = surveyAppService
-    super.init()
-    
+  }
+  
+  func setup() {
     getIsChatRoomExist()
   }
   
@@ -108,6 +110,6 @@ class CustomerServiceMainViewModel:
         }
       }
       .redirectErrors(to: self)
-      .waitFirst() ?? false
+      .valueWithoutError ?? false
   }
 }
