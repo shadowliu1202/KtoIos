@@ -57,6 +57,9 @@ struct CustomerServiceMainView<ViewModel>: View
           })
       }
     }
+    .onViewDidLoad {
+      viewModel.setup()
+    }
     .onAppear {
       viewModel.refreshData()
     }
@@ -100,7 +103,7 @@ extension CustomerServiceMainView {
             Text(Localize.string(lableTextKey))
               .id(CustomerServiceMainView.Identifier.title.rawValue)
           }
-          .padding(.init(top: 12, leading: 15, bottom: 12, trailing: 12))
+          .padding(.init(top: 12, leading: 15, bottom: 11, trailing: 12))
         },
         action: {
           await onTapButton?()
@@ -182,6 +185,7 @@ struct CustomerServiceMainView_Previews: PreviewProvider {
     func hasPreChatSurvey() async -> Bool { false }
     func getMoreHistories() { }
     func refreshData() { }
+    func setup() {}
   }
   
   static var previews: some View {

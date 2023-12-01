@@ -10,6 +10,7 @@ final class CustomerServiceMainViewController: LobbyViewController {
   
   private var cancellables = Set<AnyCancellable>()
   private var router = CustomerServiceMainRouter()
+  private var activityIndicator = UIActivityIndicatorView(style: .large)
   
   var barButtonItems: [UIBarButtonItem] = []
   
@@ -35,6 +36,13 @@ final class CustomerServiceMainViewController: LobbyViewController {
           didSelectRowAt(roomId: $0)
         })
     }, to: view)
+    
+    addIndicator()
+  }
+  
+  private func addIndicator() {
+    activityIndicator.center = self.view.center
+    view.addSubview(activityIndicator)
   }
 
   private func toServiceView(_ hasPrechat: Bool) {

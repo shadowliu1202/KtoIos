@@ -94,18 +94,19 @@ class Alert: AlertProtocol {
           confirm?()
         }
 
-        let cancelction = UIAlertAction(title: cancelText ?? Localize.string("common_cancel"), style: .cancel) { _ in
+        let cancelction = UIAlertAction(title: cancelText ?? Localize.string("common_cancel"), style: .default) { _ in
           self.removeBackgroundView()
           cancel?()
         }
 
         cancelction.setValue(tintColor ?? UIColor.primaryForLight, forKey: "titleTextColor")
         confirmAction.setValue(tintColor ?? UIColor.primaryForLight, forKey: "titleTextColor")
-        alert.addAction(confirmAction)
 
         if cancel != nil {
           alert.addAction(cancelction)
         }
+        
+        alert.addAction(confirmAction)
 
         topVc.present(alert, animated: true, completion: nil)
 
@@ -138,18 +139,19 @@ class Alert: AlertProtocol {
           confirm?()
         }
 
-        let cancelction = UIAlertAction(title: cancelText ?? Localize.string("common_cancel"), style: .cancel) { _ in
+        let cancelction = UIAlertAction(title: cancelText ?? Localize.string("common_cancel"), style: .default) { _ in
           self.removeBackgroundView()
           cancel?()
         }
 
         cancelction.setValue(tintColor ?? UIColor.primaryForLight, forKey: "titleTextColor")
         confirmAction.setValue(tintColor ?? UIColor.primaryForLight, forKey: "titleTextColor")
-        alert.addAction(confirmAction)
 
         if cancel != nil {
           alert.addAction(cancelction)
         }
+        
+        alert.addAction(confirmAction)
 
         topVc.present(alert, animated: true, completion: nil)
 

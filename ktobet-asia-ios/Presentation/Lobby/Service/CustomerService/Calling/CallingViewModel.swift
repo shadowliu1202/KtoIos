@@ -22,8 +22,6 @@ class CallingViewModel:
   
   private var cancellables = Set<AnyCancellable>()
   
-  @Injected private var csViewModel: CustomerServiceViewModel
-  
   init(_ chatAppService: IChatAppService) {
     self.chatAppService = chatAppService
     super.init()
