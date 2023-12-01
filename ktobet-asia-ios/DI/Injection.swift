@@ -168,11 +168,6 @@ final class Injection {
         return NumberGameApi(httpClient)
       }
     container
-      .register(OldWithdrawalAPI.self) { resolver in
-        let httpClient = resolver.resolveWrapper(HttpClient.self)
-        return OldWithdrawalAPI(httpClient)
-      }
-    container
       .register(P2PApi.self) { resolver in
         let httpClient = resolver.resolveWrapper(HttpClient.self)
         return P2PApi(httpClient)
@@ -186,11 +181,6 @@ final class Injection {
       .register(PromotionApi.self) { resolver in
         let httpClient = resolver.resolveWrapper(HttpClient.self)
         return PromotionApi(httpClient)
-      }
-    container
-      .register(TransactionLogApi.self) { resolver in
-        let httpClient = resolver.resolveWrapper(HttpClient.self)
-        return TransactionLogApi(httpClient)
       }
   }
 
@@ -279,22 +269,6 @@ final class Injection {
       .register(BankRepository.self) { resolver in
         let bankApi = resolver.resolveWrapper(BankApi.self)
         return BankRepositoryImpl(bankApi)
-      }
-
-    container
-      .register(WithdrawalRepository.self) { resolver in
-        let imageApi = resolver.resolveWrapper(ImageApi.self)
-        let oldWithdrawalAPI = resolver.resolveWrapper(OldWithdrawalAPI.self)
-        let repoBank = resolver.resolveWrapper(BankRepository.self)
-        let localStorageRepo = resolver.resolveWrapper(LocalStorageRepository.self)
-        let httpClient = resolver.resolveWrapper(HttpClient.self)
-
-        return WithdrawalRepositoryImpl(
-          imageApi: imageApi,
-          oldWithdrawalAPI: oldWithdrawalAPI,
-          bankRepository: repoBank,
-          localStorageRepo: localStorageRepo,
-          httpClient: httpClient)
       }
 
     container
@@ -407,12 +381,6 @@ final class Injection {
       .register(PromotionRepository.self) { resolver in
         let promotionApi = resolver.resolveWrapper(PromotionApi.self)
         return PromotionRepositoryImpl(promotionApi)
-      }
-
-    container
-      .register(TransactionLogRepository.self) { resolver in
-        let promotionApi = resolver.resolveWrapper(TransactionLogApi.self)
-        return TransactionLogRepositoryImpl(promotionApi)
       }
 
     container
@@ -529,13 +497,6 @@ final class Injection {
       }
 
     container
-      .register(WithdrawalUseCase.self) { resolver in
-        let repoWithdrawal = resolver.resolveWrapper(WithdrawalRepository.self)
-        let repoLocal = resolver.resolveWrapper(LocalStorageRepository.self)
-        return WithdrawalUseCaseImpl(repoWithdrawal, repoLocal)
-      }
-
-    container
       .register(BankUseCase.self) { resolver in
         let repoBank = resolver.resolveWrapper(BankRepository.self)
         return BankUseCaseImpl(repoBank)
@@ -621,13 +582,6 @@ final class Injection {
         return PromotionUseCaseImpl(
           repo,
           playerRepository: player)
-      }
-
-    container
-      .register(TransactionLogUseCase.self) { resolver in
-        let repo = resolver.resolveWrapper(TransactionLogRepository.self)
-        let player = resolver.resolveWrapper(PlayerRepository.self)
-        return TransactionLogUseCaseImpl(repo, player)
       }
 
     container
@@ -1114,6 +1068,16 @@ final class Injection {
           resolver.resolveWrapper(ISurveyAppService.self),
           resolver.resolveWrapper(PlayerConfiguration.self))
       }
+    
+    container
+      .register(TransactionLogViewModel.self) {
+        .init(
+          $0.resolveWrapper(ITransactionAppService.self),
+          $0.resolveWrapper(ICasinoMyBetAppService.self),
+          $0.resolveWrapper(IP2PAppService.self),
+          $0.resolveWrapper(PlayerConfiguration.self),
+          $0.resolveWrapper(PlayerRepository.self))
+      }
   }
 
   // MARK: - Singleton
@@ -1167,6 +1131,7 @@ final class Injection {
     registerCasinoModule()
     registerPromotionModule()
     registerP2PModule()
+    registerTransactionModule()
   }
 
   // MARK: - ExternalProtocol
@@ -1231,6 +1196,11 @@ final class Injection {
         CSHistoryAdapter(resolver.resolveWrapper(HttpClient.self))
       }
       .inObjectScope(.locale)
+    
+    container
+      .register(CashProtocol.self) {
+        CashAdapter($0.resolveWrapper(HttpClient.self))
+      }
   }
 
   // MARK: - ProductModule
@@ -1394,6 +1364,18 @@ final class Injection {
         playerConfiguration: resolver.resolveWrapper(PlayerConfiguration.self),
         stringSupporter: resolver.resolveWrapper(StringSupporter.self),
         externalStringService: resolver.resolveWrapper(ExternalStringService.self))
+    }
+  }
+  
+  // MARK: - TransactionModule
+  
+  func registerTransactionModule() {
+    container.register(ITransactionAppService.self) {
+      ProvideModule.shared.transactionAppService(
+        playerConfiguration: $0.resolveWrapper(PlayerConfiguration.self),
+        cashProtocol: $0.resolveWrapper(CashProtocol.self),
+        stringSupporter: $0.resolveWrapper(StringSupporter.self),
+        transactionResource: TransactionResourceAdapter())
     }
   }
 }

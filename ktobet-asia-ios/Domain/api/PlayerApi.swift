@@ -210,19 +210,6 @@ class PlayerApi: ApiService {
   }
 
   // MARK: New
-  func _getCashLogSummary(begin: String, end: String, balanceLogFilterType: Int) -> Single<String> {
-    let target = APITarget(
-      baseUrl: httpClient.host,
-      path: "api/cash/transaction-summary",
-      method: .get,
-      task: .requestParameters(parameters: [
-        "createdDateRange.begin": begin,
-        "createdDateRange.end": end,
-        "balanceLogFilterType": balanceLogFilterType
-      ], encoding: URLEncoding.default),
-      header: httpClient.headers)
-    return httpClient.requestJsonString(target)
-  }
 
   func _getCashBalance() -> Single<String> {
     httpClient

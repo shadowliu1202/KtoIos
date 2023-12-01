@@ -3,7 +3,7 @@ import sharedbu
 import UIKit
 
 class TransactionLogViewController: LobbyViewController {
-  private let viewModel = TransactionLogViewModel()
+  @Injected private var viewModel: TransactionLogViewModel
 
   private lazy var flowCoordinator = TransactionFlowController(self, disposeBag: disposeBag)
 

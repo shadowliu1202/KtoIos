@@ -11,18 +11,15 @@ class DepositRecordDetailMainViewController: LobbyViewController {
   private let displayId: String
 
   private var paymentCurrencyType: PaymentLogDTO.PaymentCurrencyType?
-  private var transactionType: TransactionType?
 
   private(set) var target: UIViewController?
 
   init(
     displayId: String,
-    paymentCurrencyType: PaymentLogDTO.PaymentCurrencyType? = nil,
-    transactionType: TransactionType? = nil)
+    paymentCurrencyType: PaymentLogDTO.PaymentCurrencyType? = nil)
   {
     self.displayId = displayId
     self.paymentCurrencyType = paymentCurrencyType
-    self.transactionType = transactionType
 
     super.init(nibName: nil, bundle: nil)
   }
@@ -45,14 +42,7 @@ class DepositRecordDetailMainViewController: LobbyViewController {
     }
     else {
       // old flow
-      switch transactionType {
-      case .cryptodeposit?:
-        updateTransactionType()
-      case .deposit?:
-        addContainer(.fiat)
-      default:
-        updateTransactionType()
-      }
+      updateTransactionType()
     }
   }
 

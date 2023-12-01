@@ -26,7 +26,7 @@ final class OfflinePaymentViewModelTests: XCBaseTestCase {
     let stubNetworkFactory = mock(ExternalProtocolServiceFactory.self).initialize(dummyHttpClient)
 
     given(stubNetworkFactory.getDeposit()) ~> DepositAdapter(stubDepositAPI)
-    given(stubNetworkFactory.getCash()) ~> CashAdapter(PlayerApi(dummyHttpClient))
+    given(stubNetworkFactory.getCash()) ~> CashAdapter(dummyHttpClient)
     given(stubNetworkFactory.getImage()) ~> ImageAdapter(ImageApi(dummyHttpClient))
     given(stubNetworkFactory.getCommon()) ~> CommonAdapter(stubCommonAPI)
 
