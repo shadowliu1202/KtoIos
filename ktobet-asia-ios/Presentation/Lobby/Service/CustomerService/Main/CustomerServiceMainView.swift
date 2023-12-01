@@ -185,7 +185,7 @@ struct CustomerServiceMainView_Previews: PreviewProvider {
     func hasPreChatSurvey() async -> Bool { false }
     func getMoreHistories() { }
     func refreshData() { }
-    func setup() {}
+    func setup() { }
   }
   
   static var previews: some View {
