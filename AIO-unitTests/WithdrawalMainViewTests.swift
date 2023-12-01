@@ -21,6 +21,7 @@ final class WithdrawalMainViewTests: XCBaseTestCase {
     given(fakeViewModel.allowedWithdrawalFiat) ~> nil
     given(fakeViewModel.allowedWithdrawalCrypto) ~> nil
     given(fakeViewModel.setupData()) ~> { }
+    given(fakeViewModel.methods) ~> [.fiat, .crypto]
 
     return fakeViewModel
   }
@@ -160,6 +161,7 @@ final class WithdrawalMainViewTests: XCBaseTestCase {
 
     given(stubViewModel.enableWithdrawal) ~> true
     given(stubViewModel.allowedWithdrawalFiat) ~> false
+    given(stubViewModel.methods) ~> [.fiat]
 
     let exp = sut.inspection.inspect { view in
       let methodFiat = try view
@@ -201,6 +203,7 @@ final class WithdrawalMainViewTests: XCBaseTestCase {
           cancel: nil)
       })
 
+    given(stubViewModel.methods) ~> [.crypto]
     given(stubViewModel.enableWithdrawal) ~> true
     given(stubViewModel.allowedWithdrawalCrypto) ~> false
 

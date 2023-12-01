@@ -57,12 +57,12 @@ class CallingViewModel:
       .receive(on: DispatchQueue.main)
       .handleEvents(
         receiveSubscription: { [unowned self] _ in
-        isCloseEnable = false
-      }, receiveCompletion: { [unowned self] _ in
-        isCloseEnable = true
-      }, receiveCancel: { [unowned self] in
-        isCloseEnable = true
-      })
+          isCloseEnable = false
+        }, receiveCompletion: { [unowned self] _ in
+          isCloseEnable = true
+        }, receiveCancel: { [unowned self] in
+          isCloseEnable = true
+        })
       .sink(
         receiveCompletion: { [unowned self] completion in
           switch completion {

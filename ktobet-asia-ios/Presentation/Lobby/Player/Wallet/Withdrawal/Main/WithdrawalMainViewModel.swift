@@ -9,6 +9,7 @@ class WithdrawalMainViewModel:
   ObservableObject
 {
   @Published private(set) var instruction: WithdrawalMainViewDataModel.Instruction?
+  @Published private(set) var methods: [WithdrawalDto.Method] = []
   @Published private(set) var recentRecords: [WithdrawalMainViewDataModel.Record]?
 
   @Published private(set) var enableWithdrawal = false
@@ -30,6 +31,7 @@ class WithdrawalMainViewModel:
 
   func setupData() {
     getInstruction()
+    getMethods()
     getRecords()
   }
 
@@ -60,6 +62,16 @@ class WithdrawalMainViewModel:
           self?.errorsSubject
             .onNext(error)
         })
+      .disposed(by: disposeBag)
+  }
+  
+  private func getMethods() {
+    Single.from(withdrawalAppService.getMethods())
+      .map { $0 as! [WithdrawalDto.Method] }
+      .observe(on: MainScheduler.instance)
+      .subscribe(
+        onSuccess: { [unowned self] in methods = $0 },
+        onFailure: { [unowned self] in errorsSubject.onNext($0) })
       .disposed(by: disposeBag)
   }
 

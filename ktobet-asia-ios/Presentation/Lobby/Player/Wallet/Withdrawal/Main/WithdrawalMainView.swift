@@ -198,41 +198,52 @@ extension WithdrawalMainView {
       VStack(spacing: 0) {
         Separator()
 
-        methodCell(
-          iconName: "IconPayWithdrawal",
-          methodName: Localize.string("withdrawal_cash_withdrawal"),
-          isDisable: !viewModel.enableWithdrawal)
-          .onTapGesture {
-            guard let allowedWithdrawal = viewModel.allowedWithdrawalFiat
-            else { return }
+        ForEach(viewModel.methods) {
+          let isLast = viewModel.methods.last == $0
+          switch $0 {
+          case .fiat:
+            methodCell(
+              iconName: "IconPayWithdrawal",
+              methodName: Localize.string("withdrawal_cash_withdrawal"),
+              isLastCell: isLast,
+              isDisable: !viewModel.enableWithdrawal)
+              .onTapGesture {
+                guard let allowedWithdrawal = viewModel.allowedWithdrawalFiat
+                else { return }
 
-            if allowedWithdrawal {
-              withdrawalOnAllowedFiat()
-            }
-            else {
-              withdrawalOnDisAllowedFiat()
-            }
+                if allowedWithdrawal {
+                  withdrawalOnAllowedFiat()
+                }
+                else {
+                  withdrawalOnDisAllowedFiat()
+                }
+              }
+              .id(WithdrawalMainView.Identifier.methodFiat.rawValue)
+            
+          case .crypto:
+            methodCell(
+              iconName: "IconPayCrypto",
+              methodName: Localize.string("cps_crpyto_withdrawal"),
+              isLastCell: isLast,
+              isDisable: !viewModel.enableWithdrawal)
+              .onTapGesture {
+                guard let allowedWithdrawal = viewModel.allowedWithdrawalCrypto
+                else { return }
+
+                if allowedWithdrawal {
+                  withdrawalOnAllowedCrypto()
+                }
+                else {
+                  withdrawalOnDisAllowedCrypto()
+                }
+              }
+              .id(WithdrawalMainView.Identifier.methodCrypto.rawValue)
+            
+          default:
+            EmptyView()
           }
-          .id(WithdrawalMainView.Identifier.methodFiat.rawValue)
-
-        methodCell(
-          iconName: "IconPayCrypto",
-          methodName: Localize.string("cps_crpyto_withdrawal"),
-          isLastCell: true,
-          isDisable: !viewModel.enableWithdrawal)
-          .onTapGesture {
-            guard let allowedWithdrawal = viewModel.allowedWithdrawalCrypto
-            else { return }
-
-            if allowedWithdrawal {
-              withdrawalOnAllowedCrypto()
-            }
-            else {
-              withdrawalOnDisAllowedCrypto()
-            }
-          }
-          .id(WithdrawalMainView.Identifier.methodCrypto.rawValue)
-
+        }
+        
         Separator()
       }
       .id(WithdrawalMainView.Identifier.methods.rawValue)
@@ -371,6 +382,8 @@ struct WithdrawalMainView_Previews: PreviewProvider {
       dailyMaxCount: "5",
       turnoverRequirement: "仍需20,00",
       cryptoWithdrawalRequirement: ("1,003 ", "$"))
+    
+    @Published var methods: [WithdrawalDto.Method] = [.fiat, .crypto]
 
     @Published var recentRecords: [WithdrawalMainViewDataModel.Record]? = [
       .init(
