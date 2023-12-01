@@ -19,29 +19,23 @@ extension TransactionLogView.Sections: Inspecting { }
 extension TransactionLogView.Summary: Inspecting { }
 
 final class TransactionLogViewTests: XCBaseTestCase {
-  private let dummySubject = PassthroughSubject<TransactionLog, Never>()
+  private let dummySubject = PassthroughSubject<TransactionDTO.Log, Never>()
   
   private func buildDummyBetLog(
     amount: Int,
     displayName: String,
     date: Date = .init(),
     timeZone: Foundation.TimeZone = .current)
-    -> GeneralProduct
+    -> TransactionDTO.Log
   {
-    let dummyDetail = BalanceLogDetail(
-      afterBalance: .zero(),
+    let dummyLog = TransactionDTO.Log(
+      id: "1",
+      type: .general,
       amount: "\(amount)".toAccountCurrency(),
       date: date.toLocalDateTime(timeZone),
-      wagerMappingId: "",
-      productGroup: .UnSupport(),
-      productType: .none,
-      transactionType: .ProductBet(),
-      remark: .None(),
-      externalId: "")
-
-    let dummyLog = GeneralProduct(
-      transactionLog: dummyDetail,
-      displayName: .init(title: KNLazyCompanion().create(input: displayName)))
+      title: displayName,
+      detailId: "",
+      detailOption: .None())
 
     return dummyLog
   }
@@ -66,7 +60,7 @@ final class TransactionLogViewTests: XCBaseTestCase {
 
     let expectation = sut.inspection.inspect { view in
       let sections = try view
-        .view(LogSections<TransactionLog>.self)
+        .view(LogSections<TransactionDTO.Log>.self)
         .vStack()
         .forEach(0)
 
@@ -114,7 +108,7 @@ final class TransactionLogViewTests: XCBaseTestCase {
 
     let expectation = sut.inspection.inspect { view in
       let sections = try view
-        .view(LogSections<TransactionLog>.self)
+        .view(LogSections<TransactionDTO.Log>.self)
         .vStack()
         .forEach(0)
 
@@ -162,7 +156,7 @@ final class TransactionLogViewTests: XCBaseTestCase {
 
     let expectation = sut.inspection.inspect { view in
       let sections = try view
-        .view(LogSections<TransactionLog>.self)
+        .view(LogSections<TransactionDTO.Log>.self)
         .vStack()
         .forEach(0)
 
@@ -228,7 +222,12 @@ final class TransactionLogViewTests: XCBaseTestCase {
 
   func test_HasLogToday_SectionTitleIsToday() {
     let stubPlayerConfig = PlayerConfigurationImpl(supportLocale: .China())
-    let viewModel = TransactionLogViewModel()
+    let viewModel = TransactionLogViewModel(
+      mock(AbsTransactionAppService.self),
+      mock(AbsCasinoAppService.self),
+      mock(AbsP2PAppService.self),
+      mock(PlayerConfiguration.self),
+      mock(PlayerRepository.self))
 
     let stubSections = viewModel
       .buildSections([
@@ -262,7 +261,7 @@ final class TransactionLogViewTests: XCBaseTestCase {
 
     let expectation = sut.inspection.inspect { view in
       let sectionTitle = try view
-        .view(LogSections<TransactionLog>.self)
+        .view(LogSections<TransactionDTO.Log>.self)
         .vStack()
         .forEach(0)
         .tupleView(0)

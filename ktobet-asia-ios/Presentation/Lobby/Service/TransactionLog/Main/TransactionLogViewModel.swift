@@ -3,14 +3,14 @@ import RxSwift
 import sharedbu
 
 protocol TransactionLogViewModelProtocol {
-  typealias Section = LogSections<TransactionLog>.Model
+  typealias Section = LogSections<TransactionDTO.Log>.Model
 
   var summary: CashFlowSummary? { get }
   var sections: [Section]? { get }
   var isPageLoading: Bool { get }
   var dateType: DateType { get }
 
-  var pagination: Pagination<TransactionLog>! { get }
+  var pagination: Pagination<TransactionDTO.Log>! { get }
   var summaryRefreshTrigger: PublishSubject<Void> { get }
   
   func getSupportLocale() -> SupportLocale
@@ -31,26 +31,39 @@ class TransactionLogViewModel:
     fromDate: Date().adding(value: -6, byAdding: .day),
     toDate: Date())
 
-  @Injected private var transactionLogUseCase: TransactionLogUseCase
-  @Injected private var casinoMyBetAppService: ICasinoMyBetAppService
-  @Injected private var p2pAppService: IP2PAppService
-  @Injected private var playerConfig: PlayerConfiguration
+  private let transactionAppService: ITransactionAppService
+  private let casinoMyBetAppService: ICasinoMyBetAppService
+  private let p2pAppService: IP2PAppService
+  private let playerConfig: PlayerConfiguration
+  private let playerRepository: PlayerRepository
   
   private let disposeBag = DisposeBag()
 
-  private(set) var pagination: Pagination<TransactionLog>!
+  private(set) var pagination: Pagination<TransactionDTO.Log>!
   private(set) var summaryRefreshTrigger = PublishSubject<Void>()
 
-  var selectedLogType: Int {
+  var selectedLogType: TransactionLogFilter_ {
     if isSelectedAll {
-      return LogType.all.rawValue
+      return .all
     }
 
     let selected = selectedItems.first?.identity ?? ""
-    return Int(selected) ?? LogType.all.rawValue
+    return TransactionLogFilter_.values().get(index: Int32(selected) ?? 0) ?? .all
   }
 
-  override init() {
+  init(
+    _ transactionAppService: ITransactionAppService,
+    _ casinoMyBetAppService: ICasinoMyBetAppService,
+    _ p2pAppService: IP2PAppService,
+    _ playerConfig: PlayerConfiguration,
+    _ playerRepository: PlayerRepository)
+  {
+    self.transactionAppService = transactionAppService
+    self.casinoMyBetAppService = casinoMyBetAppService
+    self.p2pAppService = p2pAppService
+    self.playerConfig = playerConfig
+    self.playerRepository = playerRepository
+    
     super.init()
     
     selectedItems = dataSource
@@ -84,13 +97,15 @@ class TransactionLogViewModel:
 // MARK: - API
 
 extension TransactionLogViewModel {
-  func searchTransactionLog(currentPage: Int) -> Observable<[TransactionLog]> {
-    transactionLogUseCase
-      .searchTransactionLog(
-        from: dateType.result.from,
-        to: dateType.result.to,
-        BalanceLogFilterType: selectedLogType,
-        page: currentPage)
+  func searchTransactionLog(currentPage: Int) -> Observable<[TransactionDTO.Log]> {
+    Single.from(
+      transactionAppService
+        .getPageTransactionLogs(
+          from: dateType.result.from.toLocalDate(playerConfig.localeTimeZone()),
+          to: dateType.result.to.toLocalDate(playerConfig.localeTimeZone()),
+          filter: selectedLogType,
+          page: Int32(currentPage)))
+      .map { $0.data as! [TransactionDTO.Log] }
       .do(onError: { [unowned self] in
         self.pagination.error.onNext($0)
       })
@@ -99,11 +114,11 @@ extension TransactionLogViewModel {
   }
 
   func getCashFlowSummary() -> Single<CashFlowSummary> {
-    transactionLogUseCase
-      .getCashFlowSummary(
-        begin: dateType.result.from,
-        end: dateType.result.to,
-        balanceLogFilterType: selectedLogType)
+    Single.from(
+      transactionAppService.getCashFlowSummary(
+        from: dateType.result.from.toLocalDate(playerConfig.localeTimeZone()),
+        to: dateType.result.to.toLocalDate(playerConfig.localeTimeZone()),
+        filter: selectedLogType))
       .do(onSuccess: { [unowned self] in
         self.summary = $0
       })
@@ -114,24 +129,29 @@ extension TransactionLogViewModel {
     from: Date,
     to: Date) -> Single<CashLogSummary>
   {
-    transactionLogUseCase
-      .getCashLogSummary(
-        begin: from,
-        end: to,
-        balanceLogFilterType: LogType.all.rawValue)
+    Single.from(
+      transactionAppService.getTransactionSummary(
+        from: from.toLocalDate(playerConfig.localeTimeZone()),
+        to: to.toLocalDate(playerConfig.localeTimeZone()),
+        filter: selectedLogType))
       .compose(applySingleErrorHandler())
   }
 
   func getTransactionLogDetail(transactionId: String) -> Single<BalanceLogDetail> {
-    transactionLogUseCase
-      .getBalanceLogDetail(transactionId: transactionId)
+    Single.from(
+      transactionAppService.getTransactionDetail(transactionId: transactionId))
       .compose(applySingleErrorHandler())
   }
 
-  func getSportsBookWagerDetail(wagerId: String) -> Single<HtmlString> {
-    transactionLogUseCase
-      .getSportsBookWagerDetail(wagerId: wagerId)
+  func getSportsBookWagerDetail(wagerId: String) -> Single<String> {
+    playerRepository.getUtcOffset()
+      .flatMap { [transactionAppService] in
+        Single.from(transactionAppService.getSBKWagerDetail(
+          wagerId: wagerId,
+          zoneOffset: FixedOffsetTimeZone(offset: $0)))
+      }
       .compose(applySingleErrorHandler())
+      .map { $0 as String }
   }
   
   func getIsCasinoWagerDetailExist(by wagerID: String) async throws -> Bool {
@@ -179,7 +199,7 @@ extension TransactionLogViewModel {
 // MARK: - Data Handle
 
 extension TransactionLogViewModel {
-  func buildSections(_ logs: [TransactionLog]) -> [TransactionLogViewModelProtocol.Section] {
+  func buildSections(_ logs: [TransactionDTO.Log]) -> [TransactionLogViewModelProtocol.Section] {
     regrouping(
       from: logs,
       by: {
@@ -251,14 +271,14 @@ extension TransactionLogViewModel.LogType: Selectable {
 
 // MARK: - LogRowModel
 
-extension TransactionLog: LogRowModel {
+extension TransactionDTO.Log: LogRowModel {
   var createdDateText: String {
     date.toTimeString()
   }
 
   var statusConfig: (text: String, color: UIColor)? { nil }
 
-  var displayId: String { name }
+  var displayId: String { title }
 
   var amountConfig: (text: String, color: UIColor) {
     (amount.formatString(sign: .signed_), amount.isPositive ? .statusSuccess : .textPrimary)

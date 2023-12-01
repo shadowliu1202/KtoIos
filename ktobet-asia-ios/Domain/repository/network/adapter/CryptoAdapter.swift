@@ -57,4 +57,9 @@ class CryptoAdapter: CryptoProtocol {
       .verifyOTP(request: verifyOtp)
       .asReaktiveResponseNothing()
   }
+  
+  func getCryptoAvailable() -> SingleWrapper<ResponseItem<KotlinBoolean>> {
+    cryptoAPI.getCryptoAvailable()
+      .asReaktiveResponseItem()
+  }
 }

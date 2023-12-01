@@ -12,11 +12,11 @@ struct TransactionLogView<ViewModel>: View
 {
   @StateObject var viewModel: ViewModel
 
-  private let selectedLogSubject = PassthroughSubject<TransactionLog, Never>()
+  private let selectedLogSubject = PassthroughSubject<TransactionDTO.Log, Never>()
   
   var dateFilterAction: DateFilter.Action?
   var onSummarySelected: (() -> Void)?
-  var onRowSelected: ((TransactionLog) -> Void)?
+  var onRowSelected: ((TransactionDTO.Log) -> Void)?
   var onPresentFilterController: (() -> Void)?
 
   var body: some View {
@@ -128,12 +128,12 @@ extension TransactionLogView {
   struct Sections: View {
     @EnvironmentObject var viewModel: ViewModel
 
-    private let selectedLogSubject: PassthroughSubject<TransactionLog, Never>
+    private let selectedLogSubject: PassthroughSubject<TransactionDTO.Log, Never>
 
     var inspection = Inspection<Self>()
 
     init(
-      _ selectedLogSubject: PassthroughSubject<TransactionLog, Never>)
+      _ selectedLogSubject: PassthroughSubject<TransactionDTO.Log, Never>)
     {
       self.selectedLogSubject = selectedLogSubject
     }
@@ -172,7 +172,7 @@ struct TransactionLogView_Previews: PreviewProvider {
 
     var dateType: DateType = .week()
 
-    var pagination: Pagination<TransactionLog>! = .init(startIndex: 0, offset: 0, observable: { _ in .just([]) })
+    var pagination: Pagination<TransactionDTO.Log>! = .init(startIndex: 0, offset: 0, observable: { _ in .just([]) })
 
     init(isEmpty: Bool) {
       if isEmpty {
@@ -182,18 +182,14 @@ struct TransactionLogView_Previews: PreviewProvider {
         sections = [.init(
           title: "123456",
           items: (0...1).map {
-            GeneralProduct(
-              transactionLog: BalanceLogDetail(
-                afterBalance: .zero(),
-                amount: "\($0 + 100)".toAccountCurrency(),
-                date: Date().toLocalDateTime(.current),
-                wagerMappingId: "",
-                productGroup: .P2P(supportProvider: .CompanionNone()),
-                productType: .p2p,
-                transactionType: .ProductBet(),
-                remark: .None(),
-                externalId: ""),
-              displayName: .init(title: KNLazyCompanion().create(input: "Test only")))
+            TransactionDTO.Log(
+              id: "1",
+              type: .p2p,
+              amount: "\($0 + 100)".toAccountCurrency(),
+              date: Date().toLocalDateTime(.current),
+              title: "Test only",
+              detailId: "",
+              detailOption: .P2P(isUnknownDetail: true))
           })]
       }
     }

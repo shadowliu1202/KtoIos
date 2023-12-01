@@ -90,4 +90,8 @@ class CryptoAPI {
           method: .post,
           task: .requestJSONEncodable(codable)))
   }
+  
+  func getCryptoAvailable() -> Single<String> {
+    httpClient.requestJsonString(path: "/api/withdrawal/crypto-available", method: .get)
+  }
 }

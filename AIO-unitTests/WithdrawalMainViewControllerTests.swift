@@ -10,7 +10,6 @@ final class WithdrawalMainViewControllerTests: XCBaseTestCase {
   private func getFakeWithdrawalMainViewModel() -> WithdrawalMainViewModelMock {
     let dummyWithdrawalAppService = mock(AbsWithdrawalAppService.self)
     let dummyPlayerConfiguration = mock(PlayerConfiguration.self)
-    let dummyWithdrawalUseCase = mock(WithdrawalUseCase.self)
 
     let fakeViewModel = mock(WithdrawalMainViewModel.self)
       .initialize(

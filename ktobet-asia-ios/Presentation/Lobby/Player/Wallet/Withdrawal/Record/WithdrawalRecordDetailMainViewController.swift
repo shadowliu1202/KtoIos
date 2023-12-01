@@ -11,18 +11,15 @@ class WithdrawalRecordDetailMainViewController: LobbyViewController {
   private let displayId: String
 
   private var paymentCurrencyType: WithdrawalDto.LogCurrencyType?
-  private var transactionType: TransactionType?
 
   private(set) var target: UIViewController?
 
   init(
     displayId: String,
-    paymentCurrencyType: WithdrawalDto.LogCurrencyType? = nil,
-    transactionType: TransactionType? = nil)
+    paymentCurrencyType: WithdrawalDto.LogCurrencyType? = nil)
   {
     self.displayId = displayId
     self.paymentCurrencyType = paymentCurrencyType
-    self.transactionType = transactionType
 
     super.init(nibName: nil, bundle: nil)
   }
@@ -45,14 +42,7 @@ class WithdrawalRecordDetailMainViewController: LobbyViewController {
     }
     else {
       // old flow
-      switch transactionType {
-      case .cryptowithdrawal?:
-        updateTransactionType()
-      case .withdrawal?:
-        addContainer(.fiat)
-      default:
-        updateTransactionType()
-      }
+      updateTransactionType()
     }
   }
 

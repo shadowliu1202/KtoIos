@@ -3,19 +3,6 @@ import sharedbu
 import UIKit
 
 class StringMapper {
-  static func getVerifyStatus(status: PlayerBankCardVerifyStatus) -> (text: String, color: UIColor) {
-    switch status {
-    case .pending:
-      return (Localize.string("withdrawal_bankcard_new"), UIColor.textPrimary)
-    case .verified:
-      return (Localize.string("cps_account_status_verified"), UIColor.statusSuccess)
-    case .onhold:
-      return (Localize.string("withdrawal_bankcard_locked"), UIColor.alert)
-    default:
-      return ("", UIColor.textPrimary)
-    }
-  }
-
   static func getPromotionSortingTypeString(sortingType: SortingType) -> String {
     switch sortingType {
     case .asc:

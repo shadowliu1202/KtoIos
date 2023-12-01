@@ -26,62 +26,41 @@ class TransactionFlowController {
     self.disposeBag = disposeBag
   }
 
-  func goNext(_ transactionLog: TransactionLog) {
-    switch transactionLog {
-    case let log as TransactionLog.GameProduct:
-      consider(gameProduct: log)
-    case let log as TransactionLog.MoneyTransfer:
-      consider(moneyTransfer: log)
-    case is TransactionLog.GameBonus,
-         is TransactionLog.Log:
-      goTransactionLogDetail(LogDetail(title: transactionLog.name, transactionId: transactionLog.detailId()))
-    default:
-      break
+  func goNext(_ transactionLog: TransactionDTO.Log) {
+    switch transactionLog.type {
+    case .bonus,
+         .general:
+      goTransactionLogDetail(LogDetail(title: transactionLog.title, transactionId: transactionLog.detailId))
+    case .deposit:
+      goDepositDetail(transactionLog)
+    case .withdrawal:
+      goWithdrawalDetail(transactionLog)
+    case .sportsbook:
+      displaySportsBookDetail(wagerId: transactionLog.detailId)
+    case .casino:
+      considerCasino(transactionLog)
+    case .numbergame:
+      considerNumbergame(transactionLog)
+    case .p2p:
+      considerP2P(transactionLog)
+    default: break
     }
   }
 
-  private func consider(gameProduct: TransactionLog.GameProduct) {
-    switch gameProduct {
-    case is TransactionLog.GameProductGeneral:
-      goTransactionLogDetail(LogDetail(title: gameProduct.name, transactionId: gameProduct.detailId()))
-    case let casinoLog as TransactionLog.GameProductCasino:
-      consider(casino: casinoLog)
-    case let sportLog as TransactionLog.GameProductSportsBook:
-      displaySportsBookDetail(wagerId: sportLog.detailId())
-    case let numbergameLog as TransactionLog.GameProductNumberGame:
-      consider(numbergame: numbergameLog)
-    case let p2pLog as TransactionLog.GameProductP2P:
-      consider(p2pLog)
-    default:
-      break
-    }
-  }
-
-  private func consider(moneyTransfer: TransactionLog.MoneyTransfer) {
-    switch moneyTransfer {
-    case let depositLog as TransactionLog.MoneyTransferDeposit:
-      goDepositDetail(depositLog)
-    case let withdrawalLog as TransactionLog.MoneyTransferWithdrawal:
-      goWithdrawalDetail(withdrawalLog)
-    default:
-      break
-    }
-  }
-
-  private func consider(casino: TransactionLog.GameProductCasino) {
-    switch casino {
-    case let casino as TransactionLog.GameProductCasinoGeneral:
-      goTransactionLogDetail(LogDetail(title: casino.name, transactionId: casino.detailId(), isSmartBet: casino.isSmartBet))
-    case is TransactionLog.GameProductCasinoGameResultMode:
-      goCasinoDetail(casino.detailId())
-    case is TransactionLog.GameProductCasinoUnknownDetail:
-      navigateBaseOnCasinoHasDetail(name: casino.name, displayID: casino.id_, wagerID: casino.detailId())
-    default:
-      break
+  private func considerCasino(_ log: TransactionDTO.Log) {
+    guard let detailOption = log.detailOption as? DetailOption.Casino else { return }
+    switch detailOption.detailType {
+    case .general:
+      goTransactionLogDetail(LogDetail(title: log.title, transactionId: log.id, isSmartBet: detailOption.isSmartBet))
+    case .gameresultmode:
+      goCasinoDetail(log.detailId)
+    case .unknowndetail:
+      navigateBaseOnCasinoHasDetail(name: log.title, transactionId: log.id, wagerID: log.detailId)
+    default: break
     }
   }
   
-  private func navigateBaseOnCasinoHasDetail(name: String, displayID: String, wagerID: String) {
+  private func navigateBaseOnCasinoHasDetail(name: String, transactionId: String, wagerID: String) {
     guard let delegate, decideNavigationTask == nil else { return }
     
     decideNavigationTask = Task {
@@ -94,36 +73,36 @@ class TransactionFlowController {
       await MainActor.run {
         isWagerDetailExist
           ? goCasinoDetail(wagerID)
-          : goTransactionLogDetail(LogDetail(title: name, transactionId: displayID))
+          : goTransactionLogDetail(LogDetail(title: name, transactionId: transactionId))
         
         resetDecideNavigationTask()
       }
     }
   }
 
-  private func consider(numbergame: TransactionLog.GameProductNumberGame) {
-    switch numbergame {
-    case is TransactionLog.GameProductNumberGameGameResultMode:
-      goNumberGameDetail(numbergame.detailId())
-    case is TransactionLog.GameProductNumberGameGeneral:
-      goTransactionLogDetail(LogDetail(title: numbergame.name, transactionId: numbergame.detailId()))
-    default:
-      break
+  private func considerNumbergame(_ log: TransactionDTO.Log) {
+    guard let detailOption = log.detailOption as? DetailOption.NumberGame else { return }
+    
+    if detailOption.hasGameResult {
+      goNumberGameDetail(log.detailId)
+    }
+    else {
+      goTransactionLogDetail(LogDetail(title: log.title, transactionId: log.id))
     }
   }
   
-  private func consider(_ p2pLog: TransactionLog.GameProductP2P) {
-    switch p2pLog {
-    case is TransactionLog.GameProductP2PGeneral:
-      goTransactionLogDetail(LogDetail(title: p2pLog.name, transactionId: p2pLog.id_))
-    case is TransactionLog.GameProductP2PUnknownDetail:
-      navigateBaseOnP2PHasDetail(name: p2pLog.name, displayID: p2pLog.id_, wagerID: p2pLog.detailId())
-    default:
-      break
+  private func considerP2P(_ log: TransactionDTO.Log) {
+    guard let detailOption = log.detailOption as? DetailOption.P2P else { return }
+    
+    if detailOption.isUnknownDetail {
+      navigateBaseOnP2PHasDetail(name: log.title, transactionId: log.id, wagerID: log.detailId)
+    }
+    else {
+      goTransactionLogDetail(LogDetail(title: log.title, transactionId: log.id))
     }
   }
   
-  private func navigateBaseOnP2PHasDetail(name: String, displayID: String, wagerID: String) {
+  private func navigateBaseOnP2PHasDetail(name: String, transactionId: String, wagerID: String) {
     guard let delegate, decideNavigationTask == nil else { return }
     
     decideNavigationTask = Task {
@@ -136,7 +115,7 @@ class TransactionFlowController {
       await MainActor.run {
         isWagerDetailExist
           ? goP2PMyBetDetail(wagerID)
-          : goTransactionLogDetail(LogDetail(title: name, transactionId: displayID))
+          : goTransactionLogDetail(LogDetail(title: name, transactionId: transactionId))
         
         resetDecideNavigationTask()
       }
@@ -175,18 +154,14 @@ class TransactionFlowController {
     }).disposed(by: self.disposeBag)
   }
 
-  private func goDepositDetail(_ depositLog: TransactionLog.MoneyTransferDeposit) {
-    let detailMainViewController = DepositRecordDetailMainViewController(
-      displayId: depositLog.detailId(),
-      transactionType: depositLog.transferType)
+  private func goDepositDetail(_ log: TransactionDTO.Log) {
+    let detailMainViewController = DepositRecordDetailMainViewController(displayId: log.detailId)
 
     navi?.pushViewController(detailMainViewController, animated: true)
   }
 
-  private func goWithdrawalDetail(_ log: TransactionLog.MoneyTransferWithdrawal) {
-    let detailMainViewController = WithdrawalRecordDetailMainViewController(
-      displayId: log.detailId(),
-      transactionType: log.transferType)
+  private func goWithdrawalDetail(_ log: TransactionDTO.Log) {
+    let detailMainViewController = WithdrawalRecordDetailMainViewController(displayId: log.detailId)
 
     navi?.pushViewController(detailMainViewController, animated: true)
   }
@@ -199,10 +174,10 @@ class TransactionFlowController {
     navi?.pushViewController(P2PBetDetailViewController(wagerID: wagerID), animated: true)
   }
   
-  func navigateBaseOnProductHasDetail(type: ProductType, gameName: String, displayID: String, wagerID: String) {
+  func navigateBaseOnProductHasDetail(type: ProductType, gameName: String, transactionId: String, wagerID: String) {
     switch type {
-    case .casino: navigateBaseOnCasinoHasDetail(name: gameName, displayID: displayID, wagerID: wagerID)
-    case .p2p: navigateBaseOnP2PHasDetail(name: gameName, displayID: displayID, wagerID: wagerID)
+    case .casino: navigateBaseOnCasinoHasDetail(name: gameName, transactionId: transactionId, wagerID: wagerID)
+    case .p2p: navigateBaseOnP2PHasDetail(name: gameName, transactionId: transactionId, wagerID: wagerID)
     default: break
     }
   }

@@ -9,7 +9,7 @@ class ExternalProtocolServiceFactory: ExternalProtocolService {
   }
 
   func getCash() -> CashProtocol {
-    CashAdapter(PlayerApi(httpClient))
+    CashAdapter(httpClient)
   }
 
   func getCommon() -> CommonProtocol {

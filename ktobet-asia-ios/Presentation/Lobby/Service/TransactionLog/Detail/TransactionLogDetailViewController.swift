@@ -12,8 +12,9 @@ struct LogDetail {
 class TransactionLogDetailViewController: LobbyViewController {
   @IBOutlet weak var tableView: UITableView!
   
+  @Injected private var viewModel: TransactionLogViewModel
+  
   private let disposeBag = DisposeBag()
-  private let viewModel = TransactionLogViewModel()
 
   private var resultViewHeight: CGFloat = 0
   private lazy var flowController = TransactionFlowController(self, disposeBag: disposeBag)
@@ -112,7 +113,7 @@ extension TransactionLogDetailViewController: UITableViewDataSource {
     }
 
     let cell = self.tableView.dequeueReusableCell(withIdentifier: "LogDetailCell", cellType: LogDetailCell.self)
-      .configure(index: indexPath.row, data: item) { [unowned self] displayID, wagerID in
+      .configure(index: indexPath.row, data: item) { [unowned self] transactionId, wagerID in
         guard let detailItem else { return }
         
         switch detailItem.bean.productType {
@@ -124,7 +125,7 @@ extension TransactionLogDetailViewController: UITableViewDataSource {
             flowController.navigateBaseOnProductHasDetail(
               type: .casino,
               gameName: param?.title ?? "",
-              displayID: displayID,
+              transactionId: transactionId,
               wagerID: wagerID)
           }
           
@@ -132,7 +133,7 @@ extension TransactionLogDetailViewController: UITableViewDataSource {
           flowController.navigateBaseOnProductHasDetail(
             type: .p2p,
             gameName: param?.title ?? "",
-            displayID: displayID,
+            transactionId: transactionId,
             wagerID: wagerID)
         default:
           break
