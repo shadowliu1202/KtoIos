@@ -38,7 +38,8 @@ class WebGameRepositoryImpl: WebGameRepository {
   }
 
   func addFavorite(game: WebGameWithDuplicatable) -> Completable {
-    api.addFavoriteGame(id: game.gameId).do(onCompleted: { [weak self] in
+    api.addFavoriteGame(id: game.gameId)
+      .do(onCompleted: { [weak self] in
       defer { self?.lock.unlock() }
       self?.lock.lock()
       
@@ -53,10 +54,12 @@ class WebGameRepositoryImpl: WebGameRepository {
       }
       self.favoriteRecord.accept(copyValue)
     })
+        .delay(.milliseconds(50), scheduler: MainScheduler.instance)
   }
 
   func removeFavorite(game: WebGameWithDuplicatable) -> Completable {
-    api.removeFavoriteGame(id: game.gameId).do(onCompleted: { [weak self] in
+    api.removeFavoriteGame(id: game.gameId)
+      .do(onCompleted: { [weak self] in
       defer { self?.lock.unlock() }
       self?.lock.lock()
       
@@ -71,6 +74,7 @@ class WebGameRepositoryImpl: WebGameRepository {
       }
       self.favoriteRecord.accept(copyValue)
     })
+        .delay(.milliseconds(50), scheduler: MainScheduler.instance)
   }
 
   func getFavorites() -> Observable<[WebGameWithDuplicatable]> {
