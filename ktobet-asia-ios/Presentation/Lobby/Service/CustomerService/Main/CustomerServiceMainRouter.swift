@@ -5,7 +5,7 @@ final class CustomerServiceMainRouter {
   
   func toCalling() {
     let to = CallingViewController(surveyAnswers: nil)
-    let navi = UINavigationController(rootViewController: to)
+    let navi = CustomServiceNavigationController(rootViewController: to)
     navi.modalPresentationStyle = .fullScreen
     vc?.present(navi, animated: false)
   }
@@ -30,5 +30,11 @@ final class CustomerServiceMainRouter {
     let navi = UINavigationController(rootViewController: to)
     navi.modalPresentationStyle = .fullScreen
     vc?.present(navi, animated: false)
+  }
+  
+  func toPrechat() {
+    let to = CustomServiceNavigationController(rootViewController: PrechatSurveyViewController())
+    to.modalPresentationStyle = .overCurrentContext
+    vc?.present(to, animated: true)
   }
 }

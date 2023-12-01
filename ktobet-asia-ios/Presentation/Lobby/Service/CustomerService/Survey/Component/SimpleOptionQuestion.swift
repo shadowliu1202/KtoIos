@@ -29,6 +29,7 @@ extension SurveyView {
           HStack(spacing: 8) {
             Text(selectedValue ?? Localize.string("common_please_select"))
               .localized(weight: .medium, size: 14, color: .greyScaleWhite)
+              .fixedSize(horizontal: false, vertical: true)
               .frame(maxWidth: .infinity, alignment: .leading)
             
             Image("ArrowDropDown")

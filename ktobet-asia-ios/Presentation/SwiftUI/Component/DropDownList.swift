@@ -36,6 +36,8 @@ struct DropDownList: View {
     self._isFocus = isFocus
   }
 
+  // MARK: - ConversationList
+  
   var conversationList: some View {
     VStack(alignment: .leading, spacing: 0) {
       Image("Triangle16x8")
@@ -83,6 +85,8 @@ struct DropDownList: View {
     }
   }
   
+  // MARK: - RectangleList
+  
   var rectangleList: some View {
     VStack(alignment: .leading, spacing: 0) {
       ZStack {
@@ -94,24 +98,27 @@ struct DropDownList: View {
             .frame(height: 74)
         }
         else {
-          VStack(spacing: 0) {
-            ForEach(items, id: \.self) { item in
-              Text(item)
-                .localized(weight: .regular, size: 16, color: .textPrimary)
-                .padding(.vertical, 12)
-                .padding(.horizontal, 30)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .contentShape(Rectangle())
-                .onTapGesture {
-                  selectedItem = item
+          ScrollView(showsIndicators: false) {
+            VStack(spacing: 0) {
+              ForEach(items, id: \.self) { item in
+                Text(item)
+                  .localized(weight: .regular, size: 16, color: .textPrimary)
+                  .padding(.vertical, 12)
+                  .padding(.horizontal, 30)
+                  .frame(maxWidth: .infinity, alignment: .leading)
+                  .contentShape(Rectangle())
+                  .onTapGesture {
+                    selectedItem = item
 
-                  isFocus = false
-                  UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
-                }
+                    isFocus = false
+                    UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                  }
+              }
+              .id(DropDownList.Identifier.candidateWordList.rawValue)
             }
-            .id(DropDownList.Identifier.candidateWordList.rawValue)
+            .padding(.vertical, 12)
           }
-          .padding(.vertical, 12)
+          .frame(height: 168)
         }
       }
       .zIndex(1)

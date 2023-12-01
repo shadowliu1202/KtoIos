@@ -48,7 +48,7 @@ final class CustomerServiceMainViewController: LobbyViewController {
   private func toServiceView(_ hasPrechat: Bool) {
     if NetworkStateMonitor.shared.isNetworkConnected {
       if hasPrechat {
-        toPrechat()
+        router.toPrechat()
       }
       else {
         router.toCalling()
@@ -57,12 +57,6 @@ final class CustomerServiceMainViewController: LobbyViewController {
     else {
       showToast()
     }
-  }
-  
-  private func toPrechat() {
-    let prechatVC = CustomServiceNavigationController(rootViewController: PrechatSurveyViewController())
-    prechatVC.modalPresentationStyle = .overCurrentContext
-    present(prechatVC, animated: true)
   }
   
   private func showToast() {
