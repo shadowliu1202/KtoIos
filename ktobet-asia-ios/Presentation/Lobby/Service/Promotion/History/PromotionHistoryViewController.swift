@@ -3,23 +3,20 @@ import sharedbu
 import UIKit
 
 class PromotionHistoryViewController: LobbyViewController {
-  @Injected private(set) var viewModel: PromotionHistoryViewModel
-
   @IBOutlet private weak var scrollView: UIScrollView!
-
   @IBOutlet private weak var dateView: KTODateView!
   @IBOutlet private weak var filterBtn: FilterButton!
   @IBOutlet private weak var searchTextField: UITextField!
   @IBOutlet private weak var summaryLabel: UILabel!
-  
   @IBOutlet private weak var couponFilterStackView: UIStackView!
-
   @IBOutlet weak var tableView: UITableView!
 
-  private var emptyStateView: EmptyStateView!
+  @Injected private(set) var viewModel: PromotionHistoryViewModel
+  @Injected private var playerConfiguration: PlayerConfiguration
   
-  private let filterPersenter = PromotionPresenter()
   private let disposeBag = DisposeBag()
+  
+  private var emptyStateView: EmptyStateView!
 
   private var currentFilter: [FilterItem]?
 
@@ -54,18 +51,7 @@ extension PromotionHistoryViewController {
       forCellReuseIdentifier: "PromotionHistoryTableViewCell")
 
     let filterController = PromotionFilterViewController.initFrom(storyboard: "Filter")
-    
-    var filterItems = filterPersenter.getDatasource() as! [PromotionItem]
-    filterItems = filterItems.filter {
-      if viewModel.getSupportLocale() == .Vietnam() {
-        return $0.privilegeType != .vvipcashback
-      }
-      else {
-        return true
-      }
-    }
-    
-    filterPersenter.setConditions(filterItems)
+    let filterPersenter = PromotionPresenter(supportLocale: playerConfiguration.supportLocale)
 
     filterBtn
       .set(filterPersenter)
@@ -78,7 +64,7 @@ extension PromotionHistoryViewController {
         self.filterBtn.set(items)
         self.filterBtn.setPromotionStyleTitle(source: condition)
 
-        let status = self.filterPersenter.getConditionStatus(condition!)
+        let status = filterPersenter.getConditionStatus(condition!)
         self.viewModel.productTypes = status.prodcutTypes
         self.viewModel.privilegeTypes = status.privilegeTypes
         self.viewModel.sortingBy = status.sorting

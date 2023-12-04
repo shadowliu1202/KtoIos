@@ -7,7 +7,38 @@ class PromotionPresenter: FilterPresentProtocol {
   static let productRows = 4...8
 
   private let productAllRow = 3
-  private let bonusRows = 9...12
+  
+  private(set) var conditions: [PromotionItem]!
+  
+  init(supportLocale: SupportLocale) {
+    initConditions(by: supportLocale)
+  }
+  
+  private func initConditions(by supportLocale: SupportLocale) {
+    let sharedConditions: [PromotionItem] = [
+      PromotionPresenter.createStaticDisplay(Localize.string("bonus_custom_sorting")),
+      PromotionPresenter.createInteractive(.desc),
+      PromotionPresenter.createStaticDisplay(Localize.string("bonus_custom_filter")),
+      PromotionPresenter.createProductPromotionItem(),
+      PromotionPresenter.createInteractive(.sbk),
+      PromotionPresenter.createInteractive(.slot),
+      PromotionPresenter.createInteractive(.casino),
+      PromotionPresenter.createInteractive(.numbergame),
+      PromotionPresenter.createInteractive(.arcade),
+      PromotionPresenter.createInteractive(.rebate),
+      PromotionPresenter.createInteractive(.freebet),
+      PromotionPresenter.createInteractive(.depositbonus)
+    ]
+    
+    switch supportLocale {
+    case .China():
+      conditions = sharedConditions + [PromotionPresenter.createInteractive(.vvipcashback)]
+    case .Vietnam():
+      fallthrough
+    default:
+      conditions = sharedConditions
+    }
+  }
 
   func getTitle() -> String {
     Localize.string("common_filter")
@@ -50,9 +81,7 @@ class PromotionPresenter: FilterPresentProtocol {
     if allSelectCount <= 1, conditions[row].isSelected == true { return }
 
     if row == productAllRow {
-      // at least one bouns type is selected, if productAllRow deselected
-      let allBonusCount = conditions[bonusRows].filter({ $0.isSelected == true }).count
-      if allBonusCount <= 0, conditions[row].isSelected == true { return }
+      if noSelectionAfterDeselectProductAll() { return }
 
       if let selected = conditions[row].isSelected {
         if selected {
@@ -83,6 +112,17 @@ class PromotionPresenter: FilterPresentProtocol {
 
     conditions[row].isSelected?.toggle()
   }
+  
+  private func noSelectionAfterDeselectProductAll() -> Bool {
+    let noSelectedBonus = conditions
+      .filter({ $0.privilegeType != nil })
+      .filter({ $0.isSelected == true })
+      .isEmpty
+    
+    let isProductAllSelected = conditions[productAllRow].isSelected == true
+    
+    return noSelectedBonus && isProductAllSelected
+  }
 
   func getConditionStatus(_ items: [PromotionItem])
     -> (prodcutTypes: [ProductType], privilegeTypes: [PrivilegeType], sorting: SortingType)
@@ -100,24 +140,7 @@ class PromotionPresenter: FilterPresentProtocol {
 
     return (productTypes, privilegeTypes, sortingType)
   }
-
-  private var conditions: [PromotionItem] =
-    [
-      PromotionPresenter.createStaticDisplay(Localize.string("bonus_custom_sorting")),
-      PromotionPresenter.createInteractive(.desc),
-      PromotionPresenter.createStaticDisplay(Localize.string("bonus_custom_filter")),
-      PromotionPresenter.createProductPromotionItem(),
-      PromotionPresenter.createInteractive(.sbk),
-      PromotionPresenter.createInteractive(.slot),
-      PromotionPresenter.createInteractive(.casino),
-      PromotionPresenter.createInteractive(.numbergame),
-      PromotionPresenter.createInteractive(.arcade),
-      PromotionPresenter.createInteractive(.rebate),
-      PromotionPresenter.createInteractive(.freebet),
-      PromotionPresenter.createInteractive(.depositbonus),
-      PromotionPresenter.createInteractive(.vvipcashback)
-    ]
-
+  
   class func createStaticDisplay(_ title: String) -> PromotionItem {
     PromotionItem(type: .static, title: title, select: false)
   }
