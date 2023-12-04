@@ -1,107 +1,153 @@
-stages:          # List of stages for jobs, and their order of execution
-  - inProgress
-  - mergeRequest
-
 variables:
   LANG: "en_US.UTF-8"
   LC_ALL: "en_US.UTF-8"
 
-build-job: 
-    rules:
-        - if: ($CI_COMMIT_BRANCH =~ /(APP|KTO|SP)-[0-9]+/ && $CI_PIPELINE_SOURCE != "merge_request_event")        
-    stage: inProgress
-    tags:
-      - mac-slave
-    variables:
-      BEGIN_WORKING_ACTION: 291
-      SUBTASK_BEGIN_WORKING_ACTION: 251
-    script:
-      - EMAIL_NAME="$(echo $GITLAB_USER_EMAIL | sed "s/@.*//")"
-      - >
-        TicketStatus=$(curl --request GET --url "https://jira.higgstar.com/rest/api/2/issue/${CI_COMMIT_BRANCH}?fields=status" --header "Authorization: Bearer $JIRA_TOKEN" --header "Content-Type: application/json" |jq '.fields|.status|.name' -r)
-      - echo "${CI_COMMIT_BRANCH} Status is ${TicketStatus}"
+stages:          # List of stages for jobs, and their order of execution
+  - inProgress
+  - mergeRequest
+  - merged
+  - test
+
+build-job:
+  stage: inProgress
+  tags:
+    - app-linux-jenkins
+  rules:
+    - if: ($CI_COMMIT_BRANCH =~ /(APP|KTO|SP)-[0-9]+/ && $CI_PIPELINE_SOURCE != "merge_request_event")
+  script:
+    - EMAIL_NAME="$(echo $GITLAB_USER_EMAIL | sed "s/@.*//")"
+    - >
+      TRANSITION=$(curl --request GET --url "https://jira.higgstar.com/rest/api/2/issue/${CI_COMMIT_BRANCH}/transitions" --header "Authorization: Bearer $JIRA_TOKEN" --header "Content-Type: application/json")
+      IN_PROGRESS=$(echo $TRANSITION | jq -r '.transitions[] | select(.name=="Begin Working" or .name=="Start SubTask") | .id')
+     
+      if [ -n "$IN_PROGRESS" ]; then
+        curl --request POST \
+          --url "https://jira.higgstar.com/rest/api/2/issue/${CI_COMMIT_BRANCH}/transitions" \
+          --data '{"transition":{"id":"'"$IN_PROGRESS"'"}}' \
+          --header "Authorization: Bearer $JIRA_TOKEN" \
+          --header "Content-Type: application/json"
+      else
+        echo "No 'Begin Working' or 'Start SubTask' transition found."
+      fi
+    - >
+      JIRA_SUB=$(curl --request PUT --url "https://jira.higgstar.com/rest/api/2/issue/$CI_COMMIT_BRANCH/" --data '{"fields":{"assignee":{"name":"'${EMAIL_NAME}'"},"customfield_11000":{"value":"iOS"},"customfield_12006":{"value":"App"}}}' --header "Authorization: Bearer $JIRA_TOKEN" --header "Content-Type: application/json")
+    - echo -e "$JIRA_SUB"
       
-      - >
-        if [[ "${TicketStatus}" != "Merge Request" ]]; then
-            if [[ "${TicketStatus}" == "To Do" ]]; then
-                curl --request POST --url "https://jira.higgstar.com/rest/api/2/issue/${CI_COMMIT_BRANCH}/transitions" --data '{"transition":{"id":"'$BEGIN_WORKING_ACTION'"}}' --header "Authorization: Bearer $JIRA_TOKEN" --header "Content-Type: application/json"
+UnitTests:
+  stage: test
+  rules:
+   - if: ($CI_PIPELINE_SOURCE == "merge_request_event")
+  tags:
+    - mac-slave
+  before_script:
+    - pod install --repo-update --allow-root
+  script:
+    - fastlane tests
+  artifacts:
+    when: always
+    paths:
+        - "fastlane/test_output/"
+    reports:
+        junit:
+            - "fastlane/test_output/*.xml"
 
-                curl --request POST --url "https://jira.higgstar.com/rest/api/2/issue/${CI_COMMIT_BRANCH}/transitions" --data '{"transition":{"id":"'$SUBTASK_BEGIN_WORKING_ACTION'"}}' --header "Authorization: Bearer $JIRA_TOKEN" --header "Content-Type: application/json"
-            else
-                curl --request POST --url "https://jira.higgstar.com/rest/api/2/issue/${CI_COMMIT_BRANCH}/transitions" --data '{"transition":{"id":"'${JIRA_ISSUE_START_WORKING_ACTION}'"}}' --header "Authorization: Bearer $JIRA_TOKEN" --header "Content-Type: application/json"
-                
-                curl --request POST --url "https://jira.higgstar.com/rest/api/2/issue/${CI_COMMIT_BRANCH}/transitions" --data '{"transition":{"id":"'${JIRA_ISSUE_SUBTASK_START_WORKING_ACTION}'"}}' --header "Authorization: Bearer $JIRA_TOKEN" --header "Content-Type: application/json"
-            fi;
+merge-job:
+  stage: mergeRequest
+  tags:
+    - app-linux-jenkins
+  before_script:
+    # - source ~/.nvm/nvm.sh
+    # - nvm install node
+    # - npm install -g @commitlint/cli @commitlint/config-conventional
+    # - echo 'module.exports = {extends:["@commitlint/config-conventional"]}' > commitlint.config.js
+    - curl https://gitlab.higgstar.com/api/v4/projects/695/repository/files/commitlint-gitlab.sh/raw | bash
+  rules:
+    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
+    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+  variables:
+    # CI_DEBUG_TRACE: "true"
+    MR_COMMAND : 'curl --header PRIVATE-TOKEN:$GITLAB_AUTH_TOKEN https://gitlab.higgstar.com/api/v4/projects/${CI_PROJECT_ID}/merge_requests/${CI_MERGE_REQUEST_IID}'
+    BRANCH_PATTERN : '(APP|KTO|SP)-[0-9]+'
+    BUGFIX_PATTERN : 'fix[[:space:]]*:[[:space:]]*(APP|KTO|SP)-[0-9]+[[:space:]]+.*#comment[[:space:]]+root[[:space:]]{0,1}cause:[[:space:]]*.{2,}[[:space:]]*\\[[:space:]]*solution[[:space:]]*:[[:space:]]*.{2,}'
+    GIT_SSL_NO_VERIFY: "1"
+    GRADLE_OPTS: "-Dorg.gradle.daemon=false"
+  script:
+    - rm -rf ~/Library/Developer/Xcode/DerivedData
+    - 'branch_name=$(echo "$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME")'
+    - >
+        if ! [[ "${branch_name}" =~ "ci" ]] && ! [[ "${branch_name}" =~ $BRANCH_PATTERN ]]; then
+            echo -e "\033[31mBranch name should either be CI related or Jira tickets\033[0;m"
+            exit 1
         fi;
-        
-      - >
-        JIRA_SUB=$(curl --request PUT --url "https://jira.higgstar.com/rest/api/2/issue/$CI_COMMIT_BRANCH/" --data '{"fields":{"assignee":{"name":"'${EMAIL_NAME}'"},"customfield_11000":{"value":"iOS"},"customfield_12006":{"value":"App"}}}' --header "Authorization: Bearer $JIRA_TOKEN" --header "Content-Type: application/json")
-      - echo -e "$JIRA_SUB"
+    - >
+        if [[ "${branch_name}" =~ $BRANCH_PATTERN ]]; then
+            echo -e "${CI_COMMIT_MESSAGE}" | npx commitlint
+        fi;
+    - |
+      ISSUE_DETAIL=$(curl --request GET --url "https://jira.higgstar.com/rest/api/2/issue/${CI_MERGE_REQUEST_SOURCE_BRANCH_NAME}" --header "Authorization: Bearer $JIRA_TOKEN" --header "Content-Type: application/json")
+      ISSUE_TYPE="$(jq -r .fields.issuetype.name <<< ${ISSUE_DETAIL})"
+      ISSUE_NAME=$(echo "$(jq -r .fields.issuetype.name <<< ${ISSUE_DETAIL})" | tr "[:upper:]" "[:lower:]")
+      echo -e "\033[34;1m Jira:$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME, Issue Type: $ISSUE_TYPE , Issue Name: $ISSUE_NAME\033[0;m"
+      RESULT="$($MR_COMMAND)"
+      TITLE=$(echo "$(jq -r .title <<< ${RESULT})" | tr "[:upper:]" "[:lower:]")
+      DESCRIPTION=$(echo "$(jq -r .description <<< ${RESULT})")
+      echo -e "\033[34;1m Merge Request:$TITLE, Description:$DESCRIPTION\033[0;m"
+    - >
+      if ! [[ "${TITLE}" =~ "ci" ]]; then
+        echo "title does not contain ci"
+        if [[ "${ISSUE_NAME}" =~ "bug" ]]; then
+          echo "Issue relate to bug"
+          if ! [[ "${DESCRIPTION}" =~ $BUGFIX_PATTERN ]] || ! [[ "${DESCRIPTION}" =~ "${CI_MERGE_REQUEST_SOURCE_BRANCH_NAME}" ]]; then
+            echo -e "\033[31mdescription of fix type should follow pattern as fix:BRANCH_NAME #comment rootcause:xxx \\ solution:xxx\033[0;m"
+            exit 1
+          fi
+        fi
+      fi
+    - >
+       TRANSITION=$(curl --request GET --url "https://jira.higgstar.com/rest/api/2/issue/${CI_MERGE_REQUEST_SOURCE_BRANCH_NAME}/transitions" --header "Authorization: Bearer $JIRA_TOKEN" --header "Content-Type: application/json")
+       
+       SEND_MR=$(echo $TRANSITION | jq -r '.transitions[] | select(.name=="Send MR" or .name=="send MR") | .id')
 
-merge-job:   
-    tags:
-      - mac-emulator
-    before_script:            
-        - source ~/.nvm/nvm.sh
-        # - nvm install node
-        # - npm install -g @commitlint/cli @commitlint/config-conventional
-        # - echo 'module.exports = {extends:["@commitlint/config-conventional"]}' > commitlint.config.js
-        - curl https://gitlab.higgstar.com/api/v4/projects/695/repository/files/commitlint-gitlab.sh/raw | bash
-    rules:
-        - if: ($CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master" && $CI_PIPELINE_SOURCE == "merge_request_event")
-    stage: mergeRequest
-    variables:
-        # CI_DEBUG_TRACE: "true"
-        MR_COMMAND : 'curl --header PRIVATE-TOKEN:$GITLAB_AUTH_TOKEN https://gitlab.higgstar.com/api/v4/projects/${CI_PROJECT_ID}/merge_requests/${CI_MERGE_REQUEST_IID}'
-        BRANCH_PATTERN : '(APP|KTO|SP)-[0-9]+'
-        BUGFIX_PATTERN : 'fix[[:space:]]*:[[:space:]]*(APP|KTO|SP)-[0-9]+[[:space:]]+.*#comment[[:space:]]+root[[:space:]]{0,1}cause:[[:space:]]*.{2,}[[:space:]]*\\[[:space:]]*solution[[:space:]]*:[[:space:]]*.{2,}'
-    script:
-        - rm -rf ~/Library/Developer/Xcode/DerivedData
-        - 'branch_name=$(echo "$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME")' 
-        - >            
-            if ! [[ "${branch_name}" =~ "ci" ]] && ! [[ "${branch_name}" =~ $BRANCH_PATTERN ]]; then                
-                echo -e "\033[31mBranch name should either be CI related or Jira tickets\033[0;m"
-                exit 1
-            fi;    
-        - >
-            if [[ "${branch_name}" =~ $BRANCH_PATTERN ]]; then                
-                echo "${CI_COMMIT_MESSAGE}" | npx commitlint
-            fi;         
-        - |
-          ISSUE_DETAIL=$(curl --request GET --url "https://jira.higgstar.com/rest/api/2/issue/${CI_MERGE_REQUEST_SOURCE_BRANCH_NAME}" --header "Authorization: Bearer $JIRA_TOKEN" --header "Content-Type: application/json")
-          ISSUE_TYPE="$(jq -r .fields.issuetype.name <<< ${ISSUE_DETAIL})"          
-          ISSUE_NAME=$(echo "$(jq -r .fields.issuetype.name <<< ${ISSUE_DETAIL})" | tr "[:upper:]" "[:lower:]")
-          echo -e "\033[34;1m Jira:$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME, Issue Type: $ISSUE_TYPE , Issue Name: $ISSUE_NAME\033[0;m"    
-          RESULT="$($MR_COMMAND)"        
-          TITLE=$(echo "$(jq -r .title <<< ${RESULT})" | tr "[:upper:]" "[:lower:]")        
-          DESCRIPTION=$(echo "$(jq -r .description <<< ${RESULT})")        
-          echo -e "\033[34;1m Merge Request:$TITLE, Description:$DESCRIPTION\033[0;m"
-        - >
-            if ! [[ "${TITLE}" =~ "ci" ]]; then
-                echo "title does not contain ci"
-                if [[ "${ISSUE_NAME}" =~ "bug" ]]; then
-                    echo "Issue relate to bug"
-                    if ! [[ "${DESCRIPTION}" =~ $BUGFIX_PATTERN ]] || ! [[ "${DESCRIPTION}" =~ "${CI_MERGE_REQUEST_SOURCE_BRANCH_NAME}" ]]; then
-                        echo -e "\033[31mdescription of fix type should follow pattern as fix:BRANCH_NAME #comment rootcause:xxx \\ solution:xxx\033[0;m"
-                        exit 1
-                    fi
-                fi
-            fi
-        - >
-            if [[ "${ISSUE_TYPE}" =~ "Sub-task" ]]; then                            
-                curl --request POST --url "https://jira.higgstar.com/rest/api/2/issue/${CI_MERGE_REQUEST_SOURCE_BRANCH_NAME}/transitions" --data '{"transition":{"id":"'${JIRA_SUB_MR_ACTION}'"}}' --header "Authorization: Bearer $JIRA_TOKEN" --header "Content-Type: application/json"
-            elif [[ ${ISSUE_TYPE} != null ]]; then
-                curl --request POST --url "https://jira.higgstar.com/rest/api/2/issue/${CI_MERGE_REQUEST_SOURCE_BRANCH_NAME}/transitions" --data '{"transition":{"id":"'${JIRA_ISSUE_MR_ACTION}'"}}' --header "Authorization: Bearer $JIRA_TOKEN" --header "Content-Type: application/json"
-            else
-                echo -e "\033[31mIgnore transition for ${ISSUE_TYPE} type\033[0;m"
-            fi;
-        - pod install --repo-update --allow-root
-        - fastlane tests
-    artifacts:
-        when: always
-        paths:
-            - "fastlane/test_output/"
-        reports:
-            junit:
-                - "fastlane/test_output/*.xml"
-    # - echo "${CI_COMMIT_MESSAGE}" | npx commitlint
+       if [ -n "$SEND_MR" ]; then
+        curl --request POST \
+          --url "https://jira.higgstar.com/rest/api/2/issue/${CI_MERGE_REQUEST_SOURCE_BRANCH_NAME}/transitions" \
+          --data '{"transition":{"id":"'"$SEND_MR"'"}}' \
+          --header "Authorization: Bearer $JIRA_TOKEN" \
+          --header "Content-Type: application/json"
+       else
+        echo "No 'Begin Working' or 'Start SubTask' transition found."
+       fi
+         
+merged-job:
+  stage: merged
+  tags:
+    - app-linux-jenkins
+  rules:
+    - if: ($CI_COMMIT_MESSAGE =~ /Merge branch 'KTO-[0-9]+'/ && $CI_COMMIT_REF_NAME == "master")
+  script:
+    - |
+      #!/bin/bash
+      # 使用正則表達式匹配並提取 KTO-xxxx 格式的字串
+      regex="KTO-[0-9]+"
+      if [[ $CI_COMMIT_MESSAGE =~ $regex ]]; then
+        extracted_string=${BASH_REMATCH[0]}
+        echo "Extracted string: $extracted_string"
+        # 您可以在這裡使用 $extracted_string 進行後續操作
+        
+        TRANSITION=$(curl --request GET --url "https://jira.higgstar.com/rest/api/2/issue/${extracted_string}/transitions" --header "Authorization: Bearer $JIRA_TOKEN" --header "Content-Type: application/json")
+        MERGED=$(echo $TRANSITION | jq -r '.transitions[] | select(.name=="Approved") | .id')
+
+        if [ -n "$MERGED" ]; then
+          curl --request POST \
+            --url "https://jira.higgstar.com/rest/api/2/issue/${extracted_string}/transitions" \
+            --data '{"transition":{"id":"'"$MERGED"'"}}' \
+            --header "Authorization: Bearer $JIRA_TOKEN" \
+            --header "Content-Type: application/json"
+          else
+          echo "No 'Approved' transition found."
+        fi
+
+      else
+        echo "No matching string found in CI_COMMIT_MESSAGE"
+      fi
+
