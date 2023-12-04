@@ -1,1 +1,1 @@
-ci: KTO-6879 [iOS] [Ci] 修改gitlab pipline
+chore: KTO-5120 [iOS] [CI] subtask 合回主單應該要編譯且跑unitTest -> 已做在KTO-6879
