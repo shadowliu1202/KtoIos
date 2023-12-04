@@ -165,7 +165,7 @@ final class DepositLogSummaryViewTests: XCBaseTestCase {
     injectStubCultureCode(.CN)
 
     let stubViewModel = DepositLogSummaryViewModel(
-      depositService: Injectable.resolveWrapper(ApplicationFactory.self).deposit(),
+      depositService: mock(AbsDepositAppService.self),
       playerConfig: PlayerConfigurationImpl(supportLocale: .China()))
 
     let stubSections = stubViewModel.buildSections([generateGroupLog(date: .init())])

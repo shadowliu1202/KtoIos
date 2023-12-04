@@ -98,7 +98,7 @@ final class OfflinePaymentViewTests: XCBaseTestCase {
     wait(for: [exp1], timeout: 30)
   }
 
-  func test_whenRemitInfoInvalid_thenErrorMessageDisplayed() {
+  func test_whenRemitInfoInvalid_thenErrorMessageDisplayed_KTO_TC_51() {
     let stubViewModel = mock(OfflinePaymentViewModelProtocol.self)
 
     given(stubViewModel.remitAmountLimitRange) ~> ""
@@ -142,7 +142,7 @@ final class OfflinePaymentViewTests: XCBaseTestCase {
     wait(for: [exp1], timeout: 30)
   }
 
-  func test_whenRemitInfoValid_thenNoErrorMessageDisplayed() {
+  func test_whenRemitInfoValid_thenNoErrorMessageDisplayed_KTO_TC_52() {
     let stubViewModel = mock(OfflinePaymentViewModelProtocol.self)
 
     given(stubViewModel.remitAmountLimitRange) ~> ""
