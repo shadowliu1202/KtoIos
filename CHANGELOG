@@ -1,1 +1,1 @@
-fix: KTO-6916 [IOS] 先進入聊天紀錄再返回，聊天紀錄有機率會消失 #comment rootcause: refresh 的時候沒有把 itemsTotalCount 歸零，導致邏輯判斷錯誤 \solution: 在 refreshData() 新增 itemsTotalCount = 0
+ci: KTO-6879 [iOS] [Ci] 修改gitlab pipline
