@@ -1078,6 +1078,30 @@ final class Injection {
           $0.resolveWrapper(PlayerConfiguration.self),
           $0.resolveWrapper(PlayerRepository.self))
       }
+    
+    container
+      .register(CustomerServiceMainViewModel.self) { resolver in
+        .init(
+          resolver.resolveWrapper(IChatHistoryAppService.self),
+          resolver.resolveWrapper(IChatAppService.self),
+          resolver.resolveWrapper(PlayerConfiguration.self),
+          resolver.resolveWrapper(ISurveyAppService.self))
+      }
+      .inObjectScope(.locale)
+    
+    container
+      .register(CallingViewModel.self) { resolver in
+        .init(
+          resolver.resolveWrapper(IChatAppService.self))
+      }
+    
+    container
+      .register(OfflineMessageViewModel.self) { resolver in
+        .init(
+          resolver.resolveWrapper(ISurveyAppService.self),
+          resolver.resolveWrapper(AuthenticationUseCase.self))
+      }
+      .inObjectScope(.locale)
   }
 
   // MARK: - Singleton
@@ -1125,26 +1149,17 @@ final class Injection {
   
   func registersharedbuModule() {
     registerExternalProtocol()
-    registerProductModule()
+    registerNumberGameModule()
+    registerArcadeModule()
     registerWalletModule()
     registerCustomerServiceModule()
     registerCasinoModule()
-    registerPromotionModule()
     registerP2PModule()
     registerTransactionModule()
   }
 
   // MARK: - ExternalProtocol
-  
-  // Old (ApplicationFactory)
   func registerExternalProtocol() {
-    container
-      .register(ExternalProtocolService.self) { resolver in
-        let httpClient = resolver.resolveWrapper(HttpClient.self)
-        return ExternalProtocolServiceFactory(httpClient)
-      }
-      .inObjectScope(.locale)
-
     container
       .register(ExternalStringService.self) { _ in
         ExternalStringServiceFactory()
@@ -1156,23 +1171,7 @@ final class Injection {
         resolver.resolveWrapper(LocalizeUtils.self)
       }
       .inObjectScope(.application)
-
-    container
-      .register(ApplicationFactory.self) { resolver in
-        let playerConfiguration = resolver.resolveWrapper(PlayerConfiguration.self)
-        let protocolFactory = resolver.resolveWrapper(ExternalProtocolService.self)
-        let stringServiceFactory = resolver.resolveWrapper(ExternalStringService.self)
-        let localize = resolver.resolveWrapper(StringSupporter.self)
-
-        return ApplicationFactory(
-          playerConfiguration: playerConfiguration,
-          externalProtocolService: protocolFactory,
-          stringServiceFactory: stringServiceFactory,
-          stringSupporter: localize)
-      }
-      .inObjectScope(.locale)
     
-    // New (Koin DI)
     container
       .register(PlayerConfiguration.self) { _ in
         PlayerConfigurationImpl()
@@ -1201,44 +1200,111 @@ final class Injection {
       .register(CashProtocol.self) {
         CashAdapter($0.resolveWrapper(HttpClient.self))
       }
+    
+    container
+      .register(PlayerProtocol.self) {
+        PlayerAdapter(PlayerApi($0.resolveWrapper(HttpClient.self)))
+      }
+    
+    container
+      .register(WithdrawalProtocol.self) {
+        WithdrawalAdapter(WithdrawalAPI($0.resolveWrapper(HttpClient.self)))
+      }
+    
+    container
+      .register(ImageProtocol.self) {
+        ImageAdapter(ImageApi($0.resolveWrapper(HttpClient.self)))
+      }
+    
+    container
+      .register(CryptoProtocol.self) {
+        CryptoAdapter(CryptoAPI($0.resolveWrapper(HttpClient.self)))
+      }
+    
+    container
+      .register(DepositProtocol.self) {
+        DepositAdapter(DepositAPI($0.resolveWrapper(HttpClient.self)))
+      }
+    
+    container
+      .register(CommonProtocol.self) {
+        CommonAdapter(CommonAPI($0.resolveWrapper(HttpClient.self)))
+      }
+    
+    container
+      .register(ArcadeProtocol.self) {
+        ArcadeAdapter(ArcadeApi($0.resolveWrapper(HttpClient.self)))
+      }
+    
+    container
+      .register(NumberGameProtocol.self) {
+        NumberGameAdapter(NumberGameApi($0.resolveWrapper(HttpClient.self)))
+      }
+    
+    container
+      .register(CasinoGameProtocol.self) { resolver in
+        CasinoGameAdapter(.init(resolver.resolveWrapper(HttpClient.self)))
+      }
+    
+    container
+      .register(CasinoMyBetProtocol.self) { resolver in
+        CasinoMyBetAdapter(.init(resolver.resolveWrapper(HttpClient.self)))
+      }
+    
+    container.register(P2PMyBetProtocol.self) { resolver in
+      P2PMyBetAdapter(.init(resolver.resolveWrapper(HttpClient.self)))
+    }
+    
+    container.register(PromotionProtocol.self) { _ in
+      PromotionAdapter()
+    }
   }
 
-  // MARK: - ProductModule
+  // MARK: - NumberGameModule
   
-  func registerProductModule() {
+  func registerNumberGameModule() {
     container
-      .register(INumberGameAppService.self) { resolver in
-        resolver.resolveWrapper(ApplicationFactory.self)
-          .numberGame()
+      .register(INumberGameAppService.self) {
+        ProvideModule.shared.numberGameAppService(
+          playerConfiguration: $0.resolveWrapper(PlayerConfiguration.self),
+          numberGameProtocol: $0.resolveWrapper(NumberGameProtocol.self))
       }
-
+  }
+  
+  // MARK: - ArcadeModule
+  
+  func registerArcadeModule() {
     container
-      .register(IArcadeAppService.self) { resolver in
-        resolver.resolveWrapper(ApplicationFactory.self)
-          .arcade()
+      .register(IArcadeAppService.self) {
+        ProvideModule.shared.arcadeAppService(
+          playerConfiguration: $0.resolveWrapper(PlayerConfiguration.self),
+          arcadeProtocol: $0.resolveWrapper(ArcadeProtocol.self))
       }
   }
 
   // MARK: - WalletModule
   
   func registerWalletModule() {
-    let walletModule = WalletModule()
-
     container
-      .register(IDepositAppService.self) { resolver in
-        resolver.resolveWrapper(ApplicationFactory.self)
-          .deposit()
+      .register(IDepositAppService.self) {
+        ProvideModule.shared.depositAppService(
+          depositProtocol: $0.resolveWrapper(DepositProtocol.self),
+          cashProtocol: $0.resolveWrapper(CashProtocol.self),
+          imageProtocol: $0.resolveWrapper(ImageProtocol.self),
+          commonProtocol: $0.resolveWrapper(CommonProtocol.self),
+          playerConfiguration: $0.resolveWrapper(PlayerConfiguration.self),
+          depositStringService: $0.resolveWrapper(ExternalStringService.self).deposit(),
+          stringSupporter: $0.resolveWrapper(StringSupporter.self))
       }
 
     container
       .register(IWithdrawalAppService.self) { resolver in
-        walletModule
-          .getWithdrawalAppService(
-            playerConfiguration: resolver.resolveWrapper(PlayerConfiguration.self),
-            withdrawalProtocol: resolver.resolveWrapper(ExternalProtocolService.self).getWithdrawal(),
-            imageProtocol: resolver.resolveWrapper(ExternalProtocolService.self).getImage(),
-            cryptoProtocol: resolver.resolveWrapper(ExternalProtocolService.self).getCrypto(),
-            playerProtocol: resolver.resolveWrapper(ExternalProtocolService.self).getPlayer())
+        ProvideModule.shared.withdrawalAppService(
+          playerProtocol: resolver.resolveWrapper(PlayerProtocol.self),
+          withdrawalProtocol: resolver.resolveWrapper(WithdrawalProtocol.self),
+          imageProtocol: resolver.resolveWrapper(ImageProtocol.self),
+          cryptoProtocol: resolver.resolveWrapper(CryptoProtocol.self),
+          playerConfiguration: resolver.resolveWrapper(PlayerConfiguration.self))
       }
       .inObjectScope(.withdrawalFlow)
   }
@@ -1256,12 +1322,12 @@ final class Injection {
     
     container
       .register(ICustomerServiceAppService.self) { resolver in
-        CustomerServiceModule().getCSAppService(
+        ProvideModule.shared.csAppService(
+          playerConfiguration: resolver.resolveWrapper(PlayerConfiguration.self),
           customerServiceProtocol: resolver.resolveWrapper(CustomerServiceProtocol.self),
-          cSSurveyProtocol: resolver.resolveWrapper(CSSurveyProtocol.self),
-          cSHistoryProtocol: resolver.resolveWrapper(CSHistoryProtocol.self),
-          cSEventService: resolver.resolveWrapper(CSEventService.self),
-          playerConfiguration: resolver.resolveWrapper(PlayerConfiguration.self))
+          csSurveyProtocol: resolver.resolveWrapper(CSSurveyProtocol.self),
+          csHistoryProtocol: resolver.resolveWrapper(CSHistoryProtocol.self),
+          csEventService: resolver.resolveWrapper(CSEventService.self))
       }
       .inObjectScope(.locale)
     
@@ -1282,54 +1348,20 @@ final class Injection {
         resolver.resolveWrapper(ICustomerServiceAppService.self)
       }
       .inObjectScope(.locale)
-    
-    container
-      .register(CustomerServiceMainViewModel.self) { resolver in
-        .init(
-          resolver.resolveWrapper(IChatHistoryAppService.self),
-          resolver.resolveWrapper(IChatAppService.self),
-          resolver.resolveWrapper(PlayerConfiguration.self),
-          resolver.resolveWrapper(ISurveyAppService.self))
-      }
-      .inObjectScope(.locale)
-    
-    container
-      .register(CallingViewModel.self) { resolver in
-        .init(
-          resolver.resolveWrapper(IChatAppService.self))
-      }
-    
-    container
-      .register(OfflineMessageViewModel.self) { resolver in
-        .init(
-          resolver.resolveWrapper(ISurveyAppService.self),
-          resolver.resolveWrapper(AuthenticationUseCase.self))
-      }
-      .inObjectScope(.locale)
   }
   
   // MARK: - CasinoModule
   
   func registerCasinoModule() {
     container
-      .register(CasinoGameProtocol.self) { resolver in
-        CasinoGameAdapter(.init(resolver.resolveWrapper(HttpClient.self)))
-      }
-    
-    container
-      .register(CasinoMyBetProtocol.self) { resolver in
-        CasinoMyBetAdapter(.init(resolver.resolveWrapper(HttpClient.self)))
-      }
-    
-    container
       .register(ICasinoAppService.self) { resolver in
-        CasinoModule().getCasinoAppService(
+        ProvideModule.shared.casinoAppService(
           casinoGameProtocol: resolver.resolveWrapper(CasinoGameProtocol.self),
           casinoMyBetProtocol: resolver.resolveWrapper(CasinoMyBetProtocol.self),
           promotionProtocol: resolver.resolveWrapper(PromotionProtocol.self),
           playerConfiguration: resolver.resolveWrapper(PlayerConfiguration.self),
-          stringServiceFactory: resolver.resolveWrapper(ExternalStringService.self),
-          stringSupporter: resolver.resolveWrapper(StringSupporter.self))
+          stringSupporter: resolver.resolveWrapper(StringSupporter.self),
+          externalStringService: resolver.resolveWrapper(ExternalStringService.self))
       }
     
     container
@@ -1343,25 +1375,13 @@ final class Injection {
       }
   }
   
-  // MARK: - PromotionModule
-  
-  func registerPromotionModule() {
-    container.register(PromotionProtocol.self) { _ in
-      PromotionAdapter()
-    }
-  }
-  
   // MARK: - P2PModule
   
   func registerP2PModule() {
-    container.register(P2PMyBetProtocol.self) { resolver in
-      P2PMyBetAdapter(.init(resolver.resolveWrapper(HttpClient.self)))
-    }
-    
     container.register(IP2PAppService.self) { resolver in
-      P2PModule().getP2PAppService(
-        p2PMyBetProtocol: resolver.resolveWrapper(P2PMyBetProtocol.self),
+      ProvideModule.shared.p2pAppService(
         playerConfiguration: resolver.resolveWrapper(PlayerConfiguration.self),
+        p2pMyBetProtocol: resolver.resolveWrapper(P2PMyBetProtocol.self),
         stringSupporter: resolver.resolveWrapper(StringSupporter.self),
         externalStringService: resolver.resolveWrapper(ExternalStringService.self))
     }
