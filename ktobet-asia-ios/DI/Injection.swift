@@ -628,7 +628,6 @@ final class Injection {
           depositService: resolver.resolveWrapper(IDepositAppService.self),
           locale: resolver.resolveWrapper(PlayerConfiguration.self).supportLocale)
       }
-      .inObjectScope(.depositFlow)
 
     container
       .register(DepositRecordDetailViewModel.self) { resolver in
@@ -1045,16 +1044,6 @@ final class Injection {
       }
     
     container
-      .register(CustomerServiceMainViewModel.self) { resolver in
-        .init(
-          resolver.resolveWrapper(IChatHistoryAppService.self),
-          resolver.resolveWrapper(IChatAppService.self),
-          resolver.resolveWrapper(PlayerConfiguration.self),
-          resolver.resolveWrapper(ISurveyAppService.self))
-      }
-      .inObjectScope(.depositFlow)
-    
-    container
       .register(PrechatSurveyViewModel.self) { resolver in
         .init(
           resolver.resolveWrapper(ISurveyAppService.self),
@@ -1296,6 +1285,7 @@ final class Injection {
           depositStringService: $0.resolveWrapper(ExternalStringService.self).deposit(),
           stringSupporter: $0.resolveWrapper(StringSupporter.self))
       }
+      .inObjectScope(.depositFlow)
 
     container
       .register(IWithdrawalAppService.self) { resolver in
