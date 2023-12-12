@@ -1,5 +1,6 @@
 import Combine
 import Mockingbird
+import RxSwift
 import sharedbu
 import XCTest
 
@@ -8,6 +9,8 @@ import XCTest
 class CallingViewControllerTests: XCBaseTestCase {
   private func getStubViewModel() -> CallingViewModelMock {
     let dummyAbsCustomerServiceAppService = mock(AbsCustomerServiceAppService.self)
+    given(dummyAbsCustomerServiceAppService.observeChatRoom()) ~> Observable.just(CustomerServiceDTO.ChatRoom.NOT_EXIST)
+      .asWrapper()
     
     let viewModel = mock(CallingViewModel.self)
       .initialize(dummyAbsCustomerServiceAppService)
@@ -27,7 +30,7 @@ class CallingViewControllerTests: XCBaseTestCase {
     Alert.shared = mockAlert
     
     let sut = CallingViewController(surveyAnswers: nil)
-    sut.loadViewIfNeeded()
+    UINavigationController(rootViewController: sut).loadViewIfNeeded()
     sut.showLeaveMessageAlert()
 
     verify(
@@ -47,7 +50,7 @@ class CallingViewControllerTests: XCBaseTestCase {
     Alert.shared = mockAlert
     
     let sut = CallingViewController(surveyAnswers: nil)
-    sut.loadViewIfNeeded()
+    UINavigationController(rootViewController: sut).loadViewIfNeeded()
     sut.showStopCallingAlert()
 
     verify(
@@ -67,7 +70,7 @@ class CallingViewControllerTests: XCBaseTestCase {
     Alert.shared = mockAlert
     
     let sut = CallingViewController(surveyAnswers: nil)
-    sut.loadViewIfNeeded()
+    UINavigationController(rootViewController: sut).loadViewIfNeeded()
     sut.showStopCallingAlert()
     
     verify(
@@ -100,7 +103,7 @@ class CallingViewControllerTests: XCBaseTestCase {
     Alert.shared = mockAlert
     
     let sut = CallingViewController(surveyAnswers: nil)
-    sut.loadViewIfNeeded()
+    UINavigationController(rootViewController: sut).loadViewIfNeeded()
     
     let fakeViewController = UIViewController()
     let mockNavigationController = FakeNavigationController(rootViewController: fakeViewController)
@@ -112,15 +115,23 @@ class CallingViewControllerTests: XCBaseTestCase {
 
   func test_givenCalling_whenServiceConnected_thenToChatRoomVC_KTO_TC_901() {
     let viewModel = getStubViewModel()
-    given(viewModel.chatRoomStatus) ~> sharedbu.Connection.StatusConnected()
+    given(viewModel.getChatRoomStream()) ~> Just(CustomerServiceDTO.ChatRoom(
+      roomId: "",
+      readMessage: [],
+      unReadMessage: [],
+      status: Connection.StatusConnected(),
+      isMaintained: false))
+      .eraseToAnyPublisher()
+    
+    injectFakeObject(CallingViewModel.self, object: viewModel)
     
     let sut = CallingViewController(surveyAnswers: nil)
     let navi = CustomServiceNavigationController(rootViewController: sut)
     makeItVisible(navi)
-    sut.toChatRoom()
     
+    wait(for: 0.001)
     let presentedPage = "\(type(of: navi.viewControllers.first!))"
-
+    
     XCTAssertEqual(expect: "ChatRoomViewController", actual: presentedPage)
   }
 }

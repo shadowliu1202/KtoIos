@@ -7,33 +7,47 @@ protocol CallingViewModelProtocol {
   func setup(surveyAnswers: CustomerServiceDTO.CSSurveyAnswers?)
 }
 
+extension CustomerServiceDTO.ChatRoom {
+  static let NOT_EXIST = CustomerServiceDTO.ChatRoom(
+    roomId: "",
+    readMessage: [],
+    unReadMessage: [],
+    status: Connection.StatusNotExist(),
+    isMaintained: false)
+}
+
 class CallingViewModel:
   ErrorCollectViewModel,
   CallingViewModelProtocol,
   ObservableObject
 {
-  @Published private(set) var chatRoomStatus: sharedbu.Connection.Status = sharedbu.Connection.StatusNotExist()
   @Published private(set) var currentNumber = 0
-  @Published private(set) var isCloseEnable = true
-  
-  @Published var showLeaveMessageAlert = false
   
   private let chatAppService: IChatAppService
   
+  private var chatRoomStream: AnyPublisher<CustomerServiceDTO.ChatRoom, Never>!
   private var cancellables = Set<AnyCancellable>()
   
   init(_ chatAppService: IChatAppService) {
     self.chatAppService = chatAppService
     super.init()
+    
+    chatRoomStream = AnyPublisher.from(chatAppService.observeChatRoom())
+      .redirectErrors(to: self)
+      .multicast { CurrentValueSubject(.NOT_EXIST) }
+      .autoconnect()
+      .eraseToAnyPublisher()
   }
   
   func setup(surveyAnswers: CustomerServiceDTO.CSSurveyAnswers?) {
     getCurrentQueueNumber()
-    connectChatRoom(surveyAnswers: surveyAnswers)
+    Task {
+      await connectChatRoom(surveyAnswers: surveyAnswers)
+    }
   }
   
   private func getCurrentQueueNumber() {
-    AnyPublisher.from(chatAppService.observeChatRoom())
+    chatRoomStream
       .receive(on: DispatchQueue.main)
       .map { chatRoom in
         if let connecting = chatRoom.status as? sharedbu.Connection.StatusConnecting {
@@ -41,49 +55,37 @@ class CallingViewModel:
         }
         else { return 0 }
       }
-      .redirectErrors(to: self)
       .assign(to: &$currentNumber)
   }
   
-  private func connectChatRoom(surveyAnswers: CustomerServiceDTO.CSSurveyAnswers?) {
-    AnyPublisher.from(chatAppService.create(surveyAnswers: surveyAnswers))
-      .redirectErrors(to: self)
-      .sink(receiveValue: { _ in })
-      .store(in: &cancellables)
+  private func connectChatRoom(surveyAnswers: CustomerServiceDTO.CSSurveyAnswers?) async {
+    do {
+      try await createChatRoomIfNeeded(surveyAnswers)
+    }
+    catch {
+      collectError(error)
+    }
   }
   
-  func closeChatRoom() {
-    AnyPublisher.from(chatAppService.exit(forceExit: false))
-      .receive(on: DispatchQueue.main)
-      .handleEvents(
-        receiveSubscription: { [unowned self] _ in
-          isCloseEnable = false
-        }, receiveCompletion: { [unowned self] _ in
-          isCloseEnable = true
-        }, receiveCancel: { [unowned self] in
-          isCloseEnable = true
-        })
-      .sink(
-        receiveCompletion: { [unowned self] completion in
-          switch completion {
-          case .finished:
-            break
-          case .failure(let error):
-            collectError(error)
-          }
-        },
-        receiveValue: { [unowned self] _ in
-          showLeaveMessageAlert = true
-        })
-      .store(in: &cancellables)
+  private func createChatRoomIfNeeded(_ surveyAnswers: CustomerServiceDTO.CSSurveyAnswers?) async throws {
+    guard await !isChatRoomExsit() else { return }
+    try await AnyPublisher.from(chatAppService.create(surveyAnswers: surveyAnswers)).value
   }
   
-  func getChatRoomStatus() {
-    AnyPublisher.from(chatAppService.observeChatRoom())
-      .receive(on: DispatchQueue.main)
-      .map { $0.status }
-      .share()
-      .redirectErrors(to: self)
-      .assign(to: &$chatRoomStatus)
+  private func isChatRoomExsit() async -> Bool {
+    if let currentChatRoom = await chatRoomStream.first().eraseToAnyPublisher().valueWithoutError {
+      return currentChatRoom.status != Connection.StatusNotExist()
+    }
+    else {
+      return false
+    }
+  }
+  
+  func getChatRoomStream() -> AnyPublisher<CustomerServiceDTO.ChatRoom, Never> {
+    chatRoomStream
+  }
+  
+  func closeChatRoom() async throws {
+    try await AnyPublisher.from(chatAppService.exit(forceExit: false)).value
   }
 }

@@ -2,10 +2,16 @@ import SwiftUI
 
 struct SwiftUILoadingView: View {
   @State private var isSpinning = false
+  
+  private let opacity: Double
 
+  init(opacity: Double = 1) {
+    self.opacity = opacity
+  }
+  
   var body: some View {
     Rectangle()
-      .fill(Color.from(.greyScaleDefault))
+      .fill(Color.from(.greyScaleDefault).opacity(opacity))
       .ignoresSafeArea(.container)
       .overlay(
         Image("icon.loading")
