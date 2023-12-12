@@ -6,6 +6,8 @@ import UIKit
 class CallingViewController: CommonViewController {
   @Injected private var viewModel: CallingViewModel
 
+  private let loadingView: UIView = UIHostingController(rootView: SwiftUILoadingView(opacity: 0.8)).view
+  
   private var cancellables = Set<AnyCancellable>()
   
   var barButtonItems: [UIBarButtonItem] = []
@@ -26,14 +28,9 @@ class CallingViewController: CommonViewController {
     binding()
   }
   
-  override func viewDidAppear(_ animated: Bool) {
-    super.viewDidAppear(animated)
-    
-    viewModel.getChatRoomStatus()
-  }
-  
   private func setupUI() {
     bind(position: .left, barButtonItems: .kto(.close))
+    setupLoadingView()
     
     addSubView(from: { [unowned self] in
       CallingView(
@@ -42,27 +39,27 @@ class CallingViewController: CommonViewController {
     }, to: view)
   }
   
+  private func setupLoadingView() {
+    loadingView.backgroundColor = .clear
+    navigationController?.view.addSubview(loadingView)
+    loadingView.snp.makeConstraints { make in
+      make.edges.equalToSuperview()
+    }
+    
+    loadingView.isHidden = true
+  }
+  
   private func binding() {
-    viewModel.$chatRoomStatus
-      .filter { $0 is sharedbu.Connection.StatusConnected }
+    viewModel.getChatRoomStream()
+      .filter { $0.status is sharedbu.Connection.StatusConnected }
+      .receive(on: DispatchQueue.main)
       .sink { [unowned self] _ in
         toChatRoom()
       }
       .store(in: &cancellables)
     
-    viewModel.$showLeaveMessageAlert
-      .filter { $0 == true }
-      .sink { [unowned self] _ in showLeaveMessageAlert() }
-      .store(in: &cancellables)
-    
     viewModel.errors()
       .sink(receiveValue: { [unowned self] in handleCallingErrors($0) })
-      .store(in: &cancellables)
-    
-    viewModel.$isCloseEnable
-      .sink(receiveValue: { [unowned self] in
-        navigationItem.leftBarButtonItem?.isEnabled = $0
-      })
       .store(in: &cancellables)
   }
   
@@ -91,9 +88,26 @@ class CallingViewController: CommonViewController {
       confirmText: Localize.string("common_continue"),
       cancel: { [unowned self] in
         guard let _ = CustomServicePresenter.shared.topViewController as? CallingViewController else { return }
-        viewModel.closeChatRoom()
+        
+        Task {
+          do {
+            enableLoading(true)
+            try await viewModel.closeChatRoom()
+            enableLoading(false)
+            showLeaveMessageAlert()
+          }
+          catch {
+            enableLoading(false)
+            handleCallingErrors(error)
+          }
+        }
       },
       cancelText: Localize.string("common_stop"))
+  }
+  
+  func enableLoading(_ isEnabled: Bool) {
+    loadingView.isHidden = !isEnabled
+    navigationItem.leftBarButtonItem?.isEnabled = !isEnabled
   }
   
   func showLeaveMessageAlert() {

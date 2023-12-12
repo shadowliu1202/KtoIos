@@ -288,7 +288,7 @@ final class AnyPublisherExtensionTests: XCTestCase {
     XCTAssertFalse(completeWithoutFailure!)
   }
   
-  func test_ThrowableNeverPublisherWithoutError() async {
+  func test_ThrowableVoidPublisherWithoutError() async {
     let publisher = Empty(completeImmediately: true, outputType: Void.self, failureType: Error.self).eraseToAnyPublisher()
     
     var completeWithoutFailure: Bool?
@@ -304,7 +304,7 @@ final class AnyPublisherExtensionTests: XCTestCase {
     XCTAssertTrue(completeWithoutFailure!)
   }
   
-  func test_ThrowableNeverPublisherWithError() async {
+  func test_ThrowableVoidPublisherWithError() async {
     let publisher = Fail(outputType: Void.self, failure: KTOError.EmptyData).eraseToAnyPublisher()
     
     var completeWithoutFailure: Bool?
@@ -320,8 +320,25 @@ final class AnyPublisherExtensionTests: XCTestCase {
     XCTAssertFalse(completeWithoutFailure!)
   }
   
+  @MainActor
+  func test_givenThrowablePublisher_whenCnacelTask_thenReturnNil() async throws {
+    let task: Task<Void, Error>!
+    let subject = PassthroughSubject<String, Error>()
+    
+    var value: String? = ""
+    
+    task = Task {
+      value = try await subject.eraseToAnyPublisher().value
+    }
+    
+    task.cancel()
+    
+    try await task.value
+    XCTAssertNil(value)
+  }
+  
   // NotThrowable
-  func test_NotThrowableAnyObjectPublisher() async {
+  func test_NonThrowableAnyObjectPublisher() async {
     let publisher: AnyPublisher<TestClass, Never> = Just(TestClass(order: 1)).setFailureType(to: Never.self).eraseToAnyPublisher()
     
     var values = [Int]()
@@ -333,7 +350,7 @@ final class AnyPublisherExtensionTests: XCTestCase {
     XCTAssertEqual([1], values)
   }
   
-  func test_NotThrowableNeverPublisher() async {
+  func test_NonThrowableVoidPublisher() async {
     let publisher = Empty(completeImmediately: true, outputType: Void.self, failureType: Never.self).eraseToAnyPublisher()
     
     var completeWithoutFailure: Bool?
@@ -342,5 +359,22 @@ final class AnyPublisherExtensionTests: XCTestCase {
     completeWithoutFailure = true
     
     XCTAssertTrue(completeWithoutFailure!)
+  }
+  
+  @MainActor
+  func test_givenNonThrowablePublisher_whenCnacelTask_thenReturnNil() async throws {
+    let task: Task<Void, Never>!
+    let subject = PassthroughSubject<String, Never>()
+    
+    var value: String? = ""
+    
+    task = Task {
+      value = await subject.eraseToAnyPublisher().valueWithoutError
+    }
+    
+    task.cancel()
+    
+    await task.value
+    XCTAssertNil(value)
   }
 }

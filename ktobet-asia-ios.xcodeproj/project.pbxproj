@@ -9576,11 +9576,11 @@
 		485DF05125415454001F9D4A /* KTO-UnitTests */ = {
 			isa = PBXGroup;
 			children = (
-				485DF05425415454001F9D4A /* Info.plist */,
 				3C8B0ACC2A6FB8F900910341 /* AnyPublisherExtensionTests.swift */,
 				3C3D3D3D2AAB1F1D000408AE /* APPErrorTests.swift */,
 				6D3DD77C283231560065D6B3 /* AppVersionTest.swift */,
 				6D885391296D3B4200AE2ED6 /* ArcadeViewControllerTests.swift */,
+				AC9AA4EA2B0AFAB2001D19B2 /* ChatHistoriesEditViewTest.swift */,
 				6D8AC5A528F562EA0029358A /* CommonVerifyOtpViewControllerTest.swift */,
 				3CDB7B58284F035B006DE0FA /* DateExtensionTest.swift */,
 				3CBC879E2857396400B57607 /* DateUtilsTest.swift */,
@@ -9589,18 +9589,21 @@
 				3CF9BB41295C37AB00EC91DC /* DepositOfflineConfirmViewTests.swift */,
 				6D1612E129BB0BF100BA1827 /* DropdownSelectorTests.swift */,
 				3C17058F29505CC800531357 /* ExpandableBlockTest.swift */,
+				3E6D05322ADD1F55004327D0 /* HttpClientTests.swift */,
+				485DF05425415454001F9D4A /* Info.plist */,
 				3CF9BB40295C37AB00EC91DC /* ItemSelectorTests.swift */,
 				3C3D3D3B2AAB15C6000408AE /* KotlinThrowableTests.swift */,
 				FFCFB9A92902903500F585B3 /* LaunchAppTest.swift */,
 				3C2458432AA6D0DB003B09F1 /* MaintenanceViewModelTests.swift */,
 				3C26523E2A208C0900BBB342 /* PaginationTests.swift */,
+				3E5196582B01D0A400E4A493 /* PrechatSurveyViewModelTest.swift */,
+				3E51965A2B01D0EF00E4A493 /* PrechatSurveyViewTests.swift */,
 				3C7C290F2A6E27B800719E20 /* ProductsViewControllerTests.swift */,
 				3CA721E42913CA9800B94548 /* PromotionApiTests.swift */,
 				3CB8300C2914DAF3001246BB /* PromotionRepositoryImplTests.swift */,
 				3CB830152914F1D5001246BB /* PromotionUseCaseImplTests.swift */,
 				3CB830172914F6BF001246BB /* PromotionViewModelTests.swift */,
 				3CCAFDF12AC27E160087C050 /* RegisterUseCaseTests.swift */,
-				AC9AA4EA2B0AFAB2001D19B2 /* ChatHistoriesEditViewTest.swift */,
 				3CCAFDF32AC284230087C050 /* SignupUserinfoViewControllerTests.swift */,
 				6D1062E82A00DF290055C947 /* SingleExtensionTests.swift */,
 				FFB70490296D5AF7008834D3 /* SlotViewControllerTests.swift */,
@@ -9609,9 +9612,6 @@
 				3CBC879428530FFB00B57607 /* StringExtensionTest.swift */,
 				3C17059129505CC900531357 /* SwiftUIDropDownTextTest.swift */,
 				3C17058D29505CC700531357 /* TermsViewTests.swift */,
-				3E6D05322ADD1F55004327D0 /* HttpClientTests.swift */,
-				3E5196582B01D0A400E4A493 /* PrechatSurveyViewModelTest.swift */,
-				3E51965A2B01D0EF00E4A493 /* PrechatSurveyViewTests.swift */,
 			);
 			path = "KTO-UnitTests";
 			sourceTree = "<group>";

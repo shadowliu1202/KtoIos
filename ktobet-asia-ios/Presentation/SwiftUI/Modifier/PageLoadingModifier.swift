@@ -9,11 +9,7 @@ struct PageLoadingModifier: ViewModifier {
       content
     }
     else {
-      VStack {
-        SwiftUIGradientArcView(lineWidth: 5)
-          .frame(width: 48, height: 48)
-      }
-      .frame(maxWidth: .infinity, maxHeight: .infinity)
+      SwiftUILoadingView()
     }
   }
 }
@@ -21,5 +17,12 @@ struct PageLoadingModifier: ViewModifier {
 extension View {
   func onPageLoading(_ isLoading: Bool) -> some View {
     self.modifier(PageLoadingModifier(isLoading: isLoading))
+  }
+}
+
+struct PageLoadingModifier_Previews: PreviewProvider {
+  static var previews: some View {
+    Text("Hello, world!")
+      .onPageLoading(true)
   }
 }
