@@ -15,11 +15,11 @@ class ChatRoomViewController: CommonViewController {
   @IBOutlet weak var textFieldBottomPaddingConstraint: NSLayoutConstraint!
   @IBOutlet weak var bannerContainer: UIView!
 
+  private let maxCountPerUploadImage = Configuration.uploadImageCountLimit
   private let inputTextFieldTextCountLimit = 500
 
   private var activityIndicator = UIActivityIndicatorView(style: .large)
   private var disposeBag = DisposeBag()
-  private var imagePickerView: ImagePickerViewController!
   private var imageIndex = 0
   private var dataCount = 0
 
@@ -291,15 +291,14 @@ class ChatRoomViewController: CommonViewController {
   }
 
   private func showImagePicker() {
-    imagePickerView = UIStoryboard(name: "ImagePicker", bundle: nil)
-      .instantiateViewController(withIdentifier: "ImagePickerViewController") as? ImagePickerViewController
-    imagePickerView.delegate = self
-    imagePickerView.completionWithLocalIdentifier = { [weak self] imageIDs in
-      self?.navigationController?.popViewController(animated: true)
-      self?.sendImages(URIs: imageIDs)
-    }
-
-    self.navigationController?.pushViewController(imagePickerView, animated: true)
+    let photoPickerVC = PhotoPickerViewController(
+      maxCount: maxCountPerUploadImage,
+      selectImagesOnComplete: { [weak self] imageAssets in
+        let imageIDs = imageAssets.map { $0.localIdentifier }
+        self?.sendImages(URIs: imageIDs)
+      })
+    
+    self.navigationController?.pushViewController(photoPickerVC, animated: true)
   }
   
   private func sendImages(URIs: [String]) {
@@ -416,36 +415,6 @@ extension ChatRoomViewController: BarButtonItemable {
     default:
       break
     }
-  }
-}
-
-// MARK: CAMERA EVENT
-extension ChatRoomViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-  func imagePickerController(
-    _: UIImagePickerController,
-    didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any])
-  {
-    dismiss(animated: true) {
-      NavigationManagement.sharedInstance.popViewController()
-      
-      guard let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else { return }
-      var imageID: String?
-        
-      PHPhotoLibrary.shared().performChanges(
-        {
-          let createRequest = PHAssetChangeRequest.creationRequestForAsset(from: image)
-          imageID = createRequest.placeholderForCreatedAsset!.localIdentifier
-        },
-        completionHandler: { [weak self] success, _ in
-          guard success, let imageID else { return }
-          
-          self?.sendImages(URIs: [imageID])
-        })
-    }
-  }
-
-  func imagePickerControllerDidCancel(_: UIImagePickerController) {
-    self.dismiss(animated: true, completion: nil)
   }
 }
 
