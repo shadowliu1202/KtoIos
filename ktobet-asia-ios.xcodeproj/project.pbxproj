@@ -1580,6 +1580,42 @@
 		3CFFD45B2A24A196004B179F /* PromotionDropDownFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CFFD4522A24A196004B179F /* PromotionDropDownFilter.swift */; };
 		3D01375440F0609296BEF9DC /* Pods_ktobet_asia_ios_preprod.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 259EBEDD4AD22EE794241603 /* Pods_ktobet_asia_ios_preprod.framework */; };
 		3E172FA82B04D31D00E7C908 /* SurveyViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E172FA72B04D31D00E7C908 /* SurveyViewTests.swift */; };
+		3E3ECAC02B21A1C900714A23 /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3ECABF2B21A1C900714A23 /* ImagePickerView.swift */; };
+		3E3ECAC12B21A1C900714A23 /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3ECABF2B21A1C900714A23 /* ImagePickerView.swift */; };
+		3E3ECAC22B21A1C900714A23 /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3ECABF2B21A1C900714A23 /* ImagePickerView.swift */; };
+		3E3ECAC32B21A1C900714A23 /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3ECABF2B21A1C900714A23 /* ImagePickerView.swift */; };
+		3E3ECAC42B21A1C900714A23 /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3ECABF2B21A1C900714A23 /* ImagePickerView.swift */; };
+		3E3ECAC52B21A1C900714A23 /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3ECABF2B21A1C900714A23 /* ImagePickerView.swift */; };
+		3E3ECAC62B21A1C900714A23 /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3ECABF2B21A1C900714A23 /* ImagePickerView.swift */; };
+		3E3ECAC72B21A1C900714A23 /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3ECABF2B21A1C900714A23 /* ImagePickerView.swift */; };
+		3E3ECAC82B21A1C900714A23 /* ImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3ECABF2B21A1C900714A23 /* ImagePickerView.swift */; };
+		3E3ECACA2B21BFA400714A23 /* ImagePickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3ECAC92B21BFA400714A23 /* ImagePickerViewModel.swift */; };
+		3E3ECACB2B21BFA400714A23 /* ImagePickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3ECAC92B21BFA400714A23 /* ImagePickerViewModel.swift */; };
+		3E3ECACC2B21BFA400714A23 /* ImagePickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3ECAC92B21BFA400714A23 /* ImagePickerViewModel.swift */; };
+		3E3ECACD2B21BFA400714A23 /* ImagePickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3ECAC92B21BFA400714A23 /* ImagePickerViewModel.swift */; };
+		3E3ECACE2B21BFA400714A23 /* ImagePickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3ECAC92B21BFA400714A23 /* ImagePickerViewModel.swift */; };
+		3E3ECACF2B21BFA400714A23 /* ImagePickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3ECAC92B21BFA400714A23 /* ImagePickerViewModel.swift */; };
+		3E3ECAD02B21BFA400714A23 /* ImagePickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3ECAC92B21BFA400714A23 /* ImagePickerViewModel.swift */; };
+		3E3ECAD12B21BFA400714A23 /* ImagePickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3ECAC92B21BFA400714A23 /* ImagePickerViewModel.swift */; };
+		3E3ECAD22B21BFA400714A23 /* ImagePickerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3ECAC92B21BFA400714A23 /* ImagePickerViewModel.swift */; };
+		3E3ECAE02B26F5A500714A23 /* PhotoPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3ECADF2B26F5A500714A23 /* PhotoPickerViewController.swift */; };
+		3E3ECAE12B26F5A500714A23 /* PhotoPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3ECADF2B26F5A500714A23 /* PhotoPickerViewController.swift */; };
+		3E3ECAE22B26F5A500714A23 /* PhotoPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3ECADF2B26F5A500714A23 /* PhotoPickerViewController.swift */; };
+		3E3ECAE32B26F5A500714A23 /* PhotoPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3ECADF2B26F5A500714A23 /* PhotoPickerViewController.swift */; };
+		3E3ECAE42B26F5A500714A23 /* PhotoPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3ECADF2B26F5A500714A23 /* PhotoPickerViewController.swift */; };
+		3E3ECAE52B26F5A500714A23 /* PhotoPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3ECADF2B26F5A500714A23 /* PhotoPickerViewController.swift */; };
+		3E3ECAE62B26F5A500714A23 /* PhotoPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3ECADF2B26F5A500714A23 /* PhotoPickerViewController.swift */; };
+		3E3ECAE72B26F5A500714A23 /* PhotoPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3ECADF2B26F5A500714A23 /* PhotoPickerViewController.swift */; };
+		3E3ECAE82B26F5A500714A23 /* PhotoPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3ECADF2B26F5A500714A23 /* PhotoPickerViewController.swift */; };
+		3E3ECAEA2B27FBFE00714A23 /* PhotoPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3ECAE92B27FBFE00714A23 /* PhotoPickerView.swift */; };
+		3E3ECAEB2B27FBFE00714A23 /* PhotoPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3ECAE92B27FBFE00714A23 /* PhotoPickerView.swift */; };
+		3E3ECAEC2B27FBFE00714A23 /* PhotoPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3ECAE92B27FBFE00714A23 /* PhotoPickerView.swift */; };
+		3E3ECAED2B27FBFE00714A23 /* PhotoPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3ECAE92B27FBFE00714A23 /* PhotoPickerView.swift */; };
+		3E3ECAEE2B27FBFE00714A23 /* PhotoPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3ECAE92B27FBFE00714A23 /* PhotoPickerView.swift */; };
+		3E3ECAEF2B27FBFE00714A23 /* PhotoPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3ECAE92B27FBFE00714A23 /* PhotoPickerView.swift */; };
+		3E3ECAF02B27FBFE00714A23 /* PhotoPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3ECAE92B27FBFE00714A23 /* PhotoPickerView.swift */; };
+		3E3ECAF12B27FBFE00714A23 /* PhotoPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3ECAE92B27FBFE00714A23 /* PhotoPickerView.swift */; };
+		3E3ECAF22B27FBFE00714A23 /* PhotoPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3ECAE92B27FBFE00714A23 /* PhotoPickerView.swift */; };
 		3E5196182AFE143A00E4A493 /* PrechatSurveyViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E5196172AFE143A00E4A493 /* PrechatSurveyViewControllerTests.swift */; };
 		3E51963A2AFE1ABE00E4A493 /* PrechatSurveyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E5196372AFE1ABE00E4A493 /* PrechatSurveyViewController.swift */; };
 		3E51963B2AFE1ABE00E4A493 /* PrechatSurveyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E5196372AFE1ABE00E4A493 /* PrechatSurveyViewController.swift */; };
@@ -7598,6 +7634,10 @@
 		3CFFD4522A24A196004B179F /* PromotionDropDownFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromotionDropDownFilter.swift; sourceTree = "<group>"; };
 		3D51ABCE22D9D883083050B3 /* Pods-ktobet-asia-iosUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-iosUITests.debug.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-iosUITests/Pods-ktobet-asia-iosUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		3E172FA72B04D31D00E7C908 /* SurveyViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyViewTests.swift; sourceTree = "<group>"; };
+		3E3ECABF2B21A1C900714A23 /* ImagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerView.swift; sourceTree = "<group>"; };
+		3E3ECAC92B21BFA400714A23 /* ImagePickerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerViewModel.swift; sourceTree = "<group>"; };
+		3E3ECADF2B26F5A500714A23 /* PhotoPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerViewController.swift; sourceTree = "<group>"; };
+		3E3ECAE92B27FBFE00714A23 /* PhotoPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoPickerView.swift; sourceTree = "<group>"; };
 		3E5196172AFE143A00E4A493 /* PrechatSurveyViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrechatSurveyViewControllerTests.swift; sourceTree = "<group>"; };
 		3E5196372AFE1ABE00E4A493 /* PrechatSurveyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrechatSurveyViewController.swift; sourceTree = "<group>"; };
 		3E5196382AFE1ABE00E4A493 /* PrechatSurveyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrechatSurveyView.swift; sourceTree = "<group>"; };
@@ -9087,6 +9127,7 @@
 		3CA19AE02A2DC35200237262 /* Image */ = {
 			isa = PBXGroup;
 			children = (
+				60251AFA261C417C00E89EE6 /* ImagePicker */,
 				60072DB225EE37D8001EFDAE /* ImageViewController.swift */,
 			);
 			path = Image;
@@ -9431,6 +9472,29 @@
 				6D55C8AB296580E90038E8FB /* AnalyticsManager.swift */,
 			);
 			path = Firebase;
+			sourceTree = "<group>";
+		};
+		3E3ECABD2B21A19400714A23 /* UIKit */ = {
+			isa = PBXGroup;
+			children = (
+				60251B0D261C427F00E89EE6 /* ImagePicker.storyboard */,
+				60251B04261C41CD00E89EE6 /* CollectionViewCell.swift */,
+				60251B03261C41CD00E89EE6 /* TableViewCell.swift */,
+				60251AFB261C419600E89EE6 /* ImagePickerViewController.swift */,
+				6018F846268B815D00941BDD /* qrCodeViewController.swift */,
+			);
+			path = UIKit;
+			sourceTree = "<group>";
+		};
+		3E3ECABE2B21A1AA00714A23 /* SwiftUI */ = {
+			isa = PBXGroup;
+			children = (
+				3E3ECABF2B21A1C900714A23 /* ImagePickerView.swift */,
+				3E3ECAC92B21BFA400714A23 /* ImagePickerViewModel.swift */,
+				3E3ECAE92B27FBFE00714A23 /* PhotoPickerView.swift */,
+				3E3ECADF2B26F5A500714A23 /* PhotoPickerViewController.swift */,
+			);
+			path = SwiftUI;
 			sourceTree = "<group>";
 		};
 		3E9E85A02B0315A400297849 /* Component */ = {
@@ -9801,7 +9865,6 @@
 				6034625226327E4D00F5D1D9 /* WebGameCollectionView.swift */,
 				3C98B4C22A2DC74E0072FEA0 /* DatePickerPopup */,
 				3C98B4BF2A2DC7140072FEA0 /* FilterButton */,
-				60251AFA261C417C00E89EE6 /* ImagePicker */,
 				3C98B4C12A2DC73E0072FEA0 /* KTODateView */,
 				605AC71E25C0248900873D63 /* MarketHeaderView */,
 				3C98B4C02A2DC7210072FEA0 /* MonthCollectionViewCell */,
@@ -9988,11 +10051,8 @@
 		60251AFA261C417C00E89EE6 /* ImagePicker */ = {
 			isa = PBXGroup;
 			children = (
-				60251B0D261C427F00E89EE6 /* ImagePicker.storyboard */,
-				60251B04261C41CD00E89EE6 /* CollectionViewCell.swift */,
-				60251B03261C41CD00E89EE6 /* TableViewCell.swift */,
-				60251AFB261C419600E89EE6 /* ImagePickerViewController.swift */,
-				6018F846268B815D00941BDD /* qrCodeViewController.swift */,
+				3E3ECABE2B21A1AA00714A23 /* SwiftUI */,
+				3E3ECABD2B21A19400714A23 /* UIKit */,
 			);
 			path = ImagePicker;
 			sourceTree = "<group>";
@@ -13215,6 +13275,7 @@
 				607CF2C725BEBECD00A9342D /* NavigationManagement.swift in Sources */,
 				6D8762ED26F4299700EFD6CE /* TransactionFlowViewController.swift in Sources */,
 				6000DADB265DE2CB002A7A87 /* NumberGameMyBetGameGroupedViewController.swift in Sources */,
+				3E3ECAE12B26F5A500714A23 /* PhotoPickerViewController.swift in Sources */,
 				3C8B0ADC2A70CE0A00910341 /* DemandBuffer.swift in Sources */,
 				608EA477271D49C400A3DA91 /* SystemDialogTableViewCell.swift in Sources */,
 				41077DB725BA639C0057B340 /* DateExtension.swift in Sources */,
@@ -13360,6 +13421,7 @@
 				FFD526F229CEA12F00687C2F /* WithdrawalLogSummaryView.swift in Sources */,
 				4199A03B25AE9918002E2D7E /* EncodableExtension.swift in Sources */,
 				6D9E5814263A504800E6942A /* SlotRecordRepository.swift in Sources */,
+				3E3ECAEB2B27FBFE00714A23 /* PhotoPickerView.swift in Sources */,
 				AC1EDDFF2AD91F9C006E8794 /* CustomerServiceMainViewController.swift in Sources */,
 				6DA9642E29D531D1004F2F0E /* RecordRow.swift in Sources */,
 				6DB5CF282766ECD30018B0E8 /* BundleExtension.swift in Sources */,
@@ -13745,6 +13807,7 @@
 				3CA0C0A229C042E500FD6ACF /* WithdrawalMainViewModelProtocol.swift in Sources */,
 				3EAD5B222B10775A0023B609 /* TimeoutRecorder.swift in Sources */,
 				6D9E58A2264140C500E6942A /* SlotSeeMoreViewController.swift in Sources */,
+				3E3ECAC12B21A1C900714A23 /* ImagePickerView.swift in Sources */,
 				3C4994B229E52AA700A8829F /* LogHeader.swift in Sources */,
 				6D7C1D812779C38800D45654 /* MaintenanceViewController.swift in Sources */,
 				6D1430CE2859BC36002BD18E /* CommonViewController.swift in Sources */,
@@ -13765,6 +13828,7 @@
 				608A5AAB26E70B9A00B48399 /* PromotionAlert2ViewController.swift in Sources */,
 				3CDF66D129E94D7A0094BD1E /* WithdrawalOTPVerifyMethodSelectViewController.swift in Sources */,
 				6D5BE318273E3E730072F994 /* ChatHistoriesEditViewController.swift in Sources */,
+				3E3ECACB2B21BFA400714A23 /* ImagePickerViewModel.swift in Sources */,
 				6DE34AD829D6DA4700A59C81 /* WithdrawalAddFiatBankCardViewController.swift in Sources */,
 				4199A07325AE9918002E2D7E /* Alert.swift in Sources */,
 				FFAB7A8029680C6C0002358B /* LoadingView.swift in Sources */,
@@ -13929,6 +13993,7 @@
 				3CED7CFE2A5D48A400479A9D /* PokerSetVerticalView.swift in Sources */,
 				6D5BE30A273CCAA70072F994 /* CustomerServiceHistoryViewModel.swift in Sources */,
 				60DB5B4927BA4EB800B1AD53 /* CryptoDepositViewModel.swift in Sources */,
+				3E3ECACA2B21BFA400714A23 /* ImagePickerViewModel.swift in Sources */,
 				6D2D43412668C4E900E26A4A /* CustomIntensityVisualEffectView.swift in Sources */,
 				3C18F7382A42F3D000778CD0 /* ImageSplitter.swift in Sources */,
 				601F0FDC27D83CBD0036D9C7 /* CommonOtpViewModel.swift in Sources */,
@@ -14322,6 +14387,7 @@
 				48AAA138256E458800E075CA /* ResponseData.swift in Sources */,
 				6D1062DF2A00C40D0055C947 /* LocalizeText.swift in Sources */,
 				60E19517272BC4000095404A /* CustomerServiceIconViewWindow.swift in Sources */,
+				3E3ECAE02B26F5A500714A23 /* PhotoPickerViewController.swift in Sources */,
 				6DF907972697DCB70086AF54 /* P2PBetDetailByGameViewController.swift in Sources */,
 				60A551A627BF6A9900E5B1C0 /* ActivityIndicator.swift in Sources */,
 				FFA7585129BB37880089A21F /* LazyImage.swift in Sources */,
@@ -14350,6 +14416,7 @@
 				3CC064C7287EB8E2008AAC09 /* ColorExtension.swift in Sources */,
 				6D72755E25F0E2EA000BF51F /* FilterButton.swift in Sources */,
 				AC9AA4D42B021690001D19B2 /* ChatHistoriesEditView.swift in Sources */,
+				3E3ECAC02B21A1C900714A23 /* ImagePickerView.swift in Sources */,
 				3CBC87972857318B00B57607 /* DateUtils.swift in Sources */,
 				6D17957C26A6CC75001C8BF8 /* TopLevelTableViewCell.swift in Sources */,
 				3C7672EA289912CE001DF62F /* SwiftUIInputText.swift in Sources */,
@@ -14599,6 +14666,7 @@
 				3CE595B429A3115A0078056E /* LargestCGFloat.swift in Sources */,
 				608BAC3E26F1C6A00013D930 /* FilterViewController.swift in Sources */,
 				3C1D81D729BEC05A0028EA51 /* CryptoAdapter.swift in Sources */,
+				3E3ECAEA2B27FBFE00714A23 /* PhotoPickerView.swift in Sources */,
 				48AAA15F256E458800E075CA /* SignupUserinfoViewController.swift in Sources */,
 				3C3978882A6A93370022BAD0 /* AnyPublisherExtension.swift in Sources */,
 				48AAA160256E458800E075CA /* SignupEmailViewModel.swift in Sources */,
@@ -14748,6 +14816,7 @@
 				609012862640EE7000419F8E /* PlayerRepository.swift in Sources */,
 				6D5B14DE264A7B48004138E8 /* SlotUseCase.swift in Sources */,
 				3C8B0ADD2A70CE0A00910341 /* DemandBuffer.swift in Sources */,
+				3E3ECAE22B26F5A500714A23 /* PhotoPickerViewController.swift in Sources */,
 				604608AD26A57A53008A378F /* PlainHorizontalProgressBar.swift in Sources */,
 				609012872640EE7000419F8E /* CollectErrorViewModel.swift in Sources */,
 				FF282E482927767B005CD7A7 /* DepositView.swift in Sources */,
@@ -14893,6 +14962,7 @@
 				6D08726127D75B2800457215 /* AboutKTOViewController.swift in Sources */,
 				600F4A0D264E449300827EB1 /* ServiceStatusViewModel.swift in Sources */,
 				AC1EDE002AD91F9C006E8794 /* CustomerServiceMainViewController.swift in Sources */,
+				3E3ECAEC2B27FBFE00714A23 /* PhotoPickerView.swift in Sources */,
 				FFC6B8EF290A41EE002D843B /* InjectionComponent.swift in Sources */,
 				6D5B14D5264A7B38004138E8 /* SlotAllViewController.swift in Sources */,
 				6D2D43442668C4E900E26A4A /* CustomIntensityVisualEffectView.swift in Sources */,
@@ -15278,6 +15348,7 @@
 				60FE05B827CDF63200B7914A /* SetEmailIdentity.swift in Sources */,
 				3EAD5B232B10775A0023B609 /* TimeoutRecorder.swift in Sources */,
 				3C4994B329E52AA700A8829F /* LogHeader.swift in Sources */,
+				3E3ECAC22B21A1C900714A23 /* ImagePickerView.swift in Sources */,
 				3C4DAC3829680B0A00A48AE8 /* GeneralType.swift in Sources */,
 				3C7A415B2A0506BE00B9C619 /* VisibilityModifier.swift in Sources */,
 				6DB5CF2D276722410018B0E8 /* LandingViewController.swift in Sources */,
@@ -15298,6 +15369,7 @@
 				6DCEC6C0265E1902005E4F8B /* RecentDetailViewController.swift in Sources */,
 				3CE595B629A3115A0078056E /* LargestCGFloat.swift in Sources */,
 				6090132E2640EE7000419F8E /* CasinoLobbyType.swift in Sources */,
+				3E3ECACC2B21BFA400714A23 /* ImagePickerViewModel.swift in Sources */,
 				6090132F2640EE7000419F8E /* Alert.swift in Sources */,
 				3CDF66E329ED3B430094BD1E /* WithdrawalOTPVerificationView.swift in Sources */,
 				6060AF3D26704CE4001DD3F3 /* DepositCryptoWebViewController.swift in Sources */,
@@ -15482,6 +15554,7 @@
 				60E57FF527F190E4008CE5A9 /* InputConfirmPassword.swift in Sources */,
 				60E57FF727F190E4008CE5A9 /* PlayerRepository.swift in Sources */,
 				6DA9642029D531D1004F2F0E /* RecordUploader.swift in Sources */,
+				3E3ECAE52B26F5A500714A23 /* PhotoPickerViewController.swift in Sources */,
 				60E57FF827F190E4008CE5A9 /* SlotUseCase.swift in Sources */,
 				FF890FA529E540F80087F04E /* WithdrawalCryptoWalletsViewModel.swift in Sources */,
 				60E57FF927F190E4008CE5A9 /* PlainHorizontalProgressBar.swift in Sources */,
@@ -15627,6 +15700,7 @@
 				3C8FF8FD2992376D009BD583 /* OnlinePaymentView.swift in Sources */,
 				60E5805227F190E4008CE5A9 /* CommonVerifyOtp.swift in Sources */,
 				AC1EDE032AD91F9C006E8794 /* CustomerServiceMainViewController.swift in Sources */,
+				3E3ECAEF2B27FBFE00714A23 /* PhotoPickerView.swift in Sources */,
 				60E5805427F190E4008CE5A9 /* PromotionRuleTermViewController.swift in Sources */,
 				FFD526F629CEA12F00687C2F /* WithdrawalLogSummaryView.swift in Sources */,
 				ACD8C5512AF259B100B65706 /* SwiftUILottieView.swift in Sources */,
@@ -16012,6 +16086,7 @@
 				3C7E47CD2A5FD59200A22B79 /* CasinoStringServiceAdapter.swift in Sources */,
 				3EAD5B262B10775A0023B609 /* TimeoutRecorder.swift in Sources */,
 				60E5816727F190E4008CE5A9 /* LandingViewController.swift in Sources */,
+				3E3ECAC52B21A1C900714A23 /* ImagePickerView.swift in Sources */,
 				60E5816827F190E4008CE5A9 /* CasinoRecordRepository.swift in Sources */,
 				3CCA7CDB29BB041D00750148 /* DepositAPI.swift in Sources */,
 				60E5816927F190E4008CE5A9 /* NotificationTableViewCell.swift in Sources */,
@@ -16032,6 +16107,7 @@
 				60E5817327F190E4008CE5A9 /* RecentDetailViewController.swift in Sources */,
 				3CE595B929A3115A0078056E /* LargestCGFloat.swift in Sources */,
 				6DE34ADC29D6DA4700A59C81 /* WithdrawalAddFiatBankCardViewController.swift in Sources */,
+				3E3ECACF2B21BFA400714A23 /* ImagePickerViewModel.swift in Sources */,
 				60E5817527F190E4008CE5A9 /* CasinoLobbyType.swift in Sources */,
 				60E5817627F190E4008CE5A9 /* Alert.swift in Sources */,
 				60E5817727F190E4008CE5A9 /* DepositCryptoWebViewController.swift in Sources */,
@@ -16216,6 +16292,7 @@
 				6D0EDB2B28743FAC004A9E3C /* InputConfirmPassword.swift in Sources */,
 				3C1DF71A299A1728007E5EF4 /* NormalForm.swift in Sources */,
 				6DA9641E29D531D1004F2F0E /* RecordUploader.swift in Sources */,
+				3E3ECAE32B26F5A500714A23 /* PhotoPickerViewController.swift in Sources */,
 				3C8B0ADE2A70CE0A00910341 /* DemandBuffer.swift in Sources */,
 				6D0EDB2D28743FAC004A9E3C /* PlayerRepository.swift in Sources */,
 				6D0EDB2E28743FAC004A9E3C /* SlotUseCase.swift in Sources */,
@@ -16361,6 +16438,7 @@
 				6D0EDB8728743FAC004A9E3C /* SettingStore.swift in Sources */,
 				6D0EDB8828743FAC004A9E3C /* WebGameUseCase.swift in Sources */,
 				6D0EDB8928743FAC004A9E3C /* WagerType.swift in Sources */,
+				3E3ECAED2B27FBFE00714A23 /* PhotoPickerView.swift in Sources */,
 				AC1EDE012AD91F9C006E8794 /* CustomerServiceMainViewController.swift in Sources */,
 				FFD526F429CEA12F00687C2F /* WithdrawalLogSummaryView.swift in Sources */,
 				6D0EDB8A28743FAC004A9E3C /* LevelPrivilegeViewController.swift in Sources */,
@@ -16746,6 +16824,7 @@
 				3CED7D0C2A5D52DF00479A9D /* PokerCardView.swift in Sources */,
 				3EAD5B242B10775A0023B609 /* TimeoutRecorder.swift in Sources */,
 				6D0EDCA028743FAC004A9E3C /* TermsViewModel.swift in Sources */,
+				3E3ECAC32B21A1C900714A23 /* ImagePickerView.swift in Sources */,
 				6D0EDCA128743FAC004A9E3C /* TableViewCell.swift in Sources */,
 				3C4994B429E52AA700A8829F /* LogHeader.swift in Sources */,
 				3C7A415C2A0506BE00B9C619 /* VisibilityModifier.swift in Sources */,
@@ -16766,6 +16845,7 @@
 				6D0EDCAE28743FAC004A9E3C /* CustomServiceViewModel.swift in Sources */,
 				3C18A95B298A16840097DE19 /* BackendSignal.swift in Sources */,
 				6D0EDCAF28743FAC004A9E3C /* ProductProtocol.swift in Sources */,
+				3E3ECACD2B21BFA400714A23 /* ImagePickerViewModel.swift in Sources */,
 				3C45CDDB28A358D600E39828 /* PageContainer.swift in Sources */,
 				6D0EDCB128743FAC004A9E3C /* RecentDetailViewController.swift in Sources */,
 				6DC51E2B29A74D7F00C87632 /* AffiliateViewController.swift in Sources */,
@@ -16950,6 +17030,7 @@
 				3C1DF71D299A1728007E5EF4 /* NormalForm.swift in Sources */,
 				3CC276E12A31BD5A00411E81 /* SurveyTempMapper.swift in Sources */,
 				6D0EDD8828744704004A9E3C /* PlayerRepository.swift in Sources */,
+				3E3ECAE62B26F5A500714A23 /* PhotoPickerViewController.swift in Sources */,
 				3C8B0AE12A70CE0A00910341 /* DemandBuffer.swift in Sources */,
 				6D0EDD8928744704004A9E3C /* SlotUseCase.swift in Sources */,
 				FF890FA629E540F80087F04E /* WithdrawalCryptoWalletsViewModel.swift in Sources */,
@@ -17095,6 +17176,7 @@
 				6D0EDDE628744704004A9E3C /* CommonVerifyOtp.swift in Sources */,
 				6D968EA729E7F9AB00CEEBCA /* WithdrawalCryptoRequestStep1ViewController.swift in Sources */,
 				AC1EDE042AD91F9C006E8794 /* CustomerServiceMainViewController.swift in Sources */,
+				3E3ECAF02B27FBFE00714A23 /* PhotoPickerView.swift in Sources */,
 				6D0EDDE828744704004A9E3C /* PromotionRuleTermViewController.swift in Sources */,
 				3C5C1FDF28A652E000D4C735 /* LoginViewController.swift in Sources */,
 				6D0EDDE928744704004A9E3C /* DepositOfflineConfirmViewController.swift in Sources */,
@@ -17480,6 +17562,7 @@
 				6D0EDEF828744704004A9E3C /* CustomerServiceIconViewWindow.swift in Sources */,
 				3EAD5B272B10775A0023B609 /* TimeoutRecorder.swift in Sources */,
 				3CED7D0F2A5D52DF00479A9D /* PokerCardView.swift in Sources */,
+				3E3ECAC62B21A1C900714A23 /* ImagePickerView.swift in Sources */,
 				6D0EDEF928744704004A9E3C /* SlotGame.swift in Sources */,
 				6D0EDEFB28744704004A9E3C /* TermsViewModel.swift in Sources */,
 				3C7A415F2A0506BE00B9C619 /* VisibilityModifier.swift in Sources */,
@@ -17500,6 +17583,7 @@
 				6D0EDF0A28744704004A9E3C /* ProductProtocol.swift in Sources */,
 				3C49949529E52A3600A8829F /* RemarkRow.swift in Sources */,
 				3C45CDDC28A358D600E39828 /* PageContainer.swift in Sources */,
+				3E3ECAD02B21BFA400714A23 /* ImagePickerViewModel.swift in Sources */,
 				6D0EDF0C28744704004A9E3C /* RecentDetailViewController.swift in Sources */,
 				6DC51E2E29A74D7F00C87632 /* AffiliateViewController.swift in Sources */,
 				6D0EDF0E28744704004A9E3C /* CasinoLobbyType.swift in Sources */,
@@ -17753,6 +17837,7 @@
 				3CFFD4502A249843004B179F /* FlowLayout.swift in Sources */,
 				3C4DAC4729690DCE00A48AE8 /* TextFieldType.swift in Sources */,
 				6D966B8327FEE3FA006086B7 /* InputConfirmPassword.swift in Sources */,
+				3E3ECAE72B26F5A500714A23 /* PhotoPickerViewController.swift in Sources */,
 				6D966B8527FEE3FA006086B7 /* PlayerRepository.swift in Sources */,
 				6D966B8627FEE3FA006086B7 /* SlotUseCase.swift in Sources */,
 				6D966B8727FEE3FA006086B7 /* PlainHorizontalProgressBar.swift in Sources */,
@@ -17898,6 +17983,7 @@
 				6D966BE527FEE3FA006086B7 /* P2PBetSummaryByDateViewController.swift in Sources */,
 				AC1EDE052AD91F9C006E8794 /* CustomerServiceMainViewController.swift in Sources */,
 				6D966BE627FEE3FA006086B7 /* APPViewController.swift in Sources */,
+				3E3ECAF12B27FBFE00714A23 /* PhotoPickerView.swift in Sources */,
 				6D966BE727FEE3FA006086B7 /* ExpandableHeaderView.swift in Sources */,
 				6D966BE927FEE3FA006086B7 /* ResetPasswordStep3ViewController.swift in Sources */,
 				ACD8C5532AF259B100B65706 /* SwiftUILottieView.swift in Sources */,
@@ -18283,6 +18369,7 @@
 				3C7E47CF2A5FD59200A22B79 /* CasinoStringServiceAdapter.swift in Sources */,
 				3EAD5B282B10775A0023B609 /* TimeoutRecorder.swift in Sources */,
 				6D966CF527FEE3FA006086B7 /* LandingViewController.swift in Sources */,
+				3E3ECAC72B21A1C900714A23 /* ImagePickerView.swift in Sources */,
 				6D966CF627FEE3FA006086B7 /* CasinoRecordRepository.swift in Sources */,
 				3CCA7CDD29BB041D00750148 /* DepositAPI.swift in Sources */,
 				6D966CF727FEE3FA006086B7 /* NotificationTableViewCell.swift in Sources */,
@@ -18303,6 +18390,7 @@
 				FF8C26C829B9866F009523BE /* DepositRecordDetailViewController.swift in Sources */,
 				6D966D0127FEE3FA006086B7 /* RecentDetailViewController.swift in Sources */,
 				3CE595BB29A3115A0078056E /* LargestCGFloat.swift in Sources */,
+				3E3ECAD12B21BFA400714A23 /* ImagePickerViewModel.swift in Sources */,
 				6D966D0327FEE3FA006086B7 /* CasinoLobbyType.swift in Sources */,
 				6D966D0427FEE3FA006086B7 /* Alert.swift in Sources */,
 				6D966D0527FEE3FA006086B7 /* DepositCryptoWebViewController.swift in Sources */,
@@ -18487,6 +18575,7 @@
 				6DA9642329D531D1004F2F0E /* RecordUploader.swift in Sources */,
 				6D966DD327FEE416006086B7 /* SlotUseCase.swift in Sources */,
 				FF890FA829E540F80087F04E /* WithdrawalCryptoWalletsViewModel.swift in Sources */,
+				3E3ECAE82B26F5A500714A23 /* PhotoPickerViewController.swift in Sources */,
 				6D966DD427FEE416006086B7 /* PlainHorizontalProgressBar.swift in Sources */,
 				6DA9642C29D531D1004F2F0E /* RecordDetail.swift in Sources */,
 				FF2E4D6C29E7A4E200B0C048 /* WithdrawalFiatRequestSetp1ViewController.swift in Sources */,
@@ -18632,6 +18721,7 @@
 				6D966E3127FEE416006086B7 /* PromotionViewModel.swift in Sources */,
 				3C5E37102A2DD99F00427BCE /* PromotionFilterViewController.swift in Sources */,
 				AC1EDE062AD91F9C006E8794 /* CustomerServiceMainViewController.swift in Sources */,
+				3E3ECAF22B27FBFE00714A23 /* PhotoPickerView.swift in Sources */,
 				6DDBB13029A8573100887B26 /* WebViewBase.swift in Sources */,
 				6D966E3227FEE416006086B7 /* P2PBetSummaryByDateViewController.swift in Sources */,
 				6D966E3327FEE416006086B7 /* APPViewController.swift in Sources */,
@@ -19017,6 +19107,7 @@
 				6D966F3D27FEE416006086B7 /* TermsViewModel.swift in Sources */,
 				3EAD5B292B10775A0023B609 /* TimeoutRecorder.swift in Sources */,
 				6D966F3E27FEE416006086B7 /* TableViewCell.swift in Sources */,
+				3E3ECAC82B21A1C900714A23 /* ImagePickerView.swift in Sources */,
 				6D966F3F27FEE416006086B7 /* SetEmailIdentity.swift in Sources */,
 				3C4DAC3E29680B0A00A48AE8 /* GeneralType.swift in Sources */,
 				6D966F4227FEE416006086B7 /* LandingViewController.swift in Sources */,
@@ -19037,6 +19128,7 @@
 				3CDF66D829E94D7A0094BD1E /* WithdrawalOTPVerifyMethodSelectViewController.swift in Sources */,
 				3CED7D062A5D48A400479A9D /* PokerSetVerticalView.swift in Sources */,
 				6D966F4E27FEE416006086B7 /* RecentDetailViewController.swift in Sources */,
+				3E3ECAD22B21BFA400714A23 /* ImagePickerViewModel.swift in Sources */,
 				3CE595BC29A3115A0078056E /* LargestCGFloat.swift in Sources */,
 				6DE34ADF29D6DA4700A59C81 /* WithdrawalAddFiatBankCardViewController.swift in Sources */,
 				6D966F5027FEE416006086B7 /* CasinoLobbyType.swift in Sources */,
@@ -19221,6 +19313,7 @@
 				6DDBB12C29A8573100887B26 /* WebViewBase.swift in Sources */,
 				6D55C6C329657DC30038E8FB /* DoubleExtension.swift in Sources */,
 				6D55C987296662A00038E8FB /* NumberGameMyBetGameGroupedViewController.swift in Sources */,
+				3E3ECAE42B26F5A500714A23 /* PhotoPickerViewController.swift in Sources */,
 				6D55C9DC296662DE0038E8FB /* AccountPatternGeneratorFactory.swift in Sources */,
 				3C8B0ADF2A70CE0A00910341 /* DemandBuffer.swift in Sources */,
 				6D55C76A29657E5C0038E8FB /* RecentViewController.swift in Sources */,
@@ -19366,6 +19459,7 @@
 				FFD526F529CEA12F00687C2F /* WithdrawalLogSummaryView.swift in Sources */,
 				0DEF96B22AD69CAC004C635B /* AsyncButton.swift in Sources */,
 				6D55C954296662720038E8FB /* SignupUserInfoViewModel.swift in Sources */,
+				3E3ECAEE2B27FBFE00714A23 /* PhotoPickerView.swift in Sources */,
 				6D55CA21296662FA0038E8FB /* UIKitLabel.swift in Sources */,
 				6D55C8C92966620E0038E8FB /* TextBarButtonItem.swift in Sources */,
 				6D55CA01296662F00038E8FB /* ArcadeApi.swift in Sources */,
@@ -19751,6 +19845,7 @@
 				3CED7D0D2A5D52DF00479A9D /* PokerCardView.swift in Sources */,
 				3EAD5B252B10775A0023B609 /* TimeoutRecorder.swift in Sources */,
 				3CA0C0A529C042E500FD6ACF /* WithdrawalMainViewModelProtocol.swift in Sources */,
+				3E3ECAC42B21A1C900714A23 /* ImagePickerView.swift in Sources */,
 				6D55C84C29657ED00038E8FB /* PlayerApi.swift in Sources */,
 				3C7A415D2A0506BE00B9C619 /* VisibilityModifier.swift in Sources */,
 				6D55C8D6296662150038E8FB /* BannerView.swift in Sources */,
@@ -19771,6 +19866,7 @@
 				6D55C76729657E570038E8FB /* MyBetSummaryTableViewCell.swift in Sources */,
 				6D55C6BF29657DC30038E8FB /* UITableViewExtension.swift in Sources */,
 				6D55C8DE296662150038E8FB /* KTODateView.swift in Sources */,
+				3E3ECACE2B21BFA400714A23 /* ImagePickerViewModel.swift in Sources */,
 				6DE34ADB29D6DA4700A59C81 /* WithdrawalAddFiatBankCardViewController.swift in Sources */,
 				6D55CA1C296662FA0038E8FB /* FilterSelector.swift in Sources */,
 				6D55C76429657E570038E8FB /* DisplayProduct.swift in Sources */,
