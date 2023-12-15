@@ -108,6 +108,10 @@ class ImagePickerViewModel: NSObject, ObservableObject {
   
     return fileSizeInMB
   }
+  
+  func requestImageFileName(asset: PHAsset) -> String {
+    asset.value(forKey: "filename") as? String ?? ""
+  }
 }
 
 extension ImagePickerViewModel: PHPhotoLibraryChangeObserver {

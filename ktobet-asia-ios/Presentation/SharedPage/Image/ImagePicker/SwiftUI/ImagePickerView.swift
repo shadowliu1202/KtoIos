@@ -9,6 +9,7 @@ extension ImagePickerView {
   
   struct ImageAsset {
     let localIdentifier: String
+    let fileName: String
     let image: UIImage
     let imageSizeInMB: Double
   }
@@ -52,6 +53,7 @@ struct ImagePickerView: View {
                 .onTapGesture {
                   cameraCellOnTap()
                 }
+                .frame(width: itemWidth, height: itemWidth)
               
               let assets = viewModel.fetchResult.objects(at: IndexSet(0..<viewModel.fetchResult.count))
               
@@ -162,6 +164,7 @@ extension ImagePickerView {
         cellOnTap(
           ImagePickerView.ImageAsset(
             localIdentifier: asset.localIdentifier,
+            fileName: viewModel.requestImageFileName(asset: asset),
             image: image,
             imageSizeInMB: viewModel.requestImageSizeInMB(asset: asset)),
           $isSelected)

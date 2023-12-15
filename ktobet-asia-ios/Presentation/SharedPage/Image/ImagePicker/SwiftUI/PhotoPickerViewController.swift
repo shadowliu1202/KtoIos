@@ -43,6 +43,9 @@ class PhotoPickerViewController: UIViewController {
         countLimitOnHit: { [unowned self] in
           showCountLimitAlert()
         },
+        invalidFormatOnHit: { [unowned self] in
+          showInvalidFormatAlert()
+        },
         imageSizeLimitOnHit: { [unowned self] in
           showSizeLimitAlert()
         },
@@ -64,6 +67,10 @@ class PhotoPickerViewController: UIViewController {
     showToast(
       Localize.string("common_photo_upload_limit_reached", "\(maxCount)"),
       barImg: .failed)
+  }
+  
+  private func showInvalidFormatAlert() {
+    showToast(Localize.string("deposit_file_format_invalid"), barImg: .failed)
   }
   
   private func showSizeLimitAlert() {
@@ -96,6 +103,7 @@ extension PhotoPickerViewController: UIImagePickerControllerDelegate & UINavigat
       if let lastAsset = fetchResult.firstObject {
         selectImagesOnComplete([ImagePickerView.ImageAsset(
           localIdentifier: lastAsset.localIdentifier,
+          fileName: viewModel.requestImageFileName(asset: lastAsset),
           image: image,
           imageSizeInMB: viewModel.requestImageSizeInMB(asset: lastAsset))])
         
