@@ -15,12 +15,6 @@ class TransactionLogViewController: LobbyViewController {
     setupUI()
     binding()
   }
-  
-  override func viewWillAppear(_ animated: Bool) {
-    super.viewWillAppear(animated)
-    
-    flowCoordinator.resetDecideNavigationTask()
-  }
 
   override func prepare(for segue: UIStoryboardSegue, sender _: Any?) {
     if segue.identifier == TransactionLogSummaryViewController.segueIdentifier {

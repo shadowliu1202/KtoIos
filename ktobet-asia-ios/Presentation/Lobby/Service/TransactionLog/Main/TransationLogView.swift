@@ -189,7 +189,7 @@ struct TransactionLogView_Previews: PreviewProvider {
               date: Date().toLocalDateTime(.current),
               title: "Test only",
               detailId: "",
-              detailOption: .P2P(isUnknownDetail: true))
+              detailOption: .P2P(hasGameResult: false))
           })]
       }
     }
