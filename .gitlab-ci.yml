@@ -11,7 +11,7 @@ stages:          # List of stages for jobs, and their order of execution
 build-job:
   stage: inProgress
   tags:
-    - app-linux-jenkins
+    - mac-emulator
   rules:
     - if: ($CI_COMMIT_BRANCH =~ /(APP|KTO|SP)-[0-9]+/ && $CI_PIPELINE_SOURCE != "merge_request_event")
   script:
@@ -54,7 +54,7 @@ UnitTests:
 merge-job:
   stage: mergeRequest
   tags:
-    - app-linux-jenkins
+    - mac-emulator
   before_script:
     # - source ~/.nvm/nvm.sh
     # - nvm install node
@@ -121,7 +121,7 @@ merge-job:
 merged-job:
   stage: merged
   tags:
-    - app-linux-jenkins
+    - mac-emulator
   rules:
     - if: ($CI_COMMIT_MESSAGE =~ /Merge branch 'KTO-[0-9]+'/ && $CI_COMMIT_REF_NAME == "master")
   script:
