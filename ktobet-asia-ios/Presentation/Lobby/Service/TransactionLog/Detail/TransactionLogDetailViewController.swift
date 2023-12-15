@@ -113,28 +113,14 @@ extension TransactionLogDetailViewController: UITableViewDataSource {
     }
 
     let cell = self.tableView.dequeueReusableCell(withIdentifier: "LogDetailCell", cellType: LogDetailCell.self)
-      .configure(index: indexPath.row, data: item) { [unowned self] transactionId, wagerID in
+      .configure(index: indexPath.row, data: item) { [unowned self] _, wagerID in
         guard let detailItem else { return }
         
         switch detailItem.bean.productType {
         case .casino:
-          if detailItem.isSmartBet {
-            flowController.goCasinoDetail(wagerID)
-          }
-          else {
-            flowController.navigateBaseOnProductHasDetail(
-              type: .casino,
-              gameName: param?.title ?? "",
-              transactionId: transactionId,
-              wagerID: wagerID)
-          }
-          
+          flowController.goCasinoDetail(wagerID)
         case .p2p:
-          flowController.navigateBaseOnProductHasDetail(
-            type: .p2p,
-            gameName: param?.title ?? "",
-            transactionId: transactionId,
-            wagerID: wagerID)
+          flowController.goP2PDetail(wagerID)
         default:
           break
         }

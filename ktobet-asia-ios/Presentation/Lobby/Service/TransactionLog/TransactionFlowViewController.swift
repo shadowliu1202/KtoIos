@@ -12,7 +12,6 @@ protocol TransactionFlowDelegate: AnyObject {
 
 class TransactionFlowController {
   private weak var vc: UIViewController?
-  private var decideNavigationTask: Task<Void, Never>?
   private var navi: UINavigationController? {
     vc?.navigationController
   }
@@ -49,37 +48,15 @@ class TransactionFlowController {
 
   private func considerCasino(_ log: TransactionDTO.Log) {
     guard let detailOption = log.detailOption as? DetailOption.Casino else { return }
-    switch detailOption.detailType {
-    case .general:
-      goTransactionLogDetail(LogDetail(title: log.title, transactionId: log.id, isSmartBet: detailOption.isSmartBet))
-    case .gameresultmode:
+    
+    if detailOption.hasGameResult {
       goCasinoDetail(log.detailId)
-    case .unknowndetail:
-      navigateBaseOnCasinoHasDetail(name: log.title, transactionId: log.id, wagerID: log.detailId)
-    default: break
+    }
+    else {
+      goTransactionLogDetail(LogDetail(title: log.title, transactionId: log.detailId, isSmartBet: detailOption.isSmartBet))
     }
   }
   
-  private func navigateBaseOnCasinoHasDetail(name: String, transactionId: String, wagerID: String) {
-    guard let delegate, decideNavigationTask == nil else { return }
-    
-    decideNavigationTask = Task {
-      guard let isWagerDetailExist = await delegate.getIsCasinoWagerDetailExist(by: wagerID)
-      else {
-        resetDecideNavigationTask()
-        return
-      }
-
-      await MainActor.run {
-        isWagerDetailExist
-          ? goCasinoDetail(wagerID)
-          : goTransactionLogDetail(LogDetail(title: name, transactionId: transactionId))
-        
-        resetDecideNavigationTask()
-      }
-    }
-  }
-
   private func considerNumbergame(_ log: TransactionDTO.Log) {
     guard let detailOption = log.detailOption as? DetailOption.NumberGame else { return }
     
@@ -94,34 +71,14 @@ class TransactionFlowController {
   private func considerP2P(_ log: TransactionDTO.Log) {
     guard let detailOption = log.detailOption as? DetailOption.P2P else { return }
     
-    if detailOption.isUnknownDetail {
-      navigateBaseOnP2PHasDetail(name: log.title, transactionId: log.id, wagerID: log.detailId)
+    if detailOption.hasGameResult {
+      goP2PDetail(log.detailId)
     }
     else {
-      goTransactionLogDetail(LogDetail(title: log.title, transactionId: log.id))
+      goTransactionLogDetail(LogDetail(title: log.title, transactionId: log.detailId))
     }
   }
   
-  private func navigateBaseOnP2PHasDetail(name: String, transactionId: String, wagerID: String) {
-    guard let delegate, decideNavigationTask == nil else { return }
-    
-    decideNavigationTask = Task {
-      guard let isWagerDetailExist = await delegate.getIsP2PWagerDetailExist(by: wagerID)
-      else {
-        resetDecideNavigationTask()
-        return
-      }
-
-      await MainActor.run {
-        isWagerDetailExist
-          ? goP2PMyBetDetail(wagerID)
-          : goTransactionLogDetail(LogDetail(title: name, transactionId: transactionId))
-        
-        resetDecideNavigationTask()
-      }
-    }
-  }
-
   private func goTransactionLogDetail(_ param: LogDetail) {
     guard
       let detailViewController = UIStoryboard(name: "TransactionLog", bundle: nil)
@@ -170,19 +127,7 @@ class TransactionFlowController {
     delegate?.displaySportsBookDetail(wagerId: wagerId)
   }
   
-  private func goP2PMyBetDetail(_ wagerID: String) {
+  func goP2PDetail(_ wagerID: String) {
     navi?.pushViewController(P2PBetDetailViewController(wagerID: wagerID), animated: true)
-  }
-  
-  func navigateBaseOnProductHasDetail(type: ProductType, gameName: String, transactionId: String, wagerID: String) {
-    switch type {
-    case .casino: navigateBaseOnCasinoHasDetail(name: gameName, transactionId: transactionId, wagerID: wagerID)
-    case .p2p: navigateBaseOnP2PHasDetail(name: gameName, transactionId: transactionId, wagerID: wagerID)
-    default: break
-    }
-  }
-  
-  func resetDecideNavigationTask() {
-    decideNavigationTask = nil
   }
 }
