@@ -6,11 +6,13 @@ struct PhotoPickerView: View {
   
   private let viewModel: ImagePickerViewModel
   
+  private let availableFormat = ["PNG", "JPG", "BMP", "JPEG", "HEIF", "HEIC"]
   private let maxCount: Int
   private let maxImageSizeInMB: Int
   
   private let cameraCellOnTap: () -> Void
   private let countLimitOnHit: () -> Void
+  private let invalidFormatOnHit: () -> Void
   private let imageSizeLimitOnHit: () -> Void
   private let submitButtonOnTap: (_ selectedImages: [ImagePickerView.ImageAsset]) -> Void
   
@@ -20,6 +22,7 @@ struct PhotoPickerView: View {
     maxImageSizeInMB: Int,
     cameraCellOnTap: @escaping () -> Void,
     countLimitOnHit: @escaping () -> Void,
+    invalidFormatOnHit: @escaping () -> Void,
     imageSizeLimitOnHit: @escaping () -> Void,
     submitButtonOnTap: @escaping (_ selectedImages: [ImagePickerView.ImageAsset]) -> Void)
   {
@@ -28,6 +31,7 @@ struct PhotoPickerView: View {
     self.maxImageSizeInMB = maxImageSizeInMB
     self.cameraCellOnTap = cameraCellOnTap
     self.countLimitOnHit = countLimitOnHit
+    self.invalidFormatOnHit = invalidFormatOnHit
     self.imageSizeLimitOnHit = imageSizeLimitOnHit
     self.submitButtonOnTap = submitButtonOnTap
   }
@@ -75,8 +79,19 @@ struct PhotoPickerView: View {
       return
     }
     
+    guard isFileExtensionAvailable(fileName: imageAsset.fileName)
+    else {
+      invalidFormatOnHit()
+      return
+    }
+    
     selectedImages.append(imageAsset)
     isSelected.wrappedValue = true
+  }
+  
+  private func isFileExtensionAvailable(fileName: String) -> Bool {
+    let fileExtension = fileName.split(separator: ".").last?.uppercased() ?? ""
+    return availableFormat.contains(fileExtension)
   }
 }
 
@@ -135,6 +150,7 @@ struct PhotoPickerView_Previews: PreviewProvider {
       maxImageSizeInMB: 10,
       cameraCellOnTap: { },
       countLimitOnHit: { },
+      invalidFormatOnHit: { },
       imageSizeLimitOnHit: { },
       submitButtonOnTap: { _ in })
   }
