@@ -41,11 +41,16 @@ final class ExitSurveyViewController: CommonViewController {
             let presentingVC = navigationController?.presentingViewController
             
             dismiss(animated: true) {
+              self.setNavigationManagement(presentingVC)
               self.showSubmitSuccessToast(presentingVC)
             }
           })
       },
       to: view)
+  }
+  
+  private func setNavigationManagement(_ presentingVC: UIViewController?) {
+    NavigationManagement.sharedInstance.viewController = presentingVC
   }
   
   private func showSubmitSuccessToast(_ presentingVC: UIViewController?) {
@@ -63,10 +68,18 @@ final class ExitSurveyViewController: CommonViewController {
 
 extension ExitSurveyViewController: BarButtonItemable {
   func pressedLeftBarButtonItems(_: UIBarButtonItem) {
-    dismiss(animated: true)
+    let presentingVC = navigationController?.presentingViewController
+    
+    dismiss(animated: true) {
+      self.setNavigationManagement(presentingVC)
+    }
   }
   
   func pressedRightBarButtonItems(_: UIBarButtonItem) {
-    dismiss(animated: true)
+    let presentingVC = navigationController?.presentingViewController
+    
+    dismiss(animated: true) {
+      self.setNavigationManagement(presentingVC)
+    }
   }
 }
