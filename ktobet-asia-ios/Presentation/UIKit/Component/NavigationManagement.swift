@@ -85,8 +85,12 @@ class NavigationManagement: Navigator {
   var sideBarViewController: SideBarViewController!
   var menu: SideMenuNavigationController!
 
+  private var _viewController: UIViewController?
   var viewController: UIViewController! {
-    willSet {
+    get {
+      _viewController
+    }
+    set {
       if newValue == nil {
         let error = NSError(
           domain: "NavigationManagement.NullViewController",
@@ -94,6 +98,9 @@ class NavigationManagement: Navigator {
           userInfo: ["LastViewController": viewController.description])
         
         Logger.shared.error(error)
+      }
+      else {
+        _viewController = newValue
       }
     }
   }
