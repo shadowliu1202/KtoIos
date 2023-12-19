@@ -340,6 +340,10 @@ class CustomServicePresenter: NSObject {
     
     topViewController?.navigationController?
       .dismiss(animated: true, completion: { [weak self] in
+        if self?.topViewController == nil {
+          Logger.shared.info(UIApplication.shared.windows.first?.topViewController.debugDescription ?? "")
+        }
+        
         NavigationManagement.sharedInstance.viewController = self?.topViewController
       })
   }
