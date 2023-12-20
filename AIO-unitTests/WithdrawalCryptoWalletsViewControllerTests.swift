@@ -5,13 +5,15 @@ import XCTest
 @testable import ktobet_asia_ios_qat
 
 final class WithdrawalCryptoWalletsViewControllerTests: XCBaseTestCase {
-  let stubViewModel = mock(WithdrawalCryptoWalletsViewModel.self)
-    .initialize(
-      withdrawalService: mock(AbsWithdrawalAppService.self),
-      playerConfig: PlayerConfigurationImpl(supportLocale: .China()))
-
   let stubAlert = mock(AlertProtocol.self)
 
+  func getStubViewModel() -> WithdrawalCryptoWalletsViewModelMock {
+    mock(WithdrawalCryptoWalletsViewModel.self)
+      .initialize(
+        withdrawalService: mock(AbsWithdrawalAppService.self),
+        playerConfig: PlayerConfigurationImpl(nil))
+  }
+  
   func dummyWallet(status: Wallet.VerifyStatus) -> WithdrawalDto.CryptoWallet {
     .init(
       name: "test",
@@ -27,8 +29,9 @@ final class WithdrawalCryptoWalletsViewControllerTests: XCBaseTestCase {
         oneOffMinimumAmount: .zero(), oneOffMaximumAmount: .zero()),
       remainTurnOver: .zero())
   }
-
+  
   func test_HasThreeCryptoWallets_ClickAddButton_DisplayAlert_KTO_TC_157() {
+    let stubViewModel = getStubViewModel()
     given(stubViewModel.playerWallet) ~> .init(
       wallets: (0..<5).map { _ in self.dummyWallet(status: .pending) },
       maxAmount: 5)
@@ -49,6 +52,7 @@ final class WithdrawalCryptoWalletsViewControllerTests: XCBaseTestCase {
   }
 
   func test_AtCryptoWalletsPageAndIsNotEditing_ClickVerifiedWallet_GoWithdrawalPage_KTO_TC_158() {
+    let stubViewModel = getStubViewModel()
     given(stubViewModel.observeWallets()) ~> { }
     given(stubViewModel.errors()) ~> .never()
 
@@ -66,6 +70,7 @@ final class WithdrawalCryptoWalletsViewControllerTests: XCBaseTestCase {
   }
 
   func test_AtCryptoWalletsPageAndIsNotEditing_ClickUnVerifiedWallet_DisplayAlert_KTO_TC_159() {
+    let stubViewModel = getStubViewModel()
     given(stubViewModel.playerWallet) ~> .init(wallets: [], maxAmount: 5)
 
     let sut = WithdrawalCryptoWalletsViewController(viewModel: stubViewModel, alert: stubAlert)
@@ -84,6 +89,7 @@ final class WithdrawalCryptoWalletsViewControllerTests: XCBaseTestCase {
   }
 
   func test_AtCryptoWalletsPageAndIsEditing_ClickWallet_GoDetailPage_KTO_TC_160() {
+    let stubViewModel = getStubViewModel()
     given(stubViewModel.observeWallets()) ~> { }
     given(stubViewModel.errors()) ~> .never()
 

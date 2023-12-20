@@ -2,20 +2,15 @@ import Foundation
 import sharedbu
 
 class AppLocaleInitializer: LocalStorable {
-  private let localStorageRepository: LocalStorageRepository
   private let languageCode: String
   
-  init(
-    languageCode: String = Locale.current.languageCode ?? "",
-    _ localStorageRepository: LocalStorageRepository)
-  {
+  init(languageCode: String = Locale.current.languageCode ?? "") {
     self.languageCode = languageCode
-    self.localStorageRepository = localStorageRepository
   }
   
   func initLocale() {
     let cultureCode = get(key: .cultureCode) ?? initCultureCode()
-    Theme.shared.changeEntireAPPFont(by: localStorageRepository.getSupportLocale())
+    Theme.shared.changeEntireAPPFont(by: SupportLocale.companion.create(language: cultureCode))
   }
   
   private func initCultureCode() -> String {

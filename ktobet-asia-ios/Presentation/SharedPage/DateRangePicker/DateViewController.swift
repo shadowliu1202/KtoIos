@@ -1,4 +1,5 @@
 import RxSwift
+import sharedbu
 import UIKit
 
 class DateViewController:
@@ -13,7 +14,7 @@ class DateViewController:
   @IBOutlet fileprivate weak var previousButton: UIButton!
   @IBOutlet var month: UIView!
 
-  private lazy var monthSelectView = MonthSelectView(frame: .zero, playerLocale: localStorageRepo.getSupportLocale())
+  private lazy var monthSelectView = MonthSelectView(frame: .zero, playerLocale: playerConfiguration.supportLocale)
 
   var conditionCallback: ((_ dateType: DateType) -> Void)?
   var dateType: DateType = .week()
@@ -22,8 +23,8 @@ class DateViewController:
   fileprivate var seletedDate: Date?
   fileprivate var currentSelectedStyle: SelectionMode = .sequence(style: .semicircleEdge)
 
-  private let localStorageRepo = Injectable.resolve(LocalStorageRepository.self)!
-  private lazy var dateSegmentTitle = Theme.shared.getSegmentTitleName(by: localStorageRepo.getSupportLocale())
+  private let playerConfiguration = Injectable.resolve(PlayerConfiguration.self)!
+  private lazy var dateSegmentTitle = Theme.shared.getSegmentTitleName(by: playerConfiguration.supportLocale)
 
   private let disposeBag = DisposeBag()
 
@@ -86,7 +87,7 @@ class DateViewController:
       }
 
       self.currentDateLabel.text = Theme.shared.getDatePickerTitleLabel(
-        by: self.localStorageRepo.getSupportLocale(),
+        by: self.playerConfiguration.supportLocale,
         self.koyomi)
     }
 
@@ -94,7 +95,7 @@ class DateViewController:
       .foregroundColor: UIColor.greyScaleWhite,
       .font: UIFont(
         name: "PingFangSC-Medium",
-        size: Theme.shared.getDateSegmentTitleFontSize(by: self.localStorageRepo.getSupportLocale()))!
+        size: Theme.shared.getDateSegmentTitleFontSize(by: self.playerConfiguration.supportLocale))!
     ]
     dateSegment.setTitleTextAttributes(titleTextAttributes, for: .normal)
     dateSegment.setTitleTextAttributes(titleTextAttributes, for: .selected)

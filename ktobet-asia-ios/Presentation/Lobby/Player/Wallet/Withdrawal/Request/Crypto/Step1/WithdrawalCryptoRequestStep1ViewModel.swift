@@ -22,7 +22,7 @@ class WithdrawalCryptoRequestStep1ViewModel:
   @Published var inputCryptoAmount = ""
 
   private let withdrawalService: IWithdrawalAppService
-  private let localStorageRepository: LocalStorageRepository
+  private let playerConfiguration: PlayerConfiguration
 
   private let disposeBag = DisposeBag()
 
@@ -40,18 +40,18 @@ class WithdrawalCryptoRequestStep1ViewModel:
 
   init(
     _ withdrawalService: IWithdrawalAppService,
-    _ localStorageRepository: LocalStorageRepository)
+    _ playerConfiguration: PlayerConfiguration)
   {
     self.withdrawalService = withdrawalService
-    self.localStorageRepository = localStorageRepository
+    self.playerConfiguration = playerConfiguration
   }
 
   private func getLocalCurrency() -> AccountCurrency {
-    localStorageRepository.getLocalCurrency()
+    FiatFactory().create(supportLocale: playerConfiguration.supportLocale, amount_: "0")
   }
 
   private func getSupportLocale() -> SupportLocale {
-    localStorageRepository.getSupportLocale()
+    playerConfiguration.supportLocale
   }
 
   func setup() {

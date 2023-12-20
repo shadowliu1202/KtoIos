@@ -278,7 +278,7 @@ class SideBarViewController: APPViewController {
       let width = (UIScreen.main.bounds.size.width - space * 5) / 4
       let flowLayout = UICollectionViewFlowLayout()
       flowLayout.sectionInset = UIEdgeInsets(top: space, left: space, bottom: space, right: space)
-      if sideMenuViewModel.getCultureCode() == SupportLocale.China().cultureCode() {
+      if sideMenuViewModel.getSupportLoacle() == SupportLocale.China() {
         flowLayout.itemSize = CGSize(width: width, height: 84)
       }
       else {

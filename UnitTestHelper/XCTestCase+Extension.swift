@@ -40,32 +40,8 @@ extension XCTestCase {
     return mock(HttpClient.self).initialize(dummyLocalStorageRepo, dummyCookieManager, currentURL: dummyURL, provider: nil)
   }
 
-  @available(*, deprecated, message: "Use injectLocalStorageRepository().")
-  func injectStubCultureCode(_ language: Language) {
-    Localize = LocalizeUtils(localizationFileName: language.rawValue)
-  }
-  
-  func injectLocalStorageRepository(_ supportLocale: SupportLocale) {
-    let stubLocalStorageRepository = mock(LocalStorageRepository.self)
-
-    given(stubLocalStorageRepository.getSupportLocale()) ~> supportLocale
-    
-    let cultureCode = {
-      switch supportLocale {
-      case is SupportLocale.China:
-        return "zh-cn"
-      case is SupportLocale.Vietnam:
-        return "vi-vn"
-      default:
-        return "vi-vn"
-      }
-    }()
-    
-    given(stubLocalStorageRepository.getCultureCode()) ~> cultureCode
-    
-    Injectable.register(LocalStorageRepository.self) { _ in
-      stubLocalStorageRepository
-    }
+  func stubLocalizeUtils(_ supportLocale: SupportLocale) {
+    Localize = LocalizeUtils(localizationFileName: supportLocale.cultureCode())
   }
 
   func makeItVisible(_ target: UIViewController) {

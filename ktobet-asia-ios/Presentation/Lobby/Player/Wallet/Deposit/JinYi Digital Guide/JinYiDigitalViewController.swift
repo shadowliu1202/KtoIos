@@ -1,11 +1,9 @@
+import sharedbu
 import SwiftUI
 import UIKit
 
-class JinYiDigitalViewController:
-  LobbyViewController,
-  SwiftUIConverter
-{
-  @Injected var localRepo: LocalStorageRepository
+class JinYiDigitalViewController: LobbyViewController {
+  @Injected var playerConfiguration: PlayerConfiguration
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -13,7 +11,7 @@ class JinYiDigitalViewController:
     NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back)
 
     addSubView(
-      JinYiDigitalGuideView(locale: localRepo.getSupportLocale()),
+      JinYiDigitalGuideView(locale: playerConfiguration.supportLocale),
       to: view)
   }
 }

@@ -18,7 +18,7 @@ extension OfflinePaymentView {
 struct OfflinePaymentView<ViewModel>: View
   where ViewModel: OfflinePaymentViewModelProtocol & ObservableObject
 {
-  @Injected private var localStorageRepo: LocalStorageRepository
+  @Injected private var playerConfiguration: PlayerConfiguration
   @StateObject private var viewModel: ViewModel
 
   @State private var selectedGatewayId: String? = nil
@@ -76,7 +76,7 @@ struct OfflinePaymentView<ViewModel>: View
       }
       .onPageLoading(viewModel.gateways.isEmpty || viewModel.remitBankList.isEmpty || viewModel.remitAmountLimitRange.isEmpty)
       .pageBackgroundColor(.greyScaleDefault)
-      .environment(\.playerLocale, localStorageRepo.getSupportLocale())
+      .environment(\.playerLocale, playerConfiguration.supportLocale)
       .environmentObject(viewModel)
       .onViewDidLoad {
         viewModel.fetchGatewayData()

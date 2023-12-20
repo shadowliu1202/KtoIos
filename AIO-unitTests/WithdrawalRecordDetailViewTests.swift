@@ -44,7 +44,7 @@ final class WithdrawalRecordDetailViewTests: XCBaseTestCase {
   }
 
   func test_PaymentStatusIsFloating_DisplayUploadButtonAndSubmitButton_KTO_TC_134() {
-    injectStubCultureCode(.CN)
+    stubLocalizeUtils(.China())
 
     let dummyLog = buildDummyLog(status: .floating)
     let stubViewModel = stubViewModel()

@@ -59,7 +59,7 @@ extension String {
 extension String {
   @available(*, deprecated, message: "Should not use DI in extension.")
   private static func getPlayerTimeZone() -> Foundation.TimeZone {
-    Injectable.resolve(LocalStorageRepository.self)!.localeTimeZone()
+    Injectable.resolve(PlayerConfiguration.self)!.localeTimeZone()
   }
 
   func toOffsetDateTime(timeZone: Foundation.TimeZone = String.getPlayerTimeZone()) throws -> OffsetDateTime {
@@ -190,10 +190,10 @@ extension String {
 
 extension String {
   func toAccountCurrency() -> AccountCurrency {
-    let localStorageRepo = Injectable.resolve(LocalStorageRepository.self)!
+    let playerConfiguration = Injectable.resolve(PlayerConfiguration.self)!
 
     return FiatFactory.shared.create(
-      supportLocale: localStorageRepo.getSupportLocale(),
+      supportLocale: playerConfiguration.supportLocale,
       amount_: self.replacingOccurrences(of: ",", with: ""))
   }
 

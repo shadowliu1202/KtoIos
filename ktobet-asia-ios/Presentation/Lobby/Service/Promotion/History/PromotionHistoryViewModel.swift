@@ -5,14 +5,13 @@ import sharedbu
 
 class PromotionHistoryViewModel: CollectErrorViewModel {
   private let promotionUseCase: PromotionUseCase
+  private let playerConfiguration: PlayerConfiguration
 
   private let totalCountAmountRelay = BehaviorRelay(value: "")
 
   private let disposeBag = DisposeBag()
 
   private var recordPagination: Pagination<CouponHistory>!
-
-  private(set) var localRepo: LocalStorageRepository
 
   private(set) var keywordRelay: BehaviorRelay<String?> = .init(value: nil)
 
@@ -39,11 +38,11 @@ class PromotionHistoryViewModel: CollectErrorViewModel {
   }
 
   init(
-    promotionUseCase: PromotionUseCase,
-    localRepo: LocalStorageRepository)
+    _ promotionUseCase: PromotionUseCase,
+    _ playerConfiguration: PlayerConfiguration)
   {
     self.promotionUseCase = promotionUseCase
-    self.localRepo = localRepo
+    self.playerConfiguration = playerConfiguration
 
     super.init()
 
@@ -94,6 +93,6 @@ class PromotionHistoryViewModel: CollectErrorViewModel {
   }
   
   func getSupportLocale() -> SupportLocale {
-    localRepo.getSupportLocale()
+    playerConfiguration.supportLocale
   }
 }

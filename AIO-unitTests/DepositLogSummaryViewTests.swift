@@ -131,7 +131,7 @@ final class DepositLogSummaryViewTests: XCBaseTestCase {
   }
 
   func test_HasZeroDepositLog_InDepositLogPage_EmptyReminderIsDisplayed_KTO_TC_84() {
-    injectStubCultureCode(.CN)
+    stubLocalizeUtils(.China())
 
     let stubViewModel = mock(DepositLogSummaryViewModelProtocol.self)
 
@@ -162,11 +162,11 @@ final class DepositLogSummaryViewTests: XCBaseTestCase {
   }
 
   func test_HasLogToday_SectionTitleIsToday_KTO_TC_85() {
-    injectStubCultureCode(.CN)
+    stubLocalizeUtils(.China())
 
     let stubViewModel = DepositLogSummaryViewModel(
       depositService: mock(AbsDepositAppService.self),
-      playerConfig: PlayerConfigurationImpl(supportLocale: .China()))
+      playerConfig: PlayerConfigurationImpl(nil))
 
     let stubSections = stubViewModel.buildSections([generateGroupLog(date: .init())])
 

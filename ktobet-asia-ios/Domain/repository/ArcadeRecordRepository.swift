@@ -15,13 +15,17 @@ protocol ArcadeRecordRepository {
 }
 
 class ArcadeRecordRepositoryImpl: ArcadeRecordRepository {
-  private var arcadeApi: ArcadeApi!
-  private var localStorageRepo: LocalStorageRepository!
-  private var httpClient: HttpClient!
+  private let arcadeApi: ArcadeApi
+  private let playerConfiguration: PlayerConfiguration
+  private let httpClient: HttpClient
 
-  init(_ arcadeApi: ArcadeApi, localStorageRepo: LocalStorageRepository, httpClient: HttpClient) {
+  init(
+    _ arcadeApi: ArcadeApi,
+    _ playerConfiguration: PlayerConfiguration,
+    _ httpClient: HttpClient)
+  {
     self.arcadeApi = arcadeApi
-    self.localStorageRepo = localStorageRepo
+    self.playerConfiguration = playerConfiguration
     self.httpClient = httpClient
   }
 
@@ -56,8 +60,8 @@ class ArcadeRecordRepositoryImpl: ArcadeRecordRepository {
   {
     arcadeApi
       .getBetRecords(
-        beginDate: beginDate.toQueryFormatString(timeZone: localStorageRepo.timezone()),
-        endDate: endDate.toQueryFormatString(timeZone: localStorageRepo.timezone()),
+        beginDate: beginDate.toQueryFormatString(timeZone: playerConfiguration.timezone()),
+        endDate: endDate.toQueryFormatString(timeZone: playerConfiguration.timezone()),
         gameId: gameId,
         skip: skip,
         take: take)

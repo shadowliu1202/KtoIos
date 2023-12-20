@@ -35,7 +35,7 @@ class PromotionDetailViewController: LobbyViewController {
     UIColor(red: 254 / 255, green: 161 / 255, blue: 68 / 255, alpha: 0.2).cgColor
   ]
 
-  private var localStorageRepo = Injectable.resolveWrapper(LocalStorageRepository.self)
+  private var playerConfiguration = Injectable.resolveWrapper(PlayerConfiguration.self)
 
   fileprivate var disposeBag = DisposeBag()
 
@@ -209,7 +209,7 @@ class PromotionDetailViewController: LobbyViewController {
 
   private func setStatusImageView(_ isAutoUse: Bool) {
     if isAutoUse {
-      statusImageView.image = Theme.shared.getUIImage(name: "promotionAutoUse", by: localStorageRepo.getSupportLocale())
+      statusImageView.image = Theme.shared.getUIImage(name: "promotionAutoUse", by: playerConfiguration.supportLocale)
       statusImageView.isHidden = false
     }
     else {

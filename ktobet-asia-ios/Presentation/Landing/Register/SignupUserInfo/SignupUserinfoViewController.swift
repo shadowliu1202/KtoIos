@@ -36,7 +36,7 @@ class SignupUserinfoViewController: LandingViewController {
   @Injected private var accountPatternGenerator: AccountPatternGenerator
   @Injected private var customerServiceViewModel: CustomerServiceViewModel
   @Injected private var serviceStatusViewModel: ServiceStatusViewModel
-  @Injected private var localStorageRepo: LocalStorageRepository
+  @Injected private var playerConfiguration: PlayerConfiguration
   @Injected private var alert: AlertProtocol
   
   private let disposeBag = DisposeBag()
@@ -49,7 +49,7 @@ class SignupUserinfoViewController: LandingViewController {
   private var padding = UIBarButtonItem.kto(.text(text: "")).isEnable(false)
   private lazy var customService = UIBarButtonItem
     .kto(.cs(
-      supportLocale: localStorageRepo.getSupportLocale(),
+      supportLocale: playerConfiguration.supportLocale,
       customerServiceViewModel: customerServiceViewModel,
       serviceStatusViewModel: serviceStatusViewModel,
       alert: alert,
@@ -150,7 +150,7 @@ class SignupUserinfoViewController: LandingViewController {
 
   func setViewModel() {
     viewModel.inputAccountType(.phone)
-    viewModel.inputLocale(localStorageRepo.getSupportLocale())
+    viewModel.inputLocale(playerConfiguration.supportLocale)
 
     (self.inputMobile.text <-> self.viewModel.relayMobile).disposed(by: self.disposeBag)
     (self.inputEmail.text <-> self.viewModel.relayEmail).disposed(by: self.disposeBag)

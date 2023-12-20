@@ -6,7 +6,7 @@ import XCTest
 
 final class OnlinePaymentViewModelTests: XCBaseTestCase {
   func test_givenChinaUser_whenNavigationPopback_thenAlertOnlinePaymentTerminate_KTO_TC_64() {
-    injectStubCultureCode(.CN)
+    stubLocalizeUtils(.China())
 
     let stubPlayerConfiguration = mock(PlayerConfiguration.self)
     given(stubPlayerConfiguration.supportLocale) ~> .China()
@@ -23,7 +23,7 @@ final class OnlinePaymentViewModelTests: XCBaseTestCase {
   }
 
   func test_givenVietnameseUser_whenNavigationPopBack_thenAlertMessageContainsPaymentName_KTO_TC_65() {
-    injectStubCultureCode(.VN)
+    stubLocalizeUtils(.Vietnam())
 
     let stubPlayerConfiguration = mock(PlayerConfiguration.self)
     given(stubPlayerConfiguration.supportLocale) ~> .Vietnam()

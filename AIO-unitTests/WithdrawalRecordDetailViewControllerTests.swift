@@ -22,7 +22,7 @@ final class WithdrawalRecordDetailViewControllerTests: XCBaseTestCase {
         withdrawalService: Injectable.resolveWrapper(IWithdrawalAppService.self),
         imageUseCase: mock(UploadImageUseCase.self),
         httpClient: getFakeHttpClient(),
-        playerConfig: PlayerConfigurationImpl())
+        playerConfig: PlayerConfigurationImpl(nil))
 
     given(stubViewModel.errors()) ~> .never()
     given(stubViewModel.selectedImages) ~> self.buildUploadedImages()

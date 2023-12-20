@@ -198,7 +198,7 @@ extension PromotionHistoryViewController {
       .textColor(.textSecondary)
       .font(
         weight: .medium,
-        locale: viewModel.localRepo.getSupportLocale(),
+        locale: viewModel.getSupportLocale(),
         size: 14)
   }
 }

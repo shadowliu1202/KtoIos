@@ -13,18 +13,17 @@ final class WithdrawalAddFiatBankCardViewTests: XCBaseTestCase {
   private let publisher = PassthroughSubject<Void, Never>()
 
   func getStubViewModel(locale: SupportLocale) -> WithdrawalAddFiatBankCardViewModel {
-    let stubLocalRepo = mock(LocalStorageRepository.self)
-    given(stubLocalRepo.getSupportLocale()) ~> locale
+    let stubPlayerConfiguration = PlayerConfigurationImpl(locale.cultureCode())
     let stubAuthenticationUseCase = mock(AuthenticationUseCase.self)
     given(stubAuthenticationUseCase.getUserName()) ~> ""
     let stubBankUseCase = mock(BankUseCase.self)
     given(stubBankUseCase.getBankMap()) ~> .just([(0, Bank(bankId: 0, name: "Á Châu", shortName: "ABC"))])
     let stubPlayerDataUseCase = mock(PlayerDataUseCase.self)
     given(stubPlayerDataUseCase.isRealNameEditable()) ~> .just(true)
-    let stubAccountPatternGenerator = AccountPatternGeneratorFactory.create(stubLocalRepo.getSupportLocale())
+    let stubAccountPatternGenerator = AccountPatternGeneratorFactory.create(stubPlayerConfiguration.supportLocale)
 
     let stubViewModel = WithdrawalAddFiatBankCardViewModel(
-      stubLocalRepo,
+      stubPlayerConfiguration,
       stubAuthenticationUseCase,
       stubBankUseCase,
       stubPlayerDataUseCase,
@@ -97,7 +96,7 @@ final class WithdrawalAddFiatBankCardViewTests: XCBaseTestCase {
   }
 
   func test_tapUserName_InWithdrawalAddFiatBankCardView_IsWork() {
-    injectStubCultureCode(.CN)
+    stubLocalizeUtils(.China())
     let stubViewModel = getStubViewModel(locale: .China())
 
     var str = ""
@@ -124,7 +123,7 @@ final class WithdrawalAddFiatBankCardViewTests: XCBaseTestCase {
   }
 
   func test_givenUsernameCanEdit_InWithdrawalAddFiatBankCardViewController_AlertDisplayGoToEditUsername_KTO_TC_175() {
-    injectStubCultureCode(.CN)
+    stubLocalizeUtils(.China())
 
     let stubAlert = mock(AlertProtocol.self)
     let sut = WithdrawalAddFiatBankCardViewController.instantiate(alert: stubAlert)
@@ -146,7 +145,7 @@ final class WithdrawalAddFiatBankCardViewTests: XCBaseTestCase {
   }
 
   func test_givenUsernameCannotEdit_InWithdrawalAddFiatBankCardViewController_AlertDisplayCannotEditUsername_KTO_TC_176() {
-    injectStubCultureCode(.CN)
+    stubLocalizeUtils(.China())
 
     let stubAlert = mock(AlertProtocol.self)
     let sut = WithdrawalAddFiatBankCardViewController.instantiate(alert: stubAlert)

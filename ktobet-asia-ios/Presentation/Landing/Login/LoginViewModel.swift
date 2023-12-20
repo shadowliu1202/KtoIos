@@ -26,6 +26,7 @@ class LoginViewModel: ObservableObject {
   private let configUseCase: ConfigurationUseCase
   private let navigationViewModel: NavigationViewModel
   private let localStorageRepo: LocalStorageRepository
+  private let playerConfiguration: PlayerConfiguration
   private let timerOverLoginLimit = CountDownTimer()
   private let disposeBag = DisposeBag()
 
@@ -35,12 +36,14 @@ class LoginViewModel: ObservableObject {
     _ authenticationUseCase: AuthenticationUseCase,
     _ configurationUseCase: ConfigurationUseCase,
     _ navigationViewModel: NavigationViewModel,
-    _ localStorageRepo: LocalStorageRepository)
+    _ localStorageRepo: LocalStorageRepository,
+    _ playerConfiguration: PlayerConfiguration)
   {
     authUseCase = authenticationUseCase
     configUseCase = configurationUseCase
     self.navigationViewModel = navigationViewModel
     self.localStorageRepo = localStorageRepo
+    self.playerConfiguration = playerConfiguration
   }
 
   func initRememberAccount() {
@@ -212,10 +215,6 @@ class LoginViewModel: ObservableObject {
   }
   
   func getSupportLocale() -> SupportLocale {
-    localStorageRepo.getSupportLocale()
-  }
-  
-  func getCultureCode() -> String {
-    localStorageRepo.getCultureCode()
+    playerConfiguration.supportLocale
   }
 }

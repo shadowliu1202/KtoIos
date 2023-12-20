@@ -9,7 +9,7 @@ final class WithdrawalFiatWalletsViewControllerTests: XCBaseTestCase {
     let stubViewModel = mock(WithdrawalFiatWalletsViewModel.self)
       .initialize(
         withdrawalService: mock(AbsWithdrawalAppService.self),
-        playerConfig: PlayerConfigurationImpl(supportLocale: .China()))
+        playerConfig: PlayerConfigurationImpl(nil))
     let stubAlert = mock(AlertProtocol.self)
 
     given(stubViewModel.playerWallet) ~> .init(

@@ -3,13 +3,13 @@ import sharedbu
 import UIKit
 
 class LandingViewController: APPViewController, VersionUpdateProtocol {
-  @Injected private var localStorageRepo: LocalStorageRepository
+  @Injected private var playerConfiguration: PlayerConfiguration
 
   @Injected var appSyncViewModel: AppSynchronizeViewModel
 
   private var viewDisappearBag = DisposeBag()
 
-  lazy var localTimeZone = localStorageRepo.localeTimeZone()
+  lazy var localTimeZone = playerConfiguration.localeTimeZone()
 
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)

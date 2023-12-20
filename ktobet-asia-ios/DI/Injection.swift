@@ -243,15 +243,8 @@ final class Injection {
       }
 
     container
-      .register(PlayerConfiguration.self) { _ in
-        ForceLocalePlayerConfiguration(forceLocale: .Vietnam())
-      }
-
-    container
-      .register(LocalStorageRepository.self) {
-        ForceLocaleLocalStorageRepository(
-          forceLocale: .Vietnam(),
-          $0.resolveWrapper(PlayerConfiguration.self))
+      .register(LocalStorageRepository.self) { _ in
+        LocalStorageRepositoryImpl()
       }
 
     container
@@ -272,13 +265,10 @@ final class Injection {
       }
 
     container
-      .register(CasinoRecordRepository.self) { resolver in
-        let casinoApi = resolver.resolveWrapper(CasinoApi.self)
-        let localStorageRepo = resolver.resolveWrapper(LocalStorageRepository.self)
-
-        return CasinoRecordRepositoryImpl(
-          casinoApi,
-          localStorageRepo: localStorageRepo)
+      .register(CasinoRecordRepository.self) {
+        CasinoRecordRepositoryImpl(
+          $0.resolveWrapper(CasinoApi.self),
+          $0.resolveWrapper(PlayerConfiguration.self))
       }
 
     container
@@ -302,15 +292,11 @@ final class Injection {
       }
 
     container
-      .register(SlotRecordRepository.self) { resolver in
-        let slotApi = resolver.resolveWrapper(SlotApi.self)
-        let localStorageRepo = resolver.resolveWrapper(LocalStorageRepository.self)
-        let httpClient = resolver.resolveWrapper(HttpClient.self)
-
-        return SlotRecordRepositoryImpl(
-          slotApi,
-          localStorageRepo: localStorageRepo,
-          httpClient: httpClient)
+      .register(SlotRecordRepository.self) {
+        SlotRecordRepositoryImpl(
+          $0.resolveWrapper(SlotApi.self),
+          $0.resolveWrapper(PlayerConfiguration.self),
+          $0.resolveWrapper(HttpClient.self))
       }
 
     container
@@ -344,27 +330,19 @@ final class Injection {
       }
 
     container
-      .register(P2PRecordRepository.self) { resolver in
-        let p2pApi = resolver.resolveWrapper(P2PApi.self)
-        let localStorageRepo = resolver.resolveWrapper(LocalStorageRepository.self)
-        let httpClient = resolver.resolveWrapper(HttpClient.self)
-
-        return P2PRecordRepositoryImpl(
-          p2pApi,
-          localStorageRepo: localStorageRepo,
-          httpClient: httpClient)
+      .register(P2PRecordRepository.self) {
+        P2PRecordRepositoryImpl(
+          $0.resolveWrapper(P2PApi.self),
+          $0.resolveWrapper(PlayerConfiguration.self),
+          $0.resolveWrapper(HttpClient.self))
       }
 
     container
-      .register(ArcadeRecordRepository.self) { resolver in
-        let arcadeApi = resolver.resolveWrapper(ArcadeApi.self)
-        let localStorageRepo = resolver.resolveWrapper(LocalStorageRepository.self)
-        let httpClient = resolver.resolveWrapper(HttpClient.self)
-
-        return ArcadeRecordRepositoryImpl(
-          arcadeApi,
-          localStorageRepo: localStorageRepo,
-          httpClient: httpClient)
+      .register(ArcadeRecordRepository.self) {
+        ArcadeRecordRepositoryImpl(
+          $0.resolveWrapper(ArcadeApi.self),
+          $0.resolveWrapper(PlayerConfiguration.self),
+          $0.resolveWrapper(HttpClient.self))
       }
 
     container
@@ -384,16 +362,16 @@ final class Injection {
       }
 
     container
-      .register(AccountPatternGenerator.self) { resolver in
-        let repoLocalStorage = resolver.resolveWrapper(LocalStorageRepository.self)
-        return AccountPatternGeneratorFactory.create(repoLocalStorage.getSupportLocale())
+      .register(AccountPatternGenerator.self) {
+        AccountPatternGeneratorFactory.create(
+          $0.resolveWrapper(PlayerConfiguration.self).supportLocale)
       }
 
     container
-      .register(LocalizationRepository.self) { resolver in
-        let repoLocalStorage = resolver.resolveWrapper(LocalStorageRepository.self)
-        let portalApi = resolver.resolveWrapper(PortalApi.self)
-        return LocalizationRepositoryImpl(repoLocalStorage, portalApi)
+      .register(LocalizationRepository.self) {
+        LocalizationRepositoryImpl(
+          $0.resolveWrapper(PlayerConfiguration.self),
+          $0.resolveWrapper(PortalApi.self))
       }
 
     container
@@ -440,10 +418,11 @@ final class Injection {
       }
 
     container
-      .register(ConfigurationUseCase.self) { resolver in
-        let repo = resolver.resolveWrapper(PlayerRepository.self)
-        let repoLocalStorage = resolver.resolveWrapper(LocalStorageRepository.self)
-        return ConfigurationUseCaseImpl(repo, repoLocalStorage)
+      .register(ConfigurationUseCase.self) {
+        ConfigurationUseCaseImpl(
+          $0.resolveWrapper(PlayerRepository.self),
+          $0.resolveWrapper(LocalStorageRepository.self),
+          $0.resolveWrapper(PlayerConfiguration.self))
       }
 
     container
@@ -477,11 +456,11 @@ final class Injection {
       }
 
     container
-      .register(PlayerDataUseCase.self) { resolver in
-        let repoPlayer = resolver.resolveWrapper(PlayerRepository.self)
-        let repoLocal = resolver.resolveWrapper(LocalStorageRepository.self)
-
-        return PlayerDataUseCaseImpl(repoPlayer, repoLocal)
+      .register(PlayerDataUseCase.self) {
+        PlayerDataUseCaseImpl(
+          $0.resolveWrapper(PlayerRepository.self),
+          $0.resolveWrapper(LocalStorageRepository.self),
+          $0.resolveWrapper(PlayerConfiguration.self))
       }
 
     container
@@ -510,11 +489,11 @@ final class Injection {
       }
 
     container
-      .register(CasinoUseCase.self) { resolver in
+      .register(CasinoUseCase.self) {
         CasinoUseCaseImpl(
-          casinoRepository: resolver.resolveWrapper(CasinoRepository.self),
-          localStorageRepo: resolver.resolveWrapper(LocalStorageRepository.self),
-          promotionRepository: resolver.resolveWrapper(PromotionRepository.self))
+          $0.resolveWrapper(CasinoRepository.self),
+          $0.resolveWrapper(PlayerConfiguration.self),
+          $0.resolveWrapper(PromotionRepository.self))
       }
 
     container
@@ -591,10 +570,10 @@ final class Injection {
       }
 
     container
-      .register(AppVersionUpdateUseCase.self) { resolver in
-        let repo = resolver.resolveWrapper(AppUpdateRepository.self)
-        let repoLocalStorage = resolver.resolveWrapper(LocalStorageRepository.self)
-        return AppVersionUpdateUseCaseImpl(repo, repoLocalStorage)
+      .register(AppVersionUpdateUseCase.self) {
+        AppVersionUpdateUseCaseImpl(
+          $0.resolveWrapper(AppUpdateRepository.self),
+          $0.resolveWrapper(PlayerConfiguration.self))
       }
   }
 
@@ -689,11 +668,11 @@ final class Injection {
       }
 
     container
-      .register(ResetPasswordViewModel.self) { resolver in
-        let usecaseAuthentication = resolver.resolveWrapper(ResetPasswordUseCase.self)
-        let systemUseCase = resolver.resolveWrapper(ISystemStatusUseCase.self)
-        let localStorageRepo = resolver.resolveWrapper(LocalStorageRepository.self)
-        return ResetPasswordViewModel(usecaseAuthentication, systemUseCase, localStorageRepo)
+      .register(ResetPasswordViewModel.self) {
+        ResetPasswordViewModel(
+          $0.resolveWrapper(ResetPasswordUseCase.self),
+          $0.resolveWrapper(ISystemStatusUseCase.self),
+          $0.resolveWrapper(PlayerConfiguration.self))
       }
 
     container
@@ -779,10 +758,10 @@ final class Injection {
       }
 
     container
-      .register(PromotionHistoryViewModel.self) { resolver in
-        .init(
-          promotionUseCase: resolver.resolveWrapper(PromotionUseCase.self),
-          localRepo: resolver.resolveWrapper(LocalStorageRepository.self))
+      .register(PromotionHistoryViewModel.self) {
+        PromotionHistoryViewModel(
+          $0.resolveWrapper(PromotionUseCase.self),
+          $0.resolveWrapper(PlayerConfiguration.self))
       }
 
     container
@@ -860,12 +839,13 @@ final class Injection {
       }
 
     container
-      .register(LoginViewModel.self) { resolver in
-        let authenticationUseCase = resolver.resolveWrapper(AuthenticationUseCase.self)
-        let configurationUseCase = resolver.resolveWrapper(ConfigurationUseCase.self)
-        let navigationViewModel = resolver.resolveWrapper(NavigationViewModel.self)
-        let localStorageRepo = resolver.resolveWrapper(LocalStorageRepository.self)
-        return LoginViewModel(authenticationUseCase, configurationUseCase, navigationViewModel, localStorageRepo)
+      .register(LoginViewModel.self) {
+        LoginViewModel(
+          $0.resolveWrapper(AuthenticationUseCase.self),
+          $0.resolveWrapper(ConfigurationUseCase.self),
+          $0.resolveWrapper(NavigationViewModel.self),
+          $0.resolveWrapper(LocalStorageRepository.self),
+          $0.resolveWrapper(PlayerConfiguration.self))
       }
 
     container
@@ -887,11 +867,11 @@ final class Injection {
       }
 
     container
-      .register(OfflinePaymentViewModel.self) { resolver in
+      .register(OfflinePaymentViewModel.self) {
         OfflinePaymentViewModel(
-          depositService: resolver.resolveWrapper(IDepositAppService.self),
-          playerUseCase: resolver.resolveWrapper(PlayerDataUseCase.self),
-          localStorageRepo: resolver.resolveWrapper(LocalStorageRepository.self))
+          $0.resolveWrapper(IDepositAppService.self),
+          $0.resolveWrapper(PlayerDataUseCase.self),
+          $0.resolveWrapper(PlayerConfiguration.self))
       }
 
     container
@@ -1019,21 +999,21 @@ final class Injection {
           resolver.resolveWrapper(IWithdrawalAppService.self))
       }
 
-    container.register(WithdrawalAddFiatBankCardViewModel.self) { resolver in
+    container.register(WithdrawalAddFiatBankCardViewModel.self) {
       WithdrawalAddFiatBankCardViewModel(
-        resolver.resolveWrapper(LocalStorageRepository.self),
-        resolver.resolveWrapper(AuthenticationUseCase.self),
-        resolver.resolveWrapper(BankUseCase.self),
-        resolver.resolveWrapper(PlayerDataUseCase.self),
-        resolver.resolveWrapper(AccountPatternGenerator.self),
-        resolver.resolveWrapper(IWithdrawalAppService.self))
+        $0.resolveWrapper(PlayerConfiguration.self),
+        $0.resolveWrapper(AuthenticationUseCase.self),
+        $0.resolveWrapper(BankUseCase.self),
+        $0.resolveWrapper(PlayerDataUseCase.self),
+        $0.resolveWrapper(AccountPatternGenerator.self),
+        $0.resolveWrapper(IWithdrawalAppService.self))
     }
 
     container
       .register(WithdrawalCryptoRequestStep1ViewModel.self) { resolver in
         .init(
           resolver.resolveWrapper(IWithdrawalAppService.self),
-          resolver.resolveWrapper(LocalStorageRepository.self))
+          resolver.resolveWrapper(PlayerConfiguration.self))
       }
 
     container
@@ -1098,8 +1078,8 @@ final class Injection {
   func registSingleton() {
     container
       .register(LocalizeUtils.self) { resolver in
-        let localStorageRepo = resolver.resolveWrapper(LocalStorageRepository.self)
-        return LocalizeUtils(localizationFileName: localStorageRepo.getCultureCode())
+        let cultureCode = resolver.resolveWrapper(PlayerConfiguration.self).supportLocale.cultureCode()
+        return LocalizeUtils(localizationFileName: cultureCode)
       }
       .inObjectScope(.application)
 
@@ -1162,10 +1142,9 @@ final class Injection {
       .inObjectScope(.application)
     
     container
-      .register(PlayerConfiguration.self) { _ in
-        PlayerConfigurationImpl()
+      .register(PlayerConfiguration.self) {
+        PlayerConfigurationImpl($0.resolveWrapper(LocalStorageRepository.self).getCultureCode())
       }
-      .inObjectScope(.locale)
     
     container
       .register(CustomerServiceProtocol.self) { resolver in

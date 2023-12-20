@@ -11,7 +11,7 @@ extension WithdrawalOTPVerificationViewModelProtocolMock: ObservableObject { }
 
 final class WithdrawalOTPVerificationViewTests: XCBaseTestCase {
   func test_givenMobileVerificationAndPlayerLocaleIsVietnam_thenInfoHintIsHighLightWithF20000_KTO_TC_191() {
-    injectStubCultureCode(.VN)
+    stubLocalizeUtils(.Vietnam())
 
     let dummyViewModel = mock(WithdrawalOTPVerificationViewModelProtocol.self)
 

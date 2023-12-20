@@ -23,7 +23,7 @@ final class PromotionViewControllerTest: XCBaseTestCase {
 
   override func setUp() {
     super.setUp()
-    injectStubCultureCode(.CN)
+    stubLocalizeUtils(.China())
     Injectable
       .register(PromotionUseCase.self) { _ in
         self.mockPromotionUseCase

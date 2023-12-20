@@ -234,7 +234,7 @@ struct CryptoSelectView_Previews: PreviewProvider {
     var body: some View {
       CryptoSelectView(
         viewModel: ViewModel(),
-        playerConfig: PlayerConfigurationImpl(supportLocale: .Vietnam()))
+        playerConfig: FakePlayerConfiguration(.Vietnam()))
     }
   }
 

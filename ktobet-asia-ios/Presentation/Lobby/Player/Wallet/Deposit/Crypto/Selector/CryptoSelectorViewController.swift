@@ -7,20 +7,19 @@ class CryptoSelectorViewController:
   LobbyViewController,
   SwiftUIConverter
 {
-  @Injected private var playerConfig: PlayerConfiguration
   @Injected private var alert: AlertProtocol
-  @Injected private var localStorageRepo: LocalStorageRepository
+  @Injected private var playerConfiguration: PlayerConfiguration
   @Injected private var viewModel: CryptoDepositViewModel
 
   private let disposeBag = DisposeBag()
 
   init(
-    localStorageRepo: LocalStorageRepository? = nil,
+    playerConfiguration: PlayerConfiguration? = nil,
     viewModel: CryptoDepositViewModel? = nil,
     alert: AlertProtocol? = nil)
   {
-    if let localStorageRepo {
-      self._localStorageRepo.wrappedValue = localStorageRepo
+    if let playerConfiguration {
+      self._playerConfiguration.wrappedValue = playerConfiguration
     }
 
     if let viewModel {
@@ -65,7 +64,7 @@ extension CryptoSelectorViewController {
       from: { [unowned self] in
         CryptoSelectView(
           viewModel: self.viewModel,
-          playerConfig: playerConfig,
+          playerConfig: playerConfiguration,
           userGuideOnTap: {
             self.navigateToGuide()
           },
@@ -98,7 +97,7 @@ extension CryptoSelectorViewController {
   }
 
   func navigateToGuide() {
-    switch localStorageRepo.getSupportLocale() {
+    switch playerConfiguration.supportLocale {
     case is SupportLocale.China:
       navigationController?
         .pushViewController(

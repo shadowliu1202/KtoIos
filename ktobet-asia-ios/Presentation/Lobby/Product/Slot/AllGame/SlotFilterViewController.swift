@@ -16,7 +16,7 @@ class SlotFilterViewController: UIViewController {
   @IBOutlet weak var collectionView: UICollectionView!
   @IBOutlet weak var selectedCountLabel: UILabel!
 
-  private let localStorageRepo = Injectable.resolve(LocalStorageRepository.self)!
+  private let playerConfiguration = Injectable.resolve(PlayerConfiguration.self)!
 
   private var collectionViewHeight: SnapKit.Constraint?
   private var viewModel = Injectable.resolve(SlotViewModel.self)!
@@ -26,7 +26,7 @@ class SlotFilterViewController: UIViewController {
   var options: [SlotGameFilter] = []
   var conditionCallback: ((_ dateType: [SlotGameFilter]) -> Void)?
 
-  lazy var locale = localStorageRepo.getSupportLocale()
+  lazy var locale = playerConfiguration.supportLocale
   lazy var items = Category(options: options)
   var dataSource: RxCollectionViewSectionedReloadDataSource<FilterSectionModel>?
 

@@ -34,6 +34,15 @@ final class WithdrawalCryptoRequestStep1ViewTests: XCBaseTestCase {
       from: .eth,
       to: .China(),
       cryptoExchangeRate: "2")
+  
+  private func injectLocalStorageRepository(_ supportLocale: SupportLocale) {
+    let stubLocalStorageRepository = mock(LocalStorageRepository.self)
+    given(stubLocalStorageRepository.getCultureCode()) ~> supportLocale.cultureCode()
+    
+    Injectable.register(LocalStorageRepository.self) { _ in
+      stubLocalStorageRepository
+    }
+  }
 
   private func getViewModelProtocol(supportLocale: SupportLocale) -> WithdrawalCryptoRequestStep1ViewModelProtocolMock {
     let stubViewModel = mock(WithdrawalCryptoRequestStep1ViewModelProtocol.self)
@@ -68,13 +77,9 @@ final class WithdrawalCryptoRequestStep1ViewTests: XCBaseTestCase {
         exchangeRate: self.stubRate))
       .asWrapper()
 
-    let stubLocalRepo = mock(LocalStorageRepository.self)
-    given(stubLocalRepo.getSupportLocale()) ~> .China()
-    given(stubLocalRepo.getLocalCurrency()) ~> "0".toAccountCurrency()
-
     return WithdrawalCryptoRequestStep1ViewModel(
       stubService,
-      stubLocalRepo)
+      PlayerConfigurationImpl(SupportLocale.China().cultureCode()))
   }
   
   func test_givenLocaleIsVietnam_whenInCryptoWithdrawalPage_thenDisplayCurrencyRatioNotify_KTO_TC_107() {

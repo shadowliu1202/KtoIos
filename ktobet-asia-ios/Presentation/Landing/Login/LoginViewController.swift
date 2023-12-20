@@ -35,7 +35,7 @@ class LoginViewController: LandingViewController {
   
   required init?(coder: NSCoder) {
     super.init(coder: coder)
-    cookieManager.replaceCulture(to: viewModel.getCultureCode())
+    cookieManager.replaceCulture(to: viewModel.getSupportLocale().cultureCode())
   }
 
   override func viewDidLoad() {
@@ -240,11 +240,13 @@ extension LoginViewController: BarButtonItemable {
   func pressedRightBarButtonItems(_ sender: UIBarButtonItem) {
     switch sender.tag {
     case registerBarBtnId:
-      let language = Language(rawValue: viewModel.getCultureCode())
-      if language == .CN {
+      let supportLocale = viewModel.getSupportLocale()
+      switch supportLocale {
+      case .China():
         alertServiceDownThenToSignUpPage()
-      }
-      else {
+      case .Vietnam():
+        navigateToSignUpPage()
+      default:
         navigateToSignUpPage()
       }
     case manualUpdateBtnId:

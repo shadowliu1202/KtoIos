@@ -12,7 +12,7 @@ class DefaultProductViewController: LobbyViewController {
 
   private let segueLobby = "BackToLobby"
 
-  private let localStorageRepo = Injectable.resolve(LocalStorageRepository.self)!
+  private let playerConfiguration = Injectable.resolve(PlayerConfiguration.self)!
   private let navigationViewModel = Injectable.resolve(NavigationViewModel.self)!
 
   private lazy var httpClient = Injectable.resolve(HttpClient.self)!
@@ -121,7 +121,7 @@ extension DefaultProductViewController: UITableViewDataSource {
     let item = games[indexPath.row]
     let identifier = String(describing: DefaultProductCell.self)
     let cell = tableView.dequeueReusableCell(withIdentifier: identifier, for: indexPath) as! DefaultProductCell
-    cell.setup(item, localStorageRepo.getSupportLocale(), currentSelectGame, httpClient.host.absoluteString)
+    cell.setup(item, playerConfiguration.supportLocale, currentSelectGame, httpClient.host.absoluteString)
     return cell
   }
 

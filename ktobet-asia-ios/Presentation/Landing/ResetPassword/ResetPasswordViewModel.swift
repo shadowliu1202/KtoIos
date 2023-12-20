@@ -8,7 +8,7 @@ import sharedbu
 class ResetPasswordViewModel: CollectErrorViewModel {
   private let resetUseCase: ResetPasswordUseCase
   private let systemUseCase: ISystemStatusUseCase
-  private let localStorageRepo: LocalStorageRepository
+  private let playerConfiguration: PlayerConfiguration
   
   private let disposeBag = DisposeBag()
   
@@ -50,16 +50,16 @@ class ResetPasswordViewModel: CollectErrorViewModel {
     }
   }
 
-  lazy var locale = localStorageRepo.getSupportLocale()
+  lazy var locale = playerConfiguration.supportLocale
 
   init(
     _ resetUseCase: ResetPasswordUseCase,
     _ systemUseCase: ISystemStatusUseCase,
-    _ localStorageRepo: LocalStorageRepository)
+    _ playerConfiguration: PlayerConfiguration)
   {
     self.resetUseCase = resetUseCase
     self.systemUseCase = systemUseCase
-    self.localStorageRepo = localStorageRepo
+    self.playerConfiguration = playerConfiguration
   }
 
   func event() -> (
@@ -175,6 +175,6 @@ class ResetPasswordViewModel: CollectErrorViewModel {
   }
   
   func getSupportLocale() -> SupportLocale {
-    localStorageRepo.getSupportLocale()
+    playerConfiguration.supportLocale
   }
 }

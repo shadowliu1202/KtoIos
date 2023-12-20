@@ -10,13 +10,17 @@ protocol P2PRecordRepository {
 }
 
 class P2PRecordRepositoryImpl: P2PRecordRepository {
-  private var p2pApi: P2PApi!
-  private var localStorageRepo: LocalStorageRepository!
-  private var httpClient: HttpClient!
+  private let p2pApi: P2PApi
+  private let playerConfiguration: PlayerConfiguration
+  private let httpClient: HttpClient
 
-  init(_ p2pApi: P2PApi, localStorageRepo: LocalStorageRepository, httpClient: HttpClient) {
+  init(
+    _ p2pApi: P2PApi,
+    _ playerConfiguration: PlayerConfiguration,
+    _ httpClient: HttpClient)
+  {
     self.p2pApi = p2pApi
-    self.localStorageRepo = localStorageRepo
+    self.playerConfiguration = playerConfiguration
     self.httpClient = httpClient
   }
 
@@ -68,8 +72,8 @@ class P2PRecordRepositoryImpl: P2PRecordRepository {
   {
     p2pApi
       .getBetRecords(
-        beginDate: beginDate.toQueryFormatString(timeZone: localStorageRepo.timezone()),
-        endDate: endDate.toQueryFormatString(timeZone: localStorageRepo.timezone()),
+        beginDate: beginDate.toQueryFormatString(timeZone: playerConfiguration.timezone()),
+        endDate: endDate.toQueryFormatString(timeZone: playerConfiguration.timezone()),
         gameId: gameId)
       .map { response -> [P2PGameBetRecord] in
         guard let data = response.data else { return [] }

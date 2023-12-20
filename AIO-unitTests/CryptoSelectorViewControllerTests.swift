@@ -48,12 +48,11 @@ final class CryptoSelectorViewControllerTests: XCBaseTestCase {
   func test_AtCNEnvironmentTapCryptoGuideText_InCryptoSelectorPage_CNCryptoGuideIsDisplayed_KTO_TC_1() {
     injectLocalizationPolicyUseCase()
 
-    let stubLocalRepo = mock(LocalStorageRepository.self)
-    given(stubLocalRepo.getSupportLocale()) ~> .China()
-
     let stubViewModel = getViewModel()
 
-    let sut = CryptoSelectorViewController(localStorageRepo: stubLocalRepo, viewModel: stubViewModel)
+    let sut = CryptoSelectorViewController(
+      playerConfiguration: PlayerConfigurationImpl(SupportLocale.China().cultureCode()),
+      viewModel: stubViewModel)
 
     makeItVisible(UINavigationController(rootViewController: sut))
 
@@ -69,12 +68,11 @@ final class CryptoSelectorViewControllerTests: XCBaseTestCase {
   func test_AtVNEnvironmentTapCryptoGuideText_InCryptoSelectorPage_VNCryptoGuideIsDisplayed_KTO_TC_2() {
     injectLocalizationPolicyUseCase()
 
-    let stubLocalRepo = mock(LocalStorageRepository.self)
-    given(stubLocalRepo.getSupportLocale()) ~> .Vietnam()
-
     let stubViewModel = getViewModel()
 
-    let sut = CryptoSelectorViewController(localStorageRepo: stubLocalRepo, viewModel: stubViewModel)
+    let sut = CryptoSelectorViewController(
+      playerConfiguration: PlayerConfigurationImpl(SupportLocale.Vietnam().cultureCode()),
+      viewModel: stubViewModel)
 
     makeItVisible(UINavigationController(rootViewController: sut))
 
@@ -104,7 +102,7 @@ final class CryptoSelectorViewControllerTests: XCBaseTestCase {
   }
 
   func test_givenDepositCountOverLimit_InCryptoSelectPage_thenAlertRequestLater() {
-    injectStubCultureCode(.CN)
+    stubLocalizeUtils(.China())
 
     let playerDepositCountOverLimit = ExceptionFactory.companion.create(message: "", statusCode: "10101")
 
