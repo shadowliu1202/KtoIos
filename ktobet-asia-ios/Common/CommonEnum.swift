@@ -63,12 +63,6 @@ public enum FeatureType {
   case logout
 }
 
-public enum Language: String {
-  case CN = "zh-cn"
-  case VN = "vi-vn"
-  case TH = "th"
-}
-
 public enum DateType {
   case week(fromDate: Date = Date(), toDate: Date = Date())
   case day(Date)

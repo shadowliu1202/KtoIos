@@ -8,14 +8,14 @@ protocol AppVersionUpdateUseCase {
 }
 
 class AppVersionUpdateUseCaseImpl: AppVersionUpdateUseCase {
-  var repo: AppUpdateRepository!
-  var localStorageRepo: LocalStorageRepository!
-  private var timezone: Foundation.TimeZone!
+  private let repo: AppUpdateRepository
+  private let playerConfiguration: PlayerConfiguration
+  private let timezone: Foundation.TimeZone
 
-  init(_ repo: AppUpdateRepository, _ localStorageRepo: LocalStorageRepository) {
+  init(_ repo: AppUpdateRepository, _ playerConfiguration: PlayerConfiguration) {
     self.repo = repo
-    self.localStorageRepo = localStorageRepo
-    self.timezone = self.localStorageRepo.localeTimeZone()
+    self.playerConfiguration = playerConfiguration
+    self.timezone = playerConfiguration.localeTimeZone()
   }
 
   func getLatestAppVersion() -> Single<sharedbu.Version> {

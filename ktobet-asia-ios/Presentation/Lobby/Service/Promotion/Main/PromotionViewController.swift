@@ -13,7 +13,7 @@ class PromotionViewController: LobbyViewController {
 
   private var dataSource: [[PromotionVmItem]] = [[]]
 
-  private var localStorageRepo = Injectable.resolve(LocalStorageRepository.self)!
+  private var playerConfiguration = Injectable.resolve(PlayerConfiguration.self)!
   private var disposeBag = DisposeBag()
   private var cancellables = Set<AnyCancellable>()
 
@@ -219,11 +219,11 @@ extension PromotionViewController: UITableViewDataSource, UITableViewDelegate {
     }
     else if let promotion = item as? PromotionEventItem {
       cell = tableView.dequeueReusableCell(withIdentifier: "UsableTableViewCell", cellType: UsableTableViewCell.self)
-        .configure(item, promotion.isAutoUse(), localStorageRepo.getSupportLocale())
+        .configure(item, promotion.isAutoUse(), playerConfiguration.supportLocale)
     }
     else {
       cell = tableView.dequeueReusableCell(withIdentifier: "UnusableTableViewCell", cellType: UnusableTableViewCell.self)
-        .configure(item, localStorageRepo.getSupportLocale())
+        .configure(item, playerConfiguration.supportLocale)
     }
     return cell.refreshHandler({ [weak self] in
       self?.viewModel.fetchData()

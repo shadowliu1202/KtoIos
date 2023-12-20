@@ -71,7 +71,7 @@ final class WithdrawalCryptoDetailViewTests: XCBaseTestCase {
   }
 
   func test_PaymentStatusIsNotComplete_notCompleteHintIsDisplayed_KTO_TC_137() {
-    injectStubCultureCode(.CN)
+    stubLocalizeUtils(.China())
 
     let stubViewModel = mock(WithdrawalCryptoRecordDetailViewModelProtocol.self)
 

@@ -4,7 +4,7 @@ import SwiftUI
 struct CryptoGuideVNDView<ViewModel: CryptoGuideVNDViewModel>: View {
   @StateObject var viewModel: ViewModel
 
-  private let supportLocale: SupportLocale = Injectable.resolve(LocalStorageRepository.self)!.getSupportLocale()
+  private let supportLocale: SupportLocale = Injectable.resolve(PlayerConfiguration.self)!.supportLocale
 
   var body: some View {
     ScrollView {

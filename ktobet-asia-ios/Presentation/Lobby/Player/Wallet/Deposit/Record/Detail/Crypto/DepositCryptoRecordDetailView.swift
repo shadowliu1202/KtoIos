@@ -196,7 +196,7 @@ struct DepositCryptoRecordViewPreviews: PreviewProvider {
 
     var body: some View {
       DepositCryptoRecordDetailView(
-        playerConfig: PlayerConfigurationImpl(supportLocale: .China()),
+        playerConfig: FakePlayerConfiguration(.China()),
         submitTransactionIdOnClick: nil,
         transactionId: "123",
         viewModel: viewModel)

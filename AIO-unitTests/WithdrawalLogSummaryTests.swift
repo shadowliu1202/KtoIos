@@ -46,7 +46,7 @@ final class WithdrawalLogSummaryViewTests: XCBaseTestCase {
   }
 
   func test_HasNoRecord_DisplayEmptyRemind_KTO_TC_138() {
-    injectStubCultureCode(.CN)
+    stubLocalizeUtils(.China())
 
     let stubViewModel = mock(WithdrawalLogSummaryViewModelProtocol.self)
 
@@ -119,11 +119,11 @@ final class WithdrawalLogSummaryViewTests: XCBaseTestCase {
   }
 
   func test_HasLogToday_SectionTitleIsToday_KTO_TC_140() {
-    injectStubCultureCode(.CN)
+    stubLocalizeUtils(.China())
 
     let stubViewModel = WithdrawalLogSummaryViewModel(
       withdrawalService: Injectable.resolveWrapper(IWithdrawalAppService.self),
-      playerConfig: PlayerConfigurationImpl(supportLocale: .China()))
+      playerConfig: PlayerConfigurationImpl(nil))
 
     let stubSections = stubViewModel.buildSections([generateGroupLog(date: .init())])
 

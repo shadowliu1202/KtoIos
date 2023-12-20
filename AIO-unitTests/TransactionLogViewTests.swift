@@ -41,7 +41,7 @@ final class TransactionLogViewTests: XCBaseTestCase {
   }
 
   func test_HasOneP2PBetLog_InTransactionLogPage_P2PLogIsDisplayedWithNumber1_KTO_TC_36() {
-    injectStubCultureCode(.VN)
+    stubLocalizeUtils(.Vietnam())
 
     let stubViewModel = mock(TransactionLogViewModelProtocol.self)
 
@@ -221,7 +221,7 @@ final class TransactionLogViewTests: XCBaseTestCase {
   }
 
   func test_HasLogToday_SectionTitleIsToday() {
-    let stubPlayerConfig = PlayerConfigurationImpl(supportLocale: .China())
+    let stubPlayerConfig = PlayerConfigurationImpl(SupportLocale.China().cultureCode())
     let viewModel = TransactionLogViewModel(
       mock(AbsTransactionAppService.self),
       mock(AbsCasinoAppService.self),
@@ -238,7 +238,7 @@ final class TransactionLogViewTests: XCBaseTestCase {
           timeZone: stubPlayerConfig.localeTimeZone())
       ])
 
-    let expect = "今天"
+    let expect = Localize.string("common_today")
     let actual = stubSections.first!.title
     XCTAssertEqual(expect, actual)
   }
@@ -280,7 +280,7 @@ final class TransactionLogViewTests: XCBaseTestCase {
   }
 
   func test_HasNoLog_InTransactionLogPage_ReminderIsDisplayed_KTO_TC_56() {
-    injectStubCultureCode(.CN)
+    stubLocalizeUtils(.China())
 
     let stubViewModel = mock(TransactionLogViewModelProtocol.self)
 

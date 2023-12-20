@@ -17,7 +17,7 @@ extension DropdownSelectable {
 }
 
 class DropdownSelector: UIView {
-  @Injected var repo: LocalStorageRepository
+  @Injected var playerConfiguration: PlayerConfiguration
 
   let AnimationDuration: TimeInterval = 0.5
   private let items: BehaviorRelay<[DropdownSelectable]> = .init(value: [])
@@ -104,7 +104,7 @@ extension DropdownSelector {
     mainStack.addArrangedSubview(titleLabel)
     titleLabel.setContentHuggingPriority(.defaultLow, for: .horizontal)
     titleLabel.textColor = UIColor.greyScaleWhite
-    titleLabel.localizedFont(by: repo.getSupportLocale(), weight: .medium, size: 14)
+    titleLabel.localizedFont(by: playerConfiguration.supportLocale, weight: .medium, size: 14)
 
     mainStack.addArrangedSubview(imageView)
     imageView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
@@ -156,7 +156,7 @@ extension DropdownSelector {
       .bind(to: tableView.rx.items) { [unowned self] tableView, row, item in
         let cell = tableView.dequeueReusableCell(withIdentifier: "SortCell", for: [0, row]) as! SortCell
         cell.selectionStyle = .none
-        cell.locale = self.repo.getSupportLocale()
+        cell.locale = self.playerConfiguration.supportLocale
         cell.label.text = item.contentText
 
         return cell

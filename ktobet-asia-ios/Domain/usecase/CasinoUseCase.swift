@@ -11,20 +11,20 @@ protocol CasinoUseCase: WebGameUseCase {
 
 class CasinoUseCaseImpl: WebGameUseCaseImpl, CasinoUseCase {
   private let casinoRepository: CasinoRepository
-  private let localStorageRepo: LocalStorageRepository
+  private let playerConfiguration: PlayerConfiguration
 
   init(
-    casinoRepository: CasinoRepository,
-    localStorageRepo: LocalStorageRepository,
-    promotionRepository: PromotionRepository)
+    _ casinoRepository: CasinoRepository,
+    _ playerConfiguration: PlayerConfiguration,
+    _ promotionRepository: PromotionRepository)
   {
     self.casinoRepository = casinoRepository
-    self.localStorageRepo = localStorageRepo
+    self.playerConfiguration = playerConfiguration
     super.init(webGameRepository: casinoRepository, promotionRepository: promotionRepository)
   }
 
   func getCasinoBetTypeTags() -> Single<[CasinoGameTag]> {
-    casinoRepository.getTags(cultureCode: localStorageRepo.getCultureCode())
+    casinoRepository.getTags(cultureCode: playerConfiguration.supportLocale.cultureCode())
       .map { (tags: [CasinoGameTag]) -> [CasinoGameTag] in
         tags.filter { (tag: CasinoGameTag) -> Bool in
           tag is CasinoGameTag.GameType

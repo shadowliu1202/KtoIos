@@ -13,7 +13,7 @@ extension DepositView.Histories: Inspecting { }
 
 final class DepositViewTests: XCBaseTestCase {
   func buildStubDepositViewModel() -> DepositViewModelProtocolMock {
-    injectStubCultureCode(.CN)
+    stubLocalizeUtils(.China())
     return mock(DepositViewModelProtocol.self)
   }
 

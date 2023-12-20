@@ -11,12 +11,12 @@ protocol CasinoRecordRepository {
 }
 
 class CasinoRecordRepositoryImpl: CasinoRecordRepository {
-  private var casinoApi: CasinoApi!
-  private var localStorageRepo: LocalStorageRepository!
+  private let casinoApi: CasinoApi
+  private let playerConfiguration: PlayerConfiguration
 
-  init(_ casinoApi: CasinoApi, localStorageRepo: LocalStorageRepository) {
+  init(_ casinoApi: CasinoApi, _ playerConfiguration: PlayerConfiguration) {
     self.casinoApi = casinoApi
-    self.localStorageRepo = localStorageRepo
+    self.playerConfiguration = playerConfiguration
   }
 
   func getBetSummary(zoneOffset: sharedbu.UtcOffset) -> Single<BetSummary> {
@@ -51,7 +51,7 @@ class CasinoRecordRepositoryImpl: CasinoRecordRepository {
   }
 
   func getUnsettledRecords(date: sharedbu.LocalDateTime) -> Single<[UnsettledBetRecord]> {
-    casinoApi.getUnsettledRecords(date: date.toQueryFormatString(timeZone: localStorageRepo.timezone()))
+    casinoApi.getUnsettledRecords(date: date.toQueryFormatString(timeZone: playerConfiguration.timezone()))
       .map { response -> [UnsettledBetRecord] in
         guard let data = response.data else { return [] }
         var unsettledBetRecords: [UnsettledBetRecord] = []
@@ -93,8 +93,8 @@ class CasinoRecordRepositoryImpl: CasinoRecordRepository {
     casinoApi.getBetRecordsByPage(
       lobbyId: Int(periodOfRecord.lobbyId),
       beginDate: periodOfRecord.startDate
-        .toQueryFormatString(timeZone: localStorageRepo.timezone()),
-      endDate: periodOfRecord.endDate.toQueryFormatString(timeZone: localStorageRepo.timezone()),
+        .toQueryFormatString(timeZone: playerConfiguration.timezone()),
+      endDate: periodOfRecord.endDate.toQueryFormatString(timeZone: playerConfiguration.timezone()),
       offset: offset,
       take: 20).map { response -> [BetRecord] in
       guard let data = response.data?.data else { return [] }

@@ -20,7 +20,7 @@ final class PromotionDetailViewControllerTests: XCBaseTestCase {
   private var vc: PromotionDetailViewController!
 
   override func setUp() {
-    injectStubCultureCode(.CN)
+    stubLocalizeUtils(.China())
 
     let storyboard = UIStoryboard(name: "Promotion", bundle: nil)
     vc = (storyboard.instantiateViewController(identifier: "PromotionDetailViewController") as! PromotionDetailViewController)

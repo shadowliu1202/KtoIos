@@ -80,7 +80,7 @@ final class CasinoViewControllerTests: XCBaseTestCase {
   }
 
   func test_UserHaveBonusLockAndCalculating_PressRequireNoBonusLockGame_ShowBonusCalculatingAlert_KTO_TC_96() {
-    injectStubCultureCode(.CN)
+    stubLocalizeUtils(.China())
 
     let stubViewModel = stubViewModel(
       requireNoBonusLock: true,

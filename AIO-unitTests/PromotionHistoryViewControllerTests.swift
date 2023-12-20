@@ -40,9 +40,9 @@ final class PromotionHistoryViewControllerTests: XCBaseTestCase {
         ]))
 
     let sut = PromotionHistoryViewController.instantiate(
-      viewModel: .init(
-        promotionUseCase: stubUseCase,
-        localRepo: Injectable.resolveWrapper(LocalStorageRepository.self)))
+      viewModel: PromotionHistoryViewModel(
+        stubUseCase,
+        Injectable.resolveWrapper(PlayerConfiguration.self)))
 
     sut.loadViewIfNeeded()
 

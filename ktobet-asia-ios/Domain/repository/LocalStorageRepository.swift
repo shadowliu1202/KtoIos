@@ -12,10 +12,7 @@ protocol LocalStorageRepository {
   func getCountDownEndTime() -> Date?
   func getBalanceHiddenState(gameId: String) -> Bool
   func getUserName() -> String
-  func getLocalCurrency() -> AccountCurrency
-  func getLocale() -> Locale
-  func getCultureCode() -> String
-  func getSupportLocale() -> SupportLocale
+  func getCultureCode() -> String?
   func getPlayerInfo() -> PlayerInfoCacheBean?
   func getLastAPISuccessDate() -> Date?
   func getLastLoginDate() -> Date?
@@ -35,8 +32,6 @@ protocol LocalStorageRepository {
   func updatePlayerInfoCache(level: Int32?, productType: ProductType?)
   func setLastAPISuccessDate(_ time: Date?)
   func setLastLoginDate(_ day: Date?)
-  func timezone() -> sharedbu.TimeZone
-  func localeTimeZone() -> Foundation.TimeZone
 }
 
 extension LocalStorageRepository {
@@ -48,12 +43,6 @@ extension LocalStorageRepository {
 class LocalStorageRepositoryImpl: LocalStorageRepository,
   LocalStorable
 {
-  let playerConfiguration: PlayerConfiguration
-
-  init(playerConfiguration: PlayerConfiguration) {
-    self.playerConfiguration = playerConfiguration
-  }
-
   func getRememberMe() -> Bool {
     get(key: .rememberMe) ?? false
   }
@@ -94,20 +83,8 @@ class LocalStorageRepositoryImpl: LocalStorageRepository,
     get(key: .userName) ?? ""
   }
 
-  func getLocalCurrency() -> AccountCurrency {
-    FiatFactory().create(supportLocale: getSupportLocale(), amount_: "0")
-  }
-
-  func getLocale() -> Locale {
-    Locale(identifier: getCultureCode())
-  }
-
-  func getCultureCode() -> String {
-    get(key: .cultureCode) ?? ""
-  }
-
-  func getSupportLocale() -> SupportLocale {
-    playerConfiguration.supportLocale
+  func getCultureCode() -> String? {
+    get(key: .cultureCode)
   }
 
   func getPlayerInfo() -> PlayerInfoCacheBean? {
@@ -220,13 +197,5 @@ class LocalStorageRepositoryImpl: LocalStorageRepository,
 
   func setLastLoginDate(_ day: Date?) {
     set(value: day, key: .lastLoginDate)
-  }
-
-  func timezone() -> sharedbu.TimeZone {
-    playerConfiguration.timezone()
-  }
-
-  func localeTimeZone() -> Foundation.TimeZone {
-    playerConfiguration.localeTimeZone()
   }
 }

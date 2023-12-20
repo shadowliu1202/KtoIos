@@ -7,7 +7,7 @@ class SideMenuViewModel: CollectErrorViewModel {
   @Injected private var systemStatusUseCase: ISystemStatusUseCase
   @Injected private var playerDataUseCase: PlayerDataUseCase
   @Injected private var authenticationUseCase: AuthenticationUseCase
-  @Injected private var localStorageRepo: LocalStorageRepository
+  @Injected private var playerConfiguration: PlayerConfiguration
 
   @Injected private var loading: Loading
 
@@ -78,8 +78,8 @@ class SideMenuViewModel: CollectErrorViewModel {
     playerDataUseCase.setBalanceHiddenState(gameId: gamerID, isHidden: isHidden)
   }
   
-  func getCultureCode() -> String {
-    localStorageRepo.getCultureCode()
+  func getSupportLoacle() -> SupportLocale {
+    playerConfiguration.supportLocale
   }
 }
 

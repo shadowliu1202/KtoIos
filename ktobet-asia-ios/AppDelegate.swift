@@ -10,7 +10,6 @@ import WebKit
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-  @Injected private var localStorageRepo: LocalStorageRepository
   @Injected private var applicationStorage: ApplicationStorable
   @Injected private var keychain: KeychainStorable
   
@@ -62,7 +61,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
       crashHandler()
     #endif
 
-    AppLocaleInitializer(localStorageRepo).initLocale()
+    AppLocaleInitializer().initLocale()
 
     sharedbu.Platform().debugBuild()
 
@@ -147,10 +146,11 @@ extension AppDelegate {
     }
 
     let barAppearance = UINavigationBarAppearance()
+    let supportLocale = Injectable.resolveWrapper(PlayerConfiguration.self).supportLocale
     barAppearance.configureWithTransparentBackground()
     barAppearance.titleTextAttributes = [
       .foregroundColor: UIColor.greyScaleWhite,
-      .font: Theme.shared.getNavigationTitleFont(by: localStorageRepo.getSupportLocale())
+      .font: Theme.shared.getNavigationTitleFont(by: supportLocale)
     ]
     barAppearance.backgroundColor = UIColor.greyScaleDefault.withAlphaComponent(0.9)
 

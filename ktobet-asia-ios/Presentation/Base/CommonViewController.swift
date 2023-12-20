@@ -4,14 +4,11 @@ import UIKit
 
 class CommonViewController: APPViewController, VersionUpdateProtocol {
   @Injected private var playerViewModel: PlayerViewModel
-  @Injected private var localStorageRepo: LocalStorageRepository
 
   @Injected var appSyncViewModel: AppSynchronizeViewModel
 
   private var disposeBag = DisposeBag()
   private var viewDisappearBag = DisposeBag()
-
-  lazy var localTimeZone = localStorageRepo.localeTimeZone()
 
   override func viewDidAppear(_ animated: Bool) {
     super.viewDidAppear(animated)

@@ -39,9 +39,9 @@ extension Numeric {
   }
 
   func toAccountCurrency() -> AccountCurrency {
-    let localStorageRepo = Injectable.resolve(LocalStorageRepository.self)!
+    let playerConfiguration = Injectable.resolve(PlayerConfiguration.self)!
 
-    return FiatFactory.shared.create(supportLocale: localStorageRepo.getSupportLocale(), amount_: "\(self)")
+    return FiatFactory.shared.create(supportLocale: playerConfiguration.supportLocale, amount_: "\(self)")
   }
 
   func toCryptoCurrency(_ cryptoCurrencyCode: Int) -> CryptoCurrency {

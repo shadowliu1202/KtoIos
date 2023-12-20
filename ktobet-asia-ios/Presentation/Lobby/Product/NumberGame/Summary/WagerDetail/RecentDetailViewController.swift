@@ -10,7 +10,7 @@ class RecentDetailViewController: LobbyViewController {
 
   @IBOutlet weak var tableView: UITableView!
 
-  private let localStorageRepo = Injectable.resolve(LocalStorageRepository.self)!
+  private let playerConfiguration = Injectable.resolve(PlayerConfiguration.self)!
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -93,7 +93,7 @@ extension RecentDetailViewController: UITableViewDataSource {
   func tableView(_: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     guard let item = detailItem else { return UITableViewCell() }
     let cell = self.tableView.dequeueReusableCell(withIdentifier: "RecentDetailCell", cellType: RecentDetailCell.self)
-      .configure(index: indexPath.row, data: item, supportLocal: localStorageRepo.getSupportLocale())
+      .configure(index: indexPath.row, data: item, supportLocal: playerConfiguration.supportLocale)
     cell.removeBorder()
     if indexPath.row != 0 {
       cell.addBorder(rightConstant: 30, leftConstant: 30)

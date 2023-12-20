@@ -377,11 +377,11 @@ extension sharedbu.Instant {
   }
 
   private func convertToDateString(_ dateFormat: String) -> String {
-    let localRepo = Injectable.resolve(LocalStorageRepository.self)!
+    let playerConfiguration = Injectable.resolve(PlayerConfiguration.self)!
     let date = self.convertToDate()
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = dateFormat
-    dateFormatter.timeZone = localRepo.localeTimeZone()
+    dateFormatter.timeZone = playerConfiguration.localeTimeZone()
     let localDate = dateFormatter.string(from: date)
     return localDate
   }

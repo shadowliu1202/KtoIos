@@ -11,7 +11,7 @@ extension WithdrawalOTPVerifyMethodSelectViewModelProtocolMock: ObservableObject
 
 final class WithdrawalOTPVerifyMethodSelectViewTests: XCBaseTestCase {
   func test_givenMobileVerificationAvaildAndPlayerLocaleIsVietnam_thenInfoHintIsHighLightWithF20000_KTO_TC_190() {
-    injectStubCultureCode(.VN)
+    stubLocalizeUtils(.Vietnam())
 
     let dummyViewModel = mock(WithdrawalOTPVerifyMethodSelectViewModelProtocol.self)
     given(dummyViewModel.isOTPRequestInProgress) ~> false

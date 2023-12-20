@@ -24,6 +24,7 @@ class SignupLanguageViewController: LandingViewController {
   @Injected private var customerServiceViewModel: CustomerServiceViewModel
   @Injected private var serviceStatusViewModel: ServiceStatusViewModel
   @Injected private var localStorageRepo: LocalStorageRepository
+  @Injected private var playerConfiguration: PlayerConfiguration
   @Injected private var cookieManager: CookieManager
   @Injected private var alert: AlertProtocol
   
@@ -41,7 +42,7 @@ class SignupLanguageViewController: LandingViewController {
   private var spacing = UIBarButtonItem.kto(.text(text: "|")).isEnable(false)
   private lazy var customService = UIBarButtonItem
     .kto(.cs(
-      supportLocale: localStorageRepo.getSupportLocale(),
+      supportLocale: playerConfiguration.supportLocale,
       customerServiceViewModel: customerServiceViewModel,
       serviceStatusViewModel: serviceStatusViewModel,
       alert: alert,

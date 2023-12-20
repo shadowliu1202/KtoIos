@@ -12,12 +12,18 @@ protocol ConfigurationUseCase {
 }
 
 class ConfigurationUseCaseImpl: ConfigurationUseCase {
-  var playerRepo: PlayerRepository!
-  private var localStorageRepository: LocalStorageRepository!
+  private let playerRepo: PlayerRepository
+  private let localStorageRepository: LocalStorageRepository
+  private let playerConfiguration: PlayerConfiguration
 
-  init(_ playerRepo: PlayerRepository, _ localStorageRepository: LocalStorageRepository) {
+  init(
+    _ playerRepo: PlayerRepository,
+    _ localStorageRepository: LocalStorageRepository,
+    _ playerConfiguration: PlayerConfiguration)
+  {
     self.playerRepo = playerRepo
     self.localStorageRepository = localStorageRepository
+    self.playerConfiguration = playerConfiguration
   }
 
   func defaultProduct() -> Single<ProductType> {
@@ -33,7 +39,7 @@ class ConfigurationUseCaseImpl: ConfigurationUseCase {
   }
 
   func locale() -> SupportLocale {
-    localStorageRepository.getSupportLocale()
+    playerConfiguration.supportLocale
   }
 
   func getOtpRetryCount() -> Int {

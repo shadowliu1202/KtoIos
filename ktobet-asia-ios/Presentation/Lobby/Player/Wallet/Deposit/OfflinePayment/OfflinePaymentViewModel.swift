@@ -23,7 +23,7 @@ class OfflinePaymentViewModel:
 
   private let depositService: IDepositAppService
   private let playerUseCase: PlayerDataUseCase
-  private let localStorageRepo: LocalStorageRepository
+  private let playerConfiguration: PlayerConfiguration
 
   private let disposeBag = DisposeBag()
 
@@ -32,13 +32,13 @@ class OfflinePaymentViewModel:
   private var memoDTOResult: Result<OfflineDepositDTO.Memo, Error> = .failure(KTOError.EmptyData)
 
   init(
-    depositService: IDepositAppService,
-    playerUseCase: PlayerDataUseCase,
-    localStorageRepo: LocalStorageRepository)
+    _ depositService: IDepositAppService,
+    _ playerUseCase: PlayerDataUseCase,
+    _ playerConfiguration: PlayerConfiguration)
   {
     self.depositService = depositService
     self.playerUseCase = playerUseCase
-    self.localStorageRepo = localStorageRepo
+    self.playerConfiguration = playerConfiguration
   }
 
   func fetchGatewayData() {
@@ -82,17 +82,13 @@ class OfflinePaymentViewModel:
   }
 
   private func mapGatewayIconName(_ bankId: String) -> String {
-    let language = Language(rawValue: localStorageRepo.getCultureCode())
-
-    switch language {
-    case .CN:
+    switch playerConfiguration.supportLocale {
+    case .China():
       return "CNY-\(bankId)"
-    case .TH:
-      return "THB-\(bankId)"
-    case .VN:
+    case .Vietnam():
       return "VND-\(bankId)"
     default:
-      return ""
+      return "VND-\(bankId)"
     }
   }
 

@@ -35,7 +35,6 @@ final class AnyPublisherExtensionTests: XCTestCase {
       .asWrapper()
         
     _ = AnyPublisher.from(observableWrapper)
-      .print()
       .sink(
         receiveCompletion: {
           switch $0 {
@@ -73,7 +72,6 @@ final class AnyPublisherExtensionTests: XCTestCase {
       .asWrapper()
         
     _ = AnyPublisher.from(observableWrapper)
-      .print()
       .sink(
         receiveCompletion: {
           switch $0 {
@@ -106,7 +104,6 @@ final class AnyPublisherExtensionTests: XCTestCase {
       .asWrapper()
         
     _ = AnyPublisher.from(singleWrapper)
-      .print()
       .sink(
         receiveCompletion: {
           switch $0 {
@@ -138,7 +135,6 @@ final class AnyPublisherExtensionTests: XCTestCase {
       .asWrapper()
         
     _ = AnyPublisher.from(singleWrapper)
-      .print()
       .sink(
         receiveCompletion: {
           switch $0 {
@@ -185,7 +181,6 @@ final class AnyPublisherExtensionTests: XCTestCase {
     }))
         
     _ = AnyPublisher.from(completableWrapper)
-      .print()
       .sink(
         receiveCompletion: {
           switch $0 {
@@ -229,7 +224,6 @@ final class AnyPublisherExtensionTests: XCTestCase {
     }))
         
     _ = AnyPublisher.from(completableWrapper)
-      .print()
       .sink(
         receiveCompletion: {
           switch $0 {

@@ -11,10 +11,10 @@ final class LocalizeUtilsTests: XCTestCase {
     let stubRepo = Injectable.resolveWrapper(LocalStorageRepository.self)
     stubRepo.setCultureCode(nil)
     
-    let appLocaleInitializer = AppLocaleInitializer(languageCode: "zh", stubRepo)
+    let appLocaleInitializer = AppLocaleInitializer(languageCode: "zh")
     appLocaleInitializer.initLocale()
     
-    let sut = LocalizeUtils(localizationFileName: stubRepo.getCultureCode())
+    let sut = LocalizeUtils(localizationFileName: stubRepo.getCultureCode()!)
     
     let expect = "Lưu Ý"
     let actual = sut.string("common_kindly_remind")
@@ -26,22 +26,10 @@ final class LocalizeUtilsTests: XCTestCase {
     let stubRepo = Injectable.resolveWrapper(LocalStorageRepository.self)
     stubRepo.setCultureCode(nil)
     
-    let appLocaleInitializer = AppLocaleInitializer(languageCode: "vi", stubRepo)
+    let appLocaleInitializer = AppLocaleInitializer(languageCode: "vi")
     appLocaleInitializer.initLocale()
     
-    let sut = LocalizeUtils(localizationFileName: stubRepo.getCultureCode())
-    
-    let expect = "Lưu Ý"
-    let actual = sut.string("common_kindly_remind")
-    
-    XCTAssertEqual(expect, actual)
-  }
-  
-  func test_givenAppDefaultLocaleIsCN_thenDisplayLocaleIsVN_KTO_TC_951() {
-    let stubRepo = Injectable.resolveWrapper(LocalStorageRepository.self)
-    stubRepo.setCultureCode("zh-cn")
-    
-    let sut = LocalizeUtils(localizationFileName: stubRepo.getCultureCode())
+    let sut = LocalizeUtils(localizationFileName: stubRepo.getCultureCode()!)
     
     let expect = "Lưu Ý"
     let actual = sut.string("common_kindly_remind")
@@ -53,7 +41,7 @@ final class LocalizeUtilsTests: XCTestCase {
     let stubRepo = Injectable.resolveWrapper(LocalStorageRepository.self)
     stubRepo.setCultureCode("vi-vn")
     
-    let sut = LocalizeUtils(localizationFileName: stubRepo.getCultureCode())
+    let sut = LocalizeUtils(localizationFileName: stubRepo.getCultureCode()!)
     
     let expect = "Lưu Ý"
     let actual = sut.string("common_kindly_remind")

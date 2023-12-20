@@ -54,7 +54,7 @@ class WithdrawalAddFiatBankCardViewModel:
   @Published var selectedCity = ""
   @Published var inputAccountNumber = ""
 
-  private let localStorageRepo: LocalStorageRepository
+  private let playerConfiguration: PlayerConfiguration
   private let authUseCase: AuthenticationUseCase
   private let bankUseCase: BankUseCase
   private let playerDataUseCase: PlayerDataUseCase
@@ -75,14 +75,14 @@ class WithdrawalAddFiatBankCardViewModel:
   lazy var accountNumberMaxLength = getAccountNumberMaxLength()
 
   init(
-    _ localStorageRepo: LocalStorageRepository,
+    _ playerConfiguration: PlayerConfiguration,
     _ authenticationUseCase: AuthenticationUseCase,
     _ bankUseCase: BankUseCase,
     _ playerDataUseCase: PlayerDataUseCase,
     _ accountPatternGenerator: AccountPatternGenerator,
     _ appService: IWithdrawalAppService)
   {
-    self.localStorageRepo = localStorageRepo
+    self.playerConfiguration = playerConfiguration
     self.authUseCase = authenticationUseCase
     self.bankUseCase = bankUseCase
     self.playerDataUseCase = playerDataUseCase
@@ -91,7 +91,7 @@ class WithdrawalAddFiatBankCardViewModel:
   }
 
   func getSupportLocale() -> SupportLocale {
-    localStorageRepo.getSupportLocale()
+    playerConfiguration.supportLocale
   }
 
   private func getAreaName() -> AreaNames {

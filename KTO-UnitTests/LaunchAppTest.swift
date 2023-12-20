@@ -129,7 +129,7 @@ final class LaunchAppTest: XCBaseTestCase {
     let fakeViewModel = mock(SideMenuViewModel.self)
     given(fakeViewModel.observePlayerInfo()) ~> .just(.init(displayID: "1234567890", gamerID: "", level: 1, defaultProduct: .sbk))
     given(fakeViewModel.observePlayerBalance()) ~> .just("123".toAccountCurrency())
-    given(fakeViewModel.getCultureCode()) ~> "zh-cn"
+    given(fakeViewModel.getSupportLoacle()) ~> .China()
     given(fakeViewModel.loadBalanceHiddenState(by: any())) ~> false
     given(fakeViewModel.errors()) ~> .empty()
     given(fakeViewModel.observeKickOutSignal()) ~> .never()

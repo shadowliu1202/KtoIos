@@ -12,13 +12,17 @@ protocol SlotRecordRepository {
 }
 
 class SlotRecordRepositoryImpl: SlotRecordRepository {
-  private var slotApi: SlotApi!
-  private var localStorageRepo: LocalStorageRepository!
-  private var httpClient: HttpClient!
+  private let slotApi: SlotApi
+  private let playerConfiguration: PlayerConfiguration
+  private let httpClient: HttpClient
 
-  init(_ slotApi: SlotApi, localStorageRepo: LocalStorageRepository, httpClient: HttpClient) {
+  init(
+    _ slotApi: SlotApi,
+    _ playerConfiguration: PlayerConfiguration,
+    _ httpClient: HttpClient)
+  {
     self.slotApi = slotApi
-    self.localStorageRepo = localStorageRepo
+    self.playerConfiguration = playerConfiguration
     self.httpClient = httpClient
   }
 
@@ -57,14 +61,14 @@ class SlotRecordRepositoryImpl: SlotRecordRepository {
   {
     slotApi
       .getSlotBetRecordByPage(
-        beginDate: startDate.toQueryFormatString(timeZone: localStorageRepo.timezone()),
-        endDate: endDate.toQueryFormatString(timeZone: localStorageRepo.timezone()),
+        beginDate: startDate.toQueryFormatString(timeZone: playerConfiguration.timezone()),
+        endDate: endDate.toQueryFormatString(timeZone: playerConfiguration.timezone()),
         gameId: gameId,
         offset: offset,
         take: take)
       .map { response -> CommonPage<SlotBetRecord> in
         guard let data = response.data else { return CommonPage(data: [], totalCount: 0) }
-        return CommonPage(data: try data.data.map { try $0.toSlotBetRecord() }, totalCount: Int32(data.totalCount))
+        return try CommonPage(data: data.data.map { try $0.toSlotBetRecord() }, totalCount: Int32(data.totalCount))
       }
   }
 
@@ -80,8 +84,8 @@ class SlotRecordRepositoryImpl: SlotRecordRepository {
     slotApi.getUnsettleGameRecords(date: betTime.toDateTimeFormatString(), offset: offset, take: take)
       .map({ [unowned self] response in
         guard let data = response.data else { return CommonPage(data: [], totalCount: 0) }
-        return CommonPage(
-          data: try data.data.map({ try $0.toSlotUnsettledRecord(host: self.httpClient.host.absoluteString) }),
+        return try CommonPage(
+          data: data.data.map({ try $0.toSlotUnsettledRecord(host: self.httpClient.host.absoluteString) }),
           totalCount: Int32(data.totalCount))
       })
   }

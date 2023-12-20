@@ -1,7 +1,8 @@
+import sharedbu
 import UIKit
 
 class SnackBarView: UIView {
-  @Injected var repo: LocalStorageRepository
+  @Injected var playerConfiguration: PlayerConfiguration
 
   private let label: UILabel = .init(frame: .zero)
   private let imageView: UIImageView = .init(frame: .zero)
@@ -46,7 +47,7 @@ class SnackBarView: UIView {
     imageView.setContentCompressionResistancePriority(.required, for: .horizontal)
     imageView.setContentHuggingPriority(.defaultHigh, for: .horizontal)
 
-    label.localizedFont(by: repo.getSupportLocale(), weight: .regular, size: 14)
+    label.localizedFont(by: playerConfiguration.supportLocale, weight: .regular, size: 14)
     label.textColor = .greyScaleWhite
     label.numberOfLines = 0
   }

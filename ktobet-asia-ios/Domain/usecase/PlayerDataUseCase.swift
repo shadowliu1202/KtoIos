@@ -34,20 +34,23 @@ let PASSWORD_ERROR_LIMIT = 5
 class PlayerDataUseCaseImpl: PlayerDataUseCase {
   private let playerRepository: PlayerRepository
   private let localStorageRepo: LocalStorageRepository
+  private let playerConfiguration: PlayerConfiguration
   private var passwordErrorCount = 0
 
   private var playerInfo: PlayerInfoDTO?
   
   init(
     _ playerRepository: PlayerRepository,
-    _ localRepository: LocalStorageRepository)
+    _ localRepository: LocalStorageRepository,
+    _ playerConfiguration: PlayerConfiguration)
   {
     self.playerRepository = playerRepository
     self.localStorageRepo = localRepository
+    self.playerConfiguration = playerConfiguration
   }
 
   func getBalance() -> Single<AccountCurrency> {
-    self.playerRepository.getBalance(localStorageRepo.getSupportLocale())
+    self.playerRepository.getBalance(playerConfiguration.supportLocale)
   }
 
   func setBalanceHiddenState(gameId: String, isHidden: Bool) {
@@ -118,7 +121,7 @@ class PlayerDataUseCaseImpl: PlayerDataUseCase {
   }
 
   func getSupportLocalFromCache() -> SupportLocale {
-    localStorageRepo.getSupportLocale()
+    playerConfiguration.supportLocale
   }
 
   func isAffiliateMember() -> Single<Bool> {
@@ -168,7 +171,7 @@ class PlayerDataUseCaseImpl: PlayerDataUseCase {
   }
 
   func getLocale() -> Locale {
-    localStorageRepo.getLocale()
+    Locale(identifier: playerConfiguration.supportLocale.cultureCode())
   }
 
   func setBirthDay(birthDay: Date) -> Completable {

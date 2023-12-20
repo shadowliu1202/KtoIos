@@ -136,7 +136,7 @@ final class ItemSelectorTests: XCBaseTestCase {
   }
 
   func test_HaveSelectAllIsTrue_CanSelectAllWhenPressAllButton() {
-    injectStubCultureCode(.CN)
+    stubLocalizeUtils(.China())
 
     let stubSelecting = buildStubSelecting(count: 4)
 
@@ -171,7 +171,7 @@ final class ItemSelectorTests: XCBaseTestCase {
   }
 
   func test_HaveSelectAllIsTrue_SelectAll_AllRowIsSelected() {
-    injectStubCultureCode(.CN)
+    stubLocalizeUtils(.China())
 
     let selectedIndex = [0, 1, 2, 3]
     let stubSelecting = buildStubSelecting(count: 4, selectedIndex: selectedIndex)

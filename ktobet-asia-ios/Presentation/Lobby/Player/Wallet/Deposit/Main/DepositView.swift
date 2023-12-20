@@ -323,7 +323,7 @@ struct DepositView_Previews: PreviewProvider {
   struct Preview: View {
     var body: some View {
       DepositView(
-        playerConfig: PlayerConfigurationImpl(supportLocale: .China()),
+        playerConfig: FakePlayerConfiguration(.China()),
         viewModel: ViewModel())
     }
   }

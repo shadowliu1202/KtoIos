@@ -9,16 +9,16 @@ protocol LocalizationRepository {
 }
 
 class LocalizationRepositoryImpl: LocalizationRepository {
-  private let localStorageRepo: LocalStorageRepository
+  private let playerConfiguration: PlayerConfiguration
   private let portalApi: PortalApi
 
-  init(_ localStorageRepo: LocalStorageRepository, _ portalApi: PortalApi) {
-    self.localStorageRepo = localStorageRepo
+  init(_ playerConfiguration: PlayerConfiguration, _ portalApi: PortalApi) {
+    self.playerConfiguration = playerConfiguration
     self.portalApi = portalApi
   }
 
   func setupCultureCode() -> Completable {
-    portalApi.initLocale(cultureCode: localStorageRepo.getCultureCode())
+    portalApi.initLocale(cultureCode: playerConfiguration.supportLocale.cultureCode())
   }
 
   func getLocalization() -> Single<[String: String]> {
