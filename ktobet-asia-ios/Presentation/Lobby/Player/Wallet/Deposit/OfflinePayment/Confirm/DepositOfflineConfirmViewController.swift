@@ -64,10 +64,6 @@ class DepositOfflineConfirmViewController:
       super.handleErrors(error)
     }
   }
-
-  deinit {
-    Injectable.resetObjectScope(.depositFlow)
-  }
 }
 
 // MARK: - UI
