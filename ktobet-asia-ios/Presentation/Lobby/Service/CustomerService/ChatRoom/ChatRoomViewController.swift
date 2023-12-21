@@ -294,7 +294,7 @@ class ChatRoomViewController: CommonViewController {
     let photoPickerVC = PhotoPickerViewController(
       maxCount: maxCountPerUploadImage,
       selectImagesOnComplete: { [weak self] imageAssets in
-        let imageIDs = imageAssets.map { $0.localIdentifier }
+        let imageIDs = imageAssets.map { $0.asset.localIdentifier }
         self?.sendImages(URIs: imageIDs)
       })
     

@@ -1,23 +1,30 @@
+import Combine
 import Foundation
 import Photos
 import SwiftUI
 
 class ImagePickerViewModel: NSObject, ObservableObject {
   @Published private(set) var fetchResult: PHFetchResult<PHAsset> = PHFetchResult()
-  
+  @Published private(set) var albums: [PHAssetCollection] = []
+  @Published private(set) var selectedAlbum: PHAssetCollection? = nil
+
   private let imageManager = PHCachingImageManager()
   
   private let requestContentMode: PHImageContentMode = .aspectFill
   
+  private var cancellables = Set<AnyCancellable>()
+
   private(set) var imageSize: CGSize!
   private(set) var requestOptions: PHImageRequestOptions!
   
   let imagesPerPage = 30
   
   func setup(imageSize: CGSize) {
+    setupRequestConfiguration(imageSize)
     checkAuthorizationStatus()
     observeChangeOfPhotoLibrary()
-    setupImages(imageSize)
+    setupAlbums()
+    fetchImageOnSelectedAlbumChange()
   }
   
   private func checkAuthorizationStatus() {
@@ -37,17 +44,53 @@ class ImagePickerViewModel: NSObject, ObservableObject {
     PHPhotoLibrary.shared().register(self)
   }
   
-  private func setupImages(_ imageSize: CGSize) {
-    getFetchResult()
-    setupRequestConfiguration(imageSize)
+  private func setupAlbums() {
+    setSelectedAlbum(fetchAlbums().first)
   }
   
-  private func getFetchResult() {
+  func setSelectedAlbum(_ albums: PHAssetCollection?) {
+    selectedAlbum = albums
+  }
+  
+  private func fetchAlbums() -> [PHAssetCollection] {
+    let albums = recentAddedAlbum() + screenShotsAlbum() + userCreatedAlbums()
+    self.albums = albums
+    
+    return albums
+  }
+  
+  private func recentAddedAlbum() -> [PHAssetCollection] {
+    fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumUserLibrary)
+  }
+  
+  private func screenShotsAlbum() -> [PHAssetCollection] {
+    fetchAssetCollections(with: .smartAlbum, subtype: .smartAlbumScreenshots)
+  }
+  
+  private func userCreatedAlbums() -> [PHAssetCollection] {
+    fetchAssetCollections(with: .album, subtype: .albumRegular)
+  }
+  
+  private func fetchAssetCollections(with type: PHAssetCollectionType, subtype: PHAssetCollectionSubtype) -> [PHAssetCollection] {
+    let fetchResult = PHAssetCollection.fetchAssetCollections(with: type, subtype: subtype, options: nil)
+    return fetchResult.objects(at: IndexSet(0..<fetchResult.count))
+  }
+  
+  private func fetchImageOnSelectedAlbumChange() {
+    $selectedAlbum
+      .compactMap { $0 }
+      .sink(receiveValue: { [unowned self] in
+        fetchImageAssets(in: $0)
+      })
+      .store(in: &cancellables)
+  }
+  
+  private func fetchImageAssets(in album: PHAssetCollection) {
     let fetchOptions = PHFetchOptions()
     fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
     fetchOptions.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.image.rawValue)
     
-    fetchResult = PHAsset.fetchAssets(with: fetchOptions)
+    fetchResult = PHAsset.fetchAssets(in: album, options: fetchOptions)
   }
   
   private func setupRequestConfiguration(_ imageSize: CGSize) {
@@ -94,7 +137,7 @@ class ImagePickerViewModel: NSObject, ObservableObject {
       options: requestOptions)
   }
   
-  func requestImageSizeInMB(asset: PHAsset) -> Double {
+  func getSizeInMB(asset: PHAsset) -> Double {
     let resources = PHAssetResource.assetResources(for: asset)
 
     guard
@@ -109,7 +152,7 @@ class ImagePickerViewModel: NSObject, ObservableObject {
     return fileSizeInMB
   }
   
-  func requestImageFileName(asset: PHAsset) -> String {
+  func getFileName(asset: PHAsset) -> String {
     asset.value(forKey: "filename") as? String ?? ""
   }
 }

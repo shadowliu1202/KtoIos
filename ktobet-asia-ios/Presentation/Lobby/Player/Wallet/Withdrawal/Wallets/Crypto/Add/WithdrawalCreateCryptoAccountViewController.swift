@@ -102,40 +102,31 @@ extension WithdrawalCreateCryptoAccountViewController {
   }
 
   func pushToImagePicker() {
-    let imagePickerView = ImagePickerViewController.initFrom(storyboard: "ImagePicker")
+    let qrCodePickerVC = QRCodePickerViewController(
+      readImageOnSuccess: { [unowned self] in
+        viewModel.accountAddress = $0
+        popBackToSelf()
+      },
+      readImageOnFailure: { [unowned self] in
+        alert.show(
+          Localize.string("cps_qr_code_read_fail"),
+          Localize.string("cps_qr_code_read_fail_content"),
+          confirm: nil,
+          cancel: nil,
+          tintColor: UIColor.primaryDefault)
+      })
 
-    imagePickerView.isHiddenFooterView = true
-    imagePickerView.cameraImage = UIImage(named: "Scan")
-    imagePickerView.cameraText = Localize.string("cps_scan")
-    imagePickerView.cameraType = .qrCode
-
-    imagePickerView.completion = { [weak self] images in
-      NavigationManagement.sharedInstance.popViewController()
-
-      self?.viewModel
-        .readQRCode(image: images.first, onFailure: { [weak self] in
-          self?.alert
-            .show(
-              Localize.string("cps_qr_code_read_fail"),
-              Localize.string("cps_qr_code_read_fail_content"),
-              confirm: nil,
-              cancel: nil,
-              tintColor: UIColor.primaryDefault)
-        })
-    }
-
-    imagePickerView.qrCodeCompletion = { [weak self] accountAddress in
-      if let viewControllers = self?.navigationController?.viewControllers {
-        for controller in viewControllers {
-          if controller.isKind(of: WithdrawalCreateCryptoAccountViewController.self) {
-            NavigationManagement.sharedInstance.popViewController(nil, to: controller)
-          }
-        }
+    navigationController?.pushViewController(qrCodePickerVC, animated: true)
+  }
+  
+  private func popBackToSelf() {
+    guard let viewControllers = navigationController?.viewControllers else { return }
+    
+    for controller in viewControllers {
+      if controller == self {
+        navigationController?.popToViewController(controller, animated: true)
+        break
       }
-
-      self?.viewModel.accountAddress = accountAddress
     }
-
-    navigationController?.pushViewController(imagePickerView, animated: true)
   }
 }

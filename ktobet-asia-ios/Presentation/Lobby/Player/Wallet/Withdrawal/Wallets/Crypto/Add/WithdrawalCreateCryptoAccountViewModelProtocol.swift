@@ -20,8 +20,6 @@ protocol WithdrawalCreateCryptoAccountViewModelProtocol: AnyObject {
 
   func setup()
 
-  func readQRCode(image: UIImage?, onFailure: (() -> Void)?)
-
   func createCryptoAccount(onSuccess: ((_ bankCardId: String) -> Void)?)
 
   func getSupportLocale() -> SupportLocale

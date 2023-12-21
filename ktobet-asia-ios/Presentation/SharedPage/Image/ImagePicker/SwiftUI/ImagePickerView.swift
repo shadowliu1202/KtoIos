@@ -1,3 +1,4 @@
+import Combine
 import Photos
 import SwiftUI
 
@@ -8,10 +9,8 @@ extension ImagePickerView {
   }
   
   struct ImageAsset {
-    let localIdentifier: String
-    let fileName: String
+    let asset: PHAsset
     let image: UIImage
-    let imageSizeInMB: Double
   }
 }
 
@@ -162,11 +161,7 @@ extension ImagePickerView {
         guard let image else { return }
         
         cellOnTap(
-          ImagePickerView.ImageAsset(
-            localIdentifier: asset.localIdentifier,
-            fileName: viewModel.requestImageFileName(asset: asset),
-            image: image,
-            imageSizeInMB: viewModel.requestImageSizeInMB(asset: asset)),
+          ImagePickerView.ImageAsset(asset: asset, image: image),
           $isSelected)
       }
       .onAppear {

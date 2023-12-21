@@ -53,7 +53,7 @@ struct PhotoPickerView: View {
   }
   
   func toggleSelection(_ imageAsset: ImagePickerView.ImageAsset, _ isSelected: Binding<Bool>) {
-    if selectedImages.contains(where: { $0.localIdentifier == imageAsset.localIdentifier }) {
+    if selectedImages.contains(where: { $0.asset.localIdentifier == imageAsset.asset.localIdentifier }) {
       removeSelection(imageAsset, isSelected)
     }
     else {
@@ -62,7 +62,7 @@ struct PhotoPickerView: View {
   }
   
   func removeSelection(_ imageAsset: ImagePickerView.ImageAsset, _ isSelected: Binding<Bool>) {
-    selectedImages.removeAll(where: { $0.localIdentifier == imageAsset.localIdentifier })
+    selectedImages.removeAll(where: { $0.asset.localIdentifier == imageAsset.asset.localIdentifier })
     isSelected.wrappedValue = false
   }
   
@@ -73,13 +73,13 @@ struct PhotoPickerView: View {
       return
     }
     
-    guard Int(imageAsset.imageSizeInMB) < maxImageSizeInMB
+    guard Int(viewModel.getSizeInMB(asset: imageAsset.asset)) < maxImageSizeInMB
     else {
       imageSizeLimitOnHit()
       return
     }
     
-    guard isFileExtensionAvailable(fileName: imageAsset.fileName)
+    guard isFileExtensionAvailable(fileName: viewModel.getFileName(asset: imageAsset.asset))
     else {
       invalidFormatOnHit()
       return
