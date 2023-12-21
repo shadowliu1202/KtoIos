@@ -1,162 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
-        <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Image Picker View Controller-->
-        <scene sceneID="tne-QT-ifu">
-            <objects>
-                <viewController storyboardIdentifier="ImagePickerViewController" id="BYZ-38-t0r" customClass="ImagePickerViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="O4F-0o-iOi">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="619"/>
-                                <color key="backgroundColor" name="blackFull"/>
-                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="jjT-EL-SNw">
-                                    <size key="itemSize" width="128" height="128"/>
-                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
-                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
-                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
-                                </collectionViewFlowLayout>
-                                <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="CollectionViewCell" id="WYV-BL-Vex" customClass="CollectionViewCell" customModule="ktobet_asia_ios" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="iuH-f4-Mdv">
-                                            <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="jLs-Jc-kDC">
-                                                    <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
-                                                </imageView>
-                                                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MdI-Wp-miF">
-                                                    <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
-                                                    <subviews>
-                                                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="center" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="scU-ZB-kAh">
-                                                            <rect key="frame" x="43" y="28" width="42" height="72"/>
-                                                            <subviews>
-                                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="iconActionTakePhoto32" translatesAutoresizingMaskIntoConstraints="NO" id="CUV-fk-xnQ">
-                                                                    <rect key="frame" x="5" y="0.0" width="32" height="32"/>
-                                                                </imageView>
-                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="拍一张" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dcg-F4-zyL" userLabel="拍一张">
-                                                                    <rect key="frame" x="0.0" y="40" width="42" height="32"/>
-                                                                    <fontDescription key="fontDescription" name="PingFangSC-Medium" family="PingFang SC" pointSize="14"/>
-                                                                    <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                    <nil key="highlightedColor"/>
-                                                                    <userDefinedRuntimeAttributes>
-                                                                        <userDefinedRuntimeAttribute type="string" keyPath="localizeText" value="common_capture_image"/>
-                                                                    </userDefinedRuntimeAttributes>
-                                                                </label>
-                                                            </subviews>
-                                                        </stackView>
-                                                    </subviews>
-                                                    <color key="backgroundColor" red="0.18823529411764706" green="0.18823529411764706" blue="0.18823529411764706" alpha="0.69544536564625847" colorSpace="custom" customColorSpace="calibratedRGB"/>
-                                                    <constraints>
-                                                        <constraint firstItem="scU-ZB-kAh" firstAttribute="centerY" secondItem="MdI-Wp-miF" secondAttribute="centerY" id="97V-eb-fqp"/>
-                                                        <constraint firstItem="scU-ZB-kAh" firstAttribute="centerX" secondItem="MdI-Wp-miF" secondAttribute="centerX" id="YQf-Qj-oSS"/>
-                                                    </constraints>
-                                                </view>
-                                            </subviews>
-                                            <color key="backgroundColor" name="blackFull"/>
-                                            <constraints>
-                                                <constraint firstAttribute="bottom" secondItem="MdI-Wp-miF" secondAttribute="bottom" id="DH6-C6-pSZ"/>
-                                                <constraint firstItem="jLs-Jc-kDC" firstAttribute="top" secondItem="iuH-f4-Mdv" secondAttribute="top" id="H1J-c0-m1j"/>
-                                                <constraint firstAttribute="trailing" secondItem="MdI-Wp-miF" secondAttribute="trailing" id="MVm-ka-ZDd"/>
-                                                <constraint firstItem="MdI-Wp-miF" firstAttribute="top" secondItem="iuH-f4-Mdv" secondAttribute="top" id="bbX-5l-Vhk"/>
-                                                <constraint firstItem="jLs-Jc-kDC" firstAttribute="leading" secondItem="iuH-f4-Mdv" secondAttribute="leading" id="dhM-Eg-mbM"/>
-                                                <constraint firstAttribute="trailing" secondItem="jLs-Jc-kDC" secondAttribute="trailing" id="dwJ-XS-92V"/>
-                                                <constraint firstAttribute="bottom" secondItem="jLs-Jc-kDC" secondAttribute="bottom" id="kmo-7g-JlW"/>
-                                                <constraint firstItem="MdI-Wp-miF" firstAttribute="leading" secondItem="iuH-f4-Mdv" secondAttribute="leading" id="q9p-ao-rfx"/>
-                                            </constraints>
-                                        </collectionViewCellContentView>
-                                        <color key="backgroundColor" name="blackFull"/>
-                                        <connections>
-                                            <outlet property="cameraImageView" destination="CUV-fk-xnQ" id="SiC-S2-71O"/>
-                                            <outlet property="cameraLabel" destination="dcg-F4-zyL" id="SMa-JC-D5z"/>
-                                            <outlet property="cameraView" destination="MdI-Wp-miF" id="DeM-lx-r0P"/>
-                                            <outlet property="imgBackground" destination="jLs-Jc-kDC" id="IFB-YY-zfW"/>
-                                        </connections>
-                                    </collectionViewCell>
-                                </cells>
-                                <connections>
-                                    <outlet property="dataSource" destination="BYZ-38-t0r" id="PsP-XT-nKV"/>
-                                    <outlet property="delegate" destination="BYZ-38-t0r" id="kGl-b2-qiK"/>
-                                </connections>
-                            </collectionView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MD5-Ue-jxS">
-                                <rect key="frame" x="0.0" y="619" width="375" height="48"/>
-                                <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="iconPhoto24" translatesAutoresizingMaskIntoConstraints="NO" id="ahA-e7-pu2">
-                                        <rect key="frame" x="24" y="8" width="32" height="32"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="32" id="IBc-TP-kzF"/>
-                                            <constraint firstAttribute="height" constant="32" id="oU0-0k-edp"/>
-                                        </constraints>
-                                    </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0/3" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2xc-L3-ewX">
-                                        <rect key="frame" x="64" y="13" width="27.5" height="22.5"/>
-                                        <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="16"/>
-                                        <color key="textColor" red="0.60784313725490191" green="0.60784313725490191" blue="0.60784313725490191" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="aw5-7Y-NNw">
-                                        <rect key="frame" x="318" y="6.5" width="32" height="35"/>
-                                        <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="16"/>
-                                        <state key="normal" title="上传">
-                                            <color key="titleColor" name="red"/>
-                                        </state>
-                                        <userDefinedRuntimeAttributes>
-                                            <userDefinedRuntimeAttribute type="string" keyPath="localizeTitle" value="common_upload"/>
-                                        </userDefinedRuntimeAttributes>
-                                        <connections>
-                                            <action selector="upload:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Sgh-z5-54X"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" name="blackFull"/>
-                                <constraints>
-                                    <constraint firstItem="2xc-L3-ewX" firstAttribute="leading" secondItem="ahA-e7-pu2" secondAttribute="trailing" constant="8" id="HkV-v2-Z70"/>
-                                    <constraint firstAttribute="trailing" secondItem="aw5-7Y-NNw" secondAttribute="trailing" constant="25" id="So5-fO-mIb"/>
-                                    <constraint firstItem="ahA-e7-pu2" firstAttribute="leading" secondItem="MD5-Ue-jxS" secondAttribute="leading" constant="24" id="ZHH-Nm-roh"/>
-                                    <constraint firstAttribute="height" constant="48" id="i79-T2-5Xw"/>
-                                    <constraint firstItem="aw5-7Y-NNw" firstAttribute="centerY" secondItem="MD5-Ue-jxS" secondAttribute="centerY" id="lMr-Q2-UAn"/>
-                                    <constraint firstItem="ahA-e7-pu2" firstAttribute="centerY" secondItem="MD5-Ue-jxS" secondAttribute="centerY" id="sc2-8c-eU5"/>
-                                    <constraint firstItem="2xc-L3-ewX" firstAttribute="centerY" secondItem="MD5-Ue-jxS" secondAttribute="centerY" id="vvF-tF-0nO"/>
-                                </constraints>
-                            </view>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
-                        <color key="backgroundColor" name="blackFull"/>
-                        <constraints>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="MD5-Ue-jxS" secondAttribute="trailing" id="JYq-c8-gcK"/>
-                            <constraint firstItem="O4F-0o-iOi" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="OfN-a4-Bpk"/>
-                            <constraint firstItem="MD5-Ue-jxS" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Sgg-7M-8rX"/>
-                            <constraint firstItem="O4F-0o-iOi" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="f7c-sJ-f9s"/>
-                            <constraint firstItem="MD5-Ue-jxS" firstAttribute="top" secondItem="O4F-0o-iOi" secondAttribute="bottom" id="qaG-wa-hJF"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="O4F-0o-iOi" secondAttribute="trailing" id="tcN-Zj-Sfq"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="MD5-Ue-jxS" secondAttribute="bottom" id="w07-GB-8ld"/>
-                        </constraints>
-                    </view>
-                    <connections>
-                        <outlet property="collectionView" destination="O4F-0o-iOi" id="jjH-lc-T2I"/>
-                        <outlet property="countLabel" destination="2xc-L3-ewX" id="yxU-4a-Ch9"/>
-                        <outlet property="footerView" destination="MD5-Ue-jxS" id="8hf-mY-g3a"/>
-                        <outlet property="uploadButton" destination="aw5-7Y-NNw" id="bp9-Ef-h0n"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="952.79999999999995" y="88.605697151424295"/>
-        </scene>
         <!--Qr Code View Controller-->
         <scene sceneID="qS2-h2-GXs">
             <objects>
@@ -174,16 +26,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="iconActionTakePhoto32" width="32" height="32"/>
-        <image name="iconPhoto24" width="24" height="24"/>
-        <namedColor name="blackFull">
-            <color red="0.075000002980232239" green="0.075000002980232239" blue="0.075000002980232239" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
         <namedColor name="blackTwo">
-            <color red="0.075000002980232239" green="0.075000002980232239" blue="0.075000002980232239" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="red">
-            <color red="0.94901960784313721" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.074509803921568626" green="0.074509803921568626" blue="0.074509803921568626" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>

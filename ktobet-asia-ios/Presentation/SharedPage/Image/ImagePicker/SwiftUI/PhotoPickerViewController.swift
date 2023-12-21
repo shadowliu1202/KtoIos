@@ -1,3 +1,4 @@
+import Combine
 import Foundation
 import Photos
 import UIKit
@@ -8,6 +9,8 @@ class PhotoPickerViewController: UIViewController {
   private let maxCount: Int
   private let maxImageSizeInMB = Configuration.uploadImageMBSizeLimit
   private let selectImagesOnComplete: (_ selectedImages: [ImagePickerView.ImageAsset]) -> Void
+  
+  private var cancellables = Set<AnyCancellable>()
   
   init(
     maxCount: Int,
@@ -32,6 +35,8 @@ class PhotoPickerViewController: UIViewController {
   private func setupUI() {
     NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back)
     
+    setupAlbumMenu()
+    
     addSubView(
       PhotoPickerView(
         viewModel: viewModel,
@@ -54,6 +59,62 @@ class PhotoPickerViewController: UIViewController {
           navigationController?.popViewController(animated: true)
         }),
       to: view)
+  }
+  
+  private func setupAlbumMenu() {
+    let button = createMenuButton()
+    setMenu(to: button)
+    
+    let titleView = UIView()
+    titleView.addSubview(button)
+
+    self.navigationItem.titleView = titleView
+    
+    updateTitleOnSelectedAlbumChange(button, titleView)
+  }
+  
+  private func createMenuButton() -> UIButton {
+    let button = UIButton(type: .custom)
+    button.setTitle("", for: .normal)
+    button.titleLabel?.font = UIFont(name: "PingFangSC-Semibold", size: 16)
+    button.setTitleColor(.greyScaleWhite, for: .normal)
+    
+    button.setImage(UIImage(named: "DropDownWhite"), for: .normal)
+    button.adjustsImageWhenHighlighted = false
+    button.semanticContentAttribute = .forceRightToLeft
+    button.imageEdgeInsets = .init(top: 0, left: 4, bottom: 0, right: 0)
+    
+    button.showsMenuAsPrimaryAction = true
+    
+    return button
+  }
+  
+  private func setMenu(to button: UIButton) {
+    viewModel.$albums
+      .sink(receiveValue: { [viewModel] in
+        let menuItems = $0.map { album in
+          UIAction(
+            title: album.localizedTitle ?? "",
+            handler: { _ in
+              viewModel.setSelectedAlbum(album)
+            })
+        }
+        
+        let menu = UIMenu(children: menuItems)
+        button.menu = menu
+      })
+      .store(in: &cancellables)
+  }
+  
+  private func updateTitleOnSelectedAlbumChange(_ button: UIButton, _ titleView: UIView) {
+    viewModel.$selectedAlbum
+      .compactMap { $0 }
+      .sink(receiveValue: {
+        button.setTitle($0.localizedTitle, for: .normal)
+        button.sizeToFit()
+        titleView.frame = CGRect(x: 0, y: 0, width: button.frame.width, height: button.frame.height)
+      })
+      .store(in: &cancellables)
   }
   
   private func showCamera() {
@@ -101,11 +162,7 @@ extension PhotoPickerViewController: UIImagePickerControllerDelegate & UINavigat
       fetchOptions.fetchLimit = 1
       let fetchResult = PHAsset.fetchAssets(with: .image, options: fetchOptions)
       if let lastAsset = fetchResult.firstObject {
-        selectImagesOnComplete([ImagePickerView.ImageAsset(
-          localIdentifier: lastAsset.localIdentifier,
-          fileName: viewModel.requestImageFileName(asset: lastAsset),
-          image: image,
-          imageSizeInMB: viewModel.requestImageSizeInMB(asset: lastAsset))])
+        selectImagesOnComplete([ImagePickerView.ImageAsset(asset: lastAsset, image: image)])
         
         navigationController?.popViewController(animated: true)
       }

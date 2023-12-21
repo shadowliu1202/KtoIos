@@ -212,43 +212,6 @@ class WithdrawalCreateCryptoAccountViewModel:
       .disposed(by: disposeBag)
   }
 
-  func readQRCode(image: UIImage?, onFailure: (() -> Void)? = nil) {
-    if
-      let features = detectQRCode(image),
-      !features.isEmpty
-    {
-      for case let row as CIQRCodeFeature in features {
-        accountAddress = row.messageString ?? ""
-      }
-    }
-    else {
-      onFailure?()
-    }
-  }
-
-  private func detectQRCode(_ image: UIImage?) -> [CIFeature]? {
-    guard
-      let image,
-      let ciImage = CIImage(image: image)
-    else {
-      return nil
-    }
-
-    var options: [String: Any] = [CIDetectorAccuracy: CIDetectorAccuracyHigh]
-
-    let qrDetector = CIDetector(ofType: CIDetectorTypeQRCode, context: CIContext(), options: options)
-
-    if ciImage.properties.keys.contains(kCGImagePropertyOrientation as String) {
-      options = [CIDetectorImageOrientation: ciImage.properties[kCGImagePropertyOrientation as String] ?? 1]
-    }
-    else {
-      options = [CIDetectorImageOrientation: 1]
-    }
-
-    let features = qrDetector?.features(in: ciImage, options: options)
-    return features
-  }
-
   func createCryptoAccount(onSuccess: ((_ bankCardId: String) -> Void)?) {
     let newCryptoWallet = WithdrawalDto.NewWalletCrypto(
       alias: accountAlias,
