@@ -125,6 +125,7 @@ extension WithdrawalCreateCryptoAccountViewController {
     for controller in viewControllers {
       if controller == self {
         navigationController?.popToViewController(controller, animated: true)
+        NavigationManagement.sharedInstance.viewController = controller
         break
       }
     }
