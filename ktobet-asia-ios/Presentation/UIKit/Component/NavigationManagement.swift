@@ -104,6 +104,10 @@ class NavigationManagement: Navigator {
       }
     }
   }
+  
+  private var navigationController: UINavigationController {
+    (viewController as? UINavigationController) ?? viewController.navigationController!
+  }
 
   var previousRootViewController: UIViewController?
   weak var unwindNavigate: NotificationNavigate?
@@ -209,32 +213,36 @@ class NavigationManagement: Navigator {
   }
 
   func popViewController(_ completion: (() -> Void)? = nil) {
-    viewController.navigationController?.popViewController(animated: true)
-    viewController = viewController.navigationController?.topViewController
+    navigationController.popViewController(animated: true)
+    setTopVCToVC()
     completion?()
   }
 
   func popViewController(_ completion: (() -> Void)? = nil, to vc: UIViewController) {
-    viewController.navigationController?.popToViewController(vc, animated: true)
-    viewController = viewController.navigationController?.topViewController
+    navigationController.popToViewController(vc, animated: true)
+    setTopVCToVC()
     completion?()
   }
 
   func popToRootViewController(_ completion: (() -> Void)? = nil) {
-    self.viewController.navigationController?.popToRootViewController(animated: true)
-    self.viewController = self.viewController.navigationController?.topViewController
+    navigationController.popToRootViewController(animated: true)
+    setTopVCToVC()
     completion?()
   }
 
   func pushViewController(vc: UIViewController) {
-    viewController.navigationController?.pushViewController(vc, animated: true)
-    viewController = viewController.navigationController?.topViewController
+    navigationController.pushViewController(vc, animated: true)
+    setTopVCToVC()
   }
 
   func pushViewController(vc: UIViewController, unwindNavigate: NotificationNavigate?) {
-    viewController.navigationController?.pushViewController(vc, animated: true)
-    viewController = viewController.navigationController?.topViewController
+    navigationController.pushViewController(vc, animated: true)
+    setTopVCToVC()
     self.unwindNavigate = unwindNavigate
+  }
+  
+  private func setTopVCToVC() {
+    viewController = navigationController.topViewController
   }
 
   func navigateToAuthorization() {
