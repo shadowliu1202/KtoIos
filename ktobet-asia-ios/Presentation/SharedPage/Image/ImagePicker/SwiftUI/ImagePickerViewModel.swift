@@ -160,8 +160,13 @@ class ImagePickerViewModel: NSObject, ObservableObject {
 extension ImagePickerViewModel: PHPhotoLibraryChangeObserver {
   func photoLibraryDidChange(_ changeInstance: PHChange) {
     DispatchQueue.main.async { [self] in
-      guard let changes = changeInstance.changeDetails(for: fetchResult) else { return }
-      fetchResult = changes.fetchResultAfterChanges
+      if selectedAlbum == nil {
+        setupAlbums()
+      }
+      else {
+        guard let changes = changeInstance.changeDetails(for: fetchResult) else { return }
+        fetchResult = changes.fetchResultAfterChanges
+      }
     }
   }
 }
