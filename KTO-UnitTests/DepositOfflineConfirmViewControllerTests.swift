@@ -37,16 +37,23 @@ final class DepositOfflineConfirmViewControllerTests: XCBaseTestCase {
     given(stubViewModel.depositSuccessDriver) ~> .just(())
     given(stubViewModel.expiredDriver) ~> .just(())
     given(stubViewModel.errors()) ~> .just(playerDepositCountOverLimit)
+    given(stubViewModel.isAllowConfirm) ~> true
+    given(stubViewModel.receiverInfo) ~> .init()
+    given(stubViewModel.remitTip) ~> .init()
+    given(stubViewModel.validTimeString) ~> ""
 
     let stubAlert = mock(AlertProtocol.self)
 
-    let sut = DepositOfflineConfirmViewController(
-      viewModel: stubViewModel,
-      memo: memo,
-      selectedBank: bankCard,
-      alert: stubAlert)
+    let sut = UINavigationController(
+      rootViewController:
+      DepositOfflineConfirmViewController(
+        viewModel: stubViewModel,
+        memo: memo,
+        selectedBank: bankCard,
+        alert: stubAlert))
 
     sut.loadViewIfNeeded()
+    makeItVisible(sut)
 
     verify(
       stubAlert.show(
