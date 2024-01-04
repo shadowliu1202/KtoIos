@@ -32,11 +32,6 @@ class LoginViewController: LandingViewController {
   private var viewDisappearBag = DisposeBag()
   
   lazy var barButtonItems = [padding, register, spacing, customService]
-  
-  required init?(coder: NSCoder) {
-    super.init(coder: coder)
-    cookieManager.replaceCulture(to: viewModel.getSupportLocale().cultureCode())
-  }
 
   override func viewDidLoad() {
     super.viewDidLoad()

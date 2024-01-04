@@ -1,5 +1,6 @@
 import Foundation
 import RxSwift
+import sharedbu
 
 class CookieManager: LocalStorable {
   private let currentURL: URL
@@ -58,13 +59,13 @@ class CookieManager: LocalStorable {
     storage.setCookie(.init(properties: properties)!)
   }
   
-  func replaceCulture(to cultureCode: String) {
+  func setCulture(to locale: SupportLocale) {
     guard
       let cookie = HTTPCookie(properties: [
         .domain: currentDomain,
         .path: "/",
         .name: "culture",
-        .value: cultureCode
+        .value: locale.cultureCode()
       ])
     else { return }
     

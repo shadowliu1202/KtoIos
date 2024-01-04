@@ -26,6 +26,7 @@ final class HttpClientTests: XCTestCase {
       dummyLocalStorageRepo,
       dummyCookieManager,
       currentURL: dummyURL,
+      locale: SupportLocale.Vietnam(),
       provider: stubProvider)
     
     let expect = stubResponse
@@ -48,6 +49,7 @@ final class HttpClientTests: XCTestCase {
       dummyLocalStorageRepo,
       dummyCookieManager,
       currentURL: dummyURL,
+      locale: SupportLocale.Vietnam(),
       provider: stubProvider)
     
     let expect = stubResponse
@@ -70,6 +72,7 @@ final class HttpClientTests: XCTestCase {
       dummyLocalStorageRepo,
       dummyCookieManager,
       currentURL: dummyURL,
+      locale: SupportLocale.Vietnam(),
       provider: stubProvider)
     
     let expect = UnknownError(message: "testErrorMessage", errorCode: "99999")

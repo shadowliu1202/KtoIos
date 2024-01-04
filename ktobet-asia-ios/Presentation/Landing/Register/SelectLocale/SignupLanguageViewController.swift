@@ -130,7 +130,6 @@ class SignupLanguageViewController: LandingViewController {
   private func onLocaleChange(locale: SupportLocale) {
     localStorageRepo.setCultureCode(locale.cultureCode())
     Theme.shared.changeEntireAPPFont(by: locale)
-    cookieManager.replaceCulture(to: locale.cultureCode())
     changeViewFont(by: locale)
     changeCSButton(locale)
     refreshLocalize()

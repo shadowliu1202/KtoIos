@@ -75,7 +75,8 @@ final class Injection {
     lazy var fakeHttpClient = HttpClient(
       container.resolveWrapper(LocalStorageRepository.self),
       container.resolveWrapper(CookieManager.self),
-      currentURL: fakeURL)
+      currentURL: fakeURL,
+      locale: container.resolveWrapper(PlayerConfiguration.self).supportLocale)
     
     container.register(HttpClient.self) { _ in fakeHttpClient }
     container.register(HttpClient.self, name: "update") { _ in fakeHttpClient }
@@ -83,18 +84,24 @@ final class Injection {
   
   func registerHttpClient(cookieManager: CookieManager, portalURL: URL, versionUpdateURL: URL) {
     container
-      .register(HttpClient.self) { resolver in
-        let localStorageRepo = resolver.resolveWrapper(LocalStorageRepository.self)
-        return HttpClient(localStorageRepo, cookieManager, currentURL: portalURL)
+      .register(HttpClient.self) {
+        HttpClient(
+          $0.resolveWrapper(LocalStorageRepository.self),
+          cookieManager,
+          currentURL: portalURL,
+          locale: $0.resolveWrapper(PlayerConfiguration.self).supportLocale)
       }
-      .inObjectScope(.application)
+      .inObjectScope(.locale)
 
     container
-      .register(HttpClient.self, name: "update") { resolver in
-        let localStorageRepo = resolver.resolveWrapper(LocalStorageRepository.self)
-        return HttpClient(localStorageRepo, cookieManager, currentURL: versionUpdateURL)
+      .register(HttpClient.self, name: "update") {
+        HttpClient(
+          $0.resolveWrapper(LocalStorageRepository.self),
+          cookieManager,
+          currentURL: versionUpdateURL,
+          locale: $0.resolveWrapper(PlayerConfiguration.self).supportLocale)
       }
-      .inObjectScope(.application)
+      .inObjectScope(.locale)
   }
 
   // MARK: - CustomerServicePresenter

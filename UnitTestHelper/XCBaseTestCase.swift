@@ -23,7 +23,8 @@ private func injectFakeHttpClient() {
       FakeHttpClient(
         resolver.resolveWrapper(LocalStorageRepository.self),
         resolver.resolveWrapper(CookieManager.self),
-        currentURL: URL(string: "https://")!)
+        currentURL: URL(string: "https://")!,
+        locale: resolver.resolveWrapper(PlayerConfiguration.self).supportLocale)
     }
 
   Injection.shared.container
@@ -31,7 +32,8 @@ private func injectFakeHttpClient() {
       FakeHttpClient(
         resolver.resolveWrapper(LocalStorageRepository.self),
         resolver.resolveWrapper(CookieManager.self),
-        currentURL: URL(string: "https://")!)
+        currentURL: URL(string: "https://")!,
+        locale: resolver.resolveWrapper(PlayerConfiguration.self).supportLocale)
     }
 }
 
