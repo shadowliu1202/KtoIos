@@ -24,7 +24,13 @@ extension XCTestCase {
       data: responseJsonString.data(using: .utf8)!)
 
     let stubHttpClient = mock(HttpClient.self)
-      .initialize(dummyLocalStorageRepo, dummyCookieManager, currentURL: dummyURL, provider: nil)
+      .initialize(
+        dummyLocalStorageRepo,
+        dummyCookieManager,
+        currentURL: dummyURL,
+        locale: SupportLocale.Vietnam(),
+        provider: nil)
+    
     given(stubHttpClient.host) ~> URL(string: "https://")!
     given(stubHttpClient.headers) ~> ["": ""]
     given(stubHttpClient.request(any())) ~> .just(apiResponse)
@@ -37,7 +43,12 @@ extension XCTestCase {
     let dummyLocalStorageRepo = mock(LocalStorageRepository.self)
     let dummyCookieManager = mock(CookieManager.self).initialize(allHosts: [], currentURL: dummyURL, currentDomain: "")
 
-    return mock(HttpClient.self).initialize(dummyLocalStorageRepo, dummyCookieManager, currentURL: dummyURL, provider: nil)
+    return mock(HttpClient.self).initialize(
+      dummyLocalStorageRepo,
+      dummyCookieManager,
+      currentURL: dummyURL,
+      locale: SupportLocale.Vietnam(),
+      provider: nil)
   }
 
   func stubLocalizeUtils(_ supportLocale: SupportLocale) {

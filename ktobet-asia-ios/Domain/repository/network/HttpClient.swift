@@ -11,11 +11,11 @@ import UIKit
 
 class HttpClient {
   private let localStorageRepo: LocalStorageRepository
-  private let currentURL: URL
   private let cookieManager: CookieManager
+  private let currentURL: URL
 
-  private let provider: MoyaProvider<MultiTarget>
-  private let retryProvider: MoyaProvider<MultiTarget>
+  private var provider: MoyaProvider<MultiTarget>!
+  private var retryProvider: MoyaProvider<MultiTarget>!
 
   private(set) var debugDatas: [DebugData] = []
 
@@ -41,12 +41,19 @@ class HttpClient {
     _ localStorageRepo: LocalStorageRepository,
     _ cookieManager: CookieManager,
     currentURL: URL,
+    locale: SupportLocale,
     provider: MoyaProvider<MultiTarget>? = nil)
   {
     self.localStorageRepo = localStorageRepo
     self.cookieManager = cookieManager
     self.currentURL = currentURL
 
+    cookieManager.setCulture(to: locale)
+    setupProvider(provider)
+    setupImageDownloader()
+  }
+
+  private func setupProvider(_ provider: MoyaProvider<MultiTarget>?) {
     let configuration = URLSessionConfiguration.default
     configuration.headers = .default
     configuration.timeoutIntervalForRequest = .infinity
@@ -69,11 +76,9 @@ class HttpClient {
         NetworkLoggerPlugin.debug(),
         TimeoutRecorder()
       ])
-    
-    configImageDownloader()
   }
-
-  private func configImageDownloader() {
+  
+  private func setupImageDownloader() {
     // Unit Test will fail without this check because headers use before stub in init().
     guard !Configuration.isTesting else { return }
     
