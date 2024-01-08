@@ -146,34 +146,6 @@ final class Theme {
     }
   }
 
-  func getSignupLanguageViewFont(by playerLocale: SupportLocale) -> [String: UIFont] {
-    var fontDictionary: [String: UIFont]
-    switch playerLocale {
-    case is SupportLocale.China:
-      fontDictionary = [
-        "btnNext": UIFont(name: "PingFangSC-Regular", size: 16)!,
-        "btnTerms": UIFont(name: "PingFangSC-Regular", size: 14)!,
-        "labTitle": UIFont(name: "PingFangSC-Medium", size: 14)!,
-        "labDesc": UIFont(name: "PingFangSC-Regular", size: 24)!,
-        "labTermsTip": UIFont(name: "PingFangSC-Medium", size: 12)!,
-        "btnTermsOfService": UIFont(name: "PingFangSC-Medium", size: 12)!
-      ]
-      return fontDictionary
-    case is SupportLocale.Vietnam:
-      fallthrough
-    default:
-      fontDictionary = [
-        "btnNext": UIFont(name: "HelveticaNeue", size: 16)!,
-        "btnTerms": UIFont(name: "HelveticaNeue", size: 14)!,
-        "labTitle": UIFont(name: "HelveticaNeue-Light", size: 14)!,
-        "labDesc": UIFont(name: "HelveticaNeue", size: 24)!,
-        "labTermsTip": UIFont(name: "HelveticaNeue-Light", size: 12)!,
-        "btnTermsOfService": UIFont(name: "HelveticaNeue-Light", size: 12)!
-      ]
-      return fontDictionary
-    }
-  }
-
   func getNavigationTitleFont(by playerLocale: SupportLocale) -> UIFont {
     switch playerLocale {
     case is SupportLocale.China:

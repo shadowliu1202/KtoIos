@@ -82,18 +82,11 @@ class LoginViewController: LandingViewController {
       .disposed(by: disposeBag)
   }
 
-  private func localize() {
-    register.title = Localize.string("common_register")
-    customService.title = Localize.string("customerservice_action_bar_title")
-    update.title = Localize.string("update_title")
-  }
-
   @IBAction
   func logoItemOnTap(_: UIBarButtonItem) {
     Configuration.forceChinese.toggle()
     Localize = LocalizeUtils(localizationFileName: Configuration.forceChinese ? "zh-cn" : "vi-vn")
-    let loginVC = LoginViewController.initFrom(storyboard: "Login")
-    navigationController?.viewControllers = [loginVC]
+    recreateVC()
   }
   
   @IBSegueAction
@@ -192,10 +185,7 @@ extension LoginViewController {
       let navi = segue.destination as? UINavigationController,
       let signupVc = navi.viewControllers.first as? SignupLanguageViewController
     {
-      signupVc.languageChangeHandler = { currentLocale in
-        self.changeCSButton(currentLocale)
-        self.localize()
-      }
+      signupVc.languageChangeHandler = recreateVC
       signupVc.presentationController?.delegate = self
     }
     if
@@ -206,26 +196,8 @@ extension LoginViewController {
     }
   }
   
-  private func changeCSButton(_ currentLocale: SupportLocale) {
-    customService = UIBarButtonItem
-      .kto(.cs(
-        supportLocale: currentLocale,
-        customerServiceViewModel: customerServiceViewModel,
-        serviceStatusViewModel: serviceStatusViewModel,
-        alert: alert,
-        delegate: self,
-        disposeBag: disposeBag))
-    
-    let index = barButtonItems.firstIndex(where: { $0 is CustomerServiceButtonItem })!
-    barButtonItems[index] = customService
-    
-    if
-      var rightBarButtonItems = navigationItem.rightBarButtonItems,
-      let currentCSIndex = rightBarButtonItems.firstIndex(where: { $0 is CustomerServiceButtonItem })
-    {
-      rightBarButtonItems[currentCSIndex] = customService
-      bind(position: .right, barButtonItems: rightBarButtonItems)
-    }
+  private func recreateVC() {
+    navigationController?.viewControllers = [LoginViewController.initFrom(storyboard: "Login")]
   }
 
   override func unwind(for _: UIStoryboardSegue, towards _: UIViewController) { }

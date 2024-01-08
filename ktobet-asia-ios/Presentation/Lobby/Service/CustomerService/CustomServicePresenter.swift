@@ -33,11 +33,6 @@ extension CustomServiceDelegate where Self: BarButtonItemable, Self: UIViewContr
 }
 
 class CustomServicePresenter: NSObject {
-  enum ChatWindowState {
-    case fullscreen
-    case minimize
-  }
-  
   static var shared: CustomServicePresenter {
     Injectable.resolve(CustomServicePresenter.self)!
   }

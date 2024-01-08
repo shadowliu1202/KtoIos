@@ -1,10 +1,18 @@
 import Foundation
 import sharedbu
 
-private var _Localize = Injectable.resolve(LocalizeUtils.self)!
+private var _Localize: LocalizeUtils?
 
 var Localize: LocalizeUtils {
-  get { _Localize }
+  get {
+    if let _Localize {
+      return _Localize
+    }
+    else {
+      return Injectable.resolveWrapper(LocalizeUtils.self)
+    }
+  }
+  
   set {
     #if DEBUG
       _Localize = newValue

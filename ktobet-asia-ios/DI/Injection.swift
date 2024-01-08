@@ -1096,7 +1096,7 @@ final class Injection {
         let cultureCode = resolver.resolveWrapper(PlayerConfiguration.self).supportLocale.cultureCode()
         return LocalizeUtils(localizationFileName: cultureCode)
       }
-      .inObjectScope(.application)
+      .inObjectScope(.locale)
 
     container
       .register(AlertProtocol.self) { _ in

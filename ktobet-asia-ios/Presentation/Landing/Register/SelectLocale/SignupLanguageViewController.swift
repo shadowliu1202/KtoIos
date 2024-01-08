@@ -49,29 +49,16 @@ class SignupLanguageViewController: LandingViewController {
       delegate: self,
       disposeBag: disposeBag))
 
-  var languageChangeHandler: ((_ currentLocale: SupportLocale) -> Void)?
+  var languageChangeHandler: (() -> Void)?
   lazy var barButtonItems: [UIBarButtonItem] = [padding, login, spacing, customService]
 
   // MARK: Life Cycle
   override func viewDidLoad() {
     super.viewDidLoad()
+    
     self.bind(position: .right, barButtonItems: barButtonItems)
     setTableViewHeight()
     setupStyle()
-    if let locale = arrLangs.first {
-      onLocaleChange(locale: locale)
-    }
-  }
-
-  // MARK: METHOD
-  private func refreshLocalize() {
-    login.title = Localize.string("common_login")
-    customService.title = Localize.string("customerservice_action_bar_title")
-    labTitle.text = Localize.string("register_step1_title_1")
-    labDesc.text = Localize.string("register_step1_title_2")
-    labTermsTip.text = Localize.string("register_step1_tips_1")
-    btnNext.setTitle(Localize.string("common_next"), for: .normal)
-    btnTerms.setTitle(Localize.string("register_step1_tips_1_highlight"), for: .normal)
   }
 
   private func setTableViewHeight() {
@@ -113,11 +100,7 @@ class SignupLanguageViewController: LandingViewController {
 
   @IBAction
   func btnBackPressed(_: UIButton) {
-    performSegue(withIdentifier: segueLogin, sender: nil)
-  }
-
-  func btnLoginPressed() {
-    performSegue(withIdentifier: segueLogin, sender: nil)
+    dismiss(animated: true)
   }
 
   @IBAction
@@ -129,44 +112,14 @@ class SignupLanguageViewController: LandingViewController {
 
   private func onLocaleChange(locale: SupportLocale) {
     handlePlayerSessionChange(locale: locale)
-    changeViewFont(by: locale)
-    changeCSButton(locale)
-    refreshLocalize()
-    languageChangeHandler?(locale)
-    tableView.reloadData()
-  }
-
-  private func changeViewFont(by playerLocale: SupportLocale) {
-    let fontDictionary: [String: UIFont]
-    fontDictionary = Theme.shared.getSignupLanguageViewFont(by: playerLocale)
-    btnNext.titleLabel?.font = fontDictionary["btnNext"]
-    btnTerms.titleLabel?.font = fontDictionary["btnTerms"]
-    labTitle.font = fontDictionary["labTitle"]
-    labDesc.font = fontDictionary["labDesc"]
-    labTermsTip.font = fontDictionary["labTermsTip"]
-    btnTermsOfService.titleLabel?.font = fontDictionary["btnTermsOfService"]
+    languageChangeHandler?()
+    recreateVC()
   }
   
-  private func changeCSButton(_ currentLocale: SupportLocale) {
-    customService = UIBarButtonItem
-      .kto(.cs(
-        supportLocale: currentLocale,
-        customerServiceViewModel: customerServiceViewModel,
-        serviceStatusViewModel: serviceStatusViewModel,
-        alert: alert,
-        delegate: self,
-        disposeBag: disposeBag))
-    
-    let index = barButtonItems.firstIndex(where: { $0 is CustomerServiceButtonItem })!
-    barButtonItems[index] = customService
-    
-    if
-      var rightBarButtonItems = navigationItem.rightBarButtonItems,
-      let currentCSIndex = rightBarButtonItems.firstIndex(where: { $0 is CustomerServiceButtonItem })
-    {
-      rightBarButtonItems[currentCSIndex] = customService
-      bind(position: .right, barButtonItems: rightBarButtonItems)
-    }
+  private func recreateVC() {
+    let signupLanguageVC = SignupLanguageViewController.initFrom(storyboard: "Signup")
+    signupLanguageVC.languageChangeHandler = languageChangeHandler
+    navigationController?.viewControllers = [signupLanguageVC]
   }
 }
 
@@ -211,7 +164,7 @@ extension SignupLanguageViewController: BarButtonItemable {
   func pressedRightBarButtonItems(_ sender: UIBarButtonItem) {
     switch sender.tag {
     case loginBarBtnId:
-      btnLoginPressed()
+      dismiss(animated: true)
     default:
       break
     }
