@@ -43,7 +43,11 @@ class CustomerServiceButtonItem: TextBarButtonItem {
   {
     switch supportLocale {
     case .China():
-      return ServiceDownCustomerServiceButton(alert: alert)
+      return ServiceDownCustomerServiceButton(
+        customerServiceViewModel: customerServiceViewModel,
+        alert: alert,
+        delegate,
+        disposeBag)
       
     case .Vietnam():
       return ActiveCustomerServiceButton(
@@ -139,8 +143,20 @@ class ServiceDownCustomerServiceButton: CustomerServiceButtonItem {
     super.init()
   }
   
-  init(alert: AlertProtocol) {
+  init(
+    customerServiceViewModel: CustomerServiceViewModel,
+    alert: AlertProtocol,
+    _ delegate: CustomServiceDelegate,
+    _ disposeBag: DisposeBag)
+  {
     super.init()
+    
+    customerServiceViewModel.isPlayerInChat
+      .observe(on: MainScheduler.asyncInstance)
+      .subscribe(onNext: { [weak delegate] in
+        delegate?.didCsIconAppear(isAppear: $0)
+      })
+      .disposed(by: disposeBag)
     
     self.actionHandler({ _ in
       alert.show(
