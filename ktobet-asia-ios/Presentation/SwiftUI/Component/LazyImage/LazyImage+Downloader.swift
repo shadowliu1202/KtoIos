@@ -60,7 +60,7 @@ extension LazyImage {
 // MARK: - SDWebImageDownloader
 
 extension SDWebImageDownloader {
-  fileprivate func image(from url: String) async throws -> UIImage {
+  func image(from url: String) async throws -> UIImage {
     try await
       withCheckedThrowingContinuation { continuation in
         self.downloadImage(with: .init(string: url)) { image, _, error, _ in

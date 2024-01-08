@@ -55,8 +55,8 @@ class PhotoPickerViewController: UIViewController {
           showSizeLimitAlert()
         },
         submitButtonOnTap: { [unowned self] in
-          selectImagesOnComplete($0)
           navigationController?.popViewController(animated: true)
+          selectImagesOnComplete($0)
         }),
       to: view)
   }

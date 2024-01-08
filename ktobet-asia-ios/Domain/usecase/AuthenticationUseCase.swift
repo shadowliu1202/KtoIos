@@ -2,6 +2,18 @@ import Foundation
 import RxSwift
 import sharedbu
 
+// FIXME: refactor when architecture be clear.
+func handlePlayerSessionChange(locale: SupportLocale?) {
+  if let locale {
+    let localRepo = Injectable.resolveWrapper(LocalStorageRepository.self)
+    localRepo.setCultureCode(locale.cultureCode())
+    Theme.shared.changeEntireAPPFont(by: locale)
+  }
+  
+  Injectable.resetObjectScope(.locale)
+  CustomServicePresenter.shared.initService()
+}
+
 // TODO: Need refactor.
 protocol AuthenticationUseCase {
   func isLastAPISuccessDateExpire() -> Bool
@@ -53,15 +65,10 @@ class AuthenticationUseCaseImpl: AuthenticationUseCase {
         default: fatalError()
         }
       }
-      .do(onSuccess: { [weak self, localStorageRepo] in
-        self?.refreshHttpClient($0)
+      .do(onSuccess: { [weak self] in
+        handlePlayerSessionChange(locale: $0.locale())
         self?.logLoginDay()
       })
-  }
-
-  private func refreshHttpClient(_ player: Player) {
-    repoPlayer.refreshHttpClient(playerLocale: player.locale())
-    CustomServicePresenter.shared.changeCsDomainIfNeed()
   }
 
   private func logLoginDay() {
@@ -81,6 +88,7 @@ class AuthenticationUseCaseImpl: AuthenticationUseCase {
       Logger.shared.info("Player_logout")
       self?.localStorageRepo.setPlayerInfo(nil)
       self?.localStorageRepo.setLastAPISuccessDate(nil)
+      handlePlayerSessionChange(locale: nil)
       
       completable(.completed)
 

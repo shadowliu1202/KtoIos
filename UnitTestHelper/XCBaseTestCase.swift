@@ -83,25 +83,13 @@ private func injectCustomServicePresenterInfra() {
 
   let stubCustomerServiceViewModel = mock(CustomerServiceViewModel.self)
     .initialize(dummyChatAppService, dummyPlayerConfiguration, dummyLoading)
-
-  let stubSurveyViewModel = mock(SurveyViewModel.self)
-    .initialize(
-      mock(AbsCustomerServiceAppService.self),
-      mock(AuthenticationUseCase.self))
   
   given(stubCustomerServiceViewModel.currentChatRoom()) ~>
     .just(.init(roomId: "", readMessage: [], unReadMessage: [], status: Connection.StatusNotExist(), isMaintained: false))
-  given(stubCustomerServiceViewModel.getSupportLocale()) ~> .China()
   
   Injectable
     .register(CustomerServiceViewModel.self) { _ in
       stubCustomerServiceViewModel
-    }
-    .inObjectScope(.locale)
-  
-  Injectable
-    .register(SurveyViewModel.self) { _ in
-      stubSurveyViewModel
     }
     .inObjectScope(.locale)
 }

@@ -52,4 +52,22 @@ extension Text {
   init(key: String, _ parameters: [String], cultureCode: String) {
     self.init(Localize.string(key, parameters, cultureCode))
   }
+  
+  func addBold(_ isActive: Bool) -> Text {
+    if isActive {
+      return self.bold()
+    }
+    else {
+      return self
+    }
+  }
+  
+  func addItalic(_ isActive: Bool) -> Text {
+    if isActive {
+      return self.italic()
+    }
+    else {
+      return self
+    }
+  }
 }

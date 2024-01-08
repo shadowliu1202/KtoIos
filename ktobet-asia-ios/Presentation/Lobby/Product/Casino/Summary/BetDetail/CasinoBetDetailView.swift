@@ -63,7 +63,7 @@ struct CasinoBetDetailView<ViewModel>: View
       }
     }
     .onPageLoading(viewModel.betDetail == nil)
-    .backgroundColor(.greyScaleDefault, ignoresSafeArea: true)
+    .backgroundColor(.greyScaleDefault, ignoresSafeArea: .all)
     .environmentObject(viewModel)
     .onViewDidLoad {
       viewModel.setup(with: wagerID)

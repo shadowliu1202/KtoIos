@@ -24,11 +24,13 @@ class RegisterUseCaseImpl: RegisterUseCase {
   }
 
   func loginFrom(otp: String) -> Single<Player> {
-    repoAuth.authorize(otp).flatMap { [unowned self] _ -> Single<Player> in
-      self.repoPlayer.loadPlayer().do(onSuccess: { [unowned self] player in
-        self.repoPlayer.refreshHttpClient(playerLocale: player.locale())
-      })
-    }
+    repoAuth.authorize(otp)
+      .flatMap { [unowned self] _ -> Single<Player> in
+        repoPlayer.loadPlayer()
+          .do(onSuccess: { player in
+            handlePlayerSessionChange(locale: player.locale())
+          })
+      }
   }
 
   func resendRegisterOtp() -> Completable {

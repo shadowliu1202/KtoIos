@@ -32,6 +32,15 @@ struct SwiftUITextView: View {
           textView.textContainerInset = .zero
           textView.textContainerInset = .init(top: 15, left: 15, bottom: 15, right: 15)
           textView.autocapitalizationType = .none
+        },
+        updateConfiguration: { textView in
+          if isInFocus {
+            textView.text = text.isEmpty ? nil : text
+            textView.backgroundColor = .inputFocus
+          }
+          else {
+            textView.backgroundColor = .inputDefault
+          }
         })
         .onTapGesture {
           DropDownList.notifyTopSideDetectListShouldCollapse(id: id)

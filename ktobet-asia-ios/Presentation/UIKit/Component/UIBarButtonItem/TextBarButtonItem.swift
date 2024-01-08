@@ -79,7 +79,7 @@ class ActiveCustomerServiceButton: CustomerServiceButtonItem {
     self.isEnabled = false
     
     customerServiceViewModel.isPlayerInChat
-      .observe(on: MainScheduler.instance)
+      .observe(on: MainScheduler.asyncInstance)
       .subscribe(onNext: { [weak delegate] in
         delegate?.didCsIconAppear(isAppear: $0)
         

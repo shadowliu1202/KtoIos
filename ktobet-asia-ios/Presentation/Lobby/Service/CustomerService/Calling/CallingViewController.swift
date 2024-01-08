@@ -6,7 +6,7 @@ import UIKit
 class CallingViewController: CommonViewController {
   @Injected private var viewModel: CallingViewModel
 
-  private let loadingView: UIView = UIHostingController(rootView: SwiftUILoadingView(opacity: 0.8)).view
+  private let loadingView: UIView = UIHostingController(rootView: SwiftUILoadingView(backgroundOpacity: 0.8)).view
   
   private var cancellables = Set<AnyCancellable>()
   
@@ -64,7 +64,7 @@ class CallingViewController: CommonViewController {
   }
   
   func toChatRoom() {
-    CustomServicePresenter.shared.switchToChatRoom(isRoot: false)
+    navigationController?.setViewControllers([ChatRoomViewController()], animated: false)
   }
   
   private func handleCallingErrors(_ error: Error) {
@@ -72,7 +72,7 @@ class CallingViewController: CommonViewController {
     case is ChatCheckGuestIPFail,
          is ChatRoomNotExist,
          is ServiceUnavailableException:
-      showStopCallingAlert()
+      showLeaveMessageAlert()
     case is ChatRoomIsCreated:
       break
     default:
@@ -129,8 +129,6 @@ class CallingViewController: CommonViewController {
   
   func toOfflineMessageVC(_ presentingVC: UIViewController?) {
     let to = OfflineMessageViewController()
-    let skip = UIBarButtonItem.kto(.text(text: Localize.string("common_skip")))
-    to.bind(position: .right, barButtonItems: skip)
     let navi = UINavigationController(rootViewController: to)
     navi.modalPresentationStyle = .fullScreen
     presentingVC?.present(navi, animated: false)

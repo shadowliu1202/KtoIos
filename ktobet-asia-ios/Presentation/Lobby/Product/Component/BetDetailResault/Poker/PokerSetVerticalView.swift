@@ -96,6 +96,6 @@ struct PokerSetVerticalView_Previews: PreviewProvider {
   
   static var previews: some View {
     PokerSetVerticalView(cards: stubPokerGroup)
-      .backgroundColor(.greyScaleBlack, ignoresSafeArea: true)
+      .backgroundColor(.greyScaleBlack, ignoresSafeArea: .all)
   }
 }

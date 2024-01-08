@@ -128,13 +128,11 @@ class SignupLanguageViewController: LandingViewController {
   }
 
   private func onLocaleChange(locale: SupportLocale) {
-    localStorageRepo.setCultureCode(locale.cultureCode())
-    Theme.shared.changeEntireAPPFont(by: locale)
+    handlePlayerSessionChange(locale: locale)
     changeViewFont(by: locale)
     changeCSButton(locale)
     refreshLocalize()
     languageChangeHandler?(locale)
-    CustomServicePresenter.shared.changeCsDomainIfNeed()
     tableView.reloadData()
   }
 
