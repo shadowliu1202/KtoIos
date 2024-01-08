@@ -45,6 +45,6 @@ extension DiceNumber {
 struct DiceView_Previews: PreviewProvider {
   static var previews: some View {
     DiceView(dices: [.one, .two, .three, .four, .five, .six])
-      .backgroundColor(.greyScaleBlack, ignoresSafeArea: true)
+      .backgroundColor(.greyScaleBlack, ignoresSafeArea: .all)
   }
 }

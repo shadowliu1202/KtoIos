@@ -100,7 +100,7 @@ class CustomerServiceMainViewModel:
   
   func hasPreChatSurvey() async -> Bool {
     await AnyPublisher.from(surveyAppService.hasPreChatSurvey())
-      .map { Bool(truncating: $0) }
+      .map { $0.toBool() }
       .tryCatch { error in
         if error is ServiceUnavailableException {
           return Just(false)

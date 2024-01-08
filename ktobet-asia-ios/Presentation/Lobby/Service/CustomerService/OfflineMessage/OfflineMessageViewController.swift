@@ -16,6 +16,9 @@ final class OfflineMessageViewController: CommonViewController {
   }
   
   private func setupUI() {
+    let skip = UIBarButtonItem.kto(.text(text: Localize.string("common_skip")))
+    bind(position: .right, barButtonItems: skip)
+    
     addSubView(from: { [unowned self] in
       OfflineMessageView(
         viewModel: self.viewModel,
@@ -33,15 +36,23 @@ final class OfflineMessageViewController: CommonViewController {
     Alert.shared.show(
       Localize.string("customerservice_offline_survey_confirm_title"),
       Localize.string("customerservice_offline_survey_confirm_content"),
-      confirm: {
-        CustomServicePresenter.shared.resetStatus()
+      confirm: { [self] in
+        dismissVC()
       },
       cancel: nil)
+  }
+  
+  private func dismissVC() {
+    let presentingVC = navigationController?.presentingViewController
+    
+    dismiss(animated: true) {
+      NavigationManagement.sharedInstance.viewController = presentingVC
+    }
   }
 }
 
 extension OfflineMessageViewController: BarButtonItemable {
   func pressedRightBarButtonItems(_: UIBarButtonItem) {
-    CustomServicePresenter.shared.resetStatus()
+    dismissVC()
   }
 }

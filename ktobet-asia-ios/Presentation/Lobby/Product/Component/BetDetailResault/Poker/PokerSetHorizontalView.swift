@@ -84,6 +84,6 @@ struct PokerSetHorizontalView_Previews: PreviewProvider {
   
   static var previews: some View {
     PokerSetHorizontalView(cards: stubPokerGroup)
-      .backgroundColor(.greyScaleBlack, ignoresSafeArea: true)
+      .backgroundColor(.greyScaleBlack, ignoresSafeArea: .all)
   }
 }

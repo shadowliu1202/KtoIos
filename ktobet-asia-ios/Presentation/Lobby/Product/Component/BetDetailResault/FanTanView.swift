@@ -27,6 +27,6 @@ struct FanTanView: View {
 struct FanTanView_Previews: PreviewProvider {
   static var previews: some View {
     FanTanView(count: KotlinInt(int: 3))
-      .backgroundColor(.greyScaleBlack, ignoresSafeArea: true)
+      .backgroundColor(.greyScaleBlack, ignoresSafeArea: .all)
   }
 }

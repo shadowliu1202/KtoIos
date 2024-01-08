@@ -4,26 +4,26 @@ struct BackgroundColorModifier: ViewModifier {
   private let color: UIColor
   private let alpha: CGFloat
   private let cornerRadius: CGFloat
-  private let ignoresSafeArea: Bool
+  private let ignoreEdges: SwiftUI.Edge.Set?
 
   init(
     _ color: UIColor,
     _ alpha: CGFloat,
     _ cornerRadius: CGFloat,
-    _ ignoresSafeArea: Bool)
+    _ ignoresSafeArea: SwiftUI.Edge.Set? = nil)
   {
     self.color = color
     self.alpha = alpha
     self.cornerRadius = cornerRadius
-    self.ignoresSafeArea = ignoresSafeArea
+    self.ignoreEdges = ignoresSafeArea
   }
 
   func body(content: Content) -> some View {
-    if ignoresSafeArea {
+    if let ignoreEdges {
       ZStack {
         Color.from(color, alpha: alpha)
           .cornerRadius(cornerRadius)
-          .ignoresSafeArea()
+          .ignoresSafeArea(edges: ignoreEdges)
         
         content
       }
@@ -50,7 +50,7 @@ extension View {
     _ color: UIColor,
     alpha: CGFloat = 1,
     cornerRadius: CGFloat = 0,
-    ignoresSafeArea: Bool = false)
+    ignoresSafeArea: SwiftUI.Edge.Set? = nil)
     -> some View
   {
     modifier(BackgroundColorModifier(color, alpha, cornerRadius, ignoresSafeArea))

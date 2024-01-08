@@ -6,17 +6,20 @@ struct UIKitTextView: UIViewRepresentable {
   
   private let maxLength: Int?
   private let initConfiguration: (UITextView) -> Void
+  private let updateConfiguration: (UITextView) -> Void
   
   init(
     isInFocus: Binding<Bool>,
     text: Binding<String>,
     maxLength: Int? = nil,
-    initConfiguration: @escaping (UITextView) -> Void = { (_: UITextView) in })
+    initConfiguration: @escaping (UITextView) -> Void = { (_: UITextView) in },
+    updateConfiguration: @escaping (UITextView) -> Void = { (_: UITextView) in })
   {
     self._isInFocus = isInFocus
     self._text = text
     self.maxLength = maxLength
     self.initConfiguration = initConfiguration
+    self.updateConfiguration = updateConfiguration
   }
 
   func makeUIView(context: Context) -> UITextView {
@@ -29,13 +32,8 @@ struct UIKitTextView: UIViewRepresentable {
   }
 
   func updateUIView(_ uiView: UITextView, context _: Context) {
-    if isInFocus {
-      uiView.text = text.isEmpty ? nil : text
-      uiView.backgroundColor = .inputFocus
-    }
-    else {
-      uiView.backgroundColor = .inputDefault
-    }
+    uiView.text = text
+    updateConfiguration(uiView)
   }
   
   func makeCoordinator() -> Coordinator {
@@ -58,7 +56,9 @@ struct UIKitTextView: UIViewRepresentable {
     }
     
     func textViewDidEndEditing(_: UITextView) {
-      parent.isInFocus = false
+      if parent.isInFocus {
+        parent.isInFocus = false
+      }
     }
     
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {

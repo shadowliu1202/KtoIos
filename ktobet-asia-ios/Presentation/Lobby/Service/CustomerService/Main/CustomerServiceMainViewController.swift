@@ -5,8 +5,6 @@ import UIKit
 
 final class CustomerServiceMainViewController: LobbyViewController {
   @Injected private var viewModel: CustomerServiceMainViewModel
-  @Injected private var csViewModel: CustomerServiceViewModel
-  @Injected private var surveyViewModel: SurveyViewModel
   
   private var cancellables = Set<AnyCancellable>()
   private var router = CustomerServiceMainRouter()

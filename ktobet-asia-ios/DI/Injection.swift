@@ -110,10 +110,9 @@ final class Injection {
     container
       .register(CustomServicePresenter.self) { resolver in
         let csViewModel = resolver.resolveWrapper(CustomerServiceViewModel.self)
-        let surveyViewModel = resolver.resolveWrapper(SurveyViewModel.self)
-        return CustomServicePresenter(csViewModel, surveyViewModel)
+        return CustomServicePresenter(csViewModel)
       }
-      .inObjectScope(.application)
+      .inObjectScope(.locale)
   }
 
   // MARK: - API
@@ -774,23 +773,17 @@ final class Injection {
     container
       .register(CustomerServiceViewModel.self) { resolver in
         .init(
-          resolver.resolveWrapper(IChatAppService.self),
+          resolver.resolveWrapper(ICustomerServiceAppService.self),
           resolver.resolveWrapper(PlayerConfiguration.self),
           resolver.resolveWrapper(Loading.self))
       }
       .inObjectScope(.locale)
 
     container
-      .register(SurveyViewModel.self) { resolver in
-        .init(
-          resolver.resolveWrapper(ISurveyAppService.self),
-          resolver.resolveWrapper(AuthenticationUseCase.self))
-      }
-
-    container
-      .register(CustomerServiceHistoryViewModel.self) { resolver in
-        CustomerServiceHistoryViewModel(
-          resolver.resolveWrapper(IChatHistoryAppService.self))
+      .register(ChatHistoriesViewModel.self) { resolver in
+        ChatHistoriesViewModel(
+          resolver.resolveWrapper(IChatHistoryAppService.self),
+          resolver.resolveWrapper(PlayerConfiguration.self))
       }
     
     container
@@ -799,6 +792,21 @@ final class Injection {
           resolver.resolveWrapper(IChatHistoryAppService.self),
           resolver.resolveWrapper(PlayerConfiguration.self))
       }
+    
+    container
+      .register(ChatRoomViewModel.self) { resolver in
+        ChatRoomViewModel(
+          resolver.resolveWrapper(IChatAppService.self),
+          resolver.resolveWrapper(ISurveyAppService.self),
+          resolver.resolveWrapper(PlayerConfiguration.self))
+      }
+      .inObjectScope(.locale)
+    
+    container
+      .register(ChattingListViewModel.self) {
+        ChattingListViewModel($0.resolveWrapper(HttpClient.self))
+      }
+      .inObjectScope(.locale)
 
     container
       .register(TermsViewModel.self) { resolver in
@@ -1311,19 +1319,16 @@ final class Injection {
       .register(IChatAppService.self) { resolver in
         resolver.resolveWrapper(ICustomerServiceAppService.self)
       }
-      .inObjectScope(.locale)
     
     container
       .register(ISurveyAppService.self) { resolver in
         resolver.resolveWrapper(ICustomerServiceAppService.self)
       }
-      .inObjectScope(.locale)
     
     container
       .register(IChatHistoryAppService.self) { resolver in
         resolver.resolveWrapper(ICustomerServiceAppService.self)
       }
-      .inObjectScope(.locale)
   }
   
   // MARK: - CasinoModule

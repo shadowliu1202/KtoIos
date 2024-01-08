@@ -7,6 +7,11 @@ import XCTest
 @testable import ktobet_asia_ios_qat
 
 class CallingViewControllerTests: XCBaseTestCase {
+  class DummyChatRoomViewModel: ChatRoomViewModel {
+    override func setup(onChatRoomMaintain _: @escaping () -> Void) { }
+    override func readAllMessage(updateToLast _: Bool? = nil, isAuto _: Bool? = nil) { }
+  }
+  
   private func getStubViewModel() -> CallingViewModelMock {
     let dummyAbsCustomerServiceAppService = mock(AbsCustomerServiceAppService.self)
     given(dummyAbsCustomerServiceAppService.observeChatRoom()) ~> Observable.just(CustomerServiceDTO.ChatRoom.NOT_EXIST)
@@ -123,7 +128,13 @@ class CallingViewControllerTests: XCBaseTestCase {
       isMaintained: false))
       .eraseToAnyPublisher()
     
+    let dummyViewModel = DummyChatRoomViewModel(
+      mock(AbsCustomerServiceAppService.self),
+      mock(AbsCustomerServiceAppService.self),
+      PlayerConfigurationImpl(SupportLocale.Vietnam().cultureCode()))
+    
     injectFakeObject(CallingViewModel.self, object: viewModel)
+    injectFakeObject(ChatRoomViewModel.self, object: dummyViewModel)
     
     let sut = CallingViewController(surveyAnswers: nil)
     let navi = CustomServiceNavigationController(rootViewController: sut)

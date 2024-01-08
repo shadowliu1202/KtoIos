@@ -58,7 +58,7 @@ struct LazyImage<Success, Placeholder, Failure>: View
       contentView
         .visibility(downloader.result?.error == nil ? .visible : .gone)
     }
-    .onAppear {
+    .onViewDidLoad {
       Task {
         await downloader.image(
           from: url,

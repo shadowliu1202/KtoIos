@@ -49,7 +49,7 @@ struct PhotoPickerView: View {
         maxCount,
         submitButtonOnTap)
     }
-    .backgroundColor(.greyScaleBlack, ignoresSafeArea: true)
+    .backgroundColor(.greyScaleBlack, ignoresSafeArea: .all)
   }
   
   func toggleSelection(_ imageAsset: ImagePickerView.ImageAsset, _ isSelected: Binding<Bool>) {

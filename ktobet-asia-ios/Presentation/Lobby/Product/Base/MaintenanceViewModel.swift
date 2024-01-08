@@ -61,6 +61,7 @@ class MaintenanceViewModel: CollectErrorViewModel {
   
   func logout() -> Completable {
     CustomServicePresenter.shared.closeService()
+      .observe(on: MainScheduler.instance)
       .concat(authUseCase.logout())
       .trackOnDispose(loadingTracker)
   }

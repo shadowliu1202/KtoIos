@@ -3,7 +3,6 @@ import RxSwift
 import sharedbu
 
 protocol PlayerRepository {
-  func refreshHttpClient(playerLocale: SupportLocale)
   func loadPlayer() -> Single<Player>
   func fetchPlayerInfo() -> Single<PlayerBean>
   func getUtcOffset() -> Single<UtcOffset>
@@ -51,12 +50,6 @@ class PlayerRepositoryImpl: PlayerRepository {
     self.settingStore = settingStore
     self.localStorageRepo = localStorageRepo
     self.memoryRepo = memoryRepo
-  }
-
-  func refreshHttpClient(playerLocale: SupportLocale) {
-    localStorageRepo.setCultureCode(playerLocale.cultureCode())
-    Theme.shared.changeEntireAPPFont(by: playerLocale)
-    Injectable.resetObjectScope(.locale)
   }
 
   func loadPlayer() -> Single<Player> {

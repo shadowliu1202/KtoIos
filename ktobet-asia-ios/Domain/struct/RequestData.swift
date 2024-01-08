@@ -209,7 +209,7 @@ struct CustomerMessageData: Codable {
 }
 
 struct DeleteCsRecordsCodable: Codable {
-  let roomIds: [RoomId]
+  let roomIds: [String]
   let isExclude: Bool
 }
 
