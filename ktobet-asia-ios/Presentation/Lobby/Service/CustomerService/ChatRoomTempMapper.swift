@@ -67,8 +67,6 @@ class ChatRoomTempMapper {
           host: httpClient.host.absoluteString,
           path: content.image?.path() ?? "",
           isInChat: false))
-    case .link:
-      return ChatMessage.ContentLink(content: content.link)
     default:
       fatalError("should not reach here.")
     }

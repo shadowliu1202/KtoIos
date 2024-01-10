@@ -192,8 +192,7 @@ struct ChatRoomView_Previews: PreviewProvider {
             type: .text,
             text: "您本次的聊天编号为2102260022。\n您好，客服JOY将为您提供服务。",
             textAttributes: nil,
-            image: nil,
-            link: "")
+            image: nil)
         ],
         isProcessing: false),
       .init(
@@ -208,15 +207,13 @@ struct ChatRoomView_Previews: PreviewProvider {
             type: .text,
             text: "提款是否一定需要经过实名验证？",
             textAttributes: nil,
-            image: nil,
-            link: ""),
+            image: nil),
           .init(
             id: "1-1",
             type: .text,
             text: "实名验证要去哪里设定？",
             textAttributes: nil,
-            image: nil,
-            link: ""),
+            image: nil),
         ],
         isProcessing: false),
       .unreadSeperator,
@@ -232,15 +229,23 @@ struct ChatRoomView_Previews: PreviewProvider {
             type: .text,
             text: "是的，这是为了防治洗钱以及用户安全性问题。",
             textAttributes: nil,
-            image: nil,
-            link: ""),
+            image: nil),
           .init(
             id: "2-1",
-            type: .link,
+            type: .text,
             text: "YT",
-            textAttributes: nil,
-            image: nil,
-            link: "https://www.youtube.com")
+            textAttributes: .init(
+              align: nil,
+              background: nil,
+              bold: nil,
+              color: nil,
+              font: nil,
+              image: nil,
+              italic: nil,
+              link: "https://www.youtube.com",
+              size: nil,
+              underline: nil),
+            image: nil)
         ],
         isProcessing: false)
     ]
