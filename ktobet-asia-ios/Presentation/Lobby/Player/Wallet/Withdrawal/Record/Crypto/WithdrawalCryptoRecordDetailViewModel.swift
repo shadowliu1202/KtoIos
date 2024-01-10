@@ -159,7 +159,7 @@ extension WithdrawalDto.ProcessingMemo {
   }
 }
 
-extension Optional where Wrapped: ExchangeMemo {
+extension Swift.Optional where Wrapped: ExchangeMemo {
   fileprivate func replaceEmpty(from: String?, condition: Bool = true) -> String {
     if condition {
       return from.isNullOrEmpty() ? "-" : from!
