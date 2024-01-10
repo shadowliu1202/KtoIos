@@ -134,7 +134,7 @@ extension DepositCryptoRecordDetailViewModel {
   }
 }
 
-extension Optional where Wrapped: PaymentLogDTO.Log {
+extension Swift.Optional where Wrapped: PaymentLogDTO.Log {
   fileprivate var statusString: String {
     self?.status.toLogString() ?? "-"
   }
@@ -152,7 +152,7 @@ extension Optional where Wrapped: PaymentLogDTO.Log {
   }
 }
 
-extension Optional where Wrapped: PaymentLogDTO.ProcessingMemo {
+extension Swift.Optional where Wrapped: PaymentLogDTO.ProcessingMemo {
   fileprivate var address: String {
     self?.toAddress.isEmpty ?? true ? "-" : self!.toAddress
   }

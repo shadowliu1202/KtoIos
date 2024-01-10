@@ -50,7 +50,7 @@ enum CryptoRecord: Equatable {
   }
 }
 
-extension Optional where Wrapped: ExchangeMemo {
+extension Swift.Optional where Wrapped: ExchangeMemo {
   var toFiatSimpleName: String {
     self?.toFiat.simpleName ?? "-"
   }
