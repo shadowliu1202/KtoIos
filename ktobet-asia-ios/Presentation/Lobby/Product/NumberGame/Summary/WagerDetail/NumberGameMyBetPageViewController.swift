@@ -1,4 +1,5 @@
 import sharedbu
+import SwiftUI
 import UIKit
 
 protocol NumberGameMyBetPageViewDelegate: AnyObject {
@@ -27,6 +28,7 @@ class NumberGameMyBetPageViewController: UIPageViewController {
     return 0
   }()
 
+  var supportLocale: SupportLocale!
   weak var pageDelegate: NumberGameMyBetPageViewDelegate?
 
   override func viewDidLoad() {
@@ -34,50 +36,52 @@ class NumberGameMyBetPageViewController: UIPageViewController {
 
     self.delegate = self
     self.dataSource = self
-    if let detailVC = setupBetDetailViewController(initialPageIndex) {
+    if let detailVC = setupBetDetailContent(initialPageIndex) {
       self.setViewControllers([detailVC], direction: .forward, animated: false, completion: nil)
     }
   }
 
   func turnForwardPage() {
-    setBetDetailViewController(page + 1)
+    setBetDetailContent(page + 1)
   }
 
   func turnReversePage() {
-    setBetDetailViewController(page - 1)
+    setBetDetailContent(page - 1)
   }
 
-  private func setBetDetailViewController(_ page: Int) {
-    guard let detailVC = setupBetDetailViewController(page) else { return }
+  private func setBetDetailContent(_ page: Int) {
+    guard let detailVC = setupBetDetailContent(page) else { return }
     let direction: UIPageViewController.NavigationDirection = page > self.page ? .forward : .reverse
     self.page = page
     self.setViewControllers([detailVC], direction: direction, animated: false, completion: nil)
   }
 
-  private func setupBetDetailViewController(_ page: Int) -> UIViewController? {
-    if page < 0 || page > maxPage { return nil }
-    let storyboard = UIStoryboard(name: "NumberGame", bundle: Bundle.main)
+  private func setupBetDetailContent(_ page: Int) -> UIViewController? {
     guard
-      let detailVC = storyboard
-        .instantiateViewController(withIdentifier: "RecentDetailViewController") as? RecentDetailViewController
-    else {
-      return nil
-    }
-    detailVC.page = page
-    if let data = pageDelegate?.getData() {
-      detailVC.detailItem = data[page]
-    }
-    return detailVC
+      page >= 0, page <= maxPage,
+      let myBetDetails = pageDelegate?.getData()
+    else { return nil }
+    
+    let contentVC = UIHostingController(
+      rootView:
+      NumberGameMyBetDetailContent(
+        myBetDetail: myBetDetails[page],
+        page: page,
+        supportLocale: supportLocale))
+    
+    contentVC.view.backgroundColor = .greyScaleDefault
+    
+    return contentVC
   }
 }
 
 extension NumberGameMyBetPageViewController: UIPageViewControllerDataSource {
   func pageViewController(_: UIPageViewController, viewControllerBefore _: UIViewController) -> UIViewController? {
-    setupBetDetailViewController(page - 1)
+    setupBetDetailContent(page - 1)
   }
 
   func pageViewController(_: UIPageViewController, viewControllerAfter _: UIViewController) -> UIViewController? {
-    setupBetDetailViewController(page + 1)
+    setupBetDetailContent(page + 1)
   }
 }
 
@@ -89,8 +93,8 @@ extension NumberGameMyBetPageViewController: UIPageViewControllerDelegate {
     transitionCompleted _: Bool)
   {
     if finished {
-      guard let detailVC = viewControllers?.first as? RecentDetailViewController, let page = detailVC.page else { return }
-      self.page = page
+      guard let detailContentVC = viewControllers?.first as? UIHostingController<NumberGameMyBetDetailContent> else { return }
+      self.page = detailContentVC.rootView.page
     }
   }
 }

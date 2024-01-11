@@ -1,6 +1,7 @@
 import Combine
 import Mockingbird
 import sharedbu
+import SwiftUI
 import ViewInspector
 import XCTest
 
@@ -305,5 +306,97 @@ final class TransactionLogViewTests: XCBaseTestCase {
         .environmentObject(stubViewModel))
 
     wait(for: [expectation], timeout: 30)
+  }
+  
+  func test_givenPlayerHasOneRecordWithProviderLTPH_whenQueryThatRecord_thenDisplayNumberGameMyBetDetail_KTO_TC_905() {
+    let stubCashAdapter = mock(CashAdapter.self).initialize(getFakeHttpClient())
+    
+    given(stubCashAdapter.getIncomeOutcomeAmount(begin: any(), end: any(), balanceLogFilterType: any())) ~>
+      Single.just(ResponseItem(
+        data: IncomeOutcomeBean(incomeAmount: "0", outcomeAmount: "0"),
+        errorMsg: "",
+        node: "",
+        statusCode: "")).asWrapper()
+
+    given(stubCashAdapter.getCash(
+      begin: any(),
+      end: any(),
+      balanceLogFilterType: any(),
+      page: any(),
+      isDesc: any())) ~> Single.just(ResponsePayload(
+      data: Payload(
+        payload: [CashLogsBean(
+          date: "",
+          logs: [CashLogsBean.Log(
+            afterBalance: "0",
+            amount: "0",
+            bonusType: 0,
+            createdDate: "2023-11-02T14:05:18.2495371+07:00",
+            description: nil,
+            externalId: "",
+            shouldDisplayTransactionLogDetails: true,
+            issueNumber: 0,
+            previousBalance: "0",
+            productProvider: 18,
+            productType: 0,
+            subTitle: nil,
+            ticketType: nil,
+            transactionId: "",
+            transactionMode: nil,
+            transactionSubType: 0,
+            transactionType: 7,
+            wagerId: nil,
+            wagerType: 0,
+            isBonusLock: false)])],
+        totalCount: 1),
+      errorMsg: "",
+      node: "",
+      statusCode: ""))
+      .asWrapper()
+
+    injectFakeObject(CashProtocol.self, object: stubCashAdapter)
+    
+    let dummyNumberGameRecordViewModel = mock(NumberGameRecordViewModel.self)
+      .initialize(numberGameRecordUseCase: mock(NumberGameRecordUseCase.self))
+    
+    given(dummyNumberGameRecordViewModel.getGameDetail(wagerId: any())) ~> .just(NumberGameBetDetail(
+      displayId: "",
+      traceId: "",
+      gameName: "",
+      matchMethod: "",
+      betContent: [],
+      betTime: try! "2023-11-02T14:05:18.2495371+07:00".toLocalDateTime(),
+      stakes: FiatFactory.shared.create(supportLocale: .Vietnam(), amount_: "0"),
+      status: NumberGameBetDetail.BetStatusUnsettledPending(),
+      resultType: .other,
+      _result: ""))
+    
+    injectFakeObject(NumberGameRecordViewModel.self, object: dummyNumberGameRecordViewModel)
+    
+    let sut = TransactionLogViewController(nibName: nil, bundle: nil)
+    sut.loadViewIfNeeded()
+    
+    let publisher = PassthroughSubject<Void, Never>()
+    let contentView = (sut.children.first! as! UIHostingController<TransactionLogView<TransactionLogViewModel>>)
+      .rootView
+    let mockNavigationController = FakeNavigationController(rootViewController: sut)
+    
+    let expectation = contentView.inspection.inspect { view in
+      try view
+        .find(viewWithId: "section(at: 0)")
+        .find(viewWithId: "row(at: 0)")
+        .callOnTapGesture()
+      
+      publisher.send(())
+    }
+    
+    let expectation1 = contentView.inspection.inspect(onReceive: publisher) { _ in
+      let actual = mockNavigationController.lastNavigatedViewController
+      
+      XCTAssertTrue(actual is NumberGameMyBetDetailViewController)
+    }
+    
+    ViewHosting.host(view: contentView)
+    wait(for: [expectation, expectation1], timeout: 30)
   }
 }

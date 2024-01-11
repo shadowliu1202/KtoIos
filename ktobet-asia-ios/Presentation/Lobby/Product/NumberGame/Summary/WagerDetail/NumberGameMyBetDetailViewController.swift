@@ -7,6 +7,9 @@ class NumberGameMyBetDetailViewController: LobbyViewController {
   static let segueIdentifier = "toNumberGameMyBetDetail"
 
   @IBOutlet weak var pagecontol: KTOPageControl!
+  
+  @Injected private var playerConfiguration: PlayerConfiguration
+  
   var containerPageViewController: NumberGameMyBetPageViewController?
 
   var details: [NumberGameBetDetail]? {
@@ -67,6 +70,7 @@ class NumberGameMyBetDetailViewController: LobbyViewController {
     if let pageViewController = segue.destination as? NumberGameMyBetPageViewController {
       self.containerPageViewController = pageViewController
       pageViewController.pageDelegate = self
+      pageViewController.supportLocale = playerConfiguration.supportLocale
       pageViewController.initialPageIndex = self.selectedIndex
     }
   }
