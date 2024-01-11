@@ -9,7 +9,14 @@ protocol LogRowModel {
 
 @available(*, deprecated, message: "Waiting for refactor.")
 struct LogRow: View {
+  enum Identifier {
+    case row(at: Int)
+
+    var rawValue: String { "\(self)" }
+  }
+  
   let model: LogRowModel
+  let index: Int
 
   var onSelected: (() -> Void)?
 
@@ -57,6 +64,7 @@ struct LogRow: View {
     .onTapGesture {
       onSelected?()
     }
+    .id(Identifier.row(at: index).rawValue)
   }
 }
 
@@ -69,8 +77,8 @@ struct LogRow_Preview: PreviewProvider {
   }
 
   static var previews: some View {
-    LogRow(model: Dummy())
+    LogRow(model: Dummy(), index: 0)
 
-    LogRow(model: Dummy(statusConfig: nil))
+    LogRow(model: Dummy(statusConfig: nil), index: 0)
   }
 }

@@ -19,6 +19,8 @@ struct TransactionLogView<ViewModel>: View
   var onRowSelected: ((TransactionDTO.Log) -> Void)?
   var onPresentFilterController: (() -> Void)?
 
+  var inspection = Inspection<Self>()
+  
   var body: some View {
     SafeAreaReader {
       LogSummary(
@@ -50,6 +52,7 @@ struct TransactionLogView<ViewModel>: View
         onRowSelected?($0)
       }
     }
+    .onInspected(inspection, self)
   }
 }
 

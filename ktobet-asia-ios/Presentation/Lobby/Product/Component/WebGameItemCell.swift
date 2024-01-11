@@ -11,7 +11,7 @@ class WebGameItemCell: UICollectionViewCell {
   @IBOutlet weak var backgroundImage: UIImageView!
   @IBOutlet weak var favoriteBtn: UIButton!
   @IBOutlet weak var labTitle: UILabel!
-  @IBOutlet private weak var blurView: UIView!
+  @IBOutlet weak var blurView: UIView!
   @IBOutlet private weak var blurLabel: UILabel!
   @IBOutlet private weak var blurImageView: UIImageView!
   

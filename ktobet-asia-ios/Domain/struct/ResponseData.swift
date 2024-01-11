@@ -738,6 +738,7 @@ struct NumberGameBetDetailBean: Codable {
   let stakes: Double
   let status: Int
   let winLoss: Double
+  let gameResultDisplayType: Int32
 
   func toNumberGameBetDetail() throws -> NumberGameBetDetail {
     let betLocalTime = try betTime.toLocalDateTime()
@@ -750,7 +751,8 @@ struct NumberGameBetDetailBean: Codable {
       betTime: betLocalTime,
       stakes: stakes.toAccountCurrency(),
       status: RecentlyBet.convertToBetStatus(status: status, winLoss: winLoss),
-      result: resultNumber)
+      resultType: GameResultType.companion.parse(value: gameResultDisplayType),
+      _result: resultNumber)
   }
 }
 

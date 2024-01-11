@@ -42,6 +42,7 @@ struct LogSections<T: LogRowModel>: View {
 
                 LogRow(
                   model: log,
+                  index: rowIndex,
                   onSelected: {
                     onRowSelected?(log)
                   })
