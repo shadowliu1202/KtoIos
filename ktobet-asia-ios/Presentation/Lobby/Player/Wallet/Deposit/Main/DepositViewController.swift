@@ -32,6 +32,7 @@ class DepositViewController:
 
   deinit {
     Injectable.resetObjectScope(.depositFlow)
+    Logger.shared.info("DepositFlow reset")
   }
 }
 
