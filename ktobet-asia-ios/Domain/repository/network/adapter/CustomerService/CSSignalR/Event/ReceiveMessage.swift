@@ -46,9 +46,6 @@ class ReceiveMessage: ChatRoomVisitor {
       if let image = attributes?.image {
         return ChatMessage_.ContentImage(image: ChatImage(path: image, inChat: true))
       }
-      else if let link = attributes?.link {
-        return ChatMessage_.ContentLink(content: link)
-      }
       else {
         return ChatMessage_.ContentText(content: $0.insert, attributes: attributes?.convert())
       }

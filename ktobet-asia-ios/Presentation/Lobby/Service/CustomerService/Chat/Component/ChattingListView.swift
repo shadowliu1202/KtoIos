@@ -2,25 +2,63 @@ import Combine
 import sharedbu
 import SwiftUI
 
+extension CustomerServiceDTO.Content {
+  func toWrapContent() -> ChattingListView.WrapContent {
+    let type: ChattingListView.CompositeContent.ContentType
+    
+    if image != nil {
+      type = .image
+    }
+    else if
+      let attributes = textAttributes,
+      attributes.link != nil
+    {
+      type = .link
+    }
+    else {
+      type = .text
+    }
+    
+    return ChattingListView.WrapContent(type: type, content: self)
+  }
+}
+
 extension ChattingListView {
+  // FIXME: Refactor after SwiftUI3
+  struct WrapContent {
+    let type: CompositeContent.ContentType
+    let content: CustomerServiceDTO.Content
+  }
+  
   struct CompositeContent: Identifiable {
+    enum ContentType {
+      case text
+      case image
+      case link
+    }
+    
     let id: String
-    let type: CustomerServiceDTO.ContentType
+    let type: ContentType
     let contents: [CustomerServiceDTO.Content]
   }
 }
 
 private func groupSameType(of contents: [CustomerServiceDTO.Content]) -> [ChattingListView.CompositeContent] {
   var partialResult: [ChattingListView.CompositeContent] = []
-  var tempGroup: [CustomerServiceDTO.Content] = []
+  var tempGroup: [ChattingListView.WrapContent] = []
 
+  let contents = contents.map { $0.toWrapContent() }
+  
   for content in contents {
     if let first = tempGroup.first {
       if first.type == content.type {
         tempGroup.append(content)
       }
       else {
-        partialResult.append(ChattingListView.CompositeContent(id: first.id, type: first.type, contents: tempGroup))
+        partialResult.append(ChattingListView.CompositeContent(
+          id: first.content.id,
+          type: first.type,
+          contents: tempGroup.map { $0.content }))
         tempGroup = [content]
       }
     }
@@ -30,7 +68,10 @@ private func groupSameType(of contents: [CustomerServiceDTO.Content]) -> [Chatti
   }
 
   if let first = tempGroup.first {
-    partialResult.append(ChattingListView.CompositeContent(id: first.id, type: first.type, contents: tempGroup))
+    partialResult.append(ChattingListView.CompositeContent(
+      id: first.content.id,
+      type: first.type,
+      contents: tempGroup.map { $0.content }))
   }
 
   return partialResult
@@ -394,15 +435,30 @@ extension ChattingListView {
     }
     
     var body: some View {
-      ForEach(compositeContent.contents, id: \.id) { content in
-        if let url = URL(string: content.link) {
+      ForEach(reduceSameLink(compositeContent.contents), id: \.id) { content in
+        if
+          let link = content.textAttributes?.link,
+          let url = URL(string: link)
+        {
           Link(destination: url) {
-            Text(content.link)
+            Text(link)
               .underline(true, color: Color(UIColor.primaryDefault))
               .localized(weight: .regular, size: 14, color: .primaryDefault)
               .id(ChattingListView.TestTag.link.rawValue)
           }
         }
+      }
+    }
+    
+    func reduceSameLink(_ contents: [CustomerServiceDTO.Content]) -> [CustomerServiceDTO.Content] {
+      contents.reduce([CustomerServiceDTO.Content]()) { partialResult, content in
+        var partialResult = partialResult
+        
+        if content.textAttributes?.link != partialResult.last?.textAttributes?.link {
+          partialResult.append(content)
+        }
+        
+        return partialResult
       }
     }
   }
@@ -475,8 +531,7 @@ struct ChattingListView_Previews: PreviewProvider {
               type: .text,
               text: "您本次的聊天编号为2102260022。\n您好，客服JOY将为您提供服务。",
               textAttributes: nil,
-              image: nil,
-              link: "")
+              image: nil)
           ],
           isProcessing: false),
         .init(
@@ -491,15 +546,13 @@ struct ChattingListView_Previews: PreviewProvider {
               type: .text,
               text: "提款是否一定需要经过实名验证？",
               textAttributes: nil,
-              image: nil,
-              link: ""),
+              image: nil),
             .init(
               id: "1-1",
               type: .text,
               text: "实名验证要去哪里设定？",
               textAttributes: nil,
-              image: nil,
-              link: ""),
+              image: nil),
           ],
           isProcessing: false),
         .unreadSeperator,
@@ -515,15 +568,23 @@ struct ChattingListView_Previews: PreviewProvider {
               type: .text,
               text: "是的，这是为了防治洗钱以及用户安全性问题。",
               textAttributes: nil,
-              image: nil,
-              link: ""),
+              image: nil),
             .init(
               id: "2-1",
-              type: .link,
+              type: .text,
               text: "YT",
-              textAttributes: nil,
-              image: nil,
-              link: "https://www.youtube.com")
+              textAttributes: .init(
+                align: nil,
+                background: nil,
+                bold: nil,
+                color: nil,
+                font: nil,
+                image: nil,
+                italic: nil,
+                link: "https://www.youtube.com",
+                size: nil,
+                underline: nil),
+              image: nil)
           ],
           isProcessing: false),
       ],

@@ -30,8 +30,7 @@ final class ChatHistoriesViewTests: XCTestCase {
             type: .text,
             text: "实名验证要去哪里设定？",
             textAttributes: nil,
-            image: nil,
-            link: "")),
+            image: nil)),
         enableScrollAnimation: false)
     }
     
@@ -58,8 +57,7 @@ final class ChatHistoriesViewTests: XCTestCase {
             type: .image,
             text: "",
             textAttributes: nil,
-            image: ChatImage(path: "/image/chatting/64ae236755595818e492a924.jpg?type=1", inChat: false),
-            link: "")),
+            image: ChatImage(path: "/image/chatting/64ae236755595818e492a924.jpg?type=1", inChat: false))),
         enableScrollAnimation: false)
     }
     
@@ -81,11 +79,20 @@ final class ChatHistoriesViewTests: XCTestCase {
         messages: getChatHistory(
           content: .init(
             id: "1",
-            type: .link,
+            type: .text,
             text: "YT",
-            textAttributes: nil,
-            image: nil,
-            link: "https://www.youtube.com")),
+            textAttributes: .init(
+              align: nil,
+              background: nil,
+              bold: nil,
+              color: nil,
+              font: nil,
+              image: nil,
+              italic: nil,
+              link: "https://www.youtube.com",
+              size: nil,
+              underline: nil),
+            image: nil)),
         enableScrollAnimation: false)
     }
     
