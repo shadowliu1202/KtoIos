@@ -173,6 +173,14 @@ class CommonVerifyOtpViewController: CommonViewController {
     }
 
     delegate.resendOtp()
+      .observe(on: MainScheduler.instance)
+      .do(
+        onSubscribe: { [btnResend] in
+          btnResend?.isValid = false
+        },
+        onDispose: { [btnResend] in
+          btnResend?.isValid = true
+        })
       .subscribe(
         onCompleted: { [weak self] in
           self?.showToast(Localize.string("common_otp_send_success"), barImg: .success)
