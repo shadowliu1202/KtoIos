@@ -194,21 +194,15 @@ final class Injection {
   
   func registRepo() {
     container
-      .register(PlayerRepository.self) { resolver in
-        let httpClient = resolver.resolveWrapper(HttpClient.self)
-        let player = resolver.resolveWrapper(PlayerApi.self)
-        let portal = resolver.resolveWrapper(PortalApi.self)
-        let settingStore = resolver.resolveWrapper(SettingStore.self)
-        let localStorageRepositoryImpl = resolver.resolveWrapper(LocalStorageRepository.self)
-        let memoryCacheImpl = resolver.resolveWrapper(MemoryCacheImpl.self)
-
-        return PlayerRepositoryImpl(
-          httpClient,
-          player,
-          portal,
-          settingStore,
-          localStorageRepositoryImpl,
-          memoryCacheImpl)
+      .register(PlayerRepository.self) {
+        PlayerRepositoryImpl(
+          $0.resolveWrapper(HttpClient.self),
+          $0.resolveWrapper(PlayerApi.self),
+          $0.resolveWrapper(PortalApi.self),
+          $0.resolveWrapper(SettingStore.self),
+          $0.resolveWrapper(LocalStorageRepository.self),
+          $0.resolveWrapper(MemoryCacheImpl.self),
+          $0.resolveWrapper(DefaultProductProtocol.self))
       }
 
     container
@@ -667,10 +661,11 @@ final class Injection {
       }
 
     container
-      .register(DefaultProductViewModel.self) { resolver in
-        let usecase = resolver.resolveWrapper(ConfigurationUseCase.self)
-        let systemUseCase = resolver.resolveWrapper(ISystemStatusUseCase.self)
-        return DefaultProductViewModel(usecase, systemUseCase)
+      .register(DefaultProductViewModel.self) {
+        DefaultProductViewModel(
+          $0.resolveWrapper(ConfigurationUseCase.self),
+          $0.resolveWrapper(ISystemStatusUseCase.self),
+          $0.resolveWrapper(DefaultProductAppService.self))
       }
 
     container
@@ -833,10 +828,10 @@ final class Injection {
       }
 
     container
-      .register(ConfigurationViewModel.self) { resolver in
-        let useCaseConfiguration = resolver.resolveWrapper(ConfigurationUseCase.self)
-        let localStorageRepo = resolver.resolve(LocalStorageRepository.self)!
-        return ConfigurationViewModel(useCaseConfiguration, localStorageRepo)
+      .register(ConfigurationViewModel.self) {
+        ConfigurationViewModel(
+          $0.resolveWrapper(LocalStorageRepository.self),
+          $0.resolveWrapper(DefaultProductAppService.self))
       }
 
     container
@@ -1140,6 +1135,7 @@ final class Injection {
     registerCasinoModule()
     registerP2PModule()
     registerTransactionModule()
+    registerPlayerSettingModule()
   }
 
   // MARK: - ExternalProtocol
@@ -1240,6 +1236,10 @@ final class Injection {
     
     container.register(PromotionProtocol.self) { _ in
       PromotionAdapter()
+    }
+    
+    container.register(DefaultProductProtocol.self) {
+      DefaultProductAdapter($0.resolveWrapper(HttpClient.self))
     }
   }
 
@@ -1377,6 +1377,14 @@ final class Injection {
         cashProtocol: $0.resolveWrapper(CashProtocol.self),
         stringSupporter: $0.resolveWrapper(StringSupporter.self),
         transactionResource: TransactionResourceAdapter())
+    }
+  }
+  
+  // MARK: - PlayerSettingModule
+  
+  func registerPlayerSettingModule() {
+    container.register(DefaultProductAppService.self) {
+      ProvideModule.shared.defaultProductAppService(defaultProductProtocol: $0.resolveWrapper(DefaultProductProtocol.self))
     }
   }
 }

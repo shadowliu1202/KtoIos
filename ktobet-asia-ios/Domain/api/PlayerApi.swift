@@ -62,34 +62,6 @@ class PlayerApi: ApiService {
     return httpClient.request(target).map(NonNullResponseData<Nothing>.self)
   }
 
-  func setFavoriteProduct(productId: Int) -> Completable {
-    let target = APITarget(
-      baseUrl: httpClient.host,
-      path: "api/profile/favorite-product/\(productId)",
-      method: .post,
-      task: .requestPlain,
-      header: httpClient.headers)
-    return httpClient.request(target).asCompletable()
-  }
-
-  func getFavoriteProduct() -> Single<Int> {
-    let target = APITarget(
-      baseUrl: httpClient.host,
-      path: "api/profile/favorite-product",
-      method: .get,
-      task: .requestPlain,
-      header: httpClient.headers)
-    return httpClient.request(target).map { response -> Int in
-      guard
-        let json = try? JSON(data: response.data),
-        let productType = json["data"].int
-      else {
-        return 0
-      }
-      return productType
-    }
-  }
-
   func getCashBalance() -> Single<ResponseData<Double>> {
     let target = APITarget(
       baseUrl: httpClient.host,

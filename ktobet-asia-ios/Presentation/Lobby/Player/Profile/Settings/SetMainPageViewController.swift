@@ -12,7 +12,7 @@ class SetMainPageViewController: LobbyViewController {
   @IBOutlet weak var numbergameView: ProductItemView!
   @IBOutlet weak var submitBtn: UIButton!
 
-  private var selectedProduct: ProductType!
+  private var selectedProduct: DefaultProductType!
   private var viewModel = Injectable.resolve(ConfigurationViewModel.self)!
   private var disposeBag = DisposeBag()
 
@@ -52,19 +52,30 @@ class SetMainPageViewController: LobbyViewController {
   private func saveDefaultProduct() {
     viewModel
       .saveDefaultProduct(productType: self.selectedProduct)
-      .subscribe(onCompleted: { [weak self] in
-        guard let self else { return }
-
-        self.popThenToastSuccess()
-        self.viewModel.refreshPlayerInfoCache(self.selectedProduct)
+      .subscribe(onCompleted: { [unowned self] in
+        popThenToastSuccess()
+        viewModel.refreshPlayerInfoCache(convertDefaultProduct(selectedProduct))
       }, onError: { [weak self] in
         self?.submitBtn.isEnabled = true
         self?.handleErrors($0)
       })
       .disposed(by: disposeBag)
   }
+  
+  @available(*, deprecated, message: "will remove after move player profile to sharebu")
+  private func convertDefaultProduct(_ type: DefaultProductType) -> ProductType {
+    switch type {
+    case .slot: return ProductType.slot
+    case .casino: return ProductType.casino
+    case .sbk: return ProductType.sbk
+    case .numbergame: return ProductType.numbergame
+    default: return .none
+    }
+  }
 
-  private func changeSelected(_ productType: ProductType) {
+  private func changeSelected(_ productType: DefaultProductType?) {
+    guard let productType else { return }
+    
     sportbookView.isSelected = false
     casinoView.isSelected = false
     slotView.isSelected = false
@@ -80,13 +91,8 @@ class SetMainPageViewController: LobbyViewController {
     case .numbergame:
       self.numbergameView.isSelected = true
     default:
-      self.selectedProduct = ProductType.none
+      fatalError("should not reach here.")
     }
-    self.setUpSubmitBtn(selectedProduct)
-  }
-
-  private func setUpSubmitBtn(_ productType: ProductType) {
-    self.submitBtn.isValid = productType != .none
   }
 
   private func popThenToastSuccess() {
@@ -96,13 +102,16 @@ class SetMainPageViewController: LobbyViewController {
   }
 }
 
-func methodPointer<T: AnyObject>(obj: T, method: @escaping (T) -> (ProductType) -> Void) -> ((ProductType) -> Void) {
+func methodPointer<T: AnyObject>(
+  obj: T,
+  method: @escaping (T) -> (DefaultProductType?) -> Void) -> ((DefaultProductType?) -> Void)
+{
   return { [unowned obj] in method(obj)($0) }
 }
 
 class ProductItemView: UIView {
-  private var clickCallback: ((_ productType: ProductType) -> Void)?
-  private(set) var productType: ProductType!
+  private var clickCallback: ((_ productType: DefaultProductType) -> Void)?
+  private(set) var productType: DefaultProductType!
   @IBOutlet private weak var radioButton: RadioButton!
 
   var isSelected = false {
@@ -121,12 +130,12 @@ class ProductItemView: UIView {
     addGesture()
   }
 
-  func setProductType(_ type: ProductType) -> ProductItemView {
+  func setProductType(_ type: DefaultProductType) -> ProductItemView {
     self.productType = type
     return self
   }
 
-  func setOnClick(_ callback: @escaping (_ productType: ProductType) -> Void) {
+  func setOnClick(_ callback: @escaping (_ productType: DefaultProductType) -> Void) {
     self.clickCallback = callback
   }
 
