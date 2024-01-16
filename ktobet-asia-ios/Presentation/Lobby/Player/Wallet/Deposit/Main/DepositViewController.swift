@@ -13,12 +13,6 @@ class DepositViewController:
 
   private let disposeBag = DisposeBag()
 
-  init?(coder: NSCoder, viewModel: DepositViewModel, playerConfig: PlayerConfiguration) {
-    super.init(coder: coder)
-    self.viewModel = viewModel
-    self.playerConfig = playerConfig
-  }
-
   required init?(coder: NSCoder) {
     super.init(coder: coder)
   }
@@ -28,11 +22,6 @@ class DepositViewController:
 
     setupUI()
     binding()
-  }
-
-  deinit {
-    Injectable.resetObjectScope(.depositFlow)
-    Logger.shared.info("DepositFlow reset")
   }
 }
 

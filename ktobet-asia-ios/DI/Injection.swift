@@ -1279,7 +1279,7 @@ final class Injection {
           depositStringService: $0.resolveWrapper(ExternalStringService.self).deposit(),
           stringSupporter: $0.resolveWrapper(StringSupporter.self))
       }
-      .inObjectScope(.depositFlow)
+      .inObjectScope(.locale)
 
     container
       .register(IWithdrawalAppService.self) { resolver in
@@ -1290,7 +1290,7 @@ final class Injection {
           cryptoProtocol: resolver.resolveWrapper(CryptoProtocol.self),
           playerConfiguration: resolver.resolveWrapper(PlayerConfiguration.self))
       }
-      .inObjectScope(.withdrawalFlow)
+      .inObjectScope(.locale)
   }
   
   // MARK: - CustomerServiceModule

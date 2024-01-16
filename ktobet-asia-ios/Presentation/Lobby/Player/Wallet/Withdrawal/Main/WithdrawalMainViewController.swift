@@ -30,10 +30,6 @@ class WithdrawalMainViewController:
     return vc
   }
 
-  deinit {
-    Injectable.resetObjectScope(.withdrawalFlow)
-  }
-
   override func viewDidLoad() {
     super.viewDidLoad()
     setupUI()
