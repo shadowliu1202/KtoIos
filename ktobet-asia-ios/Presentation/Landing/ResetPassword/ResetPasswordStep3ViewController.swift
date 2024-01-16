@@ -100,13 +100,25 @@ class ResetPasswordStep3ViewController: LandingViewController {
 
   @IBAction
   func btnSubmitPressed(_: Any) {
-    viewModel.doResetPassword().subscribe { [weak self] in
-      self?.changePasswordSuccess = true
-      self?.performSegue(withIdentifier: "unwindToLogin", sender: nil)
-    } onError: { [weak self] error in
-      self?.changePasswordSuccess = false
-      self?.handleError(error)
-    }.disposed(by: disposeBag)
+    viewModel.doResetPassword()
+      .observe(on: MainScheduler.instance)
+      .do(
+        onSubscribe: { [btnSubmit] in
+          btnSubmit?.isValid = false
+        },
+        onDispose: { [btnSubmit] in
+          btnSubmit?.isValid = true
+        })
+      .subscribe(
+        onCompleted: { [weak self] in
+          self?.changePasswordSuccess = true
+          self?.performSegue(withIdentifier: "unwindToLogin", sender: nil)
+        },
+        onError: { [weak self] error in
+          self?.changePasswordSuccess = false
+          self?.handleError(error)
+        })
+      .disposed(by: disposeBag)
   }
 
   override func prepare(for segue: UIStoryboardSegue, sender _: Any?) {

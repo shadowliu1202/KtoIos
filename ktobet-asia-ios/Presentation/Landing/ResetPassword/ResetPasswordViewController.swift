@@ -325,13 +325,25 @@ extension ResetPasswordViewController {
 
   @IBAction
   func btnResetPasswordPressed(_: Any) {
-    viewModel.requestPasswordReset(selectedVerifyWay).subscribe { [weak self] in
-      self?.viewModel.retryCount = 0
-      self?.navigateToStep2()
-    } onError: { [weak self] error in
-      self?.viewModel.retryCount += 1
-      self?.handleError(error)
-    }.disposed(by: disposeBag)
+    viewModel.requestPasswordReset(selectedVerifyWay)
+      .observe(on: MainScheduler.instance)
+      .do(
+        onSubscribe: { [btnSubmit] in
+          btnSubmit?.isValid = false
+        },
+        onDispose: { [btnSubmit] in
+          btnSubmit?.isValid = true
+        })
+      .subscribe(
+        onCompleted: ({ [weak self] in
+          self?.viewModel.retryCount = 0
+          self?.navigateToStep2()
+        }),
+        onError: { [weak self] error in
+          self?.viewModel.retryCount += 1
+          self?.handleError(error)
+        })
+      .disposed(by: disposeBag)
   }
 }
 
