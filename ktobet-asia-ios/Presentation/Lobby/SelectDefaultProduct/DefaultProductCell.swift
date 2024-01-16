@@ -41,11 +41,11 @@ class DefaultProductCell: UITableViewCell {
     self.viewShadow.layer.shadowRadius = 5
   }
 
-  func setup(_ gameType: ProductType, _ local: SupportLocale, _ selectedGameType: ProductType?, _ host: String) {
+  func setup(_ gameType: DefaultProductType, _ local: SupportLocale, _ selectedGameType: DefaultProductType?, _ host: String) {
     let isSelected = gameType == selectedGameType ? true : false
     self.imgBackground.sd_setImage(url: try! getSelectImgUrl(host, gameType))
     self.imgMask.isHidden = isSelected
-    self.labTitle.text = StringMapper.parseProductTypeString(productType: gameType)
+    self.labTitle.text = gameType.localizeString
     self.labDesc.text = try! getDesc(gameType)
     self.viewBg.layer.borderWidth = isSelected ? 1 : 0
     self.viewBg.layer
@@ -58,7 +58,7 @@ class DefaultProductCell: UITableViewCell {
     titleTrailing.constant = Theme.shared.getDefaultProductTextPadding(by: local)
   }
 
-  private func getDesc(_ productType: ProductType) throws -> String {
+  private func getDesc(_ productType: DefaultProductType) throws -> String {
     switch productType {
     case .sbk:
       return Localize.string("profile_defaultproduct_sportsbook_description")
@@ -73,7 +73,7 @@ class DefaultProductCell: UITableViewCell {
     }
   }
 
-  private func getSelectImgUrl(_ host: String, _ productType: ProductType) throws -> URL? {
+  private func getSelectImgUrl(_ host: String, _ productType: DefaultProductType) throws -> URL? {
     switch productType {
     case .sbk:
       return URL(string: "\(host)/img/app/sbk.png")

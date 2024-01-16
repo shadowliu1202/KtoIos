@@ -4,21 +4,24 @@ import sharedbu
 import UIKit
 
 class DefaultProductViewModel {
-  private var disposeBag = DisposeBag()
-  private var usecaseConfig: ConfigurationUseCase!
-  private let systemStatusUseCase: ISystemStatusUseCase!
+  private let useCaseConfig: ConfigurationUseCase
+  private let systemStatusUseCase: ISystemStatusUseCase
+  private let appService: DefaultProductAppService
 
-  init(_ usecaseConfig: ConfigurationUseCase, _ systemStatusUseCase: ISystemStatusUseCase) {
-    self.usecaseConfig = usecaseConfig
+  private let disposeBag = DisposeBag()
+
+  init(
+    _ useCaseConfig: ConfigurationUseCase,
+    _ systemStatusUseCase: ISystemStatusUseCase,
+    _ appService: DefaultProductAppService)
+  {
+    self.useCaseConfig = useCaseConfig
     self.systemStatusUseCase = systemStatusUseCase
+    self.appService = appService
   }
-
-  func saveDefaultProduct(_ type: ProductType) -> Completable {
-    usecaseConfig.saveDefaultProduct(type)
-  }
-
-  func getPlayerInfo() -> Single<Player> {
-    usecaseConfig.getPlayerInfo()
+  
+  func setDefaultProduct(_ type: DefaultProductType) -> Completable {
+    Completable.from(appService.setDefaultProduct(type: type))
   }
 
   func getPortalMaintenanceState() -> Single<MaintenanceStatus> {

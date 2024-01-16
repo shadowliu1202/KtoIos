@@ -71,16 +71,7 @@ class NavigationViewModel {
       }
     }
   }
-
-  func getLobbyNavigation(_ playerSetting: PlayerSetting, _: MaintenanceStatus.Product) -> LobbyPageNavigation {
-    if playerSetting.defaultProduct == ProductType.none {
-      return .setDefaultProduct
-    }
-    else {
-      return .playerDefaultProduct(playerSetting.defaultProduct!)
-    }
-  }
-
+  
   private func getLoginNeededStatus() -> Single<MaintenanceStatus> {
     initLocale().andThen(systemStatusUseCase.fetchMaintenanceStatus())
   }

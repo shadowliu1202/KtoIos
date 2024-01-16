@@ -35,6 +35,7 @@ class PlayerRepositoryImpl: PlayerRepository {
   private var settingStore: SettingStore!
   private let localStorageRepo: LocalStorageRepository
   private let memoryRepo: MemoryCacheImpl
+  private let defaultProductProtocol: DefaultProductProtocol
 
   init(
     _ httpClient: HttpClient,
@@ -42,7 +43,8 @@ class PlayerRepositoryImpl: PlayerRepository {
     _ portalApi: PortalApi,
     _ settingStore: SettingStore,
     _ localStorageRepo: LocalStorageRepository,
-    _ memoryRepo: MemoryCacheImpl)
+    _ memoryRepo: MemoryCacheImpl,
+    _ defaultProductProtocol: DefaultProductProtocol)
   {
     self.httpClient = httpClient
     self.playerApi = playerApi
@@ -50,6 +52,7 @@ class PlayerRepositoryImpl: PlayerRepository {
     self.settingStore = settingStore
     self.localStorageRepo = localStorageRepo
     self.memoryRepo = memoryRepo
+    self.defaultProductProtocol = defaultProductProtocol
   }
 
   func loadPlayer() -> Single<Player> {
@@ -118,23 +121,32 @@ class PlayerRepositoryImpl: PlayerRepository {
   }
 
   func getDefaultProduct() -> Single<ProductType> {
-    playerApi.getFavoriteProduct().map { [weak self] type -> ProductType in
-      self?.settingStore?.defaultProduct = Int32(type)
-      switch type {
-      case 0: return ProductType.none
-      case 1: return ProductType.slot
-      case 2: return ProductType.casino
-      case 3: return ProductType.sbk
-      case 4: return ProductType.numbergame
-      default: return ProductType.none
+    Single.from(defaultProductProtocol.getFavoriteProduct())
+      .map { $0.data?.int32Value }
+      .map { [weak self] in
+        guard let self else { return .none }
+        
+        self.settingStore.defaultProduct = $0
+        return self.convertDefaultProduct(type: $0)
       }
+  }
+  
+  @available(*, deprecated, message: "will remove after move player profile to sharebu")
+  private func convertDefaultProduct(type: Int32?) -> ProductType {
+    switch type {
+    case 1: return ProductType.slot
+    case 2: return ProductType.casino
+    case 3: return ProductType.sbk
+    case 4: return ProductType.numbergame
+    default: return .none
     }
   }
 
   func saveDefaultProduct(_ productType: ProductType) -> Completable {
-    playerApi.setFavoriteProduct(productId: Int(productType.ordinal)).do(onCompleted: { [weak self] in
-      self?.settingStore?.defaultProduct = productType.ordinal
-    })
+    Completable.from(defaultProductProtocol.setFavoriteProduct(productId: productType.ordinal))
+      .do(onCompleted: { [weak self] in
+        self?.settingStore?.defaultProduct = productType.ordinal
+      })
   }
 
   func getBalance(_ supportLocale: SupportLocale) -> Single<AccountCurrency> {
