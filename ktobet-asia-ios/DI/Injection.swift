@@ -1063,7 +1063,6 @@ final class Injection {
         .init(
           resolver.resolveWrapper(IChatHistoryAppService.self),
           resolver.resolveWrapper(IChatAppService.self),
-          resolver.resolveWrapper(PlayerConfiguration.self),
           resolver.resolveWrapper(ISurveyAppService.self))
       }
       .inObjectScope(.locale)

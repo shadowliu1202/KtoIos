@@ -5,10 +5,16 @@ import sharedbu
 
 protocol ImageRepository {
   var imageApi: ImageApiProtocol { get }
-  func uploadImage(imageData: Data) -> Single<UploadImageDetail>
+  func uploadImage(imageData: Data) -> Single<UploadImage>
 }
 
-extension ImageRepository {
+class ImageRepositoryImpl: ImageRepository {
+  var imageApi: ImageApiProtocol
+
+  init(_ imageApi: ImageApi) {
+    self.imageApi = imageApi
+  }
+  
   func uploadImagePath(_ imagePath: ImagePath) -> SingleWrapper<ImageToken> {
     guard let (chunks, imageSize) = ImageSplitter.processImage(by: imagePath.uri)
     else { return Single<ImageToken>.error(KTOError.EmptyData).asWrapper() }
@@ -64,21 +70,18 @@ extension ImageRepository {
     .asWrapper()
   }
   
-  func uploadImage(imageData: Data) -> Single<UploadImageDetail> {
+  func uploadImage(imageData: Data) -> Single<UploadImage> {
     do {
-      let uuid = UUID().uuidString + ".jpeg"
-      let completables = try createChunks(imageData: imageData, uuid: uuid)
+      let fileName = UUID().uuidString + ".jpeg"
+      let requests = try createUploadRequests(imageData: imageData, uuid: fileName)
 
-      return Single<UploadImageDetail>.create(subscribe: { single in
+      return Single<UploadImage>.create(subscribe: { single in
         let subscription = Observable
-          .concat(completables)
+          .concat(requests)
           .takeLast(1)
           .do(onNext: {
-            let uploadImageDetail = UploadImageDetail(
-              uriString: uuid,
-              portalImage: PortalImage.Private(imageId: $0, fileName: uuid, host: uuid),
-              fileName: uuid)
-            single(.success(uploadImageDetail))
+            let image = UploadImage(imageToken: ImageToken(token: $0), fileName: fileName)
+            single(.success(image))
           })
           .subscribe()
 
@@ -90,9 +93,9 @@ extension ImageRepository {
     }
   }
 
-  private func createChunks(imageData: Data, uuid: String) throws -> [Observable<String>] {
+  private func createUploadRequests(imageData: Data, uuid: String) throws -> [Observable<String>] {
     var chunks: [Data] = []
-    var completables: [Observable<String>] = []
+    var requests: [Observable<String>] = []
     let mimiType = "image/jpeg"
     let totalSize = imageData.count
     let dataLen = imageData.count
@@ -136,13 +139,14 @@ extension ImageRepository {
       let m9 = MultipartFormData(provider: .data(String(chunks.count).data(using: .utf8)!), name: "resumableTotalChunks")
       let multiPartData = MultipartFormData(provider: .data(chunk), name: "file", fileName: uuid, mimeType: mimiType)
       let query = try createQuery(chunkImageDetil: chunkImageDetil)
-      completables
+      requests
         .append(
           imageApi.uploadImage(query: query, imageData: [m1, m2, m3, m4, m5, m6, m7, m8, m9, multiPartData])
-            .map { $0.data ?? "" }.asObservable())
+            .map { $0.data ?? "" }
+            .asObservable())
     }
 
-    return completables
+    return requests
   }
 
   private func createQuery(chunkImageDetil: ChunkImageDetil) throws -> [String: Any] {
@@ -156,17 +160,5 @@ extension ImageRepository {
     }
 
     return query
-  }
-}
-
-class ImageRepositoryImpl: ImageRepository, UploadImageProtocol {
-  var imageApi: ImageApiProtocol
-
-  init(_ imageApi: ImageApi) {
-    self.imageApi = imageApi
-  }
-  
-  func upload(imagePath: ImagePath) -> SingleWrapper<ImageToken> {
-    uploadImagePath(imagePath)
   }
 }

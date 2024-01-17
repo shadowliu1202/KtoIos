@@ -9,17 +9,11 @@ class CustomerServiceViewModel {
   private let playerConfiguration: PlayerConfiguration
   private let loading: Loading
   
-  private let chatRoomTempMapper = ChatRoomTempMapper()
-  
   private lazy var observeChatRoom = Observable.from(chatAppService.observeChatRoom()).share(replay: 1)
 
-  lazy var chatRoomUnreadMessage = currentChatRoom()
-    .compactMap { [weak chatRoomTempMapper] in chatRoomTempMapper?.convertToUnreadMessages($0) }
-
-  lazy var chatRoomStatus = currentChatRoom()
-    .compactMap { [weak chatRoomTempMapper] in chatRoomTempMapper?.convertToStatus($0) }
-      
-  lazy var isPlayerInChat = chatRoomStatus.map { $0 != PortalChatRoom.ConnectStatus.notexist }
+  lazy var chatRoomUnreadMessage = observeChatRoom.map { $0.unReadMessage }
+  lazy var chatRoomStatus = observeChatRoom.map { $0.status }
+  lazy var isPlayerInChat = chatRoomStatus.map { $0 != Connection.StatusNotExist() }
   
   init(
     _ chatAppService: ICustomerServiceAppService,
@@ -29,10 +23,6 @@ class CustomerServiceViewModel {
     self.chatAppService = chatAppService
     self.playerConfiguration = playerConfiguration
     self.loading = loading
-  }
-
-  func currentChatRoom() -> Observable<CustomerServiceDTO.ChatRoom> {
-    observeChatRoom
   }
 
   func closeChatRoom(forceExit: Bool = false) -> Single<CustomerServiceDTO.ExitChat> {

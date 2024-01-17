@@ -115,9 +115,7 @@ struct WithdrawalRecordDetailView_Previews: PreviewProvider {
       case .floating:
         isCancelable = true
         selectedImages = (0...2).map { _ in
-          .init(
-            image: .init(named: "AppIconNotProd")!,
-            detail: .init(uriString: "", portalImage: .Public(imageId: "", fileName: "", host: ""), fileName: ""))
+          .init(image: UIImage(named: "AppIconNotProd")!)
         }
 
       default: return

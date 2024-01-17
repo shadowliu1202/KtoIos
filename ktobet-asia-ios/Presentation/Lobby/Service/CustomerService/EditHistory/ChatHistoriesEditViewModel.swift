@@ -5,7 +5,6 @@ protocol ChatHistoriesEditViewModelProtocol {
   var histories: [CustomerServiceDTO.ChatHistoriesHistory] { get }
   var selectedHistories: SelectedHistories { get }
   
-  func getTimeZone() -> Foundation.TimeZone
   func toggleSelectAll()
   func getMoreHistories()
   func updateSelection(_ history: CustomerServiceDTO.ChatHistoriesHistory)
@@ -158,10 +157,6 @@ class ChatHistoriesEditViewModel:
           .deletes(chatHistories: selectedHistories.selectedItems, isExclude: selectedHistories.mode == .exclude))
       .redirectErrors(to: self)
       .valueWithoutError
-  }
-  
-  func getTimeZone() -> Foundation.TimeZone {
-    playerConfig.localeTimeZone()
   }
   
   func toggleSelectAll() {

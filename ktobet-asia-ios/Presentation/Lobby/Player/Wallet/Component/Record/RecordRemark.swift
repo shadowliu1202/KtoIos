@@ -107,7 +107,7 @@ extension RecordRemark {
       let image: UIImage
 
       var isUploading = true
-      var detail: UploadImageDetail?
+      var detail: UploadImage?
 
       static func == (lhs: Self, rhs: Self) -> Bool {
         lhs.image == rhs.image
@@ -226,6 +226,8 @@ extension RecordRemark {
             },
             label: {
               Text(Localize.string("common_submit"))
+                .frame(maxWidth: .infinity)
+                .padding(10)
             })
             .buttonStyle(.border)
             .disabled(!isAllowSendImages)

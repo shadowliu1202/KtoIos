@@ -51,7 +51,6 @@ struct CustomerServiceMainView<ViewModel>: View
         RecordList(
           viewModel: viewModel,
           histories: viewModel.histories,
-          timeZone: viewModel.getTimeZone(),
           onSelectedRow: { roomId in
             onTapRow?(roomId)
           })
@@ -120,7 +119,6 @@ extension CustomerServiceMainView {
     @ObservedObject var viewModel: ViewModel
     
     var histories: [CustomerServiceDTO.ChatHistoriesHistory]
-    var timeZone: Foundation.TimeZone
     var onSelectedRow: ((String) -> Void)?
     
     var body: some View {
@@ -130,7 +128,7 @@ extension CustomerServiceMainView {
       
       List(histories.indices, id: \.self) { index in
         let item = histories[index]
-        CustomerServiceMainView.ItemRow(history: item, timeZone: timeZone)
+        CustomerServiceMainView.ItemRow(history: item)
           .onAppear {
             if item == histories.last {
               viewModel.getMoreHistories()
@@ -148,12 +146,11 @@ extension CustomerServiceMainView {
 extension CustomerServiceMainView {
   struct ItemRow: View {
     var history: CustomerServiceDTO.ChatHistoriesHistory
-    var timeZone: Foundation.TimeZone
     
     var body: some View {
       VStack(alignment: .leading, spacing: 0) {
         VStack(alignment: .leading, spacing: 4) {
-          Text(history.createDate.toLocalDateTime(timeZone).toDateTimeFormatString())
+          Text(history.createDate.toDateTimeString())
             .localized(weight: .medium, size: 14, color: .textPrimary)
           
           Text(history.title)
@@ -181,7 +178,6 @@ struct CustomerServiceMainView_Previews: PreviewProvider {
     var isChatRoomExist = true
     var histories: [CustomerServiceDTO.ChatHistoriesHistory] = []
     
-    func getTimeZone() -> Foundation.TimeZone { .autoupdatingCurrent }
     func hasPreChatSurvey() async -> Bool { false }
     func getMoreHistories() { }
     func refreshData() { }

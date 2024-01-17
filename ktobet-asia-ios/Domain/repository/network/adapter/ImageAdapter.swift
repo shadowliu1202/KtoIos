@@ -11,4 +11,8 @@ class ImageAdapter: ImageProtocol {
   func getImageHash(imageId: String) -> SingleWrapper<ResponseItem<NSString>> {
     imageApi.getPrivateImageToken(imageId: imageId).asReaktiveResponseItem()
   }
+  
+  func uploadImage(imagePath _: ImagePath) -> SingleWrapper<ImageDataBean> {
+    fatalError("TODO")
+  }
 }

@@ -119,7 +119,7 @@ extension ChatHistoriesEditView {
       VStack(alignment: .leading, spacing: 0) {
         HStack(spacing: 16) {
           VStack(alignment: .leading, spacing: 4) {
-            Text(history.createDate.toLocalDateTime(viewModel.getTimeZone()).toDateTimeFormatString())
+            Text(history.createDate.toDateTimeString())
               .localized(weight: .medium, size: 14, color: .textPrimary)
             
             Text(history.title)
@@ -175,10 +175,6 @@ struct ChatHistoriesEditView_Previews: PreviewProvider {
       .init(createDate: ClockSystem().now(), title: "test4", roomId: ""),
       .init(createDate: ClockSystem().now(), title: "test5", roomId: "")
     ]
-    
-    func getTimeZone() -> Foundation.TimeZone {
-      .autoupdatingCurrent
-    }
     
     func toggleSelectAll() { }
     

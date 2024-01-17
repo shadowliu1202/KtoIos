@@ -3,7 +3,7 @@ import RxSwift
 import sharedbu
 
 protocol UploadImageUseCase {
-  func uploadImage(imageData: Data) -> Single<UploadImageDetail>
+  func uploadImage(imageData: Data) -> Single<UploadImage>
 }
 
 class UploadImageUseCaseImpl: UploadImageUseCase {
@@ -13,7 +13,7 @@ class UploadImageUseCaseImpl: UploadImageUseCase {
     self.imageRepository = imageRepository
   }
 
-  func uploadImage(imageData: Data) -> Single<UploadImageDetail> {
+  func uploadImage(imageData: Data) -> Single<UploadImage> {
     self.imageRepository.uploadImage(imageData: imageData)
   }
 }
