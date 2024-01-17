@@ -172,7 +172,7 @@ extension ChatRoomView {
       }
       .onReceive(
         textChangePublisher
-          .debounce(for: .seconds(0.1), scheduler: DispatchQueue.main))
+          .debounce(for: .seconds(0.3), scheduler: DispatchQueue.main))
       {
         viewModel.sendPreview(message: $0)
       }
