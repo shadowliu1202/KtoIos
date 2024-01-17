@@ -2,43 +2,6 @@ import Foundation
 import sharedbu
 
 class EnumMapper {
-  static func convert(messageType: Int32) -> sharedbu.MessageType {
-    try! EnumMapper.convert(messageType: messageType).1
-  }
-
-  static func convert(messageType: sharedbu.MessageType) -> Int32 {
-    try! EnumMapper.convert(messageType: messageType).0
-  }
-
-  private static func convert(messageType: Any) throws -> (Int32, sharedbu.MessageType) {
-    switch messageType {
-    case let type as sharedbu.MessageType:
-      switch type {
-      case .text:
-        return (0, .text)
-      case .image:
-        return (1, .image)
-      case .link:
-        return (2, .link)
-      default:
-        throw KtoException(errorMsg: "Unknown type", errorCode: "")
-      }
-    case let i as Int32:
-      switch i {
-      case 0:
-        return (0, .text)
-      case 1:
-        return (1, .image)
-      case 2:
-        return (2, .link)
-      default:
-        throw KtoException(errorMsg: "Unknown type", errorCode: "")
-      }
-    default:
-      throw KtoException(errorMsg: "Unknown type", errorCode: "")
-    }
-  }
-
   static func convert(speakerType: Int32) -> SpeakerType {
     try! EnumMapper.convert(speakerType: speakerType).1
   }

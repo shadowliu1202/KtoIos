@@ -7,12 +7,7 @@ import XCTest
 final class DepositRecordDetailViewControllerTests: XCBaseTestCase {
   func buildUploadedImages() -> [RecordRemark.Uploader.Model] {
     (0...2).map { _ in
-      .init(
-        image: .init(),
-        detail: .init(
-          uriString: "",
-          portalImage: .Private(imageId: "", fileName: "", host: ""),
-          fileName: ""))
+      .init(image: .init())
     }
   }
 

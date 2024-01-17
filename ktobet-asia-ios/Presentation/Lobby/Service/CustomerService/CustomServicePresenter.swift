@@ -112,12 +112,12 @@ class CustomServicePresenter: NSObject {
       .observe(on: MainScheduler.instance)
       .subscribe(onNext: { [unowned self] status in
         guard let status else { return }
-          
+        
         switch status {
-        case .notexist: break
-        case .connected: switchToChatRoom()
-        case .connecting: switchToCalling()
-        case .closed: switchToChatRoom()
+        case is Connection.StatusNotExist: break
+        case is Connection.StatusConnected: switchToChatRoom()
+        case is Connection.StatusConnecting: switchToCalling()
+        case is Connection.StatusClose: switchToChatRoom()
         default: break
         }
       })

@@ -8,8 +8,8 @@ import XCTest
 @testable import ktobet_asia_ios_qat
 
 final class PrechatSurveyViewControllerTests: XCBaseTestCase {
-  private func getStubSurveyBean(questions: [SurveyQuestion__]) -> Survey_ {
-    Survey_(
+  private func getStubSurveyBean(questions: [SurveyQuestion_]) -> Survey {
+    Survey(
       copyFrom: "",
       createdDate: "",
       createdUser: nil,
@@ -29,7 +29,7 @@ final class PrechatSurveyViewControllerTests: XCBaseTestCase {
       version: 0)
   }
   
-  private func getStubQuestionBean(questionType: CustomerServiceDTO.CSSurveySurveyQuestionType) -> SurveyQuestion__ {
+  private func getStubQuestionBean(questionType: CustomerServiceDTO.CSSurveySurveyQuestionType) -> SurveyQuestion_ {
     let surveyQuestionType: Int32
     
     switch questionType {
@@ -39,7 +39,7 @@ final class PrechatSurveyViewControllerTests: XCBaseTestCase {
     default: fatalError("should not reach here.")
     }
     
-    return SurveyQuestion__(
+    return SurveyQuestion_(
       aim: "",
       createdDate: "",
       createdUser: "",

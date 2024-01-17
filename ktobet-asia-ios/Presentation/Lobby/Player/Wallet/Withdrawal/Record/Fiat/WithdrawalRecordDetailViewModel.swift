@@ -98,7 +98,7 @@ extension WithdrawalRecordDetailViewModel {
     Completable.from(
       withdrawalService.addSupplementaryDocument(
         displayId: transactionId,
-        images: selectedImages.compactMap { $0.detail?.portalImage }))
+        images: selectedImages.compactMap { $0.detail }))
       .subscribe(onError: { [weak self] in
         self?.errorsSubject.onNext($0)
       })

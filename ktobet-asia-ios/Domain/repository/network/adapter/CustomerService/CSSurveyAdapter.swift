@@ -46,12 +46,12 @@ class CSSurveyAdapter: CSSurveyProtocol, CustomServiceAPIConvertor {
       title: createOfflineBean.title)
   }
   
-  func getSkillSurvey(type: Int32) -> SingleWrapper<ResponseItem<Survey_>> {
+  func getSkillSurvey(type: Int32) -> SingleWrapper<ResponseItem<Survey>> {
     httpClient
       .requestJsonString(
         path: "onlinechat/api/survey/skill-survey",
         method: .get,
         task: .requestParameters(parameters: ["type": type]))
-      .asReaktiveResponseItem(serial: Survey_.companion.serializer())
+      .asReaktiveResponseItem(serial: Survey.companion.serializer())
   }
 }

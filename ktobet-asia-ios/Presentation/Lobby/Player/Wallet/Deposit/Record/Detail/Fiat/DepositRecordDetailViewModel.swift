@@ -85,7 +85,7 @@ extension DepositRecordDetailViewModel {
     Single.from(
       depositService.addSupplementaryDocument(
         displayId: transactionId,
-        images: selectedImages.compactMap { $0.detail?.portalImage }))
+        images: selectedImages.compactMap { $0.detail }))
       .subscribe(onFailure: { [weak self] in
         self?.errorsSubject.onNext($0)
       })

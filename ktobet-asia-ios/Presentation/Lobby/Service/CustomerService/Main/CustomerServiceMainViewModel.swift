@@ -6,7 +6,6 @@ protocol CustomerServiceMainViewModelProtocol {
   var isChatRoomExist: Bool { get }
   var histories: [CustomerServiceDTO.ChatHistoriesHistory] { get }
   
-  func getTimeZone() -> Foundation.TimeZone
   func hasPreChatSurvey() async -> Bool
   func getMoreHistories()
   func refreshData()
@@ -23,7 +22,6 @@ class CustomerServiceMainViewModel:
   
   private let chatHistoryAppService: IChatHistoryAppService
   private let chatAppService: IChatAppService
-  private let playerConfig: PlayerConfiguration
   private let surveyAppService: ISurveyAppService
   
   private let pageSize = 20
@@ -35,12 +33,10 @@ class CustomerServiceMainViewModel:
   init(
     _ chatHistoryAppService: IChatHistoryAppService,
     _ chatAppService: IChatAppService,
-    _ playerConfig: PlayerConfiguration,
     _ surveyAppService: ISurveyAppService)
   {
     self.chatHistoryAppService = chatHistoryAppService
     self.chatAppService = chatAppService
-    self.playerConfig = playerConfig
     self.surveyAppService = surveyAppService
   }
   
@@ -86,10 +82,6 @@ class CustomerServiceMainViewModel:
   
   private func isMoreItemRemaining(itemsLoadedCount: Int, totalItems: Int) -> Bool {
     itemsLoadedCount < totalItems
-  }
-  
-  func getTimeZone() -> Foundation.TimeZone {
-    playerConfig.localeTimeZone()
   }
   
   func refreshData() {

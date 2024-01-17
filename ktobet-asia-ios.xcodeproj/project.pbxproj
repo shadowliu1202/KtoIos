@@ -1284,15 +1284,6 @@
 		3CD6185D2A1C6E930074680D /* UIViewPreviewHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CD618552A1C6E930074680D /* UIViewPreviewHelper.swift */; };
 		3CD6185E2A1C6E930074680D /* UIViewPreviewHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CD618552A1C6E930074680D /* UIViewPreviewHelper.swift */; };
 		3CDB7B59284F035B006DE0FA /* DateExtensionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CDB7B58284F035B006DE0FA /* DateExtensionTest.swift */; };
-		3CDE8AD42A32DB3900B2DA8A /* ChatRoomTempMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CDE8AD32A32DB3900B2DA8A /* ChatRoomTempMapper.swift */; };
-		3CDE8AD52A32DB3900B2DA8A /* ChatRoomTempMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CDE8AD32A32DB3900B2DA8A /* ChatRoomTempMapper.swift */; };
-		3CDE8AD62A32DB3900B2DA8A /* ChatRoomTempMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CDE8AD32A32DB3900B2DA8A /* ChatRoomTempMapper.swift */; };
-		3CDE8AD72A32DB3900B2DA8A /* ChatRoomTempMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CDE8AD32A32DB3900B2DA8A /* ChatRoomTempMapper.swift */; };
-		3CDE8AD82A32DB3900B2DA8A /* ChatRoomTempMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CDE8AD32A32DB3900B2DA8A /* ChatRoomTempMapper.swift */; };
-		3CDE8AD92A32DB3900B2DA8A /* ChatRoomTempMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CDE8AD32A32DB3900B2DA8A /* ChatRoomTempMapper.swift */; };
-		3CDE8ADA2A32DB3900B2DA8A /* ChatRoomTempMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CDE8AD32A32DB3900B2DA8A /* ChatRoomTempMapper.swift */; };
-		3CDE8ADB2A32DB3900B2DA8A /* ChatRoomTempMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CDE8AD32A32DB3900B2DA8A /* ChatRoomTempMapper.swift */; };
-		3CDE8ADC2A32DB3900B2DA8A /* ChatRoomTempMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CDE8AD32A32DB3900B2DA8A /* ChatRoomTempMapper.swift */; };
 		3CDF66C629E93D3F0094BD1E /* TabGray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CDF66C529E93D3F0094BD1E /* TabGray.swift */; };
 		3CDF66C729E93D3F0094BD1E /* TabGray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CDF66C529E93D3F0094BD1E /* TabGray.swift */; };
 		3CDF66C829E93D3F0094BD1E /* TabGray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CDF66C529E93D3F0094BD1E /* TabGray.swift */; };
@@ -1687,6 +1678,15 @@
 		3E59FE2B2B553BA50023A3ED /* DefaultProductTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E59FE242B553BA50023A3ED /* DefaultProductTypeExtension.swift */; };
 		3E59FE2C2B553BA50023A3ED /* DefaultProductTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E59FE242B553BA50023A3ED /* DefaultProductTypeExtension.swift */; };
 		3E59FE2D2B553BA50023A3ED /* DefaultProductTypeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E59FE242B553BA50023A3ED /* DefaultProductTypeExtension.swift */; };
+		3E59FE2F2B5636CA0023A3ED /* CasinoDTOExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E59FE2E2B5636CA0023A3ED /* CasinoDTOExtension.swift */; };
+		3E59FE302B5636CA0023A3ED /* CasinoDTOExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E59FE2E2B5636CA0023A3ED /* CasinoDTOExtension.swift */; };
+		3E59FE312B5636CA0023A3ED /* CasinoDTOExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E59FE2E2B5636CA0023A3ED /* CasinoDTOExtension.swift */; };
+		3E59FE322B5636CA0023A3ED /* CasinoDTOExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E59FE2E2B5636CA0023A3ED /* CasinoDTOExtension.swift */; };
+		3E59FE332B5636CA0023A3ED /* CasinoDTOExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E59FE2E2B5636CA0023A3ED /* CasinoDTOExtension.swift */; };
+		3E59FE342B5636CA0023A3ED /* CasinoDTOExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E59FE2E2B5636CA0023A3ED /* CasinoDTOExtension.swift */; };
+		3E59FE352B5636CA0023A3ED /* CasinoDTOExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E59FE2E2B5636CA0023A3ED /* CasinoDTOExtension.swift */; };
+		3E59FE362B5636CA0023A3ED /* CasinoDTOExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E59FE2E2B5636CA0023A3ED /* CasinoDTOExtension.swift */; };
+		3E59FE372B5636CA0023A3ED /* CasinoDTOExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E59FE2E2B5636CA0023A3ED /* CasinoDTOExtension.swift */; };
 		3E6D05332ADD1F55004327D0 /* HttpClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E6D05322ADD1F55004327D0 /* HttpClientTests.swift */; };
 		3E8069082B049B500003108E /* ExitSurveyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E8069052B049B500003108E /* ExitSurveyViewController.swift */; };
 		3E8069092B049B500003108E /* ExitSurveyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E8069052B049B500003108E /* ExitSurveyViewController.swift */; };
@@ -2629,7 +2629,6 @@
 		60E5802027F190E4008CE5A9 /* SBKMaintenanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DF42F0827732136008DDB3E /* SBKMaintenanceViewController.swift */; };
 		60E5802127F190E4008CE5A9 /* qrCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6018F846268B815D00941BDD /* qrCodeViewController.swift */; };
 		60E5802227F190E4008CE5A9 /* SlotRecordUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D9E5818263A561000E6942A /* SlotRecordUseCase.swift */; };
-		60E5802327F190E4008CE5A9 /* SurveyAnswers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D9938F0271FC7FB0068A616 /* SurveyAnswers.swift */; };
 		60E5802427F190E4008CE5A9 /* ProductGameDataSourceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D9E57D2263936C700E6942A /* ProductGameDataSourceDelegate.swift */; };
 		60E5802527F190E4008CE5A9 /* BirthdayValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D02BBFF27D1E74C00824F53 /* BirthdayValidator.swift */; };
 		60E5802827F190E4008CE5A9 /* CryptoSelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60E4A7A32754BF070088245F /* CryptoSelectorViewController.swift */; };
@@ -3145,7 +3144,6 @@
 		6D0EDB5828743FAC004A9E3C /* SBKMaintenanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DF42F0827732136008DDB3E /* SBKMaintenanceViewController.swift */; };
 		6D0EDB5928743FAC004A9E3C /* qrCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6018F846268B815D00941BDD /* qrCodeViewController.swift */; };
 		6D0EDB5A28743FAC004A9E3C /* SlotRecordUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D9E5818263A561000E6942A /* SlotRecordUseCase.swift */; };
-		6D0EDB5B28743FAC004A9E3C /* SurveyAnswers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D9938F0271FC7FB0068A616 /* SurveyAnswers.swift */; };
 		6D0EDB5C28743FAC004A9E3C /* ProductGameDataSourceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D9E57D2263936C700E6942A /* ProductGameDataSourceDelegate.swift */; };
 		6D0EDB5D28743FAC004A9E3C /* BirthdayValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D02BBFF27D1E74C00824F53 /* BirthdayValidator.swift */; };
 		6D0EDB6028743FAC004A9E3C /* CryptoSelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60E4A7A32754BF070088245F /* CryptoSelectorViewController.swift */; };
@@ -3576,7 +3574,6 @@
 		6D0EDDB328744704004A9E3C /* SBKMaintenanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DF42F0827732136008DDB3E /* SBKMaintenanceViewController.swift */; };
 		6D0EDDB428744704004A9E3C /* qrCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6018F846268B815D00941BDD /* qrCodeViewController.swift */; };
 		6D0EDDB528744704004A9E3C /* SlotRecordUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D9E5818263A561000E6942A /* SlotRecordUseCase.swift */; };
-		6D0EDDB628744704004A9E3C /* SurveyAnswers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D9938F0271FC7FB0068A616 /* SurveyAnswers.swift */; };
 		6D0EDDB728744704004A9E3C /* ProductGameDataSourceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D9E57D2263936C700E6942A /* ProductGameDataSourceDelegate.swift */; };
 		6D0EDDB828744704004A9E3C /* BirthdayValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D02BBFF27D1E74C00824F53 /* BirthdayValidator.swift */; };
 		6D0EDDBB28744704004A9E3C /* CryptoSelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60E4A7A32754BF070088245F /* CryptoSelectorViewController.swift */; };
@@ -4359,7 +4356,6 @@
 		6D55C7FF29657EB30038E8FB /* BonusType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DDD335426CCE72B0081A846 /* BonusType.swift */; };
 		6D55C80029657EB30038E8FB /* SlotGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4E994E2636943100860FF7 /* SlotGame.swift */; };
 		6D55C80129657EB30038E8FB /* CasinoGame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6034629926327ED100F5D1D9 /* CasinoGame.swift */; };
-		6D55C80229657EB30038E8FB /* SurveyAnswers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D9938F0271FC7FB0068A616 /* SurveyAnswers.swift */; };
 		6D55C80429657EB30038E8FB /* WaitingConfirm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D940A0126DCACD300C70FDA /* WaitingConfirm.swift */; };
 		6D55C80529657EB30038E8FB /* NumberGameBetDetailBetStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DCEC6FC2660CBE8005E4F8B /* NumberGameBetDetailBetStatus.swift */; };
 		6D55C80929657EB90038E8FB /* ConfigurationUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CC32312551488F00C9D1BF /* ConfigurationUseCase.swift */; };
@@ -5044,7 +5040,6 @@
 		6D966BAE27FEE3FA006086B7 /* SBKMaintenanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DF42F0827732136008DDB3E /* SBKMaintenanceViewController.swift */; };
 		6D966BAF27FEE3FA006086B7 /* qrCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6018F846268B815D00941BDD /* qrCodeViewController.swift */; };
 		6D966BB027FEE3FA006086B7 /* SlotRecordUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D9E5818263A561000E6942A /* SlotRecordUseCase.swift */; };
-		6D966BB127FEE3FA006086B7 /* SurveyAnswers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D9938F0271FC7FB0068A616 /* SurveyAnswers.swift */; };
 		6D966BB227FEE3FA006086B7 /* ProductGameDataSourceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D9E57D2263936C700E6942A /* ProductGameDataSourceDelegate.swift */; };
 		6D966BB327FEE3FA006086B7 /* BirthdayValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D02BBFF27D1E74C00824F53 /* BirthdayValidator.swift */; };
 		6D966BB627FEE3FA006086B7 /* CryptoSelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60E4A7A32754BF070088245F /* CryptoSelectorViewController.swift */; };
@@ -5465,7 +5460,6 @@
 		6D966DFB27FEE416006086B7 /* SBKMaintenanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DF42F0827732136008DDB3E /* SBKMaintenanceViewController.swift */; };
 		6D966DFC27FEE416006086B7 /* qrCodeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6018F846268B815D00941BDD /* qrCodeViewController.swift */; };
 		6D966DFD27FEE416006086B7 /* SlotRecordUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D9E5818263A561000E6942A /* SlotRecordUseCase.swift */; };
-		6D966DFE27FEE416006086B7 /* SurveyAnswers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D9938F0271FC7FB0068A616 /* SurveyAnswers.swift */; };
 		6D966DFF27FEE416006086B7 /* ProductGameDataSourceDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D9E57D2263936C700E6942A /* ProductGameDataSourceDelegate.swift */; };
 		6D966E0027FEE416006086B7 /* BirthdayValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D02BBFF27D1E74C00824F53 /* BirthdayValidator.swift */; };
 		6D966E0327FEE416006086B7 /* CryptoSelectorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60E4A7A32754BF070088245F /* CryptoSelectorViewController.swift */; };
@@ -5920,9 +5914,6 @@
 		6D9938B4271E72440068A616 /* ring1_cs_animation.ai in Resources */ = {isa = PBXBuildFile; fileRef = 6D9938A1271E72440068A616 /* ring1_cs_animation.ai */; };
 		6D9938B5271E72440068A616 /* ring1_cs_animation.ai in Resources */ = {isa = PBXBuildFile; fileRef = 6D9938A1271E72440068A616 /* ring1_cs_animation.ai */; };
 		6D9938B6271E72440068A616 /* ring1_cs_animation.ai in Resources */ = {isa = PBXBuildFile; fileRef = 6D9938A1271E72440068A616 /* ring1_cs_animation.ai */; };
-		6D9938F1271FC7FC0068A616 /* SurveyAnswers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D9938F0271FC7FB0068A616 /* SurveyAnswers.swift */; };
-		6D9938F2271FC7FC0068A616 /* SurveyAnswers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D9938F0271FC7FB0068A616 /* SurveyAnswers.swift */; };
-		6D9938F3271FC7FC0068A616 /* SurveyAnswers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D9938F0271FC7FB0068A616 /* SurveyAnswers.swift */; };
 		6D9D7AF529EE6F3300CD6A35 /* WithdrawalCryptoRequestStep2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D9D7AF429EE6F3300CD6A35 /* WithdrawalCryptoRequestStep2ViewController.swift */; };
 		6D9D7AF629EE6F3300CD6A35 /* WithdrawalCryptoRequestStep2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D9D7AF429EE6F3300CD6A35 /* WithdrawalCryptoRequestStep2ViewController.swift */; };
 		6D9D7AF729EE6F3300CD6A35 /* WithdrawalCryptoRequestStep2ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D9D7AF429EE6F3300CD6A35 /* WithdrawalCryptoRequestStep2ViewController.swift */; };
@@ -7549,7 +7540,6 @@
 		3CD6184B2A1C60F30074680D /* EmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateView.swift; sourceTree = "<group>"; };
 		3CD618552A1C6E930074680D /* UIViewPreviewHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewPreviewHelper.swift; sourceTree = "<group>"; };
 		3CDB7B58284F035B006DE0FA /* DateExtensionTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateExtensionTest.swift; sourceTree = "<group>"; };
-		3CDE8AD32A32DB3900B2DA8A /* ChatRoomTempMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoomTempMapper.swift; sourceTree = "<group>"; };
 		3CDF66C529E93D3F0094BD1E /* TabGray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabGray.swift; sourceTree = "<group>"; };
 		3CDF66CF29E94D7A0094BD1E /* WithdrawalOTPVerifyMethodSelectViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawalOTPVerifyMethodSelectViewController.swift; sourceTree = "<group>"; };
 		3CDF66DA29ED16B90094BD1E /* WithdrawalOTPVerifyMethodSelectViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawalOTPVerifyMethodSelectViewModelTests.swift; sourceTree = "<group>"; };
@@ -7611,6 +7601,7 @@
 		3E59FE2E2B5636CA0023A3ED /* CasinoDTOExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CasinoDTOExtension.swift; sourceTree = "<group>"; };
 		3E59FE1A2B54D6D10023A3ED /* DefaultProductAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultProductAdapter.swift; sourceTree = "<group>"; };
 		3E59FE242B553BA50023A3ED /* DefaultProductTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultProductTypeExtension.swift; sourceTree = "<group>"; };
+		3E59FE2E2B5636CA0023A3ED /* CasinoDTOExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CasinoDTOExtension.swift; sourceTree = "<group>"; };
 		3E6D05322ADD1F55004327D0 /* HttpClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpClientTests.swift; sourceTree = "<group>"; };
 		3E8069052B049B500003108E /* ExitSurveyViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExitSurveyViewController.swift; sourceTree = "<group>"; };
 		3E8069062B049B500003108E /* ExitSurveyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExitSurveyView.swift; sourceTree = "<group>"; };
@@ -8086,7 +8077,6 @@
 		6D99389F271E72440068A616 /* ring3_cs_animation.ai */ = {isa = PBXFileReference; lastKnownFileType = file; path = ring3_cs_animation.ai; sourceTree = "<group>"; };
 		6D9938A0271E72440068A616 /* ring4_cs_animation.ai */ = {isa = PBXFileReference; lastKnownFileType = file; path = ring4_cs_animation.ai; sourceTree = "<group>"; };
 		6D9938A1271E72440068A616 /* ring1_cs_animation.ai */ = {isa = PBXFileReference; lastKnownFileType = file; path = ring1_cs_animation.ai; sourceTree = "<group>"; };
-		6D9938F0271FC7FB0068A616 /* SurveyAnswers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SurveyAnswers.swift; sourceTree = "<group>"; };
 		6D9D7AF429EE6F3300CD6A35 /* WithdrawalCryptoRequestStep2ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawalCryptoRequestStep2ViewController.swift; sourceTree = "<group>"; };
 		6D9E57D2263936C700E6942A /* ProductGameDataSourceDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductGameDataSourceDelegate.swift; sourceTree = "<group>"; };
 		6D9E5812263A504800E6942A /* SlotRecordRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlotRecordRepository.swift; sourceTree = "<group>"; };
@@ -10599,7 +10589,6 @@
 				60BECC0D26F04CAE00BE3F99 /* WagerType.swift */,
 				6DBC86CE26F092E100A35B66 /* BetStatus.swift */,
 				6D899BF22705461400AC164E /* PaymentProvider.swift */,
-				6D9938F0271FC7FB0068A616 /* SurveyAnswers.swift */,
 				6DA5F296274C96CB005479A3 /* AccountCurrency.swift */,
 				6D6E6F76274E2BE0005D88A6 /* CryptoCurrency.swift */,
 				6D6E708527560307005D88A6 /* AccountPatternGeneratorFactory.swift */,
@@ -10830,7 +10819,6 @@
 			isa = PBXGroup;
 			children = (
 				6D986A8E27192FC300194E0D /* CustomServiceViewModel.swift */,
-				3CDE8AD32A32DB3900B2DA8A /* ChatRoomTempMapper.swift */,
 				6DB4AC472726512F0084CF4D /* CustomServiceNavigationController.swift */,
 				6D986A70271915BB00194E0D /* CustomServicePresenter.swift */,
 				6DDE72452A29ED0E005C95B3 /* Main */,
@@ -13588,7 +13576,6 @@
 				4199A05825AE9918002E2D7E /* SideBarViewController.swift in Sources */,
 				ACD8C4CD2AF1F80E00B65706 /* NSAttributedStringExtension.swift in Sources */,
 				3C94128E2AC4300C0015747F /* WithdrawalDtoExtension.swift in Sources */,
-				6D9938F2271FC7FC0068A616 /* SurveyAnswers.swift in Sources */,
 				6077038F25C8E5AE003FBEE4 /* RadioButton.swift in Sources */,
 				6034626F26327E5A00F5D1D9 /* FavoriteBarButtonItem.swift in Sources */,
 				6034624B26327E3200F5D1D9 /* UISearchBarExtension.swift in Sources */,
@@ -13732,7 +13719,6 @@
 				6D4083D8265212ED00BECD0E /* NumberGameRecordUseCase.swift in Sources */,
 				6034620C26327DC800F5D1D9 /* BetRecordTableViewCell.swift in Sources */,
 				41077DA225BA634D0057B340 /* PlayerDataUseCase.swift in Sources */,
-				3CDE8AD52A32DB3900B2DA8A /* ChatRoomTempMapper.swift in Sources */,
 				605AC71825C023CC00873D63 /* DepositViewController.swift in Sources */,
 				3C1DF72D299A186D007E5EF4 /* FromBankForm.swift in Sources */,
 				FFA26A47292C7D03008C3E71 /* ViewDidLoadModifier.swift in Sources */,
@@ -14396,7 +14382,6 @@
 				6034624726327E3200F5D1D9 /* UIBarButtonItemExtension.swift in Sources */,
 				48840C472592065200245706 /* CommonFailViewController.swift in Sources */,
 				3C7E47BE2A5FD22B00A22B79 /* P2PMyBetAPI.swift in Sources */,
-				6D9938F1271FC7FC0068A616 /* SurveyAnswers.swift in Sources */,
 				6077038E25C8E5AE003FBEE4 /* RadioButton.swift in Sources */,
 				6D0F09C22A245B75004274E6 /* ReceiveMessage.swift in Sources */,
 				6034626E26327E5A00F5D1D9 /* FavoriteBarButtonItem.swift in Sources */,
@@ -14443,7 +14428,6 @@
 				6D9E5857263FCB8A00E6942A /* SlotBetDetailViewController.swift in Sources */,
 				6DF26A61264A31C600DDD3C5 /* FilterBarButtonItem.swift in Sources */,
 				3C7E48062A60F45400A22B79 /* CasinoBetDetailView.swift in Sources */,
-				3CDE8AD42A32DB3900B2DA8A /* ChatRoomTempMapper.swift in Sources */,
 				3C2B147E2AD68A750043F426 /* TaskExtension.swift in Sources */,
 				414930E725F3319D008F32C5 /* FilterPresentProtocol.swift in Sources */,
 				FFBA843E29E5332C0022FE6A /* WithdrawalRecordDetailView.swift in Sources */,
@@ -14834,7 +14818,6 @@
 				6DF42F0B27732136008DDB3E /* SBKMaintenanceViewController.swift in Sources */,
 				6018F84A268B815D00941BDD /* qrCodeViewController.swift in Sources */,
 				6D5B14E1264A7B4B004138E8 /* SlotRecordUseCase.swift in Sources */,
-				6D9938F3271FC7FC0068A616 /* SurveyAnswers.swift in Sources */,
 				3CDF66ED29ED3B5E0094BD1E /* WithdrawalOTPVerificationViewModelProtocol.swift in Sources */,
 				3C4994CE29E52AA700A8829F /* LogSection.swift in Sources */,
 				6D5B14BF264A7AF5004138E8 /* ProductGameDataSourceDelegate.swift in Sources */,
@@ -15265,7 +15248,6 @@
 				6090131E2640EE7000419F8E /* FeatureItemCell.swift in Sources */,
 				6090131F2640EE7000419F8E /* ImageApi.swift in Sources */,
 				601F0FD127D74DC40036D9C7 /* OldAccountModifyConfirmationViewController.swift in Sources */,
-				3CDE8AD62A32DB3900B2DA8A /* ChatRoomTempMapper.swift in Sources */,
 				FF8C267B29B9866F009523BE /* DepositLogSummaryViewModel.swift in Sources */,
 				6D5B14ED264A7B7A004138E8 /* FilterBarButtonItem.swift in Sources */,
 				FFB016D32965848D007E0236 /* TurnoverAlert.swift in Sources */,
@@ -15584,7 +15566,6 @@
 				60E5802127F190E4008CE5A9 /* qrCodeViewController.swift in Sources */,
 				3C4994E529E52B9D00A8829F /* InfoTable.swift in Sources */,
 				60E5802227F190E4008CE5A9 /* SlotRecordUseCase.swift in Sources */,
-				60E5802327F190E4008CE5A9 /* SurveyAnswers.swift in Sources */,
 				60E5802427F190E4008CE5A9 /* ProductGameDataSourceDelegate.swift in Sources */,
 				3EBB32B92B0CA16A00A9203F /* AppLocaleInitializer.swift in Sources */,
 				3C5E370D2A2DD99F00427BCE /* PromotionFilterViewController.swift in Sources */,
@@ -15902,7 +15883,6 @@
 				60E5810127F190E4008CE5A9 /* MainDebugViewController.swift in Sources */,
 				3C7E480B2A60F45400A22B79 /* CasinoBetDetailView.swift in Sources */,
 				60E5810327F190E4008CE5A9 /* BetStatus.swift in Sources */,
-				3CDE8AD92A32DB3900B2DA8A /* ChatRoomTempMapper.swift in Sources */,
 				3CCD218628F6942C00313212 /* UserDefaultCodable.swift in Sources */,
 				60E5810427F190E4008CE5A9 /* VerifyNewEmailViewController.swift in Sources */,
 				60E5810527F190E4008CE5A9 /* SignupPhoneViewController.swift in Sources */,
@@ -16317,7 +16297,6 @@
 				3C4994E329E52B9D00A8829F /* InfoTable.swift in Sources */,
 				3C7E481D2A60F47C00A22B79 /* CasinoBetDetailViewController.swift in Sources */,
 				6D0EDB5A28743FAC004A9E3C /* SlotRecordUseCase.swift in Sources */,
-				6D0EDB5B28743FAC004A9E3C /* SurveyAnswers.swift in Sources */,
 				6D0EDB5C28743FAC004A9E3C /* ProductGameDataSourceDelegate.swift in Sources */,
 				6D0EDB5D28743FAC004A9E3C /* BirthdayValidator.swift in Sources */,
 				3EBB32B72B0CA16A00A9203F /* AppLocaleInitializer.swift in Sources */,
@@ -16735,7 +16714,6 @@
 				6D0EDC8628743FAC004A9E3C /* SlotApi.swift in Sources */,
 				6D0EDC8728743FAC004A9E3C /* TransactionLogSummaryViewController.swift in Sources */,
 				FFA48704293886270088F172 /* DateFilter.swift in Sources */,
-				3CDE8AD72A32DB3900B2DA8A /* ChatRoomTempMapper.swift in Sources */,
 				6D0EDC8828743FAC004A9E3C /* FeatureItemCell.swift in Sources */,
 				6D0EDC8928743FAC004A9E3C /* ImageApi.swift in Sources */,
 				6D0EDC8A28743FAC004A9E3C /* OldAccountModifyConfirmationViewController.swift in Sources */,
@@ -17042,7 +17020,6 @@
 				6D0EDDB428744704004A9E3C /* qrCodeViewController.swift in Sources */,
 				6D0EDDB528744704004A9E3C /* SlotRecordUseCase.swift in Sources */,
 				3C25C71D29E537250098DB57 /* WithdrawalCreateCryptoAccountViewModel.swift in Sources */,
-				6D0EDDB628744704004A9E3C /* SurveyAnswers.swift in Sources */,
 				3CED7D192A5E4B4700479A9D /* PokerSetHorizontalView.swift in Sources */,
 				3C4994D229E52AA700A8829F /* LogSection.swift in Sources */,
 				3CDF670529EE50D90094BD1E /* CombineCountdownTimer.swift in Sources */,
@@ -17472,7 +17449,6 @@
 				3C2A59852A4AB82500520A2D /* CasinoGameAdapter.swift in Sources */,
 				FFA48705293886270088F172 /* DateFilter.swift in Sources */,
 				6D0EDEE328744704004A9E3C /* FeatureItemCell.swift in Sources */,
-				3CDE8ADA2A32DB3900B2DA8A /* ChatRoomTempMapper.swift in Sources */,
 				6D0EDEE428744704004A9E3C /* ImageApi.swift in Sources */,
 				6D0EDEE528744704004A9E3C /* OldAccountModifyConfirmationViewController.swift in Sources */,
 				6D0EDEE628744704004A9E3C /* FilterBarButtonItem.swift in Sources */,
@@ -17846,7 +17822,6 @@
 				6D966BAE27FEE3FA006086B7 /* SBKMaintenanceViewController.swift in Sources */,
 				6D966BAF27FEE3FA006086B7 /* qrCodeViewController.swift in Sources */,
 				6D966BB027FEE3FA006086B7 /* SlotRecordUseCase.swift in Sources */,
-				6D966BB127FEE3FA006086B7 /* SurveyAnswers.swift in Sources */,
 				3C4994D329E52AA700A8829F /* LogSection.swift in Sources */,
 				6D966BB227FEE3FA006086B7 /* ProductGameDataSourceDelegate.swift in Sources */,
 				FFA7585829BB37880089A21F /* LazyImage.swift in Sources */,
@@ -18177,7 +18152,6 @@
 				3C7672DA2899085E001DF62F /* LoginView.swift in Sources */,
 				3C7E480D2A60F45400A22B79 /* CasinoBetDetailView.swift in Sources */,
 				6D966C9727FEE3FA006086B7 /* DefaultProductCell.swift in Sources */,
-				3CDE8ADB2A32DB3900B2DA8A /* ChatRoomTempMapper.swift in Sources */,
 				6D966C9827FEE3FA006086B7 /* FilterPresentProtocol.swift in Sources */,
 				FF8C269229B9866F009523BE /* DepositRecordDetailMainViewController.swift in Sources */,
 				3CA9E3CC28D962DB00FFB33E /* JinYiDigitalGuideView.swift in Sources */,
@@ -18588,7 +18562,6 @@
 				6D966DFC27FEE416006086B7 /* qrCodeViewController.swift in Sources */,
 				3C4994E829E52B9D00A8829F /* InfoTable.swift in Sources */,
 				6D966DFD27FEE416006086B7 /* SlotRecordUseCase.swift in Sources */,
-				6D966DFE27FEE416006086B7 /* SurveyAnswers.swift in Sources */,
 				6D966DFF27FEE416006086B7 /* ProductGameDataSourceDelegate.swift in Sources */,
 				FFA7585929BB37880089A21F /* LazyImage.swift in Sources */,
 				6DA963DD29D53007004F2F0E /* WithdrawalCryptoRecordDetailViewController.swift in Sources */,
@@ -19008,7 +18981,6 @@
 				3C2A59872A4AB82500520A2D /* CasinoGameAdapter.swift in Sources */,
 				6D966F2427FEE416006086B7 /* TransactionLogSummaryViewController.swift in Sources */,
 				6D966F2527FEE416006086B7 /* FeatureItemCell.swift in Sources */,
-				3CDE8ADC2A32DB3900B2DA8A /* ChatRoomTempMapper.swift in Sources */,
 				6D966F2627FEE416006086B7 /* ImageApi.swift in Sources */,
 				6D966F2727FEE416006086B7 /* OldAccountModifyConfirmationViewController.swift in Sources */,
 				FF8C268129B9866F009523BE /* DepositLogSummaryViewModel.swift in Sources */,
@@ -19506,7 +19478,6 @@
 				6D55C6C529657DC30038E8FB /* EncodableExtension.swift in Sources */,
 				6D55C92B296662480038E8FB /* FilterPresentProtocol.swift in Sources */,
 				6D55C86229657EEB0038E8FB /* ViewDidLoadModifier.swift in Sources */,
-				6D55C80229657EB30038E8FB /* SurveyAnswers.swift in Sources */,
 				6D55C979296662970038E8FB /* ArcadeBetSummaryByDateViewController.swift in Sources */,
 				6DA9641629D531D1004F2F0E /* RecordRemark.swift in Sources */,
 				FF8C26BC29B9866F009523BE /* DepositRecordDetailViewModel.swift in Sources */,
@@ -19744,7 +19715,6 @@
 				6D55C8B52965810E0038E8FB /* UITestAdapter.swift in Sources */,
 				6D55C9812966629C0038E8FB /* P2PTableViewCell.swift in Sources */,
 				6D55C72D29657E1E0038E8FB /* SetMainPageViewController.swift in Sources */,
-				3CDE8AD82A32DB3900B2DA8A /* ChatRoomTempMapper.swift in Sources */,
 				6D55CA06296662F00038E8FB /* PromotionRepository.swift in Sources */,
 				6D55C73C29657E2E0038E8FB /* NotificationTableViewCell.swift in Sources */,
 				FF80C9A929E67E1000EBF4BB /* WithdrawalCryptoWalletDetailViewModel.swift in Sources */,
