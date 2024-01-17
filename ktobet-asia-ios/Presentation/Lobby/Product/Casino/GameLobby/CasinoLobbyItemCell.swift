@@ -18,14 +18,27 @@ class CasinoLobbyItemCell: UICollectionViewCell {
   }
 
   @discardableResult
-  func configure(_ data: CasinoLobby) -> Self {
+  func configure(_ data: CasinoDTO.Lobby) -> Self {
     labTitle.text = data.name
-    imgIcon.image = data.lobby.img
     maintainIcon.image = UIImage(named: "game-maintainance")
     blurView.isHidden = !data.isMaintenance
     self.isUserInteractionEnabled = !data.isMaintenance
     blurView.layer.cornerRadius = self.bounds.width / 2
     blurView.layer.masksToBounds = true
+    
+    switch data.type {
+    case .platinum:
+      imgIcon.image = UIImage(named: "lobby-platinum")
+    case .emerald:
+      imgIcon.image = UIImage(named: "lobby-emerald")
+    case .virtual_:
+      imgIcon.image = UIImage(named: "lobby-virtual")
+    default:
+      fatalError("should not reach here.")
+    }
+    
+    isHidden = data == CasinoDTO.Lobby.placeHolder
+    
     return self
   }
 }

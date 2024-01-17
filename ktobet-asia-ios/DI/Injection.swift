@@ -1221,8 +1221,8 @@ final class Injection {
       }
     
     container
-      .register(CasinoGameProtocol.self) { resolver in
-        CasinoGameAdapter(.init(resolver.resolveWrapper(HttpClient.self)))
+      .register(CasinoGameProtocol.self) {
+        CasinoGameAdapter($0.resolveWrapper(HttpClient.self))
       }
     
     container

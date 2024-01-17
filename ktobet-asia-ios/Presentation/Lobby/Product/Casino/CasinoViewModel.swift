@@ -102,24 +102,34 @@ extension CasinoViewModel {
     ProductType.casino
   }
 
-  func lobby() -> Single<[CasinoLobby]> {
-    casinoUseCase.getLobbies()
-      .map {
-        if $0.count > 0 {
-          return $0.filter { $0.lobby != .none }
-        }
-        else {
-          throw KTOError.EmptyData
-        }
-      }
+  func getLobbies() -> Single<[CasinoDTO.Lobby]> {
+    Single.from(casinoGameAppService.getLobbies())
+      .map { $0 as! [CasinoDTO.Lobby] }
       .trackOnDispose(placeholderTracker)
+      .catch { [weak self] in
+        self?.errorsSubject.onNext($0)
+        return .just([])
+      }
   }
-
-  func getLobbyGames(lobby: CasinoLobbyType) -> Observable<[CasinoGame]> {
+  
+  func getLobbyGames(lobbyType: CasinoDTO.LobbyType) -> Observable<[CasinoGame]> {
     refreshTrigger
       .flatMapLatest { [unowned self] in
-        self.searchGamesByLobby(lobby: lobby)
+        self.searchGamesByLobby(lobby: convertToCasinoLobbyType(lobbyType))
       }
+  }
+  
+  private func convertToCasinoLobbyType(_ type: CasinoDTO.LobbyType) -> CasinoLobbyType {
+    switch type {
+    case .emerald:
+      return .emerald
+    case .platinum:
+      return .platinum
+    case .virtual_:
+      return .virtual_
+    default:
+      fatalError("should not reach here.")
+    }
   }
 
   func refreshLobbyGames() {
