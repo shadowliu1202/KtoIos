@@ -56,7 +56,7 @@ class WithdrawalAddFiatBankCardViewModel:
 
   private let playerConfiguration: PlayerConfiguration
   private let authUseCase: AuthenticationUseCase
-  private let bankUseCase: BankUseCase
+  private let bankAppService: BankAppService
   private let playerDataUseCase: PlayerDataUseCase
   private let accountPatternGenerator: AccountPatternGenerator
   private let appService: IWithdrawalAppService
@@ -66,7 +66,7 @@ class WithdrawalAddFiatBankCardViewModel:
   private lazy var supportLocale: SupportLocale = getSupportLocale()
   private lazy var areaName: AreaNames = getAreaName()
 
-  private var banks: [Bank] = []
+  private var banks: [CommonDTO.Bank] = []
 
   var isCitySelectorDisable: Bool {
     selectedProvince.isEmpty || provinceError.isNotEmpty
@@ -77,14 +77,14 @@ class WithdrawalAddFiatBankCardViewModel:
   init(
     _ playerConfiguration: PlayerConfiguration,
     _ authenticationUseCase: AuthenticationUseCase,
-    _ bankUseCase: BankUseCase,
+    _ bankAppService: BankAppService,
     _ playerDataUseCase: PlayerDataUseCase,
     _ accountPatternGenerator: AccountPatternGenerator,
     _ appService: IWithdrawalAppService)
   {
     self.playerConfiguration = playerConfiguration
     self.authUseCase = authenticationUseCase
-    self.bankUseCase = bankUseCase
+    self.bankAppService = bankAppService
     self.playerDataUseCase = playerDataUseCase
     self.accountPatternGenerator = accountPatternGenerator
     self.appService = appService
@@ -228,13 +228,12 @@ class WithdrawalAddFiatBankCardViewModel:
   }
 
   private func initBanks() {
-    bankUseCase
-      .getBankMap()
+    Observable.from(bankAppService.getBanks())
+      .map { $0 as! [CommonDTO.Bank] }
       .collectError(to: self)
-      .subscribe(onSuccess: { [weak self] in
-        guard let self else { return }
-        self.banks = $0.map { $0.1 }
-        self.bankNames = StringMapper.localizeBankNames(banks: self.banks, supportLocale: self.supportLocale)
+      .subscribe(onNext: { [unowned self] in
+        bankNames = $0.map { $0.name }
+        banks = $0
       })
       .disposed(by: disposeBag)
   }
@@ -274,17 +273,12 @@ class WithdrawalAddFiatBankCardViewModel:
   }
 
   private func generateWalletFiatDTO() -> WithdrawalDto.NewWalletFiat {
-    let pureBankName = StringMapper
-      .splitShortNameAndBankName(
-        bankName: selectedBank,
-        supportLocale: supportLocale)
-
-    let bankId = banks.first(where: { $0.name == pureBankName })?.bankId ?? 0
+    let bank = banks.first(where: { $0.name == selectedBank }) ?? CommonDTO.Bank.companion.unknown(name: selectedBank)
 
     return .init(
-      bankName: pureBankName,
+      bankName: bank.name,
       bankAccount: .init(
-        bankId: bankId,
+        bankId: bank.id,
         branch: inputBranch,
         accountName: self.userName,
         accountNumber: inputAccountNumber,
