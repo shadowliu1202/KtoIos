@@ -16,7 +16,7 @@ class CasinoViewController: DisplayProduct {
 
   @IBOutlet private weak var scrollViewContentHeight: NSLayoutConstraint!
 
-  private var lobbies: [CasinoLobby] = []
+  private var lobbies: [CasinoDTO.Lobby] = []
   private var viewDidRotate = BehaviorRelay<Bool>.init(value: false)
   private var disposeBag = DisposeBag()
 
@@ -94,7 +94,7 @@ extension CasinoViewController {
     Observable
       .combineLatest(
         viewDidRotate,
-        viewModel.lobby().asObservable())
+        viewModel.getLobbies().asObservable())
       .do(onNext: { [weak self] didRoTate, _ in
         if didRoTate { self?.scrollViewContentHeight.constant = 0 }
       }, onError: { [weak self] _ in
@@ -102,12 +102,10 @@ extension CasinoViewController {
         self?.lobbyCollectionHeight.constant = 0
       })
       .map { $1 }
-      .catchAndReturn([])
       .subscribe(on: MainScheduler.instance)
-      .subscribe(onNext: { [weak self] lobbies in
-        guard let self else { return }
-        self.lobbies = lobbies
-        self.lobbyCollectionView.reloadData()
+      .subscribe(onNext: { [unowned self] lobbies in
+        self.lobbies = appendPlaceholdersIfNeeded(lobbies)
+        lobbyCollectionView.reloadData()
       })
       .disposed(by: disposeBag)
 
@@ -145,6 +143,15 @@ extension CasinoViewController {
         self.scrollViewContentHeight.constant = $0
       })
       .disposed(by: disposeBag)
+  }
+  
+  private func appendPlaceholdersIfNeeded(_ lobbies: [CasinoDTO.Lobby]) -> [CasinoDTO.Lobby] {
+    let remainder = lobbies.count % 3
+    guard remainder > 0 else { return lobbies }
+
+    let placeholdersNeeded = 3 - remainder
+    let placeholders = Array(repeating: CasinoDTO.Lobby.placeHolder, count: placeholdersNeeded)
+    return lobbies + placeholders
   }
 }
 

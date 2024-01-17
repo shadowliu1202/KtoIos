@@ -8,7 +8,7 @@ class CasinoLobbyViewController: DisplayProduct {
   @IBOutlet weak var gamesCollectionView: WebGameCollectionView!
   lazy var gameDataSourceDelegate = ProductGameDataSourceDelegate(self)
   var viewModel: CasinoViewModel!
-  var lobby: CasinoLobby!
+  var lobby: CasinoDTO.Lobby!
   private var disposeBag = DisposeBag()
 
   override func viewDidLoad() {
@@ -32,8 +32,8 @@ class CasinoLobbyViewController: DisplayProduct {
         self?.handleErrors($0)
       })
       .disposed(by: disposeBag)
-
-    viewModel.getLobbyGames(lobby: lobby.lobby)
+    
+    viewModel.getLobbyGames(lobbyType: lobby.type)
       .subscribe(onNext: { [weak self] games in
         self?.reloadGameData(games)
       })

@@ -2,10 +2,10 @@ import Foundation
 import sharedbu
 
 class CasinoGameAdapter: CasinoGameProtocol {
-  private let casinoGameAPI: CasinoGameAPI
+  private let httpClient: HttpClient
   
-  init(_ casinoGameAPI: CasinoGameAPI) {
-    self.casinoGameAPI = casinoGameAPI
+  init(_ httpClient: HttpClient) {
+    self.httpClient = httpClient
   }
   
   func addFavoriteCasino(id _: String) -> CompletableWrapper {
@@ -24,8 +24,10 @@ class CasinoGameAdapter: CasinoGameProtocol {
     fatalError()
   }
   
-  func getLobbyStatus() -> SingleWrapper<ResponseList<LobbyBean>> {
-    fatalError()
+  func getLobbyTop() -> SingleWrapper<ResponseList<LobbyBean>> {
+    httpClient
+      .requestJsonString(path: "/casino/api/game/lobby/top", method: .get)
+      .asReaktiveResponseList(serial: LobbyBean.companion.serializer())
   }
   
   func getPopularKeywords() -> SingleWrapper<ResponseList<NSString>> {
@@ -33,8 +35,8 @@ class CasinoGameAdapter: CasinoGameProtocol {
   }
   
   func getTagWithGameCount() -> SingleWrapper<ResponseList<FilterTagBean>> {
-    casinoGameAPI
-      .getCasinoTagsWithCount()
+    httpClient
+      .requestJsonString(path: "casino/api/game/mobile/tag-with-gamecount", method: .get)
       .asReaktiveResponseList(serial: FilterTagBean.companion.serializer())
   }
   
