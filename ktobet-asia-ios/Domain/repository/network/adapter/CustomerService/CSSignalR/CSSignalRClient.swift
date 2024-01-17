@@ -12,6 +12,10 @@ class CSSignalRClient: CSEventSubject {
     case MaintenanceAsync
   }
   
+  private enum SendEvent: String {
+    case PreviewMessage
+  }
+  
   private let token: String
   private let httpClient: HttpClient
   private let customerServiceProtocol: CustomerServiceProtocol
@@ -95,6 +99,11 @@ class CSSignalRClient: CSEventSubject {
     self.socketConnect?.on(method: Target.MaintenanceAsync.rawValue, callback: { [weak self] _ in
       self?.observer?.onVisit(visitor: Maintenance())
     })
+  }
+  
+  func typing(message: String) {
+    let payload = ["text": message]
+    socketConnect?.send(method: SendEvent.PreviewMessage.rawValue, payload)
   }
 }
 

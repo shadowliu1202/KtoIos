@@ -103,6 +103,8 @@ extension ChatRoomView {
     
     @Binding var textFieldOnFocus: Bool
     
+    private let textChangePublisher = PassthroughSubject<String, Never>()
+    
     let textFieldCountLimit: Int
     let onTapCamera: (() -> Void)?
     
@@ -165,6 +167,15 @@ extension ChatRoomView {
       .fixedSize(horizontal: false, vertical: true)
       .backgroundColor(.greyScaleWhite)
       .disabled(viewModel.disableInputView)
+      .onChange(of: text) { newValue in
+        textChangePublisher.send(newValue)
+      }
+      .onReceive(
+        textChangePublisher
+          .debounce(for: .seconds(0.1), scheduler: DispatchQueue.main))
+      {
+        viewModel.sendPreview(message: $0)
+      }
     }
     
     private func getTextFieldHeight() -> CGFloat? {
@@ -254,6 +265,7 @@ struct ChatRoomView_Previews: PreviewProvider {
      
     func setup(onChatRoomMaintain _: @escaping () -> Void) { }
     func send(message _: String) { }
+    func sendPreview(message _: String) { }
     func readAllMessage(updateToLast _: Bool?, isAuto _: Bool?) { }
   }
 

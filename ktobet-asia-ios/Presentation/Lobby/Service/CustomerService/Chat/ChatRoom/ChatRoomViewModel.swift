@@ -8,6 +8,7 @@ protocol ChatRoomViewModelProtocol {
   
   func setup(onChatRoomMaintain: @escaping () -> Void)
   func send(message: String)
+  func sendPreview(message: String)
   func readAllMessage(updateToLast: Bool?, isAuto: Bool?)
 }
 
@@ -70,7 +71,13 @@ class ChatRoomViewModel:
   
   func send(message: String) {
     AnyPublisher.from(chatAppService.send(message: message))
-      .receive(on: DispatchQueue.main)
+      .redirectErrors(to: self)
+      .sink(receiveValue: { _ in })
+      .store(in: &cancellables)
+  }
+  
+  func sendPreview(message: String) {
+    AnyPublisher.from(chatAppService.sendTypingMessage(message: message))
       .redirectErrors(to: self)
       .sink(receiveValue: { _ in })
       .store(in: &cancellables)
