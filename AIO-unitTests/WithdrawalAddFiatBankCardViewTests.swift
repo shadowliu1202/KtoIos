@@ -16,8 +16,8 @@ final class WithdrawalAddFiatBankCardViewTests: XCBaseTestCase {
     let stubPlayerConfiguration = PlayerConfigurationImpl(locale.cultureCode())
     let stubAuthenticationUseCase = mock(AuthenticationUseCase.self)
     given(stubAuthenticationUseCase.getUserName()) ~> ""
-    let stubBankUseCase = mock(BankUseCase.self)
-    given(stubBankUseCase.getBankMap()) ~> .just([(0, Bank(bankId: 0, name: "Á Châu", shortName: "ABC"))])
+    let stubBankAppService = mock(AbsBankAppService.self)
+    given(stubBankAppService.getBanks()) ~> Observable.just([]).asWrapper()
     let stubPlayerDataUseCase = mock(PlayerDataUseCase.self)
     given(stubPlayerDataUseCase.isRealNameEditable()) ~> .just(true)
     let stubAccountPatternGenerator = AccountPatternGeneratorFactory.create(stubPlayerConfiguration.supportLocale)
@@ -25,7 +25,7 @@ final class WithdrawalAddFiatBankCardViewTests: XCBaseTestCase {
     let stubViewModel = WithdrawalAddFiatBankCardViewModel(
       stubPlayerConfiguration,
       stubAuthenticationUseCase,
-      stubBankUseCase,
+      stubBankAppService,
       stubPlayerDataUseCase,
       stubAccountPatternGenerator,
       mock(AbsWithdrawalAppService.self))
@@ -33,15 +33,6 @@ final class WithdrawalAddFiatBankCardViewTests: XCBaseTestCase {
     stubViewModel.setup()
 
     return stubViewModel
-  }
-
-  func test_addWithdrawalBank_InVNDropdownItems_ItmesDisplayBankNameWithShortName_KTO_TC_154() {
-    let stubViewModel = getStubViewModel(locale: .Vietnam())
-
-    let expect = "(ABC) Á Châu"
-    let actual = stubViewModel.bankNames?.first!
-
-    XCTAssertEqual(expect, actual)
   }
 
   func test_givenSelectedProvince_InCityDropdown_DisplayTheCountriesOfSelectedProvince_KTO_TC_155() {

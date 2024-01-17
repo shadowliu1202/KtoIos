@@ -55,7 +55,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     Logger.shared.info("APP launch.")
 
-    Task { await Injection.shared.setupNetworkInfa() }
+    Task { await Injection.shared.setupNetworkInfra() }
     
     #if !DEV
       crashHandler()

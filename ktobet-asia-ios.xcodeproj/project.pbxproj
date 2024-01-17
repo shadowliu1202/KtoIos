@@ -2375,7 +2375,6 @@
 		609012AE2640EE7000419F8E /* CasinoLobbyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 603461FE26327DC800F5D1D9 /* CasinoLobbyViewController.swift */; };
 		609012AF2640EE7000419F8E /* SMSCodeTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48FDF3682591ECB000C3AE75 /* SMSCodeTextField.swift */; };
 		609012B02640EE7000419F8E /* Koyomi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60095DEF25F5CAC600F5DCE6 /* Koyomi.swift */; };
-		609012B62640EE7000419F8E /* BankRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DADDEA32609EF1C00247E80 /* BankRepository.swift */; };
 		609012B72640EE7000419F8E /* KoyomiLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60095DB525F5C43200F5DCE6 /* KoyomiLayout.swift */; };
 		609012B92640EE7000419F8E /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48EDC9682564EE6D0046C337 /* LaunchViewController.swift */; };
 		609012BA2640EE7000419F8E /* NavigationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48EDC96C2564EE8D0046C337 /* NavigationViewModel.swift */; };
@@ -2458,7 +2457,6 @@
 		6090133A2640EE7000419F8E /* DataExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 489D5DB6255D1EA400A0E43C /* DataExtension.swift */; };
 		6090133D2640EE7000419F8E /* SignupUserinfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 485DF0A52541577A001F9D4A /* SignupUserinfoViewController.swift */; };
 		6090133F2640EE7000419F8E /* SignupEmailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48BC3495254FF5C200B89EC5 /* SignupEmailViewModel.swift */; };
-		609013402640EE7000419F8E /* BankUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DADDEA92609F5CD00247E80 /* BankUseCase.swift */; };
 		609013412640EE7000419F8E /* RegisterUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4860EFC4254AC32F0047ECF9 /* RegisterUseCase.swift */; };
 		609013422640EE7000419F8E /* DateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60357F1E25F239410076D909 /* DateViewController.swift */; };
 		609013432640EE7000419F8E /* IAuthRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48672A532555294D009B2C59 /* IAuthRepository.swift */; };
@@ -2687,7 +2685,6 @@
 		60E5806827F190E4008CE5A9 /* SMSCodeTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48FDF3682591ECB000C3AE75 /* SMSCodeTextField.swift */; };
 		60E5806927F190E4008CE5A9 /* Koyomi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60095DEF25F5CAC600F5DCE6 /* Koyomi.swift */; };
 		60E5806F27F190E4008CE5A9 /* ArcadeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6010413726B2AA4300B28FC8 /* ArcadeViewController.swift */; };
-		60E5807027F190E4008CE5A9 /* BankRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DADDEA32609EF1C00247E80 /* BankRepository.swift */; };
 		60E5807127F190E4008CE5A9 /* CashAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6083DC852795189D00794145 /* CashAdapter.swift */; };
 		60E5807227F190E4008CE5A9 /* KoyomiLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60095DB525F5C43200F5DCE6 /* KoyomiLayout.swift */; };
 		60E5807327F190E4008CE5A9 /* SportBookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DB195802701A9DB003C6730 /* SportBookViewController.swift */; };
@@ -2901,7 +2898,6 @@
 		60E5819627F190E4008CE5A9 /* P2PViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6018F9F12695511600941BDD /* P2PViewController.swift */; };
 		60E5819727F190E4008CE5A9 /* UnlockPrivilegeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D17959C26A7EA78001C8BF8 /* UnlockPrivilegeView.swift */; };
 		60E5819827F190E4008CE5A9 /* SignupEmailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48BC3495254FF5C200B89EC5 /* SignupEmailViewModel.swift */; };
-		60E5819927F190E4008CE5A9 /* BankUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DADDEA92609F5CD00247E80 /* BankUseCase.swift */; };
 		60E5819A27F190E4008CE5A9 /* RegisterUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4860EFC4254AC32F0047ECF9 /* RegisterUseCase.swift */; };
 		60E5819B27F190E4008CE5A9 /* DateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60357F1E25F239410076D909 /* DateViewController.swift */; };
 		60E5819C27F190E4008CE5A9 /* IAuthRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48672A532555294D009B2C59 /* IAuthRepository.swift */; };
@@ -3203,7 +3199,6 @@
 		6D0EDBA128743FAC004A9E3C /* SMSCodeTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48FDF3682591ECB000C3AE75 /* SMSCodeTextField.swift */; };
 		6D0EDBA228743FAC004A9E3C /* Koyomi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60095DEF25F5CAC600F5DCE6 /* Koyomi.swift */; };
 		6D0EDBA728743FAC004A9E3C /* ArcadeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6010413726B2AA4300B28FC8 /* ArcadeViewController.swift */; };
-		6D0EDBA828743FAC004A9E3C /* BankRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DADDEA32609EF1C00247E80 /* BankRepository.swift */; };
 		6D0EDBA928743FAC004A9E3C /* CashAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6083DC852795189D00794145 /* CashAdapter.swift */; };
 		6D0EDBAA28743FAC004A9E3C /* KoyomiLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60095DB525F5C43200F5DCE6 /* KoyomiLayout.swift */; };
 		6D0EDBAB28743FAC004A9E3C /* SportBookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DB195802701A9DB003C6730 /* SportBookViewController.swift */; };
@@ -3422,7 +3417,6 @@
 		6D0EDCD428743FAC004A9E3C /* P2PViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6018F9F12695511600941BDD /* P2PViewController.swift */; };
 		6D0EDCD528743FAC004A9E3C /* UnlockPrivilegeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D17959C26A7EA78001C8BF8 /* UnlockPrivilegeView.swift */; };
 		6D0EDCD628743FAC004A9E3C /* SignupEmailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48BC3495254FF5C200B89EC5 /* SignupEmailViewModel.swift */; };
-		6D0EDCD728743FAC004A9E3C /* BankUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DADDEA92609F5CD00247E80 /* BankUseCase.swift */; };
 		6D0EDCD828743FAC004A9E3C /* RegisterUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4860EFC4254AC32F0047ECF9 /* RegisterUseCase.swift */; };
 		6D0EDCD928743FAC004A9E3C /* DateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60357F1E25F239410076D909 /* DateViewController.swift */; };
 		6D0EDCDA28743FAC004A9E3C /* IAuthRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48672A532555294D009B2C59 /* IAuthRepository.swift */; };
@@ -3633,7 +3627,6 @@
 		6D0EDDFC28744704004A9E3C /* SMSCodeTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48FDF3682591ECB000C3AE75 /* SMSCodeTextField.swift */; };
 		6D0EDDFD28744704004A9E3C /* Koyomi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60095DEF25F5CAC600F5DCE6 /* Koyomi.swift */; };
 		6D0EDE0228744704004A9E3C /* ArcadeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6010413726B2AA4300B28FC8 /* ArcadeViewController.swift */; };
-		6D0EDE0328744704004A9E3C /* BankRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DADDEA32609EF1C00247E80 /* BankRepository.swift */; };
 		6D0EDE0428744704004A9E3C /* CashAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6083DC852795189D00794145 /* CashAdapter.swift */; };
 		6D0EDE0528744704004A9E3C /* KoyomiLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60095DB525F5C43200F5DCE6 /* KoyomiLayout.swift */; };
 		6D0EDE0628744704004A9E3C /* SportBookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DB195802701A9DB003C6730 /* SportBookViewController.swift */; };
@@ -3852,7 +3845,6 @@
 		6D0EDF2F28744704004A9E3C /* P2PViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6018F9F12695511600941BDD /* P2PViewController.swift */; };
 		6D0EDF3028744704004A9E3C /* UnlockPrivilegeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D17959C26A7EA78001C8BF8 /* UnlockPrivilegeView.swift */; };
 		6D0EDF3128744704004A9E3C /* SignupEmailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48BC3495254FF5C200B89EC5 /* SignupEmailViewModel.swift */; };
-		6D0EDF3228744704004A9E3C /* BankUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DADDEA92609F5CD00247E80 /* BankUseCase.swift */; };
 		6D0EDF3328744704004A9E3C /* RegisterUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4860EFC4254AC32F0047ECF9 /* RegisterUseCase.swift */; };
 		6D0EDF3428744704004A9E3C /* DateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60357F1E25F239410076D909 /* DateViewController.swift */; };
 		6D0EDF3528744704004A9E3C /* IAuthRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48672A532555294D009B2C59 /* IAuthRepository.swift */; };
@@ -4639,7 +4631,6 @@
 		6D55C9E6296662DE0038E8FB /* PrivilegeType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DEA282E291DDEA700D85CD4 /* PrivilegeType.swift */; };
 		6D55C9E7296662DE0038E8FB /* ICurrencyUnitExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D6E6FFC27507A28005D88A6 /* ICurrencyUnitExtension.swift */; };
 		6D55C9E8296662DE0038E8FB /* DepositType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D94096526D7458300C70FDA /* DepositType.swift */; };
-		6D55C9E9296662DE0038E8FB /* BankUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DADDEA92609F5CD00247E80 /* BankUseCase.swift */; };
 		6D55C9EA296662DE0038E8FB /* AppVersionUpdateUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DAFA077276354780089A135 /* AppVersionUpdateUseCase.swift */; };
 		6D55C9EB296662DE0038E8FB /* NumberGameUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4083CF265212A800BECD0E /* NumberGameUseCase.swift */; };
 		6D55C9EC296662DE0038E8FB /* ArcadeUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6010411E26B2A68A00B28FC8 /* ArcadeUseCase.swift */; };
@@ -4662,7 +4653,6 @@
 		6D55CA00296662F00038E8FB /* DepositAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6083DC8D2795190200794145 /* DepositAdapter.swift */; };
 		6D55CA01296662F00038E8FB /* ArcadeApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6010411826B2A41E00B28FC8 /* ArcadeApi.swift */; };
 		6D55CA02296662F00038E8FB /* ArcadeAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D5A034428A511A8005D0960 /* ArcadeAdapter.swift */; };
-		6D55CA03296662F00038E8FB /* BankRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DADDEA32609EF1C00247E80 /* BankRepository.swift */; };
 		6D55CA04296662F00038E8FB /* SlotApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4E995A26369E6600860FF7 /* SlotApi.swift */; };
 		6D55CA05296662F00038E8FB /* ArcadeRecordRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6010411226B2A04000B28FC8 /* ArcadeRecordRepository.swift */; };
 		6D55CA06296662F00038E8FB /* PromotionRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 600E240926CB51AB00D8B073 /* PromotionRepository.swift */; };
@@ -5098,7 +5088,6 @@
 		6D966BF627FEE3FA006086B7 /* SMSCodeTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48FDF3682591ECB000C3AE75 /* SMSCodeTextField.swift */; };
 		6D966BF727FEE3FA006086B7 /* Koyomi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60095DEF25F5CAC600F5DCE6 /* Koyomi.swift */; };
 		6D966BFD27FEE3FA006086B7 /* ArcadeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6010413726B2AA4300B28FC8 /* ArcadeViewController.swift */; };
-		6D966BFE27FEE3FA006086B7 /* BankRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DADDEA32609EF1C00247E80 /* BankRepository.swift */; };
 		6D966BFF27FEE3FA006086B7 /* CashAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6083DC852795189D00794145 /* CashAdapter.swift */; };
 		6D966C0027FEE3FA006086B7 /* KoyomiLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60095DB525F5C43200F5DCE6 /* KoyomiLayout.swift */; };
 		6D966C0127FEE3FA006086B7 /* SportBookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DB195802701A9DB003C6730 /* SportBookViewController.swift */; };
@@ -5312,7 +5301,6 @@
 		6D966D2427FEE3FA006086B7 /* P2PViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6018F9F12695511600941BDD /* P2PViewController.swift */; };
 		6D966D2527FEE3FA006086B7 /* UnlockPrivilegeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D17959C26A7EA78001C8BF8 /* UnlockPrivilegeView.swift */; };
 		6D966D2627FEE3FA006086B7 /* SignupEmailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48BC3495254FF5C200B89EC5 /* SignupEmailViewModel.swift */; };
-		6D966D2727FEE3FA006086B7 /* BankUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DADDEA92609F5CD00247E80 /* BankUseCase.swift */; };
 		6D966D2827FEE3FA006086B7 /* RegisterUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4860EFC4254AC32F0047ECF9 /* RegisterUseCase.swift */; };
 		6D966D2927FEE3FA006086B7 /* DateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60357F1E25F239410076D909 /* DateViewController.swift */; };
 		6D966D2A27FEE3FA006086B7 /* IAuthRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48672A532555294D009B2C59 /* IAuthRepository.swift */; };
@@ -5518,7 +5506,6 @@
 		6D966E4327FEE416006086B7 /* SMSCodeTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48FDF3682591ECB000C3AE75 /* SMSCodeTextField.swift */; };
 		6D966E4427FEE416006086B7 /* Koyomi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60095DEF25F5CAC600F5DCE6 /* Koyomi.swift */; };
 		6D966E4A27FEE416006086B7 /* ArcadeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6010413726B2AA4300B28FC8 /* ArcadeViewController.swift */; };
-		6D966E4B27FEE416006086B7 /* BankRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DADDEA32609EF1C00247E80 /* BankRepository.swift */; };
 		6D966E4C27FEE416006086B7 /* CashAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6083DC852795189D00794145 /* CashAdapter.swift */; };
 		6D966E4D27FEE416006086B7 /* KoyomiLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60095DB525F5C43200F5DCE6 /* KoyomiLayout.swift */; };
 		6D966E4E27FEE416006086B7 /* SportBookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DB195802701A9DB003C6730 /* SportBookViewController.swift */; };
@@ -5732,7 +5719,6 @@
 		6D966F7127FEE416006086B7 /* P2PViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6018F9F12695511600941BDD /* P2PViewController.swift */; };
 		6D966F7227FEE416006086B7 /* UnlockPrivilegeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D17959C26A7EA78001C8BF8 /* UnlockPrivilegeView.swift */; };
 		6D966F7327FEE416006086B7 /* SignupEmailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48BC3495254FF5C200B89EC5 /* SignupEmailViewModel.swift */; };
-		6D966F7427FEE416006086B7 /* BankUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DADDEA92609F5CD00247E80 /* BankUseCase.swift */; };
 		6D966F7527FEE416006086B7 /* RegisterUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4860EFC4254AC32F0047ECF9 /* RegisterUseCase.swift */; };
 		6D966F7627FEE416006086B7 /* DateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60357F1E25F239410076D909 /* DateViewController.swift */; };
 		6D966F7727FEE416006086B7 /* IAuthRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48672A532555294D009B2C59 /* IAuthRepository.swift */; };
@@ -6014,10 +6000,6 @@
 		6DA9647D29D56C7C004F2F0E /* WithdrawalAddFiatBankCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DA9647629D56C7C004F2F0E /* WithdrawalAddFiatBankCardView.swift */; };
 		6DA9647E29D56C7C004F2F0E /* WithdrawalAddFiatBankCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DA9647629D56C7C004F2F0E /* WithdrawalAddFiatBankCardView.swift */; };
 		6DA9647F29D56C7C004F2F0E /* WithdrawalAddFiatBankCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DA9647629D56C7C004F2F0E /* WithdrawalAddFiatBankCardView.swift */; };
-		6DADDEA42609EF1C00247E80 /* BankRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DADDEA32609EF1C00247E80 /* BankRepository.swift */; };
-		6DADDEA52609EF1C00247E80 /* BankRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DADDEA32609EF1C00247E80 /* BankRepository.swift */; };
-		6DADDEAA2609F5CD00247E80 /* BankUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DADDEA92609F5CD00247E80 /* BankUseCase.swift */; };
-		6DADDEAB2609F5CD00247E80 /* BankUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DADDEA92609F5CD00247E80 /* BankUseCase.swift */; };
 		6DAEA6232600B2E600995A6E /* LockInputText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DAEA6222600B2E600995A6E /* LockInputText.swift */; };
 		6DAEA6242600B2E600995A6E /* LockInputText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DAEA6222600B2E600995A6E /* LockInputText.swift */; };
 		6DAEA6372601DD5A00995A6E /* iOSDropDown.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DAEA6362601DD5A00995A6E /* iOSDropDown.swift */; };
@@ -8097,8 +8079,6 @@
 		6DA963E529D531D0004F2F0E /* RecordDetail.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordDetail.swift; sourceTree = "<group>"; };
 		6DA963E629D531D0004F2F0E /* RecordRow.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordRow.swift; sourceTree = "<group>"; };
 		6DA9647629D56C7C004F2F0E /* WithdrawalAddFiatBankCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WithdrawalAddFiatBankCardView.swift; sourceTree = "<group>"; };
-		6DADDEA32609EF1C00247E80 /* BankRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankRepository.swift; sourceTree = "<group>"; };
-		6DADDEA92609F5CD00247E80 /* BankUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BankUseCase.swift; sourceTree = "<group>"; };
 		6DAEA6222600B2E600995A6E /* LockInputText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockInputText.swift; sourceTree = "<group>"; };
 		6DAEA6362601DD5A00995A6E /* iOSDropDown.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = iOSDropDown.swift; sourceTree = "<group>"; };
 		6DAEA63C2601EC5300995A6E /* DropDownInputText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropDownInputText.swift; sourceTree = "<group>"; };
@@ -9672,7 +9652,6 @@
 				6010412426B2A72100B28FC8 /* ArcadeRecordUseCase.swift */,
 				6010411E26B2A68A00B28FC8 /* ArcadeUseCase.swift */,
 				4853B43225527A81001D618E /* AuthenticationUseCase.swift */,
-				6DADDEA92609F5CD00247E80 /* BankUseCase.swift */,
 				6034627A26327E8800F5D1D9 /* CasinoRecordUseCase.swift */,
 				6034627926327E8800F5D1D9 /* CasinoUseCase.swift */,
 				48CC32312551488F00C9D1BF /* ConfigurationUseCase.swift */,
@@ -9702,7 +9681,6 @@
 				6D48BA5727633DDB00C8DC2D /* AppUpdateRepository.swift */,
 				6010411226B2A04000B28FC8 /* ArcadeRecordRepository.swift */,
 				6010410C26B29FE900B28FC8 /* ArcadeRepository.swift */,
-				6DADDEA32609EF1C00247E80 /* BankRepository.swift */,
 				6034628326327E9300F5D1D9 /* CasinoRecordRepository.swift */,
 				6034628426327E9300F5D1D9 /* CasinoRepository.swift */,
 				48339D3C255A48B400AE6715 /* GameInfoRepository.swift */,
@@ -13403,7 +13381,6 @@
 				601041AB26B7CB1C00B28FC8 /* ArcadeSummaryViewController.swift in Sources */,
 				6082864427E067B400C7F492 /* NotificationViewModel.swift in Sources */,
 				ACD8C5342AF255B200B65706 /* CallingView.swift in Sources */,
-				6DADDEA52609EF1C00247E80 /* BankRepository.swift in Sources */,
 				3E51963B2AFE1ABE00E4A493 /* PrechatSurveyViewController.swift in Sources */,
 				FFC51A7D29BF184D000DE0A8 /* LoadingPlaceholderViewController.swift in Sources */,
 				6083DC7D279015FF00794145 /* APIWrapper.swift in Sources */,
@@ -13821,7 +13798,6 @@
 				6D02BC0127D1E74C00824F53 /* BirthdayValidator.swift in Sources */,
 				6DA5F298274C96CB005479A3 /* AccountCurrency.swift in Sources */,
 				4199A07E25AE9918002E2D7E /* SignupEmailViewModel.swift in Sources */,
-				6DADDEAB2609F5CD00247E80 /* BankUseCase.swift in Sources */,
 				4199A07F25AE9918002E2D7E /* RegisterUseCase.swift in Sources */,
 				60357F2025F239410076D909 /* DateViewController.swift in Sources */,
 				60CA712427E1D408005680A5 /* PaddingLabel.swift in Sources */,
@@ -14201,7 +14177,6 @@
 				3E51963A2AFE1ABE00E4A493 /* PrechatSurveyViewController.swift in Sources */,
 				FFC51A7C29BF184D000DE0A8 /* LoadingPlaceholderViewController.swift in Sources */,
 				ACD8C4CC2AF1F80E00B65706 /* NSAttributedStringExtension.swift in Sources */,
-				6DADDEA42609EF1C00247E80 /* BankRepository.swift in Sources */,
 				6082864327E067B400C7F492 /* NotificationViewModel.swift in Sources */,
 				FF8D273029CEDA5A00513EE5 /* WithdrawalLogSummaryViewController.swift in Sources */,
 				6083DC7C279015FF00794145 /* APIWrapper.swift in Sources */,
@@ -14619,7 +14594,6 @@
 				3E59FE1B2B54D6D10023A3ED /* DefaultProductAdapter.swift in Sources */,
 				48AAA161256E458800E075CA /* RegisterUseCase.swift in Sources */,
 				3CED7D092A5D52DF00479A9D /* PokerCardView.swift in Sources */,
-				6DADDEAA2609F5CD00247E80 /* BankUseCase.swift in Sources */,
 				48AAA162256E458800E075CA /* IAuthRepository.swift in Sources */,
 				60357F1F25F239410076D909 /* DateViewController.swift in Sources */,
 				60CA712327E1D408005680A5 /* PaddingLabel.swift in Sources */,
@@ -14933,7 +14907,6 @@
 				6010413A26B2AA4300B28FC8 /* ArcadeViewController.swift in Sources */,
 				3E51963C2AFE1ABE00E4A493 /* PrechatSurveyViewController.swift in Sources */,
 				ACD8C5352AF255B200B65706 /* CallingView.swift in Sources */,
-				609012B62640EE7000419F8E /* BankRepository.swift in Sources */,
 				3CFC666428BF03F1006060FD /* PuppyLog.swift in Sources */,
 				6083DC882795189D00794145 /* CashAdapter.swift in Sources */,
 				609012B72640EE7000419F8E /* KoyomiLayout.swift in Sources */,
@@ -15351,7 +15324,6 @@
 				6018F9F52695511600941BDD /* P2PViewController.swift in Sources */,
 				6D17959F26A7EA78001C8BF8 /* UnlockPrivilegeView.swift in Sources */,
 				6090133F2640EE7000419F8E /* SignupEmailViewModel.swift in Sources */,
-				609013402640EE7000419F8E /* BankUseCase.swift in Sources */,
 				3C25C70529E536FE0098DB57 /* WithdrawalCreateCryptoAccountView.swift in Sources */,
 				609013412640EE7000419F8E /* RegisterUseCase.swift in Sources */,
 				3C064D6829E52FF7005D06B4 /* DelegatedScrollView.swift in Sources */,
@@ -15674,7 +15646,6 @@
 				FF8C26BD29B9866F009523BE /* DepositRecordDetailViewModel.swift in Sources */,
 				AC9AA4D92B021690001D19B2 /* ChatHistoriesEditView.swift in Sources */,
 				60E5806F27F190E4008CE5A9 /* ArcadeViewController.swift in Sources */,
-				60E5807027F190E4008CE5A9 /* BankRepository.swift in Sources */,
 				FF8D273529CEDA5A00513EE5 /* WithdrawalLogSummaryViewController.swift in Sources */,
 				3CFC666528BF03F1006060FD /* PuppyLog.swift in Sources */,
 				60E5807127F190E4008CE5A9 /* CashAdapter.swift in Sources */,
@@ -16090,7 +16061,6 @@
 				60E5819727F190E4008CE5A9 /* UnlockPrivilegeView.swift in Sources */,
 				3CED7CF92A5CF80300479A9D /* CasinoMyBetAPI.swift in Sources */,
 				60E5819827F190E4008CE5A9 /* SignupEmailViewModel.swift in Sources */,
-				60E5819927F190E4008CE5A9 /* BankUseCase.swift in Sources */,
 				60E5819A27F190E4008CE5A9 /* RegisterUseCase.swift in Sources */,
 				60E5819B27F190E4008CE5A9 /* DateViewController.swift in Sources */,
 				FFA26A48292C7D03008C3E71 /* ViewDidLoadModifier.swift in Sources */,
@@ -16417,7 +16387,6 @@
 				6D1062C42A00B4630055C947 /* WithdrawalCryptoRequestStep1ViewModelProtocol.swift in Sources */,
 				FF8C26B229B9866F009523BE /* DepositCryptoRecordDetailViewController.swift in Sources */,
 				6D0EDBA728743FAC004A9E3C /* ArcadeViewController.swift in Sources */,
-				6D0EDBA828743FAC004A9E3C /* BankRepository.swift in Sources */,
 				6D0EDBA928743FAC004A9E3C /* CashAdapter.swift in Sources */,
 				6D0EDBAA28743FAC004A9E3C /* KoyomiLayout.swift in Sources */,
 				6D0EDBAB28743FAC004A9E3C /* SportBookViewController.swift in Sources */,
@@ -16823,7 +16792,6 @@
 				6D0EDCD528743FAC004A9E3C /* UnlockPrivilegeView.swift in Sources */,
 				6D0EDCD628743FAC004A9E3C /* SignupEmailViewModel.swift in Sources */,
 				FFBA844129E5332C0022FE6A /* WithdrawalRecordDetailView.swift in Sources */,
-				6D0EDCD728743FAC004A9E3C /* BankUseCase.swift in Sources */,
 				FF8C268529B9866F009523BE /* DepositLogSummaryView.swift in Sources */,
 				6D0EDCD828743FAC004A9E3C /* RegisterUseCase.swift in Sources */,
 				6DE34AD029D68A3200A59C81 /* WithdrawalAddFiatBankCardViewModel.swift in Sources */,
@@ -17147,7 +17115,6 @@
 				FF8C26B529B9866F009523BE /* DepositCryptoRecordDetailViewController.swift in Sources */,
 				FFD526F729CEA12F00687C2F /* WithdrawalLogSummaryView.swift in Sources */,
 				6D0EDE0228744704004A9E3C /* ArcadeViewController.swift in Sources */,
-				6D0EDE0328744704004A9E3C /* BankRepository.swift in Sources */,
 				6D0EDE0428744704004A9E3C /* CashAdapter.swift in Sources */,
 				6D0EDE0528744704004A9E3C /* KoyomiLayout.swift in Sources */,
 				6D0EDE0628744704004A9E3C /* SportBookViewController.swift in Sources */,
@@ -17551,7 +17518,6 @@
 				6D0EDF2F28744704004A9E3C /* P2PViewController.swift in Sources */,
 				6D0EDF3028744704004A9E3C /* UnlockPrivilegeView.swift in Sources */,
 				6D0EDF3128744704004A9E3C /* SignupEmailViewModel.swift in Sources */,
-				6D0EDF3228744704004A9E3C /* BankUseCase.swift in Sources */,
 				FF8C268829B9866F009523BE /* DepositLogSummaryView.swift in Sources */,
 				6D0EDF3328744704004A9E3C /* RegisterUseCase.swift in Sources */,
 				6D0EDF3428744704004A9E3C /* DateViewController.swift in Sources */,
@@ -17932,7 +17898,6 @@
 				3CED7D2E2A5E817400479A9D /* RouletteView.swift in Sources */,
 				6D966BFD27FEE3FA006086B7 /* ArcadeViewController.swift in Sources */,
 				ACD8C53A2AF255B200B65706 /* CallingView.swift in Sources */,
-				6D966BFE27FEE3FA006086B7 /* BankRepository.swift in Sources */,
 				3E5196412AFE1ABE00E4A493 /* PrechatSurveyViewController.swift in Sources */,
 				3CFC666628BF03F1006060FD /* PuppyLog.swift in Sources */,
 				6D966BFF27FEE3FA006086B7 /* CashAdapter.swift in Sources */,
@@ -18359,7 +18324,6 @@
 				6D966D2527FEE3FA006086B7 /* UnlockPrivilegeView.swift in Sources */,
 				3CED7CFB2A5CF80300479A9D /* CasinoMyBetAPI.swift in Sources */,
 				6D966D2627FEE3FA006086B7 /* SignupEmailViewModel.swift in Sources */,
-				6D966D2727FEE3FA006086B7 /* BankUseCase.swift in Sources */,
 				6D966D2827FEE3FA006086B7 /* RegisterUseCase.swift in Sources */,
 				6D966D2927FEE3FA006086B7 /* DateViewController.swift in Sources */,
 				FFBA844529E5332C0022FE6A /* WithdrawalRecordDetailView.swift in Sources */,
@@ -18674,7 +18638,6 @@
 				0D6C08662ACC09660082FB8A /* OfflineMessageViewController.swift in Sources */,
 				6D966E4A27FEE416006086B7 /* ArcadeViewController.swift in Sources */,
 				AC9AA4DC2B021690001D19B2 /* ChatHistoriesEditView.swift in Sources */,
-				6D966E4B27FEE416006086B7 /* BankRepository.swift in Sources */,
 				FF8D273829CEDA5A00513EE5 /* WithdrawalLogSummaryViewController.swift in Sources */,
 				3CFC666728BF03F1006060FD /* PuppyLog.swift in Sources */,
 				6D966E4C27FEE416006086B7 /* CashAdapter.swift in Sources */,
@@ -19089,7 +19052,6 @@
 				6D966F7227FEE416006086B7 /* UnlockPrivilegeView.swift in Sources */,
 				3C7E48222A60F47C00A22B79 /* CasinoBetDetailViewController.swift in Sources */,
 				6D966F7327FEE416006086B7 /* SignupEmailViewModel.swift in Sources */,
-				6D966F7427FEE416006086B7 /* BankUseCase.swift in Sources */,
 				6D966F7527FEE416006086B7 /* RegisterUseCase.swift in Sources */,
 				6D966F7627FEE416006086B7 /* DateViewController.swift in Sources */,
 				FFA26A4B292C7D05008C3E71 /* ViewDidLoadModifier.swift in Sources */,
@@ -19257,7 +19219,6 @@
 				6D55C9F6296662F00038E8FB /* RequestData.swift in Sources */,
 				6D55C95A296662790038E8FB /* SetBirthdayViewController.swift in Sources */,
 				6D55C75229657E440038E8FB /* PromotionHistoryViewModel.swift in Sources */,
-				6D55CA03296662F00038E8FB /* BankRepository.swift in Sources */,
 				6D55C79629657E770038E8FB /* FeatureItemCell.swift in Sources */,
 				6D55C9B6296662CD0038E8FB /* DepositViewModel.swift in Sources */,
 				6D55C946296662640038E8FB /* LevelPrivilegeDetailViewController.swift in Sources */,
@@ -19384,7 +19345,6 @@
 				6D55C914296662340038E8FB /* DateExtension.swift in Sources */,
 				6D55C77829657E660038E8FB /* SlotFilterViewController.swift in Sources */,
 				6D55C7D029657EA60038E8FB /* ImageViewController.swift in Sources */,
-				6D55C9E9296662DE0038E8FB /* BankUseCase.swift in Sources */,
 				3E11CB2C2B396826009EC8CE /* ChattingListViewModel.swift in Sources */,
 				6D55C86329657EEB0038E8FB /* PositionDetectModifier.swift in Sources */,
 				3C7A41492A04F35900B9C619 /* BackgroundColorModifier.swift in Sources */,

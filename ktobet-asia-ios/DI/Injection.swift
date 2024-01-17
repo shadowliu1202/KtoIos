@@ -17,21 +17,21 @@ final class Injection {
   }
 
   func registerAllDependency() {
-    registerFakeNetworkInfa()
+    registerFakeNetworkInfra()
     registerCustomServicePresenter()
-    registApi()
-    registRepo()
+    registerApi()
+    registerRepo()
     registUsecase()
-    registNavigator()
-    registViewModel()
-    registSingleton()
+    registerNavigator()
+    registerViewModel()
+    registerSingleton()
 
-    registersharedbuModule()
+    registerSharedBuModule()
   }
 
-  // MARK: - Setup Network Infa
+  // MARK: - Setup Network Infra
   
-  func setupNetworkInfa() async {
+  func setupNetworkInfra() async {
     let ktoURLManager = KtoURLManager()
     await ktoURLManager.checkHosts()
     
@@ -65,7 +65,7 @@ final class Injection {
   
   // MARK: - HttpClient
   
-  private func registerFakeNetworkInfa() {
+  private func registerFakeNetworkInfra() {
     let fakeURL = URL(string: "https://")!
     
     container
@@ -117,7 +117,7 @@ final class Injection {
 
   // MARK: - API
   
-  func registApi() {
+  func registerApi() {
     container
       .register(NotificationApi.self) { resolver in
         let httpClient = resolver.resolveWrapper(HttpClient.self)
@@ -192,7 +192,7 @@ final class Injection {
 
   // MARK: - Repo
   
-  func registRepo() {
+  func registerRepo() {
     container
       .register(PlayerRepository.self) {
         PlayerRepositoryImpl(
@@ -256,12 +256,6 @@ final class Injection {
       .register(ImageRepository.self) { resolver in
         let imageApi = resolver.resolveWrapper(ImageApi.self)
         return ImageRepositoryImpl(imageApi)
-      }
-
-    container
-      .register(BankRepository.self) { resolver in
-        let bankApi = resolver.resolveWrapper(BankApi.self)
-        return BankRepositoryImpl(bankApi)
       }
 
     container
@@ -476,12 +470,6 @@ final class Injection {
       }
 
     container
-      .register(BankUseCase.self) { resolver in
-        let repoBank = resolver.resolveWrapper(BankRepository.self)
-        return BankUseCaseImpl(repoBank)
-      }
-
-    container
       .register(CasinoRecordUseCase.self) { resolver in
         let repoCasinoRecord = resolver.resolveWrapper(CasinoRecordRepository.self)
         let repoPlayer = resolver.resolveWrapper(PlayerRepository.self)
@@ -579,7 +567,7 @@ final class Injection {
 
   // MARK: - Navigator
   
-  func registNavigator() {
+  func registerNavigator() {
     container
       .register(DepositNavigator.self) { _ in
         DepositNavigatorImpl()
@@ -588,7 +576,7 @@ final class Injection {
 
   // MARK: - ViewModel
   
-  func registViewModel() {
+  func registerViewModel() {
     container
       .register(CryptoDepositViewModel.self) { resolver in
         CryptoDepositViewModel(
@@ -1013,7 +1001,7 @@ final class Injection {
       WithdrawalAddFiatBankCardViewModel(
         $0.resolveWrapper(PlayerConfiguration.self),
         $0.resolveWrapper(AuthenticationUseCase.self),
-        $0.resolveWrapper(BankUseCase.self),
+        $0.resolveWrapper(BankAppService.self),
         $0.resolveWrapper(PlayerDataUseCase.self),
         $0.resolveWrapper(AccountPatternGenerator.self),
         $0.resolveWrapper(IWithdrawalAppService.self))
@@ -1084,7 +1072,7 @@ final class Injection {
 
   // MARK: - Singleton
   
-  func registSingleton() {
+  func registerSingleton() {
     container
       .register(LocalizeUtils.self) { resolver in
         let cultureCode = resolver.resolveWrapper(PlayerConfiguration.self).supportLocale.cultureCode()
@@ -1125,7 +1113,7 @@ final class Injection {
 
   // MARK: - sharedbu
   
-  func registersharedbuModule() {
+  func registerSharedBuModule() {
     registerExternalProtocol()
     registerNumberGameModule()
     registerArcadeModule()
@@ -1268,6 +1256,12 @@ final class Injection {
   
   func registerWalletModule() {
     container
+      .register(BankAppService.self) {
+        ProvideModule.shared.bankAppService(
+          playerConfiguration: $0.resolveWrapper(PlayerConfiguration.self),
+          protocol: $0.resolveWrapper(CommonProtocol.self))
+      }
+    container
       .register(IDepositAppService.self) {
         ProvideModule.shared.depositAppService(
           depositProtocol: $0.resolveWrapper(DepositProtocol.self),
@@ -1313,21 +1307,7 @@ final class Injection {
           csEventService: resolver.resolveWrapper(CSEventService.self))
       }
       .inObjectScope(.locale)
-    
-    container
-      .register(IChatAppService.self) { resolver in
-        resolver.resolveWrapper(ICustomerServiceAppService.self)
-      }
-    
-    container
-      .register(ISurveyAppService.self) { resolver in
-        resolver.resolveWrapper(ICustomerServiceAppService.self)
-      }
-    
-    container
-      .register(IChatHistoryAppService.self) { resolver in
-        resolver.resolveWrapper(ICustomerServiceAppService.self)
-      }
+      .implements(IChatAppService.self, ISurveyAppService.self, IChatHistoryAppService.self)
   }
   
   // MARK: - CasinoModule
