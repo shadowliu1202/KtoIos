@@ -48,7 +48,9 @@ struct UIKitTextView: UIViewRepresentable {
     }
     
     func textViewDidChange(_ textView: UITextView) {
-      parent.text = textView.text
+      if textView.markedTextRange == nil {
+        parent.text = textView.text
+      }
     }
     
     func textViewDidBeginEditing(_: UITextView) {
