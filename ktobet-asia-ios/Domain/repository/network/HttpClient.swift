@@ -50,7 +50,6 @@ class HttpClient {
 
     cookieManager.setCulture(to: locale)
     setupProvider(provider)
-    setupImageDownloader()
   }
 
   private func setupProvider(_ provider: MoyaProvider<MultiTarget>?) {
@@ -76,17 +75,6 @@ class HttpClient {
         NetworkLoggerPlugin.debug(),
         TimeoutRecorder()
       ])
-  }
-  
-  private func setupImageDownloader() {
-    // Unit Test will fail without this check because headers use before stub in init().
-    guard !Configuration.isTesting else { return }
-    
-    SDWebImageDownloader.shared.config.downloadTimeout = .infinity
-    
-    for header in headers {
-      SDWebImageDownloader.shared.setValue(header.value, forHTTPHeaderField: header.key)
-    }
   }
   
   func request(_ target: TargetType) -> Single<Response> {
