@@ -8,10 +8,10 @@ extension UIImageView {
     context: [SDWebImageContextOption: Any]? = nil,
     completed: SDExternalCompletionBlock? = nil)
   {
-    self.sd_setImage(
+    sd_setImage(
       with: url,
       placeholderImage: placeholderImage,
-      options: [.refreshCached],
+      options: [.refreshCached, .handleCookies],
       context: context,
       progress: nil,
       completed: completed)

@@ -69,7 +69,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     configUISetting(application)
     
+    setupImageDownloader()
+    
     return true
+  }
+  
+  private func setupImageDownloader() {
+    let downloaderConfig = SDWebImageDownloaderConfig()
+    downloaderConfig.sessionConfiguration = URLSessionConfiguration.default
+    downloaderConfig.downloadTimeout = .infinity
+      
+    let downloader = SDWebImageDownloader(config: downloaderConfig)
+    downloader.setValue("application/json", forHTTPHeaderField: "Accept")
+    downloader.setValue("AppleWebKit/" + Configuration.getKtoAgent(), forHTTPHeaderField: "User-Agent")
+    
+    SDWebImageManager.defaultImageLoader = downloader
   }
   
   private func crashHandler() {
