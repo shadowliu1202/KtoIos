@@ -9,7 +9,9 @@ class CustomerServiceViewModel {
   private let playerConfiguration: PlayerConfiguration
   private let loading: Loading
   
-  private lazy var observeChatRoom = Observable.from(chatAppService.observeChatRoom()).share(replay: 1)
+  private lazy var observeChatRoom = Observable.from(chatAppService.observeChatRoom())
+    .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .background))
+    .share(replay: 1)
 
   lazy var chatRoomUnreadMessage = observeChatRoom.map { $0.unReadMessage }
   lazy var chatRoomStatus = observeChatRoom.map { $0.status }
@@ -27,6 +29,7 @@ class CustomerServiceViewModel {
 
   func closeChatRoom(forceExit: Bool = false) -> Single<CustomerServiceDTO.ExitChat> {
     Single.from(chatAppService.exit(forceExit: forceExit))
+      .subscribe(on: ConcurrentDispatchQueueScheduler(qos: .background))
       .trackOnDispose(loading.tracker)
   }
   

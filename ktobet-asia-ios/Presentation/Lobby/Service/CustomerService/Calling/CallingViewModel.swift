@@ -33,6 +33,7 @@ class CallingViewModel:
     super.init()
     
     chatRoomStream = AnyPublisher.from(chatAppService.observeChatRoom())
+      .subscribe(on: DispatchQueue.global(qos: .background))
       .redirectErrors(to: self)
       .multicast { CurrentValueSubject(.NOT_EXIST) }
       .autoconnect()
