@@ -10,14 +10,6 @@ class LaunchViewController: UIViewController {
     Task { await executeNavigation() }
   }
 
-  deinit {
-    CustomServicePresenter.shared.initService()
-  }
-
-  private func showAlert(_ title: String?, _ message: String?) {
-    Alert.shared.show(title, message, confirm: { exit(0) }, confirmText: Localize.string("common_confirm"), cancel: nil)
-  }
-
   func executeNavigation(videoURL: URL? = Bundle.main.url(forResource: "KTO", withExtension: "mp4")) async {
     switch viewModel.initLaunchNavigation() {
     case .Landing:
@@ -29,6 +21,8 @@ class LaunchViewController: UIViewController {
       _ = try? await Injection.shared.networkReadyRelay.values.first(where: { $0 })
       navigateToProductPage(productType)
     }
+    
+    CustomServicePresenter.shared.initService()
   }
 
   private func playVideo(_ videoURL: URL?) async {
