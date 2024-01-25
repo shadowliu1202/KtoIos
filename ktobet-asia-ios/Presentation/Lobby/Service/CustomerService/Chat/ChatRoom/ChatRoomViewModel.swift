@@ -43,6 +43,7 @@ class ChatRoomViewModel:
   
   private func getChatRoomStatus(_ onChatRoomMaintain: @escaping () -> Void) {
     AnyPublisher.from(chatAppService.observeChatRoom())
+      .subscribe(on: DispatchQueue.global(qos: .background))
       .receive(on: RunLoop.main)
       .redirectErrors(to: self)
       .sink(receiveValue: { [unowned self] chatRoom in
@@ -56,6 +57,7 @@ class ChatRoomViewModel:
   
   private func getMessages() {
     AnyPublisher.from(chatAppService.observeChatRoom())
+      .subscribe(on: DispatchQueue.global(qos: .background))
       .map {
         if $0.unReadMessage.isEmpty {
           return $0.readMessage

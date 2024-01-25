@@ -46,6 +46,7 @@ class CustomerServiceMainViewModel:
   
   private func getIsChatRoomExist() {
     AnyPublisher.from(chatAppService.observeChatRoom())
+      .subscribe(on: DispatchQueue.global(qos: .background))
       .receive(on: DispatchQueue.main)
       .map { $0.status != sharedbu.Connection.StatusNotExist() }
       .redirectErrors(to: self)
