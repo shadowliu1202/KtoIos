@@ -128,7 +128,7 @@ class SideBarViewController: APPViewController {
     guard !isAlertShowing else { return }
     isAlertShowing = true
     
-    Task {
+    Task { @MainActor in
       let (title, message, isMaintain) = await parseKickOutType(type)
       
       Alert.shared.show(title, message, confirm: { [weak self] in
@@ -216,7 +216,7 @@ class SideBarViewController: APPViewController {
   }
   
   private func logoutToLanding() {
-    Task {
+    Task { @MainActor in
       try? await maintenanceViewModel?.logout().value
       NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LandingNavigation")
     }
@@ -416,12 +416,14 @@ class SideBarViewController: APPViewController {
   
   private func errorsHandingBinding() {
     sideMenuViewModel?.errors()
+      .observe(on: MainScheduler.asyncInstance)
       .subscribe(onNext: { [weak self] error in
         self?.handleErrors(error)
       })
       .disposed(by: disposeBag)
     
     maintenanceViewModel?.errors()
+      .observe(on: MainScheduler.asyncInstance)
       .subscribe(onNext: { [weak self] error in
         self?.handleErrors(error)
       })
