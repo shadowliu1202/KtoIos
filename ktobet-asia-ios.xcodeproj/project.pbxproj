@@ -1651,15 +1651,6 @@
 		3E5196572B01C28E00E4A493 /* InspectWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E5196552B01C28E00E4A493 /* InspectWrapper.swift */; };
 		3E5196592B01D0A400E4A493 /* PrechatSurveyViewModelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E5196582B01D0A400E4A493 /* PrechatSurveyViewModelTest.swift */; };
 		3E51965B2B01D0EF00E4A493 /* PrechatSurveyViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E51965A2B01D0EF00E4A493 /* PrechatSurveyViewTests.swift */; };
-		3E59FE2F2B5636CA0023A3ED /* CasinoDTOExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E59FE2E2B5636CA0023A3ED /* CasinoDTOExtension.swift */; };
-		3E59FE302B5636CA0023A3ED /* CasinoDTOExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E59FE2E2B5636CA0023A3ED /* CasinoDTOExtension.swift */; };
-		3E59FE312B5636CA0023A3ED /* CasinoDTOExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E59FE2E2B5636CA0023A3ED /* CasinoDTOExtension.swift */; };
-		3E59FE322B5636CA0023A3ED /* CasinoDTOExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E59FE2E2B5636CA0023A3ED /* CasinoDTOExtension.swift */; };
-		3E59FE332B5636CA0023A3ED /* CasinoDTOExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E59FE2E2B5636CA0023A3ED /* CasinoDTOExtension.swift */; };
-		3E59FE342B5636CA0023A3ED /* CasinoDTOExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E59FE2E2B5636CA0023A3ED /* CasinoDTOExtension.swift */; };
-		3E59FE352B5636CA0023A3ED /* CasinoDTOExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E59FE2E2B5636CA0023A3ED /* CasinoDTOExtension.swift */; };
-		3E59FE362B5636CA0023A3ED /* CasinoDTOExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E59FE2E2B5636CA0023A3ED /* CasinoDTOExtension.swift */; };
-		3E59FE372B5636CA0023A3ED /* CasinoDTOExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E59FE2E2B5636CA0023A3ED /* CasinoDTOExtension.swift */; };
 		3E59FE1B2B54D6D10023A3ED /* DefaultProductAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E59FE1A2B54D6D10023A3ED /* DefaultProductAdapter.swift */; };
 		3E59FE1C2B54D6D10023A3ED /* DefaultProductAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E59FE1A2B54D6D10023A3ED /* DefaultProductAdapter.swift */; };
 		3E59FE1D2B54D6D10023A3ED /* DefaultProductAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E59FE1A2B54D6D10023A3ED /* DefaultProductAdapter.swift */; };
@@ -7580,7 +7571,6 @@
 		3E5196552B01C28E00E4A493 /* InspectWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InspectWrapper.swift; sourceTree = "<group>"; };
 		3E5196582B01D0A400E4A493 /* PrechatSurveyViewModelTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrechatSurveyViewModelTest.swift; sourceTree = "<group>"; };
 		3E51965A2B01D0EF00E4A493 /* PrechatSurveyViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrechatSurveyViewTests.swift; sourceTree = "<group>"; };
-		3E59FE2E2B5636CA0023A3ED /* CasinoDTOExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CasinoDTOExtension.swift; sourceTree = "<group>"; };
 		3E59FE1A2B54D6D10023A3ED /* DefaultProductAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultProductAdapter.swift; sourceTree = "<group>"; };
 		3E59FE242B553BA50023A3ED /* DefaultProductTypeExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultProductTypeExtension.swift; sourceTree = "<group>"; };
 		3E59FE2E2B5636CA0023A3ED /* CasinoDTOExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CasinoDTOExtension.swift; sourceTree = "<group>"; };
