@@ -98,7 +98,10 @@ extension GameWebViewViewController: WKNavigationDelegate {
     didReceive challenge: URLAuthenticationChallenge,
     completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void)
   {
-    if challenge.protectionSpace.host == httpClient.host.absoluteString {
+    if
+      challenge.protectionSpace.host == httpClient.host.absoluteString ||
+      challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodServerTrust
+    {
       completionHandler(.useCredential, URLCredential(trust: challenge.protectionSpace.serverTrust!))
     }
     else {
