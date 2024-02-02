@@ -34,10 +34,10 @@ extension LazyImage {
   class Downloader: ObservableObject {
     @Published var result: Result?
 
-    private let downloader: SDWebImageDownloader
+    private let manager: SDWebImageManager
 
-    init(downloader: SDWebImageDownloader = .shared) {
-      self.downloader = downloader
+    init(manager: SDWebImageManager = SDWebImageManager.shared) {
+      self.manager = manager
     }
 
     @MainActor
@@ -47,33 +47,12 @@ extension LazyImage {
       }
 
       do {
-        let image = try await downloader.image(from: url)
+        let image = try await manager.loadImage(from: url)
         result = .success(image)
       }
       catch {
         result = .failure(error)
       }
     }
-  }
-}
-
-// MARK: - SDWebImageDownloader
-
-extension SDWebImageDownloader {
-  func image(from url: String) async throws -> UIImage {
-    try await
-      withCheckedThrowingContinuation { continuation in
-        self.downloadImage(with: .init(string: url)) { image, _, error, _ in
-          if let error {
-            continuation.resume(throwing: error)
-          }
-          else if let image {
-            continuation.resume(returning: image)
-          }
-          else {
-            continuation.resume(throwing: KTOError.EmptyData)
-          }
-        }
-      }
   }
 }
