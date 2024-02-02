@@ -60,24 +60,13 @@ class ChattingListViewModel: ObservableObject {
   func downloadImage(_ thumbnailPath: String) {
     downloadedImages[thumbnailPath] = nil
     let url = httpClient.host.absoluteString + thumbnailPath
-    let downloader = createDownloader()
     
     Task {
-      let image = await (try? downloader.image(from: url)) ?? downloadFail
+      let image = await (try? SDWebImageManager.shared.loadImage(from: url)) ?? downloadFail
       await MainActor.run(body: {
         guard !hasDownloadedImage(thumbnailPath) else { return }
         downloadedImages[thumbnailPath] = image
       })
     }
-  }
-  
-  private func createDownloader() -> SDWebImageDownloader {
-    let urlSessionConfig = URLSessionConfiguration.default
-    urlSessionConfig.httpAdditionalHeaders = httpClient.headers
-    
-    let downloaderConfig = SDWebImageDownloaderConfig()
-    downloaderConfig.sessionConfiguration = urlSessionConfig
-    
-    return SDWebImageDownloader(config: downloaderConfig)
   }
 }
