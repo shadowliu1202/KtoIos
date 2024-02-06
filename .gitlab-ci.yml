@@ -68,7 +68,7 @@ merge-job:
     # CI_DEBUG_TRACE: "true"
     MR_COMMAND : 'curl --header PRIVATE-TOKEN:$GITLAB_AUTH_TOKEN https://gitlab.higgstar.com/api/v4/projects/${CI_PROJECT_ID}/merge_requests/${CI_MERGE_REQUEST_IID}'
     BRANCH_PATTERN : '(APP|KTO|SP)-[0-9]+'
-    BUGFIX_PATTERN : 'fix[[:space:]]*:[[:space:]]*(APP|KTO|SP)-[0-9]+[[:space:]]+.*#comment[[:space:]]+root[[:space:]]{0,1}cause:[[:space:]]*.{2,}[[:space:]]*\\[[:space:]]*solution[[:space:]]*:[[:space:]]*.{2,}'
+    BUGFIX_PATTERN : 'fix[[:space:]]*:[[:space:]]*(APP|KTO|SP)-[0-9]+[[:space:]]+.*#comment[[:space:]]+root[[:space:]]{0,1}cause:[[:space:]]{0,1}(\[3rd\]|\[arch\]|\[diff\]|\[dev\])[[:space:]]*.{2,}[[:space:]]*\\[[:space:]]*solution[[:space:]]*:[[:space:]]*.{2,}'
     GIT_SSL_NO_VERIFY: "1"
     GRADLE_OPTS: "-Dorg.gradle.daemon=false"
   script:
@@ -98,10 +98,29 @@ merge-job:
         if [[ "${ISSUE_NAME}" =~ "bug" ]]; then
           echo "Issue relate to bug"
           if ! [[ "${DESCRIPTION}" =~ $BUGFIX_PATTERN ]] || ! [[ "${DESCRIPTION}" =~ "${CI_MERGE_REQUEST_SOURCE_BRANCH_NAME}" ]]; then
-            echo -e "\033[31mdescription of fix type should follow pattern as fix:BRANCH_NAME #comment rootcause:xxx \\ solution:xxx\033[0;m"
+            echo -e "\033[31mdescription of fix type should follow pattern as fix:BRANCH_NAME #comment rootcause:[3rd/arch/diff/dev]xxx \\ solution:xxx\033[0;m"
             exit 1
           fi
         fi
+      fi
+    - |
+      echo "DESCRIPTION: ${DESCRIPTION}"
+      if [[ "${DESCRIPTION}" =~ "[3rd]" ]]; then
+        CUSTOMFIELD_VALUE="因第三方廠商/merchant 造成"
+      elif [[ "${DESCRIPTION}" =~ "[arch]" ]]; then
+        CUSTOMFIELD_VALUE="與架構設計相關"
+      elif [[ "${DESCRIPTION}" =~ "[diff]" ]]; then
+        CUSTOMFIELD_VALUE="與需求描述不一致"
+      elif [[ "${DESCRIPTION}" =~ "[dev]" ]]; then
+        CUSTOMFIELD_VALUE="開發流程未落實"
+      else
+        CUSTOMFIELD_VALUE=""
+      fi
+      echo "CUSTOMFIELD_VALUE: ${CUSTOMFIELD_VALUE}"
+      if [[ "${CUSTOMFIELD_VALUE}" != "" ]]; then
+        # 更新 rootCauseCategory 欄位的值
+        JIRA_UPDATE_RESULT=$(curl --request PUT --url "https://jira.higgstar.com/rest/api/2/issue/${CI_MERGE_REQUEST_SOURCE_BRANCH_NAME}" --data "{\"update\":{\"customfield_12702\" : [{\"set\" : {\"value\" : \"${CUSTOMFIELD_VALUE}\"}}]}}" --header "Authorization: Bearer $JIRA_TOKEN" --header "Content-Type: application/json")
+        echo "JIRA_UPDATE_RESULT: ${JIRA_UPDATE_RESULT}"
       fi
     - >
        TRANSITION=$(curl --request GET --url "https://jira.higgstar.com/rest/api/2/issue/${CI_MERGE_REQUEST_SOURCE_BRANCH_NAME}/transitions" --header "Authorization: Bearer $JIRA_TOKEN" --header "Content-Type: application/json")
