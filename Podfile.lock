@@ -176,7 +176,9 @@ PODS:
   - SwiftKeychainWrapper (4.0.1)
   - SwiftSignalRClient (0.9.4)
   - SwiftyJSON (5.0.0)
-  - Swinject (2.7.1)
+  - Swinject (2.8.3)
+  - SwinjectAutoregistration (2.8.3):
+    - Swinject (~> 2.8.3)
   - TYCyclePagerView (1.2.0)
   - ViewInspector (0.9.8)
   - youtube-ios-player-helper (1.0.4)
@@ -209,7 +211,8 @@ DEPENDENCIES:
   - SwiftKeychainWrapper
   - SwiftSignalRClient
   - SwiftyJSON (= 5.0.0)
-  - Swinject (= 2.7.1)
+  - Swinject (= 2.8.3)
+  - SwinjectAutoregistration (= 2.8.3)
   - TYCyclePagerView (= 1.2.0)
   - ViewInspector
   - youtube-ios-player-helper
@@ -260,6 +263,7 @@ SPEC REPOS:
     - SwiftSignalRClient
     - SwiftyJSON
     - Swinject
+    - SwinjectAutoregistration
     - TYCyclePagerView
     - ViewInspector
     - youtube-ios-player-helper
@@ -307,11 +311,12 @@ SPEC CHECKSUMS:
   SwiftKeychainWrapper: 807ba1d63c33a7d0613288512399cd1eda1e470c
   SwiftSignalRClient: f259c3394e21c81b6f2ddf614866afa234e0e0dd
   SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
-  Swinject: ddf78b8486dd9b71a667b852cad919ab4484478e
+  Swinject: 893c9a543000ac2f10ee4cbaf0933c6992c935d5
+  SwinjectAutoregistration: e3ee378dc458acf78d176fc7fec3902603452667
   TYCyclePagerView: 2b051dade0615c70784aa34f40c646feeddb7344
   ViewInspector: 36399ac43f76170693c41499e9035499926171cb
   youtube-ios-player-helper: e9b97535e816db3152179d84d999bc1807ecd689
 
-PODFILE CHECKSUM: c5c379037e82f25f4ef576e32dfb8c7343e49817
+PODFILE CHECKSUM: bef78c65a54a97771c80e471c85d9bc63884507b
 
-COCOAPODS: 1.13.0
+COCOAPODS: 1.14.3
