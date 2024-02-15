@@ -20,7 +20,7 @@ final class APPErrorTests: XCTestCase {
       .register(ActivityIndicator.self, name: "CheckingIsLogged") { _ in
         .init()
       }
-      .inObjectScope(.application)
+      .inObjectScope(.container)
   }
   
   func test_givensharedbuError_whenGenerateResult_thenResultIsUnknownError() {

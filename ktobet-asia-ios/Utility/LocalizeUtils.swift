@@ -30,8 +30,8 @@ var Localize: LocalizeUtils {
 class LocalizeUtils: NSObject {
   private let localizationFileName: String
 
-  init(localizationFileName: String) {
-    self.localizationFileName = localizationFileName
+  init(supportLocale: SupportLocale) {
+    self.localizationFileName = supportLocale.cultureCode()
   }
 
   func string(_ key: String, _ parameters: [String]) -> String {

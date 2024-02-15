@@ -85,7 +85,7 @@ class LoginViewController: LandingViewController {
   @IBAction
   func logoItemOnTap(_: UIBarButtonItem) {
     Configuration.forceChinese.toggle()
-    Localize = LocalizeUtils(localizationFileName: Configuration.forceChinese ? "zh-cn" : "vi-vn")
+    Localize = LocalizeUtils(supportLocale: Configuration.forceChinese ? SupportLocale.China() : SupportLocale.Vietnam())
     recreateVC()
   }
   

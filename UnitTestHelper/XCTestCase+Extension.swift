@@ -52,7 +52,7 @@ extension XCTestCase {
   }
 
   func stubLocalizeUtils(_ supportLocale: SupportLocale) {
-    Localize = LocalizeUtils(localizationFileName: supportLocale.cultureCode())
+    Localize = LocalizeUtils(supportLocale: supportLocale)
   }
 
   func makeItVisible(_ target: UIViewController) {

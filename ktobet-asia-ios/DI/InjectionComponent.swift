@@ -1,5 +1,6 @@
 import Foundation
 import Swinject
+import SwinjectAutoregistration
 
 public let Injectable = Injection.shared.container
 
@@ -13,20 +14,20 @@ struct Injected<Dependency> {
   }
 
   init() {
-    _wrappedValue = Injectable.resolveWrapper(Dependency.self)
+    _wrappedValue = Injectable ~> Dependency.self
   }
 
   init(name: String) {
-    _wrappedValue = Injectable.resolveWrapper(Dependency.self, name: name)
+    _wrappedValue = Injectable ~> (Dependency.self, name: name)
   }
 }
 
 extension ObjectScope {
-  static let application = ObjectScope(storageFactory: PermanentStorage.init)
   static let locale = ObjectScope(storageFactory: PermanentStorage.init)
 }
 
 extension Resolver {
+  @available(*, deprecated) // replace with ~> operator or @Injected
   func resolveWrapper<T>(_ type: T.Type, name: String? = nil) -> T {
     guard let object = resolve(type, name: name)
     else {
