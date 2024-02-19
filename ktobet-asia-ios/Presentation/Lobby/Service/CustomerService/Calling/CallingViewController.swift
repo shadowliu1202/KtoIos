@@ -86,19 +86,19 @@ class CallingViewController: CommonViewController {
       Localize.string("customerservice_stop_call_content"),
       confirm: { },
       confirmText: Localize.string("common_continue"),
-      cancel: { [unowned self] in
+      cancel: {
         guard let _ = CustomServicePresenter.shared.topViewController as? CallingViewController else { return }
         
-        Task {
+        Task { [weak self] in
           do {
-            enableLoading(true)
-            try await viewModel.closeChatRoom()
-            enableLoading(false)
-            showLeaveMessageAlert()
+            self?.enableLoading(true)
+            try await self?.viewModel.closeChatRoom()
+            self?.enableLoading(false)
+            self?.showLeaveMessageAlert()
           }
           catch {
-            enableLoading(false)
-            handleCallingErrors(error)
+            self?.enableLoading(false)
+            self?.handleCallingErrors(error)
           }
         }
       },
