@@ -68,7 +68,7 @@ merge-job:
     # CI_DEBUG_TRACE: "true"
     MR_COMMAND : 'curl --header PRIVATE-TOKEN:$GITLAB_AUTH_TOKEN https://gitlab.higgstar.com/api/v4/projects/${CI_PROJECT_ID}/merge_requests/${CI_MERGE_REQUEST_IID}'
     BRANCH_PATTERN : '(APP|KTO|SP)-[0-9]+'
-    BUGFIX_PATTERN : 'fix[[:space:]]*:[[:space:]]*(APP|KTO|SP)-[0-9]+[[:space:]]+.*#comment[[:space:]]+root[[:space:]]{0,1}cause:[[:space:]]{0,1}(\[3rd\]|\[arch\]|\[diff\]|\[dev\])[[:space:]]*.{2,}[[:space:]]*\\[[:space:]]*solution[[:space:]]*:[[:space:]]*.{2,}'
+    BUGFIX_PATTERN : 'fix[[:space:]]*:[[:space:]]*(APP|KTO|SP)-[0-9]+[[:space:]]+.*#comment[[:space:]]+root[[:space:]]{0,1}cause:[[:space:]]{0,1}(\[3rd\]|\[arch\]|\[diff\]|\[dev\]|\[env\]|\[other\])[[:space:]]*.{2,}[[:space:]]*\\[[:space:]]*solution[[:space:]]*:[[:space:]]*.{2,}'
     GIT_SSL_NO_VERIFY: "1"
     GRADLE_OPTS: "-Dorg.gradle.daemon=false"
   script:
@@ -98,7 +98,7 @@ merge-job:
         if [[ "${ISSUE_NAME}" =~ "bug" ]]; then
           echo "Issue relate to bug"
           if ! [[ "${DESCRIPTION}" =~ $BUGFIX_PATTERN ]] || ! [[ "${DESCRIPTION}" =~ "${CI_MERGE_REQUEST_SOURCE_BRANCH_NAME}" ]]; then
-            echo -e "\033[31mdescription of fix type should follow pattern as fix:BRANCH_NAME #comment rootcause:[3rd/arch/diff/dev]xxx \\ solution:xxx\033[0;m"
+            echo -e "\033[31mdescription of fix type should follow pattern as fix:BRANCH_NAME #comment rootcause:[3rd/arch/diff/dev/env/other]xxx \\ solution:xxx\033[0;m"
             exit 1
           fi
         fi
@@ -113,6 +113,10 @@ merge-job:
         CUSTOMFIELD_VALUE="與需求描述不一致"
       elif [[ "${DESCRIPTION}" =~ "[dev]" ]]; then
         CUSTOMFIELD_VALUE="開發流程未落實"
+      elif [[ "${DESCRIPTION}" =~ "[env]" ]]; then
+        CUSTOMFIELD_VALUE="環境/資料問題造成"
+      elif [[ "${DESCRIPTION}" =~ "[other]" ]]; then
+        CUSTOMFIELD_VALUE="提出者誤判/不屬於Bug"
       else
         CUSTOMFIELD_VALUE=""
       fi
