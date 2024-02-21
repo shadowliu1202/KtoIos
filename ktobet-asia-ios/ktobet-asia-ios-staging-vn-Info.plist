@@ -104,13 +104,6 @@
 				<key>NSIncludesSubdomains</key>
 				<true/>
 			</dict>
-			<key>play.aseanlottostream.com</key>
-			<dict>
-				<key>NSExceptionAllowsInsecureHTTPLoads</key>
-				<true/>
-				<key>NSIncludesSubdomains</key>
-				<true/>
-			</dict>
 			<key>pmj.w88uat.com</key>
 			<dict>
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
