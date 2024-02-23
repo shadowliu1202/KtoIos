@@ -97,17 +97,13 @@ extension CryptoSelectorViewController {
   }
 
   func navigateToGuide() {
-    switch playerConfiguration.supportLocale {
-    case is SupportLocale.China:
+    switch onEnum(of: playerConfiguration.supportLocale) {
+    case .china:
       navigationController?
         .pushViewController(
           CryptoGuideViewController.initFrom(storyboard: "Deposit"),
           animated: true)
-
-    case is SupportLocale.Vietnam:
-      fallthrough
-
-    default:
+    case .vietnam:
       navigationController?
         .pushViewController(
           CryptoGuideVNDViewController(),

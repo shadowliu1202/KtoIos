@@ -35,7 +35,7 @@ class CasinoRepositoryImpl: WebGameRepositoryImpl, CasinoRepository {
   func getLobby() -> Single<[CasinoLobby]> {
     casinoApi.getCasinoGames().map { response -> [CasinoLobby] in
       response.data.map { bean -> CasinoLobby in
-        let lobby = CasinoLobbyType.Companion().convert(type_: Int32(bean.lobbyID))
+        let lobby = CasinoLobbyType.Companion().convert(type: Int32(bean.lobbyID))
         return CasinoLobby(lobby: lobby, name: bean.lobbyName, isMaintenance: bean.isLobbyMaintenance)
       }
     }
@@ -45,7 +45,7 @@ class CasinoRepositoryImpl: WebGameRepositoryImpl, CasinoRepository {
     var map: [String: String] = [:]
     lobbyIds.enumerated().forEach { index, element in map["lobbyIds[\(index)]"] = String(element) }
     typeId.enumerated().forEach { index, element in map["gameTags[\(index)]"] = String(element) }
-    let fetchApi = casinoApi.search(sortBy: GameSorting.convertCasinoGameOrder(sortBy: GameSorting.releaseddate), map: map)
+    let fetchApi = casinoApi.search(sortBy: GameSorting.convertCasinoGameOrder(sortBy: GameSorting.releasedDate), map: map)
       .map { [unowned self] response -> [CasinoGame] in
         guard let data = response.data else { return [] }
         return try data.map({ try $0.toCasinoGame(host: self.httpClient.host.absoluteString) })

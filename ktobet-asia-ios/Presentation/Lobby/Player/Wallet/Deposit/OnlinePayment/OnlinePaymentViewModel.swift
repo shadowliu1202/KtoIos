@@ -84,19 +84,13 @@ class OnlinePaymentViewModel:
   }
 
   private func parseCashType(_ cashType: CashType) -> OnlinePaymentDataModel.Gateway.CashType? {
-    switch cashType {
-    case let input as CashType.Input:
+    switch onEnum(of: cashType) {
+    case .input(let it):
       return .input(
-        limitation: (
-          input.limitation.min.description(),
-          input.limitation.max.description()),
-        isFloatAllowed: input.isFloatAllowed)
-    case let option as CashType.Option:
-      return .option(
-        amountList: option.list
-          .map { $0.description })
-    default:
-      return nil
+        limitation: (it.limitation.min.description(), it.limitation.max.description()),
+        isFloatAllowed: it.isFloatAllowed)
+    case .option(let it):
+      return .option(amountList: it.list.map { $0.description })
     }
   }
 
@@ -118,7 +112,7 @@ class OnlinePaymentViewModel:
       remitterAccount: info.remitterAccountNumber,
       remitterBankName: nil,
       remittance: info.remitAmount?.replacingOccurrences(of: ",", with: ""),
-      supportBankCode_: remitBankCodeDTO?.bankCode)
+      supportBankCode: remitBankCodeDTO?.bankCode)
 
     remitInfoErrorMessage = toRemittanceInfoError(gatewayDTO, remitApplication)
 
@@ -144,23 +138,21 @@ class OnlinePaymentViewModel:
     var remitAmountError = ""
 
     for error in errors {
-      switch error {
-      case is PaymentError.RemitterNameIsEmpty:
-        remitterNameError = Localize.string("common_field_must_fill")
-
-      case let error as PaymentError.RemitterNameExceededLength:
-        remitterNameError = Localize.string("register_name_format_error_length_limitation", "\(error.maxLength)")
-
-      case is PaymentError.RemitterAccountNeedDigitOnly:
-        remitterAccountNumberError = Localize.string("common_field_format_incorrect")
-
-      case is PaymentError.RemittanceOutOfRange:
-        remitAmountError = Localize.string("deposit_limitation_hint")
-
-      case is PaymentError.RemittanceIsEmpty:
+      switch onEnum(of: error) {
+      case .remittanceIsEmpty:
         remitAmountError = Localize.string("common_field_must_fill")
-
-      default:
+      case .remittanceOutOfRange:
+        remitAmountError = Localize.string("deposit_limitation_hint")
+      case .remitterAccountNeedDigitOnly:
+        remitterAccountNumberError = Localize.string("common_field_format_incorrect")
+      case .remitterNameExceededLength(let it):
+        remitterNameError = Localize.string("register_name_format_error_length_limitation", "\(it.maxLength)")
+      case .remitterNameIsEmpty:
+        remitterNameError = Localize.string("common_field_must_fill")
+      case .remittanceMalformed,
+           .remitterAccountNotNeeded,
+           .remitterBankIsEmpty,
+           .supportBankCodeIsEmpty:
         break
       }
     }
@@ -251,12 +243,10 @@ class OnlinePaymentViewModel:
   }
 
   func getTerminateAlertMessage() -> String {
-    switch playerConfiguration.supportLocale {
-    case is SupportLocale.China:
+    switch onEnum(of: playerConfiguration.supportLocale) {
+    case .china:
       return Localize.string("deposit_online_terminate")
-    case is SupportLocale.Vietnam:
-      fallthrough
-    default:
+    case .vietnam:
       return Localize.string("deposit_payment_terminate", remitMethodName)
     }
   }

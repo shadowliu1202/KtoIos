@@ -317,15 +317,13 @@ extension OnlinePaymentView {
             case .normal:
               normalForm(gateway)
                 .id(OnlinePaymentView.Identifier.normalForm.rawValue)
-            case .onlyamount:
+            case .onlyAmount:
               onlyAmountForm(gateway)
                 .id(OnlinePaymentView.Identifier.onlyAmountForm.rawValue)
-            case .frombank:
+            case .fromBank:
               fromBankForm(gateway)
-            case .directto:
+            case .directTo:
               directToForm(gateway)
-            default:
-              normalForm(gateway)
             }
           }
         }
@@ -443,7 +441,7 @@ struct OnlinePaymentView_Previews: PreviewProvider {
         id: "3",
         name: "onlyAmount (input)",
         hint: "",
-        remitType: .onlyamount,
+        remitType: .onlyAmount,
         remitBanks: [],
         cashType: .input(limitation: ("50", "100"), isFloatAllowed: true),
         isAccountNumberDenied: false, isInstructionDisplayed: false),
@@ -451,7 +449,7 @@ struct OnlinePaymentView_Previews: PreviewProvider {
         id: "4",
         name: "onlyAmount (optional)",
         hint: "",
-        remitType: .onlyamount,
+        remitType: .onlyAmount,
         remitBanks: [],
         cashType: .option(amountList: ["50", "100"]),
         isAccountNumberDenied: false, isInstructionDisplayed: false),
@@ -459,7 +457,7 @@ struct OnlinePaymentView_Previews: PreviewProvider {
         id: "5",
         name: "fromBank",
         hint: "",
-        remitType: .frombank,
+        remitType: .fromBank,
         remitBanks: [],
         cashType: .input(limitation: ("50", "100"), isFloatAllowed: true),
         isAccountNumberDenied: false, isInstructionDisplayed: false),
@@ -467,7 +465,7 @@ struct OnlinePaymentView_Previews: PreviewProvider {
         id: "6",
         name: "directTo",
         hint: "",
-        remitType: .directto,
+        remitType: .directTo,
         remitBanks: [],
         cashType: .option(amountList: ["50", "100"]),
         isAccountNumberDenied: false, isInstructionDisplayed: false)

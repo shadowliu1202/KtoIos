@@ -36,8 +36,6 @@ extension Plate {
       return Image("Plate-Red")
     case .white:
       return Image("Plate-White")
-    default:
-      fatalError("should not reach here.")
     }
   }
 }

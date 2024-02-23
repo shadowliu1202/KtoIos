@@ -29,18 +29,16 @@ class NotificationUseCaseImpl: NotificationUseCase {
   }
 
   private func isShown(myActivityType: MyActivityType) -> Bool {
-    switch myActivityType {
-    case .depositneedsverifieddoc,
-         .levelup,
-         .offlinecardschange,
-         .onlinecardschange,
-         .paymentgroupchanged,
-         .registercompleted,
-         .withdrawalneedsverifieddoc,
-         .withdrawalrejected: return true
-    default:
-      return false
-    }
+    [
+      .depositNeedsVerifiedDoc,
+      .levelUp,
+      .offlineCardsChange,
+      .onlineCardsChange,
+      .paymentGroupChanged,
+      .registerCompleted,
+      .withdrawalNeedsVerifiedDoc,
+      .withdrawalRejected
+    ].contains(myActivityType)
   }
 
   func deleteNotification(messageId: String) -> Completable {

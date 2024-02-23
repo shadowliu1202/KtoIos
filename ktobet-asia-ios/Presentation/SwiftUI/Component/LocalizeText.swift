@@ -18,12 +18,10 @@ struct LocalizeText: View {
   }
 
   private func getCultureCode() -> String {
-    switch playerLocale {
-    case .Vietnam():
+    switch onEnum(of: playerLocale) {
+    case .vietnam:
       return "vi-vn"
-    case .China():
-      return "zh-cn"
-    default:
+    case .china:
       return "zh-cn"
     }
   }

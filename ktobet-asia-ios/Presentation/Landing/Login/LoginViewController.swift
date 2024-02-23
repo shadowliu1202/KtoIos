@@ -65,12 +65,12 @@ class LoginViewController: LandingViewController {
       .fetchMaintenanceStatus()
       .subscribe(
         onSuccess: { status in
-          switch status {
-          case is MaintenanceStatus.AllPortal:
+          switch onEnum(of: status) {
+          case .allPortal:
             NavigationManagement.sharedInstance.goTo(
               storyboard: "Maintenance",
               viewControllerId: "PortalMaintenanceViewController")
-          default:
+          case .product:
             break
           }
         },
@@ -207,13 +207,10 @@ extension LoginViewController: BarButtonItemable {
   func pressedRightBarButtonItems(_ sender: UIBarButtonItem) {
     switch sender.tag {
     case registerBarBtnId:
-      let supportLocale = viewModel.getSupportLocale()
-      switch supportLocale {
-      case .China():
+      switch onEnum(of: viewModel.getSupportLocale()) {
+      case .china:
         alertServiceDownThenToSignUpPage()
-      case .Vietnam():
-        navigateToSignUpPage()
-      default:
+      case .vietnam:
         navigateToSignUpPage()
       }
     case manualUpdateBtnId:

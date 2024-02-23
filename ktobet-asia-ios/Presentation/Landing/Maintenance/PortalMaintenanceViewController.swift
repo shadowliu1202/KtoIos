@@ -31,11 +31,10 @@ class PortalMaintenanceViewController: LandingViewController {
       .disposed(by: disposeBag)
 
     viewModel.output.portalMaintenanceStatusPerSecond.subscribe(onNext: { [weak self] status in
-      switch status {
-      case let allPortal as MaintenanceStatus.AllPortal:
-        let seconds = allPortal.convertDurationToSeconds()?.int32Value
-        self?.startCountDown(seconds: seconds)
-      default:
+      switch onEnum(of: status) {
+      case .allPortal(let it):
+        self?.startCountDown(seconds: it.convertDurationToSeconds()?.int32Value)
+      case .product:
         self?.navigateToLogin()
       }
     }).disposed(by: disposeBag)

@@ -236,13 +236,11 @@ extension Date {
   func toDateTimeWithDayOfWeekString(by supportLocale: SupportLocale) -> String {
     let dateFormatter = DateFormatter()
     
-    switch supportLocale {
-    case is SupportLocale.China:
+    switch onEnum(of: supportLocale) {
+    case .china:
       dateFormatter.locale = Locale(identifier: "zh_Hans_CN")
       dateFormatter.dateFormat = "yyyy/MM/dd (EEEEE) HH:mm:ss"
-    case is SupportLocale.Vietnam:
-      fallthrough
-    default:
+    case .vietnam:
       dateFormatter.locale = Locale(identifier: "en_US_POSIX")
       dateFormatter.dateFormat = "yyyy/MM/dd (EEE) HH:mm:ss"
     }

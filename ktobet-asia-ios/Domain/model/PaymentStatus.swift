@@ -16,16 +16,14 @@ extension PaymentStatus {
       return Localize.string("common_reject")
     case .other:
       return ""
-    default:
-      return ""
     }
   }
 
   func toLogColor() -> UIColor {
-    switch self {
-    case .floating:
+    if self == .floating {
       return UIColor.alert
-    default:
+    }
+    else {
       return UIColor.textPrimary
     }
   }

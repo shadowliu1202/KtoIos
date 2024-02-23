@@ -85,8 +85,6 @@ class CryptoDepositViewModel:
       return "Main_USDT"
     case .usdc:
       return "Main_USDC"
-    default:
-      return ""
     }
   }
 }

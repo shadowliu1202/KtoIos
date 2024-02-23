@@ -12,7 +12,9 @@ extension LazyImage {
       switch self {
       case .success(let image):
         return image
-      default:
+      
+      case .failure,
+           .placeholder:
         return nil
       }
     }
@@ -21,7 +23,8 @@ extension LazyImage {
       switch self {
       case .failure(let error):
         return error
-      default:
+      case .placeholder,
+           .success:
         return nil
       }
     }

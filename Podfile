@@ -18,7 +18,7 @@ def default_pods
   pod 'IQKeyboardManagerSwift', '6.5.6'
   source 'git@gitlab.higgstar.com:mobile/ios_pod_repo.git'
   source 'https://github.com/CocoaPods/Specs.git'
-  pod 'sharedbu', '2.48.0'
+  pod 'sharedbu', '2.48.1'
 #  pod 'sharedbu', :path => '../kto_shared_bu/sharedbu/build/cocoapods/publish/release'
   pod 'SideMenu', '6.5.0'
   pod 'Moya/RxSwift', '15.0.0'
@@ -36,6 +36,7 @@ def default_pods
   pod 'SwiftKeychainWrapper'
   pod 'SwiftFormat/CLI', '~> 0.49'
   pod 'SwiftSignalRClient'
+  pod 'Periphery'
   use_frameworks!
 end
 

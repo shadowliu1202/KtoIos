@@ -137,7 +137,7 @@ class PlayerRepositoryImpl: PlayerRepository {
     case 1: return ProductType.slot
     case 2: return ProductType.casino
     case 3: return ProductType.sbk
-    case 4: return ProductType.numbergame
+    case 4: return ProductType.numberGame
     default: return .none
     }
   }
@@ -151,7 +151,7 @@ class PlayerRepositoryImpl: PlayerRepository {
 
   func getBalance(_ supportLocale: SupportLocale) -> Single<AccountCurrency> {
     playerApi.getCashBalance().map {
-      FiatFactory().create(supportLocale: supportLocale, amount_: "\(Double($0.data ?? 0))")
+      FiatFactory().create(supportLocale: supportLocale, amount: "\(Double($0.data ?? 0))")
     }
   }
 
@@ -203,7 +203,10 @@ class PlayerRepositoryImpl: PlayerRepository {
 
   private func convert(levelBean: LevelBean) throws -> LevelOverview {
     let privileges = levelBean.data?.map { self.convert(level: levelBean.level, privilegeBean: $0) } ?? []
-    return try LevelOverview(level: levelBean.level, timeStamp: levelBean.timestamp.toLocalDateTime(), privileges: privileges)
+    return try LevelOverview(
+      level: levelBean.level,
+      timeStamp: levelBean.timestamp.toKotlinLocalDateTime(),
+      privileges: privileges)
   }
 
   private func convert(level: Int32, privilegeBean: PrivilegeBean) -> LevelPrivilege {
@@ -225,7 +228,7 @@ class PlayerRepositoryImpl: PlayerRepository {
   private func rebatePercentages(_ bean: PrivilegeBean) -> [ProductType: Percentage] {
     [
       ProductType.casino: Percentage(percent: bean.casinoPercentage),
-      ProductType.numbergame: Percentage(percent: bean.numberGamePercentage),
+      ProductType.numberGame: Percentage(percent: bean.numberGamePercentage),
       ProductType.sbk: Percentage(percent: bean.sbkPercentage),
       ProductType.slot: Percentage(percent: bean.slotPercentage),
       ProductType.arcade: Percentage(percent: bean.arcadePercentage)

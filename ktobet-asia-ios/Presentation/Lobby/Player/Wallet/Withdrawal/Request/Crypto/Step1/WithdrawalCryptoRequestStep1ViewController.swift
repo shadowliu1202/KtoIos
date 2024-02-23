@@ -96,19 +96,19 @@ extension WithdrawalCryptoRequestStep1ViewController {
 
   func tapAutoFill(recipe: WithdrawalDto.FulfillmentRecipe) {
     switch recipe.type {
-    case .notallowedbyturnover:
+    case .notAllowedByTurnOver:
       viewModel.fillAmounts(
         accountCurrency: recipe.from,
         cryptoAmount: recipe.to)
-    case .allbalance:
+    case .allBalance:
       viewModel.fillAmounts(
         accountCurrency: recipe.from,
         cryptoAmount: recipe.to)
-    case .completeturnover:
+    case .completeTurnOver:
       viewModel.fillAmounts(
         accountCurrency: recipe.from,
         cryptoAmount: recipe.to)
-    case .oneoffmaximum:
+    case .oneOffMaximum:
       alertAutoFillMessage(
         title: Localize.string("common_tip_title_warm"),
         message: Localize.string("cps_auto_fill_maximum_limit"))
@@ -117,7 +117,7 @@ extension WithdrawalCryptoRequestStep1ViewController {
           accountCurrency: recipe.from,
           cryptoAmount: recipe.to)
       }
-    case .dailymaximum:
+    case .dailyMaximum:
       alertAutoFillMessage(
         title: Localize.string("common_tip_title_warm"),
         message: Localize.string("cps_auto_fill_daily_limit_maximum"))
@@ -126,7 +126,7 @@ extension WithdrawalCryptoRequestStep1ViewController {
           accountCurrency: recipe.from,
           cryptoAmount: recipe.to)
       }
-    case .oneoffmaximumforturnover:
+    case .oneOffMaximumForTurnOver:
       alertAutoFillMessage(
         title: Localize.string("common_tip_title_warm"),
         message: Localize.string("cps_auto_fill_crypto_maximum_limit"))
@@ -135,7 +135,7 @@ extension WithdrawalCryptoRequestStep1ViewController {
           accountCurrency: recipe.from,
           cryptoAmount: recipe.to)
       }
-    case .dailymaximumforturnover:
+    case .dailyMaximumForTurnOver:
       alertAutoFillMessage(
         title: Localize.string("common_tip_title_warm"),
         message: Localize.string("cps_auto_fill_crypto_daily_limit_maximum"))
@@ -144,7 +144,7 @@ extension WithdrawalCryptoRequestStep1ViewController {
           accountCurrency: recipe.from,
           cryptoAmount: recipe.to)
       }
-    case .remainbalanceforlimitation:
+    case .remainBalanceForLimitation:
       alertAutoFillMessage(
         title: Localize.string("cps_auto_fill_not_enough_balance"),
         message: Localize.string("cps_auto_fill_remaining_balance"))
@@ -153,8 +153,6 @@ extension WithdrawalCryptoRequestStep1ViewController {
           accountCurrency: recipe.from,
           cryptoAmount: recipe.to)
       }
-    default:
-      break
     }
   }
 

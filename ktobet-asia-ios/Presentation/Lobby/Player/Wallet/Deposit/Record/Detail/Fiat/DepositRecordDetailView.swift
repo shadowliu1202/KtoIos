@@ -82,7 +82,7 @@ struct DepositRecordDetailView_Previews: PreviewProvider {
             "https://obs.line-scdn.net/0hJM6rJ9BPFWILCwIZno9qNS9dFg04ZwZhbz1EcFxuLTwmPFI0ZWVTUSxcTAAjPgZgN2UOASwOQ1VjOgYwPj4NViw/w644")
         ])
     ]
-    var selectedImages: [RecordRemark.Uploader.Model] = []
+    var selectedImages: [RecordRemark.Uploader.Model]
     var httpHeaders: [String: String] = [:]
     var isAllowConfirm = true
     var supportLocale: SupportLocale = .China()
@@ -91,7 +91,7 @@ struct DepositRecordDetailView_Previews: PreviewProvider {
     func observeFiatLog() { }
     func confirmUploadedImages() { }
 
-    init(status: PaymentStatus) {
+    init(status: PaymentStatus, uploadingImages: [RecordRemark.Uploader.Model]) {
       self.log = .init(
         displayId: "TestId",
         currencyType: .fiat,
@@ -99,28 +99,22 @@ struct DepositRecordDetailView_Previews: PreviewProvider {
         amount: 100.toAccountCurrency(),
         createdDate: .Companion().fromEpochMilliseconds(epochMilliseconds: 0),
         updateDate: .Companion().fromEpochMilliseconds(epochMilliseconds: 0))
-
-      switch status {
-      case .floating:
-        selectedImages = [
-          .init(image: .init(named: "全站維護")!),
-          .init(image: .init(named: "group1-4")!),
-          .init(image: .init(named: "AppIconNotProd")!)
-        ]
-
-      default: return
-      }
+      selectedImages = uploadingImages
     }
   }
 
   static var previews: some View {
     DepositRecordDetailView(
-      viewModel: ViewModel(status: .floating),
+      viewModel: ViewModel(status: .floating, uploadingImages: [
+        .init(image: .init(named: "全站維護")!),
+        .init(image: .init(named: "group1-4")!),
+        .init(image: .init(named: "AppIconNotProd")!)
+      ]),
       transactionId: "")
       .previewDisplayName("Status: Floating")
 
     DepositRecordDetailView(
-      viewModel: ViewModel(status: .pending),
+      viewModel: ViewModel(status: .pending, uploadingImages: []),
       transactionId: "")
       .previewDisplayName("Status: Pending")
   }

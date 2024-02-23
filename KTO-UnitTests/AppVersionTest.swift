@@ -16,21 +16,21 @@ class AppVersionTest: XCBaseTestCase {
       let current = Version.companion.create(version: "1.9.10", code: 3)
       let incoming = Version.companion.create(version: "2.0.0+4")
       let state = current.getUpdateAction(latestVersion: incoming)
-      XCTAssertEqual(state, Version.UpdateAction.compulsoryupdate)
+      XCTAssertEqual(state, Version.UpdateAction.compulsoryUpdate)
     }
 
     test("when minor number increase then update action is compulsory update") {
       let current = Version.companion.create(version: "1.9.10", code: 3)
       let incoming = Version.companion.create(version: "1.10.0+4")
       let state = current.getUpdateAction(latestVersion: incoming)
-      XCTAssertEqual(state, Version.UpdateAction.compulsoryupdate)
+      XCTAssertEqual(state, Version.UpdateAction.compulsoryUpdate)
     }
 
     test("when suffix is fotfix number then update action is compulsory update") {
       let current = Version.companion.create(version: "1.9.10", code: 3)
       let incoming = Version.companion.create(version: "1.9.10+5")
       let state = current.getUpdateAction(latestVersion: incoming)
-      XCTAssertEqual(state, Version.UpdateAction.compulsoryupdate)
+      XCTAssertEqual(state, Version.UpdateAction.compulsoryUpdate)
     }
   }
 
@@ -39,7 +39,7 @@ class AppVersionTest: XCBaseTestCase {
       let current = Version.companion.create(version: "1.9.10", code: 3)
       let incoming = Version.companion.create(version: "1.9.10+3")
       let state = current.getUpdateAction(latestVersion: incoming)
-      XCTAssertEqual(state, Version.UpdateAction.uptodate)
+      XCTAssertEqual(state, Version.UpdateAction.upToDate)
     }
   }
 
@@ -48,7 +48,7 @@ class AppVersionTest: XCBaseTestCase {
       let current = Version.companion.create(version: "1.9.10", code: 3)
       let incoming = Version.companion.create(version: "1.9.9+2")
       let state = current.getUpdateAction(latestVersion: incoming)
-      XCTAssertEqual(state, Version.UpdateAction.uptodate)
+      XCTAssertEqual(state, Version.UpdateAction.upToDate)
     }
   }
 }

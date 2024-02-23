@@ -139,9 +139,6 @@ struct ChattingListView: View {
                         message: message,
                         showTopSeparator: isLastAndPreviousNotSystem(message),
                         showBottomSeparator: message != messages.last || message == messages.first)
-                      
-                    default:
-                      fatalError("should not reach here.")
                     }
                   }
                 }
@@ -185,8 +182,6 @@ struct ChattingListView: View {
         return true
       case .system:
         return false
-      default:
-        fatalError("should not reach here.")
       }
     }
     else {
@@ -273,9 +268,6 @@ extension ChattingListView {
                 
               case .link:
                 ChattingListView.LinkContent(compositeContent)
-                
-              default:
-                fatalError("should not reach here.")
               }
             }
           }
@@ -291,7 +283,7 @@ extension ChattingListView {
         return Alignment(horizontal: .trailing, vertical: .center)
       case .cs:
         return Alignment(horizontal: .leading, vertical: .center)
-      default:
+      case .system:
         fatalError("should not reach here.")
       }
     }
@@ -331,7 +323,7 @@ extension ChattingListView {
             .alignmentGuide(.leading) { $0[.leading] - 3 }
             .alignmentGuide(.bottom) { $0[.bottom] - 5 }
         }
-      default:
+      case .system:
         fatalError("should not reach here.")
       }
     }

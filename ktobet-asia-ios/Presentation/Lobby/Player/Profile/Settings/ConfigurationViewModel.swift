@@ -13,7 +13,7 @@ class ConfigurationViewModel {
 
   func fetchDefaultProduct() -> Single<DefaultProductType?> {
     Single.from(appService.getDefaultProduct())
-      .map { $0.data }
+      .map { $0.data?.toSwiftEnum() }
   }
 
   func saveDefaultProduct(productType: DefaultProductType) -> Completable {

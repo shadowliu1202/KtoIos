@@ -119,9 +119,13 @@ extension TransactionLogDetailViewController: UITableViewDataSource {
         switch detailItem.bean.productType {
         case .casino:
           flowController.goCasinoDetail(wagerID)
-        case .p2p:
+        case .p2P:
           flowController.goP2PDetail(wagerID)
-        default:
+        case .arcade,
+             .none,
+             .numberGame,
+             .sbk,
+             .slot:
           break
         }
       }
@@ -211,8 +215,8 @@ class LogDetailCell: UITableViewCell, UITextViewDelegate {
         descriptionLabel.isHidden = true
 
         let data = cashbackRemark(vvipCashback)
-        data.forEach {
-          let row = ListRow(rowConfig: $0)
+        for data in data {
+          let row = ListRow(rowConfig: data)
           stackView.addArrangedSubview(row)
         }
 
@@ -265,17 +269,17 @@ class LogDetailCell: UITableViewCell, UITextViewDelegate {
       ListRow.RowConfig(
         title: Localize.string("bonus_cashback_remark_subtitle", "\(vvipCashback.issueNumber.month)"),
         content: nil),
-      ListRow.RowConfig(title: Localize.string("common_sportsbook"), content: vvipCashback.sbk.formatString(sign: .signed_)),
-      ListRow.RowConfig(title: Localize.string("common_casino"), content: vvipCashback.casino.formatString(sign: .signed_)),
-      ListRow.RowConfig(title: Localize.string("common_slot"), content: vvipCashback.slot.formatString(sign: .signed_)),
-      ListRow.RowConfig(title: Localize.string("common_keno"), content: vvipCashback.numberGame.formatString(sign: .signed_)),
-      ListRow.RowConfig(title: Localize.string("common_arcade"), content: vvipCashback.arcade.formatString(sign: .signed_)),
+      ListRow.RowConfig(title: Localize.string("common_sportsbook"), content: vvipCashback.sbk.formatString(sign: .signed)),
+      ListRow.RowConfig(title: Localize.string("common_casino"), content: vvipCashback.casino.formatString(sign: .signed)),
+      ListRow.RowConfig(title: Localize.string("common_slot"), content: vvipCashback.slot.formatString(sign: .signed)),
+      ListRow.RowConfig(title: Localize.string("common_keno"), content: vvipCashback.numberGame.formatString(sign: .signed)),
+      ListRow.RowConfig(title: Localize.string("common_arcade"), content: vvipCashback.arcade.formatString(sign: .signed)),
       ListRow.RowConfig(
         title: Localize.string("common_total_amount"),
-        content: vvipCashback.totalWinLoss.formatString(sign: .signed_)),
+        content: vvipCashback.totalWinLoss.formatString(sign: .signed)),
       ListRow.RowConfig(
         title: Localize.string("bonus_cashback_remark_total_bonus", "\(vvipCashback.issueNumber.month)"),
-        content: vvipCashback.totalBonusAmount.formatString(sign: .signed_)),
+        content: vvipCashback.totalBonusAmount.formatString(sign: .signed)),
       ListRow.RowConfig(
         title: Localize.string("bonus_cashback_remark_percentage"),
         content: "\(vvipCashback.percent.description())%"),
@@ -329,10 +333,10 @@ extension LogDetailCell {
       field1Label.textAlignment = .left
       field2Label.textAlignment = .right
 
-      labels.forEach({
-        $0.font = UIFont(name: "PingFangSC-Regular", size: 16)!
-        $0.numberOfLines = 0
-      })
+      for label in labels {
+        label.font = UIFont(name: "PingFangSC-Regular", size: 16)!
+        label.numberOfLines = 0
+      }
 
       addSubview(hstack)
       hstack.snp.makeConstraints { make in
@@ -355,7 +359,7 @@ extension LogDetailCell {
 class LogDetailRowItem {
   private(set) var bean: BalanceLogDetail!
   private(set) var isSmartBet: Bool!
-  var balancelogAmount: String { bean.amount.formatString(sign: .signed_) }
+  var balancelogAmount: String { bean.amount.formatString(sign: .signed) }
   var amountColor: UIColor {
     bean.amount.isPositive ? .statusSuccess : .greyScaleWhite
   }
@@ -377,30 +381,38 @@ class LogDetailRowItem {
   }
 
   private func configureLogIdRemark() {
-    switch bean.transactionType {
-    case let type as TransactionTypes.Product:
-      consider(type, bean.productGroup)
-    case is TransactionTypes.Adjustment:
+    switch onEnum(of: bean.transactionType) {
+    case .adjustment:
       self.logId = bean.wagerMappingId
       self.remark = ""
-    case is TransactionTypes.Bonus,
-         is TransactionTypes.DepositFeeRefund:
+    case .bonus,
+         .depositFeeRefund:
       consider(bean.remark)
-    default:
+    case .product(let it):
+      consider(it, bean.productGroup)
+    case .moneyTransfer,
+         .unknown:
       break
     }
   }
 
   private func consider(_ type: TransactionTypes.Product, _ group: ProductGroup) {
-    switch group {
-    case is ProductGroup.P2P:
+    switch onEnum(of: group) {
+    case .p2P:
       let status = getBetStatus(type)
       self.logId = bean.productGroup.supportProvider.provider == Provider.Support.v8 ? bean.wagerMappingId : ""
-      
-      switch bean.remark {
-      case let remark as BalanceLogDetailRemark.TransferWallet:
-        if remark.isDetailActive {
-          self.linkRemark = remark.ids.map({ ($0.first as String?, $0.second as String?) })
+        
+      switch onEnum(of: bean.remark) {
+      case .bonus,
+           .cashBack,
+           .general,
+           .none:
+        let remarkStr = bean.productGroup.supportProvider.provider == Provider.Support.gpi ? bean.externalId : bean
+          .wagerMappingId
+        self.remark = status.isEmpty ? remarkStr : "\(status)\n\(remarkStr)"
+      case .transferWallet(let it):
+        if it.isDetailActive {
+          self.linkRemark = it.ids.map({ ($0.first as String?, $0.second as String?) })
           self.remark = status
         }
         else {
@@ -408,21 +420,11 @@ class LogDetailRowItem {
             .wagerMappingId
           self.remark = status.isEmpty ? remarkStr : "\(status)\n\(remarkStr)"
         }
-        
-      case is BalanceLogDetailRemark.Bonus,
-           is BalanceLogDetailRemark.CashBack,
-           is BalanceLogDetailRemark.General,
-           is BalanceLogDetailRemark.None:
-        let remarkStr = bean.productGroup.supportProvider.provider == Provider.Support.gpi ? bean.externalId : bean
-          .wagerMappingId
-        self.remark = status.isEmpty ? remarkStr : "\(status)\n\(remarkStr)"
-      default: break
       }
-      
-    case is ProductGroup.Arcade,
-         is ProductGroup.NumberGame,
-         is ProductGroup.Slot: if let remark = bean.remark as? BalanceLogDetailRemark.General
-      {
+    case .arcade,
+         .numberGame,
+         .slot:
+      if let remark = bean.remark as? BalanceLogDetailRemark.General {
         if remark.ids.count > 1 {
           self.logId = bean.wagerMappingId
           self.remark = "\(getBetStatus(type))\n\(displayRemarks(remark.ids))"
@@ -436,46 +438,48 @@ class LogDetailRowItem {
         self.logId = bean.wagerMappingId
         self.remark = "\(getBetStatus(type))\n\(bean.wagerMappingId)"
       }
-    case is ProductGroup.Casino:
+    case .casino:
       var remarks: [String] = []
       let status = getBetStatus(type)
       if !status.isEmpty {
         remarks.append(status)
       }
-      switch bean.remark {
-      case let r as BalanceLogDetailRemark.General:
-        remarks.append(r.lobbyName)
-        logId = r.ids.count > 1 ? bean.wagerMappingId : r.ids.first?.first as String?
-        
+      
+      switch onEnum(of: bean.remark) {
+      case .general(let it):
+        remarks.append(it.lobbyName)
+        logId = it.ids.count > 1 ? bean.wagerMappingId : it.ids.first?.first as String?
+            
         if isSmartBet {
-          linkRemark = r.ids.map({ ($0.first as String?, $0.second as String?) })
+          linkRemark = it.ids.map({ ($0.first as String?, $0.second as String?) })
         }
         else {
-          let remarkStr = r.ids.count > 1 ? displayRemarks(r.ids) : bean.wagerMappingId
+          let remarkStr = it.ids.count > 1 ? displayRemarks(it.ids) : bean.wagerMappingId
           remarks.append(remarkStr)
         }
-      case let remark as BalanceLogDetailRemark.TransferWallet:
-        remarks.append(remark.lobbyName)
-        logId = remark.ids.count > 1 ? bean.wagerMappingId : remark.ids.first?.first as String?
-        
-        if remark.isDetailActive {
-          self.linkRemark = remark.ids.map({ ($0.first as String?, $0.second as String?) })
-        }
-        else {
-          let remarkStr = remark.ids.count > 1 ? displayRemarks(remark.ids) : bean.wagerMappingId
-          remarks.append(remarkStr)
-        }
-        
-      case is BalanceLogDetailRemark.Bonus,
-           is BalanceLogDetailRemark.None:
+      case .bonus,
+           .none:
         let remarkStr = bean.productGroup.supportProvider.provider == Provider.Support.gpi ? bean.externalId : bean
           .wagerMappingId
         remarks.append(remarkStr)
-      default:
+      case .transferWallet(let it):
+        remarks.append(it.lobbyName)
+        logId = it.ids.count > 1 ? bean.wagerMappingId : it.ids.first?.first as String?
+            
+        if it.isDetailActive {
+          self.linkRemark = it.ids.map({ ($0.first as String?, $0.second as String?) })
+        }
+        else {
+          let remarkStr = it.ids.count > 1 ? displayRemarks(it.ids) : bean.wagerMappingId
+          remarks.append(remarkStr)
+        }
+      case .cashBack:
         break
       }
+      
       self.remark = remarks.joined(separator: "\n")
-    default:
+    case .sportsBook,
+         .unSupport:
       break
     }
   }
@@ -484,31 +488,38 @@ class LogDetailRowItem {
     if isReturn(bean, transactionType) {
       return Localize.string("balancelog_settle")
     }
-    switch transactionType {
-    case .ProductBet():
+    
+    switch onEnum(of: transactionType) {
+    case .bet:
       if let remark = bean.remark as? BalanceLogDetailRemark.General, remark.betStatus == BetStatus_.reject {
         return Localize.string("common_reject")
       }
       else {
         return Localize.string("common_bet")
       }
-    case .ProductWin():
-      return Localize.string("balancelog_settle")
-    case .ProductVoid():
-      return Localize.string("common_reject")
-    case .ProductPlayerCancel():
-      return Localize.string("balancelog_player_cancel")
-    case .ProductUnSettle():
-      return Localize.string("balancelog_unsettled")
-    case .ProductCancel():
+    case .cancel:
       return Localize.string("common_cancel")
-    case .ProductRevise():
-      return Localize.string("balancelog_settle")
-    case .ProductEnterTable():
+    case .enterTable:
       return Localize.string("product_enter_table")
-    case .ProductLeaveTable():
+    case .leaveTable:
       return Localize.string("product_leave_table")
-    default:
+    case .playerCancel:
+      return Localize.string("balancelog_player_cancel")
+    case .revise:
+      return Localize.string("balancelog_settle")
+    case .unSettle:
+      return Localize.string("balancelog_unsettled")
+    case .void:
+      return Localize.string("common_reject")
+    case .win:
+      return Localize.string("balancelog_settle")
+    case .eventBonus,
+         .eventBonusVoid,
+         .lose,
+         .push,
+         .strikeCancel,
+         .tips,
+         .tipsVoid:
       return ""
     }
   }
@@ -524,24 +535,24 @@ class LogDetailRowItem {
   }
 
   private func consider(_ remark: BalanceLogDetailRemark) {
-    switch remark {
-    case let r as BalanceLogDetailRemark.Bonus:
-      self.logId = r.bonusId
-      self
-        .remark = parse(bonusType: r.bonusType) + ":" +
+    switch onEnum(of: remark) {
+    case .bonus(let it):
+      self.logId = it.bonusId
+      self.remark = parse(bonusType: it.bonusType) + ":" +
         parseProductBonusSubTitle(
-          bonusType: r.bonusType,
-          productType: r.productType,
-          issueNumber: r.issueNumber,
-          defaultTitle: r.bonusName)
-    case let r as BalanceLogDetailRemark.CashBack:
-      self.logId = r.bonusId
+          bonusType: it.bonusType,
+          productType: it.productType,
+          issueNumber: it.issueNumber,
+          defaultTitle: it.bonusName)
+    case .cashBack(let it):
+      self.logId = it.bonusId
       self.remark = nil
-      self.vvipCashback = r
-    case is BalanceLogDetailRemark.None:
+      self.vvipCashback = it
+    case .none:
       self.logId = bean.wagerMappingId
       self.remark = Localize.string("balancelog_deposit_refund")
-    default:
+    case .general,
+         .transferWallet:
       break
     }
   }
@@ -549,17 +560,18 @@ class LogDetailRowItem {
   private func parse(bonusType: BonusType) -> String {
     var str = ""
     switch bonusType {
-    case .freebet:
+    case .freeBet:
       str = Localize.string("bonus_bonustype_1")
-    case .depositbonus:
+    case .depositBonus:
       str = Localize.string("bonus_bonustype_2")
     case .product:
       str = Localize.string("bonus_bonustype_3")
     case .rebate:
       str = Localize.string("bonus_bonustype_4")
-    case .levelbonus:
+    case .levelBonus:
       str = Localize.string("bonus_bonustype_5")
-    default:
+    case .other,
+         .vvipcashback:
       break
     }
     return str
@@ -580,7 +592,11 @@ class LogDetailRowItem {
         str = Localize.string("balancelog_producttype_1_bonustype_3", "\(issueNumber)")
       case .rebate:
         str = Localize.string("balancelog_producttype_1_bonustype_4", "\(issueNumber)")
-      default:
+      case .depositBonus,
+           .freeBet,
+           .levelBonus,
+           .other,
+           .vvipcashback:
         break
       }
     case .slot:
@@ -589,18 +605,24 @@ class LogDetailRowItem {
         str = Localize.string("balancelog_producttype_2_bonustype_3", "\(issueNumber)")
       case .rebate:
         str = Localize.string("balancelog_producttype_2_bonustype_4", "\(issueNumber)")
-      default:
+      case .depositBonus,
+           .freeBet,
+           .levelBonus,
+           .other,
+           .vvipcashback:
         break
       }
     case .casino:
       if bonusType == .rebate {
         str = Localize.string("balancelog_producttype_3_bonustype_4", "\(issueNumber)")
       }
-    case .numbergame:
+    case .numberGame:
       if bonusType == .rebate {
         str = Localize.string("balancelog_producttype_4_bonustype_4", "\(issueNumber)")
       }
-    default:
+    case .arcade,
+         .none,
+         .p2P:
       str = defaultTitle
     }
     return str

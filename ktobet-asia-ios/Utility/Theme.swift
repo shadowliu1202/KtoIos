@@ -9,24 +9,20 @@ final class Theme {
   private init() { }
 
   func getDatePickerTitleLabel(by playerLocale: SupportLocale, _ koyomi: Koyomi) -> String {
-    switch playerLocale {
-    case is SupportLocale.China:
+    switch onEnum(of: playerLocale) {
+    case .china:
       return koyomi.currentDateString() + Localize.string("common_month")
-    case is SupportLocale.Vietnam:
-      fallthrough
-    default:
+    case .vietnam:
       return Localize.string("common_month") + " " + koyomi.currentDateString(withFormat: "M") + "/" + koyomi
         .currentDateString(withFormat: "yyyy")
     }
   }
 
   func getDateSegmentTitleFontSize(by playerLocale: SupportLocale) -> CGFloat {
-    switch playerLocale {
-    case is SupportLocale.China:
+    switch onEnum(of: playerLocale) {
+    case .china:
       return 14
-    case is SupportLocale.Vietnam:
-      fallthrough
-    default:
+    case .vietnam:
       return 12
     }
   }
@@ -37,12 +33,10 @@ final class Theme {
       Localize.string("common_select_day"),
       Localize.string("common_select_month")
     ]
-    switch playerLocale {
-    case is SupportLocale.China:
+    switch onEnum(of: playerLocale) {
+    case .china:
       return dateSegmentTitle
-    case is SupportLocale.Vietnam:
-      fallthrough
-    default:
+    case .vietnam:
       return insertNewLineBeforeLastWord(dateSegmentTitle)
     }
   }
@@ -64,52 +58,44 @@ final class Theme {
   }
 
   func getUIImage(name: String, by playerLocale: SupportLocale) -> UIImage {
-    switch playerLocale {
-    case is SupportLocale.China:
+    switch onEnum(of: playerLocale) {
+    case .china:
       return UIImage(named: name)!
-    case is SupportLocale.Vietnam:
-      fallthrough
-    default:
+    case .vietnam:
       return UIImage(named: "\(name)-VN")!
     }
   }
 
   func getMonthCollectionViewCellTitle(_ month: Int, by playerLocale: SupportLocale) -> String {
-    switch playerLocale {
-    case is SupportLocale.China:
+    switch onEnum(of: playerLocale) {
+    case .china:
       return "\(month)\(Localize.string("common_month"))"
-    case is SupportLocale.Vietnam:
-      fallthrough
-    default:
+    case .vietnam:
       return "\(month)"
     }
   }
 
   func getRemitterBankCardHeight(by playerLocale: SupportLocale) -> CGFloat {
-    switch playerLocale {
-    case is SupportLocale.China:
+    switch onEnum(of: playerLocale) {
+    case .china:
       return 60
-    case is SupportLocale.Vietnam:
-      fallthrough
-    default:
+    case .vietnam:
       return 75
     }
   }
 
   func getDefaultProductTextPadding(by playerLocale: SupportLocale) -> CGFloat {
-    switch playerLocale {
-    case is SupportLocale.China:
+    switch onEnum(of: playerLocale) {
+    case .china:
       return 24
-    case is SupportLocale.Vietnam:
-      fallthrough
-    default:
+    case .vietnam:
       return 12
     }
   }
 
   func changeEntireAPPFont(by playerLocale: SupportLocale) {
-    switch playerLocale {
-    case is SupportLocale.China:
+    switch onEnum(of: playerLocale) {
+    case .china:
       UILabel.appearance().substituteFontFamilyName = "PingFangSC"
       UITextView.appearance().substituteFontFamilyName = "PingFangSC"
       UITextField.appearance().substituteFontFamilyName = "PingFangSC"
@@ -124,11 +110,7 @@ final class Theme {
       UINavigationBar.appearance().isTranslucent = true
       UINavigationBar.appearance().scrollEdgeAppearance = barAppearance
       UINavigationBar.appearance().standardAppearance = barAppearance
-      
-    case is SupportLocale.Vietnam:
-      fallthrough
-      
-    default:
+    case .vietnam:
       UILabel.appearance().substituteFontFamilyName = "HelveticaNeue"
       UITextView.appearance().substituteFontFamilyName = "HelveticaNeue"
       UITextField.appearance().substituteFontFamilyName = "HelveticaNeue"
@@ -147,23 +129,19 @@ final class Theme {
   }
 
   func getNavigationTitleFont(by playerLocale: SupportLocale) -> UIFont {
-    switch playerLocale {
-    case is SupportLocale.China:
+    switch onEnum(of: playerLocale) {
+    case .china:
       return UIFont(name: "PingFangSC-Semibold", size: 16)!
-    case is SupportLocale.Vietnam:
-      fallthrough
-    default:
+    case .vietnam:
       return UIFont(name: "HelveticaNeue-Bold", size: 16)!
     }
   }
 
   func getTextFieldCellMaxLength(by playerLocale: SupportLocale) -> Int {
-    switch playerLocale {
-    case is SupportLocale.China:
+    switch onEnum(of: playerLocale) {
+    case .china:
       return 100
-    case is SupportLocale.Vietnam:
-      fallthrough
-    default:
+    case .vietnam:
       return 300
     }
   }
@@ -171,13 +149,11 @@ final class Theme {
   @available(*, deprecated, message: "Use extension function, not singleton function.")
   func getBetTimeWeekdayFormat(by playerLocale: SupportLocale) -> DateFormatter {
     let dateFormatter = DateFormatter()
-    switch playerLocale {
-    case is SupportLocale.China:
+    switch onEnum(of: playerLocale) {
+    case .china:
       dateFormatter.locale = Locale(identifier: "zh_Hans_CN")
       dateFormatter.dateFormat = "yyyy/MM/dd (EEEEE) HH:mm:ss"
-    case is SupportLocale.Vietnam:
-      fallthrough
-    default:
+    case .vietnam:
       dateFormatter.locale = Locale(identifier: "en_US_POSIX")
       dateFormatter.dateFormat = "yyyy/MM/dd (EEE) HH:mm:ss"
     }
@@ -185,26 +161,24 @@ final class Theme {
   }
 
   func parse(_ transactionStatus: TransactionStatus) -> UIColor {
-    switch transactionStatus {
-    case .floating:
+    if transactionStatus == .floating {
       return UIColor.alert
-    default:
+    }
+    else {
       return UIColor.textPrimary
     }
   }
 
   func parse(bonusReceivingStatus: BonusReceivingStatus) -> UIColor {
     switch bonusReceivingStatus {
-    case .inprogress:
+    case .inProgress:
       return UIColor.alert
-    case .noturnover:
+    case .noTurnOver:
       return UIColor.statusSuccess
     case .completed:
       return UIColor.statusSuccess
     case .canceled:
       return UIColor.textPrimary
-    default:
-      return UIColor.clear
     }
   }
 

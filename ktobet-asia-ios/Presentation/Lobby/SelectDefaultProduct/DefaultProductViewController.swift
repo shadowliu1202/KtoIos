@@ -19,7 +19,7 @@ class DefaultProductViewController: LobbyViewController {
   private lazy var viewModel = Injectable.resolve(DefaultProductViewModel.self)!
 
   private var disposeBag = DisposeBag()
-  private var games: [DefaultProductType] = [.sbk, .casino, .slot, .numbergame]
+  private var games: [DefaultProductType] = [.sbk, .casino, .slot, .numberGame]
   private var currentSelectGame: DefaultProductType?
 
   // MARK: LIFE CYCLE
@@ -54,13 +54,11 @@ class DefaultProductViewController: LobbyViewController {
       .setDefaultProduct(productType)
       .andThen(viewModel.getPortalMaintenanceState())
       .subscribe(onSuccess: { [unowned self] maintenanceStatus in
-        switch maintenanceStatus {
-        case _ as MaintenanceStatus.Product:
-          navigateToProductPage(productType)
-        case is MaintenanceStatus.AllPortal:
+        switch onEnum(of: maintenanceStatus) {
+        case .allPortal:
           navigateToPortalMaintenancePage()
-        default:
-          fatalError("Should not reach here.")
+        case .product:
+          navigateToProductPage(productType)
         }
       }, onFailure: { error in
         self.handleErrors(error)

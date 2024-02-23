@@ -47,8 +47,9 @@ class TransactionLogViewModel:
       return .all
     }
 
-    let selected = selectedItems.first?.identity ?? ""
-    return TransactionLogFilter_.values().get(index: Int32(selected) ?? 0) ?? .all
+    let selected = Int(selectedItems.first?.identity ?? "0") ?? 0
+    
+    return TransactionLogFilter_.allCases[selected]
   }
 
   init(
@@ -281,6 +282,6 @@ extension TransactionDTO.Log: LogRowModel {
   var displayId: String { title }
 
   var amountConfig: (text: String, color: UIColor) {
-    (amount.formatString(sign: .signed_), amount.isPositive ? .statusSuccess : .textPrimary)
+    (amount.formatString(sign: .signed), amount.isPositive ? .statusSuccess : .textPrimary)
   }
 }

@@ -23,19 +23,16 @@ class PromotionPresenter: FilterPresentProtocol {
       PromotionPresenter.createInteractive(.sbk),
       PromotionPresenter.createInteractive(.slot),
       PromotionPresenter.createInteractive(.casino),
-      PromotionPresenter.createInteractive(.numbergame),
+      PromotionPresenter.createInteractive(.numberGame),
       PromotionPresenter.createInteractive(.arcade),
       PromotionPresenter.createInteractive(.rebate),
       PromotionPresenter.createInteractive(.freebet),
-      PromotionPresenter.createInteractive(.depositbonus)
+      PromotionPresenter.createInteractive(.depositBonus)
     ]
-    
-    switch supportLocale {
-    case .China():
-      conditions = sharedConditions + [PromotionPresenter.createInteractive(.vvipcashback)]
-    case .Vietnam():
-      fallthrough
-    default:
+    switch onEnum(of: supportLocale) {
+    case .china:
+      conditions = sharedConditions + [PromotionPresenter.createInteractive(.vvipcashBack)]
+    case .vietnam:
       conditions = sharedConditions
     }
   }
@@ -134,8 +131,8 @@ class PromotionPresenter: FilterPresentProtocol {
       privilegeTypes.append(PrivilegeType.product)
     }
 
-    if privilegeTypes.filter({ $0 == PrivilegeType.depositbonus }).count != 0 {
-      privilegeTypes.append(PrivilegeType.levelbonus)
+    if privilegeTypes.filter({ $0 == PrivilegeType.depositBonus }).count != 0 {
+      privilegeTypes.append(PrivilegeType.levelBonus)
     }
 
     return (productTypes, privilegeTypes, sortingType)

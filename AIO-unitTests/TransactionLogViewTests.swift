@@ -365,8 +365,8 @@ final class TransactionLogViewTests: XCBaseTestCase {
       gameName: "",
       matchMethod: "",
       betContent: [],
-      betTime: try! "2023-11-02T14:05:18.2495371+07:00".toLocalDateTime(),
-      stakes: FiatFactory.shared.create(supportLocale: .Vietnam(), amount_: "0"),
+      betTime: try! "2023-11-02T14:05:18.2495371+07:00".toKotlinLocalDateTime(),
+      stakes: FiatFactory.shared.create(supportLocale: .Vietnam(), amount: "0"),
       status: NumberGameBetDetail.BetStatusUnsettledPending(),
       resultType: .other,
       _result: ""))

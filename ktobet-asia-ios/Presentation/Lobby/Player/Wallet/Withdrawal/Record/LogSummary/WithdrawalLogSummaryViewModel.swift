@@ -134,8 +134,6 @@ extension WithdrawalDto.LogFilterStatus: Selectable {
       return Localize.string("common_success")
     case .canceled:
       return Localize.string("common_cancel")
-    default:
-      return ""
     }
   }
 

@@ -176,17 +176,15 @@ class NotificationItem {
   }
 
   private func createTypeTitle(_ element: sharedbu.Notification) -> String {
-    switch element {
-    case is sharedbu.Notification.Maintenance:
-      return Localize.string("notification_type_0")
-    case is sharedbu.Notification.Activity:
+    switch onEnum(of: element) {
+    case .activity:
       return Localize.string("notification_type_activity")
-    case is sharedbu.Notification.General:
+    case .general:
       return Localize.string("notification_type_1")
-    case is sharedbu.Notification.Personal:
+    case .maintenance:
+      return Localize.string("notification_type_0")
+    case .personal:
       return Localize.string("notification_type_2")
-    default:
-      return ""
     }
   }
 
@@ -196,23 +194,39 @@ class NotificationItem {
     }
     let type = notify.myActivityType
     switch type {
-    case .registercompleted:
+    case .registerCompleted:
       return Localize.string("notify_10")
-    case .depositneedsverifieddoc:
+    case .depositNeedsVerifiedDoc:
       return Localize.string("notify_20")
-    case .withdrawalneedsverifieddoc:
+    case .withdrawalNeedsVerifiedDoc:
       return Localize.string("notify_30")
-    case .offlinecardschange:
+    case .offlineCardsChange:
       return Localize.string("notify_50")
-    case .paymentgroupchanged:
+    case .paymentGroupChanged:
       return Localize.string("notify_110")
-    case .onlinecardschange:
+    case .onlineCardsChange:
       return Localize.string("notify_51")
-    case .withdrawalrejected:
+    case .withdrawalRejected:
       return Localize.string("notify_100")
-    case .levelup:
+    case .levelUp:
       return Localize.string("notify_150")
-    default:
+    case .balanceModified,
+         .bonusObtained,
+         .changeRealNameApproved,
+         .changeRealNameNeedsVerifiedDoc,
+         .changeRealNameReject,
+         .depositApproved,
+         .depositFailed,
+         .depositFeeRefund,
+         .logIn,
+         .logout,
+         .specialFeature,
+         .unknown,
+         .withdrawalApproved,
+         .withdrawalCanceled,
+         .withdrawalPromotionAmount,
+         .withdrawalPromotionAmountAndCount,
+         .withdrawalPromotionCount:
       return ""
     }
   }
@@ -222,32 +236,48 @@ class NotificationItem {
       return notification.message
     }
     switch item.myActivityType {
-    case .registercompleted:
+    case .registerCompleted:
       return Localize.string("notify_content_10")
-    case .depositneedsverifieddoc:
+    case .depositNeedsVerifiedDoc:
       return Localize.string(
         "notify_content_20",
-        FiatFactory().create(supportLocale: supportLocale, amount_: item.value ?? "").amount(),
+        FiatFactory().create(supportLocale: supportLocale, amount: item.value ?? "").amount(),
         item.transactionId)
-    case .withdrawalneedsverifieddoc:
+    case .withdrawalNeedsVerifiedDoc:
       return Localize.string(
         "notify_content_30",
-        FiatFactory().create(supportLocale: supportLocale, amount_: item.value ?? "").amount(),
+        FiatFactory().create(supportLocale: supportLocale, amount: item.value ?? "").amount(),
         item.transactionId)
-    case .offlinecardschange:
+    case .offlineCardsChange:
       return Localize.string("notify_content_50")
-    case .paymentgroupchanged:
+    case .paymentGroupChanged:
       return Localize.string("notify_content_110")
-    case .onlinecardschange:
+    case .onlineCardsChange:
       return Localize.string("notify_content_51")
-    case .withdrawalrejected:
+    case .withdrawalRejected:
       return Localize.string(
         "notify_content_100",
-        FiatFactory().create(supportLocale: supportLocale, amount_: item.value ?? "").amount(),
+        FiatFactory().create(supportLocale: supportLocale, amount: item.value ?? "").amount(),
         item.transactionId)
-    case .levelup:
+    case .levelUp:
       return Localize.string("notify_content_150", item.value ?? "")
-    default:
+    case .balanceModified,
+         .bonusObtained,
+         .changeRealNameApproved,
+         .changeRealNameNeedsVerifiedDoc,
+         .changeRealNameReject,
+         .depositApproved,
+         .depositFailed,
+         .depositFeeRefund,
+         .logIn,
+         .logout,
+         .specialFeature,
+         .unknown,
+         .withdrawalApproved,
+         .withdrawalCanceled,
+         .withdrawalPromotionAmount,
+         .withdrawalPromotionAmountAndCount,
+         .withdrawalPromotionCount:
       return ""
     }
   }

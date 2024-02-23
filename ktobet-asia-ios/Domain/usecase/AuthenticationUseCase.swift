@@ -61,8 +61,7 @@ class AuthenticationUseCaseImpl: AuthenticationUseCase {
         case .success: return self.repoPlayer.loadPlayer()
         case .failed1to5: return Single.error(LoginException.Failed1to5Exception(isLocked: data.isLocked))
         case .failed6to10: return Single.error(LoginException.Failed6to10Exception(isLocked: data.isLocked))
-        case .failedabove11: return Single.error(LoginException.AboveVerifyLimitation(isLocked: data.isLocked))
-        default: fatalError()
+        case .failedAbove11: return Single.error(LoginException.AboveVerifyLimitation(isLocked: data.isLocked))
         }
       }
       .do(onSuccess: { [weak self] in

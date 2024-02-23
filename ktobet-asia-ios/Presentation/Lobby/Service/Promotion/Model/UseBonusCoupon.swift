@@ -186,16 +186,17 @@ class UseBonusCoupon {
   private func createTurnOverHintApprovedDialog(turnOver: TurnOverDetail, bonusCoupon: BonusCoupon) -> Single<Bool> {
     var title = ""
     switch bonusCoupon.bonusType {
-    case .freebet:
+    case .freeBet:
       title = Localize.string("bonus_bonustype_1")
-    case .depositbonus,
-         .levelbonus:
+    case .depositBonus,
+         .levelBonus:
       title = Localize.string("bonus_bonustype_2_2")
     case .product:
       title = Localize.string("bonus_bonustype_3")
     case .rebate:
       title = Localize.string("bonus_bonustype_4")
-    default:
+    case .other,
+         .vvipcashback:
       break
     }
 

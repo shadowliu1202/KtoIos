@@ -14,7 +14,8 @@ extension WebGameWithProperties {
     switch gameState() {
     case .active:
       return true
-    default:
+    case .inactive,
+         .maintenance:
       return false
     }
   }
@@ -23,12 +24,10 @@ extension WebGameWithProperties {
     switch self.gameStatus {
     case .active:
       return .active
-    case .inactive:
+    case .inActive:
       return .inactive(Localize.string("product_game_removed"), UIImage(named: "game-off")!)
     case .maintenance:
       return .maintenance(Localize.string("product_under_maintenance"), UIImage(named: "game-maintainance")!)
-    default:
-      return .active
     }
   }
 }

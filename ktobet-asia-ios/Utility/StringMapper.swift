@@ -20,16 +20,14 @@ class StringMapper {
       return Localize.string("common_slot")
     case .casino:
       return Localize.string("common_casino")
-    case .numbergame:
+    case .numberGame:
       return Localize.string("common_keno")
-    case .p2p:
+    case .p2P:
       return Localize.string("common_p2p")
     case .arcade:
       return Localize.string("common_arcade")
     case .none:
       return Localize.string("bonus_bonustype_3")
-    default:
-      return ""
     }
   }
 
@@ -37,16 +35,16 @@ class StringMapper {
     switch bonusType {
     case .rebate:
       return Localize.string("common_rebate")
-    case .freebet:
+    case .freeBet:
       return Localize.string("common_freebet")
-    case .depositbonus,
-         .levelbonus:
+    case .depositBonus,
+         .levelBonus:
       return Localize.string("common_depositbonus")
     case .product:
       return Localize.string("bonus_bonustype_3")
     case .vvipcashback:
       return Localize.string("bonus_bonustype_7")
-    default:
+    case .other:
       return ""
     }
   }
@@ -57,30 +55,31 @@ class StringMapper {
       return Localize.string("common_rebate")
     case .freebet:
       return Localize.string("common_freebet")
-    case .depositbonus,
-         .levelbonus:
+    case .depositBonus,
+         .levelBonus:
       return Localize.string("common_depositbonus")
     case .product:
       return Localize.string("bonus_bonustype_3")
-    case .vvipcashback:
+    case .vvipcashBack:
       return Localize.string("bonus_bonustype_7")
-    default:
+    case .domain,
+         .feedback,
+         .none,
+         .withdrawal:
       return ""
     }
   }
 
   static func parse(bonusReceivingStatus: BonusReceivingStatus) -> String {
     switch bonusReceivingStatus {
-    case .noturnover:
+    case .noTurnOver:
       return Localize.string("bonus_bonuslockstatus_0")
-    case .inprogress:
+    case .inProgress:
       return Localize.string("bonus_bonuslockstatus_1")
     case .completed:
       return Localize.string("bonus_bonuslockstatus_2")
     case .canceled:
       return Localize.string("bonus_bonuslockstatus_3")
-    default:
-      return ""
     }
   }
 }

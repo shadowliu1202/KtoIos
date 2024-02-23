@@ -31,7 +31,9 @@ extension String {
     switch format {
     case .email:
       return test.evaluate(with: self.lowercased())
-    default:
+    case .branchName,
+         .cryptoAddress,
+         .numbers:
       return test.evaluate(with: self)
     }
   }
@@ -63,7 +65,7 @@ extension String {
   }
 
   func toOffsetDateTime(timeZone: Foundation.TimeZone = String.getPlayerTimeZone()) throws -> OffsetDateTime {
-    let localDateTime = try toLocalDateTime(timeZone: timeZone)
+    let localDateTime = try toKotlinLocalDateTime(timeZone: timeZone)
     return OffsetDateTime.Companion().create(localDateTime: localDateTime, zoneId: timeZone.identifier)
   }
 
@@ -76,7 +78,7 @@ extension String {
     return OffsetDateTime.Companion().create(localDateTime: localDateTime, zoneId: timeZone.identifier)
   }
 
-  func toLocalDateTime(timeZone: Foundation.TimeZone = String.getPlayerTimeZone()) throws -> sharedbu.LocalDateTime {
+  func toKotlinLocalDateTime(timeZone: Foundation.TimeZone = String.getPlayerTimeZone()) throws -> sharedbu.LocalDateTime {
     var offsetDate = try DateUtils.parseOffsetDate(string: self)
     let offsetTime = TimeInterval(timeZone.secondsFromGMT())
     offsetDate.addTimeInterval(offsetTime)
@@ -103,7 +105,7 @@ extension String {
       nanosecond: localDate.getNanosecond())
   }
 
-  func toLocalDate(timeZone: Foundation.TimeZone = String.getPlayerTimeZone()) throws -> sharedbu.LocalDate {
+  func toKotlinLocalDate(timeZone: Foundation.TimeZone = String.getPlayerTimeZone()) throws -> sharedbu.LocalDate {
     var offsetDate = try DateUtils.parseOffsetDate(string: self)
     let offsetTime = TimeInterval(timeZone.secondsFromGMT())
     offsetDate.addTimeInterval(offsetTime)
@@ -194,14 +196,14 @@ extension String {
 
     return FiatFactory.shared.create(
       supportLocale: playerConfiguration.supportLocale,
-      amount_: self.replacingOccurrences(of: ",", with: ""))
+      amount: self.replacingOccurrences(of: ",", with: ""))
   }
 
   func toCryptoCurrency(cryptoCurrencyCode: Int?) -> CryptoCurrency {
     guard let cryptoCurrencyCode else { return CryptoFactory.shared.unknown(amount: "0.0") }
-    for index in 0..<SupportCryptoType.values().size {
-      if (SupportCryptoType.values().get(index: index))!.id__ == cryptoCurrencyCode {
-        return toCryptoCurrency(supportCryptoType: SupportCryptoType.values().get(index: index)!)
+    for index in 0..<SupportCryptoType.allCases.count {
+      if SupportCryptoType.allCases[index].id == cryptoCurrencyCode {
+        return toCryptoCurrency(supportCryptoType: SupportCryptoType.allCases[index])
       }
     }
     return CryptoFactory.shared.unknown(amount: self)
@@ -210,7 +212,7 @@ extension String {
   func toCryptoCurrency(supportCryptoType: SupportCryptoType) -> CryptoCurrency {
     CryptoFactory.shared.create(
       supportCryptoType: supportCryptoType,
-      amount_: self.replacingOccurrences(of: ",", with: ""))
+      amount: self.replacingOccurrences(of: ",", with: ""))
   }
 }
 

@@ -238,9 +238,6 @@ extension WithdrawalMainView {
                 }
               }
               .id(WithdrawalMainView.Identifier.methodCrypto.rawValue)
-            
-          default:
-            EmptyView()
           }
         }
         

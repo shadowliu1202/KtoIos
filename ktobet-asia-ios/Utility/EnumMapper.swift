@@ -11,32 +11,25 @@ class EnumMapper {
   }
 
   private static func convert(speakerType: Any) throws -> (Int32, SpeakerType) {
+    let dictionary: [Int32: SpeakerType] = [
+      0: SpeakerType.player,
+      1: SpeakerType.handler,
+      2: SpeakerType.system
+    ]
+    
     switch speakerType {
-    case let type as SpeakerType:
-      switch type {
-      case .player:
-        return (0, .player)
-      case .handler:
-        return (1, .handler)
-      case .system:
-        return (2, .system)
-      default:
-        throw KtoException(errorMsg: "Unknown type", errorCode: "")
+    case let value as SpeakerType:
+      if let id = dictionary.first(where: { $0.value == value })?.key {
+        return (id, value)
       }
-    case let i as Int32:
-      switch i {
-      case 0:
-        return (0, .player)
-      case 1:
-        return (1, .handler)
-      case 2:
-        return (2, .system)
-      default:
-        throw KtoException(errorMsg: "Unknown type", errorCode: "")
+
+    case let key as Int32:
+      if let value = dictionary[key] {
+        return (key, value)
       }
-    default:
-      throw KtoException(errorMsg: "Unknown type", errorCode: "")
+    default: break
     }
+    throw KtoException(errorMsg: "Unknown type", errorCode: "")
   }
 
   static func convert(accountType: Int) -> sharedbu.AccountType {
@@ -48,27 +41,22 @@ class EnumMapper {
   }
 
   private static func convert(accountType: Any) throws -> (Int, sharedbu.AccountType) {
+    let dictionary: [Int: sharedbu.AccountType] = [
+      1: sharedbu.AccountType.email,
+      2: sharedbu.AccountType.phone
+    ]
     switch accountType {
-    case let type as sharedbu.AccountType:
-      switch type {
-      case .email:
-        return (1, .email)
-      case .phone:
-        return (2, .phone)
-      default:
-        throw KtoException(errorMsg: "Unknown type", errorCode: "")
+    case let value as sharedbu.AccountType:
+      if let id = dictionary.first(where: { $0.value == value })?.key {
+        return (id, value)
       }
-    case let i as Int:
-      switch i {
-      case 1:
-        return (1, .email)
-      case 2:
-        return (2, .phone)
-      default:
-        throw KtoException(errorMsg: "Unknown type", errorCode: "")
+
+    case let key as Int:
+      if let value = dictionary[key] {
+        return (key, value)
       }
-    default:
-      throw KtoException(errorMsg: "Unknown type", errorCode: "")
+    default: break
     }
+    throw KtoException(errorMsg: "Unknown type", errorCode: "")
   }
 }

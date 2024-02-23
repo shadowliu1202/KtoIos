@@ -9,30 +9,24 @@ enum KTOFontWeight: String {
   func fontString(_ playerLocale: SupportLocale) -> String {
     switch self {
     case .regular:
-      switch playerLocale {
-      case is SupportLocale.Vietnam:
-        return "HelveticaNeue-Light"
-      case is SupportLocale.China:
+      switch onEnum(of: playerLocale) {
+      case .china:
         return "PingFangSC-Regular"
-      default:
+      case .vietnam:
         return "HelveticaNeue-Light"
       }
     case .medium:
-      switch playerLocale {
-      case is SupportLocale.Vietnam:
-        return "HelveticaNeue-Medium"
-      case is SupportLocale.China:
+      switch onEnum(of: playerLocale) {
+      case .china:
         return "PingFangSC-Medium"
-      default:
+      case .vietnam:
         return "HelveticaNeue-Medium"
       }
     case .semibold:
-      switch playerLocale {
-      case is SupportLocale.Vietnam:
-        return "HelveticaNeue-Bold"
-      case is SupportLocale.China:
+      switch onEnum(of: playerLocale) {
+      case .china:
         return "PingFangSC-Semibold"
-      default:
+      case .vietnam:
         return "HelveticaNeue-Bold"
       }
     }
@@ -54,20 +48,10 @@ extension Text {
   }
   
   func addBold(_ isActive: Bool) -> Text {
-    if isActive {
-      return self.bold()
-    }
-    else {
-      return self
-    }
+    isActive ? self.bold() : self
   }
   
   func addItalic(_ isActive: Bool) -> Text {
-    if isActive {
-      return self.italic()
-    }
-    else {
-      return self
-    }
+    isActive ? self.italic() : self
   }
 }

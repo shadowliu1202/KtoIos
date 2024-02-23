@@ -90,6 +90,6 @@ extension P2PViewModel {
   }
 
   func getGameProductType() -> ProductType {
-    ProductType.p2p
+    ProductType.p2P
   }
 }

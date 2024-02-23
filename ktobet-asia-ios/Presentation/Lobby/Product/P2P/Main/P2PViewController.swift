@@ -23,12 +23,12 @@ class P2PViewController: ProductsViewController {
   }
 
   override func setProductType() -> ProductType {
-    .p2p
+    .p2P
   }
 
   override func handleErrors(_ error: Error) {
     if error.isMaintenance() {
-      NavigationManagement.sharedInstance.goTo(productType: .p2p, isMaintenance: true)
+      NavigationManagement.sharedInstance.goTo(productType: .p2P, isMaintenance: true)
     }
     else {
       super.handleErrors(error)

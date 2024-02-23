@@ -36,8 +36,6 @@ extension DiceNumber {
       return Image("DiceNumber-Five")
     case .six:
       return Image("DiceNumber-Six")
-    default:
-      fatalError("should not reach here.")
     }
   }
 }

@@ -28,7 +28,7 @@ class SetMainPageViewController: LobbyViewController {
     sportbookView.setProductType(.sbk).setOnClick(callback)
     casinoView.setProductType(.casino).setOnClick(callback)
     slotView.setProductType(.slot).setOnClick(callback)
-    numbergameView.setProductType(.numbergame).setOnClick(callback)
+    numbergameView.setProductType(.numberGame).setOnClick(callback)
   }
 
   private func dataBinding() {
@@ -68,8 +68,7 @@ class SetMainPageViewController: LobbyViewController {
     case .slot: return ProductType.slot
     case .casino: return ProductType.casino
     case .sbk: return ProductType.sbk
-    case .numbergame: return ProductType.numbergame
-    default: return .none
+    case .numberGame: return ProductType.numberGame
     }
   }
 
@@ -88,10 +87,8 @@ class SetMainPageViewController: LobbyViewController {
       self.casinoView.isSelected = true
     case .slot:
       self.slotView.isSelected = true
-    case .numbergame:
+    case .numberGame:
       self.numbergameView.isSelected = true
-    default:
-      fatalError("should not reach here.")
     }
   }
 

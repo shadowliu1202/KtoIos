@@ -153,21 +153,16 @@ extension NumberGameMyBetDetailContent {
         Text(key: "product_draw_result")
           .localized(weight: .regular, size: 12, color: .textPrimary)
         
-        switch result {
-        case _ as NumberGameBetDetail.GameResultEmpty:
-          EmptyView()
-          
-        case let result as NumberGameBetDetail.GameResultBall:
-          NumberGameMyBetDetailContent.BallResultCell(numbers: result.balls.map { $0.description })
+        switch onEnum(of: result) {
+        case .ball(let it):
+          NumberGameMyBetDetailContent.BallResultCell(numbers: it.balls.map { $0.description })
             .frame(maxWidth: .infinity)
             .id(NumberGameMyBetDetailContent.TestTag.ballGameResult.rawValue)
-          
-        case let result as NumberGameBetDetail.GameResultPrize:
-          NumberGameMyBetDetailContent.PrizeResultCell(prizes: result.prizes)
+        case .empty:
+          EmptyView()
+        case .prize(let it):
+          NumberGameMyBetDetailContent.PrizeResultCell(prizes: it.prizes)
             .id(NumberGameMyBetDetailContent.TestTag.prizeGameResult.rawValue)
-          
-        default:
-          fatalError("should not reach here.")
         }
       }
       .padding(.top, 12)

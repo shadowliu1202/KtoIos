@@ -140,9 +140,6 @@ class WithdrawalOTPVerifyMethodSelectViewModel:
       contactInfoHint = Localize.string("common_otp_hint_email")
       contactNotSetHint = Localize.string("common_not_set_email")
       otpInactiveHint = Localize.string("register_step2_email_inactive")
-
-    default:
-      fatalError("should not reach here.")
     }
 
     if isOtpActive {

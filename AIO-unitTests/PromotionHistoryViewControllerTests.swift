@@ -8,11 +8,11 @@ final class PromotionHistoryViewControllerTests: XCBaseTestCase {
   func dummyHistory() -> CouponHistory {
     .init(
       amount: 100.toAccountCurrency(),
-      bonusLockReceivingStatus: .inprogress,
+      bonusLockReceivingStatus: .inProgress,
       promotionId: "",
       name: "",
       bonusId: "",
-      type: .freebet,
+      type: .freeBet,
       receiveDate: Date().toLocalDateTime(.current),
       issue: 0,
       productType: .casino,

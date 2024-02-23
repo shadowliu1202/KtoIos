@@ -133,7 +133,8 @@ final class DepositCryptoRecordDetailViewTests: XCBaseTestCase {
           return [item]
         case .table(let applyItems, let finalItems):
           return applyItems + finalItems
-        default:
+        case .link,
+             .remark:
           return nil
         }
       }

@@ -97,7 +97,7 @@ extension WithdrawalCryptoWalletsViewController {
     }
     else {
       if
-        wallet.verifyStatus == .onhold ||
+        wallet.verifyStatus == .onHold ||
         wallet.verifyStatus == .verified
       {
         self.navigationController?

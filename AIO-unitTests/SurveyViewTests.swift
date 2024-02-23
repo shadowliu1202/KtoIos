@@ -29,7 +29,7 @@ final class SurveyViewTests: XCTestCase {
             heading: "",
             description: "",
             surveyId: "",
-            questions: [getStubQuestion(type: .textfield)]),
+            questions: [getStubQuestion(type: .textField)]),
         supportLocale: .Vietnam(),
         submitButtonOnTap: { _ in }))
     
@@ -53,7 +53,7 @@ final class SurveyViewTests: XCTestCase {
             heading: "",
             description: "",
             surveyId: "",
-            questions: [getStubQuestion(type: .textfield)]),
+            questions: [getStubQuestion(type: .textField)]),
         supportLocale: .China(),
         submitButtonOnTap: { _ in })
     }
@@ -79,9 +79,9 @@ final class SurveyViewTests: XCTestCase {
             description: "",
             surveyId: "",
             questions: [
-              getStubQuestion(type: .simpleoption, isRequired: true),
-              getStubQuestion(type: .multipleoption, isRequired: true),
-              getStubQuestion(type: .textfield, isRequired: true)
+              getStubQuestion(type: .simpleOption, isRequired: true),
+              getStubQuestion(type: .multipleOption, isRequired: true),
+              getStubQuestion(type: .textField, isRequired: true)
             ]),
         supportLocale: .China(),
         submitButtonOnTap: { _ in })
@@ -123,7 +123,7 @@ final class SurveyViewTests: XCTestCase {
           description: "",
           surveyId: "",
           questions: [
-            getStubQuestion(type: .simpleoption)
+            getStubQuestion(type: .simpleOption)
           ]),
         supportLocale: .Vietnam(),
         submitButtonOnTap: { _ in })
@@ -145,7 +145,7 @@ final class SurveyViewTests: XCTestCase {
       questionId: "",
       csOption: [stubOption],
       isRequired: true,
-      type: .multipleoption)
+      type: .multipleOption)
     
     let sut = SurveyView(
       survey: CustomerServiceDTO.CSSurvey(
@@ -183,7 +183,7 @@ final class SurveyViewTests: XCTestCase {
       questionId: "",
       csOption: [stubOption],
       isRequired: true,
-      type: .multipleoption)
+      type: .multipleOption)
     
     let sut = SurveyView(
       survey: CustomerServiceDTO.CSSurvey(

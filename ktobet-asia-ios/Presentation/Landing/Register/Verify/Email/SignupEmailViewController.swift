@@ -214,15 +214,14 @@ class SignupEmailViewController: LandingViewController {
   private func checkRegistration(manual: Bool) {
     if !checking {
       checking = true
-      viewModel
-        .checkRegistration(account, password)
-        .subscribe(onSuccess: { [weak self] valid in
-          switch valid {
+      viewModel.checkRegistration(account, password)
+        .subscribe(onSuccess: { [weak self] result in
+          switch result {
           case .valid:
             NavigationManagement.sharedInstance.goTo(
               storyboard: "Login",
               viewControllerId: "DefaultProductNavigationViewController")
-          default:
+          case .invalid:
             self?.checking = false
             if manual {
               let title = Localize.string("common_tip_title_warm")

@@ -12,13 +12,13 @@ extension Wallet.VerifyStatus {
     switch self {
     case .pending:
       return (Localize.string("withdrawal_bankcard_new"), .textPrimary)
-    case .void_:
+    case .void:
       return (Localize.string("withdrawal_bankcard_fail"), .primaryDefault)
-    case .onhold:
+    case .onHold:
       return (Localize.string("withdrawal_bankcard_locked"), .alert)
     case .verified:
       return (Localize.string(isCrypto ? "cps_account_status_verified" : "withdrawal_bankcard_verified"), .statusSuccess)
-    default:
+    case .unknown:
       return ("", .clear)
     }
   }

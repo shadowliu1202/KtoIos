@@ -69,13 +69,11 @@ class SignupLanguageViewController: LandingViewController {
     }()
   }
 
-  private func registerOptionText(_ local: SupportLocale) -> String {
-    switch local {
-    case is SupportLocale.China:
+  private func registerOptionText(_ locale: SupportLocale) -> String {
+    switch onEnum(of: locale) {
+    case .china:
       return Localize.string("register_language_option_chinese")
-    case is SupportLocale.Vietnam:
-      fallthrough
-    default:
+    case .vietnam:
       return Localize.string("register_language_option_vietnam")
     }
   }

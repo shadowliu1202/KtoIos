@@ -65,13 +65,13 @@ final class WithdrawalCryptoRequestStep1ViewTests: XCBaseTestCase {
       .just(self.stubRate)
       .asWrapper()
     given(stubService.verifyWithdrawalAmount(walletId: firstArg(any()), verifyAmount: secondArg(any()))) ~>
-      Observable<AmountVerification>
-      .just(.valid)
+      Observable<__AmountVerification>
+      .just(.valid._bridgeToObjectiveC())
       .asWrapper()
     given(stubService.calculateCryptoFulfillment(walletId: firstArg(any()), exchangeRate: secondArg(any()))) ~>
       Observable<WithdrawalDto.FulfillmentRecipe>
       .just(.init(
-        type: .allbalance,
+        type: .allBalance,
         from: "2".toAccountCurrency(),
         to: "1".toCryptoCurrency(supportCryptoType: .eth),
         exchangeRate: self.stubRate))
@@ -184,7 +184,7 @@ final class WithdrawalCryptoRequestStep1ViewTests: XCBaseTestCase {
     let sut = WithdrawalCryptoRequestStep1ViewController(viewModel: stubViewModel, wallet: stubWallet)
 
     sut.tapAutoFill(recipe: .init(
-      type: .allbalance,
+      type: .allBalance,
       from: "2".toAccountCurrency(),
       to: "1".toCryptoCurrency(supportCryptoType: .eth),
       exchangeRate: stubRate))

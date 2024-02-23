@@ -34,9 +34,9 @@ final class OnlinePaymentViewTests: XCBaseTestCase {
 
     let remitTypes: [PaymentsDTO.RemitType] = [
       .normal,
-      .onlyamount,
-      .frombank,
-      .directto
+      .onlyAmount,
+      .fromBank,
+      .directTo
     ]
 
     for remitType in remitTypes {
@@ -81,9 +81,9 @@ final class OnlinePaymentViewTests: XCBaseTestCase {
 
     let remitTypes: [PaymentsDTO.RemitType] = [
       .normal,
-      .onlyamount,
-      .frombank,
-      .directto
+      .onlyAmount,
+      .fromBank,
+      .directTo
     ]
 
     for remitType in remitTypes {
@@ -196,9 +196,9 @@ final class OnlinePaymentViewTests: XCBaseTestCase {
 
     let remitTypes: [PaymentsDTO.RemitType] = [
       .normal,
-      .onlyamount,
-      .frombank,
-      .directto
+      .onlyAmount,
+      .fromBank,
+      .directTo
     ]
 
     for remitType in remitTypes {
@@ -247,9 +247,9 @@ final class OnlinePaymentViewTests: XCBaseTestCase {
 
     let remitTypes: [PaymentsDTO.RemitType] = [
       .normal,
-      .onlyamount,
-      .frombank,
-      .directto
+      .onlyAmount,
+      .fromBank,
+      .directTo
     ]
 
     for remitType in remitTypes {
@@ -439,7 +439,7 @@ final class OnlinePaymentViewTests: XCBaseTestCase {
           id: "",
           name: "",
           hint: "",
-          remitType: .frombank,
+          remitType: .fromBank,
           remitBanks: [],
           cashType: .option(amountList: []),
           isAccountNumberDenied: true,
@@ -474,7 +474,7 @@ final class OnlinePaymentViewTests: XCBaseTestCase {
           id: "",
           name: "",
           hint: "",
-          remitType: .directto,
+          remitType: .directTo,
           remitBanks: [],
           cashType: .option(amountList: []),
           isAccountNumberDenied: true,
@@ -509,7 +509,7 @@ final class OnlinePaymentViewTests: XCBaseTestCase {
           id: "",
           name: "",
           hint: "",
-          remitType: .onlyamount,
+          remitType: .onlyAmount,
           remitBanks: [],
           cashType: .option(amountList: []),
           isAccountNumberDenied: false,

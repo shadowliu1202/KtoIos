@@ -93,7 +93,7 @@ class NotificationDetailViewController: LobbyViewController, NotificationNavigat
       return
     }
     switch type {
-    case .depositneedsverifieddoc:
+    case .depositNeedsVerifiedDoc:
       self.navigateToDestination = { [unowned self] in
         let detailMainViewController = DepositRecordDetailMainViewController(
           displayId: self.data.transactionId ?? "")
@@ -101,18 +101,18 @@ class NotificationDetailViewController: LobbyViewController, NotificationNavigat
         NavigationManagement.sharedInstance
           .pushViewController(vc: detailMainViewController)
       }
-    case .onlinecardschange,
-         .paymentgroupchanged:
+    case .onlineCardsChange,
+         .paymentGroupChanged:
       self.navigateToDestination = {
         NavigationManagement.sharedInstance.goTo(storyboard: "Deposit", viewControllerId: "DepositNavigation")
       }
-    case .offlinecardschange:
+    case .offlineCardsChange:
       self.navigateToDestination = {
         let vc = OfflinePaymentViewController()
         NavigationManagement.sharedInstance.pushViewController(vc: vc)
       }
-    case .withdrawalneedsverifieddoc,
-         .withdrawalrejected:
+    case .withdrawalNeedsVerifiedDoc,
+         .withdrawalRejected:
       self.navigateToDestination = { [unowned self] in
         let detailMainViewController = WithdrawalRecordDetailMainViewController(
           displayId: self.data.transactionId ?? "")
@@ -122,14 +122,30 @@ class NotificationDetailViewController: LobbyViewController, NotificationNavigat
             vc: detailMainViewController,
             unwindNavigate: self)
       }
-    case .levelup,
-         .registercompleted:
+    case .levelUp,
+         .registerCompleted:
       self.navigateToDestination = {
         NavigationManagement.sharedInstance.goTo(
           storyboard: "LevelPrivilege",
           viewControllerId: "LevelPrivilegeNavigationController")
       }
-    default:
+    case .balanceModified,
+         .bonusObtained,
+         .changeRealNameApproved,
+         .changeRealNameNeedsVerifiedDoc,
+         .changeRealNameReject,
+         .depositApproved,
+         .depositFailed,
+         .depositFeeRefund,
+         .logIn,
+         .logout,
+         .specialFeature,
+         .unknown,
+         .withdrawalApproved,
+         .withdrawalCanceled,
+         .withdrawalPromotionAmount,
+         .withdrawalPromotionAmountAndCount,
+         .withdrawalPromotionCount:
       break
     }
   }
@@ -155,20 +171,36 @@ extension MyActivityType {
   fileprivate var goToBtnTitle: String {
     var destination = ""
     switch self {
-    case .depositneedsverifieddoc:
+    case .depositNeedsVerifiedDoc:
       destination = Localize.string("deposit_detail_title")
-    case .onlinecardschange,
-         .paymentgroupchanged:
+    case .onlineCardsChange,
+         .paymentGroupChanged:
       destination = Localize.string("deposit_title")
-    case .offlinecardschange:
+    case .offlineCardsChange:
       destination = Localize.string("deposit_offline_step1_title")
-    case .withdrawalneedsverifieddoc,
-         .withdrawalrejected:
+    case .withdrawalNeedsVerifiedDoc,
+         .withdrawalRejected:
       destination = Localize.string("withdrawal_detail_title")
-    case .levelup,
-         .registercompleted:
+    case .levelUp,
+         .registerCompleted:
       destination = Localize.string("bonus_levelprivilege")
-    default:
+    case .balanceModified,
+         .bonusObtained,
+         .changeRealNameApproved,
+         .changeRealNameNeedsVerifiedDoc,
+         .changeRealNameReject,
+         .depositApproved,
+         .depositFailed,
+         .depositFeeRefund,
+         .logIn,
+         .logout,
+         .specialFeature,
+         .unknown,
+         .withdrawalApproved,
+         .withdrawalCanceled,
+         .withdrawalPromotionAmount,
+         .withdrawalPromotionAmountAndCount,
+         .withdrawalPromotionCount:
       break
     }
     return Localize.string("notification_goto", [destination])

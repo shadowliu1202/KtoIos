@@ -19,11 +19,11 @@ class PromotionHistoryViewModel: CollectErrorViewModel {
   var productTypes: [ProductType] = []
   var privilegeTypes: [PrivilegeType] = [
     .freebet,
-    .depositbonus,
+    .depositBonus,
     .rebate,
-    .levelbonus,
+    .levelBonus,
     .product,
-    .vvipcashback
+    .vvipcashBack
   ]
 
   var beginDate = Date().getPastSevenDate()

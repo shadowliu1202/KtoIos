@@ -118,7 +118,13 @@ struct WithdrawalRecordDetailView_Previews: PreviewProvider {
           .init(image: UIImage(named: "AppIconNotProd")!)
         }
 
-      default: return
+      case .approved,
+           .cancel,
+           .fail,
+           .other,
+           .pending,
+           .pendingHold:
+        return
       }
     }
   }

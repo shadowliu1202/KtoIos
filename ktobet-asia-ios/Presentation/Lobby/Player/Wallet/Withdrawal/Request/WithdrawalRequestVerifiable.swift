@@ -19,21 +19,19 @@ extension WithdrawalRequestVerifiable {
       .map {
         var textKey: String?
 
-        switch $0 {
-        case .beyondrange:
+        switch $0.toSwiftEnum() {
+        case .beyondRange:
           textKey = "withdrawal_amount_beyond_range"
-        case .belowrange:
+        case .belowRange:
           textKey = "withdrawal_amount_below_range"
-        case .exceeddailylimit:
+        case .exceedDailyLimit:
           textKey = "withdrawal_amount_exceed_daily_limit"
-        case .notenoughbalance:
+        case .notEnoughBalance:
           textKey = "withdrawal_balance_not_enough"
-        case .exceeddailycount:
+        case .exceedDailyCount:
           textKey = nil // should not be here
         case .valid:
           textKey = ""
-        default:
-          textKey = nil
         }
 
         return textKey == nil ? nil : Localize.string(textKey!)

@@ -68,18 +68,15 @@ class ErrorWrapper: KotlinThrowable {
 
 extension Int {
   func isNetworkConnectionLost() -> Bool {
-    switch self {
-    case NSURLErrorCannotConnectToHost, // -1004
-         NSURLErrorCannotFindHost, // -1003
-         NSURLErrorDataNotAllowed, // -1020
-         NSURLErrorInternationalRoamingOff, // -1018
-         NSURLErrorNetworkConnectionLost, // -1005
-         NSURLErrorNotConnectedToInternet, // -1009
-         NSURLErrorTimedOut: // -1001
-      return true
-    default:
-      return false
-    }
+    [
+      NSURLErrorCannotConnectToHost, // -1004
+      NSURLErrorCannotFindHost, // -1003
+      NSURLErrorDataNotAllowed, // -1020
+      NSURLErrorInternationalRoamingOff, // -1018
+      NSURLErrorNetworkConnectionLost, // -1005
+      NSURLErrorNotConnectedToInternet, // -1009
+      NSURLErrorTimedOut // -1001
+    ].contains(self)
   }
 }
 

@@ -41,7 +41,7 @@ class CasinoRecordRepositoryImpl: CasinoRecordRepository {
       guard let data = response.data else { return [] }
       var unsettledBetSummaries: [UnsettledBetSummary] = []
       for s in data {
-        let betTime = try s.betTime.toLocalDateTime()
+        let betTime = try s.betTime.toKotlinLocalDateTime()
         let unsettledBetSummary = UnsettledBetSummary(betTime: betTime)
         unsettledBetSummaries.append(unsettledBetSummary)
       }
@@ -56,7 +56,7 @@ class CasinoRecordRepositoryImpl: CasinoRecordRepository {
         guard let data = response.data else { return [] }
         var unsettledBetRecords: [UnsettledBetRecord] = []
         for d in data {
-          let betTime = try d.betTime.toLocalDateTime()
+          let betTime = try d.betTime.toKotlinLocalDateTime()
           unsettledBetRecords.append(UnsettledBetRecord(
             betId: d.betId,
             otherId: d.otherId,
@@ -78,8 +78,8 @@ class CasinoRecordRepositoryImpl: CasinoRecordRepository {
       var periodOfRecords: [PeriodOfRecord] = []
       for p in data {
         periodOfRecords.append(PeriodOfRecord(
-          endDate: try p.endDate.toLocalDateTime(),
-          startDate: try p.startDate.toLocalDateTime(),
+          endDate: try p.endDate.toKotlinLocalDateTime(),
+          startDate: try p.startDate.toKotlinLocalDateTime(),
           lobbyId: p.lobbyId,
           lobbyName: p.lobbyName,
           records: []))

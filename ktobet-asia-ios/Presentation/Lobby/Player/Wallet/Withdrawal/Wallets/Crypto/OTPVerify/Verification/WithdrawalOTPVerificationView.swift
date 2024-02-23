@@ -94,8 +94,6 @@ extension WithdrawalOTPVerificationView {
                 .id(HighLightText.Identifier)
             case .email:
               Text(viewModel.sentCodeMessage)
-            default:
-              fatalError("should not reach here.")
             }
           }
         }

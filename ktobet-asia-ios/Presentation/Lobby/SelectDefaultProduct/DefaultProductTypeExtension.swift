@@ -10,10 +10,8 @@ extension DefaultProductType {
       return Localize.string("common_slot")
     case .casino:
       return Localize.string("common_casino")
-    case .numbergame:
+    case .numberGame:
       return Localize.string("common_keno")
-    default:
-      return ""
     }
   }
 }

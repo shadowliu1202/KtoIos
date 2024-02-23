@@ -9,8 +9,8 @@ import XCTest
 final class NumberGameViewControllerTests: XCBaseTestCase {
   func test_givenLobbyMaintenance_thenDisplayLobbyMaintenanceInfo_KTO_TC_910() {
     let stubMaintenanceStatus = MaintenanceStatus.Product(
-      productsAvailable: [.numbergame],
-      status: [.numbergame: OffsetDateTime(
+      productsAvailable: [.numberGame],
+      status: [.numberGame: OffsetDateTime(
         localDateTime: LocalDateTime(year: 2100, month: .january, dayOfMonth: 1, hour: 12, minute: 0, second: 0, nanosecond: 0),
         timeZone: sharedbu.TimeZone.companion.of(zoneId: "Asia/Ho_Chi_Minh"))])
     

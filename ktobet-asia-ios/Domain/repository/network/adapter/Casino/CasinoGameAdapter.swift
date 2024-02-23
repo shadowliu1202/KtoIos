@@ -44,7 +44,7 @@ class CasinoGameAdapter: CasinoGameProtocol {
     fatalError()
   }
   
-  func searchGame(keyword_ _: String) -> SingleWrapper<ResponseList<CasinoGameBean>> {
+  func searchGame(keyword _: String) -> SingleWrapper<ResponseList<CasinoGameBean>> {
     fatalError()
   }
 }

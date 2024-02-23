@@ -26,20 +26,20 @@ final class WithdrawalCreateCryptoAccountViewModelTests: XCBaseTestCase {
         maxCount: 5,
         maxAmount: FiatFactory.shared.create(
           supportLocale: .China(),
-          amount_: ""),
+          amount: ""),
         currentCount: 50,
         currentAmount: FiatFactory.shared.create(
           supportLocale: .China(),
-          amount_: ""),
+          amount: ""),
         oneOffMinimumAmount: FiatFactory.shared.create(
           supportLocale: .China(),
-          amount_: ""),
+          amount: ""),
         oneOffMaximumAmount: FiatFactory.shared.create(
           supportLocale: .China(),
-          amount_: "")),
+          amount: "")),
       remainTurnOver: FiatFactory.shared.create(
         supportLocale: .China(),
-        amount_: ""))
+        amount: ""))
 
     given(stubWithdrawalAppService.getWalletSupportCryptoTypes()) ~> [.usdc, .eth]
 

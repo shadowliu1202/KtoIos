@@ -145,17 +145,15 @@ extension SurveyView {
     
     var body: some View {
       switch question.type {
-      case .simpleoption:
+      case .simpleOption:
         SurveyView.SimpleOptionQuestion(question, $answers)
           .id(SurveyView.TestTag.simpleOptionQuestion.rawValue)
-      case .multipleoption:
+      case .multipleOption:
         SurveyView.MultipleOptionQuestion(question, $answers)
           .id(SurveyView.TestTag.multipleOptionQuestion.rawValue)
-      case .textfield:
+      case .textField:
         SurveyView.DescriptionQuestion(question, $answers, supportLocale)
           .id(SurveyView.TestTag.descriptionQuestion.rawValue)
-        
-      default: fatalError("should not reach here.")
       }
     }
   }
@@ -204,7 +202,7 @@ struct SurveyView_Previews: PreviewProvider {
               CustomerServiceDTO.CSSurveyCSQuestionOptions(optionId: "3", values: "选项 C")
             ],
             isRequired: true,
-            type: .simpleoption),
+            type: .simpleOption),
           CustomerServiceDTO.CSSurveyCSQuestion(
             description: "复选问题(BO可变动标题)",
             questionId: "2",
@@ -214,13 +212,13 @@ struct SurveyView_Previews: PreviewProvider {
               CustomerServiceDTO.CSSurveyCSQuestionOptions(optionId: "3", values: "选项 C")
             ],
             isRequired: true,
-            type: .multipleoption),
+            type: .multipleOption),
           CustomerServiceDTO.CSSurveyCSQuestion(
             description: "描述问题(BO可变动标题)",
             questionId: "3",
             csOption: [],
             isRequired: true,
-            type: .textfield)
+            type: .textField)
         ]),
       supportLocale: .China(),
       submitButtonOnTap: { _ in })

@@ -15,7 +15,7 @@ class StringExtensionTest: XCBaseTestCase {
       minute: 0,
       second: 0,
       nanosecond: 0)
-    let actual = try! apiReturnDate.toLocalDateTime(timeZone: TimeZone(identifier: "Asia/Saigon")!)
+    let actual = try! apiReturnDate.toKotlinLocalDateTime(timeZone: TimeZone(identifier: "Asia/Saigon")!)
 
     XCTAssertEqual(expect, actual)
 
@@ -27,7 +27,7 @@ class StringExtensionTest: XCBaseTestCase {
       minute: 0,
       second: 0,
       nanosecond: 0)
-    let actual1 = try! apiReturnDate.toLocalDateTime(timeZone: TimeZone(identifier: "Asia/Taipei")!)
+    let actual1 = try! apiReturnDate.toKotlinLocalDateTime(timeZone: TimeZone(identifier: "Asia/Taipei")!)
 
     XCTAssertEqual(expect1, actual1)
   }
@@ -66,12 +66,12 @@ class StringExtensionTest: XCBaseTestCase {
     let apiReturnDate = "2022-06-10T00:00:00+08:00"
 
     let expect = sharedbu.LocalDate(year: 2022, monthNumber: 6, dayOfMonth: 9)
-    let actual = try! apiReturnDate.toLocalDate(timeZone: TimeZone(identifier: "Asia/Saigon")!)
+    let actual = try! apiReturnDate.toKotlinLocalDate(timeZone: TimeZone(identifier: "Asia/Saigon")!)
 
     XCTAssertEqual(expect, actual)
 
     let expect1 = sharedbu.LocalDate(year: 2022, monthNumber: 6, dayOfMonth: 10)
-    let actual1 = try! apiReturnDate.toLocalDate(timeZone: TimeZone(identifier: "Asia/Taipei")!)
+    let actual1 = try! apiReturnDate.toKotlinLocalDate(timeZone: TimeZone(identifier: "Asia/Taipei")!)
 
     XCTAssertEqual(expect1, actual1)
   }

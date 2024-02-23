@@ -33,9 +33,9 @@ class SideBarViewController: APPViewController {
     ]
 
     let imgs = ["SBK", "Casino", "Slot", "Number Game", "P2P", "Arcade"]
-    let types: [ProductType] = [.sbk, .casino, .slot, .numbergame, .p2p, .arcade]
+    let types: [ProductType] = [.sbk, .casino, .slot, .numberGame, .p2P, .arcade]
 
-    return zip(titles, zip(imgs, types))
+    return Swift.zip(titles, Swift.zip(imgs, types))
       .map { title, imgAndType in
         let (image, type) = imgAndType
         return ProductItem(title: title, image: image, type: type)
@@ -198,7 +198,8 @@ class SideBarViewController: APPViewController {
       message = Localize.string("common_kick_out_token_expired")
       isMaintain = false
 
-    default: break
+    case .none:
+      break
     }
 
     return (title, message, isMaintain)

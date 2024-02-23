@@ -56,18 +56,16 @@ class NavigationViewModel {
 
   func initLoginNavigation(playerSetting: PlayerSetting) -> Single<LobbyPageNavigation> {
     getLoginNeededStatus().map { status in
-      switch status {
-      case is MaintenanceStatus.AllPortal:
+      switch onEnum(of: status) {
+      case .allPortal:
         return .portalAllMaintenance
-      case is MaintenanceStatus.Product:
+      case .product:
         if playerSetting.defaultProduct == ProductType.none {
           return .setDefaultProduct
         }
         else {
           return .playerDefaultProduct(playerSetting.defaultProduct!)
         }
-      default:
-        fatalError("Should not reach here.")
       }
     }
   }

@@ -54,7 +54,7 @@ class NumberGameRecordViewModel {
   func getUnSettledByDate(date: Date, skip: Int) -> Observable<[NumberGameSummary.Game]> {
     numberGameRecordUseCase.getGamesSummaryByDate(
       date: date,
-      betStatus: NumberGameSummary.CompanionStatus.unsettled,
+      betStatus: NumberGameSummary.CompanionStatus.unSettled,
       skip: skip,
       take: 20).asObservable()
   }

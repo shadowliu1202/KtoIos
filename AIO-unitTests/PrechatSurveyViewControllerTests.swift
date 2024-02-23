@@ -33,10 +33,9 @@ final class PrechatSurveyViewControllerTests: XCBaseTestCase {
     let surveyQuestionType: Int32
     
     switch questionType {
-    case .simpleoption: surveyQuestionType = 1
-    case .multipleoption: surveyQuestionType = 2
-    case .textfield: surveyQuestionType = 6
-    default: fatalError("should not reach here.")
+    case .simpleOption: surveyQuestionType = 1
+    case .multipleOption: surveyQuestionType = 2
+    case .textField: surveyQuestionType = 6
     }
     
     return SurveyQuestion_(
@@ -66,7 +65,7 @@ final class PrechatSurveyViewControllerTests: XCBaseTestCase {
   func test_givenHasOneQuestionAndTypeIsSingleOption_thenDisplayServeyWithSingleOptionQuestion_KTO_TC_122() {
     let stubCSSurveyAdapter = mock(CSSurveyAdapter.self).initialize(getFakeHttpClient())
     given(stubCSSurveyAdapter.getSkillSurvey(type: any())) ~> Single.just(ResponseItem(
-      data: self.getStubSurveyBean(questions: [self.getStubQuestionBean(questionType: .simpleoption)]),
+      data: self.getStubSurveyBean(questions: [self.getStubQuestionBean(questionType: .simpleOption)]),
       errorMsg: "",
       node: "",
       statusCode: "200"))
@@ -95,7 +94,7 @@ final class PrechatSurveyViewControllerTests: XCBaseTestCase {
         .actualView()
       
       XCTAssertEqual(
-        expect: CustomerServiceDTO.CSSurveySurveyQuestionType.simpleoption,
+        expect: CustomerServiceDTO.CSSurveySurveyQuestionType.simpleOption,
         actual: questionView.question.type)
     }
     
@@ -106,7 +105,7 @@ final class PrechatSurveyViewControllerTests: XCBaseTestCase {
   func test_givenHasOneQuestionAndTypeIsMultipleOption_thenDisplayServeyWithMultipleOptionQuestion_KTO_TC_123() {
     let stubCSSurveyAdapter = mock(CSSurveyAdapter.self).initialize(getFakeHttpClient())
     given(stubCSSurveyAdapter.getSkillSurvey(type: any())) ~> Single.just(ResponseItem(
-      data: self.getStubSurveyBean(questions: [self.getStubQuestionBean(questionType: .multipleoption)]),
+      data: self.getStubSurveyBean(questions: [self.getStubQuestionBean(questionType: .multipleOption)]),
       errorMsg: "",
       node: "",
       statusCode: "200"))
@@ -135,7 +134,7 @@ final class PrechatSurveyViewControllerTests: XCBaseTestCase {
         .actualView()
       
       XCTAssertEqual(
-        expect: CustomerServiceDTO.CSSurveySurveyQuestionType.multipleoption,
+        expect: CustomerServiceDTO.CSSurveySurveyQuestionType.multipleOption,
         actual: questionView.question.type)
     }
     
@@ -146,7 +145,7 @@ final class PrechatSurveyViewControllerTests: XCBaseTestCase {
   func test_givenHasOneQuestionAndTypeIsDescription_thenDisplayServeyWithDescriptionQuestion_KTO_TC_124() {
     let stubCSSurveyAdapter = mock(CSSurveyAdapter.self).initialize(getFakeHttpClient())
     given(stubCSSurveyAdapter.getSkillSurvey(type: any())) ~> Single.just(ResponseItem(
-      data: self.getStubSurveyBean(questions: [self.getStubQuestionBean(questionType: .textfield)]),
+      data: self.getStubSurveyBean(questions: [self.getStubQuestionBean(questionType: .textField)]),
       errorMsg: "",
       node: "",
       statusCode: "200"))
@@ -175,7 +174,7 @@ final class PrechatSurveyViewControllerTests: XCBaseTestCase {
         .actualView()
       
       XCTAssertEqual(
-        expect: CustomerServiceDTO.CSSurveySurveyQuestionType.textfield,
+        expect: CustomerServiceDTO.CSSurveySurveyQuestionType.textField,
         actual: questionView.question.type)
     }
     

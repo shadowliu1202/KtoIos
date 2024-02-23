@@ -35,8 +35,6 @@ class ReceiveMessage: ChatRoomVisitor {
       return ChatMessage.SpeakerHandler(name: speaker)
     case .system:
       return ChatMessage.SpeakerSystem(name: speaker)
-    default:
-      fatalError("should not be here")
     }
   }
 

@@ -80,7 +80,7 @@ class UnSettleViewController: UIViewController {
     Observable.zip(tableView.rx.itemSelected, tableView.rx.modelSelected(NumberGameSummary.Date.self))
       .bind { [weak self] _, data in
         guard let self else { return }
-        let parameter = (data.betDate, NumberGameSummary.CompanionStatus.unsettled)
+        let parameter = (data.betDate, NumberGameSummary.CompanionStatus.unSettled)
         self.performSegue(withIdentifier: NumberGameMyBetGameGroupedViewController.segueIdentifier, sender: parameter)
       }.disposed(by: disposeBag)
   }

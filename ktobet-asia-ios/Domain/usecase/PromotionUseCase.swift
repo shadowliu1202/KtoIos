@@ -76,7 +76,7 @@ class PromotionUseCaseImpl: PromotionUseCase, CouponUseCase {
 
   private func getOneCouponOfEachLevel(all: [BonusCoupon.DepositReturnLevel]) -> [BonusCoupon.DepositReturnLevel] {
     var eachLevelCoupons: [BonusCoupon.DepositReturnLevel] = []
-    all.forEach { eachCoupon in
+    for eachCoupon in all {
       if let existCoupon = eachLevelCoupons.first(where: { $0.level == eachCoupon.level }) {
         self.keepEarlierCoupon(coupons: &eachLevelCoupons, existCoupon: existCoupon, eachCoupon: eachCoupon)
       }
@@ -101,22 +101,17 @@ class PromotionUseCaseImpl: PromotionUseCase, CouponUseCase {
   private func isItem1AfterItem2(item1: BonusCoupon.DepositReturnLevel, item2: BonusCoupon.DepositReturnLevel) -> Bool {
     let period1 = item1.validPeriod
     let period2 = item2.validPeriod
-    switch period1 {
-    case let period1 as ValidPeriod.Duration:
-      switch period2 {
-      case let period2 as ValidPeriod.Duration:
-        let date1 = period1.start.convertToDate()
-        let date2 = period2.end.convertToDate()
-        return date1 > date2
-      case is ValidPeriod.Always:
+    
+    switch onEnum(of: period1) {
+    case .always:
+      return true
+    case .duration(let duration1):
+      switch onEnum(of: period2) {
+      case .always:
         return false
-      default:
-        return false
+      case .duration(let duration2):
+        return duration1.start.convertToDate() > duration2.end.convertToDate()
       }
-    case is ValidPeriod.Always:
-      return true
-    default:
-      return true
     }
   }
 
@@ -145,15 +140,15 @@ class PromotionUseCaseImpl: PromotionUseCase, CouponUseCase {
   }
 
   func requestBonusCoupon(bonusCoupon: BonusCoupon) -> Single<WaitingConfirm> {
-    switch bonusCoupon {
-    case is BonusCoupon.DepositReturn,
-         is BonusCoupon.FreeBet,
-         is BonusCoupon.Product,
-         is BonusCoupon.VVIPCashback:
+    switch onEnum(of: bonusCoupon) {
+    case .depositReturn,
+         .freeBet,
+         .product,
+         .vVIPCashback:
       return confirmUseBonusCoupon(bonusCoupon)
-    case let rebate as BonusCoupon.Rebate:
-      return confirmUseRebateCoupon(rebate)
-    default:
+    case .rebate(let it):
+      return confirmUseRebateCoupon(it)
+    case .other:
       return Single.just(DoNothing())
     }
   }
@@ -164,25 +159,21 @@ class PromotionUseCaseImpl: PromotionUseCase, CouponUseCase {
       .andThen(Single.just(ConfirmUseBonusCoupon(useCase: self, bonusCoupon: bonusCoupon)))
       .catch({ error -> Single<WaitingConfirm> in
         if let exception = error as? PromotionException {
-          var waitingConfirm: WaitingConfirm
-          switch exception {
-          case is PromotionException.DepositCouponFullException:
-            waitingConfirm = ConfirmUsageFull()
-          case let e as PromotionException.DepositBonusHasTurnOverException:
-            waitingConfirm = ConfirmUseWithTurnOver(hint: e.hint, useCase: self, bonusCoupon: bonusCoupon)
-          case is PromotionException.LockedBonusCalculatingException:
-            waitingConfirm = ConfirmLockedBonusCalculating()
-          case let e as PromotionException.HasLockedBonusHintException:
-            waitingConfirm = ConfirmLockedBonusHintForNoTurnOverCoupon(
+          switch onEnum(of: exception) {
+          case .blockedByLockedBonus(let it):
+            return Single.just(ConfirmBonusLocked(turnOver: it.turnOver))
+          case .depositBonusHasTurnOverException(let it):
+            return Single.just(ConfirmUseWithTurnOver(hint: it.hint, useCase: self, bonusCoupon: bonusCoupon))
+          case .depositCouponFullException:
+            return Single.just(ConfirmUsageFull())
+          case .hasLockedBonusHintException(let it):
+            return Single.just(ConfirmLockedBonusHintForNoTurnOverCoupon(
               useCase: self,
-              turnOver: e.turnOver,
-              bonusCoupon: bonusCoupon)
-          case let e as PromotionException.BlockedByLockedBonus:
-            waitingConfirm = ConfirmBonusLocked(turnOver: e.turnOver)
-          default:
-            return Single.error(error)
+              turnOver: it.turnOver,
+              bonusCoupon: bonusCoupon))
+          case .lockedBonusCalculatingException:
+            return Single.just(ConfirmLockedBonusCalculating())
           }
-          return Single.just(waitingConfirm)
         }
         return Single.error(error)
       })
@@ -236,19 +227,19 @@ class PromotionUseCaseImpl: PromotionUseCase, CouponUseCase {
       .andThen(Single.just(ConfirmUseBonusCoupon(useCase: self, bonusCoupon: bonusCoupon)))
       .catch({ error -> Single<WaitingConfirm> in
         if let exception = error as? PromotionException {
-          var waitingConfirm: WaitingConfirm
-          switch exception {
-          case is PromotionException.LockedBonusCalculatingException:
-            waitingConfirm = ConfirmLockedBonusCalculating()
-          case let e as PromotionException.HasLockedBonusHintException:
-            waitingConfirm = ConfirmLockedBonusHintForRebateCoupon(
-              useCase: self,
-              turnOver: e.turnOver,
-              bonusCoupon: bonusCoupon)
-          default:
+          switch onEnum(of: exception) {
+          case .blockedByLockedBonus,
+               .depositBonusHasTurnOverException,
+               .depositCouponFullException:
             return Single.error(error)
+          case .hasLockedBonusHintException(let it):
+            return Single.just(ConfirmLockedBonusHintForRebateCoupon(
+              useCase: self,
+              turnOver: it.turnOver,
+              bonusCoupon: bonusCoupon))
+          case .lockedBonusCalculatingException:
+            return Single.just(ConfirmLockedBonusCalculating())
           }
-          return Single.just(waitingConfirm)
         }
         return Single.error(error)
       })

@@ -68,8 +68,8 @@ class IAuthRepositoryImpl: IAuthRepository {
           case 0: return LoginStatus.TryStatus.success
           case 1: return LoginStatus.TryStatus.failed1to5
           case 2: return LoginStatus.TryStatus.failed6to10
-          case 3: return LoginStatus.TryStatus.failedabove11
-          default: return LoginStatus.TryStatus.failedabove11
+          case 3: return LoginStatus.TryStatus.failedAbove11
+          default: return LoginStatus.TryStatus.failedAbove11
           }
         }()
         let isLocked = response.data?.isLocked ?? false
