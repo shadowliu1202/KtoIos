@@ -45,8 +45,8 @@ final class OnlinePaymentViewModelTests: XCBaseTestCase {
       name: "JinYi_Digital",
       cash: CashType
         .Input(limitation: AmountRange(
-          min: FiatFactory.shared.create(supportLocale: SupportLocale.China(), amount_: "200"),
-          max: FiatFactory.shared.create(supportLocale: SupportLocale.China(), amount_: "2000")), isFloatAllowed: false),
+          min: FiatFactory.shared.create(supportLocale: SupportLocale.China(), amount: "200"),
+          max: FiatFactory.shared.create(supportLocale: SupportLocale.China(), amount: "2000")), isFloatAllowed: false),
       remitType: PaymentsDTO.RemitType.normal,
       remitBank: [],
       verifier: CompositeVerification<RemitApplication, PaymentError>(),

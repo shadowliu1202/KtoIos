@@ -26,10 +26,10 @@ class ServiceStatusViewModel {
     let maintainStatus = systemStatusUseCase.observeMaintenanceStatusByFetch()
     let maintainStatusPerSecond = systemStatusUseCase.observeMaintenanceStatusByFetch()
       .do(onNext: { [weak self] status in
-        switch status {
-        case let allPortal as MaintenanceStatus.AllPortal:
-          self?.timeOfRefresh(seconds: allPortal.convertDurationToSeconds()?.int32Value)
-        default:
+        switch onEnum(of: status) {
+        case .allPortal(let it):
+          self?.timeOfRefresh(seconds: it.convertDurationToSeconds()?.int32Value)
+        case .product:
           self?.countDownTimer?.stop()
         }
       })
@@ -78,7 +78,7 @@ class ServiceStatusViewModel {
   private func productsMaintainTime(_ maintainStatus: Observable<MaintenanceStatus>)
     -> Observable<[(productType: ProductType, maintainTime: OffsetDateTime?)]>
   {
-    let productTypes: [ProductType] = [.sbk, .casino, .slot, .numbergame, .p2p, .arcade]
+    let productTypes: [ProductType] = [.sbk, .casino, .slot, .numberGame, .p2P, .arcade]
     return maintainStatus
       .map { status -> [(productType: ProductType, maintainTime: OffsetDateTime?)] in
         if let status = status as? MaintenanceStatus.Product {

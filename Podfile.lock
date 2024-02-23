@@ -134,6 +134,7 @@ PODS:
   - NotificationBannerSwift (3.0.0):
     - MarqueeLabel (~> 4.0.0)
     - SnapKit (~> 5.0.0)
+  - Periphery (2.18.0)
   - PromisesObjC (2.2.0)
   - Puppy (0.5.0):
     - Puppy/Default (= 0.5.0)
@@ -169,7 +170,7 @@ PODS:
   - SDWebImage (5.10.4):
     - SDWebImage/Core (= 5.10.4)
   - SDWebImage/Core (5.10.4)
-  - sharedbu (2.48.0)
+  - sharedbu (2.48.1)
   - SideMenu (6.5.0)
   - SnapKit (5.0.1)
   - SwiftFormat/CLI (0.50.9)
@@ -195,6 +196,7 @@ DEPENDENCIES:
   - MockingbirdFramework (~> 0.20)
   - Moya/RxSwift (= 15.0.0)
   - NotificationBannerSwift (= 3.0.0)
+  - Periphery
   - Puppy (= 0.5.0)
   - RxBlocking (= 6.5.0)
   - RxCocoa (= 6.5.0)
@@ -204,7 +206,7 @@ DEPENDENCIES:
   - RxSwiftExt (= 6.2.1)
   - RxTest (= 6.5.0)
   - SDWebImage (= 5.10.4)
-  - sharedbu (= 2.48.0)
+  - sharedbu (= 2.48.1)
   - SideMenu (= 6.5.0)
   - SnapKit
   - SwiftFormat/CLI (~> 0.49)
@@ -245,6 +247,7 @@ SPEC REPOS:
     - Moya
     - nanopb
     - NotificationBannerSwift
+    - Periphery
     - PromisesObjC
     - Puppy
     - RxBlocking
@@ -293,6 +296,7 @@ SPEC CHECKSUMS:
   Moya: 138f0573e53411fb3dc17016add0b748dfbd78ee
   nanopb: a0ba3315591a9ae0a16a309ee504766e90db0c96
   NotificationBannerSwift: 842401d30f5c36e4f2eafc152824566f6b3c1bb5
+  Periphery: df811cd90304f9ca6bed6c1904c5ac1a88cff23f
   PromisesObjC: 09985d6d70fbe7878040aa746d78236e6946d2ef
   Puppy: e2852b6be61807c49443416e69afbcd826f74c33
   RxBlocking: 04b5fd28bb5ea49f7d64b80db8bbfe50d9cc1c7d
@@ -304,7 +308,7 @@ SPEC CHECKSUMS:
   RxSwiftExt: 43aaacb6a4d3c69c55e9d1cf4f79920043d13583
   RxTest: eb2d23adefc5a5ebf5779c7792fa3edfe6ebcc17
   SDWebImage: c666b97e1fa9c64b4909816a903322018f0a9c84
-  sharedbu: babbb433cb6c994eb0f116d47f0de69b290f4bf9
+  sharedbu: 3e7f0bbcadbd0b1081d02c576b9d12c02e53c8c9
   SideMenu: f583187d21c5b1dd04c72002be544b555a2627a2
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   SwiftFormat: 823c799054862ecd9143ff00de06997f5e68967c
@@ -317,6 +321,6 @@ SPEC CHECKSUMS:
   ViewInspector: 36399ac43f76170693c41499e9035499926171cb
   youtube-ios-player-helper: e9b97535e816db3152179d84d999bc1807ecd689
 
-PODFILE CHECKSUM: 66b2fc31d827db86d5a8554755bc07e330944345
+PODFILE CHECKSUM: dbf176a74c1b466072f9a46ae7ba9044ee29961f
 
-COCOAPODS: 1.14.3
+COCOAPODS: 1.13.0

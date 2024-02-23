@@ -73,19 +73,27 @@ class LevelPrivilegeDetailViewController: LobbyViewController {
 
     levelLabel.text = String(format: Localize.string("common_level_2"), String(level))
 
-    switch levelPrivilege {
-    case let depositData as LevelPrivilege.Deposit:
-      generateDepositView(data: depositData)
-    case let rebateData as LevelPrivilege.Rebate:
-      generateProductFeedback(data: rebateData)
-    case is LevelPrivilege.ProductSlotRescue:
-      generateSlot()
-    case let insuranceData as LevelPrivilege.ProductBetInsurance:
-      generateInsureance(data: insuranceData)
-    default:
-      break
+    if levelPrivilege != nil {
+      switch onEnum(of: levelPrivilege!) {
+      case .deposit(let it):
+        generateDepositView(data: it)
+      case .product(let productData):
+        switch onEnum(of: productData) {
+        case .betInsurance(let it):
+          generateInsurance(data: it)
+        case .slotRescue:
+          generateSlot()
+        }
+      case .rebate(let it):
+        generateProductFeedback(data: it)
+      case .domain,
+           .feedback,
+           .unknown,
+           .withdrawal:
+        break
+      }
     }
-
+    
     let appearance = UINavigationBarAppearance()
     appearance.configureWithOpaqueBackground()
     appearance.backgroundColor = UIColor.clear
@@ -163,14 +171,13 @@ class LevelPrivilegeDetailViewController: LobbyViewController {
     footerView.isHidden = false
     dailyLimitAmountLabel.text = data.maxBonus.description()
 
-    let products: [ProductType] = [.sbk, .casino, .slot, .numbergame, .arcade]
+    let products: [ProductType] = [.sbk, .casino, .slot, .numberGame, .arcade]
 
-    products
-      .forEach {
-        let title = StringMapper.parseProductTypeString(productType: $0)
-        let content = generatePercentageText(data.percentages[$0])
-        cells.append(generateDetailOneRowCell(leftContent: title, RightContent: content))
-      }
+    for product in products {
+      let title = StringMapper.parseProductTypeString(productType: product)
+      let content = generatePercentageText(data.percentages[product])
+      cells.append(generateDetailOneRowCell(leftContent: title, RightContent: content))
+    }
 
     if !data.isMaxBonusLimited() {
       productUnlimitedTopBarView.backgroundColor = UIColor.alert
@@ -213,7 +220,7 @@ class LevelPrivilegeDetailViewController: LobbyViewController {
     arg = PrivilegeArg(cells: cells, rowCount: cells.count)
   }
 
-  private func generateInsureance(data: LevelPrivilege.ProductBetInsurance) {
+  private func generateInsurance(data: LevelPrivilege.ProductBetInsurance) {
     titleLabel.text = Localize.string("level_producttype_1")
     iconImageView.image = UIImage(named: "lvDetailInsure")
 
@@ -274,7 +281,7 @@ class LevelPrivilegeDetailViewController: LobbyViewController {
     case .monthly:
       frequencyTitle = Localize.string("level_detail_5_title2_1")
       frequencyContent = Localize.string("level_detail_5_content2_1")
-    default:
+    case .once:
       break
     }
 

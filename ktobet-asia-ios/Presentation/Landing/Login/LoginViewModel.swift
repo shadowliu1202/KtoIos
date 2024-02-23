@@ -76,20 +76,18 @@ class LoginViewModel: ObservableObject {
       return nil
     }
 
-    switch loginError {
-    case is LoginException.Failed1to5Exception:
+    switch onEnum(of: loginError) {
+    case .failed1to5Exception:
       return Localize.string("login_invalid_username_password")
-    case is LoginException.Failed6to10Exception:
+    case .failed6to10Exception:
       if captchaImage == nil {
         return Localize.string("login_invalid_username_password")
       }
       else {
         return Localize.string("login_invalid_username_password_captcha")
       }
-    case is LoginException.AboveVerifyLimitation:
+    case .aboveVerifyLimitation:
       return Localize.string("login_invalid_lockdown")
-    default:
-      fatalError("Should not reach here.")
     }
   }
 
@@ -120,10 +118,7 @@ class LoginViewModel: ObservableObject {
   }
 
   func login(callBack: @escaping (NavigationViewModel.LobbyPageNavigation?, Error?) -> Void) {
-    authUseCase.login(
-      account: account,
-      pwd: password,
-      captcha: Captcha(passCode: captchaText))
+    authUseCase.login(account: account, pwd: password, captcha: Captcha(passCode: captchaText))
       .do(onSubscribe: { [unowned self] in
         self.disableLoginButton = true
       })
@@ -167,25 +162,26 @@ class LoginViewModel: ObservableObject {
     _ callBack: @escaping (NavigationViewModel.LobbyPageNavigation?, Error?) -> Void)
   {
     switch loginFail {
-    case let error as LoginException.Failed1to5Exception:
-      loginError = error
-    case let error as LoginException.Failed6to10Exception:
-      if captchaImage == nil {
-        loginError = error
-        getCaptchaImage()
-      }
-      else {
-        loginError = error
-      }
-    case let error as LoginException.AboveVerifyLimitation:
-      loginError = error
-      let lastLoginLimitDate = Date(timeIntervalSince1970: Date().timeIntervalSince1970 + 60)
-      setLastOverLoginLimitDate(lastLoginLimitDate)
-      launchLoginLimitTimer(lastLoginLimitDate)
+    case let error as LoginException:
+      handleLoginException(error)
     case is InvalidPlatformException:
       callBack(nil, loginFail)
     default:
       fatalError("Should not reach here.")
+    }
+  }
+  
+  private func handleLoginException(_ loginFail: LoginException) {
+    loginError = loginFail
+    switch onEnum(of: loginFail) {
+    case .failed1to5Exception:
+      break
+    case .failed6to10Exception:
+      if captchaImage == nil { getCaptchaImage() }
+    case .aboveVerifyLimitation:
+      let lastLoginLimitDate = Date(timeIntervalSince1970: Date().timeIntervalSince1970 + 60)
+      setLastOverLoginLimitDate(lastLoginLimitDate)
+      launchLoginLimitTimer(lastLoginLimitDate)
     }
   }
 

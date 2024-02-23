@@ -82,12 +82,10 @@ class OfflinePaymentViewModel:
   }
 
   private func mapGatewayIconName(_ bankId: String) -> String {
-    switch playerConfiguration.supportLocale {
-    case .China():
+    switch onEnum(of: playerConfiguration.supportLocale) {
+    case .china:
       return "CNY-\(bankId)"
-    case .Vietnam():
-      return "VND-\(bankId)"
-    default:
+    case .vietnam:
       return "VND-\(bankId)"
     }
   }
@@ -158,26 +156,22 @@ class OfflinePaymentViewModel:
     var amountError = ""
 
     for error in errors {
-      switch error {
-      case is PaymentError.RemitterNameIsEmpty:
-        remitterNameError = Localize.string("common_field_must_fill")
-
-      case let error as PaymentError.RemitterNameExceededLength:
-        remitterNameError = Localize.string("register_name_format_error_length_limitation", "\(error.maxLength)")
-
-      case is PaymentError.RemitterBankIsEmpty:
-        bankNameError = Localize.string("common_field_must_fill")
-
-      case is PaymentError.RemitterAccountNeedDigitOnly:
-        bankCardNumberError = Localize.string("common_field_format_incorrect")
-
-      case is PaymentError.RemittanceOutOfRange:
-        amountError = Localize.string("deposit_limitation_hint")
-
-      case is PaymentError.RemittanceIsEmpty:
+      switch onEnum(of: error) {
+      case .remittanceIsEmpty:
         amountError = Localize.string("common_field_must_fill")
-
-      default:
+      case .remittanceOutOfRange:
+        amountError = Localize.string("deposit_limitation_hint")
+      case .remitterAccountNeedDigitOnly:
+        bankCardNumberError = Localize.string("common_field_format_incorrect")
+      case .remitterBankIsEmpty:
+        bankNameError = Localize.string("common_field_must_fill")
+      case .remitterNameExceededLength(let it):
+        remitterNameError = Localize.string("register_name_format_error_length_limitation", "\(it.maxLength)")
+      case .remitterNameIsEmpty:
+        remitterNameError = Localize.string("common_field_must_fill")
+      case .remittanceMalformed,
+           .remitterAccountNotNeeded,
+           .supportBankCodeIsEmpty:
         break
       }
     }

@@ -44,10 +44,11 @@ extension SurveyView {
     }
     
     func getMaxLength(_ supportLocale: SupportLocale) -> Int {
-      switch supportLocale {
-      case .China(): return 100
-      case .Vietnam(): return 300
-      default: fatalError("should not reach here.")
+      switch onEnum(of: supportLocale) {
+      case .china:
+        return 100
+      case .vietnam:
+        return 300
       }
     }
   }

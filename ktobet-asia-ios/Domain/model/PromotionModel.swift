@@ -270,7 +270,11 @@ func convertToLocalize(forProduct productType: ProductType) -> String {
     return Localize.string("bonus_bonusproducttype_2")
   case .sbk:
     return Localize.string("bonus_bonusproducttype_1")
-  default:
+  case .arcade,
+       .casino,
+       .none,
+       .numberGame,
+       .p2P:
     return ""
   }
 }

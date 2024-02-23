@@ -40,4 +40,8 @@ struct WithdrawalMainViewDataModel {
   }
 }
 
-extension WithdrawalDto.Method: Identifiable { }
+extension WithdrawalDto.Method: Identifiable {
+  public var id: WithdrawalDto.Method {
+    self
+  }
+}

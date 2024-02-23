@@ -21,7 +21,7 @@ final class PrechatSurveyViewTests: XCBaseTestCase {
         questionId: "",
         csOption: [],
         isRequired: false,
-        type: .simpleoption)])
+        type: .simpleOption)])
     given(stubViewModel.getSupportLocale()) ~> .Vietnam()
     given(stubViewModel.isSubmitButtonDisable) ~> false
     
@@ -37,7 +37,7 @@ final class PrechatSurveyViewTests: XCBaseTestCase {
         .actualView()
       
       XCTAssertEqual(
-        expect: CustomerServiceDTO.CSSurveySurveyQuestionType.simpleoption,
+        expect: CustomerServiceDTO.CSSurveySurveyQuestionType.simpleOption,
         actual: questionView.question.type)
     }
     
@@ -56,7 +56,7 @@ final class PrechatSurveyViewTests: XCBaseTestCase {
         questionId: "",
         csOption: [],
         isRequired: false,
-        type: .multipleoption)])
+        type: .multipleOption)])
     given(stubViewModel.getSupportLocale()) ~> .Vietnam()
     given(stubViewModel.isSubmitButtonDisable) ~> false
     
@@ -72,7 +72,7 @@ final class PrechatSurveyViewTests: XCBaseTestCase {
         .actualView()
       
       XCTAssertEqual(
-        expect: CustomerServiceDTO.CSSurveySurveyQuestionType.multipleoption,
+        expect: CustomerServiceDTO.CSSurveySurveyQuestionType.multipleOption,
         actual: questionView.question.type)
     }
     
@@ -91,7 +91,7 @@ final class PrechatSurveyViewTests: XCBaseTestCase {
         questionId: "",
         csOption: [],
         isRequired: false,
-        type: .textfield)])
+        type: .textField)])
     given(stubViewModel.getSupportLocale()) ~> .Vietnam()
     given(stubViewModel.isSubmitButtonDisable) ~> false
     
@@ -107,7 +107,7 @@ final class PrechatSurveyViewTests: XCBaseTestCase {
         .actualView()
       
       XCTAssertEqual(
-        expect: CustomerServiceDTO.CSSurveySurveyQuestionType.textfield,
+        expect: CustomerServiceDTO.CSSurveySurveyQuestionType.textField,
         actual: questionView.question.type)
     }
     

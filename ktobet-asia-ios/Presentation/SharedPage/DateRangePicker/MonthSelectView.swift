@@ -83,26 +83,12 @@ class MonthSelectView: UIView {
 
   private func leftBtn(enable: Bool) {
     leftBtn.isEnabled = enable
-    var iconNmae = ""
-    switch enable {
-    case true:
-      iconNmae = "Chevron Left(24)"
-    default:
-      iconNmae = "Chevron Left Disable(24)"
-    }
-    leftBtn.setImage(UIImage(named: iconNmae), for: .normal)
+    leftBtn.setImage(UIImage(named: enable ? "Chevron Left(24)" : "Chevron Left Disable(24)"), for: .normal)
   }
 
   private func rightBtn(enable: Bool) {
     rightBtn.isEnabled = enable
-    var iconNmae = ""
-    switch enable {
-    case true:
-      iconNmae = "Chevron Right(24)"
-    default:
-      iconNmae = "Chevron Right Disable(24)"
-    }
-    rightBtn.setImage(UIImage(named: iconNmae), for: .normal)
+    rightBtn.setImage(UIImage(named: enable ? "Chevron Right(24)" : "Chevron Right Disable(24)"), for: .normal)
   }
 
   private func calculate() {

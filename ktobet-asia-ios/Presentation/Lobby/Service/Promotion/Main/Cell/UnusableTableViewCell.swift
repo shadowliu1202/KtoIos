@@ -29,8 +29,6 @@ class UnusableTableViewCell: PromotionTableViewCell {
       return Theme.shared.getUIImage(name: "promotionDailyFull", by: local)
     case .complete:
       return Theme.shared.getUIImage(name: "promotionIsFull", by: local)
-    default:
-      return nil
     }
   }
 }

@@ -106,38 +106,28 @@ extension WithdrawalOTPVerificationViewController {
   }
   
   private func handleVerifyConfirmError(_ error: WithdrawalDto.VerifyConfirmErrorStatus) {
-    switch error {
-    case is WithdrawalDto.VerifyConfirmErrorStatusWrongOtp:
-      break
-    case is WithdrawalDto.VerifyConfirmErrorStatusMaintenance:
-      break
-    case is WithdrawalDto.VerifyConfirmErrorStatusRetryLimit:
+    switch onEnum(of: error) {
+    case .retryLimit:
       pushToVerifyFailurePage()
-    default: fatalError("should not reach here.")
+    case .maintenance,
+         .wrongOtp:
+      break
     }
   }
 
   private func handleVerifyRequestError(_ error: WithdrawalDto.VerifyRequestErrorStatus) {
-    switch error {
-    case is WithdrawalDto.VerifyRequestErrorStatusOverDailyLimit:
-      var message = ""
+    switch onEnum(of: error) {
+    case .maintenance:
       switch accountType {
-      case .phone: message = Localize.string("common_sms_otp_exeed_send_limit")
-      case .email: message = Localize.string("common_email_otp_exeed_send_limit")
-      default: fatalError("should not reach here.")
+      case .phone: pushToVerifyFailurePage(Localize.string("withdrawal_resent_otp_maintenance_phone"))
+      case .email: pushToVerifyFailurePage(Localize.string("withdrawal_resent_otp_maintenance_email"))
       }
       
-      alertOverLimitThenPushToVerifyFailurePage(message)
-    case is WithdrawalDto.VerifyRequestErrorStatusMaintenance:
-      var message = ""
+    case .overDailyLimit:
       switch accountType {
-      case .phone: message = Localize.string("withdrawal_resent_otp_maintenance_phone")
-      case .email: message = Localize.string("withdrawal_resent_otp_maintenance_email")
-      default: fatalError("should not reach here.")
+      case .phone: alertOverLimitThenPushToVerifyFailurePage(Localize.string("common_sms_otp_exeed_send_limit"))
+      case .email: alertOverLimitThenPushToVerifyFailurePage(Localize.string("common_email_otp_exeed_send_limit"))
       }
-      
-      pushToVerifyFailurePage(message)
-    default: fatalError("should not reach here.")
     }
   }
 }

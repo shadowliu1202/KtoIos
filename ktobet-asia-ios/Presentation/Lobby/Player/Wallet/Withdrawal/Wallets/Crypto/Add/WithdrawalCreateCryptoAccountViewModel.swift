@@ -149,8 +149,6 @@ class WithdrawalCreateCryptoAccountViewModel:
         return AddressVerifyStatus.malformedInputERC20.errorText
       case .trc20:
         return AddressVerifyStatus.malformedInputTRC20.errorText
-      default:
-        fatalError("should not reach here.")
       }
     }
 

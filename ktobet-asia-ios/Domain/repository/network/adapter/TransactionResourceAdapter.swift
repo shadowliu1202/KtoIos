@@ -9,7 +9,7 @@ class TransactionResourceAdapter: TransactionResource {
   
   override func bonusResourceMapper(productGroup: ProductType) -> ResourceIdEnumMapper {
     switch productGroup {
-    case .numbergame:
+    case .numberGame:
       return NumberBonusMapper()
     case .slot:
       return SlotBonusMapper()
@@ -20,9 +20,7 @@ class TransactionResourceAdapter: TransactionResource {
     case .arcade:
       return ArcadeBonusMapper()
     case .none,
-         .p2p:
-      return UNDEFINEDBonusMapper()
-    default:
+         .p2P:
       return UNDEFINEDBonusMapper()
     }
   }
@@ -52,7 +50,11 @@ class TransactionResourceAdapter: TransactionResource {
         return ResourceKey(key: "balancelog_producttype_1_bonustype_3")
       case .rebate:
         return ResourceKey(key: "balancelog_producttype_1_bonustype_4")
-      default:
+      case .depositBonus,
+           .freeBet,
+           .levelBonus,
+           .other,
+           .vvipcashback:
         return ResourceKey.Companion().UNDEFINED
       }
     }
@@ -69,7 +71,11 @@ class TransactionResourceAdapter: TransactionResource {
         return ResourceKey(key: "balancelog_producttype_2_bonustype_3")
       case .rebate:
         return ResourceKey(key: "balancelog_producttype_2_bonustype_4")
-      default:
+      case .depositBonus,
+           .freeBet,
+           .levelBonus,
+           .other,
+           .vvipcashback:
         return ResourceKey.Companion().UNDEFINED
       }
     }
@@ -84,7 +90,12 @@ class TransactionResourceAdapter: TransactionResource {
       switch type {
       case .rebate:
         return ResourceKey(key: "balancelog_producttype_3_bonustype_4")
-      default:
+      case .depositBonus,
+           .freeBet,
+           .levelBonus,
+           .other,
+           .product,
+           .vvipcashback:
         return ResourceKey.Companion().UNDEFINED
       }
     }
@@ -99,7 +110,12 @@ class TransactionResourceAdapter: TransactionResource {
       switch type {
       case .rebate:
         return ResourceKey(key: "balancelog_producttype_4_bonustype_4")
-      default:
+      case .depositBonus,
+           .freeBet,
+           .levelBonus,
+           .other,
+           .product,
+           .vvipcashback:
         return ResourceKey.Companion().UNDEFINED
       }
     }
@@ -114,7 +130,12 @@ class TransactionResourceAdapter: TransactionResource {
       switch type {
       case .rebate:
         return ResourceKey(key: "balancelog_producttype_6_bonustype_4")
-      default:
+      case .depositBonus,
+           .freeBet,
+           .levelBonus,
+           .other,
+           .product,
+           .vvipcashback:
         return ResourceKey.Companion().UNDEFINED
       }
     }
@@ -126,22 +147,20 @@ class TransactionResourceAdapter: TransactionResource {
         return ResourceKey(key: "")
       }
 
-      switch type.self {
-      case is ProductGroup.NumberGame:
-        return ResourceKey(key: "common_keno")
-      case is ProductGroup.Slot:
-        return ResourceKey(key: "common_slot")
-      case is ProductGroup.Casino:
-        return ResourceKey(key: "common_casino")
-      case is ProductGroup.P2P:
-        return ResourceKey(key: "common_p2p")
-      case is ProductGroup.Arcade:
+      switch onEnum(of: type.self) {
+      case .arcade:
         return ResourceKey(key: "common_arcade")
-      case is ProductGroup.SportsBook:
+      case .casino:
+        return ResourceKey(key: "common_casino")
+      case .numberGame:
+        return ResourceKey(key: "common_keno")
+      case .p2P:
+        return ResourceKey(key: "common_p2p")
+      case .slot:
+        return ResourceKey(key: "common_slot")
+      case .sportsBook:
         return ResourceKey(key: "common_sportsbook")
-      case is ProductGroup.UnSupport:
-        return ResourceKey.Companion().UNDEFINED
-      default:
+      case .unSupport:
         return ResourceKey.Companion().UNDEFINED
       }
     }
@@ -152,53 +171,60 @@ class TransactionResourceAdapter: TransactionResource {
       guard let type = item as? TransactionTypes else {
         return ResourceKey(key: "")
       }
-
-      switch type {
-      case .MoneyTransferDeposit():
-        return ResourceKey(key: "common_deposit")
-      case .MoneyTransferWithdrawal():
-        return ResourceKey(key: "common_withdrawal")
-      case .MoneyTransferA2PTransferIn():
-        return ResourceKey(key: "balancelog_deposit_a2p_in")
-      case .MoneyTransferP2ATransferOut():
-        return ResourceKey(key: "balancelog_withdrawal_p2a_out")
-      case .MoneyTransferP2PTransferIn():
-        return ResourceKey(key: "balancelog_deposit_p2p_in")
-      case .MoneyTransferP2PTransferOut():
-        return ResourceKey(key: "balancelog_withdrawal_p2p_out")
-      case .ProductBet():
-        return ResourceKey(key: "common_bet")
-      case .ProductPush():
-        return ResourceKey.Companion().UNDEFINED
-      case .ProductWin():
-        return ResourceKey(key: "balancelog_settle")
-      case .ProductLose():
-        return ResourceKey.Companion().UNDEFINED
-      case .ProductVoid():
-        return ResourceKey(key: "common_reject")
-      case .ProductPlayerCancel():
-        return ResourceKey(key: "balancelog_player_cancel")
-      case .ProductUnSettle():
-        return ResourceKey(key: "balancelog_unsettled")
-      case .ProductCancel():
-        return ResourceKey(key: "common_cancel")
-      case .ProductTips():
-        return ResourceKey(key: "balancelog_eventbonus")
-      case .ProductEventBonus():
-        return ResourceKey(key: "balancelog_eventbonus")
-      case .ProductEventBonusVoid(),
-           .ProductRevise(),
-           .ProductStrikeCancel(),
-           .ProductTipsVoid(),
-           .Unknown():
-        return ResourceKey.Companion().UNDEFINED
-      case .Adjustment():
+      
+      switch onEnum(of: type) {
+      case .adjustment:
         return ResourceKey(key: "common_adjustment")
-      case .Bonus():
+      case .bonus:
         return ResourceKey(key: "common_bonus")
-      case .DepositFeeRefund():
+      case .depositFeeRefund:
         return ResourceKey(key: "balancelog_deposit_refund")
-      default:
+      case .moneyTransfer(let it):
+        switch onEnum(of: it) {
+        case .a2PTransferIn:
+          return ResourceKey(key: "balancelog_deposit_a2p_in")
+        case .deposit:
+          return ResourceKey(key: "common_deposit")
+        case .p2ATransferOut:
+          return ResourceKey(key: "balancelog_withdrawal_p2a_out")
+        case .p2PTransferIn:
+          return ResourceKey(key: "balancelog_deposit_p2p_in")
+        case .p2PTransferOut:
+          return ResourceKey(key: "balancelog_withdrawal_p2p_out")
+        case .withdrawal:
+          return ResourceKey(key: "common_withdrawal")
+        }
+      case .product(let it):
+        switch onEnum(of: it) {
+        case .bet:
+          return ResourceKey(key: "common_bet")
+        case .cancel:
+          return ResourceKey(key: "common_cancel")
+        case .eventBonus:
+          return ResourceKey(key: "balancelog_eventbonus")
+        case .lose:
+          return ResourceKey.Companion().UNDEFINED
+        case .playerCancel:
+          return ResourceKey(key: "balancelog_player_cancel")
+        case .push:
+          return ResourceKey.Companion().UNDEFINED
+        case .tips:
+          return ResourceKey(key: "balancelog_eventbonus")
+        case .unSettle:
+          return ResourceKey(key: "balancelog_unsettled")
+        case .void:
+          return ResourceKey(key: "common_reject")
+        case .win:
+          return ResourceKey(key: "balancelog_settle")
+        case .enterTable,
+             .eventBonusVoid,
+             .leaveTable,
+             .revise,
+             .strikeCancel,
+             .tipsVoid:
+          return ResourceKey.Companion().UNDEFINED
+        }
+      case .unknown:
         return ResourceKey(key: "")
       }
     }

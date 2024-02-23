@@ -40,8 +40,6 @@ extension CryptoCurrency {
       return UIImage(named: "IconCryptoType_USDT")
     case .usdc:
       return UIImage(named: "IconCryptoType_USDC")
-    default:
-      return UIImage(named: "IconCryptoType_ETH")
     }
   }
 
@@ -64,7 +62,7 @@ extension AccountCurrency {
 }
 
 extension SupportCryptoType: CryptoUIResource {
-  class func valueOf(_ rawData: String) -> SupportCryptoType {
+  static func valueOf(_ rawData: String) -> SupportCryptoType {
     switch rawData.uppercased() {
     case "ETH":
       return .eth
@@ -85,8 +83,6 @@ extension SupportCryptoType: CryptoUIResource {
       return UIImage(named: "IconCryptoMain_USDT")
     case .usdc:
       return UIImage(named: "IconCryptoMain_USDC")
-    default:
-      return UIImage(named: "IconCryptoMain_ETH")
     }
   }
 
@@ -95,12 +91,12 @@ extension SupportCryptoType: CryptoUIResource {
   }
 
   var currencyId: Int {
-    Int(self.id__)
+    Int(self.id)
   }
 }
 
 extension CryptoNetwork {
-  class func valueOf(_ rawData: String) -> CryptoNetwork {
+  static func valueOf(_ rawData: String) -> CryptoNetwork {
     switch rawData.uppercased() {
     case "ERC20":
       return .erc20

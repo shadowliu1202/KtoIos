@@ -14,9 +14,9 @@ class WithdrawalCryptoLimitViewModelTests: XCBaseTestCase {
 
     given(stubWithdrawalAppService.getCryptoTurnOverSummary()) ~> Single
       .just(WithdrawalDto.CryptoTurnOverSummary(
-        remain: FiatFactory.shared.create(supportLocale: .China(), amount_: ""),
-        achieved: FiatFactory.shared.create(supportLocale: .China(), amount_: ""),
-        request: FiatFactory.shared.create(supportLocale: .China(), amount_: "10"),
+        remain: FiatFactory.shared.create(supportLocale: .China(), amount: ""),
+        achieved: FiatFactory.shared.create(supportLocale: .China(), amount: ""),
+        request: FiatFactory.shared.create(supportLocale: .China(), amount: "10"),
         requestLogs: [],
         achievedLogs: []))
       .asWrapper()
@@ -38,9 +38,9 @@ class WithdrawalCryptoLimitViewModelTests: XCBaseTestCase {
 
     given(stubWithdrawalAppService.getCryptoTurnOverSummary()) ~> Single
       .just(WithdrawalDto.CryptoTurnOverSummary(
-        remain: FiatFactory.shared.create(supportLocale: .China(), amount_: "10"),
-        achieved: FiatFactory.shared.create(supportLocale: .China(), amount_: ""),
-        request: FiatFactory.shared.create(supportLocale: .China(), amount_: ""),
+        remain: FiatFactory.shared.create(supportLocale: .China(), amount: "10"),
+        achieved: FiatFactory.shared.create(supportLocale: .China(), amount: ""),
+        request: FiatFactory.shared.create(supportLocale: .China(), amount: ""),
         requestLogs: [],
         achievedLogs: []))
       .asWrapper()
@@ -62,9 +62,9 @@ class WithdrawalCryptoLimitViewModelTests: XCBaseTestCase {
 
     given(stubWithdrawalAppService.getCryptoTurnOverSummary()) ~> Single
       .just(WithdrawalDto.CryptoTurnOverSummary(
-        remain: FiatFactory.shared.create(supportLocale: .China(), amount_: ""),
-        achieved: FiatFactory.shared.create(supportLocale: .China(), amount_: "10"),
-        request: FiatFactory.shared.create(supportLocale: .China(), amount_: ""),
+        remain: FiatFactory.shared.create(supportLocale: .China(), amount: ""),
+        achieved: FiatFactory.shared.create(supportLocale: .China(), amount: "10"),
+        request: FiatFactory.shared.create(supportLocale: .China(), amount: ""),
         requestLogs: [],
         achievedLogs: []))
       .asWrapper()
@@ -86,18 +86,18 @@ class WithdrawalCryptoLimitViewModelTests: XCBaseTestCase {
 
     given(stubWithdrawalAppService.getCryptoTurnOverSummary()) ~> Single
       .just(WithdrawalDto.CryptoTurnOverSummary(
-        remain: FiatFactory.shared.create(supportLocale: .China(), amount_: ""),
-        achieved: FiatFactory.shared.create(supportLocale: .China(), amount_: ""),
-        request: FiatFactory.shared.create(supportLocale: .China(), amount_: ""),
+        remain: FiatFactory.shared.create(supportLocale: .China(), amount: ""),
+        achieved: FiatFactory.shared.create(supportLocale: .China(), amount: ""),
+        request: FiatFactory.shared.create(supportLocale: .China(), amount: ""),
         requestLogs: [.init(
           displayId: "",
-          cryptoAmount: CryptoFactory.shared.create(supportCryptoType: .usdt, amount_: ""),
+          cryptoAmount: CryptoFactory.shared.create(supportCryptoType: .usdt, amount: ""),
           approvedDate: OffsetDateTime(
             localDateTime: .init(
               date: .init(year: 2023, month: .april, dayOfMonth: 10),
               time: .init(hour: 15, minute: 0, second: 0, nanosecond: 0)),
             timeZone: .fromFoundation(.current)).toInstant(),
-          fiatAmount: FiatFactory.shared.create(supportLocale: .China(), amount_: "10"))],
+          fiatAmount: FiatFactory.shared.create(supportLocale: .China(), amount: "10"))],
         achievedLogs: []))
       .asWrapper()
 
@@ -118,19 +118,19 @@ class WithdrawalCryptoLimitViewModelTests: XCBaseTestCase {
 
     given(stubWithdrawalAppService.getCryptoTurnOverSummary()) ~> Single
       .just(WithdrawalDto.CryptoTurnOverSummary(
-        remain: FiatFactory.shared.create(supportLocale: .China(), amount_: ""),
-        achieved: FiatFactory.shared.create(supportLocale: .China(), amount_: ""),
-        request: FiatFactory.shared.create(supportLocale: .China(), amount_: ""),
+        remain: FiatFactory.shared.create(supportLocale: .China(), amount: ""),
+        achieved: FiatFactory.shared.create(supportLocale: .China(), amount: ""),
+        request: FiatFactory.shared.create(supportLocale: .China(), amount: ""),
         requestLogs: [],
         achievedLogs: [.init(
           displayId: "",
-          cryptoAmount: CryptoFactory.shared.create(supportCryptoType: .usdt, amount_: ""),
+          cryptoAmount: CryptoFactory.shared.create(supportCryptoType: .usdt, amount: ""),
           approvedDate: OffsetDateTime(
             localDateTime: .init(
               date: .init(year: 2023, month: .april, dayOfMonth: 10),
               time: .init(hour: 15, minute: 0, second: 0, nanosecond: 0)),
             timeZone: .fromFoundation(.current)).toInstant(),
-          fiatAmount: FiatFactory.shared.create(supportLocale: .China(), amount_: "10"))]))
+          fiatAmount: FiatFactory.shared.create(supportLocale: .China(), amount: "10"))]))
       .asWrapper()
 
     sut.setupData()

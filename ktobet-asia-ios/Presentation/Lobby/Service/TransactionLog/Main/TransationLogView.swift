@@ -187,7 +187,7 @@ struct TransactionLogView_Previews: PreviewProvider {
           items: (0...1).map {
             TransactionDTO.Log(
               id: "1",
-              type: .p2p,
+              type: .p2P,
               amount: "\($0 + 100)".toAccountCurrency(),
               date: Date().toLocalDateTime(.current),
               title: "Test only",

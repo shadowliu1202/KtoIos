@@ -129,12 +129,12 @@ class CSAdapter: CustomerServiceProtocol, CustomServiceAPIConvertor {
       underline: attributes?.underline?.boolValue)
   }
 
-  func send(bean_: SendImageBean_) -> SingleWrapper<ResponseItem<NSString>> {
+  func send(bean: SendImageBean_) -> SingleWrapper<ResponseItem<NSString>> {
     httpClient
       .requestJsonString(
         path: "onlinechat/api/room/send",
         method: .post,
-        task: .requestJSONEncodable(convert(sendImageBean: bean_)))
+        task: .requestJSONEncodable(convert(sendImageBean: bean)))
       .asReaktiveResponseItem { (item: Any) -> NSString in
         item is NSNull ? "" : item as! NSString
       }
@@ -241,7 +241,7 @@ class CSAdapter: CustomerServiceProtocol, CustomServiceAPIConvertor {
     return query
   }
   
-  func upload(imagePath_ _: String) -> SingleWrapper<ImageToken> {
+  func upload(imagePath _: String) -> SingleWrapper<ImageToken> {
     fatalError("not implemented")
   }
 }

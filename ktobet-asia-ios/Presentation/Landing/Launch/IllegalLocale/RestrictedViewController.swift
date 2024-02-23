@@ -18,13 +18,11 @@ class RestrictedViewController: UIViewController {
     super.viewWillAppear(animated)
 
     viewModel.output.portalMaintenanceStatus.subscribe(onNext: { [weak self] status in
-      switch status {
-      case is MaintenanceStatus.AllPortal:
+      switch onEnum(of: status) {
+      case .allPortal:
         self?.showPortalMaintenance()
-      case is MaintenanceStatus.Product:
+      case .product:
         self?.showLanding()
-      default:
-        break
       }
     }).disposed(by: disposeBag)
   }

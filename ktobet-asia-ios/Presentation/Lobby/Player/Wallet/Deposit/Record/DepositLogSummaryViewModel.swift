@@ -153,8 +153,6 @@ extension PaymentLogDTO.LogStatus: Selectable {
       return Localize.string("common_fail")
     case .approved:
       return Localize.string("common_success")
-    default:
-      return ""
     }
   }
 

@@ -66,9 +66,6 @@ class WithdrawalRecordDetailMainViewController: LobbyViewController {
 
     case .fiat:
       target = WithdrawalRecordDetailViewController(transactionId: displayId)
-
-    default:
-      return
     }
 
     self.target = target

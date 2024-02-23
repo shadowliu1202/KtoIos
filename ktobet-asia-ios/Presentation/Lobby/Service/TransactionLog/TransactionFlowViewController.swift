@@ -34,15 +34,14 @@ class TransactionFlowController {
       goDepositDetail(transactionLog)
     case .withdrawal:
       goWithdrawalDetail(transactionLog)
-    case .sportsbook:
+    case .sportsBook:
       displaySportsBookDetail(wagerId: transactionLog.detailId)
     case .casino:
       considerCasino(transactionLog)
-    case .numbergame:
+    case .numberGame:
       considerNumbergame(transactionLog)
-    case .p2p:
+    case .p2P:
       considerP2P(transactionLog)
-    default: break
     }
   }
 

@@ -41,24 +41,21 @@ class CustomerServiceButtonItem: TextBarButtonItem {
     _ disposeBag: DisposeBag)
     -> CustomerServiceButtonItem
   {
-    switch supportLocale {
-    case .China():
+    switch onEnum(of: supportLocale) {
+    case .china:
       return ServiceDownCustomerServiceButton(
         customerServiceViewModel: customerServiceViewModel,
         alert: alert,
         delegate,
         disposeBag)
       
-    case .Vietnam():
+    case .vietnam:
       return ActiveCustomerServiceButton(
         customerServiceViewModel: customerServiceViewModel,
         serviceStatusViewModel: serviceStatusViewModel,
         alert: alert,
         delegate,
         disposeBag)
-      
-    default:
-      fatalError("should not reach here.")
     }
   }
 }
@@ -102,8 +99,8 @@ class ActiveCustomerServiceButton: CustomerServiceButtonItem {
       
       serviceStatusViewModel.output.portalMaintenanceStatus
         .subscribe(onNext: { [weak self] maintenanceStatus in
-          switch maintenanceStatus {
-          case is MaintenanceStatus.AllPortal:
+          switch onEnum(of: maintenanceStatus) {
+          case .allPortal:
             alert.show(
               Localize.string("common_maintenance_notify"),
               Localize.string("common_maintenance_contact_later"),
@@ -114,7 +111,7 @@ class ActiveCustomerServiceButton: CustomerServiceButtonItem {
                   viewControllerId: "PortalMaintenanceViewController")
               },
               cancel: nil)
-          case is MaintenanceStatus.Product:
+          case .product:
             CustomServicePresenter.shared.startCustomerService(from: vc)
               .subscribe(
                 onCompleted: {
@@ -125,8 +122,6 @@ class ActiveCustomerServiceButton: CustomerServiceButtonItem {
                   vc.handleErrors($0)
                 })
               .disposed(by: disposeBag)
-          default:
-            self?.isEnabled = true
           }
         })
         .disposed(by: disposeBag)

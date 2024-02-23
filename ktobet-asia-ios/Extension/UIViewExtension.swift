@@ -43,7 +43,8 @@ extension UIView {
       NSLayoutConstraint.activate([rightConstraint, bottomConstraint, leftConstraint, heightConstraint])
     case .left:
       NSLayoutConstraint.activate([bottomConstraint, leftConstraint, topConstraint, widthConstraint])
-    default: break
+    case .around:
+      break
     }
   }
 
@@ -61,14 +62,17 @@ extension UIView {
   }
 
   public func removeAllBorder() {
-    subviews.forEach { view in
+    for view in subviews {
       if BorderSide.allCases.map({ $0.rawValue }).contains(view.tag) {
         view.removeFromSuperview()
       }
     }
   }
 
-  enum EdgeDirection { case left, right, none }
+  enum EdgeDirection { case left
+    case right
+    case none
+  }
 
   func mask(with style: EdgeDirection) {
     let center = style.center(of: bounds)
@@ -186,16 +190,15 @@ extension UIView.EdgeDirection {
   }
 
   var isClockwise: Bool {
-    switch self {
-    case .left: return false
-    default: return true
-    }
+    self != .left
   }
 
   func center(of bounds: CGRect) -> CGPoint {
     switch self {
     case .left: return CGPoint(x: bounds.width, y: bounds.height / 2)
-    default: return CGPoint(x: 0, y: bounds.height / 2)
+    case .none,
+         .right:
+      return CGPoint(x: 0, y: bounds.height / 2)
     }
   }
 }

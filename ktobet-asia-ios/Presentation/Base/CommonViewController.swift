@@ -22,7 +22,7 @@ class CommonViewController: APPViewController, VersionUpdateProtocol {
 
   // MARK: VersionUpdateProtocol
   func updateStrategy(from info: VersionUpdateInfo) {
-    guard info.action == .compulsoryupdate else { return }
+    guard info.action == .compulsoryUpdate else { return }
 
     playerViewModel
       .checkIsLogged()

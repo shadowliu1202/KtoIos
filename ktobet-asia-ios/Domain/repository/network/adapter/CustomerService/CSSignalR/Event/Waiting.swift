@@ -13,28 +13,25 @@ class Waiting: ChatRoomVisitor {
     // Do nothing
   }
   
-  func visit(connection: sharedbu.Connection) {
-    switch connection.status {
-    case let status as sharedbu.Connection.StatusConnecting:
+  func visit(connection: Connection) {
+    switch onEnum(of: connection.status) {
+    case .connecting(let it):
       let currentQueueNumber = { [queueNumber] in
         if let queueNumber {
           return Int32(queueNumber)
         }
         else {
-          return status.waitInLine <= 1 ? 1 : status.waitInLine - 1
+          return it.waitInLine <= 1 ? 1 : it.waitInLine - 1
         }
       }()
       
-      connection.update(
-        connectStatus: sharedbu.Connection.StatusConnecting(waitInLine: currentQueueNumber))
+      connection.update(connectStatus: Connection.StatusConnecting(waitInLine: currentQueueNumber))
+    case .notExist:
+      connection.update(connectStatus: Connection.StatusConnecting(waitInLine: connection.initialWaiting))
       
-    case is sharedbu.Connection.StatusNotExist:
-      connection.update(connectStatus: sharedbu.Connection.StatusConnecting(waitInLine: connection.initialWaiting))
-      
-    case is sharedbu.Connection.StatusClose,
-         is sharedbu.Connection.StatusConnected: break
-      
-    default: break
+    case .close,
+         .connected:
+      break
     }
   }
   

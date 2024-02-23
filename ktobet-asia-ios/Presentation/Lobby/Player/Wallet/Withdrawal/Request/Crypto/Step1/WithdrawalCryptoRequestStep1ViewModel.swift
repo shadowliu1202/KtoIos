@@ -47,7 +47,7 @@ class WithdrawalCryptoRequestStep1ViewModel:
   }
 
   private func getLocalCurrency() -> AccountCurrency {
-    FiatFactory().create(supportLocale: playerConfiguration.supportLocale, amount_: "0")
+    FiatFactory().create(supportLocale: playerConfiguration.supportLocale, amount: "0")
   }
 
   private func getSupportLocale() -> SupportLocale {

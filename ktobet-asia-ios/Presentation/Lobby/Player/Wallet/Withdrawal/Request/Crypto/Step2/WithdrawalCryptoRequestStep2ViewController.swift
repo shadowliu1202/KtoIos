@@ -51,41 +51,38 @@ class WithdrawalCryptoRequestStep2ViewController:
 
   override func handleErrors(_ error: Error) {
     switch error {
-    case is WithdrawalException.RequestCryptoRateChanged:
-      self.delegate?.rateDidChange()
-      alert.show(
-        Localize.string("cps_rate_changed"),
-        Localize.string("cps_please_refill_amounts"),
-        confirm: { self.navigateBack() },
-        cancel: nil)
-
-    case is WithdrawalException.PlayerWithdrawalDefective:
-      alert.show(nil, Localize.string("withdrawal_fail"), confirm: { self.navigateBack() }, cancel: nil)
-
-    case is WithdrawalException.PlayerNotQualified:
-      alert.show(nil, Localize.string("cps_withdrawal_all_fiat_first"), confirm: { }, cancel: nil)
-
-    case is WithdrawalException.ExceededPaymentGroupLimit:
-      alert.show(
-        Localize.string("common_tip_title_warm"),
-        Localize.string("cps_withdrawal_exceeding_daily_limit_message"),
-        confirm: { self.navigateBack() },
-        cancel: nil)
-
-    case is WithdrawalException.PlayerAmountExceededLimit:
-      alert.show(
-        Localize.string("common_tip_title_warm"),
-        Localize.string("cps_withdrawal_fiat_amount_over_limit_message"),
-        confirm: { self.navigateBack() },
-        cancel: nil)
-
-    case is WithdrawalException.PlayerAmountBelowLimit:
-      alert.show(
-        Localize.string("common_tip_title_warm"),
-        Localize.string("cps_withdrawal_fiat_amount_below_limit_message"),
-        confirm: { self.navigateBack() },
-        cancel: nil)
-
+    case let withdrawalException as WithdrawalException:
+      switch onEnum(of: withdrawalException) {
+      case .exceededPaymentGroupLimit:
+        alert.show(
+          Localize.string("common_tip_title_warm"),
+          Localize.string("cps_withdrawal_exceeding_daily_limit_message"),
+          confirm: { self.navigateBack() },
+          cancel: nil)
+      case .playerAmountBelowLimit:
+        alert.show(
+          Localize.string("common_tip_title_warm"),
+          Localize.string("cps_withdrawal_fiat_amount_below_limit_message"),
+          confirm: { self.navigateBack() },
+          cancel: nil)
+      case .playerAmountExceededLimit:
+        alert.show(
+          Localize.string("common_tip_title_warm"),
+          Localize.string("cps_withdrawal_fiat_amount_over_limit_message"),
+          confirm: { self.navigateBack() },
+          cancel: nil)
+      case .playerNotQualified:
+        alert.show(nil, Localize.string("cps_withdrawal_all_fiat_first"), confirm: { }, cancel: nil)
+      case .playerWithdrawalDefective:
+        alert.show(nil, Localize.string("withdrawal_fail"), confirm: { self.navigateBack() }, cancel: nil)
+      case .requestCryptoRateChanged:
+        self.delegate?.rateDidChange()
+        alert.show(
+          Localize.string("cps_rate_changed"),
+          Localize.string("cps_please_refill_amounts"),
+          confirm: { self.navigateBack() },
+          cancel: nil)
+      }
     default:
       super.handleErrors(error)
     }

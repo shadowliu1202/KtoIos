@@ -51,12 +51,12 @@ struct PromotionHistoryBean: Codable {
       couponHistory: self.payload.map({ p -> CouponHistory in
         try CouponHistory(
           amount: p.coupon.amount.toAccountCurrency(),
-          bonusLockReceivingStatus: BonusReceivingStatus.values().get(index: p.coupon.bonusLockStatus)!,
+          bonusLockReceivingStatus: BonusReceivingStatus.allCases[Int(p.coupon.bonusLockStatus)],
           promotionId: p.coupon.id,
           name: p.coupon.name,
           bonusId: p.coupon.no,
           type: BonusType.convert(p.coupon.type),
-          receiveDate: p.coupon.updatedDate.toLocalDateTime(),
+          receiveDate: p.coupon.updatedDate.toKotlinLocalDateTime(),
           issue: KotlinInt(int: p.coupon.issue),
           productType: ProductType.convert(p.coupon.productType),
           percentage: Percentage(percent: p.coupon.percentage),
@@ -330,7 +330,7 @@ struct CasinoData: Codable {
       gameStatus: GameStatus.Companion().convert(gameMaintenance: self.isGameMaintenance, status: self.status),
       thumbnail: thumbnail,
       requireNoBonusLock: self.isCheckBonusLock,
-      releaseDate: self.releaseDate?.toLocalDate())
+      releaseDate: self.releaseDate?.toKotlinLocalDate())
   }
 }
 
@@ -557,11 +557,11 @@ struct SlotDateGameRecordBean: Codable {
     let thumbnail = SlotThumbnail(host: host, thumbnailId: imageId)
     return try SlotGroupedRecord(
       slotThumbnail: thumbnail,
-      endDate: endDate.toLocalDateTime(),
+      endDate: endDate.toKotlinLocalDateTime(),
       gameId: gameId,
       gameName: gameName,
       stakes: stakes.toAccountCurrency(),
-      startDate: startDate.toLocalDateTime(),
+      startDate: startDate.toKotlinLocalDateTime(),
       winloss: winloss.toAccountCurrency(),
       recordCount: count)
   }
@@ -575,7 +575,7 @@ struct SlotBetRecordBean: Codable {
   let hasDetails: Bool
 
   func toSlotBetRecord() throws -> SlotBetRecord {
-    let betLocalTime = try betTime.toLocalDateTime()
+    let betLocalTime = try betTime.toKotlinLocalDateTime()
     return SlotBetRecord(
       betId: betId,
       betTime: betLocalTime,
@@ -590,7 +590,7 @@ struct SlotUnsettledSummaryBean: Codable {
   let stakes: Double
 
   func toSlotUnsettledSummary() throws -> SlotUnsettledSummary {
-    let betLocalTime = try betTime.toLocalDateTime()
+    let betLocalTime = try betTime.toKotlinLocalDateTime()
     return SlotUnsettledSummary(betTime: betLocalTime)
   }
 }
@@ -605,7 +605,7 @@ struct SlotUnsettledRecordBean: Codable {
   let imageId: String
 
   func toSlotUnsettledRecord(host: String) throws -> SlotUnsettledRecord {
-    let betLocalTime = try betTime.toLocalDateTime()
+    let betLocalTime = try betTime.toKotlinLocalDateTime()
     let thumbnail = SlotThumbnail(host: host, thumbnailId: imageId)
     return SlotUnsettledRecord(
       betId: betId,
@@ -741,7 +741,7 @@ struct NumberGameBetDetailBean: Codable {
   let gameResultDisplayType: Int32
 
   func toNumberGameBetDetail() throws -> NumberGameBetDetail {
-    let betLocalTime = try betTime.toLocalDateTime()
+    let betLocalTime = try betTime.toKotlinLocalDateTime()
     return NumberGameBetDetail(
       displayId: displayId,
       traceId: betId,
@@ -809,7 +809,7 @@ struct BetSummaryDataResponse: Codable {
     try NumberGameSummary.Bet(
       displayId: betId,
       wagerId: wagerId,
-      time: betTime.toLocalDateTime(),
+      time: betTime.toKotlinLocalDateTime(),
       betAmount: stakes.toAccountCurrency(),
       winLoss: nil,
       hasDetail: hasDetails)
@@ -819,7 +819,7 @@ struct BetSummaryDataResponse: Codable {
     try NumberGameSummary.Bet(
       displayId: betId,
       wagerId: wagerId,
-      time: settleTime.toLocalDateTime(),
+      time: settleTime.toKotlinLocalDateTime(),
       betAmount: stakes.toAccountCurrency(),
       winLoss: winLoss.toAccountCurrency(),
       hasDetail: hasDetails)
@@ -978,8 +978,8 @@ struct P2PDateBetRecordBean: Codable {
       recordsCount: count,
       stakes: stakes.toAccountCurrency(),
       winLoss: winLoss.toAccountCurrency(),
-      startDate: startDate.toLocalDateTime(),
-      endDate: endDate.toLocalDateTime())
+      startDate: startDate.toKotlinLocalDateTime(),
+      endDate: endDate.toKotlinLocalDateTime())
   }
 }
 
@@ -1013,8 +1013,8 @@ struct ArcadeDateDataRecordBean: Codable {
       recordsCount: count,
       stakes: stakes.toAccountCurrency(),
       winLoss: winLoss.toAccountCurrency(),
-      startDate: startDate.toLocalDateTime(),
-      endDate: endDate.toLocalDateTime())
+      startDate: startDate.toKotlinLocalDateTime(),
+      endDate: endDate.toKotlinLocalDateTime())
   }
 }
 
@@ -1034,7 +1034,7 @@ struct P2PGameBetRecordBean: Codable {
   let winLoss: Double
 
   func toP2PGameBetRecord() throws -> P2PGameBetRecord {
-    let betLocalTime = try betTime.toLocalDateTime()
+    let betLocalTime = try betTime.toKotlinLocalDateTime()
     return P2PGameBetRecord(
       betTime: betLocalTime,
       gameGroupId: gameGroupId,
@@ -1234,7 +1234,7 @@ extension BonusBean.Coupon {
       betMultiple: self.betMultiple,
       fixTurnoverRequirement: self.fixTurnoverRequirement,
       informPlayerDate: self.informPlayerDate.toOffsetDateTime(),
-      updatedDate: self.updatedDate.toLocalDateTime(),
+      updatedDate: self.updatedDate.toKotlinLocalDateTime(),
       validPeriod: ValidPeriod.Companion().create(
         start: self.effectiveDate.toOffsetDateTime(),
         end: self.expiryDate.toOffsetDateTime()),
@@ -1253,14 +1253,14 @@ extension BonusBean.Coupon {
       productType: ProductType.convert(self.productType),
       informPlayerDate: self.informPlayerDate.toOffsetDateTime(),
       maxAmount: self.knMaxAmount,
-      endDate: self.effectiveDate.toLocalDateTime(),
+      endDate: self.effectiveDate.toKotlinLocalDateTime(),
       name: self.name,
       betMultiple: self.betMultiple,
       fixTurnoverRequirement: self.fixTurnoverRequirement,
       validPeriod: ValidPeriod.Companion().create(
         start: self.effectiveDate.toOffsetDateTime(),
         end: self.expiryDate.toOffsetDateTime()),
-      updatedDate: self.updatedDate.toLocalDateTime(),
+      updatedDate: self.updatedDate.toKotlinLocalDateTime(),
       couponStatus: self.couponStatus,
       minCapital: self.knMinCapital)
   }
@@ -1273,7 +1273,7 @@ extension BonusBean.Coupon {
       issueNumber: self.issueNumber == 0 ? nil : KotlinInt(value: self.issueNumber),
       percentage: self.knPercentage,
       amount: self.knAmount,
-      endDate: self.effectiveDate.toLocalDateTime(),
+      endDate: self.effectiveDate.toKotlinLocalDateTime(),
       betMultiple: self.betMultiple,
       fixTurnoverRequirement: self.fixTurnoverRequirement,
       validPeriod: ValidPeriod.Companion().create(
@@ -1281,7 +1281,7 @@ extension BonusBean.Coupon {
         end: self.expiryDate
           .toOffsetDateTime()),
       couponStatus: self.couponStatus,
-      updatedDate: self.updatedDate.toLocalDateTime(),
+      updatedDate: self.updatedDate.toKotlinLocalDateTime(),
       informPlayerDate: self.informPlayerDate.toOffsetDateTime(),
       minCapital: self.knMinCapital)
     return BonusCoupon.Rebate(property: property, rebateFrom: ProductType.convert(self.productType))
@@ -1302,7 +1302,7 @@ extension BonusBean.Coupon {
       betMultiple: self.betMultiple,
       fixTurnoverRequirement: self.fixTurnoverRequirement,
       informPlayerDate: self.informPlayerDate.toOffsetDateTime(),
-      updatedDate: self.updatedDate.toLocalDateTime(),
+      updatedDate: self.updatedDate.toKotlinLocalDateTime(),
       name: self.name,
       validPeriod: ValidPeriod.Companion().create(
         start: self.effectiveDate.toOffsetDateTime(),
@@ -1318,7 +1318,7 @@ extension BonusBean.Coupon {
       issueNumber: KotlinInt(value: Int32(self.issueNumber)),
       percentage: self.knPercentage,
       amount: self.knAmount,
-      endDate: self.effectiveDate.toLocalDateTime(),
+      endDate: self.effectiveDate.toKotlinLocalDateTime(),
       betMultiple: self.betMultiple,
       fixTurnoverRequirement: self.fixTurnoverRequirement,
       validPeriod: ValidPeriod.Companion()
@@ -1329,7 +1329,7 @@ extension BonusBean.Coupon {
             .toOffsetDateTime(
             )),
       couponStatus: self.couponStatus,
-      updatedDate: self.updatedDate.toLocalDateTime(),
+      updatedDate: self.updatedDate.toKotlinLocalDateTime(),
       informPlayerDate: self.informPlayerDate.toOffsetDateTime(),
       minCapital: self.knMinCapital))
   }
@@ -1341,7 +1341,7 @@ extension BonusBean.Promotion {
       .create(
         promotionId: self.displayId,
         issueNumber: self.issue,
-        informPlayerDate: self.informPlayerDate.toLocalDateTime(),
+        informPlayerDate: self.informPlayerDate.toKotlinLocalDateTime(),
         percentage: Percentage(percent: self.percentage),
         maxBonusAmount: self.maxAmount.toAccountCurrency(),
         endDate: self.endDate.toOffsetDateTime())
@@ -1352,7 +1352,7 @@ extension BonusBean.Promotion {
       .create(
         promotionId: self.displayId,
         issueNumber: self.issue,
-        informPlayerDate: self.informPlayerDate.toLocalDateTime(),
+        informPlayerDate: self.informPlayerDate.toKotlinLocalDateTime(),
         endDate: self.endDate.toOffsetDateTime(),
         maxBonusAmount: self.maxAmount.toAccountCurrency(),
         type: ProductType.convert(self.productType))
@@ -1363,7 +1363,7 @@ extension BonusBean.Promotion {
       .create(
         promotionId: self.displayId,
         issueNumber: self.issue,
-        informPlayerDate: self.informPlayerDate.toLocalDateTime(),
+        informPlayerDate: self.informPlayerDate.toKotlinLocalDateTime(),
         type: ProductType.convert(self.productType),
         percentage: Percentage(percent: self.percentage),
         maxBonusAmount: self.maxAmount.toAccountCurrency(),
@@ -1484,7 +1484,7 @@ struct BalanceLogDetailBean: Codable {
     try BalanceLogDetail(
       afterBalance: afterBalance.toAccountCurrency(),
       amount: amount.toAccountCurrency(),
-      date: createdDate.toLocalDateTime(),
+      date: createdDate.toKotlinLocalDateTime(),
       wagerMappingId: wagerMappingId ?? externalId,
       productGroup: ProductProviders.Companion().createProductGroup(provider: productProvider),
       productType: ProductType.convert(productType),
@@ -1779,11 +1779,11 @@ struct ProductStatusBean: Codable {
     try MaintenanceStatus.Product(
       productsAvailable: productsAvailable.map { ProductType.convert($0) },
       status: [
-        ProductType.numbergame: numberGameMaintenanceEndTime?.toOffsetDateTime() as Any,
+        ProductType.numberGame: numberGameMaintenanceEndTime?.toOffsetDateTime() as Any,
         ProductType.sbk: sbkMaintenanceEndTime?.toOffsetDateTime() as Any,
         ProductType.slot: slotMaintenanceEndTime?.toOffsetDateTime() as Any,
         ProductType.casino: casinoMaintenanceEndTime?.toOffsetDateTime() as Any,
-        ProductType.p2p: p2pMaintenanceEndTime?.toOffsetDateTime() as Any,
+        ProductType.p2P: p2pMaintenanceEndTime?.toOffsetDateTime() as Any,
         ProductType.arcade: arcadeMaintenanceEndTime?.toOffsetDateTime() as Any
       ])
   }

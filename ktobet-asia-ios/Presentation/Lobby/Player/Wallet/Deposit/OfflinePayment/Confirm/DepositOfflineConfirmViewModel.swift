@@ -143,13 +143,11 @@ extension DepositOfflineConfirmViewModel {
   }
 
   func bankIconName(_ bankId: String) -> String? {
-    switch locale {
-    case is SupportLocale.China:
+    switch onEnum(of: locale) {
+    case .china:
       return "CNY-\(bankId)"
-    case is SupportLocale.Vietnam:
+    case .vietnam:
       return "VND-\(bankId)"
-    default:
-      return nil
     }
   }
 

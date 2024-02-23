@@ -14,11 +14,11 @@ class SlotNavigation: UINavigationController, ProductNavigations {
 }
 
 class NumbergameNavigation: UINavigationController, ProductNavigations {
-  var productType: ProductType = .numbergame
+  var productType: ProductType = .numberGame
 }
 
 class P2PNavigation: UINavigationController, ProductNavigations {
-  var productType: ProductType = .p2p
+  var productType: ProductType = .p2P
 }
 
 class ArcadeNavigation: UINavigationController, ProductNavigations {

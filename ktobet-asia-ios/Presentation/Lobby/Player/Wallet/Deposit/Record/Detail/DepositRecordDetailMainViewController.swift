@@ -66,9 +66,6 @@ class DepositRecordDetailMainViewController: LobbyViewController {
 
     case .fiat:
       target = DepositRecordDetailViewController(transactionId: displayId)
-
-    default:
-      return
     }
 
     self.target = target

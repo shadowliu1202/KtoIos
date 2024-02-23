@@ -29,7 +29,7 @@ class TitleIdMapper: ResourceIdMapper {
       return ResourceKey(key: "level_privilegetype_3")
     case .rebate:
       return ResourceKey(key: "level_privilegetype_4")
-    case .levelbonus:
+    case .levelBonus:
       return ResourceKey(key: "level_privilegetype_5")
     case .feedback:
       return ResourceKey(key: "level_privilegetype_90")
@@ -37,11 +37,10 @@ class TitleIdMapper: ResourceIdMapper {
       return ResourceKey(key: "level_privilegetype_91")
     case .domain:
       return ResourceKey(key: "level_privilegetype_90")
-    case .depositbonus,
+    case .depositBonus,
          .freebet,
-         .none:
-      return ResourceKey(key: "")
-    default:
+         .none,
+         .vvipcashBack:
       return ResourceKey(key: "")
     }
   }
@@ -55,15 +54,15 @@ class SubTitleIdMapper: ResourceIdMapper {
     switch type {
     case .feedback:
       return ResourceKey(key: "level_exclusive_90")
-    case .depositbonus,
+    case .depositBonus,
          .domain,
          .freebet,
-         .levelbonus,
+         .levelBonus,
          .none,
          .product,
          .rebate,
-         .withdrawal: return ResourceKey(key: "")
-    default:
+         .vvipcashBack,
+         .withdrawal:
       return ResourceKey(key: "")
     }
   }
@@ -82,9 +81,8 @@ class ProductSubtitleIdMapper: ResourceIdMapper {
     case .arcade,
          .casino,
          .none,
-         .numbergame:
-      return ResourceKey(key: "")
-    default:
+         .numberGame,
+         .p2P:
       return ResourceKey(key: "")
     }
   }
@@ -117,9 +115,8 @@ class ProductTypeDescriptionResourceIdMapper: PrivilegeDescriptionFactoryLeveLDe
     case .arcade,
          .casino,
          .none,
-         .numbergame: return PrivilegeDescription.Product.Empty()
-    default:
-      return PrivilegeDescription.Product.Empty()
+         .numberGame,
+         .p2P: return PrivilegeDescription.Product.Empty()
     }
   }
 }
@@ -135,7 +132,7 @@ class PrivilegeTypeDescriptionResourceIdMapper: PrivilegeDescriptionFactoryLeveL
     switch privilegeType {
     case .rebate:
       return PrivilegeDescription.Rebate()
-    case .levelbonus:
+    case .levelBonus:
       return PrivilegeDescription.LevelBonus()
     case .feedback:
       return PrivilegeDescription.Feedback()
@@ -143,14 +140,13 @@ class PrivilegeTypeDescriptionResourceIdMapper: PrivilegeDescriptionFactoryLeveL
       return PrivilegeDescription.Withdrawal()
     case .domain:
       return PrivilegeDescription.Domain()
-    case .depositbonus,
+    case .depositBonus,
          .freebet,
-         .none:
+         .none,
+         .vvipcashBack:
       return PrivilegeDescription.Empty()
     case .product:
       return PrivilegeDescription.Product.Empty()
-    default:
-      return PrivilegeDescription.Empty()
     }
   }
 }

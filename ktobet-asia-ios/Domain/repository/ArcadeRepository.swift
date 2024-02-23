@@ -23,7 +23,7 @@ class ArcadeRepositoryImpl: WebGameRepositoryImpl, ArcadeRepository {
       sort = GameSorting.Companion().convert(sortBy: GameSorting.popular)
     }
     else if isNew {
-      sort = GameSorting.Companion().convert(sortBy: GameSorting.releaseddate)
+      sort = GameSorting.Companion().convert(sortBy: GameSorting.releasedDate)
     }
     else {
       sort = GameSorting.Companion().convert(sortBy: GameSorting.popular)

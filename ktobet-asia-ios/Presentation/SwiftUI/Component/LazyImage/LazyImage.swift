@@ -46,7 +46,7 @@ struct LazyImage<Success, Placeholder, Failure>: View
       case .placeholder:
         placeholder()
 
-      default:
+      case .none:
         if downloader.result == nil, !havePlaceholderContent {
           SwiftUIGradientArcView()
             .frame(width: 30, height: 30)

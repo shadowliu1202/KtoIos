@@ -41,7 +41,7 @@ final class NotificationDetailViewControllerTests: XCBaseTestCase {
   }
 
   func test_ReceivePaymentRickGroupChanged_ClickGoToBtn_GoDepositPage_KTO_TC_102() {
-    let stubNotificationItem = buildNotificationItem(type: .paymentgroupchanged)
+    let stubNotificationItem = buildNotificationItem(type: .paymentGroupChanged)
     let mockNavigator = mock(Navigator.self)
 
     NavigationManagement.sharedInstance = mockNavigator
@@ -61,7 +61,7 @@ final class NotificationDetailViewControllerTests: XCBaseTestCase {
   }
 
   func test_ReceiveOnlineCardsChanged_ClickGoToBtn_GoDepositPage_KTO_TC_103() {
-    let stubNotificationItem = buildNotificationItem(type: .onlinecardschange)
+    let stubNotificationItem = buildNotificationItem(type: .onlineCardsChange)
     let mockNavigator = mock(Navigator.self)
 
     NavigationManagement.sharedInstance = mockNavigator
@@ -81,7 +81,7 @@ final class NotificationDetailViewControllerTests: XCBaseTestCase {
   }
 
   func test_ReceiveOfflineBanksChanged_ClickGoToBtn_GoOfflinePaymentPage_KTO_TC_104() {
-    let stubNotificationItem = buildNotificationItem(type: .offlinecardschange)
+    let stubNotificationItem = buildNotificationItem(type: .offlineCardsChange)
     let mockNavigator = mock(Navigator.self)
 
     NavigationManagement.sharedInstance = mockNavigator

@@ -58,7 +58,7 @@ class DefaultProductCell: UITableViewCell {
     titleTrailing.constant = Theme.shared.getDefaultProductTextPadding(by: local)
   }
 
-  private func getDesc(_ productType: DefaultProductType) throws -> String {
+  private func getDesc(_ productType: DefaultProductType) -> String {
     switch productType {
     case .sbk:
       return Localize.string("profile_defaultproduct_sportsbook_description")
@@ -66,14 +66,12 @@ class DefaultProductCell: UITableViewCell {
       return Localize.string("profile_defaultproduct_casino_description")
     case .slot:
       return Localize.string("profile_defaultproduct_slot_description")
-    case .numbergame:
+    case .numberGame:
       return Localize.string("profile_defaultproduct_keno_description")
-    default:
-      throw KTOError.WrongProductType
     }
   }
 
-  private func getSelectImgUrl(_ host: String, _ productType: DefaultProductType) throws -> URL? {
+  private func getSelectImgUrl(_ host: String, _ productType: DefaultProductType) -> URL? {
     switch productType {
     case .sbk:
       return URL(string: "\(host)/img/app/sbk.png")
@@ -81,10 +79,8 @@ class DefaultProductCell: UITableViewCell {
       return URL(string: "\(host)/img/app/casino.png")
     case .slot:
       return URL(string: "\(host)/img/app/slot.png")
-    case .numbergame:
+    case .numberGame:
       return URL(string: "\(host)/img/app/number_game.png")
-    default:
-      throw KTOError.WrongProductType
     }
   }
 }

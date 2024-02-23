@@ -156,7 +156,7 @@ class NumberGameViewModel: CollectErrorViewModel, ProductViewModel {
       updateGameSorting(sorting: .popular)
     }
     else if newFilter.value {
-      updateGameSorting(sorting: .releaseddate)
+      updateGameSorting(sorting: .releasedDate)
     }
     else {
       updateGameSorting(sorting: .popular)
@@ -176,7 +176,7 @@ extension NumberGameViewModel {
   }
 
   func getGameProductType() -> ProductType {
-    ProductType.numbergame
+    ProductType.numberGame
   }
 
   private func getTags() -> Observable<[GameTag]> {

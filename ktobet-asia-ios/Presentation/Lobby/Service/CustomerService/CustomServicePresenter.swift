@@ -111,14 +111,16 @@ class CustomServicePresenter: NSObject {
       .flatMap { [csViewModel] in csViewModel.chatRoomStatus.first() }
       .observe(on: MainScheduler.instance)
       .subscribe(onNext: { [unowned self] status in
-        guard let status else { return }
-        
-        switch status {
-        case is Connection.StatusNotExist: break
-        case is Connection.StatusConnected: switchToChatRoom()
-        case is Connection.StatusConnecting: switchToCalling()
-        case is Connection.StatusClose: switchToChatRoom()
-        default: break
+        switch onEnum(of: status) {
+        case .close:
+          switchToChatRoom()
+        case .connected:
+          switchToChatRoom()
+        case .connecting:
+          switchToCalling()
+        case .none,
+             .notExist:
+          break
         }
       })
       .disposed(by: disposeBag)

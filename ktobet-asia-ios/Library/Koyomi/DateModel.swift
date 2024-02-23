@@ -110,7 +110,9 @@ final class DateModel: NSObject {
     switch month {
     case .current:
       currentDate = Date()
-    default:
+    case .next,
+         .previous,
+         .someMonth:
       currentDate = date(of: month)
     }
 
@@ -227,7 +229,8 @@ final class DateModel: NSObject {
         sequenceDates.start = isSelectedBeforeDay ? selectedDate : start
         sequenceDates.end = isSelectedBeforeDay ? start : selectedDate
       }
-    default: break
+    case .none:
+      break
     }
   }
 

@@ -46,29 +46,30 @@ class UnlockPrivilegeView: UIView {
 
     let gesture = UITapGestureRecognizer(target: self, action: #selector(tapAction))
 
-    switch args {
-    case is LevelPrivilege.Rebate:
-      self.addGestureRecognizer(gesture)
-      icon.image = UIImage(named: "iconLvCashBack48")
-    case is LevelPrivilege.ProductSlotRescue:
-      self.addGestureRecognizer(gesture)
-      icon.image = UIImage(named: "iconLvSlot48")
-    case is LevelPrivilege.ProductBetInsurance:
-      self.addGestureRecognizer(gesture)
-      icon.image = UIImage(named: "iconLvSportsbook48")
-    case is LevelPrivilege.Withdrawal:
-      icon.image = UIImage(named: "iconLvSpecialWithdrawal48")
-    case is LevelPrivilege.Deposit:
+    switch onEnum(of: args) {
+    case .deposit:
       self.addGestureRecognizer(gesture)
       icon.image = UIImage(named: "iconLvDepositBonus48")
-    case is LevelPrivilege.Feedback:
+    case .domain:
       icon.image = UIImage(named: "iconLvSpecial48")
-    case is LevelPrivilege.Domain:
+    case .feedback:
       icon.image = UIImage(named: "iconLvSpecial48")
-    case is LevelPrivilege.Unknown:
+    case .product(let it):
+      switch onEnum(of: it) {
+      case .betInsurance:
+        self.addGestureRecognizer(gesture)
+        icon.image = UIImage(named: "iconLvSportsbook48")
+      case .slotRescue:
+        self.addGestureRecognizer(gesture)
+        icon.image = UIImage(named: "iconLvSlot48")
+      }
+    case .rebate:
+      self.addGestureRecognizer(gesture)
+      icon.image = UIImage(named: "iconLvCashBack48")
+    case .unknown:
       icon.image = UIImage(named: "")
-    default:
-      break
+    case .withdrawal:
+      icon.image = UIImage(named: "iconLvSpecialWithdrawal48")
     }
   }
 
@@ -105,7 +106,7 @@ class UnlockPrivilegeView: UIView {
     DispatchQueue.main.async {
       let numberOfGap = Int((self.stamp.frame.height - 2) / 8)
 
-      (0..<numberOfGap).forEach { _ in
+      for _ in 0..<numberOfGap {
         let circleView = UIView()
         circleView.layer.cornerRadius = 3
         circleView.layer.masksToBounds = true

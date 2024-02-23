@@ -16,8 +16,8 @@ class SlotAllViewController: DisplayProduct {
   private var dropDownItem: [DropdownItem] =
     [
       .init(contentText: Localize.string("product_hot_sorting"), sorting: .popular),
-      .init(contentText: Localize.string("product_name_sorting"), sorting: .gamename),
-      .init(contentText: Localize.string("product_release_sorting"), sorting: .releaseddate)
+      .init(contentText: Localize.string("product_name_sorting"), sorting: .gameName),
+      .init(contentText: Localize.string("product_release_sorting"), sorting: .releasedDate)
     ]
 
   private var disposeBag = DisposeBag()

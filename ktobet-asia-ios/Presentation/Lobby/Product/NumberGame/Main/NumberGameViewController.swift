@@ -37,8 +37,8 @@ class NumberGameViewController: DisplayProduct {
   private var dropDownItem: [DropdownItem] =
     [
       .init(contentText: Localize.string("product_hot_sorting"), sorting: .popular),
-      .init(contentText: Localize.string("product_name_sorting"), sorting: .gamename),
-      .init(contentText: Localize.string("product_release_sorting"), sorting: .releaseddate)
+      .init(contentText: Localize.string("product_name_sorting"), sorting: .gameName),
+      .init(contentText: Localize.string("product_release_sorting"), sorting: .releasedDate)
     ]
 
   fileprivate func getPopularGames() {
@@ -112,7 +112,7 @@ class NumberGameViewController: DisplayProduct {
 
     viewModel.errors().subscribe(onNext: { [weak self] in
       if $0.isMaintenance() {
-        NavigationManagement.sharedInstance.goTo(productType: .numbergame, isMaintenance: true)
+        NavigationManagement.sharedInstance.goTo(productType: .numberGame, isMaintenance: true)
       }
       else {
         self?.handleErrors($0)
@@ -208,7 +208,7 @@ class NumberGameViewController: DisplayProduct {
   }
 
   override func setProductType() -> ProductType {
-    .numbergame
+    .numberGame
   }
 }
 

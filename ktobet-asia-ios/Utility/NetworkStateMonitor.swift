@@ -23,11 +23,13 @@ final class NetworkStateMonitor: INetworkMonitor {
   }
 
   var isNetworkConnected: Bool {
-    switch _networkStatus.value {
+    guard let status = _networkStatus.value else { return true }
+    switch status {
+    case .connected,
+         .reconnected:
+      return true
     case .disconnect:
       return false
-    default:
-      return true
     }
   }
   

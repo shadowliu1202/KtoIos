@@ -41,12 +41,13 @@ extension Numeric {
   func toAccountCurrency() -> AccountCurrency {
     let playerConfiguration = Injectable.resolve(PlayerConfiguration.self)!
 
-    return FiatFactory.shared.create(supportLocale: playerConfiguration.supportLocale, amount_: "\(self)")
+    return FiatFactory.shared.create(supportLocale: playerConfiguration.supportLocale, amount: "\(self)")
   }
 
   func toCryptoCurrency(_ cryptoCurrencyCode: Int) -> CryptoCurrency {
-    for idx in 0..<SupportCryptoType.values().size {
-      if let supportCryptoType = SupportCryptoType.values().get(index: idx), supportCryptoType.id__ == cryptoCurrencyCode {
+    for idx in 0..<SupportCryptoType.allCases.count {
+      let supportCryptoType = SupportCryptoType.allCases[idx]
+      if supportCryptoType.id == cryptoCurrencyCode {
         return toCryptoCurrency(supportCryptoType)
       }
     }
@@ -54,6 +55,6 @@ extension Numeric {
   }
 
   func toCryptoCurrency(_ supportCryptoType: SupportCryptoType) -> CryptoCurrency {
-    CryptoFactory.shared.create(supportCryptoType: supportCryptoType, amount_: "\(self)")
+    CryptoFactory.shared.create(supportCryptoType: supportCryptoType, amount: "\(self)")
   }
 }

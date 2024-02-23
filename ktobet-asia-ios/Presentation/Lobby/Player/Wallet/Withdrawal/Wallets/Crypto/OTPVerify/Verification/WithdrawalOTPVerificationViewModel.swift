@@ -79,8 +79,6 @@ class WithdrawalOTPVerificationViewModel:
       headerTitle = Localize.string("common_verify_mobile")
     case .email:
       headerTitle = Localize.string("common_verify_email")
-    default:
-      fatalError("should not reach here.")
     }
   }
 
@@ -107,8 +105,6 @@ class WithdrawalOTPVerificationViewModel:
             self?.sentCodeMessage = Localize.string("common_otp_sent_content_mobile")
               + "\n"
               + (contactInfo.email ?? "")
-          default:
-            fatalError("should not reach here.")
           }
         },
         onFailure: { [weak self] error in
@@ -121,23 +117,16 @@ class WithdrawalOTPVerificationViewModel:
   private func initOTPCodeLength() {
     guard let accountType else { return }
 
-    switch playerConfiguration.supportLocale {
-    case
-      is SupportLocale.China:
+    switch onEnum(of: playerConfiguration.supportLocale) {
+    case .china:
       otpCodeLength = 6
-
-    case is SupportLocale.Vietnam:
+    case .vietnam:
       switch accountType {
       case .phone:
         otpCodeLength = 4
       case .email:
         otpCodeLength = 6
-      default:
-        fatalError("should not reach here.")
       }
-
-    default:
-      fatalError("should not reach here.")
     }
   }
 
@@ -169,12 +158,13 @@ class WithdrawalOTPVerificationViewModel:
         onCompleted: { onCompleted?() },
         onError: {
           switch $0 {
-          case let error as WithdrawalDto.VerifyConfirmErrorStatus:
-            switch error {
-            case is WithdrawalDto.VerifyConfirmErrorStatusWrongOtp:
+          case let confirmError as WithdrawalDto.VerifyConfirmErrorStatus:
+            switch onEnum(of: confirmError) {
+            case .maintenance,
+                 .retryLimit:
+              onErrorRedirect?(confirmError)
+            case .wrongOtp:
               self.isVerifiedFail = true
-            default:
-              onErrorRedirect?(error)
             }
           default:
             self.errorsSubject.onNext($0)

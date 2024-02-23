@@ -1,0 +1,6 @@
+retain_objc_accessible: true
+schemes:
+- ktobet-asia-ios-qat
+targets:
+- ktobet-asia-ios-qat
+workspace: ktobet-asia-ios.xcworkspace

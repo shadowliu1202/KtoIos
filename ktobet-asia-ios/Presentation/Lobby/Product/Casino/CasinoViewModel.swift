@@ -125,10 +125,8 @@ extension CasinoViewModel {
       return .emerald
     case .platinum:
       return .platinum
-    case .virtual_:
-      return .virtual_
-    default:
-      fatalError("should not reach here.")
+    case .virtual:
+      return .virtual
     }
   }
 

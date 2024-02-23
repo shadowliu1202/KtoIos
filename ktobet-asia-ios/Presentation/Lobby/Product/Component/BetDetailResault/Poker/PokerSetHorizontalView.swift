@@ -68,16 +68,16 @@ struct PokerSetHorizontalView_Previews: PreviewProvider {
   static let stubPokerGroup: [PokerGroup] = [
     .init(title: "龙", cards: [
       .init(title: "", cards: [
-        PokerStandard(pokerSuits: .heart, pokerNumber: .king),
-        PokerStandard(pokerSuits: .clover, pokerNumber: .three),
-        PokerStandard(pokerSuits: .clover, pokerNumber: .seven)
+        Poker.Standard(pokerSuits: .heart, pokerNumber: .king),
+        Poker.Standard(pokerSuits: .clover, pokerNumber: .three),
+        Poker.Standard(pokerSuits: .clover, pokerNumber: .seven)
       ])
     ]),
     .init(title: "凤", cards: [
       .init(title: "", cards: [
-        PokerStandard(pokerSuits: .spades, pokerNumber: .king),
-        PokerStandard(pokerSuits: .diamond, pokerNumber: .six),
-        PokerStandard(pokerSuits: .heart, pokerNumber: .ten)
+        Poker.Standard(pokerSuits: .spades, pokerNumber: .king),
+        Poker.Standard(pokerSuits: .diamond, pokerNumber: .six),
+        Poker.Standard(pokerSuits: .heart, pokerNumber: .ten)
       ])
     ])
   ]

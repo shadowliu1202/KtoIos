@@ -41,7 +41,7 @@ class NumberGameRecordRepositoryImpl: NumberGameRecordRepository {
       if betStatus == NumberGameSummary.CompanionStatus.settled {
         return data.data.map { $0.toSettleGameSummary(portalHost: self.httpClient.host.absoluteString) }
       }
-      else if betStatus == NumberGameSummary.CompanionStatus.unsettled {
+      else if betStatus == NumberGameSummary.CompanionStatus.unSettled {
         return data.data.map { $0.toUnSettleGameSummary(portalHost: self.httpClient.host.absoluteString) }
       }
       else {
@@ -97,7 +97,7 @@ class NumberGameRecordRepositoryImpl: NumberGameRecordRepository {
       if betStatus == NumberGameSummary.CompanionStatus.settled {
         return try data.data.map { try $0.toSettleGameSummary() }
       }
-      else if betStatus == NumberGameSummary.CompanionStatus.unsettled {
+      else if betStatus == NumberGameSummary.CompanionStatus.unSettled {
         return try data.data.map { try $0.toUnSettleGameSummary() }
       }
       else {
@@ -122,7 +122,7 @@ class NumberGameRecordRepositoryImpl: NumberGameRecordRepository {
       if betStatus == NumberGameSummary.CompanionStatus.settled {
         return try data.map { try $0.toSettleGameSummary() }
       }
-      else if betStatus == NumberGameSummary.CompanionStatus.unsettled {
+      else if betStatus == NumberGameSummary.CompanionStatus.unSettled {
         return try data.map { try $0.toUnSettleGameSummary() }
       }
       else {

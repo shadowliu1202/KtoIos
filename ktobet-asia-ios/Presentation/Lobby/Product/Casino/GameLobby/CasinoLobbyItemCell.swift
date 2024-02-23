@@ -31,10 +31,8 @@ class CasinoLobbyItemCell: UICollectionViewCell {
       imgIcon.image = UIImage(named: "lobby-platinum")
     case .emerald:
       imgIcon.image = UIImage(named: "lobby-emerald")
-    case .virtual_:
+    case .virtual:
       imgIcon.image = UIImage(named: "lobby-virtual")
-    default:
-      fatalError("should not reach here.")
     }
     
     isHidden = data == CasinoDTO.Lobby.placeHolder

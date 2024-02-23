@@ -31,12 +31,12 @@ public enum ValidError {
 extension BankNamePatternValidateResult {
   var localizeDescription: String {
     switch self {
-    case .exceededlength,
+    case .exceededLength,
          .malformed:
       return Localize.string("common_invalid")
-    case .mustfill:
+    case .mustFill:
       return Localize.string("common_field_must_fill")
-    default:
+    case .none:
       return ""
     }
   }
@@ -45,12 +45,12 @@ extension BankNamePatternValidateResult {
 extension BankBranchPatternValidateResult {
   var localizeDescription: String {
     switch self {
-    case .exceededlength,
+    case .exceededLength,
          .malformed:
       return Localize.string("common_invalid")
-    case .mustfill:
+    case .mustFill:
       return Localize.string("common_field_must_fill")
-    default:
+    case .none:
       return ""
     }
   }

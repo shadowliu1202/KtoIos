@@ -194,8 +194,6 @@ extension CasinoBetDetailView {
           case .lose:
             Text(key: "product_losing_amount", winLose.amount.formatString())
               .localized(weight: .regular, size: 16, color: .greyScaleWhite)
-          default:
-            fatalError("should not reach here.")
           }
         }
         .padding(.vertical, 12)
@@ -219,15 +217,12 @@ extension CasinoBetDetailView {
     var body: some View {
       switch betDetail.status {
       case .canceled,
-           .void_:
+           .void:
         cancelView
         
       case .bet,
            .settled:
         resultView
-        
-      default:
-        fatalError("should not reach here.")
       }
     }
     
@@ -264,35 +259,35 @@ struct CasinoBetDetailView_Previews: PreviewProvider {
       id: "12345678901234567890123456789012",
       otherId: "12345678901234567890123456789012",
       roundId: "GC20201005050250",
-      betTime: Instant.companion.fromEpochSeconds(epochSeconds: 0, nanosecondAdjustment: 0),
+      betTime: Instant.companion.fromEpochSeconds(epochSeconds: Int64(0), nanosecondAdjustment: Int32(0)),
       selection: "大/小:大",
       gameName: "轮盘",
       gameResult: .init(
-        displayType: .verticalpokerset,
+        displayType: .verticalPokerSet,
         cards: stubPokerGroup,
         dices: stubDices,
         roulette: stubRoulette,
         chineseDice: stubChineseDices,
         fanTan: stubFanTan,
         colorPlates: stubColorPlates),
-      stakes: FiatFactory.shared.create(supportLocale: .China(), amount_: "50.00"),
-      prededuct: FiatFactory.shared.create(supportLocale: .China(), amount_: "50.00"),
-      winLose: .init(status: .win, amount: FiatFactory.shared.create(supportLocale: .China(), amount_: "500.00")),
+      stakes: FiatFactory.shared.create(supportLocale: .China(), amount: "50.00"),
+      prededuct: FiatFactory.shared.create(supportLocale: .China(), amount: "50.00"),
+      winLose: .init(status: .win, amount: FiatFactory.shared.create(supportLocale: .China(), amount: "500.00")),
       status: .settled)
     
     static let stubPokerGroup: [PokerGroup] = [
       .init(title: "banker", cards: [
         .init(title: "", cards: [
-          PokerStandard(pokerSuits: .heart, pokerNumber: .king),
-          PokerStandard(pokerSuits: .clover, pokerNumber: .three),
-          PokerStandard(pokerSuits: .clover, pokerNumber: .seven)
+          Poker.Standard(pokerSuits: .heart, pokerNumber: .king),
+          Poker.Standard(pokerSuits: .clover, pokerNumber: .three),
+          Poker.Standard(pokerSuits: .clover, pokerNumber: .seven)
         ])
       ]),
       .init(title: "Player 1", cards: [
         .init(title: "", cards: [
-          PokerStandard(pokerSuits: .spades, pokerNumber: .king),
-          PokerStandard(pokerSuits: .diamond, pokerNumber: .six),
-          PokerStandard(pokerSuits: .heart, pokerNumber: .ten)
+          Poker.Standard(pokerSuits: .spades, pokerNumber: .king),
+          Poker.Standard(pokerSuits: .diamond, pokerNumber: .six),
+          Poker.Standard(pokerSuits: .heart, pokerNumber: .ten)
         ])
       ]),
       .init(title: "Player 2", cards: [
@@ -300,13 +295,13 @@ struct CasinoBetDetailView_Previews: PreviewProvider {
       ]),
       .init(title: "Player 3", cards: [
         .init(title: "Split", cards: [
-          PokerStandard(pokerSuits: .heart, pokerNumber: .three),
-          PokerStandard(pokerSuits: .heart, pokerNumber: .five),
-          PokerStandard(pokerSuits: .spades, pokerNumber: .king)
+          Poker.Standard(pokerSuits: .heart, pokerNumber: .three),
+          Poker.Standard(pokerSuits: .heart, pokerNumber: .five),
+          Poker.Standard(pokerSuits: .spades, pokerNumber: .king)
         ]),
         .init(title: "Split", cards: [
-          PokerStandard(pokerSuits: .spades, pokerNumber: .three),
-          PokerStandard(pokerSuits: .spades, pokerNumber: .jack),
+          Poker.Standard(pokerSuits: .spades, pokerNumber: .three),
+          Poker.Standard(pokerSuits: .spades, pokerNumber: .jack),
         ])
       ]),
     ]

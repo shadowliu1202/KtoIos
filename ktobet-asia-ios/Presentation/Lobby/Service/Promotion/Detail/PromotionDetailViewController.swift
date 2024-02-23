@@ -223,19 +223,22 @@ class PromotionDetailViewController: LobbyViewController {
       return "iconLvSlot48Big"
     case .sbk:
       return "iconLvSportsbook48Big"
-    default:
+    
+    case .arcade,
+         .casino,
+         .none,
+         .numberGame,
+         .p2P:
       return ""
     }
   }
 
   private func configureBonusCouponItem(_ bonusCoupon: BonusCouponItem) {
-    switch bonusCoupon.validPeriod {
-    case let duration as ValidPeriod.Duration:
-      startExpireDateDisplayCounter(duration)
-    case is ValidPeriod.Always:
+    switch onEnum(of: bonusCoupon.validPeriod) {
+    case .always:
       expireDateLabel.isHidden = true
-    default:
-      break
+    case .duration(let it):
+      startExpireDateDisplayCounter(it)
     }
   }
 
@@ -325,7 +328,7 @@ class PromotionDetailViewController: LobbyViewController {
 
     viewModel.getCashBackSettings(id: id)
       .subscribe(onSuccess: { [weak self] settings in
-        settings.enumerated().forEach { index, setting in
+        for (index, setting) in settings.enumerated() {
           self?.cashBackInfoStackView.addArrangedSubview(
             ListRow(rowConfig: .init(
               field1: setting.lossAmountRange,

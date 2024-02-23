@@ -22,11 +22,11 @@ class CasinoMyBetAdapter: CasinoMyBetProtocol {
     fatalError()
   }
   
-  func getIncompleteRecord(date_ _: String) -> SingleWrapper<ResponseList<IncompleteRecordBean>> {
+  func getIncompleteRecord(date _: String) -> SingleWrapper<ResponseList<IncompleteRecordBean>> {
     fatalError()
   }
   
-  func getPeriodSummary(date_ _: String) -> SingleWrapper<ResponseList<PeriodSummaryBean>> {
+  func getPeriodSummary(date _: String) -> SingleWrapper<ResponseList<PeriodSummaryBean>> {
     fatalError()
   }
   

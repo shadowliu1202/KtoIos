@@ -9,22 +9,20 @@ struct PokerCardView: View {
   }
   
   var body: some View {
-    PockerBackgroundView()
+    PokerBackgroundView()
       .overlay(
         VStack {
-          switch card {
-          case let card as PokerStandard:
-            StandarContentView(card)
-          case let card as PokerJoker:
-            JokerContentView(card)
-          default:
-            fatalError("should not reach here.")
+          switch onEnum(of: card) {
+          case .standard(let it):
+            StandardContentView(it)
+          case .joker(let it):
+            JokerContentView(it)
           }
         })
   }
 }
 
-private struct PockerBackgroundView: View {
+private struct PokerBackgroundView: View {
   var body: some View {
     RoundedRectangle(cornerRadius: 8)
       .foregroundColor(.from(.greyScaleWhite))
@@ -36,10 +34,10 @@ private struct PockerBackgroundView: View {
   }
 }
     
-private struct StandarContentView: View {
-  private let card: PokerStandard
+private struct StandardContentView: View {
+  private let card: Poker.Standard
   
-  init(_ card: PokerStandard) {
+  init(_ card: Poker.Standard) {
     self.card = card
   }
     
@@ -56,9 +54,9 @@ private struct StandarContentView: View {
 }
 
 private struct JokerContentView: View {
-  private let card: PokerJoker
+  private let card: Poker.Joker
   
-  init(_ card: PokerJoker) {
+  init(_ card: Poker.Joker) {
     self.card = card
   }
      
@@ -75,9 +73,9 @@ private struct JokerContentView: View {
 struct PokerCardView_Previews: PreviewProvider {
   static var previews: some View {
     HStack(spacing: 10) {
-      PokerCardView(PokerStandard(pokerSuits: .clover, pokerNumber: .king))
+      PokerCardView(Poker.Standard(pokerSuits: .clover, pokerNumber: .king))
       
-      PokerCardView(PokerJoker.big)
+      PokerCardView(Poker.JokerBig())
     }
     .previewLayout(.fixed(width: 100, height: 100))
   }
@@ -94,8 +92,6 @@ extension PokerSuits {
       return Image("PokerSuit-Diamond")
     case .clover:
       return Image("PokerSuit-Clover")
-    default:
-      fatalError("should not reach here.")
     }
   }
   
@@ -109,8 +105,6 @@ extension PokerSuits {
       return .from(.primaryForLight)
     case .clover:
       return .from(.greyScaleBlack)
-    default:
-      fatalError("should not reach here.")
     }
   }
 }
@@ -144,21 +138,17 @@ extension PokerNumber {
       return Image("PokerNumber-Queen")
     case .king:
       return Image("PokerNumber-King")
-    default:
-      fatalError("should not reach here.")
     }
   }
 }
 
-extension PokerJoker {
+extension Poker.Joker {
   func mapToTint() -> Color {
-    switch self {
-    case PokerJoker.little:
-      return .from(.greyScaleBlack)
-    case PokerJoker.big:
+    switch onEnum(of: self) {
+    case .big:
       return .from(.primaryForLight)
-    default:
-      fatalError("should not reach here.")
+    case .little:
+      return .from(.greyScaleBlack)
     }
   }
 }

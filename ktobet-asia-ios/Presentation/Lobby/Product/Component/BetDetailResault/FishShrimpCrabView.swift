@@ -36,8 +36,6 @@ extension ChineseDice {
       return Image("ChineseDice-Shrimp")
     case .coin:
       return Image("ChineseDice-Coin")
-    default:
-      fatalError("should not reach here.")
     }
   }
 }

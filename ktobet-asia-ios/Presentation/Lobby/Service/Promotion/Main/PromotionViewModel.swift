@@ -229,7 +229,7 @@ class PromotionViewModel: CouponFilterable {
     case .Casino:
       return .casino
     case .Numbergame:
-      return .numbergame
+      return .numberGame
     case .Arcade:
       return .arcade
     }
@@ -276,8 +276,6 @@ extension HasAmountLimitationItem {
       return UIImage(named: "promotionDailyFull")
     case .complete:
       return UIImage(named: "promotionIsFull")
-    default:
-      return nil
     }
   }
 }

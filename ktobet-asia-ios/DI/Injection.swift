@@ -13,7 +13,7 @@ final class Injection {
   let networkReadyRelay = BehaviorRelay(value: false)
   
   private init() {
-    HelperKt.doInitKoin()
+    doInitKoin()
     assembler = Assembler(container: container)
     registerAllDependency()
   }
