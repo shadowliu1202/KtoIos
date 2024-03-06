@@ -51,6 +51,10 @@ class HttpClient {
     cookieManager.setCulture(to: locale)
     setupProvider(provider)
   }
+  
+  deinit {
+    Logger.shared.info("HttpClient deinit")
+  }
 
   private func setupProvider(_ provider: MoyaProvider<MultiTarget>?) {
     let configuration = URLSessionConfiguration.default

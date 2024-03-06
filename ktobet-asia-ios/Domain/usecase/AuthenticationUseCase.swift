@@ -11,6 +11,7 @@ func handlePlayerSessionChange(locale: SupportLocale?) {
   }
   
   Injectable.resetObjectScope(.locale)
+  Logger.shared.info("Reset Locale Scope")
   CustomServicePresenter.shared.initService()
 }
 
