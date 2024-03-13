@@ -35,7 +35,7 @@ class WithdrawalRecordDetailViewModel:
 
   private let withdrawalService: IWithdrawalAppService
   private let httpClient: HttpClient
-
+  private let refresher: BehaviorSubject<Void> = .init(value: ())
   let imageUseCase: UploadImageUseCase
   let disposeBag = DisposeBag()
 
@@ -68,30 +68,35 @@ class WithdrawalRecordDetailViewModel:
   func prepareForAppear(transactionId: String) {
     self.transactionId = transactionId
   }
+  
+  func refresh() {
+    refresher.onNext(())
+  }
 }
 
 // MARK: - API
 
 extension WithdrawalRecordDetailViewModel {
   func observeFiatLog() {
-    Observable
-      .from(withdrawalService.getFiatLog(displayId: transactionId))
-      .observe(on: MainScheduler.instance)
-      .subscribe(onNext: { [weak self] in
-        guard let self else { return }
+    refresher.flatMap { [unowned self] in
+      Observable.from(withdrawalService.getFiatLog(displayId: transactionId))
+    }
+    .observe(on: MainScheduler.instance)
+    .subscribe(onNext: { [weak self] in
+      guard let self else { return }
 
-        self.log = $0.log
-        self.isCancelable = $0.isCancelable
-        self.remarks = $0.updateHistories
-          .map {
-            .init(
-              updateHistory: $0,
-              host: self.httpClient.host.absoluteString)
-          }
-      }, onError: { [weak self] in
-        self?.errorsSubject.onNext($0)
-      })
-      .disposed(by: disposeBag)
+      self.log = $0.log
+      self.isCancelable = $0.isCancelable
+      self.remarks = $0.updateHistories
+        .map {
+          .init(
+            updateHistory: $0,
+            host: self.httpClient.host.absoluteString)
+        }
+    }, onError: { [weak self] in
+      self?.errorsSubject.onNext($0)
+    })
+    .disposed(by: disposeBag)
   }
 
   func confirmUploadedImages() {
