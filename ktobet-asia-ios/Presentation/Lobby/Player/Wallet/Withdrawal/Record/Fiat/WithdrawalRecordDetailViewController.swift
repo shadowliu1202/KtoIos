@@ -44,12 +44,22 @@ class WithdrawalRecordDetailViewController:
   }
 
   override func handleErrors(_ error: Error) {
-    if error is WithdrawalException.CancelExceptionTicketBatched {
-      alert.show(
-        nil,
-        Localize.string("withdrawal_cancel_locked"),
-        confirm: { },
-        cancel: nil)
+    if let cancelException = error as? WithdrawalException.CancelException {
+      viewModel.refresh()
+      switch onEnum(of: cancelException) {
+      case .bankProcessing:
+        alert.show(
+          nil,
+          Localize.string("withdrawal_cancel_fail_bank_processing"),
+          confirm: { },
+          cancel: nil)
+      case .ticketBatched:
+        alert.show(
+          nil,
+          Localize.string("withdrawal_cancel_locked"),
+          confirm: { },
+          cancel: nil)
+      }
     }
     else {
       super.handleErrors(error)
