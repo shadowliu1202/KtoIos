@@ -433,6 +433,7 @@
 客服邮箱 cn@thekto.com";
 "common_tip_cn_down_title_warm" = "温馨提示";
 "common_cn_down_confirm" = "确认";
+"common_web_view_ssl_alert" = "您即将离开KTO亚洲应用，并前往一个外部网站。";
 
 //MARK: - SportsBook
 "sportsbook_bet_rules" = "投注规则";
