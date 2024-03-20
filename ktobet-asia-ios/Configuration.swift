@@ -88,8 +88,8 @@ protocol Env {
 private class DevConfig: Env {
   var internetProtocol = "https://"
   var hostName: [String: [String]] = [
-    SupportLocale.China.shared.cultureCode(): ["qat1-mobile.affclub.xyz"],
-    SupportLocale.Vietnam.shared.cultureCode(): ["qat1-appvnd.affclub.xyz"]
+    SupportLocale.China.shared.cultureCode(): ["hsdev-branddev03.mobile.pivotsite.com"],
+    SupportLocale.Vietnam.shared.cultureCode(): ["hsdev-branddev03.mobile.pivotsite.com"]
   ]
   lazy var versionUpdateHostName = hostName
   var isAutoUpdate = false
@@ -103,9 +103,9 @@ private class QatConfig: Env {
   var internetProtocol = "https://"
   var hostName: [String: [String]] =
     [
-      SupportLocale.China.shared.cultureCode(): ["qat1-app.affclub.xyz", "qat1-appvnd.affclub.xyz"],
+      SupportLocale.China.shared.cultureCode(): ["qat1-app.affclub.xyz", "qat1-app2.affclub.xyz"],
       SupportLocale.Vietnam.shared
-        .cultureCode(): ["qat1-appvnd.affclub.xyz", "qat1-app.affclub.xyz"]
+        .cultureCode(): ["qat1-app2.affclub.xyz", "qat1-app.affclub.xyz"]
     ]
   lazy var versionUpdateHostName = hostName
   var isAutoUpdate = false
