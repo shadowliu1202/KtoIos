@@ -92,16 +92,45 @@ extension GameWebViewViewController: WKNavigationDelegate {
       }
     }
   }
-
+  
+  func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+    let SSLAndTSPRelatedErrorCode = [
+      NSURLErrorAppTransportSecurityRequiresSecureConnection,
+      NSURLErrorSecureConnectionFailed,
+      NSURLErrorServerCertificateHasBadDate,
+      NSURLErrorServerCertificateUntrusted,
+      NSURLErrorServerCertificateHasUnknownRoot,
+      NSURLErrorServerCertificateNotYetValid,
+      NSURLErrorClientCertificateRejected,
+      NSURLErrorClientCertificateRequired
+    ]
+    
+    let nsError = error as NSError
+    if
+      nsError.domain == NSURLErrorDomain,
+      SSLAndTSPRelatedErrorCode.contains(nsError.code),
+      let failingURL = nsError.userInfo[NSURLErrorFailingURLErrorKey] as? URL
+    {
+      showOpenExternalWebsiteAlert(url: failingURL)
+    }
+  }
+  
+  private func showOpenExternalWebsiteAlert(url: URL) {
+    Alert.shared.show(
+      Localize.string("common_tip_title_warm"),
+      Localize.string("common_web_view_ssl_alert"),
+      confirm: {
+        UIApplication.shared.open(url)
+      },
+      cancel: { })
+  }
+  
   func webView(
     _: WKWebView,
     didReceive challenge: URLAuthenticationChallenge,
     completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void)
   {
-    if
-      challenge.protectionSpace.host == httpClient.host.absoluteString ||
-      challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodServerTrust
-    {
+    if challenge.protectionSpace.host == httpClient.host.absoluteString {
       completionHandler(.useCredential, URLCredential(trust: challenge.protectionSpace.serverTrust!))
     }
     else {

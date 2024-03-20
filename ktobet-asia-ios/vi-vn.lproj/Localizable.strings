@@ -442,6 +442,7 @@ vui lòng thử lại lúc %@";
 客服邮箱 cn@thekto.com";
 "common_tip_cn_down_title_warm" = "温馨提示";
 "common_cn_down_confirm" = "确认";
+"common_web_view_ssl_alert" = "Quý Khách sẽ rời Ứng Dụng KTO Châu Á và đi đến một website bên ngoài.";
 
 //MARK: - SportsBook
 "sportsbook_bet_rules" = "Luật Thể Thao";
