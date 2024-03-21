@@ -74,13 +74,13 @@ class DefaultProductCell: UITableViewCell {
   private func getSelectImgUrl(_ host: String, _ productType: DefaultProductType) -> URL? {
     switch productType {
     case .sbk:
-      return URL(string: "\(host)/img/app/sbk.png")
+      return URL(string: "\(host)/img/sbk.png")
     case .casino:
-      return URL(string: "\(host)/img/app/casino.png")
+      return URL(string: "\(host)/img/casino.png")
     case .slot:
-      return URL(string: "\(host)/img/app/slot.png")
+      return URL(string: "\(host)/img/slot.png")
     case .numberGame:
-      return URL(string: "\(host)/img/app/number_game.png")
+      return URL(string: "\(host)/img/number_game.png")
     }
   }
 }
