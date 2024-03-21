@@ -29,8 +29,8 @@ class AboutKTOViewController: LobbyViewController {
 
   private func initImage() {
     let host = httpClient.host.absoluteString
-    imgKto.sd_setImage(url: URL(string: "\(host)/img/app/kto.png"))
-    imgMap.sd_setImage(url: URL(string: "\(host)/img/app/map.png"))
+    imgKto.sd_setImage(url: URL(string: "\(host)/img/kto.png"))
+    imgMap.sd_setImage(url: URL(string: "\(host)/img/map.png"))
   }
 
   private func setKtoWebLinkTextView() {
