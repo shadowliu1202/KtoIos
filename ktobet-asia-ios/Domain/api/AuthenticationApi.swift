@@ -41,14 +41,14 @@ class AuthenticationApi {
     return httpClient.request(target).asCompletable()
   }
 
-  func checkAccount(_ account: String) -> Single<ResponseData<String>> {
+  func checkAccount(_ account: String) -> Single<NonNullResponseData<Bool>> {
     let target = APITarget(
       baseUrl: httpClient.host,
-      path: "api/check-account",
+      path: "api/register/check-account-status",
       method: .get,
       task: .requestParameters(parameters: ["accountName": account], encoding: URLEncoding.default),
       header: httpClient.headers)
-    return httpClient.request(target).map(ResponseData<String>.self)
+    return httpClient.request(target).map(NonNullResponseData<Bool>.self)
   }
 
   // MARK: 登入
