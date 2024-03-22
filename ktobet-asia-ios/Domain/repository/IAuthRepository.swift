@@ -98,9 +98,7 @@ class IAuthRepositoryImpl: IAuthRepository {
   }
 
   func checkRegistration(_ account: String) -> Single<Bool> {
-    api.checkAccount(account).map { response -> Bool in
-      response.data == "true" ? true : false
-    }
+    api.checkAccount(account).map { $0.data }
   }
 
   func getCaptchaImage() -> Single<UIImage> {
