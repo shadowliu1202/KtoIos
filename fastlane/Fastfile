@@ -19,7 +19,7 @@ platform :ios do
   before_all do
     ENV["ITMSTRANSPORTER_FORCE_ITMS_PACKAGE_UPLOAD"] = "true"
     ENV["FASTLANE_ITUNES_TRANSPORTER_USE_SHELL_SCRIPT"]="1"
-    ENV["FASTLANE_ITUNES_TRANSPORTER_PATH"]="/Applications/Transporter.app/Contents/itms"
+    ENV["FASTLANE_ITUNES_TRANSPORTER_PATH"]="/usr/local/itms"
     end
     
   lane :metrics do
