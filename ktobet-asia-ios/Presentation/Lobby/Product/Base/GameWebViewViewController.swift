@@ -93,7 +93,7 @@ extension GameWebViewViewController: WKNavigationDelegate {
     }
   }
   
-  func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+  func webView(_: WKWebView, didFailProvisionalNavigation _: WKNavigation!, withError error: Error) {
     let SSLAndTSPRelatedErrorCode = [
       NSURLErrorAppTransportSecurityRequiresSecureConnection,
       NSURLErrorSecureConnectionFailed,

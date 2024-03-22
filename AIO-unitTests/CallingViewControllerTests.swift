@@ -8,7 +8,7 @@ import XCTest
 
 class CallingViewControllerTests: XCBaseTestCase {
   class DummyChatRoomViewModel: ChatRoomViewModel {
-    override func setup(onChatRoomMaintain _: @escaping () -> Void) { }
+    override func setup(onChatRoomClose _: @escaping (String) -> Void, onChatRoomMaintain _: @escaping () -> Void) { }
     override func readAllMessage(updateToLast _: Bool? = nil, isAuto _: Bool? = nil) { }
   }
   

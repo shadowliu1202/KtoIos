@@ -78,11 +78,11 @@ private func injectStubAppVersionUpdateUseCase() {
 
 private func injectCustomServicePresenterInfra() {
   let stubChatAppService = mock(AbsCustomerServiceAppService.self)
-  let dummyPlayerConfiguration = PlayerConfigurationImpl(nil)
+  let dummySurveyAppService = mock(AbsCustomerServiceAppService.self)
   let dummyLoading = LoadingImpl.shared
 
   let stubCustomerServiceViewModel = mock(CustomerServiceViewModel.self)
-    .initialize(stubChatAppService, dummyPlayerConfiguration, dummyLoading)
+    .initialize(stubChatAppService, dummySurveyAppService, dummyLoading)
   
   given(stubChatAppService.observeChatRoom()) ~> Observable.just(CustomerServiceDTO.ChatRoom.NOT_EXIST).asWrapper()
   

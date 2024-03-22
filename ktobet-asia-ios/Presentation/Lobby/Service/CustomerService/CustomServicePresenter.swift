@@ -111,15 +111,28 @@ class CustomServicePresenter: NSObject {
       .flatMap { [csViewModel] in csViewModel.chatRoomStatus.first() }
       .observe(on: MainScheduler.instance)
       .subscribe(onNext: { [unowned self] status in
+        guard
+          let roomID = status?.0,
+          let status = status?.1
+        else { return }
+                
         switch onEnum(of: status) {
         case .close:
-          switchToChatRoom()
+          Task { @MainActor in
+            if await csViewModel.hasExitSurvey(roomID) {
+              switchToExitSurvey(roomID)
+              try? await csViewModel.closeChatRoom().asCompletable().value
+            }
+            else {
+              switchToChatRoom()
+            }
+          }
+          
         case .connected:
           switchToChatRoom()
         case .connecting:
           switchToCalling()
-        case .none,
-             .notExist:
+        case .notExist:
           break
         }
       })
@@ -170,6 +183,13 @@ class CustomServicePresenter: NSObject {
   private func switchToChatRoom() {
     let chatRoomVC = ChatRoomViewController()
     let navi = CustomServiceNavigationController(rootViewController: chatRoomVC)
+    navi.modalPresentationStyle = UIModalPresentationStyle.fullScreen
+    topViewController?.present(navi, animated: true, completion: nil)
+  }
+  
+  private func switchToExitSurvey(_ roomID: String) {
+    let exitSurveyVC = ExitSurveyViewController(roomID: roomID)
+    let navi = CustomServiceNavigationController(rootViewController: exitSurveyVC)
     navi.modalPresentationStyle = UIModalPresentationStyle.fullScreen
     topViewController?.present(navi, animated: true, completion: nil)
   }

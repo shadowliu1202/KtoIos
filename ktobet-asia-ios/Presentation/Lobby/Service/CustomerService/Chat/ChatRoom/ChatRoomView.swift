@@ -13,6 +13,7 @@ struct ChatRoomView<ViewModel>: View
   
   private let textFieldCountLimit = 500
   
+  private let onChatRoomClose: (String) -> Void
   private let onChatRoomMaintain: () -> Void
   private let onTapImage: (String) -> Void
   private let onTapCamera: () -> Void
@@ -21,11 +22,13 @@ struct ChatRoomView<ViewModel>: View
   
   init(
     viewModel: ViewModel,
+    onChatRoomClose: @escaping (String) -> Void,
     onChatRoomMaintain: @escaping () -> Void,
     onTapImage: @escaping ((String) -> Void),
     onTapCamera: @escaping (() -> Void))
   {
     self._viewModel = StateObject(wrappedValue: viewModel)
+    self.onChatRoomClose = onChatRoomClose
     self.onChatRoomMaintain = onChatRoomMaintain
     self.onTapImage = onTapImage
     self.onTapCamera = onTapCamera
@@ -65,7 +68,9 @@ struct ChatRoomView<ViewModel>: View
     .backgroundColor(.greyScaleWhite, ignoresSafeArea: .bottom)
     .environmentObject(viewModel)
     .onViewDidLoad {
-      viewModel.setup(onChatRoomMaintain: onChatRoomMaintain)
+      viewModel.setup(
+        onChatRoomClose: onChatRoomClose,
+        onChatRoomMaintain: onChatRoomMaintain)
     }
     .onAppear {
       viewModel.readAllMessage(updateToLast: nil, isAuto: true)
@@ -263,7 +268,9 @@ struct ChatRoomView_Previews: PreviewProvider {
     
     var disableInputView = false
      
-    func setup(onChatRoomMaintain _: @escaping () -> Void) { }
+    func setup(
+      onChatRoomClose _: @escaping (String) -> Void,
+      onChatRoomMaintain _: @escaping () -> Void) { }
     func send(message _: String) { }
     func sendPreview(message _: String) { }
     func readAllMessage(updateToLast _: Bool?, isAuto _: Bool?) { }
@@ -272,6 +279,7 @@ struct ChatRoomView_Previews: PreviewProvider {
   static var previews: some View {
     ChatRoomView(
       viewModel: FakeViewModel(),
+      onChatRoomClose: { _ in },
       onChatRoomMaintain: { },
       onTapImage: { _ in },
       onTapCamera: { })

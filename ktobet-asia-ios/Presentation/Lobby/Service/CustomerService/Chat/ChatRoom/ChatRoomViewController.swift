@@ -55,6 +55,17 @@ class ChatRoomViewController: CommonViewController {
     addSubView(from: {
       ChatRoomView(
         viewModel: viewModel,
+        onChatRoomClose: { [weak self] roomID in
+          guard let self else { return }
+          Task {
+            if await self.viewModel.hasExitSurvey(roomID) {
+              await MainActor.run {
+                self.toExitSurvey(roomID)
+              }
+              await self.viewModel.closeChatRoom()
+            }
+          }
+        },
         onChatRoomMaintain: { [weak self] in
           self?.handleMaintenance()
         },
@@ -121,16 +132,16 @@ class ChatRoomViewController: CommonViewController {
 
   private func confirmNetworkThenCloseChatRoom() {
     if NetworkStateMonitor.shared.isNetworkConnected == true {
-      Task {
+      Task { @MainActor in
         loadingView.isHidden = false
-        await viewModel.closeChatRoom(onComplete: { exitSurveyRoomID in
-          if let exitSurveyRoomID {
-            toExitSurvey(exitSurveyRoomID)
+        if let roomID = await viewModel.closeChatRoom() {
+          if await viewModel.hasExitSurvey(roomID) {
+            toExitSurvey(roomID)
           }
           else {
             dismissVC()
           }
-        })
+        }
         loadingView.isHidden = true
       }
     }
