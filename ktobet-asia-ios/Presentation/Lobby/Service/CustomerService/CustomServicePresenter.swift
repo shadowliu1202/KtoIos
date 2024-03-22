@@ -119,6 +119,7 @@ class CustomServicePresenter: NSObject {
         switch onEnum(of: status) {
         case .close:
           Task { @MainActor in
+            ballWindow.isUserInteractionEnabled = false
             if await csViewModel.hasExitSurvey(roomID) {
               switchToExitSurvey(roomID)
               try? await csViewModel.closeChatRoom().asCompletable().value
@@ -126,6 +127,7 @@ class CustomServicePresenter: NSObject {
             else {
               switchToChatRoom()
             }
+            ballWindow.isUserInteractionEnabled = true
           }
           
         case .connected:
