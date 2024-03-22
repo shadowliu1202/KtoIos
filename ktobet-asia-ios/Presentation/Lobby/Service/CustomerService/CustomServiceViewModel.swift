@@ -6,7 +6,7 @@ import sharedbu
 
 class CustomerServiceViewModel {
   private let chatAppService: ICustomerServiceAppService
-  private let playerConfiguration: PlayerConfiguration
+  private let surveyAppService: ISurveyAppService
   private let loading: Loading
   
   private lazy var observeChatRoom = Observable.from(chatAppService.observeChatRoom())
@@ -14,16 +14,16 @@ class CustomerServiceViewModel {
     .share(replay: 1)
 
   lazy var chatRoomUnreadMessage = observeChatRoom.map { $0.unReadMessage }
-  lazy var chatRoomStatus = observeChatRoom.map { $0.status }
-  lazy var isPlayerInChat = chatRoomStatus.map { $0 != Connection.StatusNotExist() }
+  lazy var chatRoomStatus = observeChatRoom.map { ($0.roomId, $0.status) }
+  lazy var isPlayerInChat = observeChatRoom.map { $0.status != Connection.StatusNotExist() }
   
   init(
     _ chatAppService: ICustomerServiceAppService,
-    _ playerConfiguration: PlayerConfiguration,
+    _ surveyAppService: ISurveyAppService,
     _ loading: Loading)
   {
     self.chatAppService = chatAppService
-    self.playerConfiguration = playerConfiguration
+    self.surveyAppService = surveyAppService
     self.loading = loading
   }
 
@@ -35,5 +35,12 @@ class CustomerServiceViewModel {
   
   func hasPreChatSurvey() -> Single<Bool> {
     Single.from(chatAppService.hasPreChatSurvey()).map { $0.toBool() }
+  }
+  
+  func hasExitSurvey(_ roomID: String) async -> Bool {
+    guard let hasExitSurvey = try? await AnyPublisher.from(surveyAppService.hasExitSurvey(roomId: roomID)).value
+    else { return false }
+    
+    return hasExitSurvey.toBool()
   }
 }

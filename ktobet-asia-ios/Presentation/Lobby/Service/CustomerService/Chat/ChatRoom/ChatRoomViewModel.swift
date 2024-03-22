@@ -6,7 +6,7 @@ protocol ChatRoomViewModelProtocol {
   var messages: [CustomerServiceDTO.ChatMessage] { get }
   var disableInputView: Bool { get }
   
-  func setup(onChatRoomMaintain: @escaping () -> Void)
+  func setup(onChatRoomClose: @escaping (String) -> Void, onChatRoomMaintain: @escaping () -> Void)
   func send(message: String)
   func sendPreview(message: String)
   func readAllMessage(updateToLast: Bool?, isAuto: Bool?)
@@ -36,18 +36,22 @@ class ChatRoomViewModel:
     self.playerConfiguration = playerConfiguration
   }
   
-  func setup(onChatRoomMaintain: @escaping () -> Void) {
-    getChatRoomStatus(onChatRoomMaintain)
+  func setup(onChatRoomClose: @escaping (String) -> Void, onChatRoomMaintain: @escaping () -> Void) {
+    getChatRoomStatus(onChatRoomClose, onChatRoomMaintain)
     getMessages()
   }
   
-  private func getChatRoomStatus(_ onChatRoomMaintain: @escaping () -> Void) {
+  private func getChatRoomStatus(_ onChatRoomClose: @escaping (String) -> Void, _ onChatRoomMaintain: @escaping () -> Void) {
     AnyPublisher.from(chatAppService.observeChatRoom())
       .subscribe(on: DispatchQueue.global(qos: .background))
       .receive(on: RunLoop.main)
       .redirectErrors(to: self)
       .sink(receiveValue: { [unowned self] chatRoom in
         disableInputView = chatRoom.status is sharedbu.Connection.StatusClose
+        if chatRoom.status is sharedbu.Connection.StatusClose {
+          onChatRoomClose(chatRoom.roomId)
+        }
+        
         if chatRoom.isMaintained {
           onChatRoomMaintain()
         }
@@ -103,21 +107,25 @@ class ChatRoomViewModel:
       .store(in: &cancellables)
   }
   
-  func closeChatRoom(onComplete: (_ exitSurveyRoomID: String?) -> Void) async {
-    do {
-      guard let exitChatDTO = try await AnyPublisher.from(chatAppService.exit(forceExit: false)).value else { return }
-      guard let hasExitSurvey = try await AnyPublisher.from(surveyAppService.hasExitSurvey(roomId: exitChatDTO.roomId)).value
-      else { return }
-      
-      await MainActor.run {
-        onComplete(hasExitSurvey.toBool() ? exitChatDTO.roomId : nil)
-      }
-    }
-    catch {
-      await MainActor.run {
-        collectError(error)
-      }
-    }
+  @discardableResult
+  func closeChatRoom() async -> String? {
+    guard
+      let exitChatDTO = await AnyPublisher.from(chatAppService.exit(forceExit: false))
+        .redirectErrors(to: self)
+        .valueWithoutError
+    else { return nil }
+    
+    return exitChatDTO.roomId
+  }
+  
+  func hasExitSurvey(_ roomID: String) async -> Bool {
+    guard
+      let hasExitSurvey = await AnyPublisher.from(surveyAppService.hasExitSurvey(roomId: roomID))
+        .redirectErrors(to: self)
+        .valueWithoutError
+    else { return false }
+    
+    return hasExitSurvey.toBool()
   }
   
   func getSupportLocale() -> SupportLocale {
