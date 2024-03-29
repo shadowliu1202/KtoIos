@@ -35,6 +35,8 @@ class VersionUpdateApi: ApiService {
 
   func getSuperSignatureMaintenance() -> Single<SuperSignMaintenanceBean> {
     let target = GetAPITarget(service: self.url("api/init/ios-maintenance"))
-    return httpClient.request(target).map(SuperSignMaintenanceBean.self)
+    return httpClient.request(target)
+      .map(NonNullResponseData<SuperSignMaintenanceBean>.self)
+      .map { $0.data }
   }
 }
