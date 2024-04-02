@@ -26,7 +26,7 @@ class CasinoGameAdapter: CasinoGameProtocol {
   
   func getLobbyTop() -> SingleWrapper<ResponseList<LobbyBean>> {
     httpClient
-      .requestJsonString(path: "/casino/api/game/lobby/top", method: .get)
+      .requestJsonString(path: "casino/api/game/lobby/top", method: .get)
       .asReaktiveResponseList(serial: LobbyBean.companion.serializer())
   }
   
