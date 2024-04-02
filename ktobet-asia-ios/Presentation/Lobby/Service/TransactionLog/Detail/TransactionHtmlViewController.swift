@@ -11,9 +11,11 @@ class TransactionHtmlViewController: LobbyViewController {
     super.viewDidLoad()
     setupNavigationView()
     
-    let contents = buildUpHtml()
-    webView.loadHTMLString(contents, baseURL: nil)
-    webView.scrollView.isScrollEnabled = false
+    Task { @MainActor in
+      let contents = await buildUpHtml()
+      webView.loadHTMLString(contents, baseURL: nil)
+      webView.scrollView.isScrollEnabled = false
+    }
   }
   
   private func setupNavigationView() {
@@ -21,12 +23,24 @@ class TransactionHtmlViewController: LobbyViewController {
     NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back)
   }
 
-  func buildUpHtml() -> String {
-    guard let filePath = Bundle.main.path(forResource: "wager_template", ofType: "html")
+  func buildUpHtml() async -> String {
+    guard
+      let filePath = Bundle.main.path(forResource: "wager_template", ofType: "html"),
+      let template = try? String(contentsOfFile: filePath, encoding: .utf8),
+      let response = try? await httpClient.request(
+        APITarget(
+          baseUrl: httpClient.host,
+          path: "brand/api/static-file/get-version",
+          method: .get,
+          task: .requestPlain,
+          header: httpClient.headers)).value,
+      let cssVersion = String(data: response.data, encoding: .utf8)
     else { return "" }
     
-    let template = try? String(contentsOfFile: filePath, encoding: .utf8)
-    
-    return String(format: template ?? "", httpClient.host.absoluteString, httpClient.host.absoluteString, html)
+    return String(
+      format: template,
+      "\(httpClient.host.absoluteString)/brand/sbk.\(cssVersion).css",
+      "\(httpClient.host.absoluteString)/brand/casino.\(cssVersion).css",
+      html)
   }
 }
