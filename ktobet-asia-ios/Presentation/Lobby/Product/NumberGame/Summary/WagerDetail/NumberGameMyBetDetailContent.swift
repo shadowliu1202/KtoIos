@@ -155,7 +155,7 @@ extension NumberGameMyBetDetailContent {
         
         switch onEnum(of: result) {
         case .ball(let it):
-          NumberGameMyBetDetailContent.BallResultCell(numbers: it.balls.map { $0.description })
+          NumberGameMyBetDetailContent.BallResultCell(row: it.row, numbers: it.balls)
             .frame(maxWidth: .infinity)
             .id(NumberGameMyBetDetailContent.TestTag.ballGameResult.rawValue)
         case .empty:
@@ -173,12 +173,16 @@ extension NumberGameMyBetDetailContent {
   // MARK: - BallResultCell
   
   struct BallResultCell: View {
-    let numbers: [String]
+    let row: NumberGameBetDetail.GameResultBallRowMaximum
+    let numbers: [KotlinInt]
     
     var body: some View {
-      HStack(spacing: 10) {
-        ForEach(numbers, id: \.self) {
-          ball(number: $0)
+      let columns = Array(repeating: GridItem(), count: row.columnCount)
+
+      LazyVGrid(columns: columns) {
+        ForEach(numbers.indices, id: \.self) { index in
+          ball(number: numbers[index].description)
+            .frame(width: row.ballSize, height: row.ballSize)
         }
       }
     }
@@ -189,7 +193,6 @@ extension NumberGameMyBetDetailContent {
         .overlay(
           Circle()
             .strokeBorder(Color.from(.greyScaleChatWindow), lineWidth: 2))
-        .frame(width: 40, height: 40)
         .overlay(
           Text(number)
             .localized(weight: .semibold, size: 14, color: .greyScaleWhite))
@@ -241,5 +244,55 @@ struct NumberGameMyBetDetailContent_Previews: PreviewProvider {
         """),
       page: 1,
       supportLocale: .Vietnam())
+    
+    NumberGameMyBetDetailContent(
+      myBetDetail: NumberGameBetDetail(
+        displayId: "12345678901234567890123456789012",
+        traceId: "12345678901234567890123456789012",
+        gameName: "重庆时时彩",
+        matchMethod: "(20200803-045)",
+        betContent: ["中三直选跨度 [中三_直选跨度]", "1,2,3,4,5"],
+        betTime: Date().toLocalDateTime(.current),
+        stakes: "50".toAccountCurrency(),
+        status: NumberGameBetDetail.BetStatusSettledWinLose(winLoss: "50".toAccountCurrency()),
+        resultType: .other,
+        _result: "1|11|21|31|99|43|54|34"),
+      page: 1,
+      supportLocale: .Vietnam())
+    
+    NumberGameMyBetDetailContent(
+      myBetDetail: NumberGameBetDetail(
+        displayId: "12345678901234567890123456789012",
+        traceId: "12345678901234567890123456789012",
+        gameName: "重庆时时彩",
+        matchMethod: "(20200803-045)",
+        betContent: ["中三直选跨度 [中三_直选跨度]", "1,2,3,4,5"],
+        betTime: Date().toLocalDateTime(.current),
+        stakes: "50".toAccountCurrency(),
+        status: NumberGameBetDetail.BetStatusSettledWinLose(winLoss: "50".toAccountCurrency()),
+        resultType: .smallBall,
+        _result: "1-11-21-31-99-43-54-34"),
+      page: 1,
+      supportLocale: .Vietnam())
+  }
+}
+
+extension NumberGameBetDetail.GameResultBallRowMaximum {
+  var columnCount: Int {
+    switch self {
+    case .five:
+      return 5
+    case .six:
+      return 6
+    }
+  }
+    
+  var ballSize: CGFloat {
+    switch self {
+    case .five:
+      return 48
+    case .six:
+      return 40
+    }
   }
 }
