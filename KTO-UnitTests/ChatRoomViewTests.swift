@@ -8,9 +8,7 @@ import XCTest
 final class ChatRoomViewTests: XCTestCase {
   func test_whenHaveUnReadMessages_thenDisplayUnReadSeperator() {
     let inspectWrapper = InspectWrapper {
-      ChattingListView(
-        messages: [.unreadSeperator],
-        enableScrollAnimation: false)
+      ChattingListView(messages: [.unreadSeperator])
     }
     
     let expection = inspectWrapper.inspection.inspect { view in

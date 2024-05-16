@@ -99,16 +99,13 @@ struct ChattingListView: View {
   @StateObject private var viewModel: ChattingListViewModel = Injectable.resolveWrapper(ChattingListViewModel.self)
   
   private let messages: [CustomerServiceDTO.ChatMessage]
-  private let enableScrollAnimation: Bool
   private let onTapImage: ((String) -> Void)?
   
   init(
     messages: [CustomerServiceDTO.ChatMessage],
-    enableScrollAnimation: Bool,
     onTapImage: ((String) -> Void)? = nil)
   {
     self.messages = messages
-    self.enableScrollAnimation = enableScrollAnimation
     self.onTapImage = onTapImage
   }
   
@@ -158,11 +155,10 @@ struct ChattingListView: View {
           viewModel.downloadImages(newValue)
         }
         .onViewDidLoad {
-          guard !isChatRoomViewModelFirstInit else { return }
-          handleAutoScroll(messages: messages, proxy: readerProxy)
+          withAnimation { readerProxy.scrollTo(ChatContensBottomPosition.id) }
         }
-        .onChange(of: messages) { newValue in
-          handleAutoScroll(messages: newValue, proxy: readerProxy)
+        .onChange(of: messages) { _ in
+          withAnimation { readerProxy.scrollTo(ChatContensBottomPosition.id) }
         }
       }
     }
@@ -186,42 +182,6 @@ struct ChattingListView: View {
     }
     else {
       return true
-    }
-  }
-  
-  private var isChatRoomViewModelFirstInit: Bool {
-    messages.isEmpty
-  }
-  
-  private func handleAutoScroll(messages: [CustomerServiceDTO.ChatMessage], proxy: ScrollViewProxy) {
-    if hasUnreadMessage(messages) {
-      toUnreadSeperator(proxy: proxy)
-    }
-    else {
-      toBottom(proxy: proxy)
-    }
-  }
-  
-  private func hasUnreadMessage(_ messages: [CustomerServiceDTO.ChatMessage]) -> Bool {
-    messages.contains(where: { $0 == CustomerServiceDTO.ChatMessage.unreadSeperator })
-  }
-  
-  private func toUnreadSeperator(proxy: ScrollViewProxy) {
-    scroll(to: CustomerServiceDTO.ChatMessage.unreadSeperator.id, proxy)
-  }
-  
-  private func toBottom(proxy: ScrollViewProxy) {
-    scroll(to: ChatContensBottomPosition.id, proxy)
-  }
-  
-  private func scroll(to id: some Hashable, _ proxy: ScrollViewProxy) {
-    if enableScrollAnimation {
-      withAnimation {
-        proxy.scrollTo(id)
-      }
-    }
-    else {
-      proxy.scrollTo(id)
     }
   }
 }
@@ -579,8 +539,7 @@ struct ChattingListView_Previews: PreviewProvider {
               image: nil)
           ],
           isProcessing: false),
-      ],
-      enableScrollAnimation: false)
+      ])
   }
 }
  

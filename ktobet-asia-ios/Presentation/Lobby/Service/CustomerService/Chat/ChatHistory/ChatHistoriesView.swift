@@ -24,7 +24,6 @@ struct ChatHistoriesView<ViewModel>: View
   var body: some View {
     ChattingListView(
       messages: viewModel.messages,
-      enableScrollAnimation: false,
       onTapImage: { path in
         onTapImage?(path)
       })
