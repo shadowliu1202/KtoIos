@@ -47,7 +47,6 @@ struct ChatRoomView<ViewModel>: View
     VStack(spacing: 0) {
       ChattingListView(
         messages: viewModel.messages,
-        enableScrollAnimation: true,
         onTapImage: { url in
           hideKeyboardThenExcute {
             onTapImage(url)

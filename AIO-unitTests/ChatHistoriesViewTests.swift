@@ -30,8 +30,7 @@ final class ChatHistoriesViewTests: XCTestCase {
             type: .text,
             text: "实名验证要去哪里设定？",
             textAttributes: nil,
-            image: nil)),
-        enableScrollAnimation: false)
+            image: nil)))
     }
     
     let expection = inspectWrapper.inspection.inspect { view in
@@ -57,8 +56,7 @@ final class ChatHistoriesViewTests: XCTestCase {
             type: .image,
             text: "",
             textAttributes: nil,
-            image: ChatImage(path: "/image/chatting/64ae236755595818e492a924.jpg?type=1", inChat: false))),
-        enableScrollAnimation: false)
+            image: ChatImage(path: "/image/chatting/64ae236755595818e492a924.jpg?type=1", inChat: false))))
     }
     
     let expection = inspectWrapper.inspection.inspect { view in
@@ -92,8 +90,7 @@ final class ChatHistoriesViewTests: XCTestCase {
               link: "https://www.youtube.com",
               size: nil,
               underline: nil),
-            image: nil)),
-        enableScrollAnimation: false)
+            image: nil)))
     }
     
     let expection = inspectWrapper.inspection.inspect { view in
