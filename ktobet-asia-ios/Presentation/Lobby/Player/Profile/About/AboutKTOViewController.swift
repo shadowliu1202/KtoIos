@@ -23,7 +23,6 @@ class AboutKTOViewController: LobbyViewController {
     setKtoWebLinkTextView()
     setCsLinkTextView()
 
-    vnPartner.isHidden = playerConfig.supportLocale != .Vietnam()
     view.backgroundColor = .white
   }
 

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -2037,8 +2037,8 @@
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tSG-l4-F2Q">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="804"/>
                                 <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aVr-98-h1U" userLabel="ContentView">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="1839"/>
+                                    <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aVr-98-h1U" userLabel="ContentView">
+                                        <rect key="frame" x="-8" y="76" width="414" height="1839"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fxb-mA-dHE">
                                                 <rect key="frame" x="30" y="30" width="354" height="34"/>
@@ -2074,63 +2074,10 @@
                                                 </userDefinedRuntimeAttributes>
                                             </label>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="1uX-1j-Sln">
-                                                <rect key="frame" x="30" y="512.5" width="354" height="734"/>
+                                                <rect key="frame" x="30" y="512.5" width="354" height="490"/>
                                                 <subviews>
-                                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bne-Eu-UxU" userLabel="logoView">
-                                                        <rect key="frame" x="0.0" y="0.0" width="354" height="224"/>
-                                                        <subviews>
-                                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Lienphong-Logo" translatesAutoresizingMaskIntoConstraints="NO" id="gVS-90-wYw">
-                                                                <rect key="frame" x="99" y="36" width="156" height="84"/>
-                                                                <constraints>
-                                                                    <constraint firstAttribute="height" constant="84" id="PAN-2P-EyN"/>
-                                                                </constraints>
-                                                            </imageView>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RGC-E3-QZc">
-                                                                <rect key="frame" x="16" y="136" width="322" height="25.5"/>
-                                                                <fontDescription key="fontDescription" name="PingFangSC-Semibold" family="PingFang SC" pointSize="18"/>
-                                                                <color key="textColor" name="textSecondaryScorpionGray"/>
-                                                                <nil key="highlightedColor"/>
-                                                                <userDefinedRuntimeAttributes>
-                                                                    <userDefinedRuntimeAttribute type="string" keyPath="localizeText" value="license_partner_title_3"/>
-                                                                </userDefinedRuntimeAttributes>
-                                                            </label>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7gl-gD-aiM">
-                                                                <rect key="frame" x="16" y="169.5" width="322" height="22.5"/>
-                                                                <fontDescription key="fontDescription" name="PingFangSC-Semibold" family="PingFang SC" pointSize="16"/>
-                                                                <color key="textColor" name="textSecondaryScorpionGray"/>
-                                                                <nil key="highlightedColor"/>
-                                                                <userDefinedRuntimeAttributes>
-                                                                    <userDefinedRuntimeAttribute type="string" keyPath="localizeText" value="license_partner_description_3"/>
-                                                                </userDefinedRuntimeAttributes>
-                                                            </label>
-                                                        </subviews>
-                                                        <color key="backgroundColor" name="whiteFull"/>
-                                                        <constraints>
-                                                            <constraint firstAttribute="trailing" secondItem="RGC-E3-QZc" secondAttribute="trailing" constant="16" id="2Rz-Nv-R8k"/>
-                                                            <constraint firstItem="RGC-E3-QZc" firstAttribute="top" secondItem="gVS-90-wYw" secondAttribute="bottom" constant="16" id="43T-qO-TnB"/>
-                                                            <constraint firstItem="gVS-90-wYw" firstAttribute="top" secondItem="bne-Eu-UxU" secondAttribute="top" constant="36" id="4mC-Ce-52j"/>
-                                                            <constraint firstItem="7gl-gD-aiM" firstAttribute="leading" secondItem="RGC-E3-QZc" secondAttribute="leading" id="OM6-Bt-umD"/>
-                                                            <constraint firstItem="gVS-90-wYw" firstAttribute="centerX" secondItem="bne-Eu-UxU" secondAttribute="centerX" id="njv-62-xiE"/>
-                                                            <constraint firstItem="RGC-E3-QZc" firstAttribute="leading" secondItem="bne-Eu-UxU" secondAttribute="leading" constant="16" id="qD8-Jt-aPC"/>
-                                                            <constraint firstItem="7gl-gD-aiM" firstAttribute="top" secondItem="RGC-E3-QZc" secondAttribute="bottom" constant="8" id="s6c-l2-ctR"/>
-                                                            <constraint firstItem="7gl-gD-aiM" firstAttribute="trailing" secondItem="RGC-E3-QZc" secondAttribute="trailing" id="sp4-oH-g6w"/>
-                                                            <constraint firstAttribute="height" constant="224" id="xcv-gM-Azy"/>
-                                                        </constraints>
-                                                        <userDefinedRuntimeAttributes>
-                                                            <userDefinedRuntimeAttribute type="number" keyPath="borderWidth">
-                                                                <real key="value" value="1"/>
-                                                            </userDefinedRuntimeAttribute>
-                                                            <userDefinedRuntimeAttribute type="color" keyPath="bordersColor">
-                                                                <color key="value" red="0.0" green="0.0" blue="0.0" alpha="0.1506363825" colorSpace="custom" customColorSpace="sRGB"/>
-                                                            </userDefinedRuntimeAttribute>
-                                                            <userDefinedRuntimeAttribute type="boolean" keyPath="masksToBounds" value="YES"/>
-                                                            <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                                                <real key="value" value="8"/>
-                                                            </userDefinedRuntimeAttribute>
-                                                        </userDefinedRuntimeAttributes>
-                                                    </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hUb-Rn-aho" userLabel="logoView">
-                                                        <rect key="frame" x="0.0" y="244" width="354" height="224"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="354" height="224"/>
                                                         <subviews>
                                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="InterMilan-Logo" translatesAutoresizingMaskIntoConstraints="NO" id="E3c-id-IJy">
                                                                 <rect key="frame" x="135" y="36" width="84" height="84"/>
@@ -2184,7 +2131,7 @@
                                                         </userDefinedRuntimeAttributes>
                                                     </view>
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hoh-bE-adM" userLabel="logoView">
-                                                        <rect key="frame" x="0.0" y="488" width="354" height="246"/>
+                                                        <rect key="frame" x="0.0" y="244" width="354" height="246"/>
                                                         <subviews>
                                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Espanyol-Logo" translatesAutoresizingMaskIntoConstraints="NO" id="OJd-Js-2Tc">
                                                                 <rect key="frame" x="139" y="36" width="76" height="110"/>
@@ -2240,7 +2187,7 @@
                                                 </subviews>
                                             </stackView>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8iX-cq-usn" userLabel="Label2">
-                                                <rect key="frame" x="30" y="1314.5" width="354" height="34"/>
+                                                <rect key="frame" x="30" y="1070.5" width="354" height="34"/>
                                                 <fontDescription key="fontDescription" name="PingFangSC-Semibold" family="PingFang SC" pointSize="24"/>
                                                 <color key="textColor" name="blackTwo"/>
                                                 <nil key="highlightedColor"/>
@@ -2249,7 +2196,7 @@
                                                 </userDefinedRuntimeAttributes>
                                             </label>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" editable="NO" text="https://ktoglobal.com/" translatesAutoresizingMaskIntoConstraints="NO" id="jMl-ij-bDW">
-                                                <rect key="frame" x="30" y="1364.5" width="354" height="20"/>
+                                                <rect key="frame" x="30" y="1120.5" width="354" height="20"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="20" id="scB-fS-FMu"/>
@@ -2262,13 +2209,13 @@
                                                 </userDefinedRuntimeAttributes>
                                             </textView>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="X1L-Le-NM2">
-                                                <rect key="frame" x="0.0" y="1408.5" width="414" height="283"/>
+                                                <rect key="frame" x="0.0" y="1164.5" width="414" height="283"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="X1L-Le-NM2" secondAttribute="height" multiplier="375:256" id="QJw-ce-mQ7"/>
                                                 </constraints>
                                             </imageView>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" editable="NO" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="6JU-p5-1Ff">
-                                                <rect key="frame" x="215" y="1723" width="10" height="20"/>
+                                                <rect key="frame" x="220" y="1479" width="0.0" height="20"/>
                                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="20" id="Bbk-Bm-B6N"/>
@@ -2278,7 +2225,7 @@
                                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                             </textView>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Email" translatesAutoresizingMaskIntoConstraints="NO" id="6DF-Hy-LzN">
-                                                <rect key="frame" x="189" y="1723" width="20" height="20"/>
+                                                <rect key="frame" x="194" y="1479" width="20" height="20"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="6DF-Hy-LzN" secondAttribute="height" multiplier="1:1" id="2xE-lp-I2n"/>
                                                 </constraints>
@@ -2345,7 +2292,6 @@
                         <outlet property="csLink" destination="6JU-p5-1Ff" id="Ith-J1-peK"/>
                         <outlet property="imgKto" destination="6DT-Jn-Dzl" id="2qr-FX-gaT"/>
                         <outlet property="imgMap" destination="X1L-Le-NM2" id="6gP-5o-xXg"/>
-                        <outlet property="vnPartner" destination="bne-Eu-UxU" id="G8m-R8-5Yv"/>
                         <outlet property="webLink" destination="jMl-ij-bDW" id="YeE-eG-Wh7"/>
                     </connections>
                 </viewController>
@@ -2587,7 +2533,6 @@
         <image name="Email" width="16" height="16"/>
         <image name="Espanyol-Logo" width="76" height="110"/>
         <image name="InterMilan-Logo" width="84" height="84"/>
-        <image name="Lienphong-Logo" width="156" height="80"/>
         <image name="Profile Chevron Right" width="24" height="24"/>
         <image name="Tips" width="24" height="24"/>
         <image name="legalSupervision" width="317" height="447"/>
