@@ -41,7 +41,7 @@ final class WithdrawalLogSummaryViewTests: XCBaseTestCase {
         createdDate: date.toUTCOffsetDateTime().toInstant(),
         status: .floating,
         type: .fiat,
-        isPendingHold: false)
+        isBankProcessing: false)
     }
   }
 
