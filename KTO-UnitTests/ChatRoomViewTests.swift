@@ -6,19 +6,19 @@ import XCTest
 @testable import ktobet_asia_ios_qat
 
 final class ChatRoomViewTests: XCTestCase {
-  func test_whenHaveUnReadMessages_thenDisplayUnReadSeperator() {
-    let inspectWrapper = InspectWrapper {
-      ChattingListView(messages: [.unreadSeperator])
-    }
+    func test_whenHaveUnReadMessages_thenDisplayUnReadSeperator() {
+        let inspectWrapper = InspectWrapper {
+            ChattingListView(messages: [.unreadSeperator])
+        }
     
-    let expection = inspectWrapper.inspection.inspect { view in
-      let isSeparatorExist = view.isExist(viewWithId: CustomerServiceDTO.ChatMessage.unreadSeperator.id)
+        let expection = inspectWrapper.inspection.inspect { view in
+            let isSeparatorExist = view.isExist(viewWithId: CustomerServiceDTO.ChatMessage.unreadSeperator.id)
       
-      XCTAssertTrue(isSeparatorExist)
+            XCTAssertTrue(isSeparatorExist)
+        }
+    
+        ViewHosting.host(view: inspectWrapper)
+    
+        wait(for: [expection], timeout: 30)
     }
-    
-    ViewHosting.host(view: inspectWrapper)
-    
-    wait(for: [expection], timeout: 30)
-  }
 }

@@ -2,27 +2,27 @@ import sharedbu
 import SwiftUI
 
 struct PageLoadingModifier: ViewModifier {
-  var isLoading = true
+    var isLoading = true
 
-  func body(content: Content) -> some View {
-    if !isLoading {
-      content
+    func body(content: Content) -> some View {
+        if !isLoading {
+            content
+        }
+        else {
+            SwiftUILoadingView()
+        }
     }
-    else {
-      SwiftUILoadingView()
-    }
-  }
 }
 
 extension View {
-  func onPageLoading(_ isLoading: Bool) -> some View {
-    self.modifier(PageLoadingModifier(isLoading: isLoading))
-  }
+    func onPageLoading(_ isLoading: Bool) -> some View {
+        self.modifier(PageLoadingModifier(isLoading: isLoading))
+    }
 }
 
 struct PageLoadingModifier_Previews: PreviewProvider {
-  static var previews: some View {
-    Text("Hello, world!")
-      .onPageLoading(true)
-  }
+    static var previews: some View {
+        Text("Hello, world!")
+            .onPageLoading(true)
+    }
 }

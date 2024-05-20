@@ -2,72 +2,72 @@ import RxSwift
 import UIKit
 
 class PromotionRuleTermViewController: LobbyViewController {
-  static let segueIdentifier = "toPromotionRuleTerm"
-  @IBOutlet weak var textView: UITextView!
+    static let segueIdentifier = "toPromotionRuleTerm"
+    @IBOutlet weak var textView: UITextView!
 
-  var privacyTitle = ""
+    var privacyTitle = ""
 
-  private var viewModel = Injectable.resolve(TermsViewModel.self)!
-  private var disposeBag = DisposeBag()
+    private var viewModel = Injectable.resolve(TermsViewModel.self)!
+    private var disposeBag = DisposeBag()
 
-  override func viewDidLoad() {
-    super.viewDidLoad()
-    NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .close)
-    textView.delegate = self
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .close)
+        textView.delegate = self
 
-    var ruleTermTxt = ""
-    viewModel.getPromotionPolicy().subscribe { [weak self] p in
-      self?.privacyTitle = p.title
-      ruleTermTxt = p.title + "\n\n"
-      p.content.forEach { ruleTermTxt += ($0 + "\n\n").replacingOccurrences(of: "{policy}", with: p.linkTitle) }
-      self?.addHyperLinksToText(originalText: ruleTermTxt, hyperLinks: [p.linkTitle: "someUrl1"])
-    } onFailure: { [weak self] error in
-      self?.handleErrors(error)
-    }.disposed(by: disposeBag)
+        var ruleTermTxt = ""
+        viewModel.getPromotionPolicy().subscribe { [weak self] p in
+            self?.privacyTitle = p.title
+            ruleTermTxt = p.title + "\n\n"
+            p.content.forEach { ruleTermTxt += ($0 + "\n\n").replacingOccurrences(of: "{policy}", with: p.linkTitle) }
+            self?.addHyperLinksToText(originalText: ruleTermTxt, hyperLinks: [p.linkTitle: "someUrl1"])
+        } onFailure: { [weak self] error in
+            self?.handleErrors(error)
+        }.disposed(by: disposeBag)
 
-    textView.textContainerInset = UIEdgeInsets(top: 30, left: 30, bottom: 96, right: 30)
-  }
-
-  private func addHyperLinksToText(originalText: String, hyperLinks: [String: String]) {
-    let style = NSMutableParagraphStyle()
-    style.alignment = .left
-    var attributedOriginalText = NSMutableAttributedString(string: originalText)
-    for (hyperLink, urlString) in hyperLinks {
-      let linkRange = attributedOriginalText.mutableString.range(of: hyperLink)
-      attributedOriginalText.addAttribute(NSAttributedString.Key.link, value: urlString, range: linkRange)
+        textView.textContainerInset = UIEdgeInsets(top: 30, left: 30, bottom: 96, right: 30)
     }
 
-    setTextFont(attributedOriginalText: &attributedOriginalText)
+    private func addHyperLinksToText(originalText: String, hyperLinks: [String: String]) {
+        let style = NSMutableParagraphStyle()
+        style.alignment = .left
+        var attributedOriginalText = NSMutableAttributedString(string: originalText)
+        for (hyperLink, urlString) in hyperLinks {
+            let linkRange = attributedOriginalText.mutableString.range(of: hyperLink)
+            attributedOriginalText.addAttribute(NSAttributedString.Key.link, value: urlString, range: linkRange)
+        }
 
-    textView.linkTextAttributes = [
-      NSAttributedString.Key.foregroundColor: UIColor.primaryDefault,
-      NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue,
-    ]
-    textView.attributedText = attributedOriginalText
-    textView.sizeToFit()
-  }
+        setTextFont(attributedOriginalText: &attributedOriginalText)
 
-  private func setTextFont(attributedOriginalText: inout NSMutableAttributedString) {
-    let titleRange = NSRange(location: 0, length: privacyTitle.count)
-    let fullRange = NSRange(location: 0, length: attributedOriginalText.length)
-    attributedOriginalText.addAttribute(
-      NSAttributedString.Key.font,
-      value: UIFont(name: "PingFangSC-Regular", size: 14)!,
-      range: fullRange)
-    attributedOriginalText.addAttribute(
-      NSAttributedString.Key.font,
-      value: UIFont(name: "PingFangSC-Medium", size: 16)!,
-      range: titleRange)
-  }
+        textView.linkTextAttributes = [
+            NSAttributedString.Key.foregroundColor: UIColor.primaryDefault,
+            NSAttributedString.Key.underlineStyle: NSUnderlineStyle.single.rawValue,
+        ]
+        textView.attributedText = attributedOriginalText
+        textView.sizeToFit()
+    }
+
+    private func setTextFont(attributedOriginalText: inout NSMutableAttributedString) {
+        let titleRange = NSRange(location: 0, length: privacyTitle.count)
+        let fullRange = NSRange(location: 0, length: attributedOriginalText.length)
+        attributedOriginalText.addAttribute(
+            NSAttributedString.Key.font,
+            value: UIFont(name: "PingFangSC-Regular", size: 14)!,
+            range: fullRange)
+        attributedOriginalText.addAttribute(
+            NSAttributedString.Key.font,
+            value: UIFont(name: "PingFangSC-Medium", size: 16)!,
+            range: titleRange)
+    }
 }
 
 extension PromotionRuleTermViewController: UITextViewDelegate {
-  func textView(_: UITextView, shouldInteractWith URL: URL, in _: NSRange, interaction _: UITextItemInteraction) -> Bool {
-    if URL.absoluteString == "someUrl1" {
-      NavigationManagement.sharedInstance.pushViewController(
-        vc: TermsOfServiceViewController.instantiate(SecurityPrivacyTerms()))
-    }
+    func textView(_: UITextView, shouldInteractWith URL: URL, in _: NSRange, interaction _: UITextItemInteraction) -> Bool {
+        if URL.absoluteString == "someUrl1" {
+            NavigationManagement.sharedInstance.pushViewController(
+                vc: TermsOfServiceViewController.instantiate(SecurityPrivacyTerms()))
+        }
 
-    return false
-  }
+        return false
+    }
 }

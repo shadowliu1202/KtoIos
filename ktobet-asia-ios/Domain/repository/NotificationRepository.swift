@@ -2,79 +2,79 @@ import Foundation
 import sharedbu
 
 protocol NotificationRepository {
-  func getActivityNotification() -> Single<NotificationSummary>
-  func searchNotification(keyword: String, page: Int) -> Single<NotificationSummary>
-  func deleteNotification(messageId: String) -> Completable
+    func getActivityNotification() -> Single<NotificationSummary>
+    func searchNotification(keyword: String, page: Int) -> Single<NotificationSummary>
+    func deleteNotification(messageId: String) -> Completable
 }
 
 class NotificationRepositoryImpl: NotificationRepository {
-  private var api: NotificationApi!
+    private var api: NotificationApi!
 
-  init(_ api: NotificationApi) {
-    self.api = api
-  }
+    init(_ api: NotificationApi) {
+        self.api = api
+    }
 
-  func searchNotification(keyword: String, page: Int) -> Single<NotificationSummary> {
-    api.getPlayerAllNotification(page: page, keyword: keyword).flatMap { response in
-      guard let data = response.data else { return Single.error(KTOError.EmptyData) }
-      let notifications = try data.documents.map { internalMessageBean -> sharedbu.Notification? in
-        switch internalMessageBean.messageType {
-        case 0:
-          return sharedbu.Notification.Maintenance(
-            messageId: internalMessageBean.messageId,
-            title: internalMessageBean.title,
-            message: internalMessageBean.message,
-            displayTime: try internalMessageBean.showTime?
-              .toOffsetDateTime() ?? OffsetDateTime.companion.NotDefine,
-            maintenanceStart: try internalMessageBean.maintenanceStartTime
-              .toShareOffsetDateTime(),
-            maintenanceEnd: try internalMessageBean.maintenanceEndTime
-              .toShareOffsetDateTime())
-        case 1:
-          return sharedbu.Notification.General(
-            messageId: internalMessageBean.messageId,
-            title: internalMessageBean.title,
-            message: internalMessageBean.message,
-            displayTime: try internalMessageBean.showTime.toShareOffsetDateTime())
-        case 2:
-          return sharedbu.Notification.Personal(
-            messageId: internalMessageBean.messageId,
-            title: internalMessageBean.title,
-            message: internalMessageBean.message,
-            displayTime: try internalMessageBean.showTime.toShareOffsetDateTime())
-        default:
-          return nil
+    func searchNotification(keyword: String, page: Int) -> Single<NotificationSummary> {
+        api.getPlayerAllNotification(page: page, keyword: keyword).flatMap { response in
+            guard let data = response.data else { return Single.error(KTOError.EmptyData) }
+            let notifications = try data.documents.map { internalMessageBean -> sharedbu.Notification? in
+                switch internalMessageBean.messageType {
+                case 0:
+                    return try sharedbu.Notification.Maintenance(
+                        messageId: internalMessageBean.messageId,
+                        title: internalMessageBean.title,
+                        message: internalMessageBean.message,
+                        displayTime: internalMessageBean.showTime?
+                            .toOffsetDateTime() ?? OffsetDateTime.companion.NotDefine,
+                        maintenanceStart: internalMessageBean.maintenanceStartTime
+                            .toShareOffsetDateTime(),
+                        maintenanceEnd: internalMessageBean.maintenanceEndTime
+                            .toShareOffsetDateTime())
+                case 1:
+                    return try sharedbu.Notification.General(
+                        messageId: internalMessageBean.messageId,
+                        title: internalMessageBean.title,
+                        message: internalMessageBean.message,
+                        displayTime: internalMessageBean.showTime.toShareOffsetDateTime())
+                case 2:
+                    return try sharedbu.Notification.Personal(
+                        messageId: internalMessageBean.messageId,
+                        title: internalMessageBean.title,
+                        message: internalMessageBean.message,
+                        displayTime: internalMessageBean.showTime.toShareOffsetDateTime())
+                default:
+                    return nil
+                }
+            }
+
+            return Single.just(NotificationSummary(totalCount: data.totalCount, notifications: notifications.compactMap { $0 }))
         }
-      }
-
-      return Single.just(NotificationSummary(totalCount: data.totalCount, notifications: notifications.compactMap { $0 }))
     }
-  }
 
-  func getActivityNotification() -> Single<NotificationSummary> {
-    api.getActivityNotification().flatMap { response in
-      guard let data = response.data else { return Single.error(KTOError.EmptyData) }
-      let notifications = try data.documents.map { activityMessageBean in
-        sharedbu.Notification.Activity(
-          messageId: activityMessageBean.itemId,
-          title: activityMessageBean.notifyTitle,
-          message: activityMessageBean.notifyContent.replacingOccurrences(
-            of: "{value}",
-            with: activityMessageBean.value ?? ""),
-          displayTime: try activityMessageBean.dateInfo.toOffsetDateTime(),
-          myActivityType: MyActivityType.companion
-            .create(type: activityMessageBean.myActivityType),
-          transactionId: activityMessageBean.displayId,
-          amount: activityMessageBean.afterBalance?.toAccountCurrency() ?? AccountCurrency
-            .zero(),
-          value: activityMessageBean.value)
-      }
+    func getActivityNotification() -> Single<NotificationSummary> {
+        api.getActivityNotification().flatMap { response in
+            guard let data = response.data else { return Single.error(KTOError.EmptyData) }
+            let notifications = try data.documents.map { activityMessageBean in
+                try sharedbu.Notification.Activity(
+                    messageId: activityMessageBean.itemId,
+                    title: activityMessageBean.notifyTitle,
+                    message: activityMessageBean.notifyContent.replacingOccurrences(
+                        of: "{value}",
+                        with: activityMessageBean.value ?? ""),
+                    displayTime: activityMessageBean.dateInfo.toOffsetDateTime(),
+                    myActivityType: MyActivityType.companion
+                        .create(type: activityMessageBean.myActivityType),
+                    transactionId: activityMessageBean.displayId,
+                    amount: activityMessageBean.afterBalance?.toAccountCurrency() ?? AccountCurrency
+                        .zero(),
+                    value: activityMessageBean.value)
+            }
 
-      return Single.just(NotificationSummary(totalCount: data.totalCount, notifications: notifications))
+            return Single.just(NotificationSummary(totalCount: data.totalCount, notifications: notifications))
+        }
     }
-  }
 
-  func deleteNotification(messageId: String) -> Completable {
-    api.deleteNotification(messageId: messageId)
-  }
+    func deleteNotification(messageId: String) -> Completable {
+        api.deleteNotification(messageId: messageId)
+    }
 }

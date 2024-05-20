@@ -4,110 +4,110 @@ import sharedbu
 import UIKit
 
 class SetBirthdayViewController: LobbyViewController, AuthProfileVerification {
-  static let segueIdentifier = "toSetBirthday"
-  private var isPickedDate = false
-  @IBOutlet weak var birthdayInput: InputText!
-  @IBOutlet weak var errorLabel: UILabel!
-  @IBOutlet weak var submitBtn: UIButton!
+    static let segueIdentifier = "toSetBirthday"
+    private var isPickedDate = false
+    @IBOutlet weak var birthdayInput: InputText!
+    @IBOutlet weak var errorLabel: UILabel!
+    @IBOutlet weak var submitBtn: UIButton!
 
-  private var viewModel = Injectable.resolve(ModifyProfileViewModel.self)!
-  private var disposeBag = DisposeBag()
-  private var calendarBackground: UIView!
+    private var viewModel = Injectable.resolve(ModifyProfileViewModel.self)!
+    private var disposeBag = DisposeBag()
+    private var calendarBackground: UIView!
 
-  override func viewDidLoad() {
-    super.viewDidLoad()
+    override func viewDidLoad() {
+        super.viewDidLoad()
 
-    NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back)
-    initUI()
-    dataBinding()
-  }
-
-  private func initUI() {
-    birthdayInput.setIsEdited(false)
-    self.submitBtn.isValid = false
-  }
-
-  private func dataBinding() {
-    let tapGesture = UITapGestureRecognizer()
-    self.birthdayInput.addGestureRecognizer(tapGesture)
-    tapGesture.rx.event.subscribe { [weak self] _ in
-      self?.popupCalendar()
-    }.disposed(by: self.disposeBag)
-    viewModel.relayBirthdayDate.compactMap({ $0 }).map({ $0.toDateString() }).bind(onNext: { [weak self] in
-      self?.birthdayInput.setContent($0)
-      self?.birthdayInput.setNeedsLayout()
-    }).disposed(by: disposeBag)
-
-    submitBtn.rx.touchUpInside.bind(onNext: { [unowned self] in
-      self.submitBtn.isEnabled = false
-      let dateStr = self.birthdayInput.textContent.text
-      _ = self.viewModel.modifyBirthday(birthDay: dateStr).subscribe(onCompleted: { [weak self] in
-        self?.popThenToastSuccess()
-      }, onError: { [weak self] in
-        self?.handleErrors($0)
-        self?.submitBtn.isEnabled = true
-      })
-    }).disposed(by: disposeBag)
-  }
-
-  private func popupCalendar() {
-    calendarBackground = UIView(frame: UIWindow.key!.frame)
-    calendarBackground.backgroundColor = .greyScaleDefault.withAlphaComponent(0.8)
-    self.view.addSubview(calendarBackground)
-    let locale = viewModel.locale
-    let dateStr = birthdayInput.textContent.text
-    let initDate = dateStr?.toDate(format: "yyy/MM/dd", timeZone: Foundation.TimeZone(abbreviation: "UTC")!) ?? Date
-      .getMinimumAdultBirthday()
-    let datePickerPopup = DatePickerPopup(locale: locale, initDate: initDate, self)
-    self.view.addSubview(datePickerPopup, constraints: [
-      .equal(\.centerXAnchor),
-      .equal(\.centerYAnchor),
-      .ratioWidth(0.9, equalTo: self.view.widthAnchor),
-      .ratioHeight(1, equalTo: datePickerPopup.widthAnchor)
-    ])
-  }
-
-  override func handleErrors(_ error: Error) {
-    if error.isUnauthorized() {
-      self.navigateToAuthorization()
+        NavigationManagement.sharedInstance.addBarButtonItem(vc: self, barItemType: .back)
+        initUI()
+        dataBinding()
     }
-    else {
-      super.handleErrors(error)
-    }
-  }
 
-  private func popThenToastSuccess() {
-    NavigationManagement.sharedInstance.popViewController({ [weak self] in
-      self?.showToast(Localize.string("common_setting_done"), barImg: .success)
-    })
-  }
-
-  private func validateBirthday(_ date: Date?) {
-    let error = viewModel.validateBirthday(date)
-    var message = ""
-    switch error {
-    case .none:
-      message = ""
-    case .empty:
-      message = Localize.string("common_field_must_fill")
-    case .notAdult:
-      message = Localize.string("profile_birthday_not_adult")
+    private func initUI() {
+        birthdayInput.setIsEdited(false)
+        self.submitBtn.isValid = false
     }
-    self.errorLabel.text = message
-    self.birthdayInput.showUnderline(message.count > 0)
-    self.birthdayInput.setCorner(topCorner: true, bottomCorner: message.count == 0)
-    self.submitBtn.isValid = error == .none ? true : false
-  }
+
+    private func dataBinding() {
+        let tapGesture = UITapGestureRecognizer()
+        self.birthdayInput.addGestureRecognizer(tapGesture)
+        tapGesture.rx.event.subscribe { [weak self] _ in
+            self?.popupCalendar()
+        }.disposed(by: self.disposeBag)
+        viewModel.relayBirthdayDate.compactMap({ $0 }).map({ $0.toDateString() }).bind(onNext: { [weak self] in
+            self?.birthdayInput.setContent($0)
+            self?.birthdayInput.setNeedsLayout()
+        }).disposed(by: disposeBag)
+
+        submitBtn.rx.touchUpInside.bind(onNext: { [unowned self] in
+            self.submitBtn.isEnabled = false
+            let dateStr = self.birthdayInput.textContent.text
+            _ = self.viewModel.modifyBirthday(birthDay: dateStr).subscribe(onCompleted: { [weak self] in
+                self?.popThenToastSuccess()
+            }, onError: { [weak self] in
+                self?.handleErrors($0)
+                self?.submitBtn.isEnabled = true
+            })
+        }).disposed(by: disposeBag)
+    }
+
+    private func popupCalendar() {
+        calendarBackground = UIView(frame: UIWindow.key!.frame)
+        calendarBackground.backgroundColor = .greyScaleDefault.withAlphaComponent(0.8)
+        self.view.addSubview(calendarBackground)
+        let locale = viewModel.locale
+        let dateStr = birthdayInput.textContent.text
+        let initDate = dateStr?.toDate(format: "yyy/MM/dd", timeZone: Foundation.TimeZone(abbreviation: "UTC")!) ?? Date
+            .getMinimumAdultBirthday()
+        let datePickerPopup = DatePickerPopup(locale: locale, initDate: initDate, self)
+        self.view.addSubview(datePickerPopup, constraints: [
+            .equal(\.centerXAnchor),
+            .equal(\.centerYAnchor),
+            .ratioWidth(0.9, equalTo: self.view.widthAnchor),
+            .ratioHeight(1, equalTo: datePickerPopup.widthAnchor)
+        ])
+    }
+
+    override func handleErrors(_ error: Error) {
+        if error.isUnauthorized() {
+            self.navigateToAuthorization()
+        }
+        else {
+            super.handleErrors(error)
+        }
+    }
+
+    private func popThenToastSuccess() {
+        NavigationManagement.sharedInstance.popViewController({ [weak self] in
+            self?.showToast(Localize.string("common_setting_done"), barImg: .success)
+        })
+    }
+
+    private func validateBirthday(_ date: Date?) {
+        let error = viewModel.validateBirthday(date)
+        var message = ""
+        switch error {
+        case .none:
+            message = ""
+        case .empty:
+            message = Localize.string("common_field_must_fill")
+        case .notAdult:
+            message = Localize.string("profile_birthday_not_adult")
+        }
+        self.errorLabel.text = message
+        self.birthdayInput.showUnderline(message.count > 0)
+        self.birthdayInput.setCorner(topCorner: true, bottomCorner: message.count == 0)
+        self.submitBtn.isValid = error == .none ? true : false
+    }
 }
 
 extension SetBirthdayViewController: DatePickerPopupDelegate {
-  func didPick(date: Date?) {
-    calendarBackground.removeFromSuperview()
-    if isPickedDate == false, date != nil {
-      isPickedDate = true
+    func didPick(date: Date?) {
+        calendarBackground.removeFromSuperview()
+        if isPickedDate == false, date != nil {
+            isPickedDate = true
+        }
+        if isPickedDate == true, date == nil { return }
+        self.viewModel.relayBirthdayDate.accept(date)
+        self.validateBirthday(date)
     }
-    if isPickedDate == true, date == nil { return }
-    self.viewModel.relayBirthdayDate.accept(date)
-    self.validateBirthday(date)
-  }
 }

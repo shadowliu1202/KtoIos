@@ -9,124 +9,124 @@ import XCTest
 extension CryptoDepositViewModelProtocolMock: ObservableObject { }
 
 final class CryptoSelectorViewControllerTests: XCBaseTestCase {
-  private func getViewModel() -> CryptoDepositViewModel {
-    let viewModel = mock(CryptoDepositViewModel.self)
-      .initialize(depositService: mock(AbsDepositAppService.self))
+    private func getViewModel() -> CryptoDepositViewModel {
+        let viewModel = mock(CryptoDepositViewModel.self)
+            .initialize(depositService: mock(AbsDepositAppService.self))
 
-    given(viewModel.errors()) ~> .never()
-    given(viewModel.submitButtonDisable) ~> false
-    given(viewModel.options) ~> []
-    given(viewModel.fetchOptions()) ~> { }
+        given(viewModel.errors()) ~> .never()
+        given(viewModel.submitButtonDisable) ~> false
+        given(viewModel.options) ~> []
+        given(viewModel.fetchOptions()) ~> { }
 
-    return viewModel
-  }
+        return viewModel
+    }
 
-  private func injectLocalizationPolicyUseCase() {
-    let localizationPolicyUseCase = mock(LocalizationPolicyUseCase.self)
-    given(localizationPolicyUseCase.getCryptoGuidance()) ~> .never()
-    Injectable
-      .register(LocalizationPolicyUseCase.self) { _ in
-        localizationPolicyUseCase
-      }
-  }
+    private func injectLocalizationPolicyUseCase() {
+        let localizationPolicyUseCase = mock(LocalizationPolicyUseCase.self)
+        given(localizationPolicyUseCase.getCryptoGuidance()) ~> .never()
+        Injectable
+            .register(LocalizationPolicyUseCase.self) { _ in
+                localizationPolicyUseCase
+            }
+    }
 
-  func test_TapVideoTutorialBtn_InCryptoSelectorPage_VideoTutorialIsDisplayed_KTO_TC_40() {
-    let stubViewModel = getViewModel()
+    func test_TapVideoTutorialBtn_InCryptoSelectorPage_VideoTutorialIsDisplayed_KTO_TC_40() {
+        let stubViewModel = getViewModel()
 
-    let sut = CryptoSelectorViewController(viewModel: stubViewModel)
+        let sut = CryptoSelectorViewController(viewModel: stubViewModel)
 
-    makeItVisible(sut)
+        makeItVisible(sut)
 
-    sut.navigateToVideoTutorial()
+        sut.navigateToVideoTutorial()
 
-    let expact = "\(CryptoVideoTutorialViewController.self)"
-    let actual = "\(type(of: sut.presentedViewController!))"
+        let expact = "\(CryptoVideoTutorialViewController.self)"
+        let actual = "\(type(of: sut.presentedViewController!))"
 
-    XCTAssertEqual(expact, actual)
-  }
+        XCTAssertEqual(expact, actual)
+    }
 
-  func test_AtCNEnvironmentTapCryptoGuideText_InCryptoSelectorPage_CNCryptoGuideIsDisplayed_KTO_TC_1() {
-    injectLocalizationPolicyUseCase()
+    func test_AtCNEnvironmentTapCryptoGuideText_InCryptoSelectorPage_CNCryptoGuideIsDisplayed_KTO_TC_1() {
+        injectLocalizationPolicyUseCase()
 
-    let stubViewModel = getViewModel()
+        let stubViewModel = getViewModel()
 
-    let sut = CryptoSelectorViewController(
-      playerConfiguration: PlayerConfigurationImpl(SupportLocale.China().cultureCode()),
-      viewModel: stubViewModel)
+        let sut = CryptoSelectorViewController(
+            playerConfiguration: PlayerConfigurationImpl(SupportLocale.China().cultureCode()),
+            viewModel: stubViewModel)
 
-    makeItVisible(UINavigationController(rootViewController: sut))
+        makeItVisible(UINavigationController(rootViewController: sut))
 
-    sut.loadViewIfNeeded()
-    sut.navigateToGuide()
+        sut.loadViewIfNeeded()
+        sut.navigateToGuide()
 
-    let expect = "\(CryptoGuideViewController.self)"
-    let actual = "\(type(of: sut.navigationController!.topViewController!))"
+        let expect = "\(CryptoGuideViewController.self)"
+        let actual = "\(type(of: sut.navigationController!.topViewController!))"
 
-    XCTAssertEqual(expect, actual)
-  }
+        XCTAssertEqual(expect, actual)
+    }
 
-  func test_AtVNEnvironmentTapCryptoGuideText_InCryptoSelectorPage_VNCryptoGuideIsDisplayed_KTO_TC_2() {
-    injectLocalizationPolicyUseCase()
+    func test_AtVNEnvironmentTapCryptoGuideText_InCryptoSelectorPage_VNCryptoGuideIsDisplayed_KTO_TC_2() {
+        injectLocalizationPolicyUseCase()
 
-    let stubViewModel = getViewModel()
+        let stubViewModel = getViewModel()
 
-    let sut = CryptoSelectorViewController(
-      playerConfiguration: PlayerConfigurationImpl(SupportLocale.Vietnam().cultureCode()),
-      viewModel: stubViewModel)
+        let sut = CryptoSelectorViewController(
+            playerConfiguration: PlayerConfigurationImpl(SupportLocale.Vietnam().cultureCode()),
+            viewModel: stubViewModel)
 
-    makeItVisible(UINavigationController(rootViewController: sut))
+        makeItVisible(UINavigationController(rootViewController: sut))
 
-    sut.loadViewIfNeeded()
-    sut.navigateToGuide()
+        sut.loadViewIfNeeded()
+        sut.navigateToGuide()
 
-    let expect = "\(CryptoGuideVNDViewController.self)"
-    let actual = "\(type(of: sut.navigationController!.topViewController!))"
+        let expect = "\(CryptoGuideVNDViewController.self)"
+        let actual = "\(type(of: sut.navigationController!.topViewController!))"
 
-    XCTAssertEqual(expect, actual)
-  }
+        XCTAssertEqual(expect, actual)
+    }
 
-  func test_TapSubmitBtn_InCryptoSelectorPage_DepositCryptoViewIsDisplayed() {
-    let stubViewModel = getViewModel()
+    func test_TapSubmitBtn_InCryptoSelectorPage_DepositCryptoViewIsDisplayed() {
+        let stubViewModel = getViewModel()
 
-    let sut = CryptoSelectorViewController(viewModel: stubViewModel)
+        let sut = CryptoSelectorViewController(viewModel: stubViewModel)
 
-    makeItVisible(UINavigationController(rootViewController: sut))
+        makeItVisible(UINavigationController(rootViewController: sut))
 
-    sut.loadViewIfNeeded()
-    sut.navigateToDepositCryptoVC("")
+        sut.loadViewIfNeeded()
+        sut.navigateToDepositCryptoVC("")
 
-    let expect = "\(DepositCryptoWebViewController.self)"
-    let actual = "\(type(of: sut.navigationController!.topViewController!))"
+        let expect = "\(DepositCryptoWebViewController.self)"
+        let actual = "\(type(of: sut.navigationController!.topViewController!))"
 
-    XCTAssertEqual(expect, actual)
-  }
+        XCTAssertEqual(expect, actual)
+    }
 
-  func test_givenDepositCountOverLimit_InCryptoSelectPage_thenAlertRequestLater() {
-    stubLocalizeUtils(.China())
+    func test_givenDepositCountOverLimit_InCryptoSelectPage_thenAlertRequestLater() {
+        stubLocalizeUtils(.China())
 
-    let playerDepositCountOverLimit = ExceptionFactory.companion.create(message: "", statusCode: "10101")
+        let playerDepositCountOverLimit = ExceptionFactory.companion.create(message: "", statusCode: "10101")
 
-    let stubViewModel = mock(CryptoDepositViewModel.self)
-      .initialize(
-        depositService: mock(AbsDepositAppService.self))
+        let stubViewModel = mock(CryptoDepositViewModel.self)
+            .initialize(
+                depositService: mock(AbsDepositAppService.self))
 
-    given(stubViewModel.errors()) ~> .just(playerDepositCountOverLimit)
+        given(stubViewModel.errors()) ~> .just(playerDepositCountOverLimit)
 
-    let stubAlert = mock(AlertProtocol.self)
+        let stubAlert = mock(AlertProtocol.self)
 
-    let sut = CryptoSelectorViewController(viewModel: stubViewModel, alert: stubAlert)
+        let sut = CryptoSelectorViewController(viewModel: stubViewModel, alert: stubAlert)
 
-    sut.loadViewIfNeeded()
+        sut.loadViewIfNeeded()
 
-    verify(
-      stubAlert.show(
-        any(),
-        "您有五个待处理的充值请求，请您过三分钟后再试",
-        confirm: any(),
-        confirmText: any(),
-        cancel: any(),
-        cancelText: any(),
-        tintColor: any()))
-      .wasCalled()
-  }
+        verify(
+            stubAlert.show(
+                any(),
+                "您有五个待处理的充值请求，请您过三分钟后再试",
+                confirm: any(),
+                confirmText: any(),
+                cancel: any(),
+                cancelText: any(),
+                tintColor: any()))
+            .wasCalled()
+    }
 }

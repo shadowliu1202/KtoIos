@@ -7,32 +7,32 @@ import XCTest
 extension ExpandableBlock: Inspecting { }
 
 class ExpandableBlockTest: XCBaseTestCase {
-  func test_Guide_Link_isExpanded() throws {
-    let sut = ExpandableBlock(title: "Title", content: { Text("content") })
+    func test_Guide_Link_isExpanded() throws {
+        let sut = ExpandableBlock(title: "Title", content: { Text("content") })
 
-    let exp = sut.inspection.inspect { view in
-      let header = try view.find(viewWithId: "blockHeader").vStack()
-      try header.callOnTapGesture()
+        let exp = sut.inspection.inspect { view in
+            let header = try view.find(viewWithId: "blockHeader").vStack()
+            try header.callOnTapGesture()
 
-      let rows = try view.find(viewWithId: "blockContent").text()
-      XCTAssertNotNil(rows)
+            let rows = try view.find(viewWithId: "blockContent").text()
+            XCTAssertNotNil(rows)
+        }
+
+        ViewHosting.host(view: sut)
+
+        wait(for: [exp], timeout: 30)
     }
 
-    ViewHosting.host(view: sut)
+    func test_Guide_Link_isFolded() throws {
+        let sut = ExpandableBlock(title: "Title", content: { Text("content") })
 
-    wait(for: [exp], timeout: 30)
-  }
+        let exp = sut.inspection.inspect { view in
+            let rows = try? view.find(viewWithId: "blockContent").text()
+            XCTAssertNil(rows)
+        }
 
-  func test_Guide_Link_isFolded() throws {
-    let sut = ExpandableBlock(title: "Title", content: { Text("content") })
+        ViewHosting.host(view: sut)
 
-    let exp = sut.inspection.inspect { view in
-      let rows = try? view.find(viewWithId: "blockContent").text()
-      XCTAssertNil(rows)
+        wait(for: [exp], timeout: 30)
     }
-
-    ViewHosting.host(view: sut)
-
-    wait(for: [exp], timeout: 30)
-  }
 }

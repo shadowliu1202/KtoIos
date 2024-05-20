@@ -11,109 +11,112 @@ extension CryptoSelectView.Header: Inspecting { }
 extension CryptoSelectView.SelectorList: Inspecting { }
 
 final class CryptoSelectViewTests: XCBaseTestCase {
-  func test_TapTutorialBtn_InCryptoSelectView_CallbackFunctionIsCalled() {
-    var str = ""
-    let sut = CryptoSelectView<CryptoDepositViewModelProtocolMock>.Header(
-      locale: .Vietnam(),
-      userGuideOnTap: { },
-      tutorialOnTap: {
-        str = "tutorialOnTap"
-      })
+    func test_TapTutorialBtn_InCryptoSelectView_CallbackFunctionIsCalled() {
+        var str = ""
+        let sut = CryptoSelectView<CryptoDepositViewModelProtocolMock>.Header(
+            locale: .Vietnam(),
+            userGuideOnTap: { },
+            tutorialOnTap: {
+                str = "tutorialOnTap"
+            })
 
-    let expectation = sut.inspection.inspect { view in
-      let tutorial = try view
-        .find(viewWithId: "tutorial")
-        .view(LocalizeFont<Text>.self)
-      try tutorial.callOnTapGesture()
+        let expectation = sut.inspection.inspect { view in
+            let tutorial = try view
+                .find(viewWithId: "tutorial")
+                .view(LocalizeFont<Text>.self)
+            try tutorial.callOnTapGesture()
 
-      XCTAssertEqual("tutorialOnTap", str)
+            XCTAssertEqual("tutorialOnTap", str)
+        }
+
+        ViewHosting.host(view: sut)
+
+        wait(for: [expectation], timeout: 30)
     }
 
-    ViewHosting.host(view: sut)
+    func test_AtVNEnviroment_InCryptoSelectorPage_VideoTutorialBtnIsDisplayed_KTO_TC_41() {
+        let sut = CryptoSelectView<CryptoDepositViewModelProtocolMock>.Header(
+            locale: .Vietnam(),
+            userGuideOnTap: { },
+            tutorialOnTap: { })
 
-    wait(for: [expectation], timeout: 30)
-  }
+        let expectation = sut.inspection.inspect { view in
+            let tutorial = try view
+                .find(viewWithId: "tutorial")
+                .view(LocalizeFont<Text>.self)
 
-  func test_AtVNEnviroment_InCryptoSelectorPage_VideoTutorialBtnIsDisplayed_KTO_TC_41() {
-    let sut = CryptoSelectView<CryptoDepositViewModelProtocolMock>.Header(
-      locale: .Vietnam(),
-      userGuideOnTap: { },
-      tutorialOnTap: { })
+            XCTAssertNotNil(tutorial)
+        }
 
-    let expectation = sut.inspection.inspect { view in
-      let tutorial = try view
-        .find(viewWithId: "tutorial")
-        .view(LocalizeFont<Text>.self)
+        ViewHosting.host(view: sut)
 
-      XCTAssertNotNil(tutorial)
+        wait(for: [expectation], timeout: 30)
     }
 
-    ViewHosting.host(view: sut)
+    func test_AtCNEnvironment_InCryptoSelectorPage_VideoTutorialBtnIsNotDisplayed_KTO_TC_42() {
+        let sut = CryptoSelectView<CryptoDepositViewModelProtocolMock>.Header(
+            locale: .China(),
+            userGuideOnTap: { },
+            tutorialOnTap: { })
 
-    wait(for: [expectation], timeout: 30)
-  }
+        let expectation = sut.inspection.inspect { view in
+            let isTutorialExist = try view
+                .isExistByLocale(viewWithId: "tutorial")
 
-  func test_AtCNEnvironment_InCryptoSelectorPage_VideoTutorialBtnIsNotDisplayed_KTO_TC_42() {
-    let sut = CryptoSelectView<CryptoDepositViewModelProtocolMock>.Header(
-      locale: .China(),
-      userGuideOnTap: { },
-      tutorialOnTap: { })
+            XCTAssertFalse(isTutorialExist)
+        }
 
-    let expectation = sut.inspection.inspect { view in
-      let isTutorialExist = try view
-        .isExistByLocale(viewWithId: "tutorial")
+        ViewHosting.host(view: sut)
 
-      XCTAssertFalse(isTutorialExist)
+        wait(for: [expectation], timeout: 30)
     }
 
-    ViewHosting.host(view: sut)
+    func test_TapCryptoGuideText_InCryptoSelectView_CallbackFunctionIsCalled() {
+        var str = ""
+        let sut = CryptoSelectView<CryptoDepositViewModelProtocolMock>.Header(
+            locale: .Vietnam(),
+            userGuideOnTap: {
+                str = "userGuideOnTap"
+            },
+            tutorialOnTap: { })
 
-    wait(for: [expectation], timeout: 30)
-  }
+        let expectation = sut.inspection.inspect { view in
+            let tutorial = try view
+                .find(viewWithId: "userGuide")
+                .hStack()
+            try tutorial.callOnTapGesture()
 
-  func test_TapCryptoGuideText_InCryptoSelectView_CallbackFunctionIsCalled() {
-    var str = ""
-    let sut = CryptoSelectView<CryptoDepositViewModelProtocolMock>.Header(
-      locale: .Vietnam(),
-      userGuideOnTap: {
-        str = "userGuideOnTap"
-      },
-      tutorialOnTap: { })
+            XCTAssertEqual("userGuideOnTap", str)
+        }
 
-    let expectation = sut.inspection.inspect { view in
-      let tutorial = try view
-        .find(viewWithId: "userGuide")
-        .hStack()
-      try tutorial.callOnTapGesture()
+        ViewHosting.host(view: sut)
 
-      XCTAssertEqual("userGuideOnTap", str)
+        wait(for: [expectation], timeout: 30)
     }
 
-    ViewHosting.host(view: sut)
+    func test_HasOneCryptoOption_InCryptoSelectView_OneCryptoOptionIsDisplayed() {
+        let stubViewModel = mock(CryptoDepositViewModelProtocol.self)
+        given(stubViewModel.options) ~> [
+            .init(
+                with: PaymentsDTO.TypeOptions(optionsId: "", name: "", promotion: "", cryptoType: .usdt),
+                icon: "",
+                isSelected: true)
+        ]
 
-    wait(for: [expectation], timeout: 30)
-  }
+        let sut = CryptoSelectView<CryptoDepositViewModelProtocolMock>.SelectorList()
 
-  func test_HasOneCryptoOption_InCryptoSelectView_OneCryptoOptionIsDisplayed() {
-    let stubViewModel = mock(CryptoDepositViewModelProtocol.self)
-    given(stubViewModel.options) ~> [
-      .init(with: PaymentsDTO.TypeOptions(optionsId: "", name: "", promotion: "", cryptoType: .usdt), icon: "", isSelected: true)
-    ]
+        let expectation = sut.inspection.inspect { view in
+            let numberOfRows = try view
+                .find(viewWithId: "selectorRows")
+                .forEach()
+                .count
 
-    let sut = CryptoSelectView<CryptoDepositViewModelProtocolMock>.SelectorList()
+            XCTAssertEqual(1, numberOfRows)
+        }
 
-    let expectation = sut.inspection.inspect { view in
-      let numberOfRows = try view
-        .find(viewWithId: "selectorRows")
-        .forEach()
-        .count
+        ViewHosting.host(
+            view: sut.environmentObject(stubViewModel))
 
-      XCTAssertEqual(1, numberOfRows)
+        wait(for: [expectation], timeout: 3)
     }
-
-    ViewHosting.host(
-      view: sut.environmentObject(stubViewModel))
-
-    wait(for: [expectation], timeout: 3)
-  }
 }

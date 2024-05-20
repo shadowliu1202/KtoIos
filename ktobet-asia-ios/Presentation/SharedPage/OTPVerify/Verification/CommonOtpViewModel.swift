@@ -2,20 +2,20 @@ import Foundation
 import sharedbu
 
 class CommonOtpViewModel {
-  private var configurationUseCase: ConfigurationUseCase!
+    private var configurationUseCase: ConfigurationUseCase!
 
-  lazy var locale: SupportLocale = configurationUseCase.locale()
+    lazy var locale: SupportLocale = configurationUseCase.locale()
 
-  init(_ configurationUseCase: ConfigurationUseCase) {
-    self.configurationUseCase = configurationUseCase
-  }
-
-  var otpRetryCount: Int {
-    get {
-      configurationUseCase.getOtpRetryCount()
+    init(_ configurationUseCase: ConfigurationUseCase) {
+        self.configurationUseCase = configurationUseCase
     }
-    set {
-      configurationUseCase.setOtpRetryCount(newValue)
+
+    var otpRetryCount: Int {
+        get {
+            configurationUseCase.getOtpRetryCount()
+        }
+        set {
+            configurationUseCase.setOtpRetryCount(newValue)
+        }
     }
-  }
 }

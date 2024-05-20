@@ -1,34 +1,34 @@
 import sharedbu
 import UIKit
 
-typealias SearchProduct = SearchBaseViewController & SearchBaseCollection
+typealias SearchProduct = SearchBaseCollection & SearchBaseViewController
 
 protocol SearchBaseCollection: ProductBaseCollection {
-  func setCollectionView() -> UICollectionView
-  func setProductGameDataSourceDelegate() -> SearchGameDataSourceDelegate
-  func setViewModel() -> ProductViewModel?
+    func setCollectionView() -> UICollectionView
+    func setProductGameDataSourceDelegate() -> SearchGameDataSourceDelegate
+    func setViewModel() -> ProductViewModel?
 }
 
 extension SearchBaseCollection {
-  func setProductGameDataSourceDelegate() -> ProductGameDataSourceDelegate {
-    self.setProductGameDataSourceDelegate()
-  }
+    func setProductGameDataSourceDelegate() -> ProductGameDataSourceDelegate {
+        self.setProductGameDataSourceDelegate()
+    }
 
-  func setViewModel() -> DisplayProductViewModel? {
-    self.setViewModel()
-  }
+    func setViewModel() -> DisplayProductViewModel? {
+        self.setViewModel()
+    }
 }
 
 class SearchBaseViewController: DisplayGameCollectionBaseViewController {
-  override func viewDidLoad() {
-    super.viewDidLoad()
-    self.setup()
-  }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.setup()
+    }
 
-  override func setup() {
-    guard let self = self as? SearchProduct else { return }
-    let collectionView = self.setCollectionView()
-    collectionView.delegate = self.setProductGameDataSourceDelegate()
-    collectionView.dataSource = self.setProductGameDataSourceDelegate()
-  }
+    override func setup() {
+        guard let self = self as? SearchProduct else { return }
+        let collectionView = self.setCollectionView()
+        collectionView.delegate = self.setProductGameDataSourceDelegate()
+        collectionView.dataSource = self.setProductGameDataSourceDelegate()
+    }
 }

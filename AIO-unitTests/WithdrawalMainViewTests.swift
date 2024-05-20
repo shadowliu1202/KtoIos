@@ -12,222 +12,222 @@ extension WithdrawalMainView.Methods: Inspecting { }
 extension WithdrawalMainViewModelProtocolMock: ObservableObject { }
 
 final class WithdrawalMainViewTests: XCBaseTestCase {
-  private func getFakeWithdrawalMainViewModelProtocol() -> WithdrawalMainViewModelProtocolMock {
-    let fakeViewModel = mock(WithdrawalMainViewModelProtocol.self)
+    private func getFakeWithdrawalMainViewModelProtocol() -> WithdrawalMainViewModelProtocolMock {
+        let fakeViewModel = mock(WithdrawalMainViewModelProtocol.self)
 
-    given(fakeViewModel.instruction) ~> nil
-    given(fakeViewModel.recentRecords) ~> nil
-    given(fakeViewModel.enableWithdrawal) ~> false
-    given(fakeViewModel.allowedWithdrawalFiat) ~> nil
-    given(fakeViewModel.allowedWithdrawalCrypto) ~> nil
-    given(fakeViewModel.setupData()) ~> { }
-    given(fakeViewModel.methods) ~> [.fiat, .crypto]
+        given(fakeViewModel.instruction) ~> nil
+        given(fakeViewModel.recentRecords) ~> nil
+        given(fakeViewModel.enableWithdrawal) ~> false
+        given(fakeViewModel.allowedWithdrawalFiat) ~> nil
+        given(fakeViewModel.allowedWithdrawalCrypto) ~> nil
+        given(fakeViewModel.setupData()) ~> { }
+        given(fakeViewModel.methods) ~> [.fiat, .crypto]
 
-    return fakeViewModel
-  }
-
-  func test_whenInWithdrawalMainPage_thenDisplayDailyAmountLimitAndDailyCountLimit_KTO_TC_3() {
-    let stubViewModel = getFakeWithdrawalMainViewModelProtocol()
-    let sut = WithdrawalMainView<WithdrawalMainViewModelProtocolMock>.Instruction({ }, { })
-
-    given(stubViewModel.instruction) ~> .init(
-      dailyAmountLimit: "1,000",
-      dailyMaxCount: "99",
-      turnoverRequirement: nil,
-      cryptoWithdrawalRequirement: nil)
-
-    let exp = sut.inspection.inspect { view in
-      let dailyAmountLimitText = try view.find(viewWithId: "dailyAmountLimit")
-        .localizedText()
-        .string()
-
-      let dailyCountLimitText = try view.find(viewWithId: "dailyCountLimit")
-        .localizedText()
-        .string()
-
-      XCTAssertTrue(
-        dailyAmountLimitText
-          .contains(Localize.string(
-            "withdrawal_daily_limit_widthrawal_amount", "1,000")))
-
-      XCTAssertTrue(
-        dailyCountLimitText
-          .contains(Localize.string(
-            "withdrawal_daily_limit_widthrawal_times", "99")))
+        return fakeViewModel
     }
 
-    ViewHosting.host(
-      view: sut
-        .environmentObject(stubViewModel))
+    func test_whenInWithdrawalMainPage_thenDisplayDailyAmountLimitAndDailyCountLimit_KTO_TC_3() {
+        let stubViewModel = getFakeWithdrawalMainViewModelProtocol()
+        let sut = WithdrawalMainView<WithdrawalMainViewModelProtocolMock>.Instruction({ }, { })
 
-    wait(for: [exp], timeout: 30)
-  }
+        given(stubViewModel.instruction) ~> .init(
+            dailyAmountLimit: "1,000",
+            dailyMaxCount: "99",
+            turnoverRequirement: nil,
+            cryptoWithdrawalRequirement: nil)
 
-  func test_givenPlayerHasCryptoTurnover_whenInWithdrawalMainPage_thenDisplayCryptoRequirementAmount_KTO_TC_4() {
-    let stubViewModel = getFakeWithdrawalMainViewModelProtocol()
-    let sut = WithdrawalMainView<WithdrawalMainViewModelProtocolMock>.Instruction({ }, { })
+        let exp = sut.inspection.inspect { view in
+            let dailyAmountLimitText = try view.find(viewWithId: "dailyAmountLimit")
+                .localizedText()
+                .string()
 
-    given(stubViewModel.instruction) ~> .init(
-      dailyAmountLimit: "",
-      dailyMaxCount: "",
-      turnoverRequirement: nil,
-      cryptoWithdrawalRequirement: ("200", "CNY"))
+            let dailyCountLimitText = try view.find(viewWithId: "dailyCountLimit")
+                .localizedText()
+                .string()
 
-    let exp = sut.inspection.inspect { view in
-      let cryptoRequirementAmountText = try view.find(viewWithId: "cryptoRequirementAmount")
-        .localizedText()
-        .string()
+            XCTAssertTrue(
+                dailyAmountLimitText
+                    .contains(Localize.string(
+                        "withdrawal_daily_limit_widthrawal_amount", "1,000")))
 
-      XCTAssertTrue(
-        cryptoRequirementAmountText
-          .contains(Localize.string("common_requirement", "200")))
+            XCTAssertTrue(
+                dailyCountLimitText
+                    .contains(Localize.string(
+                        "withdrawal_daily_limit_widthrawal_times", "99")))
+        }
+
+        ViewHosting.host(
+            view: sut
+                .environmentObject(stubViewModel))
+
+        wait(for: [exp], timeout: 30)
     }
 
-    ViewHosting.host(
-      view: sut
-        .environmentObject(stubViewModel))
+    func test_givenPlayerHasCryptoTurnover_whenInWithdrawalMainPage_thenDisplayCryptoRequirementAmount_KTO_TC_4() {
+        let stubViewModel = getFakeWithdrawalMainViewModelProtocol()
+        let sut = WithdrawalMainView<WithdrawalMainViewModelProtocolMock>.Instruction({ }, { })
 
-    wait(for: [exp], timeout: 30)
-  }
+        given(stubViewModel.instruction) ~> .init(
+            dailyAmountLimit: "",
+            dailyMaxCount: "",
+            turnoverRequirement: nil,
+            cryptoWithdrawalRequirement: ("200", "CNY"))
 
-  func test_givenPlayerHasNoCrpytoTurnover_whenInWithdrawalMainPage_thenDisplayCryptoRequirementNone_KTO_TC_5() {
-    let stubViewModel = getFakeWithdrawalMainViewModelProtocol()
-    let sut = WithdrawalMainView<WithdrawalMainViewModelProtocolMock>.Instruction()
+        let exp = sut.inspection.inspect { view in
+            let cryptoRequirementAmountText = try view.find(viewWithId: "cryptoRequirementAmount")
+                .localizedText()
+                .string()
 
-    given(stubViewModel.instruction) ~> .init(
-      dailyAmountLimit: "",
-      dailyMaxCount: "",
-      turnoverRequirement: nil,
-      cryptoWithdrawalRequirement: nil)
+            XCTAssertTrue(
+                cryptoRequirementAmountText
+                    .contains(Localize.string("common_requirement", "200")))
+        }
 
-    let exp = sut.inspection.inspect { view in
-      let isCryptoRequirementNoneTextExist = view.isExist(viewWithId: "cryptoRequirementNone")
+        ViewHosting.host(
+            view: sut
+                .environmentObject(stubViewModel))
 
-      let isCryptoRequirementAmountTextExist = view
-        .isExist(viewWithId: "cryptoRequirementAmount")
-
-      XCTAssertTrue(isCryptoRequirementNoneTextExist)
-      XCTAssertFalse(isCryptoRequirementAmountTextExist)
+        wait(for: [exp], timeout: 30)
     }
 
-    ViewHosting.host(
-      view: sut
-        .environmentObject(stubViewModel))
+    func test_givenPlayerHasNoCrpytoTurnover_whenInWithdrawalMainPage_thenDisplayCryptoRequirementNone_KTO_TC_5() {
+        let stubViewModel = getFakeWithdrawalMainViewModelProtocol()
+        let sut = WithdrawalMainView<WithdrawalMainViewModelProtocolMock>.Instruction()
 
-    wait(for: [exp], timeout: 30)
-  }
+        given(stubViewModel.instruction) ~> .init(
+            dailyAmountLimit: "",
+            dailyMaxCount: "",
+            turnoverRequirement: nil,
+            cryptoWithdrawalRequirement: nil)
 
-  func test_givenNoAnyWithdrawalQuota_whenInWithdrawalMainPage_thenWithdrawalMethodsAreDisable_KTO_TC_8() {
-    let stubViewModel = getFakeWithdrawalMainViewModelProtocol()
+        let exp = sut.inspection.inspect { view in
+            let isCryptoRequirementNoneTextExist = view.isExist(viewWithId: "cryptoRequirementNone")
 
-    let sut = WithdrawalMainView<WithdrawalMainViewModelProtocolMock>.Methods()
+            let isCryptoRequirementAmountTextExist = view
+                .isExist(viewWithId: "cryptoRequirementAmount")
 
-    given(stubViewModel.enableWithdrawal) ~> false
+            XCTAssertTrue(isCryptoRequirementNoneTextExist)
+            XCTAssertFalse(isCryptoRequirementAmountTextExist)
+        }
 
-    let exp = sut.inspection.inspect { view in
-      let methods = try view.find(viewWithId: "methods")
+        ViewHosting.host(
+            view: sut
+                .environmentObject(stubViewModel))
 
-      XCTAssertTrue(methods.isDisabled())
+        wait(for: [exp], timeout: 30)
     }
 
-    ViewHosting.host(
-      view: sut
-        .environmentObject(stubViewModel))
+    func test_givenNoAnyWithdrawalQuota_whenInWithdrawalMainPage_thenWithdrawalMethodsAreDisable_KTO_TC_8() {
+        let stubViewModel = getFakeWithdrawalMainViewModelProtocol()
 
-    wait(for: [exp], timeout: 30)
-  }
+        let sut = WithdrawalMainView<WithdrawalMainViewModelProtocolMock>.Methods()
 
-  func test_givenHasCryptoTurnOver_whenTapFiatWithdrawal_thenShowAlert_KTO_TC_9() {
-    let stubViewModel = getFakeWithdrawalMainViewModelProtocol()
-    let mockAlert = mock(AlertProtocol.self)
+        given(stubViewModel.enableWithdrawal) ~> false
 
-    let sut = WithdrawalMainView<WithdrawalMainViewModelProtocolMock>.Methods(
-      { },
-      {
-        mockAlert.show(
-          Localize.string("cps_cash_withdrawal_lock_title"),
-          Localize.string("cps_cash_withdrawal_lock_desc", "1,000CNY"),
-          confirm: { },
-          cancel: nil)
-      },
-      { },
-      { })
+        let exp = sut.inspection.inspect { view in
+            let methods = try view.find(viewWithId: "methods")
 
-    given(stubViewModel.instruction) ~> .init(
-      dailyAmountLimit: "",
-      dailyMaxCount: "",
-      turnoverRequirement: "1,000",
-      cryptoWithdrawalRequirement: nil)
+            XCTAssertTrue(methods.isDisabled())
+        }
 
-    given(stubViewModel.enableWithdrawal) ~> true
-    given(stubViewModel.allowedWithdrawalFiat) ~> false
-    given(stubViewModel.methods) ~> [.fiat]
+        ViewHosting.host(
+            view: sut
+                .environmentObject(stubViewModel))
 
-    let exp = sut.inspection.inspect { view in
-      let methodFiat = try view
-        .find(viewWithId: "methodFiat")
-
-      try methodFiat.callOnTapGesture()
-
-      verify(mockAlert.show(
-        Localize.string("cps_cash_withdrawal_lock_title"),
-        Localize.string("cps_cash_withdrawal_lock_desc", "1,000CNY"),
-        confirm: any(),
-        confirmText: any(),
-        cancel: any(),
-        cancelText: any(),
-        tintColor: any()))
-        .wasCalled()
+        wait(for: [exp], timeout: 30)
     }
 
-    ViewHosting.host(
-      view: sut
-        .environmentObject(stubViewModel))
+    func test_givenHasCryptoTurnOver_whenTapFiatWithdrawal_thenShowAlert_KTO_TC_9() {
+        let stubViewModel = getFakeWithdrawalMainViewModelProtocol()
+        let mockAlert = mock(AlertProtocol.self)
 
-    wait(for: [exp], timeout: 30)
-  }
+        let sut = WithdrawalMainView<WithdrawalMainViewModelProtocolMock>.Methods(
+            { },
+            {
+                mockAlert.show(
+                    Localize.string("cps_cash_withdrawal_lock_title"),
+                    Localize.string("cps_cash_withdrawal_lock_desc", "1,000CNY"),
+                    confirm: { },
+                    cancel: nil)
+            },
+            { },
+            { })
 
-  func test_givenPlayerIsNotValidForCryptoWithdrawal_whenTapCryptoWithdrawal_thenShowAlert_KTO_TC_57() {
-    let stubViewModel = getFakeWithdrawalMainViewModelProtocol()
-    let mockAlert = mock(AlertProtocol.self)
+        given(stubViewModel.instruction) ~> .init(
+            dailyAmountLimit: "",
+            dailyMaxCount: "",
+            turnoverRequirement: "1,000",
+            cryptoWithdrawalRequirement: nil)
 
-    let sut = WithdrawalMainView<WithdrawalMainViewModelProtocolMock>.Methods(
-      { },
-      { },
-      { },
-      {
-        mockAlert.show(
-          nil,
-          Localize.string("cps_withdrawal_all_fiat_first"),
-          confirm: { },
-          cancel: nil)
-      })
+        given(stubViewModel.enableWithdrawal) ~> true
+        given(stubViewModel.allowedWithdrawalFiat) ~> false
+        given(stubViewModel.methods) ~> [.fiat]
 
-    given(stubViewModel.methods) ~> [.crypto]
-    given(stubViewModel.enableWithdrawal) ~> true
-    given(stubViewModel.allowedWithdrawalCrypto) ~> false
+        let exp = sut.inspection.inspect { view in
+            let methodFiat = try view
+                .find(viewWithId: "methodFiat")
 
-    let exp = sut.inspection.inspect { view in
-      let methodCrypto = try view
-        .find(viewWithId: "methodCrypto")
+            try methodFiat.callOnTapGesture()
 
-      try methodCrypto.callOnTapGesture()
+            verify(mockAlert.show(
+                Localize.string("cps_cash_withdrawal_lock_title"),
+                Localize.string("cps_cash_withdrawal_lock_desc", "1,000CNY"),
+                confirm: any(),
+                confirmText: any(),
+                cancel: any(),
+                cancelText: any(),
+                tintColor: any()))
+                .wasCalled()
+        }
 
-      verify(mockAlert.show(
-        any(),
-        Localize.string("cps_withdrawal_all_fiat_first"),
-        confirm: any(),
-        confirmText: any(),
-        cancel: any(),
-        cancelText: any(),
-        tintColor: any()))
-        .wasCalled()
+        ViewHosting.host(
+            view: sut
+                .environmentObject(stubViewModel))
+
+        wait(for: [exp], timeout: 30)
     }
 
-    ViewHosting.host(
-      view: sut
-        .environmentObject(stubViewModel))
+    func test_givenPlayerIsNotValidForCryptoWithdrawal_whenTapCryptoWithdrawal_thenShowAlert_KTO_TC_57() {
+        let stubViewModel = getFakeWithdrawalMainViewModelProtocol()
+        let mockAlert = mock(AlertProtocol.self)
 
-    wait(for: [exp], timeout: 30)
-  }
+        let sut = WithdrawalMainView<WithdrawalMainViewModelProtocolMock>.Methods(
+            { },
+            { },
+            { },
+            {
+                mockAlert.show(
+                    nil,
+                    Localize.string("cps_withdrawal_all_fiat_first"),
+                    confirm: { },
+                    cancel: nil)
+            })
+
+        given(stubViewModel.methods) ~> [.crypto]
+        given(stubViewModel.enableWithdrawal) ~> true
+        given(stubViewModel.allowedWithdrawalCrypto) ~> false
+
+        let exp = sut.inspection.inspect { view in
+            let methodCrypto = try view
+                .find(viewWithId: "methodCrypto")
+
+            try methodCrypto.callOnTapGesture()
+
+            verify(mockAlert.show(
+                any(),
+                Localize.string("cps_withdrawal_all_fiat_first"),
+                confirm: any(),
+                confirmText: any(),
+                cancel: any(),
+                cancelText: any(),
+                tintColor: any()))
+                .wasCalled()
+        }
+
+        ViewHosting.host(
+            view: sut
+                .environmentObject(stubViewModel))
+
+        wait(for: [exp], timeout: 30)
+    }
 }

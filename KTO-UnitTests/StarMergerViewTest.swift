@@ -8,47 +8,47 @@ import XCTest
 extension StarMergerView: Inspecting { }
 
 class StubStarMergerViewModel: StarMergerViewModel {
-  var amountRange: AmountRange?
-  var paymentLink: CommonDTO.WebPath?
-  func getGatewayInformation() { }
+    var amountRange: AmountRange?
+    var paymentLink: CommonDTO.WebPath?
+    func getGatewayInformation() { }
 }
 
 class StarMergerViewTest: XCBaseTestCase {
-  let stubObject = StubStarMergerViewModel()
+    let stubObject = StubStarMergerViewModel()
 
-  func test_Get_Payment_Link_On_Success() throws {
-    stubObject.paymentLink = CommonDTO.WebPath(path: "")
+    func test_Get_Payment_Link_On_Success() throws {
+        stubObject.paymentLink = CommonDTO.WebPath(path: "")
 
-    let sut = StarMergerView(viewModel: stubObject, { _ in })
+        let sut = StarMergerView(viewModel: stubObject, { _ in })
 
-    let exp = sut.inspection.inspect { view in
-      let isSubmitButtonDisable = try view
-        .find(viewWithId: "submitButton")
-        .find(viewWithId: "asyncButton")
-        .button()
-        .isDisabled()
+        let exp = sut.inspection.inspect { view in
+            let isSubmitButtonDisable = try view
+                .find(viewWithId: "submitButton")
+                .find(viewWithId: "asyncButton")
+                .button()
+                .isDisabled()
 
-      XCTAssertFalse(isSubmitButtonDisable)
+            XCTAssertFalse(isSubmitButtonDisable)
+        }
+
+        ViewHosting.host(view: sut)
+
+        wait(for: [exp], timeout: 30)
     }
 
-    ViewHosting.host(view: sut)
+    func test_Get_Payment_Link_Not_On_Success() throws {
+        stubObject.paymentLink = nil
 
-    wait(for: [exp], timeout: 30)
-  }
+        let sut = StarMergerView(viewModel: stubObject, { _ in })
 
-  func test_Get_Payment_Link_Not_On_Success() throws {
-    stubObject.paymentLink = nil
+        let exp = sut.inspection.inspect { view in
+            let submitButton = try view.find(viewWithId: "submitButton")
 
-    let sut = StarMergerView(viewModel: stubObject, { _ in })
+            XCTAssertTrue(submitButton.isDisabled())
+        }
 
-    let exp = sut.inspection.inspect { view in
-      let submitButton = try view.find(viewWithId: "submitButton")
+        ViewHosting.host(view: sut)
 
-      XCTAssertTrue(submitButton.isDisabled())
+        wait(for: [exp], timeout: 30)
     }
-
-    ViewHosting.host(view: sut)
-
-    wait(for: [exp], timeout: 30)
-  }
 }

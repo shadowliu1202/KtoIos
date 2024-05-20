@@ -5,37 +5,37 @@ import sharedbu
 import SwiftUI
 
 protocol ICasinoBetDetailViewModel {
-  var betDetail: CasinoDTO.BetDetail? { get }
+    var betDetail: CasinoDTO.BetDetail? { get }
   
-  func setup(with wagerID: String)
+    func setup(with wagerID: String)
   
-  func getSupportLocale() -> SupportLocale
+    func getSupportLocale() -> SupportLocale
 }
 
 class CasinoBetDetailViewModel:
-  ICasinoBetDetailViewModel &
-  ObservableObject &
-  ErrorCollectViewModel
+    ICasinoBetDetailViewModel &
+    ObservableObject &
+    ErrorCollectViewModel
 {
-  @Published var betDetail: CasinoDTO.BetDetail? = nil
+    @Published var betDetail: CasinoDTO.BetDetail? = nil
   
-  @Injected var casinoMyBetAppService: ICasinoMyBetAppService
-  @Injected var playerConfiguration: PlayerConfiguration
+    @Injected var casinoMyBetAppService: ICasinoMyBetAppService
+    @Injected var playerConfiguration: PlayerConfiguration
   
-  private let disposeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
   
-  func setup(with wagerID: String) {
-    bindBetDetail(wagerID)
-  }
+    func setup(with wagerID: String) {
+        bindBetDetail(wagerID)
+    }
   
-  func bindBetDetail(_ wagerID: String) {
-    AnyPublisher.from(casinoMyBetAppService.getDetail(id: wagerID))
-      .receive(on: DispatchQueue.main)
-      .redirectErrors(to: self)
-      .assignOptional(to: &$betDetail)
-  }
+    func bindBetDetail(_ wagerID: String) {
+        AnyPublisher.from(casinoMyBetAppService.getDetail(id: wagerID))
+            .receive(on: DispatchQueue.main)
+            .redirectErrors(to: self)
+            .assignOptional(to: &$betDetail)
+    }
   
-  func getSupportLocale() -> SupportLocale {
-    playerConfiguration.supportLocale
-  }
+    func getSupportLocale() -> SupportLocale {
+        playerConfiguration.supportLocale
+    }
 }

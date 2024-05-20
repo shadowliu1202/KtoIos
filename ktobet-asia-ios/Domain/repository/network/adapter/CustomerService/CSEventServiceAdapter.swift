@@ -3,21 +3,21 @@ import RxSwift
 import sharedbu
 
 class CSEventServiceAdapter: CSEventService {
-  private let httpClient: HttpClient
-  private let customerServiceProtocol: CustomerServiceProtocol
+    private let httpClient: HttpClient
+    private let customerServiceProtocol: CustomerServiceProtocol
 
-  init(
-    _ httpClient: HttpClient,
-    _ customerServiceProtocol: CustomerServiceProtocol)
-  {
-    self.httpClient = httpClient
-    self.customerServiceProtocol = customerServiceProtocol
-  }
+    init(
+        _ httpClient: HttpClient,
+        _ customerServiceProtocol: CustomerServiceProtocol)
+    {
+        self.httpClient = httpClient
+        self.customerServiceProtocol = customerServiceProtocol
+    }
 
-  func provide(token: String) -> CSEventSubject {
-    CSSignalRClient(
-      token,
-      httpClient,
-      customerServiceProtocol)
-  }
+    func provide(token: String) -> CSEventSubject {
+        CSSignalRClient(
+            token,
+            httpClient,
+            customerServiceProtocol)
+    }
 }

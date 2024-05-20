@@ -4,40 +4,40 @@ import sharedbu
 import SwiftUI
 
 protocol IP2PBetDetailViewModel {
-  var betDetail: P2PDTO.BetDetail? { get }
+    var betDetail: P2PDTO.BetDetail? { get }
   
-  func setup(with wagerID: String)
+    func setup(with wagerID: String)
   
-  func getSupportLocale() -> SupportLocale
+    func getSupportLocale() -> SupportLocale
 }
 
 class P2PBetDetailViewModel:
-  IP2PBetDetailViewModel &
-  ObservableObject &
-  CollectErrorViewModel
+    IP2PBetDetailViewModel &
+    ObservableObject &
+    CollectErrorViewModel
 {
-  @Published var betDetail: P2PDTO.BetDetail? = nil
+    @Published var betDetail: P2PDTO.BetDetail? = nil
   
-  @Injected var p2pAppService: IP2PAppService
-  @Injected var playerConfiguration: PlayerConfiguration
+    @Injected var p2pAppService: IP2PAppService
+    @Injected var playerConfiguration: PlayerConfiguration
   
-  private let disposeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
   
-  func setup(with wagerID: String) {
-    bindBetDetail(wagerID)
-  }
+    func setup(with wagerID: String) {
+        bindBetDetail(wagerID)
+    }
   
-  func bindBetDetail(_ wagerID: String) {
-    Observable.from(
-      p2pAppService.getDetail(id: wagerID))
-      .observe(on: MainScheduler.instance)
-      .subscribe(
-        onNext: { self.betDetail = $0 },
-        onError: { self.errorsSubject.onNext($0) })
-      .disposed(by: disposeBag)
-  }
+    func bindBetDetail(_ wagerID: String) {
+        Observable.from(
+            p2pAppService.getDetail(id: wagerID))
+            .observe(on: MainScheduler.instance)
+            .subscribe(
+                onNext: { self.betDetail = $0 },
+                onError: { self.errorsSubject.onNext($0) })
+            .disposed(by: disposeBag)
+    }
   
-  func getSupportLocale() -> SupportLocale {
-    playerConfiguration.supportLocale
-  }
+    func getSupportLocale() -> SupportLocale {
+        playerConfiguration.supportLocale
+    }
 }

@@ -3,54 +3,54 @@ import XCTest
 @testable import ktobet_asia_ios_qat
 
 final class PasteableTextFieldTest: XCTestCase {
-  let app = XCUIApplication()
+    let app = XCUIApplication()
 
-  override func setUp() {
-    super.setUp()
-    continueAfterFailure = false
-    app.launchArguments = ["isTesting"]
-    app.launchEnvironment["viewName"] = "PasteableTextField"
-  }
+    override func setUp() {
+        super.setUp()
+        continueAfterFailure = false
+        app.launchArguments = ["isTesting"]
+        app.launchEnvironment["viewName"] = "PasteableTextField"
+    }
 
-  override func tearDown() {
-    super.tearDown()
-    app.terminate()
-  }
+    override func tearDown() {
+        super.tearDown()
+        app.terminate()
+    }
 
-  func test_giveTextFieldDisablePaste_whenLongPressTextField_thanShouldNotShowPastePopup() throws {
-    app.launch()
+    func test_giveTextFieldDisablePaste_whenLongPressTextField_thanShouldNotShowPastePopup() throws {
+        app.launch()
 
-    let views = app.descendants(matching: .any)
-    let textFiled = views["PasteableTextField"]
+        let views = app.descendants(matching: .any)
+        let textFiled = views["PasteableTextField"]
 
-    XCTAssertTrue(textFiled.exists)
+        XCTAssertTrue(textFiled.exists)
 
-    textFiled.tap()
-    textFiled.typeText("1234")
+        textFiled.tap()
+        textFiled.typeText("1234")
 
-    XCTAssertEqual(textFiled.value as! String, "1234")
+        XCTAssertEqual(textFiled.value as! String, "1234")
 
-    textFiled.press(forDuration: 0.5)
+        textFiled.press(forDuration: 0.5)
 
-    let collectionViewsQuery = app.collectionViews
-    let selectAll = collectionViewsQuery.staticTexts["Select All"]
+        let collectionViewsQuery = app.collectionViews
+        let selectAll = collectionViewsQuery.staticTexts["Select All"]
 
-    wait(for: 3)
-    selectAll.tap()
+        wait(for: 3)
+        selectAll.tap()
 
-    let cut = collectionViewsQuery.staticTexts["Cut"]
+        let cut = collectionViewsQuery.staticTexts["Cut"]
 
-    wait(for: 3)
-    cut.tap()
+        wait(for: 3)
+        cut.tap()
 
-    XCTAssertEqual(textFiled.value as! String, "")
+        XCTAssertEqual(textFiled.value as! String, "")
 
-    textFiled.press(forDuration: 0.8)
+        textFiled.press(forDuration: 0.8)
 
-    let paste = collectionViewsQuery.staticTexts["Paste"]
+        let paste = collectionViewsQuery.staticTexts["Paste"]
 
-    wait(for: 1)
+        wait(for: 1)
 
-    XCTAssertFalse(paste.exists)
-  }
+        XCTAssertFalse(paste.exists)
+    }
 }

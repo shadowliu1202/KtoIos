@@ -2,17 +2,17 @@ import Foundation
 import sharedbu
 
 class PlayerAdapter: PlayerProtocol {
-  private let playerAPI: PlayerApi
+    private let playerAPI: PlayerApi
 
-  init(_ playerAPI: PlayerApi) {
-    self.playerAPI = playerAPI
-  }
+    init(_ playerAPI: PlayerApi) {
+        self.playerAPI = playerAPI
+    }
 
-  func getCashBalance() -> SingleWrapper<ResponseItem<NSString>> {
-    playerAPI
-      ._getCashBalance()
-      .asReaktiveResponseItem { (number: NSNumber) -> NSString in
-        NSString(string: number.stringValue)
-      }
-  }
+    func getCashBalance() -> SingleWrapper<ResponseItem<NSString>> {
+        playerAPI
+            ._getCashBalance()
+            .asReaktiveResponseItem { (number: NSNumber) -> NSString in
+                NSString(string: number.stringValue)
+            }
+    }
 }

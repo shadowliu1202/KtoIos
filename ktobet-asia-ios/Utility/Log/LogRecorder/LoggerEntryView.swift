@@ -1,23 +1,23 @@
 import SwiftUI
 
 struct LoggerEntryView: View {
-  var onClick: () -> Void = { }
+    var onClick: () -> Void = { }
 
-  var body: some View {
-    Button {
-      onClick()
-    } label: {
-      Image("LaunchLogRecording")
-        .resizable()
-        .scaledToFit()
+    var body: some View {
+        Button {
+            onClick()
+        } label: {
+            Image("LaunchLogRecording")
+                .resizable()
+                .scaledToFit()
+        }
+        .frame(width: 50)
+        .ignoresSafeArea()
     }
-    .frame(width: 50)
-    .ignoresSafeArea()
-  }
 }
 
 struct LogNotInRecordingView_Previews: PreviewProvider {
-  static var previews: some View {
-    LoggerEntryView()
-  }
+    static var previews: some View {
+        LoggerEntryView()
+    }
 }
