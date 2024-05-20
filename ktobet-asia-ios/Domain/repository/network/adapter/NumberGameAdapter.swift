@@ -2,13 +2,13 @@ import Foundation
 import sharedbu
 
 class NumberGameAdapter: NumberGameProtocol {
-  private let numberGameApi: NumberGameApi!
+    private let numberGameApi: NumberGameApi!
 
-  init(_ numberGameApi: NumberGameApi) {
-    self.numberGameApi = numberGameApi
-  }
+    init(_ numberGameApi: NumberGameApi) {
+        self.numberGameApi = numberGameApi
+    }
 
-  func getTagWithGameCount() -> SingleWrapper<ResponseList<FilterTagBean>> {
-    numberGameApi.getNumberGameTagsWithCount().asReaktiveResponseList(serial: FilterTagBean.companion.serializer())
-  }
+    func getTagWithGameCount() -> SingleWrapper<ResponseList<FilterTagBean>> {
+        numberGameApi.getNumberGameTagsWithCount().asReaktiveResponseList(serial: FilterTagBean.companion.serializer())
+    }
 }

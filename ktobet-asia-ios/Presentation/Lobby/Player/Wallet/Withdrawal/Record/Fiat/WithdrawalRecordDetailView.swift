@@ -2,139 +2,139 @@ import sharedbu
 import SwiftUI
 
 struct WithdrawalRecordDetailView<ViewModel>: View
-  where ViewModel: WithdrawalRecordDetailViewModelProtocol & ObservableObject
+    where ViewModel: WithdrawalRecordDetailViewModelProtocol & ObservableObject
 {
-  @StateObject var viewModel: ViewModel
+    @StateObject var viewModel: ViewModel
 
-  let transactionId: String
+    let transactionId: String
 
-  var onUploadImage: (() -> Void)?
-  var onClickImage: ((_ urlString: String, _ image: UIImage) -> Void)?
+    var onUploadImage: (() -> Void)?
+    var onClickImage: ((_ urlString: String, _ image: UIImage) -> Void)?
 
-  var inspection = Inspection<Self>()
+    var inspection = Inspection<Self>()
 
-  var shouldShowUploader: Bool {
-    viewModel.log?.status == .floating
-  }
+    var shouldShowUploader: Bool {
+        viewModel.log?.status == .floating
+    }
 
-  var body: some View {
-    RecordDetail(
-      title: Localize.string("withdrawal_detail_title"),
-      rowTypes: [
-        .amount(viewModel.log?.amount.formatString()),
-        .status(
-          date: viewModel.log?.status == .pending ?
-            nil : viewModel.log?.createdDate.toDateTimeString(),
-          content: viewModel.log?.toStatusText()),
-        .applyDate(viewModel.log?.createdDate.toDateTimeString()),
-        .withdrawalId(viewModel.log?.displayId),
-        .remark(.init(
-          previous: viewModel.remarks,
-          uploader: $viewModel.selectedImages,
-          onClickImage: onClickImage,
-          onUpload: onUploadImage,
-          imagesOnSend: viewModel.confirmUploadedImages,
-          isAllowSendImages: viewModel.isAllowConfirm,
-          isDeposit: false))
-      ],
-      shouldShowUploader: shouldShowUploader,
-      shouldShowButtons: viewModel.isCancelable,
-      isLoading: viewModel.log == nil,
-      buttons: {
-        PrimaryButton(
-          title: Localize.string("withdrawal_cancel"),
-          action: {
-            viewModel.cancelWithdrawal()
-          })
-          .disabled(viewModel.isSubmitButtonDisable)
-          .visibility(viewModel.isCancelable ? .visible : .gone)
-      })
-      .environment(\.playerLocale, viewModel.supportLocale)
-      .environmentObject(viewModel)
-      .onViewDidLoad {
-        viewModel.prepareForAppear(transactionId: transactionId)
-        viewModel.observeFiatLog()
-      }
-      .onInspected(inspection, self)
-  }
+    var body: some View {
+        RecordDetail(
+            title: Localize.string("withdrawal_detail_title"),
+            rowTypes: [
+                .amount(viewModel.log?.amount.formatString()),
+                .status(
+                    date: viewModel.log?.status == .pending ?
+                        nil : viewModel.log?.createdDate.toDateTimeString(),
+                    content: viewModel.log?.toStatusText()),
+                .applyDate(viewModel.log?.createdDate.toDateTimeString()),
+                .withdrawalId(viewModel.log?.displayId),
+                .remark(.init(
+                    previous: viewModel.remarks,
+                    uploader: $viewModel.selectedImages,
+                    onClickImage: onClickImage,
+                    onUpload: onUploadImage,
+                    imagesOnSend: viewModel.confirmUploadedImages,
+                    isAllowSendImages: viewModel.isAllowConfirm,
+                    isDeposit: false))
+            ],
+            shouldShowUploader: shouldShowUploader,
+            shouldShowButtons: viewModel.isCancelable,
+            isLoading: viewModel.log == nil,
+            buttons: {
+                PrimaryButton(
+                    title: Localize.string("withdrawal_cancel"),
+                    action: {
+                        viewModel.cancelWithdrawal()
+                    })
+                    .disabled(viewModel.isSubmitButtonDisable)
+                    .visibility(viewModel.isCancelable ? .visible : .gone)
+            })
+            .environment(\.playerLocale, viewModel.supportLocale)
+            .environmentObject(viewModel)
+            .onViewDidLoad {
+                viewModel.prepareForAppear(transactionId: transactionId)
+                viewModel.observeFiatLog()
+            }
+            .onInspected(inspection, self)
+    }
 }
 
 // MARK: - Preview
 
 struct WithdrawalRecordDetailView_Previews: PreviewProvider {
-  class ViewModel:
-    WithdrawalRecordDetailViewModelProtocol,
-    ObservableObject
-  {
-    var log: WithdrawalDto.Log?
-    var remarks: [RecordRemark.Previous.Model] = [
-      .init(
-        updateHistory: .init(
-          createdDate: .Companion().fromEpochMilliseconds(epochMilliseconds: 0),
-          imageIds: [],
-          remarkLevel1: "remarkLevel1",
-          remarkLevel2: "remarkLevel2",
-          remarkLevel3: "remarkLevel3"),
-        host: ""),
-      .init(
-        updateHistory: .init(
-          createdDate: .Companion().fromEpochMilliseconds(epochMilliseconds: 0),
-          imageIds: [],
-          remarkLevel1: "",
-          remarkLevel2: "",
-          remarkLevel3: "remarkLevel3-1"),
-        host: "",
-        uploadedURLs: (0...2).map { _ in
-          (
-            "",
-            "https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/store-card-14-16-mac-nav-202301?wid=200&hei=130&fmt=png-alpha&.v=1670959891635")
-        })
-    ]
-    var selectedImages: [RecordRemark.Uploader.Model] = []
-    var httpHeaders: [String: String] = [:]
-    var isAllowConfirm = true
-    var isCancelable = false
-    var isSubmitButtonDisable = false
-    var supportLocale: SupportLocale = .China()
+    class ViewModel:
+        WithdrawalRecordDetailViewModelProtocol,
+        ObservableObject
+    {
+        var log: WithdrawalDto.Log?
+        var remarks: [RecordRemark.Previous.Model] = [
+            .init(
+                updateHistory: .init(
+                    createdDate: .Companion().fromEpochMilliseconds(epochMilliseconds: 0),
+                    imageIds: [],
+                    remarkLevel1: "remarkLevel1",
+                    remarkLevel2: "remarkLevel2",
+                    remarkLevel3: "remarkLevel3"),
+                host: ""),
+            .init(
+                updateHistory: .init(
+                    createdDate: .Companion().fromEpochMilliseconds(epochMilliseconds: 0),
+                    imageIds: [],
+                    remarkLevel1: "",
+                    remarkLevel2: "",
+                    remarkLevel3: "remarkLevel3-1"),
+                host: "",
+                uploadedURLs: (0...2).map { _ in
+                    (
+                        "",
+                        "https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/store-card-14-16-mac-nav-202301?wid=200&hei=130&fmt=png-alpha&.v=1670959891635")
+                })
+        ]
+        var selectedImages: [RecordRemark.Uploader.Model] = []
+        var httpHeaders: [String: String] = [:]
+        var isAllowConfirm = true
+        var isCancelable = false
+        var isSubmitButtonDisable = false
+        var supportLocale: SupportLocale = .China()
 
-    func prepareForAppear(transactionId _: String) { }
-    func observeFiatLog() { }
-    func confirmUploadedImages() { }
-    func cancelWithdrawal() { }
+        func prepareForAppear(transactionId _: String) { }
+        func observeFiatLog() { }
+        func confirmUploadedImages() { }
+        func cancelWithdrawal() { }
 
-    init(status: WithdrawalDto.LogStatus) {
-      self.log = .init(
-        displayId: "TestId",
-        amount: 100.toAccountCurrency(),
-        createdDate: .Companion().fromEpochMilliseconds(epochMilliseconds: 0),
-        status: status,
-        type: .fiat,
-        isBankProcessing: false)
+        init(status: WithdrawalDto.LogStatus) {
+            self.log = .init(
+                displayId: "TestId",
+                amount: 100.toAccountCurrency(),
+                createdDate: .Companion().fromEpochMilliseconds(epochMilliseconds: 0),
+                status: status,
+                type: .fiat,
+                isBankProcessing: false)
 
-      switch status {
-      case .floating:
-        isCancelable = true
-        selectedImages = (0...2).map { _ in
-          .init(image: UIImage(named: "AppIconNotProd")!)
+            switch status {
+            case .floating:
+                isCancelable = true
+                selectedImages = (0...2).map { _ in
+                    .init(image: UIImage(named: "AppIconNotProd")!)
+                }
+
+            case .approved,
+                 .cancel,
+                 .fail,
+                 .other,
+                 .pending:
+                return
+            }
         }
-
-      case .approved,
-           .cancel,
-           .fail,
-           .other,
-           .pending:
-        return
-      }
     }
-  }
 
-  static var previews: some View {
-    WithdrawalRecordDetailView(
-      viewModel: ViewModel(status: .floating),
-      transactionId: "")
+    static var previews: some View {
+        WithdrawalRecordDetailView(
+            viewModel: ViewModel(status: .floating),
+            transactionId: "")
 
-    WithdrawalRecordDetailView(
-      viewModel: ViewModel(status: .pending),
-      transactionId: "")
-  }
+        WithdrawalRecordDetailView(
+            viewModel: ViewModel(status: .pending),
+            transactionId: "")
+    }
 }

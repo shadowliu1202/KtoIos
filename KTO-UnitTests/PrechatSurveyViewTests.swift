@@ -10,108 +10,108 @@ import XCTest
 extension IPrechatSurveyViewModelMock: ObservableObject { }
 
 final class PrechatSurveyViewTests: XCBaseTestCase {
-  func test_givenHasOneQuestionAndTypeIsSingleOption_thenDisplayServeyWithSingleOptionQuestion() {
-    let stubViewModel = mock(IPrechatSurveyViewModel.self)
-    given(stubViewModel.survey) ~> CustomerServiceDTO.CSSurvey(
-      heading: "",
-      description: "",
-      surveyId: "",
-      questions: [CustomerServiceDTO.CSSurveyCSQuestion(
-        description: "",
-        questionId: "",
-        csOption: [],
-        isRequired: false,
-        type: .simpleOption)])
-    given(stubViewModel.getSupportLocale()) ~> .Vietnam()
-    given(stubViewModel.isSubmitButtonDisable) ~> false
+    func test_givenHasOneQuestionAndTypeIsSingleOption_thenDisplayServeyWithSingleOptionQuestion() {
+        let stubViewModel = mock(IPrechatSurveyViewModel.self)
+        given(stubViewModel.survey) ~> CustomerServiceDTO.CSSurvey(
+            heading: "",
+            description: "",
+            surveyId: "",
+            questions: [CustomerServiceDTO.CSSurveyCSQuestion(
+                description: "",
+                questionId: "",
+                csOption: [],
+                isRequired: false,
+                type: .simpleOption)])
+        given(stubViewModel.getSupportLocale()) ~> .Vietnam()
+        given(stubViewModel.isSubmitButtonDisable) ~> false
     
-    let sut = InspectWrapper(content: PrechatSurveyView(viewModel: stubViewModel))
+        let sut = InspectWrapper(content: PrechatSurveyView(viewModel: stubViewModel))
     
-    let expection = sut.inspection.inspect { view in
-      let questionList = try view.find(viewWithId: "questions").forEach()
-      XCTAssertEqual(expect: 1, actual: questionList.count)
+        let expection = sut.inspection.inspect { view in
+            let questionList = try view.find(viewWithId: "questions").forEach()
+            XCTAssertEqual(expect: 1, actual: questionList.count)
       
-      let questionView = try questionList
-        .find(viewWithId: "question(atIndex: 0)")
-        .view(SurveyView.Question.self)
-        .actualView()
+            let questionView = try questionList
+                .find(viewWithId: "question(atIndex: 0)")
+                .view(SurveyView.Question.self)
+                .actualView()
       
-      XCTAssertEqual(
-        expect: CustomerServiceDTO.CSSurveySurveyQuestionType.simpleOption,
-        actual: questionView.question.type)
+            XCTAssertEqual(
+                expect: CustomerServiceDTO.CSSurveySurveyQuestionType.simpleOption,
+                actual: questionView.question.type)
+        }
+    
+        ViewHosting.host(view: sut)
+        wait(for: [expection], timeout: 30)
     }
-    
-    ViewHosting.host(view: sut)
-    wait(for: [expection], timeout: 30)
-  }
   
-  func test_givenHasOneQuestionAndTypeIsMultipleOption_thenDisplayServeyWithMultipleOptionQuestion() {
-    let stubViewModel = mock(IPrechatSurveyViewModel.self)
-    given(stubViewModel.survey) ~> CustomerServiceDTO.CSSurvey(
-      heading: "",
-      description: "",
-      surveyId: "",
-      questions: [CustomerServiceDTO.CSSurveyCSQuestion(
-        description: "",
-        questionId: "",
-        csOption: [],
-        isRequired: false,
-        type: .multipleOption)])
-    given(stubViewModel.getSupportLocale()) ~> .Vietnam()
-    given(stubViewModel.isSubmitButtonDisable) ~> false
+    func test_givenHasOneQuestionAndTypeIsMultipleOption_thenDisplayServeyWithMultipleOptionQuestion() {
+        let stubViewModel = mock(IPrechatSurveyViewModel.self)
+        given(stubViewModel.survey) ~> CustomerServiceDTO.CSSurvey(
+            heading: "",
+            description: "",
+            surveyId: "",
+            questions: [CustomerServiceDTO.CSSurveyCSQuestion(
+                description: "",
+                questionId: "",
+                csOption: [],
+                isRequired: false,
+                type: .multipleOption)])
+        given(stubViewModel.getSupportLocale()) ~> .Vietnam()
+        given(stubViewModel.isSubmitButtonDisable) ~> false
     
-    let sut = InspectWrapper(content: PrechatSurveyView(viewModel: stubViewModel))
+        let sut = InspectWrapper(content: PrechatSurveyView(viewModel: stubViewModel))
     
-    let expection = sut.inspection.inspect { view in
-      let questionList = try view.find(viewWithId: "questions").forEach()
-      XCTAssertEqual(expect: 1, actual: questionList.count)
+        let expection = sut.inspection.inspect { view in
+            let questionList = try view.find(viewWithId: "questions").forEach()
+            XCTAssertEqual(expect: 1, actual: questionList.count)
       
-      let questionView = try questionList
-        .find(viewWithId: "question(atIndex: 0)")
-        .view(SurveyView.Question.self)
-        .actualView()
+            let questionView = try questionList
+                .find(viewWithId: "question(atIndex: 0)")
+                .view(SurveyView.Question.self)
+                .actualView()
       
-      XCTAssertEqual(
-        expect: CustomerServiceDTO.CSSurveySurveyQuestionType.multipleOption,
-        actual: questionView.question.type)
+            XCTAssertEqual(
+                expect: CustomerServiceDTO.CSSurveySurveyQuestionType.multipleOption,
+                actual: questionView.question.type)
+        }
+    
+        ViewHosting.host(view: sut)
+        wait(for: [expection], timeout: 30)
     }
-    
-    ViewHosting.host(view: sut)
-    wait(for: [expection], timeout: 30)
-  }
   
-  func test_givenHasOneQuestionAndTypeIsDescription_thenDisplayServeyWithDescriptionQuestion() {
-    let stubViewModel = mock(IPrechatSurveyViewModel.self)
-    given(stubViewModel.survey) ~> CustomerServiceDTO.CSSurvey(
-      heading: "",
-      description: "",
-      surveyId: "",
-      questions: [CustomerServiceDTO.CSSurveyCSQuestion(
-        description: "",
-        questionId: "",
-        csOption: [],
-        isRequired: false,
-        type: .textField)])
-    given(stubViewModel.getSupportLocale()) ~> .Vietnam()
-    given(stubViewModel.isSubmitButtonDisable) ~> false
+    func test_givenHasOneQuestionAndTypeIsDescription_thenDisplayServeyWithDescriptionQuestion() {
+        let stubViewModel = mock(IPrechatSurveyViewModel.self)
+        given(stubViewModel.survey) ~> CustomerServiceDTO.CSSurvey(
+            heading: "",
+            description: "",
+            surveyId: "",
+            questions: [CustomerServiceDTO.CSSurveyCSQuestion(
+                description: "",
+                questionId: "",
+                csOption: [],
+                isRequired: false,
+                type: .textField)])
+        given(stubViewModel.getSupportLocale()) ~> .Vietnam()
+        given(stubViewModel.isSubmitButtonDisable) ~> false
     
-    let sut = InspectWrapper(content: PrechatSurveyView(viewModel: stubViewModel))
+        let sut = InspectWrapper(content: PrechatSurveyView(viewModel: stubViewModel))
     
-    let expection = sut.inspection.inspect { view in
-      let questionList = try view.find(viewWithId: "questions").forEach()
-      XCTAssertEqual(expect: 1, actual: questionList.count)
+        let expection = sut.inspection.inspect { view in
+            let questionList = try view.find(viewWithId: "questions").forEach()
+            XCTAssertEqual(expect: 1, actual: questionList.count)
       
-      let questionView = try questionList
-        .find(viewWithId: "question(atIndex: 0)")
-        .view(SurveyView.Question.self)
-        .actualView()
+            let questionView = try questionList
+                .find(viewWithId: "question(atIndex: 0)")
+                .view(SurveyView.Question.self)
+                .actualView()
       
-      XCTAssertEqual(
-        expect: CustomerServiceDTO.CSSurveySurveyQuestionType.textField,
-        actual: questionView.question.type)
+            XCTAssertEqual(
+                expect: CustomerServiceDTO.CSSurveySurveyQuestionType.textField,
+                actual: questionView.question.type)
+        }
+    
+        ViewHosting.host(view: sut)
+        wait(for: [expection], timeout: 30)
     }
-    
-    ViewHosting.host(view: sut)
-    wait(for: [expection], timeout: 30)
-  }
 }

@@ -2,46 +2,46 @@ import Lottie
 import SwiftUI
 
 struct SwiftUILottieView: UIViewRepresentable {
-  @Binding var isAnimationPlaying: Bool
+    @Binding var isAnimationPlaying: Bool
   
-  let lottieFile: String
+    let lottieFile: String
   
-  let animationView = AnimationView()
+    let animationView = AnimationView()
   
-  func makeUIView(context _: Context) -> some UIView {
-    let view = UIView(frame: .zero)
+    func makeUIView(context _: Context) -> some UIView {
+        let view = UIView(frame: .zero)
     
-    animationView.animation = .named(lottieFile)
-    animationView.contentMode = .scaleAspectFit
-    animationView.loopMode = .loop
+        animationView.animation = .named(lottieFile)
+        animationView.contentMode = .scaleAspectFit
+        animationView.loopMode = .loop
     
-    view.addSubview(animationView)
+        view.addSubview(animationView)
     
-    animationView.snp.makeConstraints { make in
-      make.width.height.equalToSuperview()
+        animationView.snp.makeConstraints { make in
+            make.width.height.equalToSuperview()
+        }
+  
+        return view
     }
   
-    return view
-  }
-  
-  func updateUIView(_: UIViewType, context: Context) {
-    if $isAnimationPlaying.wrappedValue {
-      context.coordinator.parent.animationView.play()
+    func updateUIView(_: UIViewType, context: Context) {
+        if $isAnimationPlaying.wrappedValue {
+            context.coordinator.parent.animationView.play()
+        }
+        else {
+            context.coordinator.parent.animationView.stop()
+        }
     }
-    else {
-      context.coordinator.parent.animationView.stop()
-    }
-  }
   
-  func makeCoordinator() -> Coordinator {
-    Coordinator(self)
-  }
+    func makeCoordinator() -> Coordinator {
+        Coordinator(self)
+    }
 
-  class Coordinator: NSObject {
-    var parent: SwiftUILottieView
+    class Coordinator: NSObject {
+        var parent: SwiftUILottieView
 
-    init(_ parent: SwiftUILottieView) {
-      self.parent = parent
+        init(_ parent: SwiftUILottieView) {
+            self.parent = parent
+        }
     }
-  }
 }

@@ -1,3 +1,18 @@
+### 排版工具
+1. 安裝 SwiftFormat
+   ```
+   brew install --cask swiftformat-for-xcode
+   ```
+2. 開啟 SwiftFormat後照著指示完成初始設定
+3. 設定Xcode 快捷鍵
+   - 系統設定 -> 鍵盤 -> 鍵盤快速鍵 -> App快速鍵
+   - 點擊 + -> 選擇XCode
+   - 設定快捷鍵 Cmd + S
+   - 輸入選單標題
+      ```
+     Editor->SwiftFormat->Format File
+     ```
+
 ### 語系檔匯入方式
 
 #### 文檔路徑

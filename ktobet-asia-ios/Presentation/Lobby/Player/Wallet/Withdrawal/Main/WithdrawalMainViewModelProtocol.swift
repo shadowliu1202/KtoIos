@@ -3,45 +3,45 @@ import sharedbu
 import UIKit
 
 protocol WithdrawalMainViewModelProtocol {
-  var instruction: WithdrawalMainViewDataModel.Instruction? { get }
-  var methods: [WithdrawalDto.Method] { get }
-  var recentRecords: [WithdrawalMainViewDataModel.Record]? { get }
+    var instruction: WithdrawalMainViewDataModel.Instruction? { get }
+    var methods: [WithdrawalDto.Method] { get }
+    var recentRecords: [WithdrawalMainViewDataModel.Record]? { get }
 
-  var enableWithdrawal: Bool { get }
-  var allowedWithdrawalFiat: Bool? { get }
-  var allowedWithdrawalCrypto: Bool? { get }
+    var enableWithdrawal: Bool { get }
+    var allowedWithdrawalFiat: Bool? { get }
+    var allowedWithdrawalCrypto: Bool? { get }
 
-  func setupData()
+    func setupData()
 }
 
 struct WithdrawalMainViewDataModel {
-  struct Instruction {
-    let dailyAmountLimit: String
-    let dailyMaxCount: String
-    let turnoverRequirement: String?
-    let cryptoWithdrawalRequirement: (amount: String, simpleName: String)?
-  }
-
-  struct Record: Identifiable, Equatable {
-    let id: String
-    let currencyType: WithdrawalDto.LogCurrencyType
-    let date: String
-    let status: TransactionStatus
-    let amount: String
-
-    static func == (lhs: WithdrawalMainViewDataModel.Record, rhs: WithdrawalMainViewDataModel.Record) -> Bool {
-      lhs.id == rhs.id
+    struct Instruction {
+        let dailyAmountLimit: String
+        let dailyMaxCount: String
+        let turnoverRequirement: String?
+        let cryptoWithdrawalRequirement: (amount: String, simpleName: String)?
     }
-  }
 
-  struct TransactionStatus {
-    let title: String
-    let color: UIColor
-  }
+    struct Record: Identifiable, Equatable {
+        let id: String
+        let currencyType: WithdrawalDto.LogCurrencyType
+        let date: String
+        let status: TransactionStatus
+        let amount: String
+
+        static func == (lhs: WithdrawalMainViewDataModel.Record, rhs: WithdrawalMainViewDataModel.Record) -> Bool {
+            lhs.id == rhs.id
+        }
+    }
+
+    struct TransactionStatus {
+        let title: String
+        let color: UIColor
+    }
 }
 
 extension WithdrawalDto.Method: Identifiable {
-  public var id: WithdrawalDto.Method {
-    self
-  }
+    public var id: WithdrawalDto.Method {
+        self
+    }
 }

@@ -4,92 +4,92 @@ import RxSwift
 import sharedbu
 
 class P2PViewModel:
-  CollectErrorViewModel,
-  ProductWebGameViewModelProtocol
+    CollectErrorViewModel,
+    ProductWebGameViewModelProtocol
 {
-  @Injected private var loading: Loading
+    @Injected private var loading: Loading
 
-  private(set) var refreshTrigger = BehaviorSubject<Void>(value: ())
+    private(set) var refreshTrigger = BehaviorSubject<Void>(value: ())
 
-  private let gameSubject = PublishSubject<[P2PGame]>()
+    private let gameSubject = PublishSubject<[P2PGame]>()
 
-  private let webGameResultSubject: PublishSubject<WebGameResult> = .init()
+    private let webGameResultSubject: PublishSubject<WebGameResult> = .init()
 
-  private var p2pUseCase: P2PUseCase!
+    private var p2pUseCase: P2PUseCase!
 
-  private var productName: String! = "p2p"
+    private var productName: String! = "p2p"
 
-  private var disposeBag = DisposeBag()
+    private var disposeBag = DisposeBag()
 
-  var loadingWebTracker: ActivityIndicator { loading.tracker }
+    var loadingWebTracker: ActivityIndicator { loading.tracker }
 
-  var webGameResultDriver: Driver<WebGameResult> {
-    webGameResultSubject.asDriverOnErrorJustComplete()
-  }
+    var webGameResultDriver: Driver<WebGameResult> {
+        webGameResultSubject.asDriverOnErrorJustComplete()
+    }
 
-  let placeholderTracker = ActivityIndicator()
+    let placeholderTracker = ActivityIndicator()
 
-  init(p2pUseCase: P2PUseCase) {
-    super.init()
+    init(p2pUseCase: P2PUseCase) {
+        super.init()
 
-    self.p2pUseCase = p2pUseCase
+        self.p2pUseCase = p2pUseCase
 
-    refreshTrigger
-      .flatMapLatest { [unowned self] in
-        self.getAllGames().asObservable()
-      }
-      .subscribe()
-      .disposed(by: disposeBag)
-  }
+        refreshTrigger
+            .flatMapLatest { [unowned self] in
+                self.getAllGames().asObservable()
+            }
+            .subscribe()
+            .disposed(by: disposeBag)
+    }
 }
 
 // MARK: - API
 
 extension P2PViewModel {
-  func getTurnOverStatus() -> Single<P2PTurnOver> {
-    p2pUseCase
-      .getTurnOverStatus()
-      .compose(applySingleErrorHandler())
-  }
+    func getTurnOverStatus() -> Single<P2PTurnOver> {
+        p2pUseCase
+            .getTurnOverStatus()
+            .compose(applySingleErrorHandler())
+    }
 
-  func getAllGames() -> Single<[P2PGame]> {
-    p2pUseCase
-      .getAllGames()
-      .trackOnDispose(placeholderTracker)
-      .do(onSuccess: { [unowned self] in
-        self.productName = $0.first?.productName
-        self.gameSubject.onNext($0)
-      })
-      .compose(applySingleErrorHandler())
-  }
+    func getAllGames() -> Single<[P2PGame]> {
+        p2pUseCase
+            .getAllGames()
+            .trackOnDispose(placeholderTracker)
+            .do(onSuccess: { [unowned self] in
+                self.productName = $0.first?.productName
+                self.gameSubject.onNext($0)
+            })
+            .compose(applySingleErrorHandler())
+    }
 
-  func checkBonusAndCreateGame(_ game: WebGame) -> Observable<WebGameResult> {
-    p2pUseCase.checkBonusAndCreateGame(game)
-  }
+    func checkBonusAndCreateGame(_ game: WebGame) -> Observable<WebGameResult> {
+        p2pUseCase.checkBonusAndCreateGame(game)
+    }
 
-  func fetchGame(_ game: WebGame) {
-    configFetchGame(
-      game,
-      resultSubject: webGameResultSubject,
-      errorSubject: errorsSubject)
-      .disposed(by: disposeBag)
-  }
+    func fetchGame(_ game: WebGame) {
+        configFetchGame(
+            game,
+            resultSubject: webGameResultSubject,
+            errorSubject: errorsSubject)
+            .disposed(by: disposeBag)
+    }
 }
 
 // MARK: - Data Handle
 
 extension P2PViewModel {
-  var dataSource: Observable<[P2PGame]> {
-    gameSubject
-      .catchAndReturn([])
-      .share(replay: 1)
-  }
+    var dataSource: Observable<[P2PGame]> {
+        gameSubject
+            .catchAndReturn([])
+            .share(replay: 1)
+    }
 
-  func getGameProduct() -> String {
-    productName
-  }
+    func getGameProduct() -> String {
+        productName
+    }
 
-  func getGameProductType() -> ProductType {
-    ProductType.p2P
-  }
+    func getGameProductType() -> ProductType {
+        ProductType.p2P
+    }
 }

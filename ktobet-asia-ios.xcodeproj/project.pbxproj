@@ -11754,7 +11754,6 @@
 			buildConfigurationList = 485DF06525415454001F9D4A /* Build configuration list for PBXNativeTarget "KTO-UnitTests" */;
 			buildPhases = (
 				9BEF6EA72F1E13DDD4F70447 /* [CP] Check Pods Manifest.lock */,
-				3C8C237C29A70A8600BE9AB5 /* Swift-Format */,
 				208E9F7647659323C697BBAA /* Generate Mockingbird Mocks */,
 				485DF04A25415454001F9D4A /* Sources */,
 				485DF04B25415454001F9D4A /* Frameworks */,
@@ -12755,24 +12754,6 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ktobet-asia-ios-production/Pods-ktobet-asia-ios-production-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
-		};
-		3C8C237C29A70A8600BE9AB5 /* Swift-Format */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Swift-Format";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/SwiftFormat/CommandLineTool/swiftformat\" \"$SRCROOT\"\n";
 		};
 		3EFD68E32B88428D00370562 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;

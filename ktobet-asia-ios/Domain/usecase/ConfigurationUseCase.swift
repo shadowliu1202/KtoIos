@@ -3,35 +3,35 @@ import RxSwift
 import sharedbu
 
 protocol ConfigurationUseCase {
-  func locale() -> SupportLocale
-  func getOtpRetryCount() -> Int
-  func setOtpRetryCount(_ count: Int)
+    func locale() -> SupportLocale
+    func getOtpRetryCount() -> Int
+    func setOtpRetryCount(_ count: Int)
 }
 
 class ConfigurationUseCaseImpl: ConfigurationUseCase {
-  private let playerRepo: PlayerRepository
-  private let localStorageRepository: LocalStorageRepository
-  private let playerConfiguration: PlayerConfiguration
+    private let playerRepo: PlayerRepository
+    private let localStorageRepository: LocalStorageRepository
+    private let playerConfiguration: PlayerConfiguration
 
-  init(
-    _ playerRepo: PlayerRepository,
-    _ localStorageRepository: LocalStorageRepository,
-    _ playerConfiguration: PlayerConfiguration)
-  {
-    self.playerRepo = playerRepo
-    self.localStorageRepository = localStorageRepository
-    self.playerConfiguration = playerConfiguration
-  }
+    init(
+        _ playerRepo: PlayerRepository,
+        _ localStorageRepository: LocalStorageRepository,
+        _ playerConfiguration: PlayerConfiguration)
+    {
+        self.playerRepo = playerRepo
+        self.localStorageRepository = localStorageRepository
+        self.playerConfiguration = playerConfiguration
+    }
 
-  func locale() -> SupportLocale {
-    playerConfiguration.supportLocale
-  }
+    func locale() -> SupportLocale {
+        playerConfiguration.supportLocale
+    }
 
-  func getOtpRetryCount() -> Int {
-    localStorageRepository.getRetryCount()
-  }
+    func getOtpRetryCount() -> Int {
+        localStorageRepository.getRetryCount()
+    }
 
-  func setOtpRetryCount(_ count: Int) {
-    localStorageRepository.setRetryCount(count)
-  }
+    func setOtpRetryCount(_ count: Int) {
+        localStorageRepository.setRetryCount(count)
+    }
 }

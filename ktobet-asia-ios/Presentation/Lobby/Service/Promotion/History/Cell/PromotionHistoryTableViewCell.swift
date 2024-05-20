@@ -4,184 +4,184 @@ import sharedbu
 import UIKit
 
 class PromotionHistoryTableViewCell: UITableViewCell {
-  @IBOutlet weak var datelabel: UILabel!
-  @IBOutlet weak var typeButton: UIButton!
-  @IBOutlet weak var typeNameLabel: UILabel!
-  @IBOutlet weak var noLabel: UILabel!
-  @IBOutlet weak var nameLabel: UILabel!
-  @IBOutlet weak var statusLabel: UILabel!
-  @IBOutlet weak var amountLabel: UILabel!
-  @IBOutlet weak var hourGlassImage: UIImageView!
-  @IBOutlet weak var expandView: UIView!
-  @IBOutlet weak var expandLabel: UILabel!
-  @IBOutlet weak var expandImg: UIImageView!
-  @IBOutlet weak var detailStackView: UIStackView!
+    @IBOutlet weak var datelabel: UILabel!
+    @IBOutlet weak var typeButton: UIButton!
+    @IBOutlet weak var typeNameLabel: UILabel!
+    @IBOutlet weak var noLabel: UILabel!
+    @IBOutlet weak var nameLabel: UILabel!
+    @IBOutlet weak var statusLabel: UILabel!
+    @IBOutlet weak var amountLabel: UILabel!
+    @IBOutlet weak var hourGlassImage: UIImageView!
+    @IBOutlet weak var expandView: UIView!
+    @IBOutlet weak var expandLabel: UILabel!
+    @IBOutlet weak var expandImg: UIImageView!
+    @IBOutlet weak var detailStackView: UIStackView!
 
-  var callBack: (() -> Void)?
-  var timer: Timer?
-  private lazy var disposeBag = DisposeBag()
+    var callBack: (() -> Void)?
+    var timer: Timer?
+    private lazy var disposeBag = DisposeBag()
 
-  override func prepareForReuse() {
-    super.prepareForReuse()
-    disposeBag = DisposeBag()
-    detailStackView.removeAllArrangedSubviews()
-    stopAnimation()
-  }
-
-  func config(_ coupon: CouponHistory, tableView: UITableView) {
-    datelabel.text = "\(coupon.receiveDate.toDateTimeFormatString()) \(Localize.string("bonus_receive"))"
-
-    typeButton.setTitle(StringMapper.parseBonusTypeString(bonusType: coupon.type), for: .normal)
-
-    typeNameLabel.isHidden = coupon.type != BonusType.product
-    typeNameLabel.text = StringMapper.parseProductTypeString(productType: coupon.productType)
-
-    nameLabel.text = coupon.name
-
-    if let issue = coupon.issue, issue != 0 {
-      noLabel.text = String(format: Localize.string("bonus_period"), "\(issue)")
-      noLabel.isHidden = false
-    }
-    else {
-      noLabel.isHidden = true
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        disposeBag = DisposeBag()
+        detailStackView.removeAllArrangedSubviews()
+        stopAnimation()
     }
 
-    statusLabel.text = StringMapper.parse(bonusReceivingStatus: coupon.bonusLockReceivingStatus)
-    statusLabel.textColor = Theme.shared.parse(bonusReceivingStatus: coupon.bonusLockReceivingStatus)
+    func config(_ coupon: CouponHistory, tableView: UITableView) {
+        datelabel.text = "\(coupon.receiveDate.toDateTimeFormatString()) \(Localize.string("bonus_receive"))"
 
-    amountLabel.text = coupon.amount.description()
+        typeButton.setTitle(StringMapper.parseBonusTypeString(bonusType: coupon.type), for: .normal)
 
-    if coupon.isTurnOverCalculating {
-      amountLabel.isHidden = true
-      hourGlassImage.isHidden = false
-      startAnimation()
-    }
-    else {
-      amountLabel.isHidden = false
-      hourGlassImage.isHidden = true
-    }
+        typeNameLabel.isHidden = coupon.type != BonusType.product
+        typeNameLabel.text = StringMapper.parseProductTypeString(productType: coupon.productType)
 
-    expandLabel.text = coupon.isExpanded ? Localize.string("common_fold") : Localize.string("common_open")
-    expandImg.image = coupon.isExpanded ? UIImage(named: "iconArrowDropUp16") : UIImage(named: "iconArrowDropDown16")
+        nameLabel.text = coupon.name
 
-    detailStackView.isHidden = !coupon.isExpanded
+        if let issue = coupon.issue, issue != 0 {
+            noLabel.text = String(format: Localize.string("bonus_period"), "\(issue)")
+            noLabel.isHidden = false
+        }
+        else {
+            noLabel.isHidden = true
+        }
 
-    let tap = UITapGestureRecognizer()
+        statusLabel.text = StringMapper.parse(bonusReceivingStatus: coupon.bonusLockReceivingStatus)
+        statusLabel.textColor = Theme.shared.parse(bonusReceivingStatus: coupon.bonusLockReceivingStatus)
 
-    expandView.addGestureRecognizer(tap)
-    tap.rx.event.bind { _ in
-      coupon.isExpanded.toggle()
-      tableView.reloadData()
-    }.disposed(by: disposeBag)
+        amountLabel.text = coupon.amount.description()
 
-    setExpandedDetail(coupon)
-  }
+        if coupon.isTurnOverCalculating {
+            amountLabel.isHidden = true
+            hourGlassImage.isHidden = false
+            startAnimation()
+        }
+        else {
+            amountLabel.isHidden = false
+            hourGlassImage.isHidden = true
+        }
 
-  fileprivate func setExpandedDetail(_ coupon: CouponHistory) {
-    setDetailViewRow(title: Localize.string("bonus_historyno"), content: coupon.bonusId)
-    setDetailViewRow(title: Localize.string("bonus_historyname"), content: coupon.name)
-    setDetailViewRow(title: Localize.string("bonus_historyamount"), content: coupon.amount.description())
-    setDetailViewRow(title: Localize.string("bonus_historydate"), content: coupon.receiveDate.toDateTimeFormatString())
-    if let turnOverDetail = coupon.turnOverDetail, coupon.hasTurnOver, !coupon.isTurnOverCalculating {
-      setDetailViewRow(title: Localize.string("bonus_historytrialbalance"), content: turnOverDetail.balance.description())
-      setDetailViewRow(title: Localize.string("bonus_historytrialamount"), content: turnOverDetail.amount.description())
-      setDetailViewRow(title: Localize.string("bonus_historytrialrequest"), content: turnOverDetail.request.description())
-      setDetailViewRow(title: Localize.string("bonus_historybetmutipler"), content: turnOverDetail.formula)
-      setDetailViewRow(
-        title: Localize.string("bonus_turnover_adddeposit"),
-        content: turnOverDetail.turnoverRequestForDeposit.description())
-      setDetailViewRow(
-        title: Localize.string("bonus_turnover_total"),
-        content: turnOverDetail.turnoverRequest.description())
-      setDetailViewRow(title: Localize.string("bonus_historytrialachieved"), content: turnOverDetail.achieved.description())
-      setDetailViewRow(
-        title: Localize.string("bonus_historytrialcompletion"),
-        content: turnOverDetail.percentage.description() + "%")
-    }
-  }
+        expandLabel.text = coupon.isExpanded ? Localize.string("common_fold") : Localize.string("common_open")
+        expandImg.image = coupon.isExpanded ? UIImage(named: "iconArrowDropUp16") : UIImage(named: "iconArrowDropDown16")
 
-  fileprivate func setDetailViewRow(title: String, content: String) {
-    let detailViewRow = PromotionHistoryDetailView()
-    detailViewRow.setUp(title: title, content: content)
-    detailViewRow.translatesAutoresizingMaskIntoConstraints = false
-    detailStackView.addArrangedSubview(detailViewRow)
-  }
+        detailStackView.isHidden = !coupon.isExpanded
 
-  fileprivate func startAnimation() {
-    timer = Timer.scheduledTimer(withTimeInterval: 1.2, repeats: true) { _ in
-      self.hourGlassImage.rotate()
+        let tap = UITapGestureRecognizer()
+
+        expandView.addGestureRecognizer(tap)
+        tap.rx.event.bind { _ in
+            coupon.isExpanded.toggle()
+            tableView.reloadData()
+        }.disposed(by: disposeBag)
+
+        setExpandedDetail(coupon)
     }
 
-    timer?.fire()
-  }
+    fileprivate func setExpandedDetail(_ coupon: CouponHistory) {
+        setDetailViewRow(title: Localize.string("bonus_historyno"), content: coupon.bonusId)
+        setDetailViewRow(title: Localize.string("bonus_historyname"), content: coupon.name)
+        setDetailViewRow(title: Localize.string("bonus_historyamount"), content: coupon.amount.description())
+        setDetailViewRow(title: Localize.string("bonus_historydate"), content: coupon.receiveDate.toDateTimeFormatString())
+        if let turnOverDetail = coupon.turnOverDetail, coupon.hasTurnOver, !coupon.isTurnOverCalculating {
+            setDetailViewRow(title: Localize.string("bonus_historytrialbalance"), content: turnOverDetail.balance.description())
+            setDetailViewRow(title: Localize.string("bonus_historytrialamount"), content: turnOverDetail.amount.description())
+            setDetailViewRow(title: Localize.string("bonus_historytrialrequest"), content: turnOverDetail.request.description())
+            setDetailViewRow(title: Localize.string("bonus_historybetmutipler"), content: turnOverDetail.formula)
+            setDetailViewRow(
+                title: Localize.string("bonus_turnover_adddeposit"),
+                content: turnOverDetail.turnoverRequestForDeposit.description())
+            setDetailViewRow(
+                title: Localize.string("bonus_turnover_total"),
+                content: turnOverDetail.turnoverRequest.description())
+            setDetailViewRow(title: Localize.string("bonus_historytrialachieved"), content: turnOverDetail.achieved.description())
+            setDetailViewRow(
+                title: Localize.string("bonus_historytrialcompletion"),
+                content: turnOverDetail.percentage.description() + "%")
+        }
+    }
 
-  fileprivate func stopAnimation() {
-    timer?.invalidate()
-  }
+    fileprivate func setDetailViewRow(title: String, content: String) {
+        let detailViewRow = PromotionHistoryDetailView()
+        detailViewRow.setUp(title: title, content: content)
+        detailViewRow.translatesAutoresizingMaskIntoConstraints = false
+        detailStackView.addArrangedSubview(detailViewRow)
+    }
+
+    fileprivate func startAnimation() {
+        timer = Timer.scheduledTimer(withTimeInterval: 1.2, repeats: true) { _ in
+            self.hourGlassImage.rotate()
+        }
+
+        timer?.fire()
+    }
+
+    fileprivate func stopAnimation() {
+        timer?.invalidate()
+    }
 }
 
 class PromotionHistoryDetailView: UIView {
-  private var titleLbl: UILabel!
-  private var contentLbl: UILabel!
+    private var titleLbl: UILabel!
+    private var contentLbl: UILabel!
 
-  override init(frame: CGRect) {
-    super.init(frame: frame)
-    let childStack = UIStackView(frame: .zero)
-    childStack.translatesAutoresizingMaskIntoConstraints = false
-    childStack.axis = .vertical
-    childStack.alignment = .fill
-    childStack.distribution = .fill
-    self.addSubview(childStack, constraints: .fill())
-    titleLbl = UILabel(frame: .zero)
-    contentLbl = UILabel(frame: .zero)
-    titleLbl.font = UIFont(name: "PingFangSC-Regular", size: 14)
-    titleLbl.textColor = UIColor.textPrimary
-    contentLbl.font = UIFont(name: "PingFangSC-Medium", size: 14)
-    contentLbl.textColor = UIColor.greyScaleWhite
-    titleLbl.numberOfLines = 0
-    titleLbl.lineBreakMode = .byWordWrapping
-    contentLbl.numberOfLines = 0
-    contentLbl.lineBreakMode = .byWordWrapping
-    childStack.addArrangedSubview(titleLbl)
-    childStack.addArrangedSubview(contentLbl)
-  }
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        let childStack = UIStackView(frame: .zero)
+        childStack.translatesAutoresizingMaskIntoConstraints = false
+        childStack.axis = .vertical
+        childStack.alignment = .fill
+        childStack.distribution = .fill
+        self.addSubview(childStack, constraints: .fill())
+        titleLbl = UILabel(frame: .zero)
+        contentLbl = UILabel(frame: .zero)
+        titleLbl.font = UIFont(name: "PingFangSC-Regular", size: 14)
+        titleLbl.textColor = UIColor.textPrimary
+        contentLbl.font = UIFont(name: "PingFangSC-Medium", size: 14)
+        contentLbl.textColor = UIColor.greyScaleWhite
+        titleLbl.numberOfLines = 0
+        titleLbl.lineBreakMode = .byWordWrapping
+        contentLbl.numberOfLines = 0
+        contentLbl.lineBreakMode = .byWordWrapping
+        childStack.addArrangedSubview(titleLbl)
+        childStack.addArrangedSubview(contentLbl)
+    }
 
-  required init?(coder: NSCoder) {
-    super.init(coder: coder)
-  }
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+    }
 
-  func setUp(title: String, content: String) {
-    titleLbl.text = title
-    contentLbl.text = content
-    titleLbl.sizeToFit()
-    contentLbl.sizeToFit()
-  }
+    func setUp(title: String, content: String) {
+        titleLbl.text = title
+        contentLbl.text = content
+        titleLbl.sizeToFit()
+        contentLbl.sizeToFit()
+    }
 
-  func getHeight() -> CGFloat {
-    titleLbl.frame.height + contentLbl.frame.height
-  }
+    func getHeight() -> CGFloat {
+        titleLbl.frame.height + contentLbl.frame.height
+    }
 }
 
 extension CouponHistory {
-  private struct AssociatedKeys {
-    static var isExpanded = "isExpanded"
-  }
-
-  var isExpanded: Bool! {
-    get {
-      guard let isExpanded = objc_getAssociatedObject(self, &AssociatedKeys.isExpanded) as? Bool else {
-        return true
-      }
-
-      return isExpanded
+    private struct AssociatedKeys {
+        static var isExpanded = "isExpanded"
     }
 
-    set(value) {
-      objc_setAssociatedObject(
-        self,
-        &AssociatedKeys.isExpanded,
-        value,
-        objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+    var isExpanded: Bool! {
+        get {
+            guard let isExpanded = objc_getAssociatedObject(self, &AssociatedKeys.isExpanded) as? Bool else {
+                return true
+            }
+
+            return isExpanded
+        }
+
+        set(value) {
+            objc_setAssociatedObject(
+                self,
+                &AssociatedKeys.isExpanded,
+                value,
+                objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        }
     }
-  }
 }

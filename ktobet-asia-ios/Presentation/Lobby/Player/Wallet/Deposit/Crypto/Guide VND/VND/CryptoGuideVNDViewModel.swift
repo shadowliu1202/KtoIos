@@ -4,28 +4,28 @@ import RxSwift
 import sharedbu
 
 protocol CryptoGuideVNDViewModel: ObservableObject {
-  var guidances: [CryptoDepositGuidance] { get }
+    var guidances: [CryptoDepositGuidance] { get }
 
-  func getCryptoGuidance()
+    func getCryptoGuidance()
 }
 
 class CryptoGuideVNDViewModelImpl: CryptoGuideVNDViewModel {
-  @Published private(set) var guidances: [CryptoDepositGuidance] = []
+    @Published private(set) var guidances: [CryptoDepositGuidance] = []
 
-  private let localizationPolicyUseCase: LocalizationPolicyUseCase
-  private let disposeBag = DisposeBag()
+    private let localizationPolicyUseCase: LocalizationPolicyUseCase
+    private let disposeBag = DisposeBag()
 
-  init(localizationPolicyUseCase: LocalizationPolicyUseCase) {
-    self.localizationPolicyUseCase = localizationPolicyUseCase
-  }
-
-  func getCryptoGuidance() {
-    if guidances.isEmpty {
-      localizationPolicyUseCase.getCryptoGuidance()
-        .subscribe(onSuccess: { cryptoDepositGuidances in
-          self.guidances = cryptoDepositGuidances
-        })
-        .disposed(by: disposeBag)
+    init(localizationPolicyUseCase: LocalizationPolicyUseCase) {
+        self.localizationPolicyUseCase = localizationPolicyUseCase
     }
-  }
+
+    func getCryptoGuidance() {
+        if guidances.isEmpty {
+            localizationPolicyUseCase.getCryptoGuidance()
+                .subscribe(onSuccess: { cryptoDepositGuidances in
+                    self.guidances = cryptoDepositGuidances
+                })
+                .disposed(by: disposeBag)
+        }
+    }
 }

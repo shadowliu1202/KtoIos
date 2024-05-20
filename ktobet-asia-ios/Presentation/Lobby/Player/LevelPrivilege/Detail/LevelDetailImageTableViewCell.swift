@@ -1,5 +1,5 @@
 import UIKit
 
 class LevelDetailImageTableViewCell: UITableViewCell {
-  @IBOutlet weak var slotImageView: UIImageView!
+    @IBOutlet weak var slotImageView: UIImageView!
 }

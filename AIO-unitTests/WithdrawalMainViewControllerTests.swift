@@ -7,93 +7,93 @@ import XCTest
 @testable import ktobet_asia_ios_qat
 
 final class WithdrawalMainViewControllerTests: XCBaseTestCase {
-  private func getFakeWithdrawalMainViewModel() -> WithdrawalMainViewModelMock {
-    let dummyWithdrawalAppService = mock(AbsWithdrawalAppService.self)
-    let dummyPlayerConfiguration = mock(PlayerConfiguration.self)
+    private func getFakeWithdrawalMainViewModel() -> WithdrawalMainViewModelMock {
+        let dummyWithdrawalAppService = mock(AbsWithdrawalAppService.self)
+        let dummyPlayerConfiguration = mock(PlayerConfiguration.self)
 
-    let fakeViewModel = mock(WithdrawalMainViewModel.self)
-      .initialize(
-        dummyWithdrawalAppService,
-        dummyPlayerConfiguration)
+        let fakeViewModel = mock(WithdrawalMainViewModel.self)
+            .initialize(
+                dummyWithdrawalAppService,
+                dummyPlayerConfiguration)
 
-    given(fakeViewModel.instruction) ~> nil
-    given(fakeViewModel.recentRecords) ~> nil
-    given(fakeViewModel.enableWithdrawal) ~> true
-    given(fakeViewModel.allowedWithdrawalFiat) ~> nil
-    given(fakeViewModel.allowedWithdrawalCrypto) ~> nil
+        given(fakeViewModel.instruction) ~> nil
+        given(fakeViewModel.recentRecords) ~> nil
+        given(fakeViewModel.enableWithdrawal) ~> true
+        given(fakeViewModel.allowedWithdrawalFiat) ~> nil
+        given(fakeViewModel.allowedWithdrawalCrypto) ~> nil
 
-    given(fakeViewModel.setupData()) ~> { }
-    given(fakeViewModel.getSupportLocale()) ~> .China()
+        given(fakeViewModel.setupData()) ~> { }
+        given(fakeViewModel.getSupportLocale()) ~> .China()
 
-    given(fakeViewModel.errors()) ~> .empty()
+        given(fakeViewModel.errors()) ~> .empty()
 
-    return fakeViewModel
-  }
+        return fakeViewModel
+    }
 
-  func test_givenPlayerHasNoCryptoTurnOver_whenTapCryptoInfoButton_thenShowAlert_KTO_TC_6() {
-    let mockAlert = mock(AlertProtocol.self)
+    func test_givenPlayerHasNoCryptoTurnOver_whenTapCryptoInfoButton_thenShowAlert_KTO_TC_6() {
+        let mockAlert = mock(AlertProtocol.self)
 
-    let sut = WithdrawalMainViewController.instance(alert: mockAlert)
+        let sut = WithdrawalMainViewController.instance(alert: mockAlert)
 
-    sut.loadViewIfNeeded()
+        sut.loadViewIfNeeded()
 
-    sut.alertCryptoLimitInformation()
+        sut.alertCryptoLimitInformation()
 
-    verify(mockAlert.show(
-      Localize.string("cps_crpyto_withdrawal_requirement_title"),
-      Localize.string("cps_crpyto_withdrawal_requirement_desc"),
-      confirm: any(),
-      confirmText: any(),
-      cancel: any(),
-      cancelText: any(),
-      tintColor: any()))
-      .wasCalled()
-  }
+        verify(mockAlert.show(
+            Localize.string("cps_crpyto_withdrawal_requirement_title"),
+            Localize.string("cps_crpyto_withdrawal_requirement_desc"),
+            confirm: any(),
+            confirmText: any(),
+            cancel: any(),
+            cancelText: any(),
+            tintColor: any()))
+            .wasCalled()
+    }
 
-  func test_givenHasCryptoTurnOver_whenTapFiatWithdrawal_thenShowAlert() {
-    let stubViewModel = getFakeWithdrawalMainViewModel()
-    let mockAlert = mock(AlertProtocol.self)
+    func test_givenHasCryptoTurnOver_whenTapFiatWithdrawal_thenShowAlert() {
+        let stubViewModel = getFakeWithdrawalMainViewModel()
+        let mockAlert = mock(AlertProtocol.self)
 
-    let sut = WithdrawalMainViewController.instance(viewModel: stubViewModel, alert: mockAlert)
+        let sut = WithdrawalMainViewController.instance(viewModel: stubViewModel, alert: mockAlert)
 
-    given(stubViewModel.instruction) ~> .init(
-      dailyAmountLimit: "",
-      dailyMaxCount: "",
-      turnoverRequirement: nil,
-      cryptoWithdrawalRequirement: ("1,000", "CNY"))
+        given(stubViewModel.instruction) ~> .init(
+            dailyAmountLimit: "",
+            dailyMaxCount: "",
+            turnoverRequirement: nil,
+            cryptoWithdrawalRequirement: ("1,000", "CNY"))
 
-    sut.loadViewIfNeeded()
+        sut.loadViewIfNeeded()
 
-    sut.alertCryptoWithdrawalNeeded()
+        sut.alertCryptoWithdrawalNeeded()
 
-    verify(mockAlert.show(
-      Localize.string("cps_cash_withdrawal_lock_title"),
-      Localize.string("cps_cash_withdrawal_lock_desc", "1,000CNY"),
-      confirm: any(),
-      confirmText: any(),
-      cancel: any(),
-      cancelText: any(),
-      tintColor: any()))
-      .wasCalled()
-  }
+        verify(mockAlert.show(
+            Localize.string("cps_cash_withdrawal_lock_title"),
+            Localize.string("cps_cash_withdrawal_lock_desc", "1,000CNY"),
+            confirm: any(),
+            confirmText: any(),
+            cancel: any(),
+            cancelText: any(),
+            tintColor: any()))
+            .wasCalled()
+    }
 
-  func test_givenPlayerIsNotValidForCryptoWithdrawal_whenTapCryptoWithdrawal_thenShowAlert() {
-    let mockAlert = mock(AlertProtocol.self)
+    func test_givenPlayerIsNotValidForCryptoWithdrawal_whenTapCryptoWithdrawal_thenShowAlert() {
+        let mockAlert = mock(AlertProtocol.self)
 
-    let sut = WithdrawalMainViewController.instance(alert: mockAlert)
+        let sut = WithdrawalMainViewController.instance(alert: mockAlert)
 
-    sut.loadViewIfNeeded()
+        sut.loadViewIfNeeded()
 
-    sut.alertFiatWithdrawalNeeded()
+        sut.alertFiatWithdrawalNeeded()
 
-    verify(mockAlert.show(
-      any(),
-      Localize.string("cps_withdrawal_all_fiat_first"),
-      confirm: any(),
-      confirmText: any(),
-      cancel: any(),
-      cancelText: any(),
-      tintColor: any()))
-      .wasCalled()
-  }
+        verify(mockAlert.show(
+            any(),
+            Localize.string("cps_withdrawal_all_fiat_first"),
+            confirm: any(),
+            confirmText: any(),
+            cancel: any(),
+            cancelText: any(),
+            tintColor: any()))
+            .wasCalled()
+    }
 }

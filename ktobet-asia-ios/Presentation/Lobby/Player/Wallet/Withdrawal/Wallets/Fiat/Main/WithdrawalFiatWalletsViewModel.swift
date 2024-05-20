@@ -2,59 +2,59 @@ import RxSwift
 import sharedbu
 
 protocol WithdrawalFiatWalletsViewModelProtocol: AnyObject {
-  var supportLocale: SupportLocale { get }
-  var playerWallet: WithdrawalDto.PlayerFiatWallet? { get }
-  var isUpToMaximum: Bool { get }
-  var isEditing: Bool { get set }
+    var supportLocale: SupportLocale { get }
+    var playerWallet: WithdrawalDto.PlayerFiatWallet? { get }
+    var isUpToMaximum: Bool { get }
+    var isEditing: Bool { get set }
 
-  func observeWallets()
-  func resetDisposeBag()
+    func observeWallets()
+    func resetDisposeBag()
 }
 
 class WithdrawalFiatWalletsViewModel:
-  CollectErrorViewModel,
-  WithdrawalFiatWalletsViewModelProtocol,
-  ObservableObject
+    CollectErrorViewModel,
+    WithdrawalFiatWalletsViewModelProtocol,
+    ObservableObject
 {
-  @Published private(set) var playerWallet: WithdrawalDto.PlayerFiatWallet?
+    @Published private(set) var playerWallet: WithdrawalDto.PlayerFiatWallet?
 
-  @Published var isEditing = false
+    @Published var isEditing = false
 
-  private let withdrawalService: IWithdrawalAppService
-  private var disposeBag = DisposeBag()
+    private let withdrawalService: IWithdrawalAppService
+    private var disposeBag = DisposeBag()
 
-  let supportLocale: SupportLocale
+    let supportLocale: SupportLocale
 
-  var isUpToMaximum: Bool {
-    playerWallet?.wallets.count ?? 0 >= playerWallet?.maxAmount ?? 3
-  }
+    var isUpToMaximum: Bool {
+        playerWallet?.wallets.count ?? 0 >= playerWallet?.maxAmount ?? 3
+    }
 
-  init(
-    withdrawalService: IWithdrawalAppService,
-    playerConfig: PlayerConfiguration)
-  {
-    self.withdrawalService = withdrawalService
-    self.supportLocale = playerConfig.supportLocale
-  }
+    init(
+        withdrawalService: IWithdrawalAppService,
+        playerConfig: PlayerConfiguration)
+    {
+        self.withdrawalService = withdrawalService
+        self.supportLocale = playerConfig.supportLocale
+    }
 
-  func observeWallets() {
-    Observable.from(
-      withdrawalService.getFiatWallets())
-      .publish(to: self, \.playerWallet)
-      .collectError(to: self)
-      .subscribe()
-      .disposed(by: disposeBag)
-  }
+    func observeWallets() {
+        Observable.from(
+            withdrawalService.getFiatWallets())
+            .publish(to: self, \.playerWallet)
+            .collectError(to: self)
+            .subscribe()
+            .disposed(by: disposeBag)
+    }
 
-  func resetDisposeBag() {
-    disposeBag = DisposeBag()
-  }
+    func resetDisposeBag() {
+        disposeBag = DisposeBag()
+    }
 }
 
 // MARK: - Wallet Row Model
 
 extension WithdrawalDto.FiatWallet: WalletRowModel {
-  var accountNumber: String {
-    bankAccount.accountNumber
-  }
+    var accountNumber: String {
+        bankAccount.accountNumber
+    }
 }

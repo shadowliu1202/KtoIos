@@ -4,30 +4,30 @@ import RxSwift
 import sharedbu
 
 class AppSynchronizeViewModel {
-  private let appUpdateUseCase: AppVersionUpdateUseCase
-  private let appStorage: ApplicationStorable
+    private let appUpdateUseCase: AppVersionUpdateUseCase
+    private let appStorage: ApplicationStorable
 
-  init(
-    appUpdateUseCase: AppVersionUpdateUseCase,
-    appStorage: ApplicationStorable)
-  {
-    self.appUpdateUseCase = appUpdateUseCase
-    self.appStorage = appStorage
-  }
+    init(
+        appUpdateUseCase: AppVersionUpdateUseCase,
+        appStorage: ApplicationStorable)
+    {
+        self.appUpdateUseCase = appUpdateUseCase
+        self.appStorage = appStorage
+    }
 
-  func getLatestAppVersion() -> Single<sharedbu.Version> {
-    self.appUpdateUseCase.getLatestAppVersion()
-  }
+    func getLatestAppVersion() -> Single<sharedbu.Version> {
+        self.appUpdateUseCase.getLatestAppVersion()
+    }
 
-  func getSuperSignStatus() -> Single<SuperSignStatus> {
-    self.appUpdateUseCase.getSuperSignatureMaintenance()
-  }
+    func getSuperSignStatus() -> Single<SuperSignStatus> {
+        self.appUpdateUseCase.getSuperSignatureMaintenance()
+    }
 
-  func getIsPoppedAutoUpdate() -> Bool {
-    appStorage.getIsPoppedAutoUpdate()
-  }
+    func getIsPoppedAutoUpdate() -> Bool {
+        appStorage.getIsPoppedAutoUpdate()
+    }
 
-  func setIsPoppedAutoUpdate(_ popped: Bool) {
-    appStorage.setIsPoppedAutoUpdate(popped)
-  }
+    func setIsPoppedAutoUpdate(_ popped: Bool) {
+        appStorage.setIsPoppedAutoUpdate(popped)
+    }
 }

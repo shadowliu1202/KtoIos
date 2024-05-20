@@ -2,48 +2,48 @@ import sharedbu
 import UIKit
 
 class TermsOfServiceViewController<Presenter: TermsPresenter>:
-  CommonViewController,
-  SwiftUIConverter
+    CommonViewController,
+    SwiftUIConverter
 {
-  let presenter: Presenter
+    let presenter: Presenter
 
-  static func instantiate(_ presenter: Presenter) -> TermsOfServiceViewController<Presenter> {
-    UIStoryboard(name: "Signup", bundle: nil)
-      .instantiateViewController(
-        identifier: "TermsOfServiceViewController",
-        creator: {
-          TermsOfServiceViewController(coder: $0, presenter: presenter)
-        })
-  }
+    static func instantiate(_ presenter: Presenter) -> TermsOfServiceViewController<Presenter> {
+        UIStoryboard(name: "Signup", bundle: nil)
+            .instantiateViewController(
+                identifier: "TermsOfServiceViewController",
+                creator: {
+                    TermsOfServiceViewController(coder: $0, presenter: presenter)
+                })
+    }
 
-  init?(coder: NSCoder, presenter: Presenter) {
-    self.presenter = presenter
-    super.init(coder: coder)
-  }
+    init?(coder: NSCoder, presenter: Presenter) {
+        self.presenter = presenter
+        super.init(coder: coder)
+    }
 
-  required init?(coder _: NSCoder) {
-    fatalError("init(coder:) has not been implemented")
-  }
+    required init?(coder _: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
-  override func viewDidLoad() {
-    super.viewDidLoad()
+    override func viewDidLoad() {
+        super.viewDidLoad()
 
-    setupUI()
-  }
+        setupUI()
+    }
 }
 
 // MARK: - UI
 
 extension TermsOfServiceViewController {
-  private func setupUI() {
-    NavigationManagement.sharedInstance.addBarButtonItem(
-      vc: self,
-      barItemType: presenter.barItemType)
+    private func setupUI() {
+        NavigationManagement.sharedInstance.addBarButtonItem(
+            vc: self,
+            barItemType: presenter.barItemType)
 
-    addSubView(
-      from: { [unowned self] in
-        TermsView(presenter: self.presenter)
-      },
-      to: view)
-  }
+        addSubView(
+            from: { [unowned self] in
+                TermsView(presenter: self.presenter)
+            },
+            to: view)
+    }
 }

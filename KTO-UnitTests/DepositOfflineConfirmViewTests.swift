@@ -8,101 +8,101 @@ import XCTest
 extension DepositOfflineConfirmView.Row: Inspecting { }
 
 final class DepositOfflineConfirmViewTests: XCBaseTestCase {
-  func buildMemo(amount: String) -> OfflineDepositDTO.Memo {
-    .init(
-      identity: "",
-      remitter: .init(name: "Test remiiter", account: "", bankName: ""),
-      remittance: amount.toAccountCurrency(),
-      beneficiary: .init(
-        bankId: "",
-        name: "",
-        branch: "Test branch",
-        account: .init(accountName: "Test receiver", accountNumber: "1234-5678-9011")),
-      expiredHour: 3)
-  }
-
-  func buildBankCard() -> PaymentsDTO.BankCard {
-    .init(
-      identity: "",
-      bankId: "1",
-      name: "Test selected bank",
-      verifier: .init())
-  }
-
-  func test_RemitAmountHaveTwoDecimal_DecimalTextColorIsOrangeFF8000() {
-    let stubViewModel = DepositOfflineConfirmViewModel(
-      depositService: mock(AbsDepositAppService.self),
-      locale: .China())
-
-    let attributed = stubViewModel
-      .amountAttributed(from: "100.12")
-      .attribute(
-        .foregroundColor,
-        at: 4,
-        longestEffectiveRange: nil,
-        in: .init(location: 0, length: 2)) as! UIColor
-
-    XCTAssertEqual(attributed, UIColor.alert)
-  }
-
-  func test_RemitAmountHaveNotDecimal_AllTextColorIsWhitePure() {
-    let stubViewModel = DepositOfflineConfirmViewModel(
-      depositService: mock(AbsDepositAppService.self),
-      locale: .China())
-
-    let attributed = stubViewModel
-      .amountAttributed(from: "100")
-      .attribute(
-        .foregroundColor,
-        at: 0,
-        longestEffectiveRange: nil,
-        in: .init(location: 0, length: 3)) as! UIColor
-
-    XCTAssertEqual(attributed, UIColor.greyScaleWhite)
-  }
-
-  func test_ValidTimeLeft3Hours_TextIsCorrect() {
-    let stubViewModel = DepositOfflineConfirmViewModel(
-      depositService: mock(AbsDepositAppService.self),
-      locale: .China())
-
-    let leftTime = stubViewModel.configTimeString(3 * 3600)
-
-    XCTAssertEqual(leftTime, "03:00:00")
-  }
-
-  func test_ValidTimeLeft30Minutes_TextIsCorrect() {
-    let stubViewModel = DepositOfflineConfirmViewModel(
-      depositService: mock(AbsDepositAppService.self),
-      locale: .China())
-
-    let leftTime = stubViewModel.configTimeString(30 * 60)
-
-    XCTAssertEqual(leftTime, "30:00")
-  }
-
-  func test_ContentWillBeCopied_PressCopyButton() {
-    let stubViewModel = DepositOfflineConfirmViewModel(
-      depositService: mock(AbsDepositAppService.self),
-      locale: .China())
-
-    let row = DepositOfflineConfirmView<DepositOfflineConfirmViewModel>.Row(type: .receiveBank)
-
-    UIPasteboard.general.setObjects([])
-    XCTAssertFalse(UIPasteboard.general.hasStrings)
-
-    let expectation = row.inspection.inspect { view in
-      try view
-        .hStack()
-        .button(2)
-        .tap()
-
-      XCTAssertTrue(UIPasteboard.general.hasStrings)
+    func buildMemo(amount: String) -> OfflineDepositDTO.Memo {
+        .init(
+            identity: "",
+            remitter: .init(name: "Test remiiter", account: "", bankName: ""),
+            remittance: amount.toAccountCurrency(),
+            beneficiary: .init(
+                bankId: "",
+                name: "",
+                branch: "Test branch",
+                account: .init(accountName: "Test receiver", accountNumber: "1234-5678-9011")),
+            expiredHour: 3)
     }
 
-    ViewHosting.host(
-      view: row.environmentObject(stubViewModel))
+    func buildBankCard() -> PaymentsDTO.BankCard {
+        .init(
+            identity: "",
+            bankId: "1",
+            name: "Test selected bank",
+            verifier: .init())
+    }
 
-    wait(for: [expectation], timeout: 30)
-  }
+    func test_RemitAmountHaveTwoDecimal_DecimalTextColorIsOrangeFF8000() {
+        let stubViewModel = DepositOfflineConfirmViewModel(
+            depositService: mock(AbsDepositAppService.self),
+            locale: .China())
+
+        let attributed = stubViewModel
+            .amountAttributed(from: "100.12")
+            .attribute(
+                .foregroundColor,
+                at: 4,
+                longestEffectiveRange: nil,
+                in: .init(location: 0, length: 2)) as! UIColor
+
+        XCTAssertEqual(attributed, UIColor.alert)
+    }
+
+    func test_RemitAmountHaveNotDecimal_AllTextColorIsWhitePure() {
+        let stubViewModel = DepositOfflineConfirmViewModel(
+            depositService: mock(AbsDepositAppService.self),
+            locale: .China())
+
+        let attributed = stubViewModel
+            .amountAttributed(from: "100")
+            .attribute(
+                .foregroundColor,
+                at: 0,
+                longestEffectiveRange: nil,
+                in: .init(location: 0, length: 3)) as! UIColor
+
+        XCTAssertEqual(attributed, UIColor.greyScaleWhite)
+    }
+
+    func test_ValidTimeLeft3Hours_TextIsCorrect() {
+        let stubViewModel = DepositOfflineConfirmViewModel(
+            depositService: mock(AbsDepositAppService.self),
+            locale: .China())
+
+        let leftTime = stubViewModel.configTimeString(3 * 3600)
+
+        XCTAssertEqual(leftTime, "03:00:00")
+    }
+
+    func test_ValidTimeLeft30Minutes_TextIsCorrect() {
+        let stubViewModel = DepositOfflineConfirmViewModel(
+            depositService: mock(AbsDepositAppService.self),
+            locale: .China())
+
+        let leftTime = stubViewModel.configTimeString(30 * 60)
+
+        XCTAssertEqual(leftTime, "30:00")
+    }
+
+    func test_ContentWillBeCopied_PressCopyButton() {
+        let stubViewModel = DepositOfflineConfirmViewModel(
+            depositService: mock(AbsDepositAppService.self),
+            locale: .China())
+
+        let row = DepositOfflineConfirmView<DepositOfflineConfirmViewModel>.Row(type: .receiveBank)
+
+        UIPasteboard.general.setObjects([])
+        XCTAssertFalse(UIPasteboard.general.hasStrings)
+
+        let expectation = row.inspection.inspect { view in
+            try view
+                .hStack()
+                .button(2)
+                .tap()
+
+            XCTAssertTrue(UIPasteboard.general.hasStrings)
+        }
+
+        ViewHosting.host(
+            view: row.environmentObject(stubViewModel))
+
+        wait(for: [expectation], timeout: 30)
+    }
 }

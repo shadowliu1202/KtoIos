@@ -4,24 +4,24 @@ import RxSwift
 import sharedbu
 
 class PlayerViewModel: CollectErrorViewModel {
-  @Injected private var loading: Loading
+    @Injected private var loading: Loading
   
-  private let authUseCase: AuthenticationUseCase
+    private let authUseCase: AuthenticationUseCase
 
-  private var loadingTracker: ActivityIndicator { loading.tracker }
+    private var loadingTracker: ActivityIndicator { loading.tracker }
 
-  init(authUseCase: AuthenticationUseCase) {
-    self.authUseCase = authUseCase
-  }
+    init(authUseCase: AuthenticationUseCase) {
+        self.authUseCase = authUseCase
+    }
 
-  func logout() -> Completable {
-    CustomServicePresenter.shared.closeService()
-      .observe(on: MainScheduler.instance)
-      .concat(authUseCase.logout())
-      .trackOnDispose(loadingTracker)
-  }
+    func logout() -> Completable {
+        CustomServicePresenter.shared.closeService()
+            .observe(on: MainScheduler.instance)
+            .concat(authUseCase.logout())
+            .trackOnDispose(loadingTracker)
+    }
 
-  func checkIsLogged() -> Single<Bool> {
-    authUseCase.isLogged()
-  }
+    func checkIsLogged() -> Single<Bool> {
+        authUseCase.isLogged()
+    }
 }
