@@ -147,7 +147,7 @@ extension WithdrawalDto.Log: LogRowModel {
   }
 
   var statusConfig: (text: String, color: UIColor)? {
-    (status.toString(), status.toColor())
+    (self.toStatusText(), self.toStatusColor())
   }
 
   var amountConfig: (text: String, color: UIColor) {

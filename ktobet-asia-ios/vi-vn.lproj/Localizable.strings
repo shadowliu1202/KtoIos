@@ -150,7 +150,7 @@ Nếu Quý Khách có bất kỳ câu hỏi hoặc vấn đề nào trong việc
 "common_password_tips_1" = "Mật Khẩu bao gồm 6 đến 12 chữ cái và số, không thể sử dụng \"# $%\", và phân biệt chữ hoa chữ thường.";
 "common_pending" = "Đang Xử Lý";
 "common_pending_2" = "Chờ Xác Nhận";
-"common_pending_hold" = "Đang Chờ Ngân Hàng Xử Lý";
+"common_pending_hold" = "Chờ Ngân Hàng Xử Lý";
 "common_player_inactive" = "Tài khoản của Quý Khách đã bị đóng vĩnh viễn. Vui lòng liên hệ Chăm Sóc Khách Hàng để được hỗ trợ.";
 "common_player_suspend" = "Tài khoản của Quý Khách đã bị đóng băng. Vui lòng liên hệ Chăm Sóc Khách Hàng để được hỗ trợ.";
 "common_playerid" = "Mã Số Thành Viên";

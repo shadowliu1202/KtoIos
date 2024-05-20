@@ -123,7 +123,7 @@ struct WithdrawalCryptoDetailView_Previews: PreviewProvider {
         createdDate: date,
         status: status,
         type: .crypto,
-        isPendingHold: false)
+        isBankProcessing: false)
 
       let requestMemo = ExchangeMemo(
         fromCrypto: "100".toCryptoCurrency(supportCryptoType: .usdt),

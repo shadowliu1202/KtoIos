@@ -17,7 +17,7 @@ final class WithdrawalCryptoDetailViewTests: XCBaseTestCase {
       createdDate: .Companion().fromEpochMilliseconds(epochMilliseconds: 0),
       status: status,
       type: .crypto,
-      isPendingHold: false)
+      isBankProcessing: false)
     let h1 = UpdateHistory(
       createdDate: .Companion().fromEpochMilliseconds(epochMilliseconds: 0),
       imageIds: [],

@@ -98,7 +98,7 @@ struct WithdrawalLogView_Previews: PreviewProvider {
             createdDate: .Companion().fromEpochMilliseconds(epochMilliseconds: 0),
             status: .approved,
             type: .fiat,
-            isPendingHold: false)
+            isBankProcessing: false)
           })]
       }
       else { sections = [] }

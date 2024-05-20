@@ -18,7 +18,7 @@ final class WithdrawalRecordDetailViewTests: XCBaseTestCase {
         createdDate: .Companion().fromEpochMilliseconds(epochMilliseconds: 0),
         status: status,
         type: .fiat,
-        isPendingHold: false),
+        isBankProcessing: false),
       isCancelable: true,
       isNeedDocument: true,
       updated: .Companion().fromEpochMilliseconds(epochMilliseconds: 0),

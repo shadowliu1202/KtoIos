@@ -25,7 +25,7 @@ struct WithdrawalRecordDetailView<ViewModel>: View
         .status(
           date: viewModel.log?.status == .pending ?
             nil : viewModel.log?.createdDate.toDateTimeString(),
-          content: viewModel.log?.status.toString()),
+          content: viewModel.log?.toStatusText()),
         .applyDate(viewModel.log?.createdDate.toDateTimeString()),
         .withdrawalId(viewModel.log?.displayId),
         .remark(.init(
@@ -109,7 +109,7 @@ struct WithdrawalRecordDetailView_Previews: PreviewProvider {
         createdDate: .Companion().fromEpochMilliseconds(epochMilliseconds: 0),
         status: status,
         type: .fiat,
-        isPendingHold: false)
+        isBankProcessing: false)
 
       switch status {
       case .floating:
@@ -122,8 +122,7 @@ struct WithdrawalRecordDetailView_Previews: PreviewProvider {
            .cancel,
            .fail,
            .other,
-           .pending,
-           .pendingHold:
+           .pending:
         return
       }
     }
