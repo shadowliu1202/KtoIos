@@ -1152,8 +1152,8 @@ struct BonusBean: Codable {
         let type: Int32
         let minCapital: Double
 
-        @DefaultCodable(String.minimumDate) var effectiveDate: String
-        @DefaultCodable(String.maximumDate) var expiryDate: String
+        var effectiveDate: String?
+        var expiryDate: String?
         @DefaultCodable(String.minimumDate) var updatedDate: String
     }
 
@@ -1236,8 +1236,8 @@ extension BonusBean.Coupon {
             informPlayerDate: self.informPlayerDate.toOffsetDateTime(),
             updatedDate: self.updatedDate.toKotlinLocalDateTime(),
             validPeriod: ValidPeriod.Companion().create(
-                start: self.effectiveDate.toOffsetDateTime(),
-                end: self.expiryDate.toOffsetDateTime()),
+                start: self.effectiveDate?.toOffsetDateTime() ?? OffsetDateTime.companion.NotDefine,
+                end: self.expiryDate?.toOffsetDateTime() ?? OffsetDateTime.companion.NotDefine),
             minCapital: self.knMinCapital)
     }
 
@@ -1253,13 +1253,13 @@ extension BonusBean.Coupon {
             productType: ProductType.convert(self.productType),
             informPlayerDate: self.informPlayerDate.toOffsetDateTime(),
             maxAmount: self.knMaxAmount,
-            endDate: self.effectiveDate.toKotlinLocalDateTime(),
+            endDate: self.effectiveDate?.toKotlinLocalDateTime() ?? OffsetDateTime.companion.NotDefine.toInstant().toLocalDateTime(timeZone: Injectable.resolve(PlayerConfiguration.self)!.localeTimeZone().toKotlinTimeZone()) ,
             name: self.name,
             betMultiple: self.betMultiple,
             fixTurnoverRequirement: self.fixTurnoverRequirement,
             validPeriod: ValidPeriod.Companion().create(
-                start: self.effectiveDate.toOffsetDateTime(),
-                end: self.expiryDate.toOffsetDateTime()),
+                start: self.effectiveDate?.toOffsetDateTime() ?? OffsetDateTime.companion.NotDefine,
+                end: self.expiryDate?.toOffsetDateTime() ?? OffsetDateTime.companion.NotDefine),
             updatedDate: self.updatedDate.toKotlinLocalDateTime(),
             couponStatus: self.couponStatus,
             minCapital: self.knMinCapital)
@@ -1273,13 +1273,12 @@ extension BonusBean.Coupon {
             issueNumber: self.issueNumber == 0 ? nil : KotlinInt(value: self.issueNumber),
             percentage: self.knPercentage,
             amount: self.knAmount,
-            endDate: self.effectiveDate.toKotlinLocalDateTime(),
+            endDate: self.effectiveDate?.toKotlinLocalDateTime() ?? OffsetDateTime.companion.NotDefine.toInstant().toLocalDateTime(timeZone: Injectable.resolve(PlayerConfiguration.self)!.localeTimeZone().toKotlinTimeZone()) ,
             betMultiple: self.betMultiple,
             fixTurnoverRequirement: self.fixTurnoverRequirement,
             validPeriod: ValidPeriod.Companion().create(
-                start: self.effectiveDate.toOffsetDateTime(),
-                end: self.expiryDate
-                    .toOffsetDateTime()),
+                start: self.effectiveDate?.toOffsetDateTime() ?? OffsetDateTime.companion.NotDefine,
+                end: self.expiryDate?.toOffsetDateTime() ?? OffsetDateTime.companion.NotDefine),
             couponStatus: self.couponStatus,
             updatedDate: self.updatedDate.toKotlinLocalDateTime(),
             informPlayerDate: self.informPlayerDate.toOffsetDateTime(),
@@ -1305,8 +1304,8 @@ extension BonusBean.Coupon {
             updatedDate: self.updatedDate.toKotlinLocalDateTime(),
             name: self.name,
             validPeriod: ValidPeriod.Companion().create(
-                start: self.effectiveDate.toOffsetDateTime(),
-                end: self.expiryDate.toOffsetDateTime()),
+                start: self.effectiveDate?.toOffsetDateTime() ?? OffsetDateTime.companion.NotDefine,
+                end: self.expiryDate?.toOffsetDateTime() ?? OffsetDateTime.companion.NotDefine),
             minCapital: self.knMinCapital)
     }
 
@@ -1318,16 +1317,12 @@ extension BonusBean.Coupon {
             issueNumber: KotlinInt(value: Int32(self.issueNumber)),
             percentage: self.knPercentage,
             amount: self.knAmount,
-            endDate: self.effectiveDate.toKotlinLocalDateTime(),
+            endDate: self.effectiveDate?.toKotlinLocalDateTime() ?? OffsetDateTime.companion.NotDefine.toInstant().toLocalDateTime(timeZone: Injectable.resolve(PlayerConfiguration.self)!.localeTimeZone().toKotlinTimeZone()) ,
             betMultiple: self.betMultiple,
             fixTurnoverRequirement: self.fixTurnoverRequirement,
-            validPeriod: ValidPeriod.Companion()
-                .create(
-                    start: self.effectiveDate.toOffsetDateTime(),
-                    end: self
-                        .expiryDate
-                        .toOffsetDateTime(
-                        )),
+            validPeriod: ValidPeriod.Companion().create(
+                start: self.effectiveDate?.toOffsetDateTime() ?? OffsetDateTime.companion.NotDefine,
+                end: self.expiryDate?.toOffsetDateTime() ?? OffsetDateTime.companion.NotDefine),
             couponStatus: self.couponStatus,
             updatedDate: self.updatedDate.toKotlinLocalDateTime(),
             informPlayerDate: self.informPlayerDate.toOffsetDateTime(),
