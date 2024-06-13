@@ -4,9 +4,9 @@ platform :ios, '14.0'
 
 
 def default_pods
-  pod 'Firebase/Analytics', '8.15.0'
-  pod 'Firebase/Crashlytics', '8.15.0'
-  pod 'Firebase/Performance', '8.15.0'
+  pod 'Firebase/Analytics', '10.27.0'
+  pod 'Firebase/Crashlytics', '10.27.0'
+  pod 'Firebase/Performance', '10.27.0'
   pod 'Alamofire', '5.4.1'
   pod 'RxSwift', '6.5.0'
   pod 'RxCocoa', '6.5.0'
