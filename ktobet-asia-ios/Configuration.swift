@@ -139,7 +139,7 @@ private class StagingConfig: Env {
 }
 
 private class PreProductionConfig: Env {
-    var internetProtocol = "http://"
+    var internetProtocol = "https://"
     var hostName: [String: [String]] = [
         SupportLocale.China.shared.cultureCode(): ["kpp-app.ppsite.fun"],
         SupportLocale.Vietnam.shared.cultureCode(): ["kpp-appvnd.ppsite.fun"]
