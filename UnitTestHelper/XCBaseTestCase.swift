@@ -53,7 +53,8 @@ private func injectStubGetProductStatus() {
     let systemStatusUseCase = mock(ISystemStatusUseCase.self)
 
     given(systemStatusUseCase.fetchMaintenanceStatus()) ~> .never()
-    given(systemStatusUseCase.fetchOTPStatus()) ~> .never()
+    given(systemStatusUseCase.isOtpBlocked()) ~> .never()
+    given(systemStatusUseCase.isOtpServiceAvaiable()) ~> .never()
     given(systemStatusUseCase.fetchCustomerServiceEmail()) ~> .never()
     given(systemStatusUseCase.observeMaintenanceStatusByFetch()) ~> .never()
     given(systemStatusUseCase.observeMaintenanceStatusChange()) ~> .never()

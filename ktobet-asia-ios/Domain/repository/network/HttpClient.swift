@@ -101,7 +101,7 @@ class HttpClient {
             let errorMsg = json["errorMsg"].string,
             !statusCode.isEmpty
         {
-            return .error(ExceptionFactory.companion.create(message: errorMsg, statusCode: statusCode))
+            return .error(ExceptionFactory.shared.create(message: errorMsg, statusCode: statusCode))
         }
         else {
             refreshLastAPISuccessDate()

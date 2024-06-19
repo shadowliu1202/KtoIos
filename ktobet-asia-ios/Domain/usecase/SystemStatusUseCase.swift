@@ -3,7 +3,8 @@ import RxSwift
 import sharedbu
 
 protocol ISystemStatusUseCase {
-    func fetchOTPStatus() -> Single<OtpStatus>
+    func isOtpServiceAvaiable() -> Single<OtpStatus>
+    func isOtpBlocked() -> Single<OtpStatus>
     func fetchMaintenanceStatus() -> Single<MaintenanceStatus>
     func fetchCustomerServiceEmail() -> Single<String>
     func fetchCopyRight() -> Single<String>
@@ -27,9 +28,14 @@ class SystemStatusUseCase: ISystemStatusUseCase {
         self.systemRepository = systemRepository
         self.signalRepository = signalRepository
     }
+    
+    func isOtpServiceAvaiable() -> Single<OtpStatus> {
+        systemRepository.isOTPServiceAvaliable()
+    }
 
-    func fetchOTPStatus() -> Single<OtpStatus> {
-        systemRepository.fetchOTPStatus()
+
+    func isOtpBlocked() -> Single<OtpStatus> {
+        systemRepository.isOTPBlocked()
     }
 
     func observeMaintenanceStatusByFetch() -> Observable<MaintenanceStatus> {

@@ -7,6 +7,11 @@ struct LoginRequest: Encodable {
     var captcha: String
 }
 
+struct LoginOtpRequest: Encodable {
+    var account: String
+    var loginAccountType: Int
+}
+
 struct IRegisterRequest: Encodable {
     var account: String?
     var accountType: Int?

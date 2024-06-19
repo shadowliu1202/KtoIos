@@ -9,9 +9,9 @@ class ServiceStatusViewModel {
     private let localStorageRepo: LocalStorageRepository
     private let playerDefaultProductType = ReplaySubject<ProductType>.create(bufferSize: 1)
     private var countDownTimer: CountDownTimer?
-
+    private var otpStatusSubject = BehaviorSubject<OtpStatus?>(value: nil)
     private(set) var input: Input!
-
+    private let disposeBag = DisposeBag()
     var output: Output!
 
     init(
@@ -21,7 +21,14 @@ class ServiceStatusViewModel {
         self.systemStatusUseCase = systemStatusUseCase
         self.localStorageRepo = localStorageRepo
 
-        let otpService = systemStatusUseCase.fetchOTPStatus()
+        systemStatusUseCase.isOtpServiceAvaiable()
+            .subscribe(onSuccess: { [unowned self] otpStatus in
+                otpStatusSubject.onNext(otpStatus)
+            },onFailure: {[unowned self]  _ in
+                otpStatusSubject.onNext(nil)
+            }) .disposed(by: disposeBag)
+
+        let otpService = systemStatusUseCase.isOtpBlocked()
         let customerServiceEmail = systemStatusUseCase.fetchCustomerServiceEmail().asDriver(onErrorJustReturn: "")
         let maintainStatus = systemStatusUseCase.observeMaintenanceStatusByFetch()
         let maintainStatusPerSecond = systemStatusUseCase.observeMaintenanceStatusByFetch()
@@ -45,6 +52,10 @@ class ServiceStatusViewModel {
             productMaintainTime: productMaintainTime,
             productsMaintainTime: productsMaintainTime)
         self.input = Input(playerDefaultProductType: playerDefaultProductType.asObserver())
+    }
+
+    func getOtpServiceIsAvilable() -> OtpStatus? {
+        return try? otpStatusSubject.value()
     }
 
     private func timeOfRefresh(seconds _: Int32?) {

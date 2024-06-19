@@ -60,7 +60,7 @@ platform :ios do
       password: ENV["KEYCHAIN_PASSWORD"])
         
     app_store_connect_api_key(
-      key_id:  ENV['KEY_ID'],  #API key id
+      key_id:  ENV['KEY_ID'],
       issuer_id: "7a9803b0-51d8-44c5-ba26-f916da982cbe",  #Issuer ID
       key_filepath: ENV['API_KEY'],
       duration: 1200,
@@ -193,26 +193,26 @@ platform :ios do
   end
 
   lane :uploadToTestflight do |options|
-        setupKeyStore()
-    
-        SyncVersion(
-          plistPath: "ktobet-asia-ios/ktobet-asia-ios-qat-Info.plist",
-          buildVersion: options[:buildVersion],
-          appVersion: options[:appVersion])
+    setupKeyStore()
 
-        qat1Testflight(options)
+    SyncVersion(
+      plistPath: "ktobet-asia-ios/ktobet-asia-ios-qat-Info.plist",
+      buildVersion: options[:buildVersion],
+      appVersion: options[:appVersion])
 
-        versionNum = options[:appVersion]
+    qat1Testflight(options)
 
-        upload_to_testflight(
-          username: "higgs-mobile@hotmail.com",
-          app_identifier: "com.kto.asia.qat-1",
-          ipa: "./output/ktobet-asia-ios-#{versionNum}-qat.ipa",
-          skip_waiting_for_build_processing: true)
+    versionNum = options[:appVersion]
 
-        upload_symbols_to_crashlytics(
-          dsym_path: "./output/ktobet-asia-ios-#{versionNum}-qat.app.dSYM.zip",
-          gsp_path: "./ktobet-asia-ios/Firebase/qat/GoogleService-Info.plist")
+    upload_to_testflight(
+      username: "higgs-mobile@hotmail.com",
+      app_identifier: "com.kto.asia.qat-1",
+      ipa: "./output/ktobet-asia-ios-#{versionNum}-qat.ipa",
+      skip_waiting_for_build_processing: true)
+
+    upload_symbols_to_crashlytics(
+      dsym_path: "./output/ktobet-asia-ios-#{versionNum}-qat.app.dSYM.zip",
+      gsp_path: "./ktobet-asia-ios/Firebase/qat/GoogleService-Info.plist")
 	end
  
   lane :uploadToDevTestflight do |options|
@@ -222,26 +222,26 @@ platform :ios do
       plistPath: "ktobet-asia-ios/Info.plist",
       buildVersion: options[:buildVersion],
       appVersion: options[:appVersion])
-
-    versionNum = options[:appVersion]
-    
-    match(type: "appstore", readonly: true, app_identifier:"com.kto.asia.dev")
-    
-    gym(
-      configuration: "Release",
-      scheme: "ktobet-asia-ios",
-      clean: true,
-      archive_path: "./output/dev.xcarchive",
-      output_directory: "output",
-      output_name: "ktobet-asia-ios-#{versionNum}-dev.ipa",
-      export_method: 'app-store')
-    
-    upload_to_testflight(
-      username: "higgs-mobile@hotmail.com",
-      app_identifier: "com.kto.asia.dev",
-      ipa: "./output/ktobet-asia-ios-#{versionNum}-dev.ipa",
-      skip_waiting_for_build_processing: true)
-  end
+      
+      versionNum = options[:appVersion]
+      
+      match(type: "appstore", readonly: true, app_identifier:"com.kto.asia.dev")
+      
+      gym(
+        configuration: "Release",
+        scheme: "ktobet-asia-ios",
+        clean: true,
+        archive_path: "./output/dev.xcarchive",
+        output_directory: "output",
+        output_name: "ktobet-asia-ios-#{versionNum}-dev.ipa",
+        export_method: 'app-store')
+      
+      upload_to_testflight(
+        username: "higgs-mobile@hotmail.com",
+        app_identifier: "com.kto.asia.dev",
+        ipa: "./output/ktobet-asia-ios-#{versionNum}-dev.ipa",
+        skip_waiting_for_build_processing: true)
+    end
  
   private_lane :qat1Testflight do |options|
     versionNum = options[:appVersion]

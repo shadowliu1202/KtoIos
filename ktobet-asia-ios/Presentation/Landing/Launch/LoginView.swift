@@ -6,17 +6,20 @@ struct LoginView: View {
 
     @State private var isLoadedData = false
 
-    var onLogin: (NavigationViewModel.LobbyPageNavigation?, Error?) -> Void
-    var onResetPassword: () -> Void
-  
+    let onLogin: (NavigationViewModel.LobbyPageNavigation?, Error?) -> Void
+    let onResetPassword: () -> Void
+    let onOtpLogin: () -> Void
+
     init(
         viewModel: LoginViewModel,
         onLogin: @escaping (NavigationViewModel.LobbyPageNavigation?, Error?) -> Void,
-        onResetPassword: @escaping () -> Void)
+        onResetPassword: @escaping () -> Void,
+        onOTPLogin: @escaping () -> Void)
     {
         self._viewModel = .init(wrappedValue: viewModel)
         self.onLogin = onLogin
         self.onResetPassword = onResetPassword
+        self.onOtpLogin = onOTPLogin
     }
 
     var body: some View {
@@ -55,6 +58,16 @@ struct LoginView: View {
                     }
                     LimitSpacer(24)
                     self.resetPassword(onTapped: onResetPassword)
+                    LimitSpacer(30)
+                    HStack {
+                        Separator()
+                        Text(Localize.string("common_or"))
+                            .localized(weight: .regular, size: 14, color: .textPrimary)
+                            .padding(.horizontal, 30)
+                        Separator()
+                    }.frame(maxWidth: .infinity)
+                    LimitSpacer(30)
+                    otpLoginButton(onPressed: onOtpLogin)
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.horizontal, 30)
@@ -212,6 +225,22 @@ struct LoginView: View {
         }
         .localized(weight: .regular, size: 14)
     }
+
+    @ViewBuilder
+    private func otpLoginButton(onPressed: @escaping () -> Void) -> some View {
+        Button(
+            action: { onPressed() },
+            label: {
+                Text(Localize.string("login_by_otp"))
+                    .foregroundColor(.from(.primaryDefault))
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 48)
+                    .background(
+                        RoundedRectangle(cornerRadius: 8).stroke(Color.from(.textPrimary), lineWidth: 0.5)
+                    )
+            })
+            .localized(weight: .regular, size: 16)
+    }
 }
 
 struct LoginView_Previews: PreviewProvider {
@@ -219,6 +248,7 @@ struct LoginView_Previews: PreviewProvider {
         LoginView(
             viewModel: Injectable.resolveWrapper(LoginViewModel.self),
             onLogin: { _, _ in },
-            onResetPassword: { })
+            onResetPassword: {},
+            onOTPLogin: {})
     }
 }

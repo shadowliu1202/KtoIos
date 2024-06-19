@@ -31,7 +31,7 @@ class OldEmailVerifyViewController: OtpViewControllerProtocol {
         validator.otpAccountType.onNext(sharedbu.AccountType.email)
     }
 
-    func verifyOnCompleted() {
+    func verifyOnCompleted(onError: @escaping (Error) -> Void) {
         let setIdentityViewController = UIStoryboard(name: "Profile", bundle: nil)
             .instantiateViewController(withIdentifier: "SetIdentityViewController") as! SetIdentityViewController
         setIdentityViewController.delegate = SetEmailIdentity(mode: .oldModify)

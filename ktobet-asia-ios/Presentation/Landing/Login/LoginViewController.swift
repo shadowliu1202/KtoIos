@@ -109,7 +109,9 @@ class LoginViewController: LandingViewController {
                         }
                     }
                 },
-                onResetPassword: { [unowned self] in navigateToResetPasswordPage() }))
+                onResetPassword: { [unowned self] in navigateToResetPasswordPage() },
+                onOTPLogin: {[unowned self] in navigateToOtpLoginPage()}
+            ))
     }
 
     private func executeNavigation(_ navigation: NavigationViewModel.LobbyPageNavigation) {
@@ -166,6 +168,10 @@ class LoginViewController: LandingViewController {
                 },
                 onFailure: { [unowned self] in handleErrors($0) })
             .disposed(by: self.disposeBag)
+    }
+    
+    private func navigateToOtpLoginPage() {
+        performSegue(withIdentifier: OtpLoginViewController.segueIdentifier, sender: serviceStatusViewModel.getOtpServiceIsAvilable())
     }
 
     @IBAction

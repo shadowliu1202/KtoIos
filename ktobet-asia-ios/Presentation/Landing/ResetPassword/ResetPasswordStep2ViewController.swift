@@ -38,7 +38,7 @@ class ResetPasswordStep2ViewController: OtpViewControllerProtocol {
         validator.otpAccountType.onNext(type)
     }
 
-    func verifyOnCompleted() {
+    func verifyOnCompleted(onError: @escaping (Error) -> Void) {
         let resetPasswordStep3ViewController = UIStoryboard(name: "ResetPassword", bundle: nil)
             .instantiateViewController(withIdentifier: "ResetPasswordStep3ViewController") as! ResetPasswordStep3ViewController
         UIApplication.topViewController()?.navigationController?

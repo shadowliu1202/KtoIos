@@ -34,7 +34,7 @@ protocol AuthenticationUseCase {
 }
 
 class AuthenticationUseCaseImpl: AuthenticationUseCase {
-    private let repoAuth: IAuthRepository
+    private let repoAuth: AuthRepository
     private let repoPlayer: PlayerRepository
     private let localStorageRepo: LocalStorageRepository
     private let settingStore: SettingStore
@@ -42,7 +42,7 @@ class AuthenticationUseCaseImpl: AuthenticationUseCase {
     @Injected(name: "CheckingIsLogged") private var checkIsLoggedTracker: ActivityIndicator
 
     init(
-        authRepository: IAuthRepository,
+        authRepository: AuthRepository,
         playerRepository: PlayerRepository,
         localStorageRepo: LocalStorageRepository,
         settingStore: SettingStore)
@@ -70,7 +70,7 @@ class AuthenticationUseCaseImpl: AuthenticationUseCase {
                 self?.logLoginDay()
             })
     }
-
+    
     private func logLoginDay() {
         let now = Date().convertdateToUTC()
         let lastDay = localStorageRepo.getLastLoginDate()?.convertdateToUTC()

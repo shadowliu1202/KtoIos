@@ -32,6 +32,11 @@ class PortalApi: ApiService {
         let target = GetAPITarget(service: self.url("api/init/portal-maintenance"))
         return httpClient.request(target).map(ResponseData<OtpStatus>.self)
     }
+    
+    func getOtpMaintenance() -> Single<ResponseData<OtpStatus>> {
+        let target = GetAPITarget(service: self.url("api/init/otp-maintenance"))
+        return httpClient.request(target).map(ResponseData<OtpStatus>.self)
+    }
 
     func getLocalization() -> Single<ResponseData<ILocalizationData>> {
         let target = GetAPITarget(service: self.url("api/init/localization"))

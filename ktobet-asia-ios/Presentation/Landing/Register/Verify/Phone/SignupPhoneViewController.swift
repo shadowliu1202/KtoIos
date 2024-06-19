@@ -41,7 +41,7 @@ class SignupPhoneViewController: OtpViewControllerProtocol {
         }, cancel: nil)
     }
 
-    func verifyOnCompleted() {
+    func verifyOnCompleted(onError: @escaping (Error) -> Void) {
         NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "DefaultProductNavigationViewController")
     }
 }

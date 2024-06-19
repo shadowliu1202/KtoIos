@@ -28,6 +28,7 @@ final class Injection {
             PrivilegeAssembly(),
             RegisterAssembly(),
             ResetPasswordAssembly(),
+            LoginAssembly(),
             NotificationAssembly(),
             PromotionAssembly(),
             NumberGameAssembly(),
