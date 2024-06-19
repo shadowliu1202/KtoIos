@@ -104,7 +104,7 @@ final class CryptoSelectorViewControllerTests: XCBaseTestCase {
     func test_givenDepositCountOverLimit_InCryptoSelectPage_thenAlertRequestLater() {
         stubLocalizeUtils(.China())
 
-        let playerDepositCountOverLimit = ExceptionFactory.companion.create(message: "", statusCode: "10101")
+        let playerDepositCountOverLimit = ExceptionFactory.shared.create(message: "", statusCode: "10101")
 
         let stubViewModel = mock(CryptoDepositViewModel.self)
             .initialize(

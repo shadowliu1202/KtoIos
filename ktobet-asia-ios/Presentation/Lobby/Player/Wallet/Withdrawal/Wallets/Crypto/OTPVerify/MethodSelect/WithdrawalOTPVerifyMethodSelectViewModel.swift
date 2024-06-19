@@ -41,7 +41,7 @@ class WithdrawalOTPVerifyMethodSelectViewModel:
     func setup(_ otpServiceUnavailable: (() -> Void)?) {
         setupOTPServiceStatusRefreshing(otpServiceUnavailable)
 
-        fetchOTPStatus()
+        fetchOtpStatus()
     }
 
     private func setupOTPServiceStatusRefreshing(_ allMethodsOnUnavailable: (() -> Void)?) {
@@ -159,9 +159,9 @@ class WithdrawalOTPVerifyMethodSelectViewModel:
         }
     }
 
-    private func fetchOTPStatus() {
+    private func fetchOtpStatus() {
         getSystemStatusUseCase
-            .fetchOTPStatus()
+            .isOtpBlocked()
             .subscribe(
                 onSuccess: { [weak self] otpStatus in
                     self?.otpStatusSubject
@@ -189,7 +189,7 @@ class WithdrawalOTPVerifyMethodSelectViewModel:
                 onError: {
                     switch $0 {
                     case is WithdrawalDto.VerifyRequestErrorStatus:
-                        self.fetchOTPStatus()
+                        self.fetchOtpStatus()
                     default:
                         self.errorsSubject.onNext($0)
                     }

@@ -67,7 +67,8 @@ final class LaunchAppTest: XCBaseTestCase {
     private func stubMaintenanceStatus(isAllMaintenance: Bool) {
         let stubSystemUseCase = mock(ISystemStatusUseCase.self)
 
-        given(stubSystemUseCase.fetchOTPStatus()) ~> .just(.init(isMailActive: true, isSmsActive: true))
+        given(stubSystemUseCase.isOtpBlocked()) ~> .just(.init(isMailActive: true, isSmsActive: true))
+        given(stubSystemUseCase.isOtpServiceAvaiable()) ~> .just(.init(isMailActive: true, isSmsActive: true))
         given(stubSystemUseCase.fetchCustomerServiceEmail()) ~> .just("")
 
         if isAllMaintenance {

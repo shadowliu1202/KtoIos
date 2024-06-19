@@ -3,7 +3,8 @@ import RxSwift
 import sharedbu
 
 protocol SystemRepository {
-    func fetchOTPStatus() -> Single<OtpStatus>
+    func isOTPBlocked() -> Single<OtpStatus>
+    func isOTPServiceAvaliable() -> Single<OtpStatus>
     func observePortalMaintenanceState() -> Observable<MaintenanceStatus>
     func fetchCustomerServiceEmail() -> Single<String>
     func refreshPortalMaintenanceState()
@@ -35,9 +36,17 @@ class SystemRepositoryImpl: SystemRepository {
             }
     }
 
-    func fetchOTPStatus() -> Single<OtpStatus> {
+    func isOTPBlocked() -> Single<OtpStatus> {
         portalApi
             .getPortalMaintenance()
+            .map { response -> OtpStatus in
+                response.data ?? OtpStatus(isMailActive: false, isSmsActive: false)
+            }
+    }
+    
+    func isOTPServiceAvaliable() -> RxSwift.Single<OtpStatus> {
+        portalApi
+            .getOtpMaintenance()
             .map { response -> OtpStatus in
                 response.data ?? OtpStatus(isMailActive: false, isSmsActive: false)
             }
@@ -54,7 +63,7 @@ class SystemRepositoryImpl: SystemRepository {
     func fetchCustomerServiceEmail() -> Single<String> {
         portalApi.getCustomerServiceEmail()
             .map { $0.data ?? "" }
-            .catch({ [weak self] error in
+            .catch { [weak self] error in
                 guard let self else { return Single.error(error) }
                 if error.isMaintenance() {
                     return Single.just(self.maintainCsEmail())
@@ -62,7 +71,7 @@ class SystemRepositoryImpl: SystemRepository {
                 else {
                     return Single.error(error)
                 }
-            })
+            }
     }
 
     func fetchMaintenanceStatus() -> Single<MaintenanceStatus> {
@@ -89,7 +98,7 @@ class SystemRepositoryImpl: SystemRepository {
         portalApi.getProductStatus()
             .map { try $0.data?.toMaintenanceStatus() ?? MaintenanceStatus.AllPortal(duration: nil) }
             .do(onSuccess: { self.productStatusChange.onNext($0) })
-            .catch({ [weak self] error in
+            .catch { [weak self] error in
                 guard let self else { return Single.error(error) }
                 if error.isMaintenance() {
                     self.productStatusChange
@@ -100,7 +109,7 @@ class SystemRepositoryImpl: SystemRepository {
                 }
 
                 return Single.just(MaintenanceStatus.AllPortal(remainingSeconds: self.getMaintenanceTimeFromCookies()))
-            })
+            }
     }
 
     private func getMaintenanceTimeFromCookies() -> KotlinInt? {
@@ -118,6 +127,6 @@ class SystemRepositoryImpl: SystemRepository {
     }
 
     func fetchCopyRight() -> Single<String> {
-        portalApi.getYearOfCopyRight().map({ $0.data })
+        portalApi.getYearOfCopyRight().map { $0.data }
     }
 }

@@ -22,7 +22,8 @@ final class NumberGameViewControllerTests: XCBaseTestCase {
                 timeZone: sharedbu.TimeZone.companion.of(zoneId: "Asia/Ho_Chi_Minh"))])
     
         let stubSystemStatusUseCase = mock(ISystemStatusUseCase.self)
-        given(stubSystemStatusUseCase.fetchOTPStatus()) ~> .just(OtpStatus(isMailActive: true, isSmsActive: true))
+        given(stubSystemStatusUseCase.isOtpBlocked()) ~> .just(OtpStatus(isMailActive: true, isSmsActive: true))
+        given(stubSystemStatusUseCase.isOtpServiceAvaiable()) ~> .just(OtpStatus(isMailActive: true, isSmsActive: true))
         given(stubSystemStatusUseCase.fetchCustomerServiceEmail()) ~> .just("")
         given(stubSystemStatusUseCase.observeMaintenanceStatusChange()) ~> .just(())
         given(stubSystemStatusUseCase.fetchMaintenanceStatus()) ~> .just(stubMaintenanceStatus)

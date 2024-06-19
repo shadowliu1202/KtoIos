@@ -26,7 +26,7 @@ final class WithdrawalOTPVerifyMethodSelectViewControllerTests: XCBaseTestCase {
             alert: mockAlert,
             bankCardID: "")
 
-        given(stubGetSystemStatusUseCase.fetchOTPStatus()) ~> .just(.init(isMailActive: false, isSmsActive: false))
+        given(stubGetSystemStatusUseCase.isOtpBlocked()) ~> .just(.init(isMailActive: false, isSmsActive: false))
         given(stubPlayerDataUseCase.loadPlayer()) ~> .just(.init(
             gameId: "",
             playerInfo: .init(

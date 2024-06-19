@@ -31,7 +31,7 @@ class OldMobileVerifyViewController: OtpViewControllerProtocol {
         validator.otpAccountType.onNext(sharedbu.AccountType.phone)
     }
 
-    func verifyOnCompleted() {
+    func verifyOnCompleted(onError: @escaping (Error) -> Void) {
         let setIdentityViewController = UIStoryboard(name: "Profile", bundle: nil)
             .instantiateViewController(withIdentifier: "SetIdentityViewController") as! SetIdentityViewController
         setIdentityViewController.delegate = SetMobileIdentity(mode: .oldModify)

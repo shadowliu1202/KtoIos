@@ -443,6 +443,10 @@ vui lòng thử lại lúc %@";
 "common_tip_cn_down_title_warm" = "温馨提示";
 "common_cn_down_confirm" = "确认";
 "common_web_view_ssl_alert" = "Quý Khách sẽ rời Ứng Dụng KTO Châu Á và đi đến một website bên ngoài.";
+"common_or" = "hoặc";
+"common_warning_rapid_operation" = "Quý Khách đã thử nhiều lần và đã nhập thông tin không chính xác.";
+"common_security_error" = "Xác Minh Bảo Mật không thành công";
+"common_confirm_leaving_title" = "Trang hiện tại sẽ bị mất. Quý Khách có chắc chắn rời đi?";
 
 //MARK: - SportsBook
 "sportsbook_bet_rules" = "Luật Thể Thao";
@@ -523,6 +527,17 @@ Vui lòng Xác Minh.";
 "login_resetpassword_success" = "Đặt Lại Mật Khẩu thành công";
 "login_resetpassword_fail_title" = "Đặt Lại Mật Khẩu không thành công";
 "login_resetpassword_fail_unknown" = "Xin lỗi, Phương Thức Đặt Lại này tạm thời không khả dụng.";
+"login_by_otp" = "Đăng Nhập bằng OTP";
+"login_by_otp_step_1_title" = "Đăng Nhập bằng OTP 1/2";
+"login_by_otp_step_1_description" = "Chọn phương thức nhận OTP";
+"login_by_otp_step_2_title" = "Đăng Nhập bằng OTP 2/2";
+"login_by_otp_step_2_mobile_description" = "Xác Minh Số Di Động";
+"login_by_otp_step_2_email_description" = "Xác Minh Email";
+"login_servce_unaviable" = "Xin lỗi, phương thức này tạm thời không khả dụng.";
+"login_mobile_send_limit" = "Số Di Động này đã yêu cầu quá Số Lần Gửi khả dụng. Vui lòng thử lại vào 07:00 ngày mai.";
+"login_mail_send_limit" = "Email này đã yêu cầu quá Số Lần Gửi khả dụng. Vui lòng thử lại vào 07:00 ngày mai.";
+"login_cancel_otp_login" = "Hủy Đăng Nhập bằng OTP";
+"login_or" = "hoặc";
 
 //MARK: - Deposit
 "deposit_title" = "Gửi Tiền";

@@ -35,7 +35,7 @@ final class WithdrawalOTPVerifyMethodSelectViewModelTests: XCBaseTestCase {
             dummyPlayerConfiguration,
             dummyAbsWithdrawalAppService)
 
-        given(stubGetSystemStatusUseCase.fetchOTPStatus()) ~> .just(.init(isMailActive: false, isSmsActive: true))
+        given(stubGetSystemStatusUseCase.isOtpBlocked()) ~> .just(.init(isMailActive: false, isSmsActive: true))
         given(stubPlayerDataUseCase.loadPlayer()) ~> .just(self.notSetContactInfoPlayer)
 
         sut.selectedAccountType = .phone
@@ -68,7 +68,7 @@ final class WithdrawalOTPVerifyMethodSelectViewModelTests: XCBaseTestCase {
             dummyPlayerConfiguration,
             dummyAbsWithdrawalAppService)
 
-        given(stubGetSystemStatusUseCase.fetchOTPStatus()) ~> .just(.init(isMailActive: true, isSmsActive: false))
+        given(stubGetSystemStatusUseCase.isOtpBlocked()) ~> .just(.init(isMailActive: true, isSmsActive: false))
         given(stubPlayerDataUseCase.loadPlayer()) ~> .just(self.notSetContactInfoPlayer)
         sut.selectedAccountType = .email
 
@@ -100,7 +100,7 @@ final class WithdrawalOTPVerifyMethodSelectViewModelTests: XCBaseTestCase {
             dummyPlayerConfiguration,
             dummyAbsWithdrawalAppService)
 
-        given(stubGetSystemStatusUseCase.fetchOTPStatus()) ~> .just(.init(isMailActive: true, isSmsActive: false))
+        given(stubGetSystemStatusUseCase.isOtpBlocked()) ~> .just(.init(isMailActive: true, isSmsActive: false))
         given(stubPlayerDataUseCase.loadPlayer()) ~> .just(self.notSetContactInfoPlayer)
 
         sut.selectedAccountType = .phone
@@ -133,7 +133,7 @@ final class WithdrawalOTPVerifyMethodSelectViewModelTests: XCBaseTestCase {
             dummyPlayerConfiguration,
             dummyAbsWithdrawalAppService)
 
-        given(stubGetSystemStatusUseCase.fetchOTPStatus()) ~> .just(.init(isMailActive: false, isSmsActive: true))
+        given(stubGetSystemStatusUseCase.isOtpBlocked()) ~> .just(.init(isMailActive: false, isSmsActive: true))
         given(stubPlayerDataUseCase.loadPlayer()) ~> .just(self.notSetContactInfoPlayer)
         sut.selectedAccountType = .email
 
@@ -165,7 +165,7 @@ final class WithdrawalOTPVerifyMethodSelectViewModelTests: XCBaseTestCase {
             dummyPlayerConfiguration,
             dummyAbsWithdrawalAppService)
 
-        given(stubGetSystemStatusUseCase.fetchOTPStatus()) ~> .just(.init(isMailActive: true, isSmsActive: false))
+        given(stubGetSystemStatusUseCase.isOtpBlocked()) ~> .just(.init(isMailActive: true, isSmsActive: false))
         given(stubPlayerDataUseCase.loadPlayer()) ~> .just(self.notSetContactInfoPlayer)
 
         sut.selectedAccountType = .phone
@@ -196,7 +196,7 @@ final class WithdrawalOTPVerifyMethodSelectViewModelTests: XCBaseTestCase {
             dummyPlayerConfiguration,
             dummyAbsWithdrawalAppService)
 
-        given(stubGetSystemStatusUseCase.fetchOTPStatus()) ~> .just(.init(isMailActive: false, isSmsActive: true))
+        given(stubGetSystemStatusUseCase.isOtpBlocked()) ~> .just(.init(isMailActive: false, isSmsActive: true))
         given(stubPlayerDataUseCase.loadPlayer()) ~> .just(self.notSetContactInfoPlayer)
 
         sut.selectedAccountType = .phone

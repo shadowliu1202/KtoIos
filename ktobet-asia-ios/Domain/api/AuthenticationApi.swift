@@ -11,6 +11,7 @@ class AuthenticationApi {
     }
 
     // MARK: 註冊
+
     func register(_ registerRequest: IRegisterRequest) -> Completable {
         let target = APITarget(
             baseUrl: httpClient.host,
@@ -52,6 +53,7 @@ class AuthenticationApi {
     }
 
     // MARK: 登入
+
     func login(_ account: String, _ password: String, _ captcha: Captcha) -> Single<ResponseData<ILoginData>> {
         let para = LoginRequest(account: account, password: password, captcha: captcha.passCode)
         let target = APITarget(
@@ -65,6 +67,51 @@ class AuthenticationApi {
                 Logger.shared.info(($0.response?.headers.description) ?? "")
             })
             .map(ResponseData<ILoginData>.self)
+    }
+
+    func loginOtp(account: String, accountType: Int) -> Single<ResponseData<String>> {
+        let para = LoginOtpRequest(account: account, loginAccountType: accountType)
+        let target = APITarget(
+            baseUrl: httpClient.host,
+            path: "api/auth/login/otp",
+            method: .post,
+            task: .requestJSONEncodable(para),
+            header: httpClient.headers)
+        return httpClient.request(target)
+            .do(onSuccess: {
+                Logger.shared.info(($0.response?.headers.description) ?? "")
+            })
+            .map(ResponseData<String>.self)
+    }
+
+    func loginResendOtp() -> Single<ResponseData<String>> {
+        let target = APITarget(
+            baseUrl: httpClient.host,
+            path: "api/auth/login/resend-otp",
+            method: .post,
+            task: .requestPlain,
+            header: httpClient.headers)
+        return httpClient.request(target)
+            .do(onSuccess: {
+                Logger.shared.info(($0.response?.headers.description) ?? "")
+            })
+            .map(ResponseData<String>.self)
+    }
+
+    func loginVerifyOtp(by verifyCode: String) -> Single<ResponseData<String>> {
+        let target = APITarget(
+            baseUrl: httpClient.host,
+            path: "api/auth/login/verify-otp",
+            method: .post,
+            task: .requestJSONEncodable(IVerifyOtpRequest(verifyCode: verifyCode)),
+            header: httpClient.headers)
+        return httpClient.request(target)
+            .do(onSuccess: {
+                let result = String(data: $0.data, encoding: .utf8)
+                Logger.shared.debug(result ?? "No Response")
+                Logger.shared.info(($0.response?.headers.description) ?? "")
+            })
+            .map(ResponseData<String>.self)
     }
 
     func isLogged() -> Single<ResponseData<Bool>> {
@@ -93,6 +140,7 @@ class AuthenticationApi {
     }
 
     // MARK: 重置密碼
+
     func requestResetPassword(_ account: String, accountType: Int) -> Completable {
         let para = IResetPasswordRequest(account: account, accountType: accountType)
         let target = APITarget(

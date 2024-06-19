@@ -100,7 +100,7 @@ class ResetPasswordViewModel: CollectErrorViewModel {
                 }
         
                 return self.systemUseCase
-                    .fetchOTPStatus()
+                    .isOtpBlocked()
                     .map { $0 }
                     .catch { [weak self] error in
                         self?.errorsSubject

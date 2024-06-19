@@ -35,7 +35,7 @@ class VerifyNewMobileViewController: OtpViewControllerProtocol {
         } cancel: { }
     }
 
-    func verifyOnCompleted() {
+    func verifyOnCompleted(onError: @escaping (Error) -> Void) {
         Alert.shared.show(
             Localize.string("common_tip_title_warm"),
             Localize.string("profile_identity_mobile_modify_success"),

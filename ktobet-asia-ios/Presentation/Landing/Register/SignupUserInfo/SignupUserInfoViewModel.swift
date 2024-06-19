@@ -54,7 +54,7 @@ class SignupUserInfoViewModel {
         self.accountPatternGenerator = accountPatternGenerator
 
         otpStatusRefreshSubject.asObservable()
-            .flatMapLatest { [unowned self] in self.usecaseSystemStatus.fetchOTPStatus().asObservable() }
+            .flatMapLatest { [unowned self] in self.usecaseSystemStatus.isOtpBlocked().asObservable() }
             .bind(to: otpStatus)
             .disposed(by: disposeBag)
     }

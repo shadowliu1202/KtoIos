@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="hyQ-QW-T94">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22155" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="hyQ-QW-T94">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22131"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -56,6 +56,7 @@
                         <outlet property="logoItem" destination="Lfn-s2-xH8" id="nMT-2f-Eqj"/>
                         <segue destination="Hwk-qb-uGL" kind="presentation" identifier="GoToSignup" id="VbY-sp-yfg"/>
                         <segue destination="k1X-SW-WfT" kind="show" identifier="goResetPasswordSegue" id="zn1-b8-YcB"/>
+                        <segue destination="MG0-Hc-EHA" kind="show" identifier="goOtpLoginSegue" id="aB0-ho-EZL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BVy-iq-BKO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -90,6 +91,16 @@
             </objects>
             <point key="canvasLocation" x="704" y="360"/>
         </scene>
+        <!--OtpLogin-->
+        <scene sceneID="lpV-Wf-muf">
+            <objects>
+                <viewControllerPlaceholder storyboardName="OtpLogin" id="MG0-Hc-EHA" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="Zft-la-xuR"/>
+                </viewControllerPlaceholder>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4Cd-1y-Ypf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-237" y="388"/>
+        </scene>
         <!--ResetPassword-->
         <scene sceneID="Fnm-8T-DcI">
             <objects>
@@ -98,7 +109,7 @@
                 </viewControllerPlaceholder>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ndg-P1-hMz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="128" y="360"/>
+            <point key="canvasLocation" x="208" y="388"/>
         </scene>
         <!--Default Product View Controller-->
         <scene sceneID="sW0-Ea-i3i">

@@ -21,11 +21,17 @@ protocol ResetPasswordRepository {
     func resetPassword(password: String) -> Completable
 }
 
-class IAuthRepositoryImpl: IAuthRepository {
+protocol LoginByOtpRepository {
+    func login(identity: String, accountType: AccountType) -> Completable
+    func verifyOtp(by code: String) -> Completable
+    func resendOtp() -> Completable
+}
+
+class AuthRepository: IAuthRepository {
     private let api: AuthenticationApi
     private let httpClient: HttpClient
     private let cookieManager: CookieManager
-  
+
     init(_ api: AuthenticationApi, _ httpClient: HttpClient, _ cookieManager: CookieManager) {
         self.api = api
         self.httpClient = httpClient
@@ -74,11 +80,11 @@ class IAuthRepositoryImpl: IAuthRepository {
                 }()
                 let isLocked = response.data?.isLocked ?? false
                 let isPlatformValid = response.data?.platformIsAvailable ?? false
-      
+
                 if tryStatus == .success {
                     Logger.shared.info("Player_login")
                 }
-      
+
                 return LoginStatus(status: tryStatus, isLocked: isLocked, isPlatformValid: isPlatformValid)
             }
     }
@@ -106,7 +112,7 @@ class IAuthRepositoryImpl: IAuthRepository {
     }
 }
 
-extension IAuthRepositoryImpl: ResetPasswordRepository {
+extension AuthRepository: ResetPasswordRepository {
     func requestResetOtp(_ otp: String) -> Single<Bool> {
         let para = IVerifyOtpRequest(verifyCode: otp)
         return api.verifyResetOtp(para).map { response -> Bool in
@@ -126,5 +132,27 @@ extension IAuthRepositoryImpl: ResetPasswordRepository {
 
     func resetPassword(password: String) -> Completable {
         api.changePassword(INewPasswordRequest(newPassword: password))
+    }
+}
+
+extension AuthRepository: LoginByOtpRepository {
+    func login(identity: String, accountType: AccountType) -> Completable {
+        let accountType: Int = {
+            switch accountType {
+            case .phone:
+                return 2
+            case .email:
+                return 1
+            }
+        }()
+        return api.loginOtp(account: identity, accountType: accountType).asCompletable()
+    }
+
+    func verifyOtp(by code: String) -> Completable {
+        return api.loginVerifyOtp(by: code).asCompletable()
+    }
+
+    func resendOtp() -> Completable {
+        return api.loginResendOtp().asCompletable()
     }
 }

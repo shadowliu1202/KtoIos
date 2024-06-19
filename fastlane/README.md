@@ -95,6 +95,14 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 
 
+### ios uploadToDevTestflight
+
+```sh
+[bundle exec] fastlane ios uploadToDevTestflight
+```
+
+
+
 ### ios buildIpaProduction
 
 ```sh
@@ -103,10 +111,10 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 
 
-### ios buildQat3
+### ios buildPreProd
 
 ```sh
-[bundle exec] fastlane ios buildQat3
+[bundle exec] fastlane ios buildPreProd
 ```
 
 

@@ -434,6 +434,10 @@
 "common_tip_cn_down_title_warm" = "温馨提示";
 "common_cn_down_confirm" = "确认";
 "common_web_view_ssl_alert" = "您即将离开KTO亚洲应用，并前往一个外部网站。";
+"common_or" = "或";
+"common_warning_rapid_operation" = "您的操作过于频繁并且没有输入正确的信息。";
+"common_security_error" = "安全验证失败";
+"common_confirm_leaving_title" = "当前页面将丢失，确定离开？";
 
 //MARK: - SportsBook
 "sportsbook_bet_rules" = "投注规则";
@@ -514,6 +518,17 @@
 "login_resetpassword_success" = "密码变更完成";
 "login_resetpassword_fail_title" = "重置密码失败";
 "login_resetpassword_fail_unknown" = "非常抱歉，该重置方式暂不可用。";
+"login_by_otp" = "使用 OTP 登录";
+"login_by_otp_step_1_title" = "使用 OTP 登录 1/2";
+"login_by_otp_step_1_description" = "选择获取 OTP 方式";
+"login_by_otp_step_2_title" = "使用 OTP 登录 2/2";
+"login_by_otp_step_2_mobile_description" = "确认手机";
+"login_by_otp_step_2_email_description" = "确认电子邮箱";
+"login_servce_unaviable" = "抱歉，该方法暂时无法使用。";
+"login_mobile_send_limit" = "该手机已达发送上限，请于隔日07:00再试。";
+"login_mail_send_limit" = "该邮箱已达发送上限，请于隔日07:00再试。";
+"login_cancel_otp_login" = "取消使用 OTP 登录";
+"login_or" = "或";
 
 //MARK: - Deposit
 "deposit_title" = "充值";
