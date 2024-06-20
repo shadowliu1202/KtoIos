@@ -24,12 +24,10 @@ class CommonVerifyOtpViewController: CommonViewController {
     @Injected private var alert: AlertProtocol
 
     private let resendTimer = CountDownTimer()
-    private let step2CountDownTimer = CountDownTimer()
 
     private let padding = UIBarButtonItem.kto(.text(text: "")).isEnable(false)
     private let disposeBag = DisposeBag()
 
-    private var overStep2TimeLimit = false
     private lazy var customService = UIBarButtonItem
         .kto(.cs(
             supportLocale: playerConfiguration.supportLocale,
@@ -37,8 +35,7 @@ class CommonVerifyOtpViewController: CommonViewController {
             serviceStatusViewModel: serviceStatusViewModel,
             alert: alert,
             delegate: self,
-            disposeBag: disposeBag
-        ))
+            disposeBag: disposeBag))
 
     lazy var validator: OtpValidatorDelegation = OtpValidator(accountPatternGenerator: accountPatternGenerator)
     var delegate: OtpViewControllerProtocol!
@@ -49,7 +46,6 @@ class CommonVerifyOtpViewController: CommonViewController {
         initUI()
         bindingViews()
         setResendTimer()
-        setStep2Timer()
         showToast(Localize.string("common_otp_send_success"), barImg: .success)
         showPasscodeUncorrectTip(false)
     }
@@ -85,8 +81,7 @@ class CommonVerifyOtpViewController: CommonViewController {
             validator.otpPattern.map { $0.validLength() }.bind(onNext: smsVerifyView.setOtpMaxLength),
             validator.isOtpValid.bind(to: btnVerify.rx.valid),
             smsVerifyView.getOtpCode().bind(to: validator.otp),
-            smsVerifyView.getOtpCode().map { _ in false }.bind(onNext: showPasscodeUncorrectTip)
-        )
+            smsVerifyView.getOtpCode().map { _ in false }.bind(onNext: showPasscodeUncorrectTip))
     }
 
     func setResendTimer(_ duration: TimeInterval = Setting.resendOtpCountDownSecond) {
@@ -106,34 +101,25 @@ class CommonVerifyOtpViewController: CommonViewController {
             mutableAttributedString.addAttribute(
                 NSAttributedString.Key.foregroundColor,
                 value: UIColor.primaryDefault.withAlphaComponent(isTimeUp ? 1 : 0.5),
-                range: range
-            )
+                range: range)
             self?.btnResend.setAttributedTitle(mutableAttributedString, for: .normal)
             self?.btnResend.titleLabel?.textAlignment = .center
             self?.btnResend.isEnabled = isTimeUp
         }
     }
 
-    private func setStep2Timer() {
-        step2CountDownTimer
-            .start(timeInterval: 1, duration: Setting.resetPasswordStep2CountDownSecond) { [weak self] _, countDownSecond, _ in
-                if countDownSecond == 0 {
-                    self?.overStep2TimeLimit = true
-                }
-            }
-    }
-
     private func handleError(_ error: Error) {
         if delegate.isProfileVerify, error.isUnauthorized() {
             NavigationManagement.sharedInstance.navigateToAuthorization()
-        } else {
+        }
+        else {
             switch error {
             case is PlayerOtpCheckError:
                 showPasscodeUncorrectTip(true)
             case is PlayerOverOtpRetryLimit:
                 navigateToErrorPage()
             case is PlayerIpOverOtpDailyLimit:
-                onExccedResendLimit()
+                onExceedResendLimit()
             case is ApiException:
                 navigateToErrorPage()
             default:
@@ -142,15 +128,14 @@ class CommonVerifyOtpViewController: CommonViewController {
         }
     }
 
-    private func onExccedResendLimit() {
+    private func onExceedResendLimit() {
         Alert.shared.show(
             Localize.string("common_tip_title_warm"),
             delegate.commonVerifyOtpArgs.otpExeedSendLimitError,
             confirm: { [weak self] in
                 self?.showErrorPage()
             },
-            cancel: nil
-        )
+            cancel: nil)
     }
 
     private func showErrorPage() {
@@ -167,11 +152,6 @@ class CommonVerifyOtpViewController: CommonViewController {
 
     @IBAction
     func btnResendPressed(_: UIButton) {
-        if overStep2TimeLimit {
-            navigateToErrorPage()
-            return
-        }
-
         delegate.resendOtp()
             .observe(on: MainScheduler.instance)
             .do(
@@ -180,8 +160,7 @@ class CommonVerifyOtpViewController: CommonViewController {
                 },
                 onDispose: { [btnResend] in
                     btnResend?.isValid = true
-                }
-            )
+                })
             .subscribe(
                 onCompleted: { [weak self] in
                     self?.showToast(Localize.string("common_otp_send_success"), barImg: .success)
@@ -189,8 +168,7 @@ class CommonVerifyOtpViewController: CommonViewController {
                 },
                 onError: { [weak self] in
                     self?.handleError($0)
-                }
-            )
+                })
             .disposed(by: disposeBag)
     }
 
@@ -198,19 +176,15 @@ class CommonVerifyOtpViewController: CommonViewController {
     func btnVerifyPressed(_: UIButton) {
         Logger.shared.info("btnVerifyPressed", tag: "KTO-876")
 
-        guard !overStep2TimeLimit else { navigateToErrorPage(); return }
-
         smsVerifyView.getOtpCode()
             .first()
             .flatMapCompletable { [delegate] in delegate!.verify(otp: $0!) }
             .do(
                 onSubscribe: { [btnVerify] in btnVerify?.isValid = false },
-                onDispose: { [btnVerify] in btnVerify?.isValid = true }
-            )
+                onDispose: { [btnVerify] in btnVerify?.isValid = true })
             .subscribe(
                 onCompleted: { [unowned self] in onCompleted() },
-                onError: { [unowned self] in handleError($0) }
-            )
+                onError: { [unowned self] in handleError($0) })
             .disposed(by: disposeBag)
     }
 
@@ -231,13 +205,14 @@ class CommonVerifyOtpViewController: CommonViewController {
         commonFailViewController.commonFailedType = delegate.commonVerifyOtpArgs.commonFailedType
         if NavigationManagement.sharedInstance.viewController != nil {
             NavigationManagement.sharedInstance.pushViewController(vc: commonFailViewController)
-        } else {
+        }
+        else {
             UIApplication.topViewController()?.navigationController?.pushViewController(commonFailViewController, animated: true)
         }
     }
 }
 
-extension CommonVerifyOtpViewController: BarButtonItemable {}
+extension CommonVerifyOtpViewController: BarButtonItemable { }
 
 extension CommonVerifyOtpViewController: CustomServiceDelegate {
     func customServiceBarButtons() -> [UIBarButtonItem]? {
@@ -257,7 +232,7 @@ protocol OtpViewControllerProtocol {
 }
 
 extension OtpViewControllerProtocol {
-    var isProfileVerify: Bool { get { false } set {} }
+    var isProfileVerify: Bool { get { false } set { } }
 }
 
 protocol OtpValidatorDelegation {
