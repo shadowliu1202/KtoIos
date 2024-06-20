@@ -109,6 +109,7 @@ class CommonVerifyOtpViewController: CommonViewController {
                 range: range
             )
             self?.btnResend.setAttributedTitle(mutableAttributedString, for: .normal)
+            self?.btnResend.titleLabel?.textAlignment = .center
             self?.btnResend.isEnabled = isTimeUp
         }
     }
@@ -187,8 +188,6 @@ class CommonVerifyOtpViewController: CommonViewController {
                     self?.setResendTimer()
                 },
                 onError: { [weak self] in
-                    self?.showToast(Localize.string("common_otp_send_fail"), barImg: .failed)
-                    self?.setResendTimer()
                     self?.handleError($0)
                 }
             )
