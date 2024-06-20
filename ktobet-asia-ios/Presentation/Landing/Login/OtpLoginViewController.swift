@@ -38,7 +38,8 @@ class OtpLoginViewController: LandingViewController {
             serviceStatusViewModel: serviceStatusViewModel,
             alert: alert,
             delegate: self,
-            disposeBag: disposeBag))
+            disposeBag: disposeBag
+        ))
 
     private var inputAccount: InputText {
         switch selectedVerifyWay {
@@ -89,7 +90,8 @@ class OtpLoginViewController: LandingViewController {
         emptyStateView = EmptyStateView(
             icon: UIImage(named: "Maintenance"),
             description: hint,
-            keyboardAppearance: .impossible)
+            keyboardAppearance: .impossible
+        )
         emptyStateView!.backgroundColor = .greyScaleDefault
 
         view.addSubview(emptyStateView!)
@@ -136,8 +138,7 @@ class OtpLoginViewController: LandingViewController {
                 var message = ""
                 if status == .errEmailFormat {
                     message = Localize.string("common_error_email_format")
-                }
-                else if status == .empty {
+                } else if status == .empty {
                     message = Localize.string("common_field_must_fill")
                 }
                 self?.labResetTypeTip.text = message
@@ -150,8 +151,7 @@ class OtpLoginViewController: LandingViewController {
                 var message = ""
                 if status == .errPhoneFormat {
                     message = Localize.string("common_error_mobile_format")
-                }
-                else if status == .empty {
+                } else if status == .empty {
                     message = Localize.string("common_field_must_fill")
                 }
                 self?.labResetTypeTip.text = message
@@ -212,17 +212,21 @@ class OtpLoginViewController: LandingViewController {
              is PlayerIsLocked,
              is PlayerIsNotExist,
              is PlayerForbidLoginByCurrency:
+            hideError()
             break
         case is PlayerIsSuspend:
-            labResetErrMessage.text = Localize.string("common_kick_out_suspend")
+            showError(error: Localize.string("common_kick_out_suspend"))
         case is PlayerIdOverOtpLimit,
              is PlayerIpOverOtpDailyLimit,
              is PlayerOverOtpRetryLimit:
+            hideError()
             alertExceedResendLimit()
         case is PlayerOtpMailInactive,
              is PlayerOtpSmsInactive:
+            hideError()
             viewModel.refreshOtpStatus()
         default:
+            hideError()
             handleErrors(error)
         }
     }
@@ -236,7 +240,8 @@ class OtpLoginViewController: LandingViewController {
             message,
             confirm: nil,
             cancel: nil,
-            tintColor: UIColor.primaryDefault)
+            tintColor: UIColor.primaryDefault
+        )
     }
 
     private func navigateToStep2() {
@@ -244,7 +249,8 @@ class OtpLoginViewController: LandingViewController {
             .instantiateViewController(withIdentifier: "CommonVerifyOtpViewController") as! CommonVerifyOtpViewController
         let viewController = OtpLoginStep2ViewController(
             identity: viewModel.getAccount(selectedVerifyWay),
-            accountType: selectedVerifyWay)
+            accountType: selectedVerifyWay
+        )
         commonVerifyOtpViewController.delegate = viewController
         navigationController?.pushViewController(commonVerifyOtpViewController, animated: true)
     }
@@ -255,6 +261,7 @@ extension OtpLoginViewController {
 
     @IBAction
     func btnPhonePressed(_: Any) {
+        hideError()
         btnPhone.isSelected = true
         btnEmail.isSelected = false
         hideKeyboard()
@@ -265,6 +272,7 @@ extension OtpLoginViewController {
 
     @IBAction
     func btnEmailPressed(_: Any) {
+        hideError()
         btnPhone.isSelected = false
         btnEmail.isSelected = true
         hideKeyboard()
@@ -273,12 +281,13 @@ extension OtpLoginViewController {
         viewModel.refreshOtpStatus()
     }
 
-    func hideKeyboard(){
+    func hideKeyboard() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 
     @IBAction
     func btnResetPasswordPressed(_: Any) {
+        hideError()
         viewModel.requestOtpLogin(selectedVerifyWay)
             .observe(on: MainScheduler.instance)
             .do(
@@ -287,22 +296,38 @@ extension OtpLoginViewController {
                 },
                 onDispose: { [btnSubmit] in
                     btnSubmit?.isValid = true
-                })
+                }
+            )
             .subscribe(
                 onCompleted: ({ [weak self] in
                     self?.navigateToStep2()
                 }),
                 onError: { [weak self] error in
                     self?.handleError(error)
-                })
+                }
+            )
             .disposed(by: disposeBag)
     }
 }
 
-extension OtpLoginViewController: BarButtonItemable { }
+extension OtpLoginViewController: BarButtonItemable {}
 
 extension OtpLoginViewController: CustomServiceDelegate {
     func customServiceBarButtons() -> [UIBarButtonItem]? {
         [padding, customService]
+    }
+}
+
+extension OtpLoginViewController {
+    func showError(error: String) {
+        constraintResetErrorView.constant = 56
+        constraintResetErrorViewPadding.constant = 12
+        labResetErrMessage.text = error
+    }
+
+    func hideError() {
+        constraintResetErrorView.constant = 0
+        constraintResetErrorViewPadding.constant = 0
+        labResetErrMessage.text = ""
     }
 }
