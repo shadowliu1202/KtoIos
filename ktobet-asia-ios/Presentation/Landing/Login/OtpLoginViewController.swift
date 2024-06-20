@@ -22,7 +22,7 @@ class OtpLoginViewController: LandingViewController {
     @IBOutlet private var viewInputView: UIView!
     @IBOutlet private var constraintResetErrorView: NSLayoutConstraint!
     @IBOutlet private var constraintResetErrorViewPadding: NSLayoutConstraint!
-
+    private var isPressed = false
     @Injected private var viewModel: OtpLoginViewModel
     @Injected private var customerServiceViewModel: CustomerServiceViewModel
     @Injected private var serviceStatusViewModel: ServiceStatusViewModel
@@ -38,8 +38,7 @@ class OtpLoginViewController: LandingViewController {
             serviceStatusViewModel: serviceStatusViewModel,
             alert: alert,
             delegate: self,
-            disposeBag: disposeBag
-        ))
+            disposeBag: disposeBag))
 
     private var inputAccount: InputText {
         switch selectedVerifyWay {
@@ -90,8 +89,7 @@ class OtpLoginViewController: LandingViewController {
         emptyStateView = EmptyStateView(
             icon: UIImage(named: "Maintenance"),
             description: hint,
-            keyboardAppearance: .impossible
-        )
+            keyboardAppearance: .impossible)
         emptyStateView!.backgroundColor = .greyScaleDefault
 
         view.addSubview(emptyStateView!)
@@ -132,7 +130,6 @@ class OtpLoginViewController: LandingViewController {
                 }
             })
             .disposed(by: disposeBag)
-
         event.emailValid
             .subscribe(onNext: { [weak self] status in
                 var message = ""
@@ -188,9 +185,13 @@ class OtpLoginViewController: LandingViewController {
             viewInputView.isHidden = false
             inputEmail.isHidden = true
             inputMobile.isHidden = false
+            if isPressed{
+                inputAccount.showKeyboard()
+            }
         } else {
             initEmptyStateView(hint: Localize.string("login_resetpassword_step1_sms_inactive"))
             viewInputView.isHidden = true
+            hideKeyboard()
         }
     }
 
@@ -200,9 +201,13 @@ class OtpLoginViewController: LandingViewController {
             viewInputView.isHidden = false
             inputEmail.isHidden = false
             inputMobile.isHidden = true
+            if isPressed{
+                inputAccount.showKeyboard()
+            }
         } else {
             initEmptyStateView(hint: Localize.string("login_resetpassword_step1_email_inactive"))
             viewInputView.isHidden = true
+            hideKeyboard()
         }
     }
 
@@ -262,22 +267,20 @@ extension OtpLoginViewController {
     @IBAction
     func btnPhonePressed(_: Any) {
         hideError()
+        isPressed = true
         btnPhone.isSelected = true
         btnEmail.isSelected = false
-        hideKeyboard()
         selectedVerifyWay = .phone
-        inputAccount.showKeyboard()
         viewModel.refreshOtpStatus()
     }
 
     @IBAction
     func btnEmailPressed(_: Any) {
         hideError()
+        isPressed = true
         btnPhone.isSelected = false
         btnEmail.isSelected = true
-        hideKeyboard()
         selectedVerifyWay = .email
-        inputAccount.showKeyboard()
         viewModel.refreshOtpStatus()
     }
 

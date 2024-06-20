@@ -15,6 +15,8 @@ struct VersionUpdateInfo {
         version: Version,
         superSignStatus: SuperSignStatus)
     {
+        print("\(Bundle.main.currentVersion)")
+        print("\(version.description())")
         self.version = version
         self.superSignStatus = superSignStatus
         self.action = Bundle.main.currentVersion.getUpdateAction(latestVersion: version)
