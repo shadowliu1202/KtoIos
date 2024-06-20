@@ -27,15 +27,7 @@ class OtpLoginViewController: LandingViewController {
     @Injected private var customerServiceViewModel: CustomerServiceViewModel
     @Injected private var serviceStatusViewModel: ServiceStatusViewModel
     @Injected private var alert: AlertProtocol
-    private var otpStatus: OtpStatus? = nil
-
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == OtpLoginViewController.segueIdentifier {
-            if let dest = segue.destination as? OtpLoginViewController {
-                dest.otpStatus = sender as? OtpStatus
-            }
-        }
-    }
+    var otpStatus: OtpStatus?
 
     private var emptyStateView: EmptyStateView?
     private var padding = UIBarButtonItem.kto(.text(text: "")).isEnable(false)
@@ -46,8 +38,7 @@ class OtpLoginViewController: LandingViewController {
             serviceStatusViewModel: serviceStatusViewModel,
             alert: alert,
             delegate: self,
-            disposeBag: disposeBag
-        ))
+            disposeBag: disposeBag))
 
     private var inputAccount: InputText {
         switch selectedVerifyWay {
@@ -98,8 +89,7 @@ class OtpLoginViewController: LandingViewController {
         emptyStateView = EmptyStateView(
             icon: UIImage(named: "Maintenance"),
             description: hint,
-            keyboardAppearance: .impossible
-        )
+            keyboardAppearance: .impossible)
         emptyStateView!.backgroundColor = .greyScaleDefault
 
         view.addSubview(emptyStateView!)
@@ -123,12 +113,15 @@ class OtpLoginViewController: LandingViewController {
                 guard let self else { return }
                 self.constraintResetErrorView.constant = 0
                 self.constraintResetErrorViewPadding.constant = 0
-                guard !(!otpStatus.isSmsActive && self.isFirstTimeEnter)
-                else {
-                    self.btnEmailPressed(self.btnEmail!)
+
+                if self.isFirstTimeEnter {
                     self.isFirstTimeEnter = false
-                    return
+                    guard otpStatus.isSmsActive else {
+                        self.btnEmailPressed(self.btnEmail!)
+                        return
+                    }
                 }
+
                 switch self.selectedVerifyWay {
                 case .phone:
                     self.displayMobileContent(isOTPActive: otpStatus.isSmsActive)
@@ -143,7 +136,8 @@ class OtpLoginViewController: LandingViewController {
                 var message = ""
                 if status == .errEmailFormat {
                     message = Localize.string("common_error_email_format")
-                } else if status == .empty {
+                }
+                else if status == .empty {
                     message = Localize.string("common_field_must_fill")
                 }
                 self?.labResetTypeTip.text = message
@@ -156,7 +150,8 @@ class OtpLoginViewController: LandingViewController {
                 var message = ""
                 if status == .errPhoneFormat {
                     message = Localize.string("common_error_mobile_format")
-                } else if status == .empty {
+                }
+                else if status == .empty {
                     message = Localize.string("common_field_must_fill")
                 }
                 self?.labResetTypeTip.text = message
@@ -241,8 +236,7 @@ class OtpLoginViewController: LandingViewController {
             message,
             confirm: nil,
             cancel: nil,
-            tintColor: UIColor.primaryDefault
-        )
+            tintColor: UIColor.primaryDefault)
     }
 
     private func navigateToStep2() {
@@ -250,8 +244,7 @@ class OtpLoginViewController: LandingViewController {
             .instantiateViewController(withIdentifier: "CommonVerifyOtpViewController") as! CommonVerifyOtpViewController
         let viewController = OtpLoginStep2ViewController(
             identity: viewModel.getAccount(selectedVerifyWay),
-            accountType: selectedVerifyWay
-        )
+            accountType: selectedVerifyWay)
         commonVerifyOtpViewController.delegate = viewController
         navigationController?.pushViewController(commonVerifyOtpViewController, animated: true)
     }
@@ -279,7 +272,7 @@ extension OtpLoginViewController {
         inputAccount.showKeyboard()
         viewModel.refreshOtpStatus()
     }
-    
+
     func hideKeyboard(){
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
@@ -294,21 +287,19 @@ extension OtpLoginViewController {
                 },
                 onDispose: { [btnSubmit] in
                     btnSubmit?.isValid = true
-                }
-            )
+                })
             .subscribe(
                 onCompleted: ({ [weak self] in
                     self?.navigateToStep2()
                 }),
                 onError: { [weak self] error in
                     self?.handleError(error)
-                }
-            )
+                })
             .disposed(by: disposeBag)
     }
 }
 
-extension OtpLoginViewController: BarButtonItemable {}
+extension OtpLoginViewController: BarButtonItemable { }
 
 extension OtpLoginViewController: CustomServiceDelegate {
     func customServiceBarButtons() -> [UIBarButtonItem]? {

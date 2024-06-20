@@ -110,8 +110,7 @@ class LoginViewController: LandingViewController {
                     }
                 },
                 onResetPassword: { [unowned self] in navigateToResetPasswordPage() },
-                onOTPLogin: {[unowned self] in navigateToOtpLoginPage()}
-            ))
+                onOTPLogin: { [unowned self] in navigateToOtpLoginPage() }))
     }
 
     private func executeNavigation(_ navigation: NavigationViewModel.LobbyPageNavigation) {
@@ -171,7 +170,9 @@ class LoginViewController: LandingViewController {
     }
     
     private func navigateToOtpLoginPage() {
-        performSegue(withIdentifier: OtpLoginViewController.segueIdentifier, sender: serviceStatusViewModel.getOtpServiceIsAvilable())
+        performSegue(
+            withIdentifier: OtpLoginViewController.segueIdentifier,
+            sender: serviceStatusViewModel.getOtpServiceIsAvilable())
     }
 
     @IBAction
@@ -186,19 +187,19 @@ class LoginViewController: LandingViewController {
 }
 
 extension LoginViewController {
-    override func prepare(for segue: UIStoryboardSegue, sender _: Any?) {
-        if
-            let navi = segue.destination as? UINavigationController,
-            let signupVc = navi.viewControllers.first as? SignupLanguageViewController
-        {
-            signupVc.languageChangeHandler = recreateVC
-            signupVc.presentationController?.delegate = self
-        }
-        if
-            let navi = segue.destination as? UINavigationController,
-            let vc = navi.viewControllers.first as? ResetPasswordViewController
-        {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        guard let navi = segue.destination as? UINavigationController else { return }
+        
+        switch navi.viewControllers.first {
+        case let vc as SignupLanguageViewController:
+            vc.languageChangeHandler = recreateVC
             vc.presentationController?.delegate = self
+        case let vc as ResetPasswordViewController:
+            vc.presentationController?.delegate = self
+        case let vc as OtpLoginViewController:
+            vc.otpStatus = sender as? OtpStatus
+        default:
+            break
         }
     }
   
