@@ -193,11 +193,9 @@ class OtpLoginViewController: LandingViewController {
             viewInputView.isHidden = false
             inputEmail.isHidden = true
             inputMobile.isHidden = false
-            inputAccount.showKeyboard()
         } else {
             initEmptyStateView(hint: Localize.string("login_resetpassword_step1_sms_inactive"))
             viewInputView.isHidden = true
-            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
         }
     }
 
@@ -207,11 +205,9 @@ class OtpLoginViewController: LandingViewController {
             viewInputView.isHidden = false
             inputEmail.isHidden = false
             inputMobile.isHidden = true
-            inputAccount.showKeyboard()
         } else {
             initEmptyStateView(hint: Localize.string("login_resetpassword_step1_email_inactive"))
             viewInputView.isHidden = true
-            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
         }
     }
 
@@ -268,8 +264,9 @@ extension OtpLoginViewController {
     func btnPhonePressed(_: Any) {
         btnPhone.isSelected = true
         btnEmail.isSelected = false
-
+        hideKeyboard()
         selectedVerifyWay = .phone
+        inputAccount.showKeyboard()
         viewModel.refreshOtpStatus()
     }
 
@@ -277,9 +274,14 @@ extension OtpLoginViewController {
     func btnEmailPressed(_: Any) {
         btnPhone.isSelected = false
         btnEmail.isSelected = true
-
+        hideKeyboard()
         selectedVerifyWay = .email
+        inputAccount.showKeyboard()
         viewModel.refreshOtpStatus()
+    }
+    
+    func hideKeyboard(){
+        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
     }
 
     @IBAction
