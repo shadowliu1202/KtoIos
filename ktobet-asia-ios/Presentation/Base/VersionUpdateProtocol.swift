@@ -3,16 +3,16 @@ import sharedbu
 import UIKit
 
 struct VersionUpdateInfo {
-    let version: Version
+    let version: OnlineVersion
     let superSignStatus: SuperSignStatus
-    let action: Version.UpdateAction
+    let action: UpdateAction
 
     var link: String {
         version.apkLink
     }
 
     init(
-        version: Version,
+        version: OnlineVersion,
         superSignStatus: SuperSignStatus)
     {
         print("\(Bundle.main.currentVersion)")

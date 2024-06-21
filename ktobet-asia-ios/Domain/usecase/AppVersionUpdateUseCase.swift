@@ -3,7 +3,7 @@ import RxSwift
 import sharedbu
 
 protocol AppVersionUpdateUseCase {
-    func getLatestAppVersion() -> Single<sharedbu.Version>
+    func getLatestAppVersion() -> Single<OnlineVersion>
     func getSuperSignatureMaintenance() -> Single<SuperSignStatus>
 }
 
@@ -18,7 +18,7 @@ class AppVersionUpdateUseCaseImpl: AppVersionUpdateUseCase {
         self.timezone = playerConfiguration.localeTimeZone()
     }
 
-    func getLatestAppVersion() -> Single<sharedbu.Version> {
+    func getLatestAppVersion() -> Single<OnlineVersion> {
         repo.getLatestAppVersion()
     }
 

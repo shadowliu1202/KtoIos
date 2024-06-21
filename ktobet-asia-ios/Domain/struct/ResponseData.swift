@@ -1253,7 +1253,8 @@ extension BonusBean.Coupon {
             productType: ProductType.convert(self.productType),
             informPlayerDate: self.informPlayerDate.toOffsetDateTime(),
             maxAmount: self.knMaxAmount,
-            endDate: self.effectiveDate?.toKotlinLocalDateTime() ?? OffsetDateTime.companion.NotDefine.toInstant().toLocalDateTime(timeZone: Injectable.resolve(PlayerConfiguration.self)!.localeTimeZone().toKotlinTimeZone()) ,
+            endDate: self.effectiveDate?.toKotlinLocalDateTime() ?? OffsetDateTime.companion.NotDefine.toInstant()
+                .toLocalDateTime(timeZone: Injectable.resolve(PlayerConfiguration.self)!.localeTimeZone().toKotlinTimeZone()),
             name: self.name,
             betMultiple: self.betMultiple,
             fixTurnoverRequirement: self.fixTurnoverRequirement,
@@ -1273,7 +1274,8 @@ extension BonusBean.Coupon {
             issueNumber: self.issueNumber == 0 ? nil : KotlinInt(value: self.issueNumber),
             percentage: self.knPercentage,
             amount: self.knAmount,
-            endDate: self.effectiveDate?.toKotlinLocalDateTime() ?? OffsetDateTime.companion.NotDefine.toInstant().toLocalDateTime(timeZone: Injectable.resolve(PlayerConfiguration.self)!.localeTimeZone().toKotlinTimeZone()) ,
+            endDate: self.effectiveDate?.toKotlinLocalDateTime() ?? OffsetDateTime.companion.NotDefine.toInstant()
+                .toLocalDateTime(timeZone: Injectable.resolve(PlayerConfiguration.self)!.localeTimeZone().toKotlinTimeZone()),
             betMultiple: self.betMultiple,
             fixTurnoverRequirement: self.fixTurnoverRequirement,
             validPeriod: ValidPeriod.Companion().create(
@@ -1317,7 +1319,8 @@ extension BonusBean.Coupon {
             issueNumber: KotlinInt(value: Int32(self.issueNumber)),
             percentage: self.knPercentage,
             amount: self.knAmount,
-            endDate: self.effectiveDate?.toKotlinLocalDateTime() ?? OffsetDateTime.companion.NotDefine.toInstant().toLocalDateTime(timeZone: Injectable.resolve(PlayerConfiguration.self)!.localeTimeZone().toKotlinTimeZone()) ,
+            endDate: self.effectiveDate?.toKotlinLocalDateTime() ?? OffsetDateTime.companion.NotDefine.toInstant()
+                .toLocalDateTime(timeZone: Injectable.resolve(PlayerConfiguration.self)!.localeTimeZone().toKotlinTimeZone()),
             betMultiple: self.betMultiple,
             fixTurnoverRequirement: self.fixTurnoverRequirement,
             validPeriod: ValidPeriod.Companion().create(
@@ -1791,8 +1794,8 @@ struct VersionData: Codable {
     let downloadUrl: String
     let downloadUrlVn: String
 
-    func toVersion() -> Version {
-        Version.companion.create(version: ipaVersion, link: getDownloadLink(), size: ipaCapacity.doubleValue())
+    func toVersion() -> OnlineVersion {
+        OnlineVersion.companion.create(version: ipaVersion, link: getDownloadLink(), size: ipaCapacity.doubleValue())
     }
 
     private func getDownloadLink() -> String {

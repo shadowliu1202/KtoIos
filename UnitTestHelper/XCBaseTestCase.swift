@@ -68,7 +68,7 @@ private func injectStubGetProductStatus() {
 private func injectStubAppVersionUpdateUseCase() {
     let appVersionUpdateUseCase = mock(AppVersionUpdateUseCase.self)
 
-    given(appVersionUpdateUseCase.getLatestAppVersion()) ~> .just(.Companion().create(version: ""))
+    given(appVersionUpdateUseCase.getLatestAppVersion()) ~> .just(.companion.create(version: "0.0.1", link: "", size: 0.0))
     given(appVersionUpdateUseCase.getSuperSignatureMaintenance()) ~> .never()
 
     Injectable
