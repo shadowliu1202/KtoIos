@@ -3,7 +3,7 @@ import RxSwift
 import sharedbu
 
 protocol AppUpdateRepository {
-    func getLatestAppVersion() -> Single<Version>
+    func getLatestAppVersion() -> Single<OnlineVersion>
     func getSuperSignatureMaintenance() -> Single<SuperSignMaintenanceBean>
 }
 
@@ -14,7 +14,7 @@ class AppUpdateRepositoryImpl: AppUpdateRepository {
         self.versionUpdateApi = updateApi
     }
 
-    func getLatestAppVersion() -> Single<Version> {
+    func getLatestAppVersion() -> Single<OnlineVersion> {
         versionUpdateApi.getIOSVersion().map({ $0.data.toVersion() })
     }
 

@@ -263,13 +263,12 @@ extension LoginViewController: BarButtonItemable {
             .disposed(by: disposeBag)
     }
 
-    private func versionAlert(_ newVer: Version) {
+    private func versionAlert(_ newVer: OnlineVersion) {
         let currentVersion = Bundle.main.currentVersion
-        let currentVersionCode = currentVersion.versionCode
-        let newVersionCode = newVer.versionCode
         let title = Localize.string("update_proceed_now")
-        let msg = "目前版本 : \(currentVersion)+\(currentVersionCode) \n最新版本 : \(newVer)+\(newVersionCode)"
-        if currentVersion.compareTo(other: newVer) < 0 {
+        let msg = "目前版本 : \(versionString(currentVersion)) \n最新版本 : \(versionString(newVer))"
+        
+        if isUpdateAvailable(local: currentVersion, online: newVer) {
             alert.show(title, msg, confirm: { [weak self] in
                 guard let self else { return }
                 self.syncAppVersionUpdate(self.viewDisappearBag)
@@ -278,6 +277,17 @@ extension LoginViewController: BarButtonItemable {
         else {
             alert.show(title, msg, confirm: { }, confirmText: "無需更新", cancel: nil)
         }
+    }
+    
+    private func versionString(_ version:CompareVersion)-> String{
+        "\(version.apiVersion).\(version.majorVersion).\(version.minorVersion)+\(version.hotfixCompare ?? "")"
+    }
+    
+    private func isUpdateAvailable(local: LocalVersion, online: OnlineVersion) -> Bool {
+        local.majorVersion != online.majorVersion ||
+            local.minorVersion != online.minorVersion ||
+            local.apiVersion != online.apiVersion ||
+            local.getUpdateAction(latestVersion: online) != .upToDate
     }
 }
 
