@@ -15,7 +15,7 @@ class AppUpdateRepositoryImpl: AppUpdateRepository {
     }
 
     func getLatestAppVersion() -> Single<OnlineVersion> {
-        versionUpdateApi.getIOSVersion().map({ $0.data.toVersion() })
+        versionUpdateApi.getIOSVersion().map({ $0.toVersion() })
     }
 
     func getSuperSignatureMaintenance() -> Single<SuperSignMaintenanceBean> {

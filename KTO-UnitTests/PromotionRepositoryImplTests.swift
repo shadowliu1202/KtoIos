@@ -12,15 +12,12 @@ final class PromotionRepositoryImplTests: XCBaseTestCase {
         let stubPromotionApi = mock(PromotionApi.self).initialize(dummyHttpClient)
 
         given(stubPromotionApi.getCashBackSettings(displayId: any())) ~> .just(
-            ResponseDataList(
-                statusCode: "200",
-                errorMsg: "",
-                data: [
-                    CashBackSettingBean(lossAmountRange: "100000~199999", maxAmount: "1888", cashBackPercentage: "1%"),
-                    CashBackSettingBean(lossAmountRange: "200000~499999", maxAmount: "6888", cashBackPercentage: "1.5%"),
-                    CashBackSettingBean(lossAmountRange: "500000~999999", maxAmount: "16888", cashBackPercentage: "2%"),
-                    CashBackSettingBean(lossAmountRange: "≥1000000", maxAmount: "28888", cashBackPercentage: "2.5%")
-                ]))
+            [
+                CashBackSettingBean(lossAmountRange: "100000~199999", maxAmount: "1888", cashBackPercentage: "1%"),
+                CashBackSettingBean(lossAmountRange: "200000~499999", maxAmount: "6888", cashBackPercentage: "1.5%"),
+                CashBackSettingBean(lossAmountRange: "500000~999999", maxAmount: "16888", cashBackPercentage: "2%"),
+                CashBackSettingBean(lossAmountRange: "≥1000000", maxAmount: "28888", cashBackPercentage: "2.5%"),
+            ])
 
         let sut = PromotionRepositoryImpl(stubPromotionApi)
 
@@ -28,19 +25,23 @@ final class PromotionRepositoryImplTests: XCBaseTestCase {
             CashBackSetting(
                 cashBackPercentage: Percentage(percent: 1),
                 lossAmountRange: "100000~199999",
-                maxAmount: "1888".toAccountCurrency()),
+                maxAmount: "1888".toAccountCurrency()
+            ),
             CashBackSetting(
                 cashBackPercentage: Percentage(percent: 1.5),
                 lossAmountRange: "200000~499999",
-                maxAmount: "6888".toAccountCurrency()),
+                maxAmount: "6888".toAccountCurrency()
+            ),
             CashBackSetting(
                 cashBackPercentage: Percentage(percent: 2),
                 lossAmountRange: "500000~999999",
-                maxAmount: "16888".toAccountCurrency()),
+                maxAmount: "16888".toAccountCurrency()
+            ),
             CashBackSetting(
                 cashBackPercentage: Percentage(percent: 2.5),
                 lossAmountRange: "≥1000000",
-                maxAmount: "28888".toAccountCurrency())
+                maxAmount: "28888".toAccountCurrency()
+            ),
         ]
 
         let actual = try sut.getCashBackSettings(displayId: "")

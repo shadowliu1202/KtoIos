@@ -44,8 +44,8 @@ class PlayerRepositoryImpl: PlayerRepository {
         _ settingStore: SettingStore,
         _ localStorageRepo: LocalStorageRepository,
         _ memoryRepo: MemoryCacheImpl,
-        _ defaultProductProtocol: DefaultProductProtocol)
-    {
+        _ defaultProductProtocol: DefaultProductProtocol
+    ) {
         self.httpClient = httpClient
         self.playerApi = playerApi
         self.portalApi = portalApi
@@ -62,34 +62,38 @@ class PlayerRepositoryImpl: PlayerRepository {
         let playerInfo = playerApi.getPlayerInfo()
             .do(
                 onSuccess: { [weak self] in
-                    if let data = $0.data {
+                    if let data = $0 {
                         self?.settingStore.playerInfo = data
                         AnalyticsManager.setUserID(data.gameId)
                     }
                 },
-                onSubscribe: { Logger.shared.info("GetPlayerInfo_onSubscribe") })
-    
+                onSubscribe: { Logger.shared.info("GetPlayerInfo_onSubscribe") }
+            )
+
         return Single
             .zip(favorProduct, localization, playerInfo, contactInfo)
             .map { defaultProduct, responseLocalization, responsePlayerInfo, responseContactInfo -> Player in
-                let playerLocale = SupportLocale.Companion().create(language: responseLocalization.data)
+                let playerLocale = SupportLocale.Companion().create(language: responseLocalization)
 
                 let playerInfo = PlayerInfo(
-                    gameId: responsePlayerInfo.data?.gameId ?? "",
-                    displayId: responsePlayerInfo.data?.displayId ?? "",
-                    withdrawalName: responsePlayerInfo.data?.realName ?? "",
-                    level: Int32(responsePlayerInfo.data?.level ?? 0),
-                    exp: Percentage(percent: (responsePlayerInfo.data?.exp) ?? 0),
-                    autoUseCoupon: responsePlayerInfo.data?.isAutoUseCoupon ?? false,
+                    gameId: responsePlayerInfo?.gameId ?? "",
+                    displayId: responsePlayerInfo?.displayId ?? "",
+                    withdrawalName: responsePlayerInfo?.realName ?? "",
+                    level: Int32(responsePlayerInfo?.level ?? 0),
+                    exp: Percentage(percent: (responsePlayerInfo?.exp) ?? 0),
+                    autoUseCoupon: responsePlayerInfo?.isAutoUseCoupon ?? false,
                     contact: PlayerInfo.Contact(
-                        email: responseContactInfo.data?.email,
-                        mobile: responseContactInfo.data?.mobile))
-        
+                        email: responseContactInfo?.email,
+                        mobile: responseContactInfo?.mobile
+                    )
+                )
+
                 return Player(
-                    gameId: responsePlayerInfo.data?.gameId ?? "",
+                    gameId: responsePlayerInfo?.gameId ?? "",
                     playerInfo: playerInfo,
                     bindLocale: playerLocale,
-                    defaultProduct: defaultProduct)
+                    defaultProduct: defaultProduct
+                )
             }
             .do(onSuccess: { [localStorageRepo] player in
                 localStorageRepo.setUserName(player.playerInfo.withdrawalName)
@@ -97,13 +101,12 @@ class PlayerRepositoryImpl: PlayerRepository {
                 localStorageRepo.setLastAPISuccessDate(Date())
             })
     }
-  
+
     func fetchPlayerInfo() -> Single<PlayerBean> {
         playerApi.getPlayerInfo()
             .flatMap {
-                guard let playerBean = $0.data
-                else { return .error(KTOError.EmptyData) }
-        
+                guard let playerBean = $0 else { return .error(KTOError.EmptyData) }
+
                 return .just(playerBean)
             }
             .do(onSuccess: { [localStorageRepo] in
@@ -114,9 +117,8 @@ class PlayerRepositoryImpl: PlayerRepository {
     func getUtcOffset() -> Single<UtcOffset> {
         if let offset = memoryRepo.get(KeyPlayer).map({ (player: Player) in player.zoneOffset() }) {
             return Single<UtcOffset>.just(offset)
-        }
-        else {
-            return self.loadPlayer().do(onSuccess: { [weak self] in self?.memoryRepo.set(KeyPlayer, $0) }).map { $0.zoneOffset() }
+        } else {
+            return loadPlayer().do(onSuccess: { [weak self] in self?.memoryRepo.set(KeyPlayer, $0) }).map { $0.zoneOffset() }
         }
     }
 
@@ -125,12 +127,12 @@ class PlayerRepositoryImpl: PlayerRepository {
             .map { $0.data?.int32Value }
             .map { [weak self] in
                 guard let self else { return .none }
-        
+
                 self.settingStore.defaultProduct = $0
                 return self.convertDefaultProduct(type: $0)
             }
     }
-  
+
     @available(*, deprecated, message: "will remove after move player profile to sharebu")
     private func convertDefaultProduct(type: Int32?) -> ProductType {
         switch type {
@@ -151,7 +153,7 @@ class PlayerRepositoryImpl: PlayerRepository {
 
     func getBalance(_ supportLocale: SupportLocale) -> Single<AccountCurrency> {
         playerApi.getCashBalance().map {
-            FiatFactory().create(supportLocale: supportLocale, amount: "\(Double($0.data ?? 0))")
+            FiatFactory().create(supportLocale: supportLocale, amount: "\(Double($0 ?? 0))")
         }
     }
 
@@ -159,22 +161,23 @@ class PlayerRepositoryImpl: PlayerRepository {
         playerApi.getCashLogSummary(
             begin: begin.toDateStartTimeString(with: "-"),
             end: end.toDateStartTimeString(with: "-"),
-            balanceLogFilterType: balanceLogFilterType).map { response -> [String: Double] in
-            response.data ?? [:]
+            balanceLogFilterType: balanceLogFilterType
+        ).map { response -> [String: Double] in
+            response ?? [:]
         }
     }
 
     func getPlayerRealName() -> Single<String> {
-        playerApi.getPlayerRealName().map { $0.data ?? "" }
+        playerApi.getPlayerRealName().map { $0 ?? "" }
     }
 
     func isRealNameEditable() -> Single<Bool> {
-        playerApi.isRealNameEditable().map { $0.data ?? false }
+        playerApi.isRealNameEditable().map { $0 ?? false }
     }
 
     func getLevelPrivileges() -> Single<[LevelOverview]> {
         playerApi.getPlayerLevel().map { response -> [LevelOverview] in
-            guard let data = response.data else { return [] }
+            guard let data = response else { return [] }
             return try data.map { try self.convert(levelBean: $0) }
         }
     }
@@ -189,8 +192,7 @@ class PlayerRepositoryImpl: PlayerRepository {
                 !playerInfo.gameId.isEmpty
             {
                 single(.success(true))
-            }
-            else {
+            } else {
                 single(.success(false))
             }
             return Disposables.create()
@@ -198,7 +200,7 @@ class PlayerRepositoryImpl: PlayerRepository {
     }
 
     func verifyOldAccount(_ verifyType: AccountType) -> Completable {
-        playerApi.sendOldAccountOtp(accountType: verifyType.rawValue).asCompletable()
+        playerApi.sendOldAccountOtp(accountType: verifyType.rawValue)
     }
 
     private func convert(levelBean: LevelBean) throws -> LevelOverview {
@@ -206,7 +208,8 @@ class PlayerRepositoryImpl: PlayerRepository {
         return try LevelOverview(
             level: levelBean.level,
             timeStamp: levelBean.timestamp.toKotlinLocalDateTime(),
-            privileges: privileges)
+            privileges: privileges
+        )
     }
 
     private func convert(level: Int32, privilegeBean: PrivilegeBean) -> LevelPrivilege {
@@ -222,7 +225,8 @@ class PlayerRepositoryImpl: PlayerRepository {
                 percentage: Percentage(percent: privilegeBean.percentage),
                 rebatePercentages: rebatePercentages(privilegeBean),
                 withdrawalLimitAmount: privilegeBean.withdrawalLimitAmount.toAccountCurrency(),
-                withdrawalLimitCount: privilegeBean.withdrawalLimitCount)
+                withdrawalLimitCount: privilegeBean.withdrawalLimitCount
+            )
     }
 
     private func rebatePercentages(_ bean: PrivilegeBean) -> [ProductType: Percentage] {
@@ -231,25 +235,25 @@ class PlayerRepositoryImpl: PlayerRepository {
             ProductType.numberGame: Percentage(percent: bean.numberGamePercentage),
             ProductType.sbk: Percentage(percent: bean.sbkPercentage),
             ProductType.slot: Percentage(percent: bean.slotPercentage),
-            ProductType.arcade: Percentage(percent: bean.arcadePercentage)
+            ProductType.arcade: Percentage(percent: bean.arcadePercentage),
         ]
     }
 
     func getAffiliateStatus() -> Single<AffiliateApplyStatus> {
-        playerApi.getPlayerAffiliateStatus().map({ AffiliateApplyStatus.companion.create(type: $0.data) })
+        playerApi.getPlayerAffiliateStatus().map { AffiliateApplyStatus.companion.create(type: $0) }
     }
 
     func getAffiliateHashKey() -> Single<String> {
-        playerApi.getAffiliateHashKey().map { $0.data }
+        playerApi.getAffiliateHashKey()
     }
 
     func checkProfileAuthorization() -> Single<Bool> {
-        playerApi.checkProfileToken().map { $0.data }
+        playerApi.checkProfileToken()
     }
 
     func getPlayerProfile() -> Single<PlayerProfile> {
-        playerApi.getPlayerProfile().map { result in
-            if let data = result.data {
+        playerApi.getPlayerProfile().map { data in
+            if let data {
                 return PlayerProfile(data)
             }
             return PlayerProfile()
@@ -262,7 +266,7 @@ class PlayerRepositoryImpl: PlayerRepository {
                 return KtoPasswordVerifyFail()
             }
             return $0
-        }).asCompletable()
+        })
     }
 
     func changePassword(password: String) -> Completable {
@@ -271,7 +275,7 @@ class PlayerRepositoryImpl: PlayerRepository {
                 return KtoPasswordRepeat()
             }
             return $0
-        }).asCompletable()
+        })
     }
 
     func setWithdrawalName(name: String) -> Completable {
@@ -280,7 +284,7 @@ class PlayerRepositoryImpl: PlayerRepository {
                 return KtoRealNameEditForbidden()
             }
             return $0
-        }).asCompletable()
+        })
     }
 
     func setBirthDay(birthDay: Date) -> Completable {
@@ -288,15 +292,15 @@ class PlayerRepositoryImpl: PlayerRepository {
     }
 
     func verifyChangeIdentityOtp(_ otp: String, _ accountType: AccountType, _ isOldProfile: Bool) -> Completable {
-        playerApi
-            .verifyChangeIdentityOtp(RequestVerifyOtp(
-                verifyCode: otp,
-                bindProfileType: accountType.rawValue,
-                isOldProfile: isOldProfile)).asCompletable()
+        playerApi.verifyChangeIdentityOtp(RequestVerifyOtp(
+            verifyCode: otp,
+            bindProfileType: accountType.rawValue,
+            isOldProfile: isOldProfile
+        ))
     }
 
     func resendOtp(_ verifyType: AccountType) -> Completable {
-        playerApi.resendOtp(verifyType.rawValue).asCompletable()
+        playerApi.resendOtp(verifyType.rawValue)
     }
 
     func setIdentity(_ identity: String, _ accountType: AccountType) -> Completable {
@@ -320,7 +324,7 @@ class PlayerRepositoryImpl: PlayerRepository {
                 default:
                     return $0
                 }
-            }).asCompletable()
+            })
     }
 }
 
@@ -347,18 +351,18 @@ class PlayerProfile {
     var mobile: EditableContent<String?> = EditableContent(false, nil)
     var email: EditableContent<String?> = EditableContent(false, nil)
     var realName: EditableContent<String?> = EditableContent(false, nil)
-    init() { }
+    init() {}
     init(_ data: ProfileBean) {
-        self.gameId = data.gameLoginId
-        self.loginId = EditableContent(data.editable.loginId, data.loginId)
+        gameId = data.gameLoginId
+        loginId = EditableContent(data.editable.loginId, data.loginId)
         if let gender = Gender(rawValue: data.gender) {
             self.gender = gender
         }
         let birthDayString = convertDate(data.birthday)?.toDateString()
-        self.birthDay = EditableContent(data.editable.birthday, data.birthday != nil ? birthDayString : nil)
-        self.mobile = EditableContent(data.editable.mobile, data.mobile)
-        self.email = EditableContent(data.editable.email, data.email)
-        self.realName = EditableContent(data.editable.realName, data.realName)
+        birthDay = EditableContent(data.editable.birthday, data.birthday != nil ? birthDayString : nil)
+        mobile = EditableContent(data.editable.mobile, data.mobile)
+        email = EditableContent(data.editable.email, data.email)
+        realName = EditableContent(data.editable.realName, data.realName)
     }
 
     private func convertDate(_ dateStr: String?) -> Date? {

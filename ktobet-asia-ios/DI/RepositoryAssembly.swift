@@ -6,7 +6,6 @@ class RepositoryAssembly: Assembly {
     func assemble(container: Container) {
         container.autoregister(PlayerRepository.self, initializer: PlayerRepositoryImpl.init)
         container.autoregister(NotificationRepository.self, initializer: NotificationRepositoryImpl.init)
-        container.autoregister(GameInfoRepository.self, initializer: GameInfoRepositoryImpl.init)
         container.autoregister(AuthRepository.self, initializer: AuthRepository.init)
             .implements(IAuthRepository.self, ResetPasswordRepository.self,LoginByOtpRepository.self)
         container.autoregister(SystemRepository.self, initializer: SystemRepositoryImpl.init)

@@ -38,7 +38,7 @@ class NumberGameRecordRepositoryImpl: NumberGameRecordRepository {
             myBetType: betStatus.ordinal,
             skip: skip,
             take: take).map { [unowned self] response -> [NumberGameSummary.Game] in
-            guard let data = response.data else { return [] }
+            guard let data = response else { return [] }
             if betStatus == NumberGameSummary.CompanionStatus.settled {
                 return data.data.map { $0.toSettleGameSummary(portalHost: self.httpClient.host.absoluteString) }
             }
@@ -61,7 +61,7 @@ class NumberGameRecordRepositoryImpl: NumberGameRecordRepository {
             latest: [NumberGameSummary.RecentlyBet],
             settled: [NumberGameSummary.Date],
             unsettled: [NumberGameSummary.Date])? in
-            guard let data = response.data else { return nil }
+            guard let data = response else { return nil }
 
             let settled = try data.settledSummary.details.map { settledRecords -> NumberGameSummary.Date in
                 try settledRecords.toNumberGame()
@@ -95,7 +95,7 @@ class NumberGameRecordRepositoryImpl: NumberGameRecordRepository {
             gameId: gameId,
             myBetType: betStatus.ordinal,
             skip: skip).map { response -> [NumberGameSummary.Bet] in
-            guard let data = response.data else { return [] }
+            guard let data = response else { return [] }
             if betStatus == NumberGameSummary.CompanionStatus.settled {
                 return try data.data.map { try $0.toSettleGameSummary() }
             }
@@ -121,7 +121,7 @@ class NumberGameRecordRepositoryImpl: NumberGameRecordRepository {
             endDate: endDate,
             gameId: gameId,
             myBetType: betStatus.ordinal).map { response -> [NumberGameSummary.Bet] in
-            guard let data = response.data else { return [] }
+            guard let data = response else { return [] }
             if betStatus == NumberGameSummary.CompanionStatus.settled {
                 return try data.map { try $0.toSettleGameSummary() }
             }
@@ -136,7 +136,7 @@ class NumberGameRecordRepositoryImpl: NumberGameRecordRepository {
 
     func getBetsDetails(betId: String) -> Single<NumberGameBetDetail> {
         numberGameApi.getMyBetDetail(wagerId: betId).map { response -> NumberGameBetDetail in
-            try response.data.toNumberGameBetDetail()
+            try response.toNumberGameBetDetail()
         }
     }
 }

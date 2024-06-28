@@ -3,136 +3,86 @@ import Moya
 import RxSwift
 import sharedbu
 
-class CasinoApi: ApiService, WebGameApi {
+class CasinoApi:  WebGameApi {
     let prefix = "casino/api"
-    private var urlPath: String!
-
-    private func url(_ u: String) -> Self {
-        self.urlPath = u
-        return self
-    }
 
     private var httpClient: HttpClient!
-
-    var surfixPath: String {
-        self.urlPath
-    }
-
-    var headers: [String: String]? {
-        httpClient.headers
-    }
-
-    var baseUrl: URL {
-        httpClient.host
-    }
 
     init(_ httpClient: HttpClient) {
         self.httpClient = httpClient
     }
 
-    func getCasinoGames() -> Single<ResponseDataList<TopCasinoResponse>> {
-        let target = GetAPITarget(service: self.url("\(prefix)/game/lobby/top"))
-        return httpClient.request(target).map(ResponseDataList<TopCasinoResponse>.self)
+    func getCasinoGames() -> Single<[TopCasinoResponse]> {
+        httpClient.request(path: "\(prefix)/game/lobby/top", method: .get)
     }
 
-    func getCasinoTags(culture: String) -> Single<ResponseDataMap<[TagBean]>> {
-        let target = GetAPITarget(service: self.url("\(prefix)/game/tag")).parameters(["culture": culture])
-        return httpClient.request(target).map(ResponseDataMap<[TagBean]>.self)
+    func getCasinoTags(culture: String) -> Single<[String: [TagBean]]> {
+        httpClient.request(path: "\(prefix)/game/tag", method: .get, task: .urlParameters(["culture": culture]))
     }
 
-    func getCasinoBetSummary(offset: Int32) -> Single<ResponseData<BetSummaryData>> {
-        let target = GetAPITarget(service: self.url("\(prefix)/wager/mybet/summary")).parameters(["offset": offset])
-        return httpClient.request(target).map(ResponseData<BetSummaryData>.self)
+    func getCasinoBetSummary(offset: Int32) -> Single<BetSummaryData?> {
+        httpClient.request(path: "\(prefix)/wager/mybet/summary", method: .get, task: .urlParameters(["offset": offset]))
     }
 
-    func getGameGroup(date: String, offset: Int32) -> Single<ResponseData<[CasinoGroupData]>> {
-        let target = GetAPITarget(service: self.url("\(prefix)/wager/mybet/gamegroup"))
-            .parameters(["date": date, "offset": offset])
-        return httpClient.request(target).map(ResponseData<[CasinoGroupData]>.self)
+    func getGameGroup(date: String, offset: Int32) -> Single<[CasinoGroupData]?> {
+        httpClient.request(path: "\(prefix)/wager/mybet/gamegroup", method: .get, task: .urlParameters(["date": date, "offset": offset]))
     }
 
-    func getBetRecordsByPage(
-        lobbyId: Int,
-        beginDate: String,
-        endDate: String,
-        offset: Int,
-        take: Int)
-        -> Single<ResponseData<CasinoBetData>>
-    {
-        let target = GetAPITarget(service: self.url("\(prefix)/wager/mobile/mybet/list-by-paging"))
-            .parameters([
+    func getBetRecordsByPage(lobbyId: Int, beginDate: String, endDate: String, offset: Int, take: Int) -> Single<CasinoBetData?> {
+        httpClient.request(
+            path: "\(prefix)/wager/mobile/mybet/list-by-paging",
+            method: .get,
+            task: .urlParameters([
                 "lobbyId": lobbyId,
                 "beginDate": beginDate,
                 "endDate": endDate,
                 "offset": offset,
-                "take": take
+                "take": take,
             ])
-        return httpClient.request(target).map(ResponseData<CasinoBetData>.self)
+        )
     }
 
-    func getFavoriteCasinos() -> Single<ResponseData<[CasinoData]>> {
-        self.getFavoriteGameList()
+    func getFavoriteCasinos() -> Single<[CasinoData]?> {
+        httpClient.request(path: "\(prefix)/game/favorite", method: .get)
     }
 
-    func searchCasino(keyword: String) -> Single<ResponseData<[CasinoData]>> {
-        self.searchGameList(keyword: keyword)
+    func searchCasino(keyword _: String) -> Single<[CasinoData]?> {
+        httpClient.request(path: "\(prefix)/game/search-keyword", method: .get)
     }
 
-    func search(sortBy: Int, map: [String: String]) -> Single<ResponseData<[CasinoData]>> {
+    func search(sortBy: Int, map: [String: String]) -> Single<[CasinoData]?> {
         var param: [String: Any] = ["SortBy": sortBy]
         map.forEach { k, v in param[k] = v }
-        let target = GetAPITarget(service: self.url("\(prefix)/game/lobby/search")).parameters(param)
-        return httpClient.request(target).map(ResponseData<[CasinoData]>.self)
+        return httpClient.request(path: "\(prefix)/game/lobby/search", method: .get, task: .urlParameters(param))
     }
 
-    func getWagerDetail(wagerId: String) -> Single<ResponseData<CasinoWagerDetail>> {
-        let target = GetAPITarget(service: self.url("\(prefix)/wager/mybet/detail")).parameters(["wagerId": wagerId])
-        return httpClient.request(target).map(ResponseData<CasinoWagerDetail>.self)
+    func getUnsettledSummary(offset: Int32) -> Single<[UnsettledSummaryBean]?> {
+        httpClient.request(path: "\(prefix)/wager/mybet/pending/group", method: .get, task: .urlParameters(["offset": offset]))
     }
 
-    func getUnsettledSummary(offset: Int32) -> Single<ResponseData<[UnsettledSummaryBean]>> {
-        let target = GetAPITarget(service: self.url("\(prefix)/wager/mybet/pending/group")).parameters(["offset": offset])
-        return httpClient.request(target).map(ResponseData<[UnsettledSummaryBean]>.self)
-    }
-
-    func getUnsettledRecords(date: String) -> Single<ResponseData<[UnsettledRecordBean]>> {
-        let target = GetAPITarget(service: self.url("\(prefix)/wager/mybet/pending/list")).parameters(["date": date])
-        return httpClient.request(target).map(ResponseData<[UnsettledRecordBean]>.self)
+    func getUnsettledRecords(date: String) -> Single<[UnsettledRecordBean]?> {
+        httpClient.request(path: "\(prefix)/wager/mybet/pending/list", method: .get, task: .urlParameters(["date": date]))
     }
 
     // MARK: WebGameApi
+
     func addFavoriteGame(id: Int32) -> Completable {
-        let target = PutAPITarget(service: self.url("\(prefix)/game/favorite/add/\(id)"), parameters: .empty)
-        return httpClient.request(target).asCompletable()
+        httpClient.request(path: "\(prefix)/game/favorite/add/\(id)", method: .put).asCompletable()
     }
 
     func removeFavoriteGame(id: Int32) -> Completable {
-        let target = PutAPITarget(service: self.url("\(prefix)/game/favorite/remove/\(id)"), parameters: .empty)
-        return httpClient.request(target).asCompletable()
+        httpClient.request(path: "\(prefix)/game/favorite/remove/\(id)", method: .put).asCompletable()
     }
 
-    func getFavoriteGameList<T>() -> Single<ResponseData<[T]>> {
-        let target = GetAPITarget(service: self.url("\(prefix)/game/favorite"))
-        return httpClient.request(target).map(ResponseData<[T]>.self)
+    func getSuggestKeywords() -> Single<[String]?> {
+        httpClient.request(path: "\(prefix)/game/keyword-suggestion", method: .get)
     }
 
-    func getSuggestKeywords() -> Single<ResponseData<[String]>> {
-        let target = GetAPITarget(service: self.url("\(prefix)/game/keyword-suggestion"))
-        return httpClient.request(target).map(ResponseData<[String]>.self)
-    }
-
-    func searchGameList<T>(keyword: String) -> Single<ResponseData<[T]>> {
-        let target = GetAPITarget(service: self.url("\(prefix)/game/search-keyword")).parameters(["keyword": keyword])
-        return httpClient.request(target).map(ResponseData<[T]>.self)
-    }
-
-    func getGameUrl(gameId: Int32, siteUrl: String) -> Single<ResponseData<String>> {
-        let target = GetAPITarget(service: self.url("\(prefix)/game/url/\(gameId)")).parameters(["siteUrl": siteUrl])
-        return httpClient.request(target).map(ResponseData<String>.self)
+    func getGameUrl(gameId: Int32, siteUrl: String) -> Single<String?> {
+        httpClient.request(path: "\(prefix)/game/url/\(gameId)", method: .get, task: .urlParameters(["siteUrl": siteUrl]))
     }
 
     func getCasinoTagsWithCount() -> Single<String> {
-        let target = GetAPITarget(service: self.url("\(prefix)/game/mobile/tag-with-gamecount"))
-        return httpClient.requestJsonString(target)
+        return httpClient.request(path: "\(prefix)/game/mobile/tag-with-gamecount", method: .get)
     }
 }

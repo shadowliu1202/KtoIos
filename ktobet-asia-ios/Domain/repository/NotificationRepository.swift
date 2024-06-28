@@ -16,7 +16,7 @@ class NotificationRepositoryImpl: NotificationRepository {
 
     func searchNotification(keyword: String, page: Int) -> Single<NotificationSummary> {
         api.getPlayerAllNotification(page: page, keyword: keyword).flatMap { response in
-            guard let data = response.data else { return Single.error(KTOError.EmptyData) }
+            guard let data = response else { return Single.error(KTOError.EmptyData) }
             let notifications = try data.documents.map { internalMessageBean -> sharedbu.Notification? in
                 switch internalMessageBean.messageType {
                 case 0:
@@ -53,7 +53,7 @@ class NotificationRepositoryImpl: NotificationRepository {
 
     func getActivityNotification() -> Single<NotificationSummary> {
         api.getActivityNotification().flatMap { response in
-            guard let data = response.data else { return Single.error(KTOError.EmptyData) }
+            guard let data = response else { return Single.error(KTOError.EmptyData) }
             let notifications = try data.documents.map { activityMessageBean in
                 try sharedbu.Notification.Activity(
                     messageId: activityMessageBean.itemId,

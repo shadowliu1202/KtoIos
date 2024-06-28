@@ -29,7 +29,7 @@ class SlotRecordRepositoryImpl: SlotRecordRepository {
     func getBetSummary(zoneOffset: sharedbu.UtcOffset) -> Single<BetSummary> {
         let secondsToHours = zoneOffset.totalSeconds / 3600
         return slotApi.getSlotBetSummary(offset: secondsToHours).map { response -> BetSummary in
-            guard let data = response.data else { return BetSummary(unFinishedGames: 0, finishedGame: []) }
+            guard let data = response else { return BetSummary(unFinishedGames: 0, finishedGame: []) }
             let finishedGame = try data.summaries.map { try $0.toDateSummary() }
             return BetSummary(unFinishedGames: data.pendingTransactionCount, finishedGame: finishedGame)
         }
@@ -39,7 +39,7 @@ class SlotRecordRepositoryImpl: SlotRecordRepository {
         let secondsToHours = zoneOffset.totalSeconds / 3600
         return slotApi.getSlotGameRecordByDate(date: localDate, offset: secondsToHours)
             .map { [unowned self] response -> [SlotGroupedRecord] in
-                guard let data = response.data else { return [] }
+                guard let data = response else { return [] }
                 let groupedDicts = Dictionary(grouping: data, by: { (element: SlotDateGameRecordBean) in
                     element.gameId
                 })
@@ -70,7 +70,7 @@ class SlotRecordRepositoryImpl: SlotRecordRepository {
                 offset: offset,
                 take: take)
             .map { response -> CommonPage<SlotBetRecord> in
-                guard let data = response.data else { return CommonPage(data: [], totalCount: 0) }
+                guard let data = response else { return CommonPage(data: [], totalCount: 0) }
                 return try CommonPage(data: data.data.map { try $0.toSlotBetRecord() }, totalCount: Int32(data.totalCount))
             }
     }
@@ -78,7 +78,7 @@ class SlotRecordRepositoryImpl: SlotRecordRepository {
     func getUnsettledSummary(zoneOffset: sharedbu.UtcOffset) -> Single<[SlotUnsettledSummary]> {
         let secondsToHours = zoneOffset.totalSeconds / 3600
         return slotApi.getUnsettleGameSummary(offset: secondsToHours).map({ response in
-            guard let data = response.data else { return [] }
+            guard let data = response else { return [] }
             return try data.map({ try $0.toSlotUnsettledSummary() })
         })
     }
@@ -86,7 +86,7 @@ class SlotRecordRepositoryImpl: SlotRecordRepository {
     func getUnsettledRecords(betTime: sharedbu.LocalDateTime, offset: Int, take: Int) -> Single<CommonPage<SlotUnsettledRecord>> {
         slotApi.getUnsettleGameRecords(date: betTime.toDateTimeFormatString(), offset: offset, take: take)
             .map({ [unowned self] response in
-                guard let data = response.data else { return CommonPage(data: [], totalCount: 0) }
+                guard let data = response else { return CommonPage(data: [], totalCount: 0) }
                 return try CommonPage(
                     data: data.data.map({ try $0.toSlotUnsettledRecord(host: self.httpClient.host.absoluteString) }),
                     totalCount: Int32(data.totalCount))

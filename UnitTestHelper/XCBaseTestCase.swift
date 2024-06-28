@@ -20,7 +20,7 @@ class XCBaseTestCase: XCTestCase, StubProvidable {
 private func injectFakeHttpClient() {
     Injection.shared.container
         .register(HttpClient.self) { resolver in
-            FakeHttpClient(
+            HttpClient(
                 resolver.resolveWrapper(LocalStorageRepository.self),
                 resolver.resolveWrapper(CookieManager.self),
                 currentURL: URL(string: "https://")!,
@@ -29,7 +29,7 @@ private func injectFakeHttpClient() {
 
     Injection.shared.container
         .register(HttpClient.self, name: "update") { resolver in
-            FakeHttpClient(
+            HttpClient(
                 resolver.resolveWrapper(LocalStorageRepository.self),
                 resolver.resolveWrapper(CookieManager.self),
                 currentURL: URL(string: "https://")!,

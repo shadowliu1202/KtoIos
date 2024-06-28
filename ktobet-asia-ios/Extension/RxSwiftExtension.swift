@@ -49,14 +49,14 @@ extension RxSwift.Observable where Element: AnyObject {
     }
 }
 
-extension RxSwift.Observable where Element == String {
+extension RxSwift.Observable where Element == ResponseJson {
     func asReaktiveResponseList<T>(serial: Kotlinx_serialization_coreKSerializer) -> ObservableWrapper<ResponseList<T>>
         where T: KotlinBase
     {
         ObservableWrapper(inner: ObservableByEmitterKt.observable { emitter in
             let swiftDisposable = self.subscribe(
                 onNext: { jsonString in
-                    let result = ResponseParser.companion.fromList(jsonStr: jsonString, benSerializable: serial)
+                    let result = ResponseParser.companion.fromList(jsonStr: jsonString.raw, benSerializable: serial)
                     guard let data = result.data
                     else {
                         emitter.onError(error: KotlinThrowable.wrapError(KTOError.JsonParseError))
@@ -78,7 +78,7 @@ extension RxSwift.Observable where Element == String {
         ObservableWrapper(inner: ObservableByEmitterKt.observable { emitter in
             let swiftDisposable = self.subscribe(
                 onNext: { jsonString in
-                    let result = ResponseParser.companion.from(jsonStr: jsonString, benSerializable: serial)
+                    let result = ResponseParser.companion.from(jsonStr: jsonString.raw, benSerializable: serial)
                     guard let data = result.data
                     else {
                         emitter.onError(error: KotlinThrowable.wrapError(KTOError.JsonParseError))
@@ -133,7 +133,9 @@ extension Single where PrimitiveSequence.Trait == RxSwift.SingleTrait {
     }
 }
 
-extension Single where PrimitiveSequence.Trait == RxSwift.SingleTrait, Element == String {
+
+
+extension Single where PrimitiveSequence.Trait == RxSwift.SingleTrait, Element == ResponseJson {
     func asReaktiveResponseItem<T>() -> SingleWrapper<ResponseItem<T>> where T: Any {
         asReaktiveResponseItem(transfrom: { (result: T) -> T in result })
     }
@@ -142,7 +144,7 @@ extension Single where PrimitiveSequence.Trait == RxSwift.SingleTrait, Element =
         SingleWrapper(inner: SingleByEmitterKt.single { emitter in
             let swiftDisposable = self.subscribe(
                 onSuccess: { jsonString in
-                    let json = JSON(parseJSON: jsonString)
+                    let json = JSON(parseJSON: jsonString.raw)
 
                     var item: ResponseItem<F>
 
@@ -193,7 +195,7 @@ extension Single where PrimitiveSequence.Trait == RxSwift.SingleTrait, Element =
         SingleWrapper(inner: SingleByEmitterKt.single { emitter in
             let swiftDisposable = self.subscribe(
                 onSuccess: { jsonString in
-                    let result = ResponseParser.companion.from(jsonStr: jsonString, benSerializable: serial)
+                    let result = ResponseParser.companion.from(jsonStr: jsonString.raw, benSerializable: serial)
                     guard let data = result.data
                     else {
                         emitter.onError(error: KotlinThrowable.wrapError(KTOError.JsonParseError))
@@ -215,7 +217,7 @@ extension Single where PrimitiveSequence.Trait == RxSwift.SingleTrait, Element =
         SingleWrapper(inner: SingleByEmitterKt.single { emitter in
             let swiftDisposable = self.subscribe(
                 onSuccess: { jsonString in
-                    let result = ResponseParser.companion.fromList(jsonStr: jsonString, benSerializable: serial)
+                    let result = ResponseParser.companion.fromList(jsonStr: jsonString.raw, benSerializable: serial)
                     guard let data = result.data
                     else {
                         emitter.onError(error: KotlinThrowable.wrapError(KTOError.JsonParseError))
@@ -237,7 +239,7 @@ extension Single where PrimitiveSequence.Trait == RxSwift.SingleTrait, Element =
         SingleWrapper(inner: SingleByEmitterKt.single { emitter in
             let swiftDisposable = self.subscribe(
                 onSuccess: { jsonString in
-                    let result = ResponseParser.companion.fromPayload(jsonStr: jsonString, benSerializable: serial)
+                    let result = ResponseParser.companion.fromPayload(jsonStr: jsonString.raw, benSerializable: serial)
                     guard let data = result.data
                     else {
                         emitter.onError(error: KotlinThrowable.wrapError(KTOError.JsonParseError))
@@ -258,7 +260,7 @@ extension Single where PrimitiveSequence.Trait == RxSwift.SingleTrait, Element =
             let swiftDisposable = self
                 .subscribe(
                     onSuccess: { jsonString in
-                        let result = ResponseParser.companion.fromNothing(jsonStr: jsonString)
+                        let result = ResponseParser.companion.fromNothing(jsonStr: jsonString.raw)
                         emitter.onSuccess(value: result)
                     },
                     onFailure: { emitter.onError(error: KotlinThrowable.wrapError($0)) })
