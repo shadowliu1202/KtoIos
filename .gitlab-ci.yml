@@ -1,37 +1,38 @@
+include:
+  - project : 'mobile/pipelinetemplate'
+    ref: master
+    file: 
+      - '.before_script_template.yml'      
+
 variables:
   LANG: "en_US.UTF-8"
   LC_ALL: "en_US.UTF-8"
-
+  FORCE_UPADATE: "false"
+  BREAKING_CHANGE: "false"
+  STORE_BUILD_NUMBER_FILE: "/Users/app/buildVariables/kto_ios_build_number.txt"
+  MATCH_PASSWORD: "password"
+  KEYCHAIN_PASSWORD: "8YVFeB2N7iwEp"
 stages:          # List of stages for jobs, and their order of execution
   - inProgress
   - mergeRequest
   - merged
   - test
+  - analyze
+  - publish
+  - notify
 
 build-job:
   stage: inProgress
   tags:
     - mac-emulator
+  variables:
+    ISSUE_KEY: $CI_COMMIT_BRANCH
   rules:
-    - if: ($CI_COMMIT_BRANCH =~ /(APP|KTO|SP)-[0-9]+/ && $CI_PIPELINE_SOURCE != "merge_request_event")
+    - if: ($CI_COMMIT_BRANCH =~ /(APP|PD)-[0-9]+/ && $CI_PIPELINE_SOURCE != "merge_request_event" && $CI_PIPELINE_SOURCE != "web")
   script:
     - EMAIL_NAME="$(echo $GITLAB_USER_EMAIL | sed "s/@.*//")"
-    - >
-      TRANSITION=$(curl --request GET --url "https://jira.higgstar.com/rest/api/2/issue/${CI_COMMIT_BRANCH}/transitions" --header "Authorization: Bearer $JIRA_TOKEN" --header "Content-Type: application/json")
-      IN_PROGRESS=$(echo $TRANSITION | jq -r '.transitions[] | select(.name=="Begin Working" or .name=="Start SubTask") | .id')
-     
-      if [ -n "$IN_PROGRESS" ]; then
-        curl --request POST \
-          --url "https://jira.higgstar.com/rest/api/2/issue/${CI_COMMIT_BRANCH}/transitions" \
-          --data '{"transition":{"id":"'"$IN_PROGRESS"'"}}' \
-          --header "Authorization: Bearer $JIRA_TOKEN" \
-          --header "Content-Type: application/json"
-      else
-        echo "No 'Begin Working' or 'Start SubTask' transition found."
-      fi
-    - >
-      JIRA_SUB=$(curl --request PUT --url "https://jira.higgstar.com/rest/api/2/issue/$CI_COMMIT_BRANCH/" --data '{"fields":{"assignee":{"name":"'${EMAIL_NAME}'"},"customfield_11000":{"value":"iOS"},"customfield_12006":{"value":"App"}}}' --header "Authorization: Bearer $JIRA_TOKEN" --header "Content-Type: application/json")
-    - echo -e "$JIRA_SUB"
+    - transition_jira_issue_with_status "$ISSUE_KEY" "In Progress"    
+    - assign_to_user "$ISSUE_KEY" "${EMAIL_NAME}"
       
 UnitTests:
   stage: test
@@ -55,92 +56,16 @@ merge-job:
   stage: mergeRequest
   tags:
     - mac-emulator
-  before_script:
-    # - source ~/.nvm/nvm.sh
-    # - nvm install node
-    # - npm install -g @commitlint/cli @commitlint/config-conventional
-    # - echo 'module.exports = {extends:["@commitlint/config-conventional"]}' > commitlint.config.js
-    - curl https://gitlab.higgstar.com/api/v4/projects/695/repository/files/commitlint-gitlab.sh/raw | bash
   rules:
     - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
   variables:
-    # CI_DEBUG_TRACE: "true"
-    MR_COMMAND : 'curl --header PRIVATE-TOKEN:$GITLAB_AUTH_TOKEN https://gitlab.higgstar.com/api/v4/projects/${CI_PROJECT_ID}/merge_requests/${CI_MERGE_REQUEST_IID}'
-    BRANCH_PATTERN : '(APP|KTO|SP)-[0-9]+'
-    BUGFIX_PATTERN : 'fix[[:space:]]*:[[:space:]]*(APP|KTO|SP)-[0-9]+[[:space:]]+.*#comment[[:space:]]+root[[:space:]]{0,1}cause:[[:space:]]{0,1}(\[3rd\]|\[arch\]|\[diff\]|\[dev\]|\[env\]|\[other\])[[:space:]]*.{2,}[[:space:]]*\\[[:space:]]*solution[[:space:]]*:[[:space:]]*.{2,}'
-    GIT_SSL_NO_VERIFY: "1"
-    GRADLE_OPTS: "-Dorg.gradle.daemon=false"
+    BRANCH_NAME: $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME
   script:
     - rm -rf ~/Library/Developer/Xcode/DerivedData
-    - 'branch_name=$(echo "$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME")'
-    - >
-        if ! [[ "${branch_name}" =~ "ci" ]] && ! [[ "${branch_name}" =~ $BRANCH_PATTERN ]]; then
-            echo -e "\033[31mBranch name should either be CI related or Jira tickets\033[0;m"
-            exit 1
-        fi;
-    - >
-        if [[ "${branch_name}" =~ $BRANCH_PATTERN ]]; then
-            echo -e "${CI_COMMIT_MESSAGE}" | npx commitlint
-        fi;
-    - |
-      ISSUE_DETAIL=$(curl --request GET --url "https://jira.higgstar.com/rest/api/2/issue/${CI_MERGE_REQUEST_SOURCE_BRANCH_NAME}" --header "Authorization: Bearer $JIRA_TOKEN" --header "Content-Type: application/json")
-      ISSUE_TYPE="$(jq -r .fields.issuetype.name <<< ${ISSUE_DETAIL})"
-      ISSUE_NAME=$(echo "$(jq -r .fields.issuetype.name <<< ${ISSUE_DETAIL})" | tr "[:upper:]" "[:lower:]")
-      echo -e "\033[34;1m Jira:$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME, Issue Type: $ISSUE_TYPE , Issue Name: $ISSUE_NAME\033[0;m"
-      RESULT="$($MR_COMMAND)"
-      TITLE=$(echo "$(jq -r .title <<< ${RESULT})" | tr "[:upper:]" "[:lower:]")
-      DESCRIPTION=$(echo "$(jq -r .description <<< ${RESULT})")
-      echo -e "\033[34;1m Merge Request:$TITLE, Description:$DESCRIPTION\033[0;m"
-    - >
-      if ! [[ "${TITLE}" =~ "ci" ]]; then
-        echo "title does not contain ci"
-        if [[ "${ISSUE_NAME}" =~ "bug" ]]; then
-          echo "Issue relate to bug"
-          if ! [[ "${DESCRIPTION}" =~ $BUGFIX_PATTERN ]] || ! [[ "${DESCRIPTION}" =~ "${CI_MERGE_REQUEST_SOURCE_BRANCH_NAME}" ]]; then
-            echo -e "\033[31mdescription of fix type should follow pattern as fix:BRANCH_NAME #comment rootcause:[3rd/arch/diff/dev/env/other]xxx \\ solution:xxx\033[0;m"
-            exit 1
-          fi
-        fi
-      fi
-    - |
-      echo "DESCRIPTION: ${DESCRIPTION}"
-      if [[ "${DESCRIPTION}" =~ "[3rd]" ]]; then
-        CUSTOMFIELD_VALUE="因第三方廠商/merchant 造成"
-      elif [[ "${DESCRIPTION}" =~ "[arch]" ]]; then
-        CUSTOMFIELD_VALUE="與架構設計相關"
-      elif [[ "${DESCRIPTION}" =~ "[diff]" ]]; then
-        CUSTOMFIELD_VALUE="與需求描述不一致"
-      elif [[ "${DESCRIPTION}" =~ "[dev]" ]]; then
-        CUSTOMFIELD_VALUE="開發流程未落實"
-      elif [[ "${DESCRIPTION}" =~ "[env]" ]]; then
-        CUSTOMFIELD_VALUE="環境/資料問題造成"
-      elif [[ "${DESCRIPTION}" =~ "[other]" ]]; then
-        CUSTOMFIELD_VALUE="提出者誤判/不屬於Bug"
-      else
-        CUSTOMFIELD_VALUE=""
-      fi
-      echo "CUSTOMFIELD_VALUE: ${CUSTOMFIELD_VALUE}"
-      if [[ "${CUSTOMFIELD_VALUE}" != "" ]]; then
-        # 更新 rootCauseCategory 欄位的值
-        JIRA_UPDATE_RESULT=$(curl --request PUT --url "https://jira.higgstar.com/rest/api/2/issue/${CI_MERGE_REQUEST_SOURCE_BRANCH_NAME}" --data "{\"update\":{\"customfield_12702\" : [{\"set\" : {\"value\" : \"${CUSTOMFIELD_VALUE}\"}}]}}" --header "Authorization: Bearer $JIRA_TOKEN" --header "Content-Type: application/json")
-        echo "JIRA_UPDATE_RESULT: ${JIRA_UPDATE_RESULT}"
-      fi
-    - >
-       TRANSITION=$(curl --request GET --url "https://jira.higgstar.com/rest/api/2/issue/${CI_MERGE_REQUEST_SOURCE_BRANCH_NAME}/transitions" --header "Authorization: Bearer $JIRA_TOKEN" --header "Content-Type: application/json")
-       
-       SEND_MR=$(echo $TRANSITION | jq -r '.transitions[] | select(.name=="Send MR" or .name=="send MR") | .id')
+    - transition_jira_issue_with_status "$BRANCH_NAME" "Merge Request"
+    - update_rootcause_category "$BRANCH_NAME" "$DESCRIPTION"
 
-       if [ -n "$SEND_MR" ]; then
-        curl --request POST \
-          --url "https://jira.higgstar.com/rest/api/2/issue/${CI_MERGE_REQUEST_SOURCE_BRANCH_NAME}/transitions" \
-          --data '{"transition":{"id":"'"$SEND_MR"'"}}' \
-          --header "Authorization: Bearer $JIRA_TOKEN" \
-          --header "Content-Type: application/json"
-       else
-        echo "No 'Begin Working' or 'Start SubTask' transition found."
-       fi
-         
 merged-job:
   stage: merged
   tags:
@@ -149,28 +74,152 @@ merged-job:
     - if: ($CI_COMMIT_MESSAGE =~ /Merge branch 'KTO-[0-9]+'/ && $CI_COMMIT_REF_NAME == "master")
   script:
     - |
-      #!/bin/bash
-      # 使用正則表達式匹配並提取 KTO-xxxx 格式的字串
       regex="KTO-[0-9]+"
       if [[ $CI_COMMIT_MESSAGE =~ $regex ]]; then
-        extracted_string=${BASH_REMATCH[0]}
-        echo "Extracted string: $extracted_string"
-        # 您可以在這裡使用 $extracted_string 進行後續操作
-        
-        TRANSITION=$(curl --request GET --url "https://jira.higgstar.com/rest/api/2/issue/${extracted_string}/transitions" --header "Authorization: Bearer $JIRA_TOKEN" --header "Content-Type: application/json")
-        MERGED=$(echo $TRANSITION | jq -r '.transitions[] | select(.name=="Approved") | .id')
-
-        if [ -n "$MERGED" ]; then
-          curl --request POST \
-            --url "https://jira.higgstar.com/rest/api/2/issue/${extracted_string}/transitions" \
-            --data '{"transition":{"id":"'"$MERGED"'"}}' \
-            --header "Authorization: Bearer $JIRA_TOKEN" \
-            --header "Content-Type: application/json"
-          else
-          echo "No 'Approved' transition found."
-        fi
-
+        issueKey=${BASH_REMATCH[0]}
+        echo "Extracted IssueKEy: $issueKey"
+        merge_jira_issue "$issueKey"        
       else
         echo "No matching string found in CI_COMMIT_MESSAGE"
       fi
 
+get_related_issues:
+  variables:
+    GIT_STRATEGY: clone
+  stage: analyze
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "web"'
+      when: always
+    - when: never
+  script:
+    - |
+      last_tag=$(get_last_tag)
+      echo "last tag = $last_tag"
+      echo "LAST_TAG=$last_tag" >> variables.env
+
+      commit_messages=$(fetch_commits_since_tag_to_head "$last_tag")
+      jira_tickets=$(extract_jira_tickets "$commit_messages")
+         # Remove newline characters from jira_tickets
+      jira_tickets=$(echo "$jira_tickets" | tr '\n' ' ' | sed 's/ *$//g')
+      
+      related_issues=""    
+
+      if [ -z "$jira_tickets" ]; then
+        related_issues="$CI_COMMIT_BRANCH"
+      else
+        related_issues="$jira_tickets"
+      fi
+      
+      # Store the related issues in the environment file
+      echo "RELATED_ISSUE=$related_issues" >> variables.env
+      echo "related issues: $related_issues"
+  artifacts:
+    reports:
+      dotenv: variables.env
+
+get_next_version:
+  variables:
+    # CI_DEBUG_TRACE: "true"
+    RELEASE_TARGET: 'dev' 
+  stage: analyze
+  needs: [ "get_related_issues" ]
+  tags: 
+    - ios-agent-release
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "web"'
+      when: always
+    - when: never
+  script:
+    - |
+      version=$(get_next_version "$LAST_TAG" "$FORCE_UPADATE" "$BREAKING_CHANGE" "$RELATED_ISSUE")
+      echo "next version: $version"
+      echo "NEXT_VERSION=$version" >> variables.env      
+      fastlane getNextTestflightBuildNumber releaseTarget:$RELEASE_TARGET targetVersion:$version
+      buildNumber=$(cat "fastlane/buildNumber")
+      nextBuildNumber=$((buildNumber + 1))
+      echo "BUILD_NUMBER=$nextBuildNumber" >> variables.env
+      echo "next build number: $nextBuildNumber"
+  artifacts:
+    reports:
+      dotenv: variables.env
+
+build_ipa:
+  stage: publish
+  needs: ["get_next_version"]
+  tags: 
+    - ios-agent-release
+  variables:
+    RELEASE_TARGET: 'dev'    
+    ReleaseTag: "$NEXT_VERSION-$RELEASE_TARGET" 
+    NEXT_BUILD_NUMBER: "$BUILD_NUMBER"
+    RELEASE_VERSIONCORE: "$NEXT_VERSION"
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "web"'
+      when: always
+    - when: never
+  script: 
+    - echo "new build number ${NEXT_BUILD_NUMBER}"
+    - |
+      echo "release tag $ReleaseTag"
+      pod install --repo-update
+      fastlane uploadToTestflight buildVersion:$NEXT_BUILD_NUMBER appVersion:$NEXT_VERSION releaseTarget:$RELEASE_TARGET
+      upload_to_proget_feed "app" "ios" "kto-asia" "$ReleaseTag" "build version: $NEXT_BUILD_NUMBER" "output/ktobet-asia-ios-${RELEASE_VERSIONCORE}-qat.ipa"
+      echo "Calculating IPA size"
+      size=$(du -s -k output/ktobet-asia-ios-${RELEASE_VERSIONCORE}-qat.ipa | awk '{printf "%.2f", $1/1024}')
+      echo "Get Ipa Size = $size"
+      echo "IPA_SIZE=$size" >> variables.env
+  artifacts:
+    reports:
+      dotenv: variables.env
+
+update_portal_version:
+  stage: publish
+  needs: ["build_ipa","get_next_version"]
+  tags: 
+    - ios-agent-release
+  variables:
+    RELEASE_TARGET: 'dev'    
+    ReleaseTag: "$NEXT_VERSION-$RELEASE_TARGET" 
+    NEXT_BUILD_NUMBER: "$BUILD_NUMBER"
+    DOWNLOAD_URL_CN: "$IOS_QAT_DOWNLOAD_URL_CN"
+    DOWNLOAD_URL_VN: "$IOS_QAT_DOWNLOAD_URL_VN"
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "web"'
+      when: always
+    - when: never
+  script: 
+    - echo "Publishing version with size $IPA_SIZE version:$NEXT_VERSION number:$NEXT_BUILD_NUMBER"
+    - |      
+      publishIosVersion "[174]" "qat" "$NEXT_VERSION" "$NEXT_BUILD_NUMBER" "$DOWNLOAD_URL_CN" "$DOWNLOAD_URL_VN" "$IPA_SIZE"
+      tagRelease "qat" "$BUILD_NUMBER" "$NEXT_VERSION-$RELEASE_TARGET"
+
+update_jira_issues:
+  stage: publish
+  needs: ["build_ipa"]
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "web"'
+      when: always
+    - when: never
+  script:
+    - |
+      echo "update jira issues $RELATED_ISSUE"
+      update_publish_jira_tickets "release to QAT" "$NEXT_VERSION-qat" $RELATED_ISSUE
+
+notify_publish:
+  variables:
+    RELEASE_TARGET: 'dev'
+    DOWNLOAD_PAGE: "https://qat1-app.affclub.xyz/"
+    ISSUE_LINK: "https://jira.higgstar.com/issues/?jql=project%20%3D%20KTO%20AND%20labels%20%3D%20ios-$NEXT_VERSION-qat"
+    DOWNLOAD_FILE: "${PROGET_URL}/feeds/app/ios/kto-asia/${NEXT_VERSION}-${RELEASE_TARGET}/files"
+    TEAMS_WEBHOOK_URL: "https://higgstar.webhook.office.com/webhookb2/4633c5c4-c4b4-4e4a-811a-292e1c2bba93@8e771fc0-280e-4271-a200-ad98dd5f6605/IncomingWebhook/7299ee0a8a304576814e537a53d5930b/dbab47a2-891a-470f-a94e-4dbb41d9acbc"
+    # TEAMS_WEBHOOK_URL: "https://higgstar.webhook.office.com/webhookb2/4633c5c4-c4b4-4e4a-811a-292e1c2bba93@8e771fc0-280e-4271-a200-ad98dd5f6605/IncomingWebhook/7299ee0a8a304576814e537a53d5930b/dbab47a2-891a-470f-a94e-4dbb41d9acbc"
+  needs: ["get_next_version", "build_ipa","update_portal_version","update_jira_issues"]
+  stage: notify
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "web"'
+      when: always
+    - when: never
+  script:
+    - |      
+      message_payload=$(create_kto_notify "$LAST_TAG" "$NEXT_VERSION" "qat" "$DOWNLOAD_PAGE" "$ISSUE_LINK" "$DOWNLOAD_FILE")
+      curl -H "Content-Type: application/json" -d "${message_payload}" ${TEAMS_WEBHOOK_URL}  
