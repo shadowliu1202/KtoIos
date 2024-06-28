@@ -58,11 +58,12 @@ platform :ios do
     unlock_keychain(
       path: "login.keychain-db",
       password: ENV["KEYCHAIN_PASSWORD"])
-        
+
     app_store_connect_api_key(
-      key_id:  ENV['KEY_ID'],
+      key_id:  ENV['IOS_KEY'],  #API key id
       issuer_id: "7a9803b0-51d8-44c5-ba26-f916da982cbe",  #Issuer ID
-      key_filepath: ENV['API_KEY'],
+      key_content: ENV['IOS_KEY_CONTENT'],
+      is_key_content_base64: true,
       duration: 1200,
       in_house: false)
   end
@@ -107,8 +108,7 @@ platform :ios do
 	end
 
 	lane :getNextTestflightBuildNumber do |options|
- 	  setupKeyStore()
-  	
+    setupKeyStore()
     id  = getIdentifier(preRelease: options[:releaseTarget])
     buildNumber = latest_testflight_build_number(
       app_identifier: id,
@@ -159,7 +159,7 @@ platform :ios do
   end
 
   lane :buildIpaStaging  do |options|
-    setupKeyStore()
+     setupKeyStore()
     buildIpaStgVN(options)
 	end
     
@@ -193,26 +193,26 @@ platform :ios do
   end
 
   lane :uploadToTestflight do |options|
-    setupKeyStore()
+        setupKeyStore()
+    
+        SyncVersion(
+          plistPath: "ktobet-asia-ios/ktobet-asia-ios-qat-Info.plist",
+          buildVersion: options[:buildVersion],
+          appVersion: options[:appVersion])
 
-    SyncVersion(
-      plistPath: "ktobet-asia-ios/ktobet-asia-ios-qat-Info.plist",
-      buildVersion: options[:buildVersion],
-      appVersion: options[:appVersion])
+        qat1Testflight(options)
 
-    qat1Testflight(options)
+        versionNum = options[:appVersion]
 
-    versionNum = options[:appVersion]
+        upload_to_testflight(
+          username: "higgs-mobile@hotmail.com",
+          app_identifier: "com.kto.asia.qat-1",
+          ipa: "./output/ktobet-asia-ios-#{versionNum}-qat.ipa",
+          skip_waiting_for_build_processing: true)
 
-    upload_to_testflight(
-      username: "higgs-mobile@hotmail.com",
-      app_identifier: "com.kto.asia.qat-1",
-      ipa: "./output/ktobet-asia-ios-#{versionNum}-qat.ipa",
-      skip_waiting_for_build_processing: true)
-
-    upload_symbols_to_crashlytics(
-      dsym_path: "./output/ktobet-asia-ios-#{versionNum}-qat.app.dSYM.zip",
-      gsp_path: "./ktobet-asia-ios/Firebase/qat/GoogleService-Info.plist")
+        upload_symbols_to_crashlytics(
+          dsym_path: "./output/ktobet-asia-ios-#{versionNum}-qat.app.dSYM.zip",
+          gsp_path: "./ktobet-asia-ios/Firebase/qat/GoogleService-Info.plist")
 	end
  
   lane :uploadToDevTestflight do |options|
@@ -222,26 +222,26 @@ platform :ios do
       plistPath: "ktobet-asia-ios/Info.plist",
       buildVersion: options[:buildVersion],
       appVersion: options[:appVersion])
-      
-      versionNum = options[:appVersion]
-      
-      match(type: "appstore", readonly: true, app_identifier:"com.kto.asia.dev")
-      
-      gym(
-        configuration: "Release",
-        scheme: "ktobet-asia-ios",
-        clean: true,
-        archive_path: "./output/dev.xcarchive",
-        output_directory: "output",
-        output_name: "ktobet-asia-ios-#{versionNum}-dev.ipa",
-        export_method: 'app-store')
-      
-      upload_to_testflight(
-        username: "higgs-mobile@hotmail.com",
-        app_identifier: "com.kto.asia.dev",
-        ipa: "./output/ktobet-asia-ios-#{versionNum}-dev.ipa",
-        skip_waiting_for_build_processing: true)
-    end
+
+    versionNum = options[:appVersion]
+    
+    match(type: "appstore", readonly: true, app_identifier:"com.kto.asia.dev")
+    
+    gym(
+      configuration: "Release",
+      scheme: "ktobet-asia-ios",
+      clean: true,
+      archive_path: "./output/dev.xcarchive",
+      output_directory: "output",
+      output_name: "ktobet-asia-ios-#{versionNum}-dev.ipa",
+      export_method: 'app-store')
+    
+    upload_to_testflight(
+      username: "higgs-mobile@hotmail.com",
+      app_identifier: "com.kto.asia.dev",
+      ipa: "./output/ktobet-asia-ios-#{versionNum}-dev.ipa",
+      skip_waiting_for_build_processing: true)
+  end
  
   private_lane :qat1Testflight do |options|
     versionNum = options[:appVersion]
