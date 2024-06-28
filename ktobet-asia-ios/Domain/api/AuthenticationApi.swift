@@ -13,172 +13,107 @@ class AuthenticationApi {
     // MARK: 註冊
 
     func register(_ registerRequest: IRegisterRequest) -> Completable {
-        let target = APITarget(
-            baseUrl: httpClient.host,
-            path: "api/register",
-            method: .post,
-            task: .requestJSONEncodable(registerRequest),
-            header: httpClient.headers)
-        return httpClient.request(target).asCompletable()
+        httpClient.request(path: "api/register", method: .post, task: .requestJSONEncodable(registerRequest)).asCompletable()
     }
 
-    func verifyOtp(_ params: IVerifyOtpRequest) -> Single<ResponseData<String>> {
-        let target = APITarget(
-            baseUrl: httpClient.host,
-            path: "api/register/otp-verify",
-            method: .post,
-            task: .requestJSONEncodable(params),
-            header: httpClient.headers)
-        return httpClient.request(target).map(ResponseData<String>.self)
+    func verifyOtp(_ params: IVerifyOtpRequest) -> Completable {
+        httpClient.request(path: "api/register/otp-verify", method: .post, task: .requestJSONEncodable(params)).asCompletable()
     }
 
     func resendRegisterOtp() -> Completable {
-        let target = APITarget(
-            baseUrl: httpClient.host,
-            path: "api/register/resend-otp",
-            method: .post,
-            task: .requestPlain,
-            header: httpClient.headers)
-        return httpClient.request(target).asCompletable()
+        httpClient.request(path: "api/register/resend-otp", method: .post).asCompletable()
     }
 
-    func checkAccount(_ account: String) -> Single<NonNullResponseData<Bool>> {
-        let target = APITarget(
-            baseUrl: httpClient.host,
+    func checkAccount(_ account: String) -> Single<Bool> {
+        httpClient.request(
             path: "api/register/check-account-status",
             method: .get,
-            task: .requestParameters(parameters: ["accountName": account], encoding: URLEncoding.default),
-            header: httpClient.headers)
-        return httpClient.request(target).map(NonNullResponseData<Bool>.self)
+            task: .requestParameters(parameters: ["accountName": account], encoding: URLEncoding.default)
+        )
     }
 
     // MARK: 登入
 
-    func login(_ account: String, _ password: String, _ captcha: Captcha) -> Single<ResponseData<ILoginData>> {
-        let para = LoginRequest(account: account, password: password, captcha: captcha.passCode)
-        let target = APITarget(
-            baseUrl: httpClient.host,
+    func login(_ account: String, _ password: String, _ captcha: Captcha) -> Single<ILoginData> {
+        httpClient.request(
             path: "api/auth/login",
             method: .post,
-            task: .requestJSONEncodable(para),
-            header: httpClient.headers)
-        return httpClient.request(target)
-            .do(onSuccess: {
-                Logger.shared.info(($0.response?.headers.description) ?? "")
-            })
-            .map(ResponseData<ILoginData>.self)
+            task: .requestJSONEncodable(LoginRequest(account: account, password: password, captcha: captcha.passCode))
+        )
     }
 
-    func loginOtp(account: String, accountType: Int) -> Single<ResponseData<String>> {
-        let para = LoginOtpRequest(account: account, loginAccountType: accountType)
-        let target = APITarget(
-            baseUrl: httpClient.host,
+    func loginOtp(account: String, accountType: Int) -> Completable {
+        httpClient.request(
             path: "api/auth/login/otp",
             method: .post,
-            task: .requestJSONEncodable(para),
-            header: httpClient.headers)
-        return httpClient.request(target)
-            .do(onSuccess: {
-                Logger.shared.info(($0.response?.headers.description) ?? "")
-            })
-            .map(ResponseData<String>.self)
+            task: .requestJSONEncodable(LoginOtpRequest(account: account, loginAccountType: accountType))
+        )
+        .asCompletable()
     }
 
-    func loginResendOtp() -> Single<ResponseData<String>> {
-        let target = APITarget(
-            baseUrl: httpClient.host,
+    func loginResendOtp() -> Completable {
+        httpClient.request(
             path: "api/auth/login/resend-otp",
             method: .post,
-            task: .requestPlain,
-            header: httpClient.headers)
-        return httpClient.request(target)
-            .do(onSuccess: {
-                Logger.shared.info(($0.response?.headers.description) ?? "")
-            })
-            .map(ResponseData<String>.self)
+            task: .requestPlain
+        )
+        .asCompletable()
     }
 
-    func loginVerifyOtp(by verifyCode: String) -> Single<ResponseData<String>> {
-        let target = APITarget(
-            baseUrl: httpClient.host,
+    func loginVerifyOtp(by verifyCode: String) -> Completable {
+        httpClient.request(
             path: "api/auth/login/verify-otp",
             method: .post,
-            task: .requestJSONEncodable(IVerifyOtpRequest(verifyCode: verifyCode)),
-            header: httpClient.headers)
-        return httpClient.request(target)
-            .do(onSuccess: {
-                let result = String(data: $0.data, encoding: .utf8)
-                Logger.shared.debug(result ?? "No Response")
-                Logger.shared.info(($0.response?.headers.description) ?? "")
-            })
-            .map(ResponseData<String>.self)
+            task: .requestJSONEncodable(IVerifyOtpRequest(verifyCode: verifyCode))
+        )
+        .asCompletable()
     }
 
-    func isLogged() -> Single<ResponseData<Bool>> {
-        let target = APITarget(
-            baseUrl: httpClient.host,
-            path: "api/auth/is-logged",
-            method: .get,
-            task: .requestPlain,
-            header: httpClient.headers)
-        return httpClient.request(target).map(ResponseData<Bool>.self)
+    func isLogged() -> Single<Bool> {
+        httpClient.request(path: "api/auth/is-logged", method: .get)
     }
 
     func getCaptchaImage() -> Single<UIImage> {
-        let target = APITarget(
-            baseUrl: httpClient.host,
+        httpClient.requestImage(
             path: "api/auth/get-captcha-image",
-            method: .get,
-            task: .requestPlain,
-            header: httpClient.headers)
-        return httpClient
-            .request(target)
-            .mapImage()
-            .map { image -> UIImage in
-                image as UIImage
-            }
+            method: .get
+        )
     }
 
     // MARK: 重置密碼
 
     func requestResetPassword(_ account: String, accountType: Int) -> Completable {
-        let para = IResetPasswordRequest(account: account, accountType: accountType)
-        let target = APITarget(
-            baseUrl: httpClient.host,
+        httpClient.request(
             path: "api/forget-password",
             method: .post,
-            task: .requestJSONEncodable(para),
-            header: httpClient.headers)
-        return httpClient.request(target).asCompletable()
+            task: .requestJSONEncodable(
+                IResetPasswordRequest(
+                    account: account,
+                    accountType: accountType
+                )
+            )
+        )
+        .asCompletable()
     }
 
-    func verifyResetOtp(_ params: IVerifyOtpRequest) -> Single<ResponseData<Bool>> {
-        let target = APITarget(
-            baseUrl: httpClient.host,
+    func verifyResetOtp(_ params: IVerifyOtpRequest) -> Single<Bool> {
+        httpClient.request(
             path: "api/forget-password/verify-otp",
             method: .post,
-            task: .requestJSONEncodable(params),
-            header: httpClient.headers)
-        return httpClient.request(target).map(ResponseData<Bool>.self)
+            task: .requestJSONEncodable(params)
+        )
     }
 
     func changePassword(_ request: INewPasswordRequest) -> Completable {
-        let target = APITarget(
-            baseUrl: httpClient.host,
+        httpClient.request(
             path: "api/forget-password/change-password",
             method: .post,
-            task: .requestJSONEncodable(request),
-            header: httpClient.headers)
-        return httpClient.request(target).asCompletable()
+            task: .requestJSONEncodable(request)
+        )
+        .asCompletable()
     }
 
     func resentOtp() -> Completable {
-        let target = APITarget(
-            baseUrl: httpClient.host,
-            path: "api/forget-password/resend-otp",
-            method: .post,
-            task: .requestPlain,
-            header: httpClient.headers)
-        return httpClient.request(target).asCompletable()
+        httpClient.request(path: "api/forget-password/resend-otp", method: .post).asCompletable()
     }
 }

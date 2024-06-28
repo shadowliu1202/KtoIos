@@ -18,10 +18,11 @@ extension XCTestCase {
         let dummyURL = URL(string: "https://")!
         let dummyLocalStorageRepo = mock(LocalStorageRepository.self)
         let dummyCookieManager = mock(CookieManager.self).initialize(allHosts: [], currentURL: dummyURL, currentDomain: "")
-
+        given(dummyCookieManager.cookieHeaderValue) ~> ""
         let apiResponse = Response(
             statusCode: 200,
-            data: responseJsonString.data(using: .utf8)!)
+            data: responseJsonString.data(using: .utf8)!
+        )
 
         let stubHttpClient = mock(HttpClient.self)
             .initialize(
@@ -29,11 +30,12 @@ extension XCTestCase {
                 dummyCookieManager,
                 currentURL: dummyURL,
                 locale: SupportLocale.Vietnam(),
-                provider: nil)
-    
+                provider: nil
+            )
+
         given(stubHttpClient.host) ~> URL(string: "https://")!
         given(stubHttpClient.headers) ~> ["": ""]
-        given(stubHttpClient.request(any())) ~> .just(apiResponse)
+        given(stubHttpClient.request(path: any(), method: any(),task: any())) ~> .just(apiResponse)
 
         return stubHttpClient
     }
@@ -42,13 +44,14 @@ extension XCTestCase {
         let dummyURL = URL(string: "https://")!
         let dummyLocalStorageRepo = mock(LocalStorageRepository.self)
         let dummyCookieManager = mock(CookieManager.self).initialize(allHosts: [], currentURL: dummyURL, currentDomain: "")
-
+        given(dummyCookieManager.cookieHeaderValue) ~> ""
         return mock(HttpClient.self).initialize(
             dummyLocalStorageRepo,
             dummyCookieManager,
             currentURL: dummyURL,
             locale: SupportLocale.Vietnam(),
-            provider: nil)
+            provider: nil
+        )
     }
 
     func stubLocalizeUtils(_ supportLocale: SupportLocale) {
@@ -61,7 +64,7 @@ extension XCTestCase {
         keyWindow?.makeKeyAndVisible()
         keyWindow?.layoutIfNeeded()
     }
-  
+
     func injectFakeObject<T>(_ objectType: T.Type, object: T) {
         Injectable.register(objectType) { _ in object }
     }

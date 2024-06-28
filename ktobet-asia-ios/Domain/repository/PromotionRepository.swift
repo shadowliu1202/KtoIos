@@ -10,7 +10,8 @@ protocol PromotionRepository {
         productTypes: [ProductType],
         privilegeTypes: [PrivilegeType],
         sortingBy: SortingType,
-        page: Int) -> Single<CouponHistorySummary>
+        page: Int
+    ) -> Single<CouponHistorySummary>
 
     func getCouponsAndPromotions() -> Single<BonusBean>
     func getBonusCoupons() -> Single<[BonusCoupon]>
@@ -46,7 +47,8 @@ class PromotionRepositoryImpl: PromotionRepository {
         productTypes: [ProductType],
         privilegeTypes: [PrivilegeType],
         sortingBy: SortingType,
-        page: Int)
+        page: Int
+    )
         -> Single<CouponHistorySummary>
     {
         let request = PromotionHistoryRequest(
@@ -56,9 +58,10 @@ class PromotionRepositoryImpl: PromotionRepository {
             productType: productTypes.map { ProductType.convert($0) },
             query: keyword,
             selected: sortingBy.rawValue,
-            type: privilegeTypes.map { PrivilegeType.convert($0) })
+            type: privilegeTypes.map { PrivilegeType.convert($0) }
+        )
         return promotionApi.searchPromotionHistory(request: request).map { response -> CouponHistorySummary in
-            guard let data = response.data
+            guard let data = response
             else { return CouponHistorySummary(summary: 0.toAccountCurrency(), totalCoupon: 0, couponHistory: []) }
             return try data.convertToPromotions()
         }
@@ -68,7 +71,7 @@ class PromotionRepositoryImpl: PromotionRepository {
         promotionApi
             .getBonusCoupons()
             .map {
-                guard let data = $0.data else { throw KTOError.WrongDateFormat }
+                guard let data = $0 else { throw KTOError.WrongDateFormat }
                 return data
             }
     }
@@ -110,62 +113,62 @@ class PromotionRepositoryImpl: PromotionRepository {
     }
 
     func hasAccountLockedBonus() -> Single<Bool> {
-        self.promotionApi.getLockedBonus().map { response in
-            guard let data = response.data else { return false }
+        promotionApi.getLockedBonus().map { response in
+            guard let data = response else { return false }
             if let status = data.status, status == .Used {
                 return true
-            }
-            else {
+            } else {
                 return false
             }
         }
     }
 
     func isLockedBonusCalculating() -> Single<Bool> {
-        self.promotionApi.checkBonusTag().map({ response in
-            !(response.data?.hasBonusTag ?? false)
-        })
+        promotionApi.checkBonusTag().map { response in
+            !(response?.hasBonusTag ?? false)
+        }
     }
 
     func getLockedBonusDetail() -> Single<TurnOverDetail> {
-        self.promotionApi.getCurrentLockedBonus().flatMap({ response in
-            guard let data = response.data else { return Single.error(KTOError.EmptyData) }
+        promotionApi.getCurrentLockedBonus().flatMap { response in
+            guard let data = response else { return Single.error(KTOError.EmptyData) }
             return try Single<TurnOverDetail>.just(data.toTurnOverDetail())
-        })
+        }
     }
 
     func getTurnOverDetail(bonusCoupon: BonusCoupon) -> Single<TurnOverHint> {
-        self.promotionApi.getCouponTurnOverDetail(bonusId: bonusCoupon.bonusId).flatMap { response in
-            guard let data = response.data else { return Single.error(KTOError.EmptyData) }
+        promotionApi.getCouponTurnOverDetail(bonusId: bonusCoupon.bonusId).flatMap { response in
+            guard let data = response else { return Single.error(KTOError.EmptyData) }
             return Single<TurnOverHint>.just(data.toTurnOverHint())
         }
     }
 
     func useCoupon(bonusCoupon: BonusCoupon, autoUse: Bool) -> Completable {
         let request = BonusRequest(autoUse: autoUse, no: bonusCoupon.bonusId, type: BonusType.convert(bonusCoupon.bonusType))
-        return self.promotionApi.useBonusCoupon(bonus: request).asCompletable()
+        return promotionApi.useBonusCoupon(bonus: request)
     }
 
     func getPromotionDetail(promotionId: String) -> Single<PromotionDescriptions> {
-        self.promotionApi.getBonusContentTemplate(displayId: promotionId).flatMap { response in
-            guard let data = response.data else { return Single.error(KTOError.EmptyData) }
+        promotionApi.getBonusContentTemplate(displayId: promotionId).flatMap { response in
+            guard let data = response else { return Single.error(KTOError.EmptyData) }
             return Single<PromotionDescriptions>.just(data.toPromotionDescriptions())
         }
     }
 
     func getCashBackSettings(displayId: String) -> Single<[CashBackSetting]> {
         promotionApi.getCashBackSettings(displayId: displayId)
-            .map({ responseDataList in
-                responseDataList.data
-                    .map({ bean in
+            .map { responseDataList in
+                responseDataList
+                    .map { bean in
                         CashBackSetting(
                             cashBackPercentage: Percentage(percent: Double(
                                 bean.cashBackPercentage
                                     .replacingOccurrences(of: "%", with: "")) ?? 0),
                             lossAmountRange: bean.lossAmountRange,
-                            maxAmount: bean.maxAmount.toAccountCurrency())
-                    })
-            })
+                            maxAmount: bean.maxAmount.toAccountCurrency()
+                        )
+                    }
+            }
     }
 }
 

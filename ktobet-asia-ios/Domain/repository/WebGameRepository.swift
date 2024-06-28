@@ -83,7 +83,7 @@ class WebGameRepositoryImpl: WebGameRepository {
 
     func getSuggestKeywords() -> Single<[String]> {
         api.getSuggestKeywords().map { response -> [String] in
-            if let suggestions = response.data {
+            if let suggestions = response {
                 return suggestions
             }
             return []
@@ -96,7 +96,7 @@ class WebGameRepositoryImpl: WebGameRepository {
 
     func createGame(gameId: Int32) -> Single<URL?> {
         api.getGameUrl(gameId: gameId, siteUrl: httpClient.host.absoluteString).map { response -> URL? in
-            if let path = response.data, let url = URL(string: path) {
+            if let path = response, let url = URL(string: path) {
                 return url
             }
             return nil

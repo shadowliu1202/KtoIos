@@ -22,10 +22,10 @@ class CasinoRepositoryImpl: WebGameRepositoryImpl, CasinoRepository {
     func getTags(cultureCode: String) -> Single<[CasinoGameTag]> {
         casinoApi.getCasinoTags(culture: cultureCode).map { response -> [CasinoGameTag] in
             var tags: [CasinoGameTag] = []
-            if let data0 = response.data["0"] {
+            if let data0 = response["0"] {
                 tags.append(contentsOf: data0.map({ CasinoGameTag.GameType(id: Int32($0.id), name: $0.name) }))
             }
-            if let data1 = response.data["1"] {
+            if let data1 = response["1"] {
                 tags.append(contentsOf: data1.map({ CasinoGameTag.BelongTo(id: Int32($0.id), name: $0.name) }))
             }
             return tags
@@ -34,7 +34,7 @@ class CasinoRepositoryImpl: WebGameRepositoryImpl, CasinoRepository {
 
     func getLobby() -> Single<[CasinoLobby]> {
         casinoApi.getCasinoGames().map { response -> [CasinoLobby] in
-            response.data.map { bean -> CasinoLobby in
+            response.map { bean -> CasinoLobby in
                 let lobby = CasinoLobbyType.Companion().convert(type: Int32(bean.lobbyID))
                 return CasinoLobby(lobby: lobby, name: bean.lobbyName, isMaintenance: bean.isLobbyMaintenance)
             }
@@ -47,7 +47,7 @@ class CasinoRepositoryImpl: WebGameRepositoryImpl, CasinoRepository {
         typeId.enumerated().forEach { index, element in map["gameTags[\(index)]"] = String(element) }
         let fetchApi = casinoApi.search(sortBy: GameSorting.convertCasinoGameOrder(sortBy: GameSorting.releasedDate), map: map)
             .map { [unowned self] response -> [CasinoGame] in
-                guard let data = response.data else { return [] }
+                guard let data = response else { return [] }
                 return try data.map({ try $0.toCasinoGame(host: self.httpClient.host.absoluteString) })
             }
         return Observable.combineLatest(favoriteRecord, fetchApi.asObservable()) { favorites, games in
@@ -64,7 +64,7 @@ class CasinoRepositoryImpl: WebGameRepositoryImpl, CasinoRepository {
 
     override func getFavorites() -> Observable<[WebGameWithDuplicatable]> {
         let fetchApi = casinoApi.getFavoriteCasinos().map({ [unowned self] response -> [WebGameWithDuplicatable] in
-            guard let data = response.data else { return [] }
+            guard let data = response else { return [] }
             return try data.map { try $0.toCasinoGame(host: self.httpClient.host.absoluteString) }
         })
         return Observable.combineLatest(favoriteRecord, fetchApi.asObservable()) { favorites, games in
@@ -82,7 +82,7 @@ class CasinoRepositoryImpl: WebGameRepositoryImpl, CasinoRepository {
     override func searchGames(keyword: SearchKeyword) -> Observable<[WebGameWithDuplicatable]> {
         let fetchApi = casinoApi.searchCasino(keyword: keyword.getKeyword())
             .map { [unowned self] response -> [WebGameWithDuplicatable] in
-                guard let data = response.data else { return [] }
+                guard let data = response else { return [] }
                 return try data.map { try $0.toCasinoGame(host: self.httpClient.host.absoluteString) }
             }
         return Observable.combineLatest(favoriteRecord, fetchApi.asObservable()) { favorites, games in

@@ -23,14 +23,14 @@ class LocalizationRepositoryImpl: LocalizationRepository {
 
     func getLocalization() -> Single<[String: String]> {
         portalApi.getLocalization().flatMap { response in
-            guard let data = response.data?.data else { return Single.error(KTOError.EmptyData) }
+            guard let data = response?.data else { return Single.error(KTOError.EmptyData) }
             return Single.just(data)
         }
     }
 
     func getCryptoTutorials() -> Single<[CryptoDepositGuidance]> {
         portalApi.getCryptoTutorials().flatMap { response in
-            guard let data = response.data else { return Single.error(KTOError.EmptyData) }
+            guard let data = response else { return Single.error(KTOError.EmptyData) }
             return Single.just(data.map { bean in
                 CryptoDepositGuidance(
                     title: bean.name,

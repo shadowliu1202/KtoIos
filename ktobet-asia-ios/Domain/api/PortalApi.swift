@@ -2,74 +2,42 @@ import Foundation
 import Moya
 import RxSwift
 
-class PortalApi: ApiService {
-    private var urlPath: String!
-
-    private func url(_ u: String) -> Self {
-        self.urlPath = u
-        return self
-    }
-
+class PortalApi {
     private var httpClient: HttpClient!
-
-    var surfixPath: String {
-        self.urlPath
-    }
-
-    var headers: [String: String]? {
-        httpClient.headers
-    }
-
-    var baseUrl: URL {
-        httpClient.host
-    }
 
     init(_ httpClient: HttpClient) {
         self.httpClient = httpClient
     }
 
-    func getPortalMaintenance() -> Single<ResponseData<OtpStatus>> {
-        let target = GetAPITarget(service: self.url("api/init/portal-maintenance"))
-        return httpClient.request(target).map(ResponseData<OtpStatus>.self)
-    }
-    
-    func getOtpMaintenance() -> Single<ResponseData<OtpStatus>> {
-        let target = GetAPITarget(service: self.url("api/init/otp-maintenance"))
-        return httpClient.request(target).map(ResponseData<OtpStatus>.self)
+    func getPortalMaintenance() -> Single<OtpStatus?> {
+        httpClient.request(path: "api/init/portal-maintenance", method: .get)
     }
 
-    func getLocalization() -> Single<ResponseData<ILocalizationData>> {
-        let target = GetAPITarget(service: self.url("api/init/localization"))
-        return httpClient.request(target).map(ResponseData<ILocalizationData>.self)
+    func getOtpMaintenance() -> Single<OtpStatus?> {
+        httpClient.request(path: "api/init/otp-maintenance", method: .get)
+    }
+
+    func getLocalization() -> Single<ILocalizationData?> {
+        httpClient.request(path: "api/init/localization", method: .get)
     }
 
     func initLocale(cultureCode: String) -> Completable {
-        let target = PostAPITarget(service: self.url("api/init/culture/\(cultureCode)"))
-        return httpClient.request(target).asCompletable()
+        httpClient.request(path: "api/init/culture/\(cultureCode)", method: .post).asCompletable()
     }
 
-    func getProductStatus() -> Single<ResponseData<ProductStatusBean>> {
-        let target = GetAPITarget(service: self.url("api/init/product-status"))
-        return httpClient.request(target).map(ResponseData<ProductStatusBean>.self)
+    func getProductStatus() -> Single<ProductStatusBean?> {
+        httpClient.request(path: "api/init/product-status", method: .get)
     }
 
-    func getCustomerServiceEmail() -> Single<ResponseData<String>> {
-        let target = APITarget(
-            baseUrl: httpClient.host,
-            path: "api/profile/cs-mail",
-            method: .get,
-            task: .requestPlain,
-            header: httpClient.headers)
-        return httpClient.request(target).map(ResponseData<String>.self)
+    func getCustomerServiceEmail() -> Single<String?> {
+        httpClient.request(path: "api/profile/cs-mail", method: .get)
     }
 
-    func getCryptoTutorials() -> Single<ResponseData<[CryptoTutorialBean]>> {
-        let target = GetAPITarget(service: self.url("api/crypto/exchange-tutorials"))
-        return httpClient.request(target).map(ResponseData<[CryptoTutorialBean]>.self)
+    func getCryptoTutorials() -> Single<[CryptoTutorialBean]?> {
+        httpClient.request(path: "api/crypto/exchange-tutorials", method: .get)
     }
 
-    func getYearOfCopyRight() -> Single<NonNullResponseData<String>> {
-        let target = GetAPITarget(service: self.url("api/init/license"))
-        return httpClient.request(target).map(NonNullResponseData<String>.self)
+    func getYearOfCopyRight() -> Single<String> {
+        return httpClient.request(path: "api/init/license", method: .get)
     }
 }

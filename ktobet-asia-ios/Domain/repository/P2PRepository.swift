@@ -21,7 +21,7 @@ class P2PRepositoryImpl: P2PRepository {
             .map { [weak self] response -> P2PTurnOver in
                 guard
                     let self,
-                    let data = response.data
+                    let data = response
                 else { return .None() }
 
                 if !data.bonusLocked, !data.hasBonusTag {
@@ -42,7 +42,7 @@ class P2PRepositoryImpl: P2PRepository {
             .map { [weak self] response -> [P2PGame] in
                 guard
                     let self,
-                    let data = response.data
+                    let data = response
                 else { return [] }
 
                 return data.map { bean -> P2PGame in
@@ -65,7 +65,7 @@ class P2PRepositoryImpl: P2PRepository {
             gameId: gameId,
             siteUrl: httpClient.host.absoluteString)
             .map { response -> URL? in
-                guard let data = response.data else { return nil }
+                guard let data = response else { return nil }
                 return URL(string: data)
             }
             .catchException(transferLogic: {

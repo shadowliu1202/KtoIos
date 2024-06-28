@@ -9,82 +9,85 @@ import XCTest
 
 final class HttpClientTests: XCTestCase {
     let dummyURL = URL(string: "https://")!
-  
-    lazy var dummyTargetType = NewAPITarget(path: "", method: .get, baseURL: dummyURL, headers: [:])
-  
+    
     func test_givenResponseDataWithoutStatusCodeAndErrorMsg_thenStillReceiveResponse() async {
         let dummyLocalStorageRepo = mock(LocalStorageRepository.self)
         let dummyCookieManager = mock(CookieManager.self).initialize(allHosts: [], currentURL: dummyURL, currentDomain: "")
-    
+        given(dummyCookieManager.cookieHeaderValue) ~> ""
         let stubResponse = Moya.Response(
             statusCode: 200,
-            data: MaintenanceStatus(endTime: 0, isMaintenance: false).toData())
-    
+            data: MaintenanceStatus(endTime: 0, isMaintenance: false).toData()
+        )
+
         let stubProvider = FakeMoyaProvider(stubRequest: .success(stubResponse))
-    
+
         let sut = HttpClient(
             dummyLocalStorageRepo,
             dummyCookieManager,
             currentURL: dummyURL,
             locale: SupportLocale.Vietnam(),
-            provider: stubProvider)
-    
+            provider: stubProvider
+        )
+
         let expect = stubResponse
-        let actual = try! await sut.request(dummyTargetType).value
-    
+        let actual = try! await sut.request(path: "", method: .get).value
+
         XCTAssertEqual(expect, actual)
     }
-  
+
     func test_givenResponseDataWithEmptyStatusCode_thenReceiveResponse() async {
         let dummyLocalStorageRepo = mock(LocalStorageRepository.self)
         let dummyCookieManager = mock(CookieManager.self).initialize(allHosts: [], currentURL: dummyURL, currentDomain: "")
-    
+        given(dummyCookieManager.cookieHeaderValue) ~> ""
         let stubResponse = Moya.Response(
             statusCode: 200,
-            data: APIResult(statusCode: "", errorMsg: "").toData())
-    
+            data: APIResult(statusCode: "", errorMsg: "").toData()
+        )
+
         let stubProvider = FakeMoyaProvider(stubRequest: .success(stubResponse))
-    
+
         let sut = HttpClient(
             dummyLocalStorageRepo,
             dummyCookieManager,
             currentURL: dummyURL,
             locale: SupportLocale.Vietnam(),
-            provider: stubProvider)
-    
+            provider: stubProvider
+        )
+
         let expect = stubResponse
-        let actual = try! await sut.request(dummyTargetType).value
-    
+        let actual = try! await sut.request(path: "", method: .get).value
+
         XCTAssertEqual(expect, actual)
     }
-  
+
     func test_givenResponseDataWithEmptyStatusCode_thenReceiveApiException() async {
         let dummyLocalStorageRepo = mock(LocalStorageRepository.self)
         let dummyCookieManager = mock(CookieManager.self).initialize(allHosts: [], currentURL: dummyURL, currentDomain: "")
-    
+        given(dummyCookieManager.cookieHeaderValue) ~> ""
         let stubResponse = Moya.Response(
             statusCode: 200,
-            data: APIResult(statusCode: "99999", errorMsg: "testErrorMessage").toData())
-    
+            data: APIResult(statusCode: "99999", errorMsg: "testErrorMessage").toData()
+        )
+
         let stubProvider = FakeMoyaProvider(stubRequest: .success(stubResponse))
-    
+
         let sut = HttpClient(
             dummyLocalStorageRepo,
             dummyCookieManager,
             currentURL: dummyURL,
             locale: SupportLocale.Vietnam(),
-            provider: stubProvider)
-    
+            provider: stubProvider
+        )
+
         let expect = UnknownError(message: "testErrorMessage", errorCode: "99999")
         var actual = ApiException(message: nil, errorCode: nil)
-    
+
         do {
-            _ = try await sut.request(dummyTargetType).value
-        }
-        catch {
+            _ = try await sut.request(path: "", method: .get).value
+        } catch {
             actual = error as! ApiException
         }
-    
+
         XCTAssertEqual(expect, actual)
     }
 }
@@ -92,7 +95,7 @@ final class HttpClientTests: XCTestCase {
 private struct MaintenanceStatus: Codable {
     var endTime: Int
     var isMaintenance: Bool
-  
+
     func toData() -> Data {
         try! JSONEncoder().encode(self)
     }
@@ -101,7 +104,7 @@ private struct MaintenanceStatus: Codable {
 private struct APIResult: Codable {
     var statusCode: String
     var errorMsg: String
-  
+
     func toData() -> Data {
         try! JSONEncoder().encode(self)
     }
@@ -109,20 +112,21 @@ private struct APIResult: Codable {
 
 class FakeMoyaProvider: MoyaProvider<MultiTarget> {
     let stubRequest: Result<Response, MoyaError>
-  
+
     init(stubRequest: Result<Response, MoyaError>) {
         self.stubRequest = stubRequest
         super.init()
     }
-  
+
     override func request(
         _: MultiTarget,
         callbackQueue _: DispatchQueue? = .none,
         progress _: ProgressBlock? = .none,
-        completion: @escaping Completion)
+        completion: @escaping Completion
+    )
         -> Cancellable
     {
         completion(stubRequest)
-        return CancellableToken(action: { })
+        return CancellableToken(action: {})
     }
 }

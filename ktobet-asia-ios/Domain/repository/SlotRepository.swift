@@ -34,7 +34,7 @@ class SlotRepositoryImpl: WebGameRepositoryImpl, SlotRepository {
 
     func getPopularGames() -> Observable<SlotHotGames> {
         let fetchApi = slotApi.getHotGame().map { [unowned self] response -> SlotHotGames in
-            guard let data = response.data else { return SlotHotGames(mostTransactionRanking: [], mostWinningAmountRanking: []) }
+            guard let data = response else { return SlotHotGames(mostTransactionRanking: [], mostWinningAmountRanking: []) }
             return data.toSlotHotGames(portalHost: self.httpClient.host.absoluteString)
         }.asObservable()
 
@@ -47,7 +47,7 @@ class SlotRepositoryImpl: WebGameRepositoryImpl, SlotRepository {
 
     func getRecentlyPlaySlots() -> Observable<[SlotGame]> {
         let fetchApi = slotApi.getRecentGames().map { [unowned self] response -> [SlotGame] in
-            guard let data = response.data else { return [] }
+            guard let data = response else { return [] }
             return data.map { $0.toSlotGame(portalHost: self.httpClient.host.absoluteString) }
         }.asObservable()
 
@@ -58,7 +58,7 @@ class SlotRepositoryImpl: WebGameRepositoryImpl, SlotRepository {
 
     func getNewAndJackpotGames() -> Observable<SlotNewAndJackpotGames> {
         let fetchApi = slotApi.getNewAndJackpotGames().map { [unowned self] response -> SlotNewAndJackpotGames in
-            guard let data = response.data else { return SlotNewAndJackpotGames(newGame: [], jackpotGames: []) }
+            guard let data = response else { return SlotNewAndJackpotGames(newGame: [], jackpotGames: []) }
             return data.toSlotNewAndJackpotGames(portalHost: self.httpClient.host.absoluteString)
         }.asObservable()
 
@@ -89,7 +89,7 @@ class SlotRepositoryImpl: WebGameRepositoryImpl, SlotRepository {
             payLineWayTags: MultiSelection<SlotGameFilter.SlotPayLineWay>(list: payLineWayTags)
                 .getDecimalPresentation())
             .map { [unowned self] response -> [SlotGame] in
-                guard let data = response.data else { return [] }
+                guard let data = response else { return [] }
                 return data.map { $0.toSlotGame(portalHost: self.httpClient.host.absoluteString) }
             }.asObservable()
 
@@ -117,14 +117,14 @@ class SlotRepositoryImpl: WebGameRepositoryImpl, SlotRepository {
             payLineWayTags: MultiSelection<SlotGameFilter.SlotPayLineWay>(list: payLineWayTags)
                 .getDecimalPresentation())
             .map { response -> Int in
-                guard let data = response.data else { return 0 }
+                guard let data = response else { return 0 }
                 return data
             }.asObservable()
     }
 
     override func getFavorites() -> Observable<[WebGameWithDuplicatable]> {
         let fetchApi = slotApi.getFavoriteSlots().map({ [unowned self] response -> [SlotGame] in
-            guard let data = response.data else { return [] }
+            guard let data = response else { return [] }
             return data.map { $0.toSlotGame(portalHost: self.httpClient.host.absoluteString) }
         })
         return Observable.combineLatest(favoriteRecord, fetchApi.asObservable()) { [unowned self] favorites, games in
@@ -134,7 +134,7 @@ class SlotRepositoryImpl: WebGameRepositoryImpl, SlotRepository {
 
     override func searchGames(keyword: SearchKeyword) -> Observable<[WebGameWithDuplicatable]> {
         let fetchApi = slotApi.searchSlot(keyword: keyword.getKeyword()).map { [unowned self] response -> [SlotGame] in
-            guard let data = response.data else { return [] }
+            guard let data = response else { return [] }
             return data.map { $0.toSlotGame(portalHost: self.httpClient.host.absoluteString) }
         }
         return Observable.combineLatest(favoriteRecord, fetchApi.asObservable()) { [unowned self] favorites, games in

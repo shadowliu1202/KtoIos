@@ -34,7 +34,7 @@ class NumberGameRepositoryImpl: WebGameRepositoryImpl, NumberGameRepository {
 
         let fetchApi = numberGameApi.searchGames(sortBy: order.ordinal, isRecommend: isRecommand, isNew: isNew, map: map)
             .map { [unowned self] response -> [NumberGame] in
-                guard let data = response.data else { return [] }
+                guard let data = response else { return [] }
                 return data.map { $0.toNumberGame(portalHost: self.httpClient.host.absoluteString) }
             }.asObservable()
 
@@ -53,10 +53,10 @@ class NumberGameRepositoryImpl: WebGameRepositoryImpl, NumberGameRepository {
     func getTags() -> Single<[GameTag]> {
         numberGameApi.getTags().map { response -> [GameTag] in
             var tags: [GameTag] = []
-            if let data0 = response.data["0"] {
+            if let data0 = response["0"] {
                 tags.append(contentsOf: data0.map({ GameTag(type: Int32($0.id), name: $0.name) }))
             }
-            if let data1 = response.data["1"] {
+            if let data1 = response["1"] {
                 tags.append(contentsOf: data1.map({ GameTag(type: Int32($0.id), name: $0.name) }))
             }
             return tags
@@ -65,7 +65,7 @@ class NumberGameRepositoryImpl: WebGameRepositoryImpl, NumberGameRepository {
 
     func getPopularGames() -> Observable<HotNumberGames> {
         let fetchApi = numberGameApi.getHotGame().map { [unowned self] response -> HotNumberGames in
-            guard let data = response.data else { return HotNumberGames(betCountRanking: [], winLossRanking: []) }
+            guard let data = response else { return HotNumberGames(betCountRanking: [], winLossRanking: []) }
             return data.toHotNumberGames(portalHost: self.httpClient.host.absoluteString)
         }.asObservable()
 
@@ -78,7 +78,7 @@ class NumberGameRepositoryImpl: WebGameRepositoryImpl, NumberGameRepository {
 
     override func getFavorites() -> Observable<[WebGameWithDuplicatable]> {
         let fetchApi = numberGameApi.getFavorite().map({ [unowned self] response -> [NumberGame] in
-            guard let data = response.data else { return [] }
+            guard let data = response else { return [] }
             return data.map { $0.toNumberGame(portalHost: self.httpClient.host.absoluteString) }
         })
         return Observable.combineLatest(favoriteRecord, fetchApi.asObservable()) { [unowned self] favorites, games in
@@ -88,7 +88,7 @@ class NumberGameRepositoryImpl: WebGameRepositoryImpl, NumberGameRepository {
 
     override func searchGames(keyword: SearchKeyword) -> Observable<[WebGameWithDuplicatable]> {
         let fetchApi = numberGameApi.searchKeyword(keyword: keyword.getKeyword()).map { [unowned self] response -> [NumberGame] in
-            guard let data = response.data else { return [] }
+            guard let data = response else { return [] }
             return data.map { $0.toNumberGame(portalHost: self.httpClient.host.absoluteString) }
         }
         return Observable.combineLatest(favoriteRecord, fetchApi.asObservable()) { [unowned self] favorites, games in

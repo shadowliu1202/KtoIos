@@ -25,12 +25,10 @@ class RegisterUseCaseImpl: RegisterUseCase {
 
     func loginFrom(otp: String) -> Single<Player> {
         repoAuth.authorize(otp)
-            .flatMap { [unowned self] _ -> Single<Player> in
-                repoPlayer.loadPlayer()
-                    .do(onSuccess: { player in
-                        handlePlayerSessionChange(locale: player.locale())
-                    })
-            }
+            .andThen(Single.deferred { [weak self] in self!.repoPlayer.loadPlayer() })
+            .do(onSuccess: { player in
+                handlePlayerSessionChange(locale: player.locale())
+            })
     }
 
     func resendRegisterOtp() -> Completable {

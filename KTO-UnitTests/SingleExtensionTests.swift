@@ -17,7 +17,7 @@ final class SingleExtensionTests: XCBaseTestCase {
             """
 
         let s: SingleWrapper<ResponseItem<NSString>> = Single
-            .just(json)
+            .just(ResponseJson(raw: json))
             .asReaktiveResponseItem(transfrom: { (boolean: Bool) -> NSString in
                 switch boolean {
                 case true:
@@ -46,7 +46,7 @@ final class SingleExtensionTests: XCBaseTestCase {
             """
 
         let s: SingleWrapper<ResponseItem<KotlinBoolean>> = Single
-            .just(json)
+            .just(ResponseJson(raw: json))
             .asReaktiveResponseItem(transfrom: { (bool: Bool) -> KotlinBoolean in
                 KotlinBoolean(bool: bool)
             })
@@ -70,7 +70,7 @@ final class SingleExtensionTests: XCBaseTestCase {
             """
 
         let s: SingleWrapper<ResponseItem<NSNumber>> = Single
-            .just(json)
+            .just(ResponseJson(raw: json))
             .asReaktiveResponseItem()
 
         let expect = 1
@@ -92,7 +92,7 @@ final class SingleExtensionTests: XCBaseTestCase {
             """
 
         let s: SingleWrapper<ResponseItem<KotlinBoolean>> = Single
-            .just(json)
+            .just(ResponseJson(raw: json))
             .asReaktiveResponseItem()
 
         let expect = true
@@ -114,7 +114,7 @@ final class SingleExtensionTests: XCBaseTestCase {
             """
 
         let s: SingleWrapper<ResponseItem<NSString>> = Single
-            .just(json)
+            .just(ResponseJson(raw: json))
             .asReaktiveResponseItem()
 
         let expect = "true"

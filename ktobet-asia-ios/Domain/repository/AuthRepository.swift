@@ -5,7 +5,7 @@ import SwiftyJSON
 
 protocol IAuthRepository {
     func register(_ account: UserAccount, _ password: UserPassword, _ locale: SupportLocale) -> Completable
-    func authorize(_ otp: String) -> Single<String>
+    func authorize(_ otp: String) -> Completable
     func authorize(_ account: String, _ password: String, _ captcha: Captcha) -> Single<LoginStatus>
     func deAuthorize()
     func checkAuthorization() -> Single<Bool>
@@ -58,11 +58,9 @@ class AuthRepository: IAuthRepository {
         return api.register(request)
     }
 
-    func authorize(_ otp: String) -> Single<String> {
+    func authorize(_ otp: String) -> Completable {
         let para = IVerifyOtpRequest(verifyCode: otp)
-        return api.verifyOtp(para).map { response -> String in
-            response.data ?? ""
-        }
+        return api.verifyOtp(para)
     }
 
     func authorize(_ account: String, _ password: String, _ captcha: Captcha) -> Single<LoginStatus> {
@@ -70,7 +68,7 @@ class AuthRepository: IAuthRepository {
             .do(onSubscribe: { Logger.shared.info("Login_onSubscribe") })
             .map { response -> LoginStatus in
                 let tryStatus: LoginStatus.TryStatus = {
-                    switch response.data?.phase {
+                    switch response.phase {
                     case 0: return LoginStatus.TryStatus.success
                     case 1: return LoginStatus.TryStatus.failed1to5
                     case 2: return LoginStatus.TryStatus.failed6to10
@@ -78,8 +76,8 @@ class AuthRepository: IAuthRepository {
                     default: return LoginStatus.TryStatus.failedAbove11
                     }
                 }()
-                let isLocked = response.data?.isLocked ?? false
-                let isPlatformValid = response.data?.platformIsAvailable ?? false
+                let isLocked = response.isLocked
+                let isPlatformValid = response.platformIsAvailable
 
                 if tryStatus == .success {
                     Logger.shared.info("Player_login")
@@ -94,9 +92,7 @@ class AuthRepository: IAuthRepository {
     }
 
     func checkAuthorization() -> Single<Bool> {
-        api.isLogged().map { response -> Bool in
-            response.data ?? false
-        }
+        api.isLogged()
     }
 
     func resendRegisterOtp() -> Completable {
@@ -104,7 +100,7 @@ class AuthRepository: IAuthRepository {
     }
 
     func checkRegistration(_ account: String) -> Single<Bool> {
-        api.checkAccount(account).map { $0.data }
+        api.checkAccount(account)
     }
 
     func getCaptchaImage() -> Single<UIImage> {
@@ -115,9 +111,7 @@ class AuthRepository: IAuthRepository {
 extension AuthRepository: ResetPasswordRepository {
     func requestResetOtp(_ otp: String) -> Single<Bool> {
         let para = IVerifyOtpRequest(verifyCode: otp)
-        return api.verifyResetOtp(para).map { response -> Bool in
-            response.data ?? false
-        }
+        return api.verifyResetOtp(para)
     }
 
     func requestResetPassword(_ account: Account) -> Completable {
@@ -145,14 +139,14 @@ extension AuthRepository: LoginByOtpRepository {
                 return 1
             }
         }()
-        return api.loginOtp(account: identity, accountType: accountType).asCompletable()
+        return api.loginOtp(account: identity, accountType: accountType)
     }
 
     func verifyOtp(by code: String) -> Completable {
-        return api.loginVerifyOtp(by: code).asCompletable()
+        return api.loginVerifyOtp(by: code)
     }
 
     func resendOtp() -> Completable {
-        return api.loginResendOtp().asCompletable()
+        return api.loginResendOtp()
     }
 }

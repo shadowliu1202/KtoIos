@@ -81,7 +81,7 @@ final class Injection {
     }
   
     // MARK: - HttpClient
-  
+    // TODO : this should not use in production code
     private func registerFakeNetworkInfra() {
         let fakeURL = URL(string: "https://")!
     

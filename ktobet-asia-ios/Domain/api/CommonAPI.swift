@@ -9,11 +9,7 @@ class CommonAPI {
         self.httpClient = httpClient
     }
 
-    func getBanks() -> Single<String> {
-        httpClient
-            .requestJsonString(
-                NewAPITarget(
-                    path: "api/init/bank",
-                    method: .get))
+    func getBanks() -> SingleWrapper<ResponseList<BankBean>> {
+        httpClient.request(path: "api/init/bank", method: .get).asReaktiveResponseList(serial: BankBean.companion.serializer())
     }
 }

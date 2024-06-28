@@ -10,8 +10,6 @@ class ApiAssembly: Assembly {
         container.autoregister(VersionUpdateApi.self, initializer: VersionUpdateApi.init)
         container.register(VersionUpdateApi.self) { VersionUpdateApi($0 ~> (HttpClient.self, name: "update")) }
         container.autoregister(PortalApi.self, initializer: PortalApi.init)
-        container.autoregister(GameApi.self, initializer: GameApi.init)
-        container.autoregister(BankApi.self, initializer: BankApi.init)
         container.autoregister(ImageApi.self, initializer: ImageApi.init)
         container.autoregister(CasinoApi.self, initializer: CasinoApi.init)
         container.autoregister(DepositAPI.self, initializer: DepositAPI.init)

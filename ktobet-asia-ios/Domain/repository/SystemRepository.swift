@@ -40,15 +40,15 @@ class SystemRepositoryImpl: SystemRepository {
         portalApi
             .getPortalMaintenance()
             .map { response -> OtpStatus in
-                response.data ?? OtpStatus(isMailActive: false, isSmsActive: false)
+                response ?? OtpStatus(isMailActive: false, isSmsActive: false)
             }
     }
-    
+
     func isOTPServiceAvaliable() -> RxSwift.Single<OtpStatus> {
         portalApi
             .getOtpMaintenance()
             .map { response -> OtpStatus in
-                response.data ?? OtpStatus(isMailActive: false, isSmsActive: false)
+                response ?? OtpStatus(isMailActive: false, isSmsActive: false)
             }
     }
 
@@ -62,13 +62,12 @@ class SystemRepositoryImpl: SystemRepository {
 
     func fetchCustomerServiceEmail() -> Single<String> {
         portalApi.getCustomerServiceEmail()
-            .map { $0.data ?? "" }
+            .map { $0 ?? "" }
             .catch { [weak self] error in
                 guard let self else { return Single.error(error) }
                 if error.isMaintenance() {
                     return Single.just(self.maintainCsEmail())
-                }
-                else {
+                } else {
                     return Single.error(error)
                 }
             }
@@ -77,7 +76,7 @@ class SystemRepositoryImpl: SystemRepository {
     func fetchMaintenanceStatus() -> Single<MaintenanceStatus> {
         portalApi.getProductStatus()
             .map {
-                try $0.data?.toMaintenanceStatus() ?? MaintenanceStatus.AllPortal(duration: nil)
+                try $0?.toMaintenanceStatus() ?? MaintenanceStatus.AllPortal(duration: nil)
             }
             .catch { [weak self] error in
                 guard
@@ -96,15 +95,14 @@ class SystemRepositoryImpl: SystemRepository {
     // FIXME: use concat in wrong way.
     private func updateMaintenanceStatus() -> Single<MaintenanceStatus> {
         portalApi.getProductStatus()
-            .map { try $0.data?.toMaintenanceStatus() ?? MaintenanceStatus.AllPortal(duration: nil) }
+            .map { try $0?.toMaintenanceStatus() ?? MaintenanceStatus.AllPortal(duration: nil) }
             .do(onSuccess: { self.productStatusChange.onNext($0) })
             .catch { [weak self] error in
                 guard let self else { return Single.error(error) }
                 if error.isMaintenance() {
                     self.productStatusChange
                         .onNext(MaintenanceStatus.AllPortal(remainingSeconds: self.getMaintenanceTimeFromCookies()))
-                }
-                else {
+                } else {
                     return Single.error(error)
                 }
 
@@ -127,6 +125,6 @@ class SystemRepositoryImpl: SystemRepository {
     }
 
     func fetchCopyRight() -> Single<String> {
-        portalApi.getYearOfCopyRight().map { $0.data }
+        portalApi.getYearOfCopyRight().map { $0 }
     }
 }

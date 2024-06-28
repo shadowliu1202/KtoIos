@@ -30,7 +30,7 @@ class P2PRecordRepositoryImpl: P2PRecordRepository {
         return p2pApi
             .getBetSummary(offset: secondsToHours)
             .map({ response -> [DateSummary] in
-                guard let data = response.data else { return [] }
+                guard let data = response else { return [] }
                 return try data.summaries.map({ try $0.toDateSummary() })
             })
     }
@@ -47,7 +47,7 @@ class P2PRecordRepositoryImpl: P2PRecordRepository {
                 date: localDate,
                 offset: secondsToHours)
             .map({ [unowned self] response -> [GameGroupedRecord] in
-                guard let data = response.data else { return [] }
+                guard let data = response else { return [] }
 
                 let groupedDicts = Dictionary(grouping: data, by: { element in
                     element.gameGroupId
@@ -78,7 +78,7 @@ class P2PRecordRepositoryImpl: P2PRecordRepository {
                 endDate: endDate.toQueryFormatString(timeZone: playerConfiguration.timezone()),
                 gameId: gameId)
             .map { response -> [P2PGameBetRecord] in
-                guard let data = response.data else { return [] }
+                guard let data = response else { return [] }
                 return try data.map({ try $0.toP2PGameBetRecord() })
             }
     }

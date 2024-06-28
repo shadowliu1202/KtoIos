@@ -22,7 +22,7 @@ class CasinoRecordRepositoryImpl: CasinoRecordRepository {
     func getBetSummary(zoneOffset: sharedbu.UtcOffset) -> Single<BetSummary> {
         let secondsToHours = zoneOffset.totalSeconds / 3600
         return casinoApi.getCasinoBetSummary(offset: secondsToHours).map { response -> BetSummary in
-            guard let d = response.data else { return BetSummary(unFinishedGames: 0, finishedGame: []) }
+            guard let d = response else { return BetSummary(unFinishedGames: 0, finishedGame: []) }
             let finishedGame = try d.summaries.map { s -> DateSummary in
                 try DateSummary(
                     totalStakes: s.stakes.toAccountCurrency(),
@@ -38,7 +38,7 @@ class CasinoRecordRepositoryImpl: CasinoRecordRepository {
     func getUnsettledSummary(zoneOffset: sharedbu.UtcOffset) -> Single<[UnsettledBetSummary]> {
         let secondsToHours = zoneOffset.totalSeconds / 3600
         return casinoApi.getUnsettledSummary(offset: secondsToHours).map { response -> [UnsettledBetSummary] in
-            guard let data = response.data else { return [] }
+            guard let data = response else { return [] }
             var unsettledBetSummaries: [UnsettledBetSummary] = []
             for s in data {
                 let betTime = try s.betTime.toKotlinLocalDateTime()
@@ -53,7 +53,7 @@ class CasinoRecordRepositoryImpl: CasinoRecordRepository {
     func getUnsettledRecords(date: sharedbu.LocalDateTime) -> Single<[UnsettledBetRecord]> {
         casinoApi.getUnsettledRecords(date: date.toQueryFormatString(timeZone: playerConfiguration.timezone()))
             .map { response -> [UnsettledBetRecord] in
-                guard let data = response.data else { return [] }
+                guard let data = response else { return [] }
                 var unsettledBetRecords: [UnsettledBetRecord] = []
                 for d in data {
                     let betTime = try d.betTime.toKotlinLocalDateTime()
@@ -74,7 +74,7 @@ class CasinoRecordRepositoryImpl: CasinoRecordRepository {
     func getPeriodRecords(localDate: String, zoneOffset: sharedbu.UtcOffset) -> Single<[PeriodOfRecord]> {
         let secondsToHours = zoneOffset.totalSeconds / 3600
         return casinoApi.getGameGroup(date: localDate, offset: secondsToHours).map { response -> [PeriodOfRecord] in
-            guard let data = response.data else { return [] }
+            guard let data = response else { return [] }
             var periodOfRecords: [PeriodOfRecord] = []
             for p in data {
                 try periodOfRecords.append(PeriodOfRecord(
@@ -97,7 +97,7 @@ class CasinoRecordRepositoryImpl: CasinoRecordRepository {
             endDate: periodOfRecord.endDate.toQueryFormatString(timeZone: playerConfiguration.timezone()),
             offset: offset,
             take: 20).map { response -> [BetRecord] in
-            guard let data = response.data?.data else { return [] }
+            guard let data = response?.data else { return [] }
             var betRecords: [BetRecord] = []
             for b in data {
                 betRecords.append(BetRecord(
