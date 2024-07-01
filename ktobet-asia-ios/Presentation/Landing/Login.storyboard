@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22155" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="hyQ-QW-T94">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="hyQ-QW-T94">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22131"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -45,11 +45,7 @@
                     <navigationItem key="navigationItem" id="eK9-oA-DBo">
                         <leftBarButtonItems>
                             <barButtonItem width="10" id="DZB-EC-Ou0"/>
-                            <barButtonItem enabled="NO" image="KTO (D)" style="plain" id="Lfn-s2-xH8">
-                                <connections>
-                                    <action selector="logoItemOnTap:" destination="Nyo-Kw-8Tr" id="8z8-PE-iYV"/>
-                                </connections>
-                            </barButtonItem>
+                            <barButtonItem enabled="NO" image="KTO (D)" style="plain" id="Lfn-s2-xH8"/>
                         </leftBarButtonItems>
                     </navigationItem>
                     <connections>

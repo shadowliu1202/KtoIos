@@ -5,25 +5,43 @@ struct LoginView: View {
     @StateObject var viewModel: LoginViewModel
 
     @State private var isLoadedData = false
-
+    let isForceChinese: Bool
     let onLogin: (NavigationViewModel.LobbyPageNavigation?, Error?) -> Void
     let onResetPassword: () -> Void
     let onOtpLogin: () -> Void
+    let toggleForceChinese: () -> Void
 
     init(
         viewModel: LoginViewModel,
+        isForceChinese: Bool,
         onLogin: @escaping (NavigationViewModel.LobbyPageNavigation?, Error?) -> Void,
         onResetPassword: @escaping () -> Void,
-        onOTPLogin: @escaping () -> Void)
+        onOTPLogin: @escaping () -> Void,
+        toggleForceChinese: @escaping () -> Void)
     {
         self._viewModel = .init(wrappedValue: viewModel)
+        self.isForceChinese = isForceChinese
         self.onLogin = onLogin
         self.onResetPassword = onResetPassword
         self.onOtpLogin = onOTPLogin
+        self.toggleForceChinese = toggleForceChinese
     }
 
     var body: some View {
         ScrollView {
+            #if DEBUG || QAT
+                HStack {
+                    Circle()
+                        .fill(isForceChinese ? Color.green : Color.red)
+                        .frame(width: 8, height: 8)
+                    Spacer().frame(width: 8)
+                    Text("切換中文")
+                        .foregroundColor(.white)
+                }
+                .padding(.horizontal, 30)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .onTapGesture { toggleForceChinese() }
+            #endif
             PageContainer {
                 VStack(spacing: 0) {
                     self.loginTitle()
@@ -236,8 +254,7 @@ struct LoginView: View {
                     .frame(maxWidth: .infinity)
                     .frame(height: 48)
                     .background(
-                        RoundedRectangle(cornerRadius: 8).stroke(Color.from(.textPrimary), lineWidth: 0.5)
-                    )
+                        RoundedRectangle(cornerRadius: 8).stroke(Color.from(.textPrimary), lineWidth: 0.5))
             })
             .localized(weight: .regular, size: 16)
     }
@@ -247,8 +264,10 @@ struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
         LoginView(
             viewModel: Injectable.resolveWrapper(LoginViewModel.self),
+            isForceChinese: false,
             onLogin: { _, _ in },
-            onResetPassword: {},
-            onOTPLogin: {})
+            onResetPassword: { },
+            onOTPLogin: { },
+            toggleForceChinese: { })
     }
 }

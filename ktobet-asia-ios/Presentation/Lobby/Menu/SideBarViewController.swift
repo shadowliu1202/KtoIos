@@ -259,18 +259,28 @@ class SideBarViewController: APPViewController {
         labUserAcoount.lineBreakMode = .byWordWrapping
         let logoImageView = UIImageView(image: UIImage(named: "KTO (D)"))
         logoImageView.contentMode = .scaleAspectFit
-    
-        #if DEBUG
-            logoImageView.isUserInteractionEnabled = true
-            logoImageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(logoItemOnTap)))
-        #endif
-    
+
         let logoView = UIView()
         logoView.addSubview(logoImageView)
         logoImageView.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(15)
-            make.top.bottom.trailing.equalToSuperview()
+            make.top.bottom.equalToSuperview()
         }
+        
+        #if DEBUG || QAT
+            let logoLabel = UILabel()
+            logoLabel.text = if Configuration.forceChinese { "(On) 切換中文" } else { "(Off) 切換中文" }
+            logoLabel.textColor = .white
+            logoLabel.font = UIFont.systemFont(ofSize: 16)
+            logoLabel.isUserInteractionEnabled = true
+            logoLabel.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(logoItemOnTap)))
+            logoView.addSubview(logoLabel)
+            logoLabel.snp.makeConstraints { make in
+                make.leading.equalTo(logoImageView.snp.trailing).offset(10)
+                make.centerY.equalTo(logoImageView.snp.centerY)
+                make.trailing.equalToSuperview()
+            }
+        #endif
         let logoItem = UIBarButtonItem(customView: logoView)
         navigationItem.leftBarButtonItem = logoItem
         btnNotification.image = UIImage(named: "Notification-None")?.withRenderingMode(.alwaysOriginal)

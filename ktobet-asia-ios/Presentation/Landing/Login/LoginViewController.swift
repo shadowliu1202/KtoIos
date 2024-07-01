@@ -36,11 +36,6 @@ class LoginViewController: LandingViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         logoItem.image = UIImage(named: "KTO (D)")?.withRenderingMode(.alwaysOriginal)
-        #if DEBUG
-            logoItem.isEnabled = true
-        #else
-            logoItem.isEnabled = false
-        #endif
     
         #if QAT
             let spacing2 = UIBarButtonItem.kto(.text(text: "|")).isEnable(false)
@@ -82,19 +77,13 @@ class LoginViewController: LandingViewController {
             .disposed(by: disposeBag)
     }
 
-    @IBAction
-    func logoItemOnTap(_: UIBarButtonItem) {
-        Configuration.forceChinese.toggle()
-        Localize = LocalizeUtils(supportLocale: Configuration.forceChinese ? SupportLocale.China() : SupportLocale.Vietnam())
-        recreateVC()
-    }
-  
     @IBSegueAction
     func segueToHostingController(_ coder: NSCoder) -> UIViewController? {
         UIHostingController(
             coder: coder,
             rootView: LoginView(
                 viewModel: viewModel,
+                isForceChinese: Configuration.forceChinese,
                 onLogin: { [unowned self] pageNavigation, error in
                     if let pageNavigation {
                         executeNavigation(pageNavigation)
@@ -110,7 +99,13 @@ class LoginViewController: LandingViewController {
                     }
                 },
                 onResetPassword: { [unowned self] in navigateToResetPasswordPage() },
-                onOTPLogin: { [unowned self] in navigateToOtpLoginPage() }))
+                onOTPLogin: { [unowned self] in navigateToOtpLoginPage() },
+                toggleForceChinese: { [unowned self] in
+                    Configuration.forceChinese.toggle()
+                    Localize = LocalizeUtils(
+                        supportLocale: Configuration.forceChinese ? SupportLocale.China() : SupportLocale.Vietnam())
+                    recreateVC()
+                }))
     }
 
     private func executeNavigation(_ navigation: NavigationViewModel.LobbyPageNavigation) {
@@ -216,7 +211,11 @@ extension LoginViewController: BarButtonItemable {
         case registerBarBtnId:
             switch onEnum(of: viewModel.getSupportLocale()) {
             case .china:
-                alertServiceDownThenToSignUpPage()
+                #if QAT
+                    navigateToSignUpPage()
+                #else
+                    alertServiceDownThenToSignUpPage()
+                #endif
             case .vietnam:
                 navigateToSignUpPage()
             }
@@ -279,7 +278,7 @@ extension LoginViewController: BarButtonItemable {
         }
     }
     
-    private func versionString(_ version:CompareVersion)-> String{
+    private func versionString(_ version: CompareVersion) -> String {
         "\(version.apiVersion).\(version.majorVersion).\(version.minorVersion)+\(version.hotfixCompare ?? "")"
     }
     
