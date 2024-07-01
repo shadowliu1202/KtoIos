@@ -35,7 +35,13 @@ class SignupLanguageViewController: LandingViewController {
     private let rowSpace: CGFloat = 12
 
     private var disposeBag = DisposeBag()
-    private var arrLangs: [SupportLocale] = [SupportLocale.Vietnam()]
+    private var arrLangs: [SupportLocale] = {
+        #if QAT
+            return [SupportLocale.China(), SupportLocale.Vietnam()]
+        #else
+            return [SupportLocale.Vietnam()]
+        #endif
+    }()
 
     private var padding = UIBarButtonItem.kto(.text(text: "")).isEnable(false)
     private lazy var login = UIBarButtonItem.kto(.login)
