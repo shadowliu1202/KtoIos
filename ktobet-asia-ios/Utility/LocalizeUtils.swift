@@ -14,7 +14,7 @@ var Localize: LocalizeUtils {
     }
   
     set {
-        #if DEBUG
+        #if DEBUG || QAT
             _Localize = newValue
         #else
             if Configuration.isTesting {
