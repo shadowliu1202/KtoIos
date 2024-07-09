@@ -3,7 +3,7 @@ import Moya
 import RxSwift
 import sharedbu
 
-class CasinoApi:  WebGameApi {
+class CasinoApi: WebGameApi {
     let prefix = "casino/api"
 
     private var httpClient: HttpClient!
@@ -46,8 +46,8 @@ class CasinoApi:  WebGameApi {
         httpClient.request(path: "\(prefix)/game/favorite", method: .get)
     }
 
-    func searchCasino(keyword _: String) -> Single<[CasinoData]?> {
-        httpClient.request(path: "\(prefix)/game/search-keyword", method: .get)
+    func searchCasino(keyword: String) -> Single<[CasinoData]?> {
+        httpClient.request(path: "\(prefix)/game/search-keyword", method: .get, task: .urlParameters(["keyword": keyword]))
     }
 
     func search(sortBy: Int, map: [String: String]) -> Single<[CasinoData]?> {
@@ -83,6 +83,6 @@ class CasinoApi:  WebGameApi {
     }
 
     func getCasinoTagsWithCount() -> Single<String> {
-        return httpClient.request(path: "\(prefix)/game/mobile/tag-with-gamecount", method: .get)
+        httpClient.request(path: "\(prefix)/game/mobile/tag-with-gamecount", method: .get)
     }
 }
