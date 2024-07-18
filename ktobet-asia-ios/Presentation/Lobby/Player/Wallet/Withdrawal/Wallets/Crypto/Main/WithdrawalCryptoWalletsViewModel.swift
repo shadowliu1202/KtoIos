@@ -22,6 +22,7 @@ class WithdrawalCryptoWalletsViewModel:
 
     private let withdrawalService: IWithdrawalAppService
     private var disposeBag = DisposeBag()
+    private let supportCrypto: [SupportCryptoType]
 
     let supportLocale: SupportLocale
 
@@ -31,10 +32,15 @@ class WithdrawalCryptoWalletsViewModel:
 
     init(
         withdrawalService: IWithdrawalAppService,
-        playerConfig: PlayerConfiguration)
-    {
+        playerConfig: PlayerConfiguration
+    ) {
         self.withdrawalService = withdrawalService
-        self.supportLocale = playerConfig.supportLocale
+        supportLocale = playerConfig.supportLocale
+        supportCrypto = withdrawalService.getWalletSupportCryptoTypes()
+    }
+
+    func isValidWallet(wallet: WithdrawalDto.CryptoWallet) -> Bool {
+        supportCrypto.contains(wallet.type) && wallet.type.supportNetwork().contains(wallet.network)
     }
 
     func observeWallets() {

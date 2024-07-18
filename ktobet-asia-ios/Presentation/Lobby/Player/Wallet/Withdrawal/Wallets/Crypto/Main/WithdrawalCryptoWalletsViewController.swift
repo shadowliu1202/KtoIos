@@ -13,19 +13,20 @@ class WithdrawalCryptoWalletsViewController:
 
     init(
         viewModel: WithdrawalCryptoWalletsViewModel? = nil,
-        alert: AlertProtocol? = nil)
-    {
+        alert: AlertProtocol? = nil
+    ) {
         if let viewModel {
-            self._viewModel.wrappedValue = viewModel
+            _viewModel.wrappedValue = viewModel
         }
 
         if let alert {
-            self._alert.wrappedValue = alert
+            _alert.wrappedValue = alert
         }
 
         super.init(nibName: nil, bundle: nil)
     }
 
+    @available(*, unavailable)
     required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -45,17 +46,19 @@ extension WithdrawalCryptoWalletsViewController {
         NavigationManagement.sharedInstance.addBarButtonItem(
             vc: self,
             barItemType: .back,
-            action: #selector(tapBack))
+            action: #selector(tapBack)
+        )
 
         addSubView(
             from: { [unowned self] in
                 WithdrawalCryptoWalletsView(
-                    viewModel: self.viewModel,
+                    viewModel: viewModel,
                     toAddWallet: { [weak self] in
                         self?.navigationController?
                             .pushViewController(
                                 WithdrawalCreateCryptoAccountViewController(),
-                                animated: true)
+                                animated: true
+                            )
                     },
                     toBack: {
                         NavigationManagement.sharedInstance.popViewController()
@@ -65,9 +68,11 @@ extension WithdrawalCryptoWalletsViewController {
                     },
                     onWalletSelected: {
                         self.handleWalletSelect($0, isEditing: $1)
-                    })
+                    }
+                )
             },
-            to: view)
+            to: view
+        )
     }
 
     private func binding() {
@@ -82,42 +87,60 @@ extension WithdrawalCryptoWalletsViewController {
     private func tapBack() {
         if viewModel.isEditing {
             viewModel.isEditing = !viewModel.isEditing
-        }
-        else {
+        } else {
             NavigationManagement.sharedInstance.popViewController()
         }
     }
 
     func handleWalletSelect(_ wallet: WithdrawalDto.CryptoWallet, isEditing: Bool) {
         if isEditing {
-            self.navigationController?
-                .pushViewController(
-                    WithdrawalCryptoWalletDetailViewController(wallet: wallet),
-                    animated: true)
+            navigateToWalletDetail(wallet)
+            return
         }
-        else {
-            if
-                wallet.verifyStatus == .onHold ||
-                wallet.verifyStatus == .verified
-            {
-                self.navigationController?
-                    .pushViewController(
-                        WithdrawalCryptoRequestStep1ViewController(wallet: wallet),
-                        animated: true)
-            }
-            else {
-                alert.show(
-                    Localize.string("profile_safety_verification_title"),
-                    Localize.string("cps_security_alert"),
-                    confirm: { [weak self] in
-                        self?.navigationController?
-                            .pushViewController(
-                                WithdrawalOTPVerifyMethodSelectViewController(bankCardID: wallet.walletId),
-                                animated: true)
-                    },
-                    cancel: nil)
-            }
+
+        guard isVerified(wallet) else {
+            notifyWalletEnteringVerifyFlow(wallet)
+            return
         }
+
+        if viewModel.isValidWallet(wallet: wallet) {
+            navigateToRequestFlow(wallet)
+        } else {
+            notifyInvalidWalletCurrency()
+        }
+    }
+
+    func isVerified(_ wallet: WithdrawalDto.CryptoWallet) -> Bool {
+        wallet.verifyStatus == .onHold || wallet.verifyStatus == .verified
+    }
+
+    func notifyWalletEnteringVerifyFlow(_ wallet: WithdrawalDto.CryptoWallet) {
+        alert.show(
+            Localize.string("profile_safety_verification_title"),
+            Localize.string("cps_security_alert"),
+            confirm: { [weak self] in
+                self?.navigationController?
+                    .pushViewController(WithdrawalOTPVerifyMethodSelectViewController(bankCardID: wallet.walletId), animated: true)
+            },
+            cancel: nil
+        )
+    }
+
+    func notifyInvalidWalletCurrency() {
+        alert.show(
+            Localize.string("common_kindly_remind"),
+            Localize.string("withdrawal_not_supported_crypto"),
+            confirm: nil,
+            cancel: nil
+        )
+    }
+
+    func navigateToWalletDetail(_ wallet: WithdrawalDto.CryptoWallet) {
+        navigationController?.pushViewController(WithdrawalCryptoWalletDetailViewController(wallet: wallet), animated: true)
+    }
+
+    func navigateToRequestFlow(_ wallet: WithdrawalDto.CryptoWallet) {
+        navigationController?.pushViewController(WithdrawalCryptoRequestStep1ViewController(wallet: wallet), animated: true)
     }
 
     func popMaximumAlert() {
@@ -125,6 +148,7 @@ extension WithdrawalCryptoWalletsViewController {
             Localize.string("common_kindly_remind"),
             Localize.string("withdrawal_bankcard_add_overlimit", "\(viewModel.playerWallet?.maxAmount ?? 5)"),
             confirm: nil,
-            cancel: nil)
+            cancel: nil
+        )
     }
 }
