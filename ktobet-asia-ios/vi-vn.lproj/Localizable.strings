@@ -829,6 +829,7 @@ Nếu Quý Khách cần thay đổi Họ Tên, vui lòng hủy giao dịch Rút 
 "withdrawal_resent_otp_maintenance_phone" = "KTO tạm ngưng Xác Minh Số Di Động do vấn đề máy chủ. Cám ơn Quý Khách đã thông cảm.";
 "withdrawal_resent_otp_maintenance_email" = "KTO tạm ngưng Xác Minh Email do vấn đề máy chủ. Cám ơn Quý Khách đã thông cảm.";
 "withdrawal_cancel_fail_bank_processing" = "Giao dịch Rút Tiền đã được chuyển về ngân hàng và không thể hủy.";
+"withdrawal_not_supported_crypto" = "Hiện chỉ hỗ trợ TRC20 và USDT, vui lòng chọn Ví tương ứng.";
 
 //MARK: - Product
 "product_slot_recent_play" = "Đã Chơi Gần Đây";
