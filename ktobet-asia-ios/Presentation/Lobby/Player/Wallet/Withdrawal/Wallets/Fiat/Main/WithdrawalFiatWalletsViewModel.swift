@@ -54,6 +54,10 @@ class WithdrawalFiatWalletsViewModel:
 // MARK: - Wallet Row Model
 
 extension WithdrawalDto.FiatWallet: WalletRowModel {
+    var title: String {
+        name
+    }
+    
     var accountNumber: String {
         bankAccount.accountNumber
     }
