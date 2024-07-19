@@ -2,7 +2,7 @@ import sharedbu
 import SwiftUI
 
 protocol WalletRowModel {
-    var name: String { get }
+    var title: String { get }
     var accountNumber: String { get }
     var verifyStatus: Wallet.VerifyStatus { get }
 }
@@ -39,7 +39,7 @@ extension WalletSelector {
 
                 HStack(spacing: 8) {
                     VStack(spacing: 9) {
-                        Text(model.name)
+                        Text(model.title)
                             .localized(
                                 weight: .medium,
                                 size: 14,
@@ -84,7 +84,7 @@ extension WalletSelector {
 
 struct WalletRow_Previews: PreviewProvider {
     struct Model: WalletRowModel {
-        var name = "test 1"
+        var title = "test 1"
         var accountNumber = "e94803oireioep2900439039420849r540xpre34422reioep290043903942ep290043903942"
         var verifyStatus: Wallet.VerifyStatus = .verified
     }

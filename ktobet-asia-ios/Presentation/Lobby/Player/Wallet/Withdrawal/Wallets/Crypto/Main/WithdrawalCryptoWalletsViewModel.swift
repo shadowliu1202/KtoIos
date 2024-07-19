@@ -58,8 +58,12 @@ class WithdrawalCryptoWalletsViewModel:
 }
 
 // MARK: - Wallet Row Model
-
 extension WithdrawalDto.CryptoWallet: WalletRowModel {
+    var title: String {
+        "\(name)\n\(type.name) \(network.name)"
+    }
+    
+    
     var accountNumber: String {
         address
     }

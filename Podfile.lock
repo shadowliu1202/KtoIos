@@ -198,7 +198,7 @@ PODS:
   - SDWebImage (5.10.4):
     - SDWebImage/Core (= 5.10.4)
   - SDWebImage/Core (5.10.4)
-  - sharedbu (2.56.0)
+  - sharedbu (2.56.1)
   - SideMenu (6.5.0)
   - SnapKit (5.0.1)
   - SwiftFormat/CLI (0.50.9)
@@ -234,7 +234,7 @@ DEPENDENCIES:
   - RxSwiftExt (= 6.2.1)
   - RxTest (= 6.5.0)
   - SDWebImage (= 5.10.4)
-  - sharedbu (= 2.56.0)
+  - sharedbu (= 2.56.1)
   - SideMenu (= 6.5.0)
   - SnapKit
   - SwiftFormat/CLI (~> 0.49)
@@ -346,7 +346,7 @@ SPEC CHECKSUMS:
   RxSwiftExt: 43aaacb6a4d3c69c55e9d1cf4f79920043d13583
   RxTest: eb2d23adefc5a5ebf5779c7792fa3edfe6ebcc17
   SDWebImage: c666b97e1fa9c64b4909816a903322018f0a9c84
-  sharedbu: e8405f4b41cded12cd901f7a1fa63c2fd69e4295
+  sharedbu: 463f89cf2b94e2944341b85a48c71f8a06055077
   SideMenu: f583187d21c5b1dd04c72002be544b555a2627a2
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   SwiftFormat: 823c799054862ecd9143ff00de06997f5e68967c
@@ -359,6 +359,6 @@ SPEC CHECKSUMS:
   ViewInspector: 36399ac43f76170693c41499e9035499926171cb
   youtube-ios-player-helper: e9b97535e816db3152179d84d999bc1807ecd689
 
-PODFILE CHECKSUM: d0814e4049e691250108331cc5fa4719f5f88754
+PODFILE CHECKSUM: 102d2d9fb61b77e1b52c01f3ba03a7aec31398d8
 
 COCOAPODS: 1.15.2
