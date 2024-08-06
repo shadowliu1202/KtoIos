@@ -104,9 +104,9 @@ private class QatConfig: Env {
     var internetProtocol = "https://"
     var hostName: [String: [String]] =
         [
-            SupportLocale.China.shared.cultureCode(): ["qat1-app.affclub.xyz", "qat1-app2.affclub.xyz"],
+            SupportLocale.China.shared.cultureCode(): ["kto-qat-app.pivotsite.com", "kto-qat-app2.pivotsite.com"],
             SupportLocale.Vietnam.shared
-                .cultureCode(): ["qat1-app2.affclub.xyz", "qat1-app.affclub.xyz"],
+                .cultureCode(): ["kto-qat-app2.pivotsite.com", "kto-qat-app.pivotsite.com"]
         ]
     lazy var versionUpdateHostName = hostName
     var isAutoUpdate = false
