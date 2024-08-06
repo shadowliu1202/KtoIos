@@ -95,6 +95,10 @@
 				<key>NSIncludesSubdomains</key>
 				<true/>
 			</dict>
+			<key>ktoqat-app.pivotsite.com</key>
+			<string></string>
+			<key>ktoqat-app2.pivotsite.com</key>
+			<string></string>
 			<key>r3.keno.lbk20.com</key>
 			<dict>
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
