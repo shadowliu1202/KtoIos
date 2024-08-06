@@ -12,6 +12,7 @@ struct LoginView: View {
     let toggleForceChinese: () -> Void
 
     @State private var moveToRegister: Bool = false
+    @State private var moveToResetPassword: Bool = false
 
     init(
         viewModel: LoginViewModel,
@@ -107,12 +108,12 @@ struct LoginView: View {
                             viewModel.login(callBack: onLogin)
                         }
                         LimitSpacer(24)
-                        resetPassword()
+                        resetPassword { moveToResetPassword = true }
                         LimitSpacer(30)
                         HStack {
                             Separator()
                             Text(Localize.string("common_or"))
-                                .localized(weight: .regular, size: 14, color: .textPrimary)
+                                .font(size: 14)
                                 .padding(.horizontal, 30)
                             Separator()
                         }.frame(maxWidth: .infinity)
@@ -136,13 +137,14 @@ struct LoginView: View {
             viewModel.refreshUI()
         }
 
+        NavigationLink(isActive: $moveToResetPassword, destination: { ResetPasswordStep1View() }, label: {})
         NavigationLink(isActive: $moveToRegister, destination: { RegisterStep1View() }, label: {})
     }
 
     @ViewBuilder
     private func loginTitle() -> some View {
         Text(Localize.string("common_login"))
-            .localized(weight: .semibold, size: 24, color: .textPrimary)
+            .font(weight: .semibold, size: 24)
     }
 
     @ViewBuilder
@@ -197,7 +199,7 @@ struct LoginView: View {
                 }
 
                 Text(Localize.string("login_account_remember_me"))
-                    .localized(weight: .regular, size: 12, color: .textPrimary)
+                    .font(size: 12)
             }
             .onTapGesture {
                 isRememberMe.wrappedValue.toggle()
@@ -236,7 +238,8 @@ struct LoginView: View {
                     .scaledToFit()
                     .frame(width: 80, height: 32)
                 Text(Localize.string("login_captcha_new"))
-                    .localized(weight: .medium, size: 14, color: .primaryDefault)
+                    .font(weight: .medium, size: 14)
+                    .foregroundStyle(.primaryDefault)
                     .onTapGesture {
                         getCaptchaOnTap()
                     }
@@ -264,7 +267,6 @@ struct LoginView: View {
             }
         )
         .buttonStyle(.fill)
-        .localized(weight: .regular, size: 16)
         .disabled(disabled)
     }
 
@@ -281,25 +283,29 @@ struct LoginView: View {
                         RoundedRectangle(cornerRadius: 8).stroke(Color.from(.textPrimary), lineWidth: 0.5))
             }
         )
-        .localized(weight: .regular, size: 16)
     }
 }
 
 private extension LoginView {
     @ViewBuilder
-    func resetPassword() -> some View {
-        HStack(alignment: /*@START_MENU_TOKEN@*/ .center/*@END_MENU_TOKEN@*/, spacing: 0) {
-            Text(Localize.string("login_tips_1"))
-                .foregroundColor(.from(.textPrimary))
-            Text(" ")
-            NavigationLink {
-                ResetPasswordStep1View()
-            } label: {
-                Text(Localize.string("login_tips_1_highlight"))
-                    .foregroundColor(.from(.primaryDefault))
-            }
-        }
-        .localized(weight: .regular, size: 14)
+    func resetPassword(onResetPassword: @escaping () -> Void) -> some View {
+        Text(resetPasswordString())
+            .font(weight: .regular, size: 14)
+            .environment(\.openURL, .init(handler: { _ in
+                onResetPassword()
+                return .handled
+            }))
+    }
+
+    private func resetPasswordString() -> AttributedString {
+        let base = AttributedString(localized: "login_tips_1")
+        var highlight = AttributedString(localized: "login_tips_1_highlight")
+        var container = AttributeContainer()
+        
+        container.link = URL(string: "resetpassword")
+        container.foregroundColor = .primaryDefault
+        highlight.setAttributes(container)
+        return base + " " + highlight
     }
 }
 

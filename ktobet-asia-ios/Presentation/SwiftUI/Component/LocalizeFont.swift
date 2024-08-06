@@ -1,6 +1,7 @@
 import sharedbu
 import SwiftUI
 
+@available(*, deprecated, message: "Use native CustomFontModifier")
 struct LocalizeFont<Content: View>: View {
     @Environment(\.playerLocale) var playerLocale: SupportLocale
 
@@ -35,15 +36,8 @@ struct LocalizeFont<Content: View>: View {
     }
 }
 
-struct FontAndColor_Previews: PreviewProvider {
-    static var previews: some View {
-        LocalizeFont(fontWeight: .medium, size: 12, color: .textPrimary) {
-            Text("你好")
-        }
-    }
-}
-
 extension View {
+    @available(*, deprecated, message: "Use font extension")
     func localized(
         weight: KTOFontWeight,
         size: CGFloat,
@@ -54,6 +48,34 @@ extension View {
         LocalizeFont(
             fontWeight: weight,
             size: size,
-            color: color) { self }
+            color: color
+        ) { self }
+    }
+}
+
+@available(*, deprecated, message: "Use font extension")
+struct FontAndColor_Previews: PreviewProvider {
+    static var previews: some View {
+        LocalizeFont(fontWeight: .medium, size: 12, color: .textPrimary) {
+            Text("你好")
+        }
+    }
+}
+
+
+struct CustomFontModifier: ViewModifier {
+    @Environment(\.locale) var locale: Locale
+
+    let fontWeight: KTOFontWeight
+    let size: CGFloat
+
+    func body(content: Content) -> some View {
+        content.font(.custom(fontWeight.fontString(SupportLocale.companion.create(language: locale.identifier)), size: size))
+    }
+}
+
+extension View {
+    func font(weight: KTOFontWeight = .regular, size: CGFloat = 16) ->  some View {
+        modifier(CustomFontModifier(fontWeight: weight, size: size))
     }
 }

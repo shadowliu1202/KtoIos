@@ -15,12 +15,14 @@ struct TermsView: View {
                 VStack(spacing: 0) {
                     VStack(alignment: .leading) {
                         Text(presenter.title)
-                            .localized(weight: .semibold, size: 24, color: .greyScaleDefault)
+                            .font(weight: .semibold, size: 24)
+                            .foregroundStyle(.greyScaleDefault)
 
                         LimitSpacer(12)
 
                         Text(presenter.description)
-                            .localized(weight: .regular, size: 14, color: .greyScaleDefault)
+                            .font(size: 14)
+                            .foregroundStyle(.greyScaleDefault)
                     }
 
                     LimitSpacer(24)
@@ -51,6 +53,8 @@ struct TermsView: View {
             VStack(alignment: .leading, spacing: 0) {
                 HStack {
                     Text(term.title)
+                        .font(weight: .semibold)
+                        .foregroundStyle(.greyScaleBlack)
                         .lineLimit(1)
                         .padding(.vertical, 12)
                     Spacer()
@@ -64,12 +68,14 @@ struct TermsView: View {
                 if isExpand {
                     VStack(alignment: .leading) {
                         Text(term.title)
-                            .localized(weight: .semibold, size: 14, color: .greyScaleDefault)
+                            .font(weight: .semibold, size: 14)
+                            .foregroundStyle(.greyScaleDefault)
 
                         LimitSpacer(8)
 
                         Text(term.content)
-                            .localized(weight: .regular, size: 14, color: .textSecondary)
+                            .font(size: 14)
+                            .foregroundStyle(.textSecondary)
                     }
                     .padding(.top, 16)
                     .padding(.bottom, 30)

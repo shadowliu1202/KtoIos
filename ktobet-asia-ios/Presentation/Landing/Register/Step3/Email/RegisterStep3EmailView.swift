@@ -76,17 +76,16 @@ private struct ContentView: View {
                 VStack(spacing: 0) {
                     #if QAT
                         Toggle("(QAT) Auto verify", isOn: $isAutoVerify)
-                            .foregroundStyle(.textPrimary)
                     #endif
                     Text("register_step3_title_1")
-                        .localized(weight: .medium, size: 14, color: .textPrimary)
+                        .font(weight: .medium, size: 14)
                         .frame(maxWidth: .infinity, alignment: .leading)
                     Text("register_step3_verify_by_email_title")
-                        .localized(weight: .semibold, size: 24, color: .textPrimary)
+                        .font(weight: .semibold, size: 24)
                         .frame(maxWidth: .infinity, alignment: .leading)
                     LimitSpacer(12)
                     Text(String(format: Localize.string("register_step3_content_email"), identity))
-                        .localized(weight: .medium, size: 14, color: .textPrimary)
+                        .font(weight: .medium, size: 14)
                         .frame(maxWidth: .infinity, alignment: .leading)
                     LimitSpacer(40)
 
@@ -100,28 +99,34 @@ private struct ContentView: View {
                             .frame(height: 48)
                     }
                     .buttonStyle(.fill)
-                    .localized(weight: .regular, size: 16)
 
                     LimitSpacer(24)
                     ResendHint(accountType: .email, onResend: {})
 
                     LimitSpacer(24)
 
-                    HighLightText(
-                        Localize.string("register_step3_mail_varify_hint") + " " + Localize.string("register_step3_mail_varify_hint_highlight")
-                    )
-                    .highLight(
-                        Localize.string("register_step3_mail_varify_hint_highlight"),
-                        with: .primaryDefault
-                    )
-                    .localized(weight: .regular, size: 14, color: .textPrimary)
-                    .frame(maxWidth: .infinity)
-                    .multilineTextAlignment(.center)
-                    .onTapGesture { onVerify() }
+                    Text(manualVerifyAttributeString())
+                        .font(weight: .regular, size: 14)
+                        .frame(maxWidth: .infinity)
+                        .multilineTextAlignment(.center)
+                        .environment(\.openURL, .init(handler: { _ in
+                            onVerify()
+                            return .handled
+                        }))
                 }
                 .padding(.horizontal, 30)
             }
         }
+    }
+
+    private func manualVerifyAttributeString() -> AttributedString {
+        let base = AttributedString(localized: "register_step3_mail_varify_hint")
+        var highlight = AttributedString(localized: "register_step3_mail_varify_hint_highlight")
+        var container = AttributeContainer()
+        container.link = URL(string: "verify")
+        container.foregroundColor = .primaryDefault
+        highlight.setAttributes(container)
+        return base + " " + highlight
     }
 }
 
@@ -132,35 +137,41 @@ private struct ResendHint: View {
     @State private var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
     var body: some View {
-        HighLightText(
-            Localize.string("common_otp_resend_tips", countDown.toHourMinutesFormat()) + " " + Localize.string("common_resendotp")
-        )
-        .highLight(
-            Localize.string("common_resendotp"),
-            with: countDown == 0 ? .primaryDefault : .primaryDefault.withAlphaComponent(0.5)
-        )
-        .onTapGesture {
-            countDown = Int(Setting.resendOtpCountDownSecond)
-            startTimer()
-            onResend()
-        }
-        .disabled(countDown > 0)
-        .localized(weight: .regular, size: 14, color: .textPrimary)
-        .frame(maxWidth: .infinity)
-        .multilineTextAlignment(.center)
-        .onReceive(timer) { _ in
-            if countDown > 0 {
-                countDown -= 1
-            } else {
-                countDown = 0
-                stopTimer()
+        Text(resendAttributedString())
+            .font(weight: .regular, size: 14)
+            .frame(maxWidth: .infinity)
+            .multilineTextAlignment(.center)
+            .environment(\.openURL, .init(handler: { _ in
+                countDown = Int(Setting.resendOtpCountDownSecond)
+                startTimer()
+                onResend()
+                return .handled
+            }))
+            .onReceive(timer) { _ in
+                if countDown > 0 {
+                    countDown -= 1
+                } else {
+                    countDown = 0
+                    stopTimer()
+                }
             }
-        }
         if accountType == .email {
             Text("common_email_spam_check")
-                .localized(weight: .regular, size: 14, color: .textPrimary)
+                .font(size: 14)
                 .frame(maxWidth: .infinity)
         }
+    }
+
+    private func resendAttributedString() -> AttributedString {
+        let base = AttributedString(Localize.string("common_otp_resend_tips", countDown.toHourMinutesFormat()))
+        var highlight = AttributedString(localized: "common_resendotp")
+        var container = AttributeContainer()
+        if countDown <= 0 {
+            container.link = URL(string: "resend")
+        }
+        container.foregroundColor = countDown == 0 ? .primaryDefault : UIColor(.from(.primaryDefault, alpha: 0.5))
+        highlight.setAttributes(container)
+        return base + " " + highlight
     }
 
     func stopTimer() {
