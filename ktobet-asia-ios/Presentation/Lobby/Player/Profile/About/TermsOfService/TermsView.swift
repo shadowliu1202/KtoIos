@@ -1,91 +1,88 @@
 import SwiftUI
 
-struct TermsView<Presenter: TermsPresenter>: View {
-    @StateObject var presenter: Presenter
+struct TermsView: View {
+    var presenter: any Terms
 
-    var body: some View {
-        ScrollView(showsIndicators: false) {
-            PageContainer {
-                VStack(spacing: 24) {
-                    Topic()
-                    Sections()
-                }
-            }
-        }
-        .environmentObject(presenter)
-        .padding(.horizontal, 30)
-        .pageBackgroundColor(.greyScaleWhite)
-        .frame(maxWidth: .infinity)
-    }
-}
+    var inspection = Inspection<Self>()
 
-// MARK: - Component
-
-extension TermsView {
     enum Identifier: String {
         case sections
     }
 
-    struct Topic: View {
-        @EnvironmentObject var presenter: Presenter
+    var body: some View {
+        ScrollView(showsIndicators: false) {
+            PageContainer {
+                VStack(spacing: 0) {
+                    VStack(alignment: .leading) {
+                        Text(presenter.title)
+                            .localized(weight: .semibold, size: 24, color: .greyScaleDefault)
 
-        var body: some View {
-            VStack(alignment: .leading, spacing: 12) {
-                Text(presenter.navigationTitle)
-                    .localized(
-                        weight: .semibold,
-                        size: 24,
-                        color: .greyScaleDefault)
+                        LimitSpacer(12)
 
-                Text(presenter.description)
-                    .localized(
-                        weight: .regular,
-                        size: 14,
-                        color: .greyScaleDefault)
-            }
-        }
-    }
+                        Text(presenter.description)
+                            .localized(weight: .regular, size: 14, color: .greyScaleDefault)
+                    }
 
-    struct Sections: View {
-        @EnvironmentObject var presenter: Presenter
+                    LimitSpacer(24)
 
-        var inspection = Inspection<Self>()
-
-        var body: some View {
-            VStack(spacing: 0) {
-                ForEach(presenter.dataSourceTerms.indices, id: \.self) { index in
-                    ExpandableBlock(
-                        title: presenter.dataSourceTerms[index].title,
-                        bottomLineVisible: index == presenter.dataSourceTerms.count - 1)
-                    {
-                        TermsView.Row(term: presenter.dataSourceTerms[index])
-                            .padding(.top, 16)
-                            .padding(.bottom, 30)
-                            .padding(.horizontal, 12)
+                    Separator()
+                    ForEach(presenter.terms.indices, id: \.self) { index in
+                        Item(
+                            term: presenter.terms[index],
+                            isLast: index == presenter.terms.count - 1
+                        )
+                        .id(TermsView.Identifier.sections.rawValue)
                     }
                 }
-                .id(TermsView.Identifier.sections.rawValue)
             }
-            .onInspected(inspection, self)
         }
+        .onInspected(inspection, self)
+        .padding(.horizontal, 30)
+        .pageBackgroundColor(.greyScaleWhite)
+        .frame(maxWidth: .infinity)
     }
 
-    struct Row: View {
-        let term: TermsOfService
+    private struct Item: View {
+        @State private var isExpand = false
+        let term: TermItem
+        let isLast: Bool
 
         var body: some View {
-            VStack(alignment: .leading, spacing: 8) {
-                Text(term.title)
-                    .localized(
-                        weight: .semibold,
-                        size: 14,
-                        color: .greyScaleDefault)
+            VStack(alignment: .leading, spacing: 0) {
+                HStack {
+                    Text(term.title)
+                        .lineLimit(1)
+                        .padding(.vertical, 12)
+                    Spacer()
 
-                Text(term.content)
-                    .localized(
-                        weight: .regular,
-                        size: 14,
-                        color: .textSecondary)
+                    Image("termsArrowDown")
+                        .frame(width: 16, height: 16)
+                        .rotationEffect(Angle(degrees: isExpand ? 180 : 0))
+                }
+                Separator()
+
+                if isExpand {
+                    VStack(alignment: .leading) {
+                        Text(term.title)
+                            .localized(weight: .semibold, size: 14, color: .greyScaleDefault)
+
+                        LimitSpacer(8)
+
+                        Text(term.content)
+                            .localized(weight: .regular, size: 14, color: .textSecondary)
+                    }
+                    .padding(.top, 16)
+                    .padding(.bottom, 30)
+                    .padding(.horizontal, 12)
+                    if !isLast {
+                        Separator()
+                    }
+                }
+            }
+            .onTapGestureForced {
+                withAnimation {
+                    isExpand.toggle()
+                }
             }
         }
     }
@@ -93,6 +90,6 @@ extension TermsView {
 
 struct TermsView_Previews: PreviewProvider {
     static var previews: some View {
-        TermsView(presenter: ServiceTerms(barItemType: .back))
+        TermsView(presenter: ServiceTerms())
     }
 }

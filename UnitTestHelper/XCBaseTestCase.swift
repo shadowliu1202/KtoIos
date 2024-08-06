@@ -82,10 +82,10 @@ private func injectCustomServicePresenterInfra() {
     let dummySurveyAppService = mock(AbsCustomerServiceAppService.self)
     let dummyLoading = LoadingImpl.shared
 
+    given(stubChatAppService.observeChatRoom()) ~> Observable.just(CustomerServiceDTO.ChatRoom.NOT_EXIST).asWrapper()
+    
     let stubCustomerServiceViewModel = mock(CustomerServiceViewModel.self)
         .initialize(stubChatAppService, dummySurveyAppService, dummyLoading)
-  
-    given(stubChatAppService.observeChatRoom()) ~> Observable.just(CustomerServiceDTO.ChatRoom.NOT_EXIST).asWrapper()
   
     Injectable
         .register(CustomerServiceViewModel.self) { _ in

@@ -4,10 +4,36 @@ extension SwiftUIEmptyStateView {
     enum Identifier: String {
         case description
     }
-  
+
     enum KeyboardAppearance {
         case possible
         case impossible
+    }
+}
+
+struct WarningStateView: View {
+    let iconImage: Image
+    let description: String
+
+    var body: some View {
+        VStack(alignment: .center, spacing: 0) {
+            iconImage
+                .resizable()
+                .scaledToFit()
+                .frame(width: 128, height: 128)
+
+            Text(description)
+                .localized(weight: .regular, size: 14, color: .textPrimary)
+                .multilineTextAlignment(.center)
+        }.onAppear {
+            UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+        }
+    }
+}
+
+struct WarningStateView_Previews: PreviewProvider {
+    static var previews: some View {
+        WarningStateView(iconImage: Image("No Records"), description: "没有投注历史")
     }
 }
 
@@ -19,8 +45,8 @@ struct SwiftUIEmptyStateView: View {
     init(
         iconImage: Image,
         description: String,
-        keyboardAppearance: KeyboardAppearance)
-    {
+        keyboardAppearance: KeyboardAppearance
+    ) {
         self.iconImage = iconImage
         self.description = description
         self.keyboardAppearance = keyboardAppearance
@@ -51,7 +77,8 @@ struct SwiftUIEmptyStateView: View {
                     height: geometryProxy.size.height,
                     alignment: keyboardAppearance == .impossible
                         ? .center
-                        : .top)
+                        : .top
+                )
             }
         }
     }
@@ -61,30 +88,32 @@ struct SwiftUIEmptyStateView_Previews: PreviewProvider {
     static var previews: some View {
         ZStack {
             Color.black
-      
+
             VStack(spacing: 0) {
                 LimitSpacer(30)
-        
+
                 Rectangle()
                     .frame(height: 100)
                     .padding(.horizontal, 20)
                     .foregroundColor(.gray)
-        
+
                 SwiftUIEmptyStateView(
                     iconImage: Image("No Records"),
                     description: "没有投注历史",
-                    keyboardAppearance: .possible)
+                    keyboardAppearance: .possible
+                )
             }
         }
         .previewDisplayName("Has Keyboard")
-    
+
         ZStack {
             Color.black
-      
+
             SwiftUIEmptyStateView(
                 iconImage: Image("No Records"),
                 description: "没有投注历史",
-                keyboardAppearance: .impossible)
+                keyboardAppearance: .impossible
+            )
         }
         .previewDisplayName("No Keyboard")
     }
