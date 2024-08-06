@@ -36,10 +36,10 @@ struct RegisterStep1Content: View {
                 VStack(spacing: 0) {
                     Text("register_step1_title_1")
                         .frame(maxWidth: .infinity, alignment: .leading)
-                        .localized(weight: .medium, size: 14, color: .textPrimary)
+                        .font(weight: .medium, size: 14)
                     HStack {
                         Text("register_step1_title_2")
-                            .localized(weight: .semibold, size: 24, color: .textPrimary)
+                            .font(weight: .semibold, size: 24)
 
                         Image("Tips")
                             .onTapGesture {
@@ -74,7 +74,8 @@ struct RegisterStep1Content: View {
 
                     Text("register_step1_tips_1")
                         .multilineTextAlignment(.center)
-                        .localized(weight: .medium, size: 12, color: .textSecondary)
+                        .font(weight: .medium, size: 12)
+                        .foregroundStyle(.textSecondary)
 
                     LimitSpacer(8)
 
@@ -83,7 +84,8 @@ struct RegisterStep1Content: View {
                     } label: {
                         Text("register_step1_tips_1_highlight")
                             .multilineTextAlignment(.center)
-                            .localized(weight: .medium, size: 12, color: .primaryDefault)
+                            .font(weight: .medium, size: 12)
+                            .foregroundStyle(.primaryDefault)
                     }
                 }
                 .padding(.horizontal, 30)
@@ -96,7 +98,8 @@ struct RegisterStep1Content: View {
         Button(action: { action() }, label: {
             HStack {
                 Text(key)
-                    .localized(weight: .medium, size: 14, color: isSelected ? .greyScaleWhite : .textPrimary)
+                    .font(weight: .medium, size: 14)
+                    .foregroundStyle(isSelected ? .greyScaleWhite : .textPrimary)
                 Spacer()
                 if isSelected {
                     Image("Single Selection (Selected)")

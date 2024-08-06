@@ -1,4 +1,5 @@
 import Foundation
+import sharedbu
 import SwiftUI
 
 struct LandingView<Content: View>: View {
@@ -12,12 +13,22 @@ struct LandingView<Content: View>: View {
     }
 
     var body: some View {
+        let currentLocale = if let cultureCode {
+            Configuration.forceChinese ? SupportLocale.China() : SupportLocale.companion.create(language: cultureCode)
+        } else {
+            SupportLocale.Vietnam()
+        }
+        
+        let fontName = KTOFontWeight.regular.fontString(currentLocale)
+        
         navigation()
             .navigationViewManager()
             .navigationBarHidden(true)
             .navigationViewStyle(.stack)
-           .environment(\.locale, .init(identifier: Configuration.forceChinese ? "zh-cn" : cultureCode!))
+            .environment(\.locale, .init(identifier: currentLocale.cultureCode()))
+            .environment(\.font, .custom(fontName, size: 16))
             .environment(\.isCsProcessing, $csViewModel.isCsInProcess)
+            .foregroundStyle(.textPrimary)
     }
 
     @ViewBuilder
@@ -40,7 +51,9 @@ struct LandingViewScaffold_Previews: PreviewProvider {
         LandingViewScaffold(items: []) {
             VStack {
                 Spacer()
-                Text("KTO").localized(weight: .medium, size: 16, color: .white)
+                Text("KTO")
+                    .font(weight: .medium, size: 16)
+                    .foregroundStyle(.white)
                 Spacer()
             }
         }
@@ -123,7 +136,10 @@ struct LandingNavigationBar: View {
 
     @ViewBuilder
     func divider() -> some View {
-        Text("|").localized(weight: .semibold, size: 12, color: .textSecondary).padding(.horizontal, 8)
+        Text("|")
+            .font(weight: .semibold, size: 12)
+            .foregroundStyle(.textSecondary)
+            .padding(.horizontal, 8)
     }
 }
 
@@ -140,7 +156,8 @@ struct NavigationItem<Content: View>: View {
             action: action,
             label: {
                 Text("\(text)")
-                    .localized(weight: .semibold, size: 16, color: .greyScaleIcon)
+                    .font(weight: .semibold, size: 16)
+                    .foregroundStyle(.greyScaleIcon)
             }
         )
         content = AnyView(button) as! Content
@@ -164,7 +181,8 @@ struct CsItem: View {
             },
             label: {
                 Text("customerservice_action_bar_title")
-                    .localized(weight: .semibold, size: 16, color: .greyScaleIcon)
+                    .font(weight: .semibold, size: 16)
+                    .foregroundStyle(.greyScaleIcon)
             }
         )
     }

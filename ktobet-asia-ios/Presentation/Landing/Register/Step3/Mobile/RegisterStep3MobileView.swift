@@ -82,14 +82,14 @@ private struct ContentView: View {
                 Group {
                     Text("register_step3_title_1")
                     Text("register_step3_verify_by_phone_title")
-                        .localized(weight: .semibold, size: 24, color: .textPrimary)
+                        .font(weight: .semibold, size: 24)
 
                     Spacer(minLength: 12)
 
                     Text("common_otp_sent_content_mobile")
                     Text(identity)
                 }
-                .localized(weight: .medium, size: 14, color: .textPrimary)
+                .font(weight: .medium, size: 14)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .fixedSize(horizontal: false, vertical: true)
 
@@ -131,35 +131,41 @@ private struct ResendHint: View {
     @State private var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
     var body: some View {
-        HighLightText(
-            Localize.string("common_otp_resend_tips", countDown.toHourMinutesFormat()) + " " + Localize.string("common_resendotp")
-        )
-        .highLight(
-            Localize.string("common_resendotp"),
-            with: countDown == 0 ? .primaryDefault : UIColor(.from(.primaryDefault, alpha: 0.5))
-        )
-        .onTapGesture {
-            countDown = Int(Setting.resendOtpCountDownSecond)
-            startTimer()
-            onResend()
-        }
-        .disabled(countDown > 0)
-        .localized(weight: .regular, size: 14, color: .textPrimary)
-        .frame(maxWidth: .infinity)
-        .multilineTextAlignment(.center)
-        .onReceive(timer) { _ in
-            if countDown > 0 {
-                countDown -= 1
-            } else {
-                countDown = 0
-                stopTimer()
+        Text(resendAttributedString())
+            .font(weight: .regular, size: 14)
+            .frame(maxWidth: .infinity)
+            .multilineTextAlignment(.center)
+            .environment(\.openURL, .init(handler: { _ in
+                countDown = Int(Setting.resendOtpCountDownSecond)
+                startTimer()
+                onResend()
+                return .handled
+            }))
+            .onReceive(timer) { _ in
+                if countDown > 0 {
+                    countDown -= 1
+                } else {
+                    countDown = 0
+                    stopTimer()
+                }
             }
-        }
         if accountType == .email {
             Text("common_email_spam_check")
-                .localized(weight: .regular, size: 14, color: .textPrimary)
+                .font(size: 14)
                 .frame(maxWidth: .infinity)
         }
+    }
+
+    private func resendAttributedString() -> AttributedString {
+        let base = AttributedString(Localize.string("common_otp_resend_tips", countDown.toHourMinutesFormat()))
+        var highlight = AttributedString(localized: "common_resendotp")
+        var container = AttributeContainer()
+        if countDown <= 0 {
+            container.link = URL(string: "resend")
+        }
+        container.foregroundColor = countDown == 0 ? .primaryDefault : UIColor(.from(.primaryDefault, alpha: 0.5))
+        highlight.setAttributes(container)
+        return base + " " + highlight
     }
 
     func stopTimer() {

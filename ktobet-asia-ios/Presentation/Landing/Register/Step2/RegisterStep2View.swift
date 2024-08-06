@@ -72,10 +72,10 @@ private struct Content: View {
             PageContainer(scrollable: false, bottomPadding: 0) {
                 VStack(spacing: 0) {
                     Text("register_step2_title_1")
-                        .localized(weight: .medium, size: 14, color: .textPrimary)
+                        .font(weight: .medium, size: 14)
                         .frame(maxWidth: .infinity, alignment: .leading)
                     Text("register_step2_title_2")
-                        .localized(weight: .semibold, size: 24, color: .textPrimary)
+                        .font(weight: .semibold, size: 24)
                         .frame(maxWidth: .infinity, alignment: .leading)
 
                     LimitSpacer(30)
@@ -136,7 +136,7 @@ private struct Content: View {
             LimitSpacer(40)
             Image(uiImage: UIImage(named: "Maintenance"))
             Text(key)
-                .localized(weight: .regular, size: 14, color: .textPrimary)
+                .font(size: 14)
                 .multilineTextAlignment(.center)
             Spacer()
         }
@@ -200,7 +200,7 @@ private struct Content: View {
                     )
                     LimitSpacer(12)
                     Text("common_password_tips_1")
-                        .localized(weight: .medium, size: 14, color: .textPrimary)
+                        .font(weight: .medium, size: 14)
                     LimitSpacer(40)
                     Button {
                         submit(
@@ -215,7 +215,6 @@ private struct Content: View {
                             .frame(height: 48)
                     }
                     .buttonStyle(.fill)
-                    .localized(weight: .regular, size: 16)
                     .disabled(!account.state.isSubmitValid)
                     LimitSpacer(96)
                 }

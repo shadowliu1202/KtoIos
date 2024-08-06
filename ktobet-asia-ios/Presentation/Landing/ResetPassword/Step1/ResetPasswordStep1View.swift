@@ -69,10 +69,10 @@ private struct ContentView: View {
             PageContainer(scrollable: false, bottomPadding: 0) {
                 VStack(spacing: 0) {
                     Text("login_resetpassword_step1_title_1")
-                        .localized(weight: .medium, size: 14, color: .textPrimary)
+                        .font(weight: .medium, size: 14)
                         .frame(maxWidth: .infinity, alignment: .leading)
                     Text("login_resetpassword_step1_title_2")
-                        .localized(weight: .semibold, size: 24, color: .textPrimary)
+                        .font(weight: .semibold, size: 24)
                         .frame(maxWidth: .infinity, alignment: .leading)
 
                     LimitSpacer(30)
@@ -233,7 +233,6 @@ private struct ResetInfoForm: View {
             }
         )
         .buttonStyle(.fill)
-        .localized(weight: .regular, size: 16)
         .disabled(disabled)
     }
 }
@@ -245,7 +244,7 @@ private extension ContentView {
             LimitSpacer(40)
             Image(uiImage: UIImage(named: "Maintenance"))
             Text(key)
-                .localized(weight: .regular, size: 14, color: .textPrimary)
+                .font(weight: .regular, size: 14)
                 .multilineTextAlignment(.center)
             Spacer()
         }

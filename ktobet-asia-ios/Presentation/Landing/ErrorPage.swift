@@ -19,11 +19,11 @@ struct ErrorPage: View {
 
                     VStack(spacing: 12) {
                         Text(title ?? "")
-                            .localized(weight: .semibold, size: 24, color: .textPrimary)
+                            .font(weight: .semibold, size: 24)
 
                         if let message {
                             Text(message)
-                                .localized(weight: .medium, size: 14, color: .textPrimary)
+                                .font(weight: .medium, size: 14)
                         }
                     }
                     .multilineTextAlignment(.center)

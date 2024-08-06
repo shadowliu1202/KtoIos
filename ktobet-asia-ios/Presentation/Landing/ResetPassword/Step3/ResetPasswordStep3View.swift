@@ -53,10 +53,10 @@ private struct ContentView: View {
         items: [.cs()]) {
             PageContainer(scrollable: true) {
                 Text("login_resetpassword_step3_title")
-                    .localized(weight: .medium, size: 14, color: .textPrimary)
+                    .font(weight: .medium, size: 14)
                     .frame(maxWidth: /*@START_MENU_TOKEN@*/ .infinity/*@END_MENU_TOKEN@*/, alignment: .leading)
                 Text("login_resetpassword_step3_title_2")
-                    .localized(weight: .semibold, size: 24, color: .textPrimary)
+                    .font(weight: .semibold, size: 24)
                     .frame(maxWidth: /*@START_MENU_TOKEN@*/ .infinity/*@END_MENU_TOKEN@*/, alignment: .leading)
 
                 Spacer(minLength: 30)
@@ -69,7 +69,7 @@ private struct ContentView: View {
                 Spacer(minLength: 12)
 
                 Text("common_password_tips_1")
-                    .localized(weight: .medium, size: 14, color: .textPrimary)
+                    .font(weight: .medium, size: 14)
                     .frame(maxWidth: /*@START_MENU_TOKEN@*/ .infinity/*@END_MENU_TOKEN@*/, alignment: .leading)
 
                 Spacer(minLength: 40)
