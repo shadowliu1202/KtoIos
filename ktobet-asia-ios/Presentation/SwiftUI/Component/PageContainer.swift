@@ -5,18 +5,21 @@ struct PageContainer<Content: View>: View {
     private let bottomPadding: CGFloat
 
     private let backgroundColor: UIColor
-  
+
     private let alignment: Alignment
 
     private let content: Content
+    private let scrollable: Bool
 
     init(
+        scrollable: Bool = false,
         backgroundColor: UIColor = .clear,
-        topPadding: CGFloat = 26,
+        topPadding: CGFloat = 30,
         bottomPadding: CGFloat = 96,
         alignment: Alignment = .center,
-        @ViewBuilder content: () -> Content)
-    {
+        @ViewBuilder content: () -> Content
+    ) {
+        self.scrollable = scrollable
         self.backgroundColor = backgroundColor
         self.topPadding = topPadding
         self.bottomPadding = bottomPadding
@@ -25,6 +28,16 @@ struct PageContainer<Content: View>: View {
     }
 
     var body: some View {
+        if scrollable {
+            ScrollView {
+                container()
+            }
+        } else {
+            container()
+        }
+    }
+    @ViewBuilder
+    private func container() -> some View {
         ZStack(alignment: alignment) {
             Color.from(backgroundColor)
                 .ignoresSafeArea()

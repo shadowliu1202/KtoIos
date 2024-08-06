@@ -22,11 +22,13 @@ class LandingViewController: APPViewController, VersionUpdateProtocol {
     }
 
     // MARK: VersionUpdateProtocol
+
     func updateStrategy(from info: VersionUpdateInfo) {
         guard info.action == .compulsoryUpdate else { return }
 
         popForceUpdateAlert(
             superSignStatus: info.superSignStatus,
-            downloadLink: info.link)
+            downloadLink: info.link
+        )
     }
 }

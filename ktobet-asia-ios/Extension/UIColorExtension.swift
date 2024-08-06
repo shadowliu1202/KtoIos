@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 import UIKit
 
 extension UIColor {
@@ -14,7 +15,8 @@ extension UIColor {
         self.init(
             red: (rgb >> 16) & 0xFF,
             green: (rgb >> 8) & 0xFF,
-            blue: rgb & 0xFF)
+            blue: rgb & 0xFF
+        )
     }
 }
 
@@ -47,6 +49,35 @@ extension UIColor {
     static let statusSuccessToast: UIColor = .init(hex: 0x116739)
 }
 
+extension ShapeStyle where Self == Color {
+    static var greyScaleBlack: Color { .from(.greyScaleBlack) }
+    static var greyScaleDefault: Color { .from(.greyScaleDefault) }
+    static var greyScaleWhite: Color { .from(.greyScaleWhite) }
+    static var greyScaleList: Color { .from(.greyScaleList) }
+    static var greyScaleSidebar: Color { .from(.greyScaleSidebar) }
+    static var greyScaleToast: Color { .from(.greyScaleToast) }
+    static var greyScaleChatWindow: Color { .from(.greyScaleChatWindow) }
+    static var greyScaleDivider: Color { .from(.greyScaleDivider) }
+    static var greyScaleIconDisable: Color { .from(.greyScaleIconDisable) }
+    static var greyScaleIcon: Color { .from(.greyScaleIcon) }
+
+    static var textPrimary: Color { .from(.textPrimary) }
+    static var textSecondary: Color { .from(.textSecondary) }
+
+    static var inputDefault: Color { .from(.inputDefault) }
+    static var inputFocus: Color { .from(.inputFocus) }
+
+    static var primaryDefault: Color { .from(.primaryDefault) }
+    static var primaryForLight: Color { .from(.primaryForLight) }
+
+    static var complementaryDefault: Color { .from(.complementaryDefault) }
+
+    static var alert: Color { .from(.alert) }
+
+    static var statusSuccess: Color { .from(.statusSuccess) }
+    static var statusSuccessToast: Color { .from(.statusSuccessToast) }
+}
+
 extension UIColor {
     convenience init(hex: Int, alpha: CGFloat = 1.0) {
         let red = CGFloat((hex & 0xFF0000) >> 16) / 255.0
@@ -55,7 +86,7 @@ extension UIColor {
         self.init(red: red, green: green, blue: blue, alpha: alpha)
     }
 
-    struct KoyomiColor {
+    enum KoyomiColor {
         // Using [iOS 7 colors] as reference.
         // http://ios7colors.com/
 
@@ -72,13 +103,13 @@ extension UIColor {
         // Using [iOS Human Interface Guidelines] as reference.
         // https://developer.apple.com/ios/human-interface-guidelines/visual-design/color/
 
-        static let red: UIColor = .init(hex: 0xff3b30)
-        static let orange: UIColor = .init(hex: 0xff9500)
-        static let green: UIColor = .init(hex: 0x4cd964)
-        static let blue: UIColor = .init(hex: 0x007aff)
-        static let purple: UIColor = .init(hex: 0x5856d6)
-        static let yellow: UIColor = .init(hex: 0xffcc00)
-        static let tealBlue: UIColor = .init(hex: 0x5ac8fa)
-        static let pink: UIColor = .init(hex: 0xff2d55)
+        static let red: UIColor = .init(hex: 0xFF3B30)
+        static let orange: UIColor = .init(hex: 0xFF9500)
+        static let green: UIColor = .init(hex: 0x4CD964)
+        static let blue: UIColor = .init(hex: 0x007AFF)
+        static let purple: UIColor = .init(hex: 0x5856D6)
+        static let yellow: UIColor = .init(hex: 0xFFCC00)
+        static let tealBlue: UIColor = .init(hex: 0x5AC8FA)
+        static let pink: UIColor = .init(hex: 0xFF2D55)
     }
 }

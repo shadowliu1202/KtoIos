@@ -8,10 +8,10 @@ protocol ISystemStatusUseCase {
     func fetchMaintenanceStatus() -> Single<MaintenanceStatus>
     func fetchCustomerServiceEmail() -> Single<String>
     func fetchCopyRight() -> Single<String>
-  
+
     func observeMaintenanceStatusByFetch() -> Observable<MaintenanceStatus>
     func refreshMaintenanceState()
-  
+
     func observeMaintenanceStatusChange() -> Observable<Void>
     func observePlayerBalanceChange() -> Observable<Void>
     func observeKickOutSignal() -> RxSwift.Observable<KickOutSignal>
@@ -23,16 +23,15 @@ class SystemStatusUseCase: ISystemStatusUseCase {
 
     init(
         _ systemRepository: SystemRepository,
-        _ signalRepository: SignalRepository)
-    {
+        _ signalRepository: SignalRepository
+    ) {
         self.systemRepository = systemRepository
         self.signalRepository = signalRepository
     }
-    
+
     func isOtpServiceAvaiable() -> Single<OtpStatus> {
         systemRepository.isOTPServiceAvaliable()
     }
-
 
     func isOtpBlocked() -> Single<OtpStatus> {
         systemRepository.isOTPBlocked()
@@ -71,7 +70,7 @@ class SystemStatusUseCase: ISystemStatusUseCase {
             .filter { $0 is BalanceSignal }
             .map { _ in () }
     }
-  
+
     func observeKickOutSignal() -> RxSwift.Observable<KickOutSignal> {
         signalRepository
             .observeSystemSignal()

@@ -7,8 +7,8 @@ struct SharedOTPVerificationFailureView: View {
 
     init(
         message: String? = nil,
-        buttonOnClick: (() -> Void)? = nil)
-    {
+        buttonOnClick: (() -> Void)? = nil
+    ) {
         self.message = message
         self.buttonOnClick = buttonOnClick
     }
@@ -22,7 +22,7 @@ struct SharedOTPVerificationFailureView: View {
                     .frame(width: 96, height: 96)
 
                 VStack(spacing: 12) {
-                    Text(key: "cps_secruity_verification_failure")
+                    Text("cps_secruity_verification_failure")
                         .localized(weight: .semibold, size: 24, color: .textPrimary)
 
                     if let message {
@@ -37,7 +37,8 @@ struct SharedOTPVerificationFailureView: View {
                     title: Localize.string("common_back"),
                     action: {
                         buttonOnClick?()
-                    })
+                    }
+                )
             }
             .padding(.horizontal, 30)
             .frame(maxHeight: .infinity, alignment: .top)

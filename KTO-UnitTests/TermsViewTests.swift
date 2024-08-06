@@ -4,31 +4,26 @@ import XCTest
 
 @testable import ktobet_asia_ios_qat
 
-extension TermsView.Sections: Inspecting { }
+extension TermsView: Inspecting {}
 
 final class TermsViewTests: XCBaseTestCase {
-    func test_HasOneTerm_InTermsPage_OneTermIsDisplayed() {
-        let stubPresenter = mock(SecurityPrivacyTerms.self)
+    func test_HasTwoTerm_InTermsPage_TwoTermIsDisplayed() {
+        let terms = mock(Terms.self)
+        given(terms.title) ~> "title"
+        given(terms.description) ~> "description"
+        given(terms.terms) ~> [.init("123", "456"), .init("234", "567")]
 
-        given(stubPresenter.dataSourceTerms) ~> [
-            .init("123", "456")
-        ]
-
-        let sut = TermsView<SecurityPrivacyTerms>.Sections()
+        let sut = TermsView(presenter: terms)
 
         let expectation = sut.inspection.inspect { view in
-            let numberOfSections = try view
-                .find(viewWithId: "sections")
-                .forEach()
-                .count
+            let items = view.findAll { inspectableView in
+                try inspectableView.id() as! String == TermsView.Identifier.sections.rawValue
+            }
 
-            XCTAssertEqual(numberOfSections, 1)
+            XCTAssertEqual(items.count, 2)
         }
+        ViewHosting.host(view: sut)
 
-        ViewHosting.host(
-            view: sut.environmentObject(
-                stubPresenter as SecurityPrivacyTerms))
-
-        wait(for: [expectation], timeout: 30)
+        wait(for: [expectation])
     }
 }

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="hyQ-QW-T94">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="22155" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="hyQ-QW-T94">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22131"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -18,16 +18,16 @@
             </objects>
             <point key="canvasLocation" x="1251" y="-147"/>
         </scene>
-        <!--Login View Controller-->
+        <!--Landing App View Controller-->
         <scene sceneID="ESy-gd-YZH">
             <objects>
-                <viewController storyboardIdentifier="LoginViewController" extendedLayoutIncludesOpaqueBars="YES" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Nyo-Kw-8Tr" customClass="LoginViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LandingAppViewController" extendedLayoutIncludesOpaqueBars="YES" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Nyo-Kw-8Tr" customClass="LandingAppViewController" customModule="ktobet_asia_ios" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="3eD-JV-Vuh">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uQL-7x-RhR">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="862"/>
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <connections>
                                     <segue destination="pcC-yW-m2q" kind="embed" destinationCreationSelector="segueToHostingController:" id="xeW-JO-FKz"/>
                                 </connections>
@@ -36,28 +36,21 @@
                         <viewLayoutGuide key="safeArea" id="Irt-Zp-FrD"/>
                         <color key="backgroundColor" name="blackTwo"/>
                         <constraints>
-                            <constraint firstItem="uQL-7x-RhR" firstAttribute="bottom" secondItem="Irt-Zp-FrD" secondAttribute="bottom" id="5hU-9O-EiL"/>
+                            <constraint firstItem="uQL-7x-RhR" firstAttribute="bottom" secondItem="3eD-JV-Vuh" secondAttribute="bottom" id="5hU-9O-EiL"/>
                             <constraint firstItem="uQL-7x-RhR" firstAttribute="top" secondItem="3eD-JV-Vuh" secondAttribute="top" id="Ebw-Cl-z6E"/>
-                            <constraint firstItem="uQL-7x-RhR" firstAttribute="leading" secondItem="Irt-Zp-FrD" secondAttribute="leading" id="NJM-DI-MYe"/>
+                            <constraint firstItem="uQL-7x-RhR" firstAttribute="leading" secondItem="3eD-JV-Vuh" secondAttribute="leading" id="NJM-DI-MYe"/>
                             <constraint firstItem="Irt-Zp-FrD" firstAttribute="trailing" secondItem="uQL-7x-RhR" secondAttribute="trailing" id="wf7-wb-MdZ"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="eK9-oA-DBo">
-                        <leftBarButtonItems>
-                            <barButtonItem width="10" id="DZB-EC-Ou0"/>
-                            <barButtonItem enabled="NO" image="KTO (D)" style="plain" id="Lfn-s2-xH8"/>
-                        </leftBarButtonItems>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" id="eK9-oA-DBo"/>
                     <connections>
-                        <outlet property="logoItem" destination="Lfn-s2-xH8" id="nMT-2f-Eqj"/>
                         <segue destination="Hwk-qb-uGL" kind="presentation" identifier="GoToSignup" id="VbY-sp-yfg"/>
-                        <segue destination="k1X-SW-WfT" kind="show" identifier="goResetPasswordSegue" id="zn1-b8-YcB"/>
                         <segue destination="MG0-Hc-EHA" kind="show" identifier="goOtpLoginSegue" id="aB0-ho-EZL"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BVy-iq-BKO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="383" y="-147"/>
+            <point key="canvasLocation" x="382.60869565217394" y="-147.32142857142856"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="tdA-BR-Lgr">
@@ -96,16 +89,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4Cd-1y-Ypf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-237" y="388"/>
-        </scene>
-        <!--ResetPassword-->
-        <scene sceneID="Fnm-8T-DcI">
-            <objects>
-                <viewControllerPlaceholder storyboardName="ResetPassword" id="k1X-SW-WfT" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" id="kFZ-o8-cI1"/>
-                </viewControllerPlaceholder>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="ndg-P1-hMz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="208" y="388"/>
         </scene>
         <!--Default Product View Controller-->
         <scene sceneID="sW0-Ea-i3i">
@@ -327,7 +310,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="KTO (D)" width="64" height="16"/>
         <image name="Tips" width="24" height="24"/>
         <namedColor name="black80">
             <color red="0.074509803921568626" green="0.074509803921568626" blue="0.074509803921568626" alpha="0.80000001192092896" colorSpace="custom" customColorSpace="sRGB"/>

@@ -63,7 +63,7 @@ class TermsViewController: LobbyViewController, TermsTableDelegate {
 
     private func navigateToServiceTerms() {
         navigationController?.pushViewController(
-            TermsOfServiceViewController.instantiate(ServiceTerms(barItemType: .back)),
+            TermsOfServiceViewController.instantiate(ServiceTerms()),
             animated: true)
     }
 

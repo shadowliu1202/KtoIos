@@ -2,9 +2,11 @@ import Foundation
 import Lottie
 import sharedbu
 
-public enum AccountType: Int {
+public enum AccountType: Int,CaseIterable, Identifiable {
     case phone = 2
     case email = 1
+    
+    public var id: Self { self }
 }
 
 public enum UserInfoStatus {
