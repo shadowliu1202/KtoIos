@@ -104,9 +104,8 @@ private class QatConfig: Env {
     var internetProtocol = "https://"
     var hostName: [String: [String]] =
         [
-            SupportLocale.China.shared.cultureCode(): ["kto-qat-app.pivotsite.com", "kto-qat-app2.pivotsite.com"],
-            SupportLocale.Vietnam.shared
-                .cultureCode(): ["kto-qat-app2.pivotsite.com", "kto-qat-app.pivotsite.com"]
+            SupportLocale.China.shared.cultureCode(): ["kto-qat-app-cn.pivotsite.com", "kto-qat-app2-cn.pivotsite.com"],
+            SupportLocale.Vietnam.shared.cultureCode(): ["kto-qat-app-vn.pivotsite.com", "kto-qat-app2-vn.pivotsite.com"],
         ]
     lazy var versionUpdateHostName = hostName
     var isAutoUpdate = false
@@ -138,7 +137,7 @@ private class StagingConfig: Env {
     var manualControlNetwork = false
     var enableFileLog = true
     var enableRemoteLog = true
-    var supportLocale: [SupportLocale] = [ .Vietnam()]
+    var supportLocale: [SupportLocale] = [.Vietnam()]
 }
 
 private class PreProductionConfig: Env {
@@ -153,7 +152,7 @@ private class PreProductionConfig: Env {
     var manualControlNetwork = false
     var enableFileLog = true
     var enableRemoteLog = true
-    var supportLocale: [SupportLocale] = [ .Vietnam()]
+    var supportLocale: [SupportLocale] = [.Vietnam()]
 }
 
 private class ProductionConfig: Env {
@@ -173,7 +172,7 @@ private class ProductionConfig: Env {
     var manualControlNetwork = false
     var enableFileLog = false
     var enableRemoteLog = true
-    var supportLocale: [SupportLocale] = [ .Vietnam()]
+    var supportLocale: [SupportLocale] = [.Vietnam()]
 }
 
 private class ProductionSelftestConfig: Env {
@@ -193,7 +192,7 @@ private class ProductionSelftestConfig: Env {
     var manualControlNetwork = false
     var enableFileLog = true
     var enableRemoteLog = true
-    var supportLocale: [SupportLocale] = [ .Vietnam()]
+    var supportLocale: [SupportLocale] = [.Vietnam()]
 }
 
 private class ProductionBackupConfig: Env {
@@ -213,5 +212,5 @@ private class ProductionBackupConfig: Env {
     var manualControlNetwork = false
     var enableFileLog = false
     var enableRemoteLog = true
-    var supportLocale: [SupportLocale] = [ .Vietnam()]
+    var supportLocale: [SupportLocale] = [.Vietnam()]
 }
