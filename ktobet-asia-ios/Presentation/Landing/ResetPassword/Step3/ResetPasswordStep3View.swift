@@ -75,7 +75,7 @@ private struct ContentView: View {
                 Spacer(minLength: 40)
 
                 PrimaryButton(
-                    title: Localize.string("common_next"),
+                    key: "common_next",
                     action: {
                         if let password {
                             onResetPassword(password)
@@ -90,14 +90,14 @@ private struct ContentView: View {
 }
 
 extension ResetPassword.State.PasswordVerification {
-    func errorMessage() -> String? {
+    func errorMessage() -> LocalizedStringKey? {
         switch self {
         case .errorFormat:
-            Localize.string("common_field_format_incorrect")
+            "common_field_format_incorrect"
         case .notMatch:
-            Localize.string("register_step2_password_not_match")
+            "register_step2_password_not_match"
         case .isEmpty:
-            Localize.string("common_password_not_filled")
+            "common_password_not_filled"
         case .valid:
             nil
         }

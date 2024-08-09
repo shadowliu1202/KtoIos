@@ -5,7 +5,7 @@ struct ErrorPage: View {
     @Environment(\.popToRoot) var popToRoot
     private(set) var title: LocalizedStringKey? = nil
     private(set) var message: LocalizedStringKey? = nil
-    private(set) var button: String = Localize.string("common_back")
+    private(set) var button: LocalizedStringKey = "common_back"
     private(set) var backAction: (() -> Void)? = nil
 
     var body: some View {
@@ -30,7 +30,7 @@ struct ErrorPage: View {
                     .frame(maxWidth: .infinity)
 
                     PrimaryButton(
-                        title: button,
+                        key: button,
                         action: {
                             if let backAction {
                                 backAction()

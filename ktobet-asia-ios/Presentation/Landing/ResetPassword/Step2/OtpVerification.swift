@@ -4,11 +4,10 @@ import sharedbu
 
 class OtpVerification: ComposeObservableObject<OtpVerification.Event> {
     enum Event {
-        case verified, exceedResendLimit(AccountType), fatalError, resendSuccess
+        case verified, exceedResendLimit(AccountType), fatalError, resendSuccess, wrongOtp
     }
 
     struct State {
-        var errorMessage: String? = nil
         var otp: String = ""
         var supportLocale: SupportLocale = .Vietnam()
         var selectMethod: AccountType = .phone
@@ -45,10 +44,7 @@ class OtpVerification: ComposeObservableObject<OtpVerification.Event> {
         super.init()
         state = State(supportLocale: playerConfiguration.supportLocale, selectMethod: accountType)
         $otpCode.eraseToAnyPublisher()
-            .sink { [unowned self] in
-                state.otp = $0
-                state.errorMessage = nil
-            }
+            .sink { [unowned self] in state.otp = $0 }
             .store(in: &cancellables)
     }
 
@@ -75,7 +71,7 @@ class OtpVerification: ComposeObservableObject<OtpVerification.Event> {
     func handleErrors(_ error: Error) {
         switch error {
         case is PlayerOtpCheckError:
-            state.errorMessage = Localize.string("register_step3_incorrect_otp")
+            publisher = .event(.wrongOtp)
         case is PlayerOverOtpRetryLimit:
             publisher = .event(.fatalError)
         case is PlayerIpOverOtpDailyLimit:

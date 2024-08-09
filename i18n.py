@@ -76,8 +76,15 @@ for language in languages:
         sheet = pd.read_excel(excel, sheet_name=sheetName)
         file.write(f"\n//MARK: - {sheetName}\n")
         for index, item in sheet.iterrows():
-            file.write(
-                KEY_VALUE_TEMPLATE.format(get_key(sheet_name=sheetName, row=item), get_value(lang=language, row=item)))
+            key = get_key(sheet_name=sheetName, row=item)
+            value = get_value(lang=language, row=item)
+
+            file.write(KEY_VALUE_TEMPLATE.format(key, value))
+            if "%@" in value:
+                count = value.count("%@")
+                extended_key = f"{key} {'%@ ' * count}".strip()
+                file.write(KEY_VALUE_TEMPLATE.format(extended_key, value))
+
     file.close()
     print("Done!")
 

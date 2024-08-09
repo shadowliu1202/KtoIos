@@ -1,19 +1,16 @@
 import SwiftUI
 
 struct VerifiedAlert: View {
-    private let alertText: String
+    private let key: LocalizedStringKey
 
-    init(_ alertText: String) {
-        self.alertText = alertText
-    }
-
-    init(key: String) {
-        self.alertText = Localize.string(key)
+    init(key: LocalizedStringKey) {
+        self.key = key
     }
 
     var body: some View {
-        Text(alertText)
-            .localized(weight: .regular, size: 14, color: .greyScaleWhite)
+        Text(key)
+            .font(size: 14)
+            .foregroundStyle(.greyScaleWhite)
             .frame(maxWidth: .infinity, alignment: .leading)
             .padding(.vertical, 12)
             .padding(.horizontal, 15)
@@ -23,7 +20,7 @@ struct VerifiedAlert: View {
 
 struct VerifiedAlert_Previews: PreviewProvider {
     static var previews: some View {
-        VerifiedAlert("Text")
+        VerifiedAlert(key: "common_invalid")
             .padding(30)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
     }

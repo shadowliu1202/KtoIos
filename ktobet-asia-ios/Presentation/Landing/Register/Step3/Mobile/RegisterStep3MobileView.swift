@@ -7,6 +7,7 @@ import SwiftUI
 struct RegisterStep3MobileView: View {
     @StateObject private var viewModel: RegisterStep3Mobile
     @State var moveToErrorPage: Bool = false
+    @State var errorMessageKey: LocalizedStringKey? = nil
     @Environment(\.showDialog) var showDialog
     @Environment(\.handleError) var handleError
     @Environment(\.toastMessage) var toastMessage
@@ -23,6 +24,7 @@ struct RegisterStep3MobileView: View {
             identity: identity,
             state: viewModel.state,
             otpCode: $viewModel.otpCode,
+            errorKey: errorMessageKey,
             onClickVerified: { otp in viewModel.verifyOtp(otpCode: otp) },
             onClickResend: { viewModel.resendOtp() }
         )
@@ -42,13 +44,15 @@ struct RegisterStep3MobileView: View {
                 moveToErrorPage = true
             case .resendSuccess:
                 toastMessage(Localize.string("common_otp_send_success"), .success)
+            case .wrongOtp:
+                errorMessageKey = "register_step3_incorrect_otp"
             }
         }
         NavigationLink(
             destination: ErrorPage(
                 title: "register_step4_title_fail",
                 message: "register_step4_content_fail",
-                button: Localize.string("register_step4_retry_signup")
+                button: "register_step4_retry_signup"
             ),
             isActive: $moveToErrorPage,
             label: {}
@@ -62,6 +66,7 @@ private struct ContentView: View {
     let identity: String
     let state: RegisterStep3Mobile.State
     @Binding var otpCode: String
+    let errorKey: LocalizedStringKey?
     let onClickVerified: (String) -> Void
     let onClickResend: () -> Void
     var body: some View {
@@ -95,13 +100,16 @@ private struct ContentView: View {
 
                 Spacer(minLength: 30)
 
-                errorMessage(state.errorMessage)
+                if let key = errorKey {
+                    errorMessage(key)
+                }
+
                 OTPVerifyTextField($otpCode, length: state.otpLength)
 
                 Spacer(minLength: 40)
 
                 PrimaryButton(
-                    title: Localize.string("common_verify"),
+                    key: "common_verify",
                     action: { onClickVerified(otpCode) }
                 )
                 .disabled(!state.isOtpValid || state.isProcessing)
@@ -115,12 +123,11 @@ private struct ContentView: View {
     }
 
     @ViewBuilder
-    private func errorMessage(_ text: String?) -> some View {
+    private func errorMessage(_ key: LocalizedStringKey) -> some View {
         Group {
-            VerifiedAlert(text ?? "")
+            VerifiedAlert(key: key)
             LimitSpacer(12)
         }
-        .visibility(text == nil ? .gone : .visible)
     }
 }
 
@@ -157,7 +164,7 @@ private struct ResendHint: View {
     }
 
     private func resendAttributedString() -> AttributedString {
-        let base = AttributedString(Localize.string("common_otp_resend_tips", countDown.toHourMinutesFormat()))
+        let base = AttributedString(localized: "common_otp_resend_tips \(countDown.toHourMinutesFormat())")
         var highlight = AttributedString(localized: "common_resendotp")
         var container = AttributeContainer()
         if countDown <= 0 {
@@ -183,6 +190,7 @@ struct RegisterStep3MobileView_Previews: PreviewProvider {
             identity: "0123456789",
             state: .init(),
             otpCode: .constant(""),
+            errorKey: nil,
             onClickVerified: { _ in },
             onClickResend: {}
         )

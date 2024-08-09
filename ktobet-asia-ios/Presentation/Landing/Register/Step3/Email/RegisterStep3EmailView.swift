@@ -84,7 +84,7 @@ private struct ContentView: View {
                         .font(weight: .semibold, size: 24)
                         .frame(maxWidth: .infinity, alignment: .leading)
                     LimitSpacer(12)
-                    Text(String(format: Localize.string("register_step3_content_email"), identity))
+                    Text("register_step3_content_email \(identity)")
                         .font(weight: .medium, size: 14)
                         .frame(maxWidth: .infinity, alignment: .leading)
                     LimitSpacer(40)
@@ -163,7 +163,7 @@ private struct ResendHint: View {
     }
 
     private func resendAttributedString() -> AttributedString {
-        let base = AttributedString(Localize.string("common_otp_resend_tips", countDown.toHourMinutesFormat()))
+        let base = AttributedString(localized: "common_otp_resend_tips \(countDown.toHourMinutesFormat())")
         var highlight = AttributedString(localized: "common_resendotp")
         var container = AttributeContainer()
         if countDown <= 0 {

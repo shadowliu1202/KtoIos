@@ -2,7 +2,9 @@
 //MARK: - CPS
 "cps_kto" = "KTO";
 "cps_daily_limit_widthrawal_amount" = "每日提现额度：%@";
+"cps_daily_limit_widthrawal_amount %@" = "每日提现额度：%@";
 "cps_daily_limit_widthrawal_times" = "每日提现次数：%@";
+"cps_daily_limit_widthrawal_times %@" = "每日提现次数：%@";
 "cps_turnover_requirement" = "投注额提现要求：";
 "cps_crpyto_withdrawal_requirement" = "虚拟币提现要求：";
 "cps_crpyto_withdrawal_requirement_title" = "虚拟币提现要求说明";
@@ -11,10 +13,14 @@
 当您完成虚拟币充值后，虚拟币提现要求将变为等额的充值金额，需要首先完成虚拟币提现后才能使用现金提现。";
 "cps_cash_withdrawal_lock_title" = "现金提现锁定";
 "cps_cash_withdrawal_lock_desc" = "目前尚有%@尚未提现结算。需先将虚拟币未结算金额提取完毕，账户才能进行现金提现。";
+"cps_cash_withdrawal_lock_desc %@" = "目前尚有%@尚未提现结算。需先将虚拟币未结算金额提取完毕，账户才能进行现金提现。";
 "cps_success_log" = "虚拟币交易成功纪录";
 "cps_remaining_requirement" = "剩余虚拟币提现要求：%@";
+"cps_remaining_requirement %@" = "剩余虚拟币提现要求：%@";
 "cps_total_require_amount" = "总虚拟币提现要求（上次清零后累计充值）：%@";
+"cps_total_require_amount %@" = "总虚拟币提现要求（上次清零后累计充值）：%@";
 "cps_total_completed_amount" = "已完成虚拟币提现要求（上次清零后累计提现）：%@";
+"cps_total_completed_amount %@" = "已完成虚拟币提现要求（上次清零后累计提现）：%@";
 "cps_require_completed" = "您目前已无剩余虚拟币提现要求，将会跳转至提现首页。";
 "cps_set_crypto_account" = "设定虚拟币账户";
 "cps_set_crypto_account_hint" = "您必须先设定虚拟币账户才能进行提现。";
@@ -59,6 +65,7 @@
 "cps_applied_network_address_title" = "本次申请网络和钱包地址为";
 "cps_select_crypto_type" = "选择充值币别";
 "cps_crypto_currency_deposit_hint" = "每笔 %@ %%红利,每日上限 %@ 元，1倍流水";
+"cps_crypto_currency_deposit_hint %@ %@" = "每笔 %@ %%红利,每日上限 %@ 元，1倍流水";
 "cps_crypto_currency_guide_hint" = "没有虚拟币? 看看这里";
 "cps_crypto_currency_guide_title" = "新虚拟币用户指南";
 "cps_crypto_guidance_description" = "以下是新用户可以购买虚拟币的交易所列表。
@@ -67,12 +74,15 @@
 
 如果对交易所使用有任何疑问或问题，建议您直接联络交易所客服。";
 "cps_crypto_currency_deposit_times_hint" = "每笔 %@ %%红利,每日上限 %@ 次，1倍流水";
+"cps_crypto_currency_deposit_times_hint %@ %@" = "每笔 %@ %%红利,每日上限 %@ 次，1倍流水";
 "cps_withdrawal_all_fiat_first" = "您需要先将人民币的金额提款完毕，才能提款虚拟币。";
 "cps_withdrawal_fiat_amount_below_limit_message" = "您的提现金额低于单笔限额";
 "cps_withdrawal_fiat_amount_over_limit_message" = "您的提现金额超过单笔限额";
 "cps_withdrawal_exceeding_daily_limit_message" = "您的提现金额或次数要求已大于今日可提现限制";
 "cps_deposit_market_condition_amount_per_day" = "单笔金额大于%@，每笔最高%@%%,每日上限%@元，1倍流水";
+"cps_deposit_market_condition_amount_per_day %@ %@ %@" = "单笔金额大于%@，每笔最高%@%%,每日上限%@元，1倍流水";
 "cps_deposit_market_condition_times_per_day" = "单笔金额大于%@，每笔最高%@%%,每日上限%@次，1倍流水";
+"cps_deposit_market_condition_times_per_day %@ %@ %@" = "单笔金额大于%@，每笔最高%@%%,每日上限%@次，1倍流水";
 "cps_starmerger_title" = "星合交易所";
 "cps_deposit_amount_limit" = "存款限额";
 "cps_starmerger_description" = "1.您点击链接后会进入星合交易所APP，在交易所实名认证后可以进行存款的操作，通道支持支付宝、微信和银行卡。
@@ -117,6 +127,7 @@
 "common_dataerror" = "数据有误";
 "common_delete" = "删除";
 "common_delete_count" = "删除(%@)";
+"common_delete_count %@" = "删除(%@)";
 "common_deleted" = "刪除成功";
 "common_deposit" = "充值";
 "common_despositid" = "充值单号";
@@ -135,8 +146,10 @@
 "common_invalid" = "您所填写的資料格式不符！";
 "common_language" = "简体中文";
 "common_lastday" = "最近%@天";
+"common_lastday %@" = "最近%@天";
 "common_level" = "等级";
 "common_level_2" = "LV %@";
+"common_level_2 %@" = "LV %@";
 "common_login" = "登录";
 "common_minute" = "分";
 "common_mobile" = "手机";
@@ -167,6 +180,7 @@
 "common_promotion" = "优惠券";
 "common_realname" = "提现姓名";
 "common_redirect" = "系统将于 %@ 秒后重新导向 KTO 首页。";
+"common_redirect %@" = "系统将于 %@ 秒后重新导向 KTO 首页。";
 "common_register" = "注册";
 "common_registerdate" = "注册日期";
 "common_reject" = "失败";
@@ -221,7 +235,9 @@
 "common_otp_mail_send_success" = "验证信已发送";
 "common_otp_invalid" = "您輸入的验证码不正确！";
 "common_otp_resend_tips" = "若没收到验证码，可于 %@ 后";
+"common_otp_resend_tips %@" = "若没收到验证码，可于 %@ 后";
 "common_verify_mail_resend_tips" = "若没收到验证信，可于 %@ 后";
+"common_verify_mail_resend_tips %@" = "若没收到验证信，可于 %@ 后";
 "common_yes" = "是";
 "common_no" = "否";
 "common_moveto" = "前往";
@@ -233,6 +249,7 @@
 "common_required" = "此欄位為必填";
 "common_transaction_daterange" = "申请时间";
 "common_depositfeerefund" = "%@ 手续费回馈";
+"common_depositfeerefund %@" = "%@ 手续费回馈";
 "common_ticketstatus_void" = "失败";
 "common_edit" = "编辑";
 "common_new" = "新";
@@ -240,6 +257,7 @@
 "common_show" = "显示";
 "common_hide" = "隐藏";
 "common_unknownerror" = "出現未知錯誤，錯誤代碼: %@";
+"common_unknownerror %@" = "出現未知錯誤，錯誤代碼: %@";
 "common_connectionerror" = "網路異常，請重新確認連接";
 "common_try_again" = "再试一次";
 "common_password_not_the_same" = "密碼不一致";
@@ -274,6 +292,7 @@
 "common_copied" = "复制完成";
 "common_submit2" = "提交";
 "common_times_count" = "%@次";
+"common_times_count %@" = "%@次";
 "common_privacy_terms" = "隐私政策";
 "common_service_terms" = "服务条款";
 "common_gambling_responsibility_terms" = "博彩责任";
@@ -306,6 +325,7 @@
 "common_sms_otp_exeed_send_limit" = "该手机已达发送上限，请于隔日00:00再试。";
 "common_email_otp_exeed_send_limit" = "该邮箱已达发送上限，请于隔日00:00再试。";
 "common_app_version" = "%@-%@";
+"common_app_version %@ %@" = "%@-%@";
 "common_confirm_cancel_operation" = "确认取消当前操作?";
 "common_today" = "今天";
 "common_yesterday" = "昨天";
@@ -321,6 +341,7 @@
 "common_select_month" = "选定某月";
 "common_last30day" = "最近30天";
 "common_experience" = "经验值 %@";
+"common_experience %@" = "经验值 %@";
 "common_total_amount" = "总计";
 "common_select_all" = "全选";
 "common_unselect_all" = "取消全选";
@@ -328,6 +349,7 @@
 "common_confirm_delete" = "确认删除？";
 "common_photo_upload_limit" = "上传限制: 一次最多3笔文件，单一档案不可超过10MB";
 "common_photo_upload_limit_reached" = "一次最多上傳%@份文件";
+"common_photo_upload_limit_reached %@" = "一次最多上傳%@份文件";
 "common_kick_out_suspend" = "由于安全原因，您的会员账户已被冻结，请联系客服寻求协助。";
 "common_kick_out_inactive" = "由于安全原因，您的会员账户已被停用，请联系客服寻求协助。";
 "common_kick_out_maintenance" = "系統維護中";
@@ -335,7 +357,9 @@
 "common_kick_out_token_expired_title" = "闲置过久自动登出说明";
 "common_recommend" = "推荐";
 "common_win_amount" = "赢%@";
+"common_win_amount %@" = "赢%@";
 "common_lose_amount" = "输%@";
+"common_lose_amount %@" = "输%@";
 "common_self_canceled" = "自主取消";
 "common_strike" = "(追号)";
 "common_strike_canceled" = "追号取消";
@@ -348,7 +372,9 @@
 "common_setting" = "设定";
 "common_get_code" = "获取验证码";
 "common_get_code_countdown" = "获取验证码(%@)";
+"common_get_code_countdown %@" = "获取验证码(%@)";
 "common_cs_email" = "客服邮箱 %@";
+"common_cs_email %@" = "客服邮箱 %@";
 "common_all_maintenance" = "全站维护中...";
 "common_maintenance_description" = "等待，为了更好的KTO";
 "common_cs_email_description" = "如有问题，请发送邮件至";
@@ -360,20 +386,26 @@
 "common_maintenance_logout" = "非常抱歉，我们需要立即将您登出，请稍后再试。";
 "common_p2p" = "对战";
 "common_photo_upload_limit_count" = "最多只能选择%@个文件";
+"common_photo_upload_limit_count %@" = "最多只能选择%@个文件";
 "common_default_product_maintain_title" = "维护通知";
 "common_default_product_maintain_content" = "目前%@正在维护中，我们将跳转至其他产品页面供您查看。";
+"common_default_product_maintain_content %@" = "目前%@正在维护中，我们将跳转至其他产品页面供您查看。";
 "common_cps_apply_info" = "最初申请信息";
 "common_cps_apply_crypto" = "申请金额(虚拟币)";
 "common_cps_apply_rate" = "申请汇率";
 "common_cps_apply_amount" = "申请金额(%@)";
+"common_cps_apply_amount %@" = "申请金额(%@)";
 "common_cps_apply_datetime" = "申请时间";
 "common_cps_final_info" = "最终成交信息";
 "common_cps_final_crypto" = "成交金额(虚拟币)";
 "common_cps_final_rate" = "成交汇率";
 "common_cps_final_amount" = "成交金额(%@)";
+"common_cps_final_amount %@" = "成交金额(%@)";
 "common_cps_final_datetime" = "成交时间";
 "common_cps_remitter" = "汇款方(%@)";
+"common_cps_remitter %@" = "汇款方(%@)";
 "common_cps_payee" = "收款方(%@)";
+"common_cps_payee %@" = "收款方(%@)";
 "common_cps_hash_id" = "交易ID";
 "common_player" = "会员";
 "common_cps_incomplete_field_placeholder_hint" = "以下列表若显示\" - \"状态，表示您尚未完成交易。";
@@ -387,11 +419,14 @@
 "common_timeoutexception" = "连线逾时";
 "common_ioexception" = "读写错误";
 "common_apiexception" = "错误 : %@";
+"common_apiexception %@" = "错误 : %@";
 "common_http_410" = "系统维护中";
 "common_http_503" = "发生暂时性的错误，请稍后再试";
 "common_http_exception" = "网路异常，错误代码(%@)";
+"common_http_exception %@" = "网路异常，错误代码(%@)";
 "common_empty_data" = "查无资料";
 "common_requirement" = "仍需 %@";
+"common_requirement %@" = "仍需 %@";
 "common_none" = "无";
 "common_select_verify_type" = "选择验证方式";
 "common_otp_hint" = "6位数字的验证码将发送至";
@@ -419,10 +454,12 @@
 "common_no_notification" = "暂无通知";
 "common_no_games_found" = "没有匹配的游戏";
 "common_copyright" = "%@ 版权所有 ©KTO亚洲";
+"common_copyright %@" = "%@ 版权所有 ©KTO亚洲";
 "common_image_max_selection" = "最多只能选择 %1$d 个文件";
 "common_image_format_not_support" = "您的档案不符合系统格式";
 "common_capture_image" = "拍一张";
 "common_super_signature_maintenance" = "下载服务器维护中\n请于%@再尝试";
+"common_super_signature_maintenance %@" = "下载服务器维护中\n请于%@再尝试";
 "common_retry_later" = "请稍后再试";
 "common_notify_currency_ratio" = "";
 "common_unknown_exception" = "出现未知错误";
@@ -438,6 +475,7 @@
 "common_warning_rapid_operation" = "您的操作过于频繁并且没有输入正确的信息。";
 "common_security_error" = "安全验证失败";
 "common_confirm_leaving_title" = "当前页面将丢失，确定离开？";
+"common_test" = "1234";
 
 //MARK: - SportsBook
 "sportsbook_bet_rules" = "投注规则";
@@ -464,6 +502,7 @@
 "register_name_format_error_no_number_symbol" = "";
 "register_name_format_error_only_vn_eng" = "";
 "register_name_format_error_length_limitation" = "不能超过 %@ 个字符。";
+"register_name_format_error_length_limitation %@" = "不能超过 %@ 个字符。";
 "register_name_format_error_conjunctive_blank" = "";
 "register_name_format_error_blank_before_and_after" = "";
 "register_step2_password_not_match" = "密码不一致";
@@ -474,6 +513,9 @@
 "register_step3_verify_by_email_title" = "验证电子邮箱";
 "register_step3_verify_by_phone_title" = "验证手机";
 "register_step3_content_email" = "已发送链结到您的邮箱
+%@
+请前往验证";
+"register_step3_content_email %@" = "已发送链结到您的邮箱
 %@
 请前往验证";
 "register_step3_mobile_limit_exceeded" = "手机注册方式暂不可用。";
@@ -499,6 +541,7 @@
 "login_invalid_lockdown" = "您已多次输入错误，请使用重置密码或稍后登录";
 "login_enter_captcha_to_prceed" = "您已多次输入错误密码，您现在需要额外输入图片中的信息来进行登录";
 "login_button_countdown" = "登录(%@)";
+"login_button_countdown %@" = "登录(%@)";
 "login_captcha_new" = "看不清？换一组验证码。";
 "login_captcha" = "图形验证码";
 "login_resetpassword_service_down" = "暂时无法重置密码，请稍后再试。";
@@ -547,6 +590,7 @@
 "deposit_accountlastfournumber" = "汇款银行卡尾数四位(选填)";
 "deposit_amount" = "汇款金额";
 "deposit_offline_step1_tips" = "充值单笔限额： %@ - %@";
+"deposit_offline_step1_tips %@ %@" = "充值单笔限额： %@ - %@";
 "deposit_offline_step1_button" = "申请充值";
 "deposit_offline_step2_title" = "KTO收款方信息";
 "deposit_offline_step2_title_tips" = "请汇入以下提供的银行账户。   ";
@@ -562,7 +606,9 @@
 "deposit_offline_step3_title" = "已提交申请";
 "deposit_offline_step3_fail" = "提交失敗";
 "deposit_ticketid" = "充值订单编号 %@";
+"deposit_ticketid %@" = "充值订单编号 %@";
 "deposit_offline_step3_content" = "目前平均充值处理时間为 <span style=\"padding-left: 16px;\">%@</span>";
+"deposit_offline_step3_content %@" = "目前平均充值处理时間为 <span style=\"padding-left: 16px;\">%@</span>";
 "deposit_checklog" = "查看充值纪录";
 "deposit_offline_step3_tips" = "系统将于30秒后重新导向 KTO 页面。";
 "deposit_depositlog_title" = "充值纪录";
@@ -590,6 +636,7 @@
 "deposit_offline_termniate" = "离线充值将中断并结束。";
 "deposit_online_terminate" = "在线充值将中断并结束。";
 "deposit_payment_terminate" = "%@将中断并结束。";
+"deposit_payment_terminate %@" = "%@将中断并结束。";
 "deposit_crypto_terminate" = "在线充值将中断并结束。";
 "deposit_select_method" = "选择充值渠道";
 "deposit_no_available_type" = "10/12日起充值通道已全面关闭，详情请您查看网站公告，感谢您的理解与配合。
@@ -675,26 +722,41 @@
 "balancelog_timezone _1" = "时区 ( GMT+8 )";
 "balancelog_timezone _2" = "时区 ( GMT-7 )";
 "balancelog_bonustype_2" = "%@存送金";
+"balancelog_bonustype_2 %@" = "%@存送金";
 "balancelog_bonustype_5" = "%@存送金";
+"balancelog_bonustype_5 %@" = "%@存送金";
 "balancelog_bonustype_1" = "%@免费金";
+"balancelog_bonustype_1 %@" = "%@免费金";
 "balancelog_producttype_1_bonustype_3" = "保险投注第%@期";
+"balancelog_producttype_1_bonustype_3 %@" = "保险投注第%@期";
 "balancelog_producttype_2_bonustype_3" = "救援金第%@期";
+"balancelog_producttype_2_bonustype_3 %@" = "救援金第%@期";
 "balancelog_producttype_1_bonustype_4" = "第%@期体育投注额返现";
+"balancelog_producttype_1_bonustype_4 %@" = "第%@期体育投注额返现";
 "balancelog_producttype_2_bonustype_4" = "第%@期老虎机投注额返现";
+"balancelog_producttype_2_bonustype_4 %@" = "第%@期老虎机投注额返现";
 "balancelog_producttype_3_bonustype_4" = "第%@期娛乐场投注额返现";
+"balancelog_producttype_3_bonustype_4 %@" = "第%@期娛乐场投注额返现";
 "balancelog_producttype_4_bonustype_4" = "第%@期数字彩投注额返现";
+"balancelog_producttype_4_bonustype_4 %@" = "第%@期数字彩投注额返现";
 "balancelog_producttype_6_bonustype_4" = "第%@期小游戏投注额返现";
+"balancelog_producttype_6_bonustype_4 %@" = "第%@期小游戏投注额返现";
 "balancelog_win" = "Win";
 "balancelog_push" = "Push";
 "balancelog_lose" = "Lose";
 "balancelog_timezone" = "時區 ( GMT%@ )";
+"balancelog_timezone %@" = "時區 ( GMT%@ )";
 "balancelog_depositfeerefund" = "手续费回馈";
 "balancelog_summary" = "费用小计";
 "balancelog_categoryfilter" = "类别筛选";
 "balancelog_summary_start_date" = "起始天 %@";
+"balancelog_summary_start_date %@" = "起始天 %@";
 "balancelog_summary_start_amount" = "起始余额 %@";
+"balancelog_summary_start_amount %@" = "起始余额 %@";
 "balancelog_summary_end_date" = "結束天 %@";
+"balancelog_summary_end_date %@" = "結束天 %@";
 "balancelog_summary_end_amount" = "结束余额 %@";
+"balancelog_summary_end_amount %@" = "结束余额 %@";
 "balancelog_summary_end_date_is_today" = "当天进行中";
 "balancelog_detail_amount" = "交易金额";
 "balancelog_detail_after_amount" = "交易后余额";
@@ -739,6 +801,7 @@
 "withdrawal_log" = "提现纪录";
 "withdrawal_log_title" = "提现纪录";
 "withdrawal_modal_content" = "每天提现最多 %@ 次，额度最高可达 %@";
+"withdrawal_modal_content %@ %@" = "每天提现最多 %@ 次，额度最高可达 %@";
 "withdrawal_modal_title" = "提現限制";
 "withdrawal_name" = "提现姓名";
 "withdrawal_realname_modal_content" = "提现姓名已绑定不能变更";
@@ -760,17 +823,21 @@
 "withdrawal_step1_title_2" = "填写金额";
 "withdrawal_step2_button" = "提交申请";
 "withdrawal_step2_tips" = "单笔提现限额 %@ - %@";
+"withdrawal_step2_tips %@ %@" = "单笔提现限额 %@ - %@";
 "withdrawal_step2_title_1" = "提现 2/2";
 "withdrawal_step2_title_2" = "提现确认";
 "withdrawal_step3_button" = "查看提现纪录";
 "withdrawal_step3_title" = "已提交申请";
 "withdrawal_step3_ticketid" = "提现订单编号: %@";
+"withdrawal_step3_ticketid %@" = "提现订单编号: %@";
 "withdrawal_step3_title_tips" = "目前平均提现处理时間为 <span style=\"padding-left: 16px;\">%@</span>";
+"withdrawal_step3_title_tips %@" = "目前平均提现处理时間为 <span style=\"padding-left: 16px;\">%@</span>";
 "withdrawal_step3_content" = "您已完成提现流程，但目前仍需要大约 15 分钟的时间审核，您可以前往提现页面的<span class=\"highlight\">提现纪录</span>查看提现的审核状态。";
 "withdrawal_success" = "成功出款";
 "withdrawal_summary" = "成功提现";
 "withdrawal_title" = "提现";
 "withdrawal_success_confirm_title" = "姓名绑定：%@";
+"withdrawal_success_confirm_title %@" = "姓名绑定：%@";
 "withdrawal_success_confirm_content" = "请注意！当您第一次提现成功后，您的姓名将永远绑定平台无法再修改！
 
 若需要改变姓名，请先取消提现单申请，再前往个人设定进行变更。";
@@ -791,6 +858,7 @@
 "withdrawal_step2_title_1_tip" = "本次申请提现金额为";
 "withdrawal_step2_afterwithdrawal" = "当提现完成后";
 "withdrawal_bankcard_add_overlimit" = "很抱歉，您最多只能设置%@个提现账户。";
+"withdrawal_bankcard_add_overlimit %@" = "很抱歉，您最多只能设置%@个提现账户。";
 "withdrawal_setbankaccountfail" = "新增賬戶失敗";
 "withdrawal_bankcard_delete_fail" = "刪除賬戶失敗";
 "withdrawal_input_overmax" = "您的提现金额超过单笔限额";
@@ -799,14 +867,17 @@
 "withdrawal_isbatched_tip" = "如需取消提现, 请联系线上客服";
 "withdrawal_quota_title" = "提现额度";
 "withdrawal_quota_content" = "您目前每天可提现%@次，可提现金额为%@元";
+"withdrawal_quota_content %@ %@" = "您目前每天可提现%@次，可提现金额为%@元";
 "withdrawal_quota_after_title" = "当提现完成后提現額度";
 "withdrawal_account_deleted" = "已删除提现账户";
 "withdrawal_minutes_seconds" = "%@分%@秒";
+"withdrawal_minutes_seconds %@ %@" = "%@分%@秒";
 "withdrawal_no_records" = "目前暂无与您提现相关的纪录";
 "withdrawal_bank_name" = "提现银行";
 "withdrawal_choose_account" = "选择提现账户";
 "withdrawal_account_added" = "已新增提现账户";
 "withdrawal_amount_range" = "提现金額，单笔限额 %@ - %@";
+"withdrawal_amount_range %@ %@" = "提现金額，单笔限额 %@ - %@";
 "withdrawal_amount_beyond_range" = "您的提现金额超过单笔限额";
 "withdrawal_amount_below_range" = "您的提现金额低于单笔限额";
 "withdrawal_amount_exceed_daily_limit" = "您已超过本日提现金额，请于明日再提出申请";
@@ -820,7 +891,9 @@
 "withdrawal_cancel_content" = "此提现将立即终止";
 "withdrawal_cash_withdrawal" = "现金提现";
 "withdrawal_daily_limit_widthrawal_amount" = "每日提现额度：%@";
+"withdrawal_daily_limit_widthrawal_amount %@" = "每日提现额度：%@";
 "withdrawal_daily_limit_widthrawal_times" = "每日提现次数：%@";
+"withdrawal_daily_limit_widthrawal_times %@" = "每日提现次数：%@";
 "withdrawal_turnover_requirement" = "投注额提现要求：";
 "withdrawal_cancel_locked" = "提款已至银行端，不可取消此提款。";
 "withdrawal_resent_otp_maintenance_phone" = "KTO 由于服务器问题以「手机」验证方式暂停，谢谢您的谅解。";
@@ -833,16 +906,21 @@
 "product_slot_new" = "新";
 "product_slot_jackpot" = "奖池";
 "product_slot_summary" = "总投注额 %@ %@ %@";
+"product_slot_summary %@ %@ %@" = "总投注额 %@ %@ %@";
 "product_sbk_over" = "大";
 "product_sbk_under" = "小";
 "product_sbk_wager_stakes" = "投注金額 ＄%@";
+"product_sbk_wager_stakes %@" = "投注金額 ＄%@";
 "product_sbk_win_amount" = "贏 ＄%@";
+"product_sbk_win_amount %@" = "贏 ＄%@";
 "product_sbk_parlay" = "串关";
 "product_casino_ag" = "铂金厅";
 "product_casino_n2live" = "翡翠厅";
 "product_casino_pgsoft" = "虚拟厅";
 "product_winning_amount" = "赢 %@";
+"product_winning_amount %@" = "赢 %@";
 "product_losing_amount" = "输 %@";
+"product_losing_amount %@" = "输 %@";
 "product_bet_id" = "注单编号";
 "product_game_name_id" = "投注游戏(局号)";
 "product_game_name" = "投注游戏";
@@ -850,11 +928,13 @@
 "product_bet_content" = "投注内容";
 "product_bet_time" = "下注时间";
 "product_bet_times" = "下注倍数 : %@";
+"product_bet_times %@" = "下注倍数 : %@";
 "product_bet_amount" = "投注额";
 "product_bet_win_lose" = "赢/输";
 "product_bet_result" = "投注结果";
 "product_player" = "闲";
 "product_player_with_position" = "闲 %@";
+"product_player_with_position %@" = "闲 %@";
 "product_banker" = "庄";
 "product_tiger" = "虎";
 "product_dragon" = "龙";
@@ -878,9 +958,12 @@
 "product_favorite" = "关注列表";
 "product_my_bet" = "我的注单";
 "product_count_bet_record" = "%@ 条纪录";
+"product_count_bet_record %@" = "%@ 条纪录";
 "product_unsettled_game" = "未完成的游戏";
 "product_total_bet_with_win_lose" = "总投注额  %@    %@ %@";
+"product_total_bet_with_win_lose %@ %@ %@" = "总投注额  %@    %@ %@";
 "product_total_bet" = "总投注额  %@";
+"product_total_bet %@" = "总投注额  %@";
 "product_maintenance" = "产品维护中…";
 "product_none_favorite" = "没有关注的游戏";
 "product_add_now" = "现在添加";
@@ -896,6 +979,7 @@
 "product_all_slot" = "全部老虎机";
 "product_all_games_selected" = "您的选择已经包含所有游戏";
 "product_count_selected_games" = "%@ 游戏被选中";
+"product_count_selected_games %@" = "%@ 游戏被选中";
 "product_slot_filter" = "筛选老虎机";
 "product_clear_filters" = "清空条件";
 "product_slot_separate" = "分散符号";
@@ -923,16 +1007,20 @@
 "product_will_be_back" = "我们很快重新开赛。 
 谢谢。";
 "product_p2p_turnover_description" = "进入对战前，您需要先完成 %@ 领取的彩金投注额要求。详情如下：";
+"product_p2p_turnover_description %@" = "进入对战前，您需要先完成 %@ 领取的彩金投注额要求。详情如下：";
 "product_dealer" = "荷官";
 "product_split" = "分牌";
 "product_favorite_reach_max" = "已达到收藏上限，请移除部份后再加入";
 "product_search_condition_not_match" = "搜寻条件需要超过两个字符。";
 "product_turnover_description" = "进入%@前，您需要先完成 %@ 领取的彩金投注额要求。详情如下：";
+"product_turnover_description %@ %@" = "进入%@前，您需要先完成 %@ 领取的彩金投注额要求。详情如下：";
 "product_bonus_calculating" = "已领取红利目前无法进入%@。";
+"product_bonus_calculating %@" = "已领取红利目前无法进入%@。";
 "product_enter_table" = "进桌";
 "product_leave_table" = "出桌";
 "product_game_player" = "玩家";
 "product_game_player_with_position" = "玩家 %@";
+"product_game_player_with_position %@" = "玩家 %@";
 "product_no_player" = "没有玩家";
 
 //MARK: - Update
@@ -941,6 +1029,7 @@
 "update_proceed_now" = "立即更新";
 "update_title" = "更新";
 "update_progression" = "您的下载进度%@，大小约%@";
+"update_progression %@ %@" = "您的下载进度%@，大小约%@";
 "update_failure_title" = "下载失败";
 "update_failure_content" = "请您确保网络畅通及足够的手机存储空间。";
 "update_feedback" = "反馈问题";
@@ -956,7 +1045,9 @@
 "update_feedback_success" = "我们已经收到您的反馈，会在一周内通知您问题的进展。";
 "update_open_web_page" = "前往网页版";
 "update_already_install" = "已安裝「%@」";
+"update_already_install %@" = "已安裝「%@」";
 "update_remove_app_and_reinstall" = "若要安裝此APP，請從裝置中刪除「%@」然後再試一次。";
+"update_remove_app_and_reinstall %@" = "若要安裝此APP，請從裝置中刪除「%@」然後再試一次。";
 
 //MARK: - CustomerService
 "customerservice_online" = "在线客服";
@@ -969,6 +1060,7 @@
 "customerservice_chat_room_end_by_host" = "客服已将对话结束。";
 "customerservice_chat_room_ended_view_history" = "客服已将对话结束， 请至聊天历史记录查看 。";
 "customerservice_chat_room_your_queue_number" = "非常抱歉，客服坐席繁忙， 您正排在%@号， 请耐心等候";
+"customerservice_chat_room_your_queue_number %@" = "非常抱歉，客服坐席繁忙， 您正排在%@号， 请耐心等候";
 "customerservice_stop_call_title" = "停止呼叫客服?";
 "customerservice_stop_call_content" = "停止呼叫客服后，您可以改由撰写信息的方式。";
 "customerservice_chat_room_close_confirm_title" = "结束对话？";
@@ -1004,12 +1096,19 @@
 "bonus_bonustype_4" = "投注额返现";
 "bonus_bonustype_5" = "等级优惠";
 "bonus_bonustype_all_count" = "全部(%@)";
+"bonus_bonustype_all_count %@" = "全部(%@)";
 "bonus_bonustype_manual_count" = "手动领取(%@)";
+"bonus_bonustype_manual_count %@" = "手动领取(%@)";
 "bonus_bonustype_1_count" = "免费金(%@)";
+"bonus_bonustype_1_count %@" = "免费金(%@)";
 "bonus_bonustype_2_count" = "存送(%@)";
+"bonus_bonustype_2_count %@" = "存送(%@)";
 "bonus_bonustype_3_count" = "产品特有(%@)";
+"bonus_bonustype_3_count %@" = "产品特有(%@)";
 "bonus_bonustype_4_count" = "投注额返现(%@)";
+"bonus_bonustype_4_count %@" = "投注额返现(%@)";
 "bonus_bonustype_5_count" = "等级优惠(%@)";
+"bonus_bonustype_5_count %@" = "等级优惠(%@)";
 "bonus_categoryfilter" = "类别筛选";
 "bonus_freebonus" = "免费金";
 "bonus_getpromotion" = "获得优惠";
@@ -1019,24 +1118,48 @@
 "bonus_history" = "优惠券历史";
 "bonus_levelprivilege" = "等级特权";
 "bonus_promotioncount" = "共%@次，%@";
+"bonus_promotioncount %@ %@" = "共%@次，%@";
 "bonus_producttype_1" = "体育";
 "bonus_status_expirydate" = "有效期至%@";
+"bonus_status_expirydate %@" = "有效期至%@";
 "bonus_status_progressing" = "距结束";
 "bonus_status_sbk_auditing" = "赛事结束，审核中";
 "bonus_status_sbk_notstart" = "赛事即将开始，距离开赛";
 "bonus_status_sbk_progressing" = "赛事进行中";
 "bonus_title" = "优惠券";
 "bonus_rebate_title" = "%@投注额返现 %@%%";
+"bonus_rebate_title %@ %@" = "%@投注额返现 %@%%";
 "bonus_title_3_2" = "老虎机救援金";
 "bonus_title_4_1" = "体育投注额返现 %@%%";
+"bonus_title_4_1 %@" = "体育投注额返现 %@%%";
 "bonus_title_4_2" = "老虎机投注额返现 %@%%";
+"bonus_title_4_2 %@" = "老虎机投注额返现 %@%%";
 "bonus_title_4_3" = "娱乐场投注额返现 %@%%";
+"bonus_title_4_3 %@" = "娱乐场投注额返现 %@%%";
 "bonus_use" = "手动领取";
 "bonus_applicationtrial" = "账户当前余额:%@元
 可获取彩金:%@元
 领取后需要完成投注额:%@元
 计算方式:%@";
+"bonus_applicationtrial %@ %@ %@ %@" = "账户当前余额:%@元
+可获取彩金:%@元
+领取后需要完成投注额:%@元
+计算方式:%@";
 "bonus_islocked" = "目前有未完成的优惠投注额，暂时无法领取其他优惠。
+细节如下：
+优惠编号:%@
+红利名称:%@
+获取红利金额:%@元
+获取红利日期:%@
+投注额要求:
+账户当前余额:%@元
+可获取彩金:%@元
+领取后需要完成投注额:%@元
+计算方式:%@
+&lt;再加上充值:%@元，总共是:%@元&gt;
+目前已完成投注额:%@元
+投注额完成度:%@%%";
+"bonus_islocked %@ %@ %@ %@ %@ %@ %@ %@ %@ %@ %@ %@" = "目前有未完成的优惠投注额，暂时无法领取其他优惠。
 细节如下：
 优惠编号:%@
 红利名称:%@
@@ -1068,23 +1191,30 @@
 "bonus_confirmapplication" = "确定申请";
 "bonus_applicationtips" = "温馨提示";
 "bonus_applicationtitle" = "红利名称:%@";
+"bonus_applicationtitle %@" = "红利名称:%@";
 "bonus_couponnostart" = "距可领取 %@";
+"bonus_couponnostart %@" = "距可领取 %@";
 "bonus_promotioncontent" = "优惠内容";
 "bonus_promotionrule" = "优惠规则和条款";
 "bonus_couponstatus_full_title" = "优惠已额满";
 "bonus_coupon_full" = "已额满";
 "bonus_period" = "%@期";
+"bonus_period %@" = "%@期";
 "bonus_promotion" = "优惠券";
 "bonus_compute" = "系统仍在处理，请五分钟后点击查看详情。";
 "bonus_isturnoverremind" = "目前尚有%@领取的彩金投注额要求，领取当前彩金后仍需完成剩余投注额，才能进行提现。详情如下：";
+"bonus_isturnoverremind %@" = "目前尚有%@领取的彩金投注额要求，领取当前彩金后仍需完成剩余投注额，才能进行提现。详情如下：";
 "bonus_current_completion" = "目前完成进度%@%%";
+"bonus_current_completion %@" = "目前完成进度%@%%";
 "bonus_waiting" = "再等等";
 "bonus_computelocked" = "目前有未完成的优惠投注额，暂时无法领取其他优惠。
 细节如下：
 正在计算中，请稍后再查看…";
 "bonus_receive" = "领取";
 "bonus_receive_confirm" = "确认领取%@?";
+"bonus_receive_confirm %@" = "确认领取%@?";
 "bonus_receive_date" = "%@领取";
+"bonus_receive_date %@" = "%@领取";
 "bonus_condition_error" = "条件不符";
 "bonus_orderby_desc" = "时间（从新到旧）";
 "bonus_orderby_asc" = "时间（从旧到新）";
@@ -1105,6 +1235,7 @@
 "bonus_get_bonus" = "获取彩金";
 "bonus_turnover_hint_title" = "您领取的彩金投注额要求详情如下：";
 "bonus_turnover_confirm_title" = "您需要先完成 %@ 领取的彩金投注额要求。详情如下：";
+"bonus_turnover_confirm_title %@" = "您需要先完成 %@ 领取的彩金投注额要求。详情如下：";
 "bonus_error_balance_limit" = "您的账户余额不足，目前无法领取彩金。";
 "bonus_error_bonus_quota_is_full" = "很抱歉，本优惠已额满，请您参考其它优惠，造成您不便敬请见谅。";
 "bonus_quota_is_full" = "优惠已额满";
@@ -1112,36 +1243,52 @@
 "bonus_use_expired_bonus_title" = "优惠已到期";
 "bonus_use_expired_bonus_content" = "很抱歉，本优惠已到期，请您参考其它优惠，造成您不便敬请见谅。";
 "bonus_use_coupon" = "您是否要领取%@";
+"bonus_use_coupon %@" = "您是否要领取%@";
 "bonus_bonustype_7" = "负盈利返现";
 "bonus_bonustype_7_count" = "负盈利返现(%@)";
+"bonus_bonustype_7_count %@" = "负盈利返现(%@)";
 "bonus_cashback_remark_title" = "负盈利返现:";
 "bonus_cashback_remark_subtitle" = "%@月会员输赢额 (不包含对战) :";
+"bonus_cashback_remark_subtitle %@" = "%@月会员输赢额 (不包含对战) :";
 "bonus_cashback_remark_total_bonus" = "%@月获取彩金总额：";
+"bonus_cashback_remark_total_bonus %@" = "%@月获取彩金总额：";
 "bonus_cashback_remark_percentage" = "负盈利返现百分比：";
 "bonus_cashback_remark_formula" = "计算公式：";
 "bonus_cashback_remark_formula_content" = "[ (-总计)- 彩金总额 ]×%@%%";
+"bonus_cashback_remark_formula_content %@" = "[ (-总计)- 彩金总额 ]×%@%%";
 "bonus_cashback_loss_amount" = "去除彩金后的负盈利($)";
 "bonus_cashback_percent" = "返现比例";
 "bonus_cashback_max_amount" = "最高金额";
 
 //MARK: - Level
 "level_4" = "全场天天返，最高 %@%% 投注额返现。";
+"level_4 %@" = "全场天天返，最高 %@%% 投注额返现。";
 "level_90" = "您的反馈，主管们会开会研究…";
 "level_91" = "每日 %@ 次，总限额 %@ 元。";
+"level_91 %@ %@" = "每日 %@ 次，总限额 %@ 元。";
 "level_92" = "更快，更稳定，它只属于您。";
 "level_3_1" = "玩指定赛事，为您投保 %@元。 ";
+"level_3_1 %@" = "玩指定赛事，为您投保 %@元。 ";
 "level_3_1_leveltop" = "为特定赛事，给您买了顶级保险。";
 "level_3_2" = "我们的救援，元气满满！ 最高 %@ 元。";
+"level_3_2 %@" = "我们的救援，元气满满！ 最高 %@ 元。";
 "level_3_2_leveltop" = "瞬间恢复，强劲的最高级救援金！";
 "level_4_leveltop" = "无限的最高级投注额返现!";
 "level_5_0_level1" = "%@%% 首次充值彩金！";
+"level_5_0_level1 %@" = "%@%% 首次充值彩金！";
 "level_5_0_level2" = "再次充值, 获取 %@%% 高额彩金！";
+"level_5_0_level2 %@" = "再次充值, 获取 %@%% 高额彩金！";
 "level_5_1" = "每月享 %@%% 高额充值彩金。";
+"level_5_1 %@" = "每月享 %@%% 高额充值彩金。";
 "level_5_2" = "周周享 %@%% 高额充值彩金。";
+"level_5_2 %@" = "周周享 %@%% 高额充值彩金。";
 "level_5_3" = "天天尊享！ %@%% 高额充值彩金。";
+"level_5_3 %@" = "天天尊享！ %@%% 高额充值彩金。";
 "level_5_4" = "天天享 %@%% 高额充值彩金。";
+"level_5_4 %@" = "天天享 %@%% 高额充值彩金。";
 "level_91_leveltop" = "您的提现，我们会为您直接插队…";
 "level_desc_levelup" = "Level Up! 恭喜您升级为 LV %@。";
+"level_desc_levelup %@" = "Level Up! 恭喜您升级为 LV %@。";
 "level_desc_register" = "恭喜您顺利完成注册";
 "level_detail_3_1_content" = "当日负盈利金额越高，救援金即越高。";
 "level_detail_3_1_title" = "负盈利回馈";
@@ -1153,6 +1300,8 @@
 "level_detail_5_content2_2" = "您每一周都会享有该彩金";
 "level_detail_5_content2_3" = "您每一天都会享有该彩金";
 "level_detail_5_content3" = "最低账户余额%@元
+提现: (本金+彩金)%@ 倍投注额";
+"level_detail_5_content3 %@ %@" = "最低账户余额%@元
 提现: (本金+彩金)%@ 倍投注额";
 "level_detail_5_maxamount" = "最高金额";
 "level_detail_5_title1" = "再存彩金";
@@ -1192,12 +1341,14 @@
 "notification_delete_content" = "该通知将永久删除。";
 "notification_delete_button" = "删除此信件";
 "notification_maintenancetime" = "维护时间: %@ - %@";
+"notification_maintenancetime %@ %@" = "维护时间: %@ - %@";
 "notification_search_result" = "搜尋結果";
 "notification_title" = "通知";
 "notification_search" = "搜寻";
 "notification_result_empty" = "目前暂无相关资讯";
 "notification_search_result_empty" = "查无结果";
 "notification_goto" = "前往 %@";
+"notification_goto %@" = "前往 %@";
 
 //MARK: - Activity
 "activity_status" = "状态";
@@ -1235,7 +1386,11 @@
 "notify_content_10" = "恭喜您，成为专属会员。";
 "notify_content_20" = "您的%@元充值需要进一步操作。
 订单号：%@";
+"notify_content_20 %@ %@" = "您的%@元充值需要进一步操作。
+订单号：%@";
 "notify_content_30" = "提醒您，%@元的提现需要进一步操作。
+订单号：%@";
+"notify_content_30 %@ %@" = "提醒您，%@元的提现需要进一步操作。
 订单号：%@";
 "notify_content_40" = "提醒您，变更提现姓名需要进一步操作。";
 "notify_content_41" = "恭喜您，提现姓名已变更。";
@@ -1243,18 +1398,30 @@
 "notify_content_50" = "提醒您，您的收款银行信息已变更。";
 "notify_content_51" = "提醒您，充值渠道已变更";
 "notify_content_60" = "恭喜您，获得%@。\n%@: %@";
+"notify_content_60 %@ %@ %@" = "恭喜您，获得%@。\n%@: %@";
 "notify_content_70" = "%@元的充值已成功。";
+"notify_content_70 %@" = "%@元的充值已成功。";
 "notify_content_72" = "%@元的充值已失败。";
+"notify_content_72 %@" = "%@元的充值已失败。";
 "notify_content_80" = "恭喜您，%@元的提现已成功出款。";
+"notify_content_80 %@" = "恭喜您，%@元的提现已成功出款。";
 "notify_content_90" = "提醒您，%@元的提现已取消。";
+"notify_content_90 %@" = "提醒您，%@元的提现已取消。";
 "notify_content_100" = "提醒您，%@元的提现已失败。
+订单号：%@";
+"notify_content_100 %@ %@" = "提醒您，%@元的提现已失败。
 订单号：%@";
 "notify_content_110" = "提醒您，充值渠道已变更。";
 "notify_content_120" = "恭喜您，提现限额已上升至%@元。";
+"notify_content_120 %@" = "恭喜您，提现限额已上升至%@元。";
 "notify_content_121" = "恭喜您，提现次数已上升至%@次。";
+"notify_content_121 %@" = "恭喜您，提现次数已上升至%@次。";
 "notify_content_130" = "恭喜您，获得 %@ 元彩金。";
+"notify_content_130 %@" = "恭喜您，获得 %@ 元彩金。";
 "notify_content_140" = "提醒您，账户余额调整 %@元。";
+"notify_content_140 %@" = "提醒您，账户余额调整 %@元。";
 "notify_content_150" = "恭喜，您已达到KTO亚洲会员等级 %@。";
+"notify_content_150 %@" = "恭喜，您已达到KTO亚洲会员等级 %@。";
 
 //MARK: - Profile
 "profile_safety_verification_title" = "安全验证";
@@ -1286,7 +1453,13 @@
 "profile_identity_mobile_step1_description" = "为了账户安全，需要进行现行手机验证。
 6位数字的验证码将发送至
 %@";
+"profile_identity_mobile_step1_description %@" = "为了账户安全，需要进行现行手机验证。
+6位数字的验证码将发送至
+%@";
 "profile_identity_email_step1_description" = "为了账户安全，需要进行现行电子邮箱验证。
+6位数字的验证码将发送至
+%@";
+"profile_identity_email_step1_description %@" = "为了账户安全，需要进行现行电子邮箱验证。
 6位数字的验证码将发送至
 %@";
 "profile_identity_mobile_step1_description_hightlight" = "";
@@ -1639,6 +1812,33 @@ KTO亚洲不就会员因使用博彩网站所提供的任何外部网站链接�
 "license_promotion_privacypolicy" = "KTO亚洲隐私政策";
 "license_promotion_terms" = "KTO亚洲优惠活动一般规则和条款";
 "license_promotion_warning" = "1. 优惠促销只适用于拥有一个独立账户的会员。住址、电子邮箱地址﹑电话号码﹑支付方式(相同借记卡/信用卡/银行账户号码)IP地址，同一网络环境等将可以作为判定是否独立会员的条件。
+
+2. 会员不能同时享有任意两种优惠，客户所参加一种优惠或获取一种优惠的彩金所需要的客观条件，比如存款额，有效投注额等或获取彩金后所需要完成的有效投注额要求均视为目前所拥有的优惠状态的参数，不会被计算到其他任意的优惠所需要的条件或获取优惠彩金后所需要完成的要求中。
+
+3. 除非有特别说明，否则所有与投注额相关的数据都将以KTO亚洲有效投注额为依据，KTO亚洲有效投注额是指参与一定风险产生的投注金额，KTO以最终的输赢额进行考量：最终结果输赢额超过或等于本金的50%%的注单投注实际扣除金额将被认定为有效投注额，反之则将不属于有效投注额的范畴。
+
+例如：
+
+案例1, 客户账户扣除100元进行投注，注单结果为赢，赢利的金额等于50元或高于50元，视为100元有效投注额
+
+案例2, 客户账户扣除100元进行投注，注单结果为输，输掉的金额低于50元，有效投注额为0
+
+案例3, 客户账户扣除100元进行投注，注单结果为输，输掉的金额高于或等于50元，有效投注额为100
+
+案例4, 客户账户扣除100元进行投注，注单被取消，返还本金，赢利和负利都为0，有效投注额为0
+
+4.\"智能下注\"的玩法不参与任何优惠投注额要求计算。
+
+5. 对于发现任何有违背、欺骗、或利用规则和条款进行非法获利的会员， KTO亚洲保留所有权利在任何时候都可以停止、取消优惠或索回已支付的全部优惠。
+
+6. 我们的优惠活动欢迎真实会员申请，真实会员的定义是指真正参与游戏而且有风险投注的会员。若发现任何有违背、欺骗、或利用规则和条款进行非法获利或获取其他利益，我们有权自行决定采取任何行动例如：终止登录、暂停使用网站，或者没收奖金及赢利。
+
+7. 某些特定优惠可能需要客户提交身份证件或地址等要求以便发放奖金或奖品，客户申请优惠将视为遵守优惠的规则和条款，在规定的时间未提交合格资料的情况下，将视为客户主动放弃优惠。客户所提交的信息将遵循%@。
+
+8. 会员需要遵守优惠的特定规则条款，优惠一般规则条款和网站条款。
+
+9. 在某些未知因素超出可控范围的情况下，KTO亚洲保留可单方面执行的决定权，在任何时候无事先通知的情况下，修改、改变、停止、取消以及/或使此优惠失效。KTO亚洲承诺会在这类紧急问题发生时解释给客户原因并听取客户反馈与客户沟通协商解决。";
+"license_promotion_warning %@" = "1. 优惠促销只适用于拥有一个独立账户的会员。住址、电子邮箱地址﹑电话号码﹑支付方式(相同借记卡/信用卡/银行账户号码)IP地址，同一网络环境等将可以作为判定是否独立会员的条件。
 
 2. 会员不能同时享有任意两种优惠，客户所参加一种优惠或获取一种优惠的彩金所需要的客观条件，比如存款额，有效投注额等或获取彩金后所需要完成的有效投注额要求均视为目前所拥有的优惠状态的参数，不会被计算到其他任意的优惠所需要的条件或获取优惠彩金后所需要完成的要求中。
 

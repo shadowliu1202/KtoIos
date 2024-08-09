@@ -66,7 +66,7 @@ struct RegisterStep1Content: View {
 
                     LimitSpacer(40)
 
-                    PrimaryButton(title: Localize.string("common_next")) {
+                    PrimaryButton(key: "common_next") {
                         moveToNext = true
                     }
 

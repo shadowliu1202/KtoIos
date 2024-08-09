@@ -113,10 +113,11 @@ private struct ContentView: View {
     @ViewBuilder
     private func phoneForm() -> some View {
         if otpStatus.isSmsActive {
+            var errorMsg: LocalizedStringKey? = if let key = state.mobileErrorMessageKey { .init(key) } else { nil }
             ResetInfoForm(
                 locale: state.locale,
                 accountType: .phone,
-                errorMsg: state.mobileErrorMessage,
+                errorMsg: errorMsg,
                 lockSeconds: countDownSecond ?? state.remainLockSecond,
                 onInputChange: onInputChange,
                 submit: requestResetPassword
@@ -129,10 +130,11 @@ private struct ContentView: View {
     @ViewBuilder
     private func emailForm() -> some View {
         if otpStatus.isMailActive {
+            var errorMsg: LocalizedStringKey? = if let key = state.emailErrorMessageKey { .init(key) } else { nil }
             ResetInfoForm(
                 locale: state.locale,
                 accountType: .email,
-                errorMsg: state.emailErrorMessage,
+                errorMsg: errorMsg,
                 lockSeconds: countDownSecond ?? state.remainLockSecond,
                 onInputChange: onInputChange,
                 submit: requestResetPassword
@@ -155,7 +157,7 @@ private struct ResetInfoForm: View {
     init(
         locale: SupportLocale,
         accountType: AccountType,
-        errorMsg: String?,
+        errorMsg: LocalizedStringKey?,
         lockSeconds: Int?,
         onInputChange: @escaping (AccountType) -> Void,
         submit: @escaping (AccountType, String) -> Void
@@ -169,7 +171,7 @@ private struct ResetInfoForm: View {
 
     @StateObject private var account: AccountVerification
     let lockSeconds: Int?
-    let errorMsg: String?
+    let errorMsg: LocalizedStringKey?
     let onInputChange: (AccountType) -> Void
     let submit: (AccountType, String) -> Void
 
@@ -210,12 +212,13 @@ private struct ResetInfoForm: View {
     }
 
     @ViewBuilder
-    private func errorMessage(_ text: String?) -> some View {
-        Group {
-            VerifiedAlert(text ?? "")
-            LimitSpacer(12)
+    private func errorMessage(_ key: LocalizedStringKey?) -> some View {
+        if let key {
+            Group {
+                VerifiedAlert(key: key)
+                LimitSpacer(12)
+            }
         }
-        .visibility(text == nil ? .gone : .visible)
     }
 
     @ViewBuilder
@@ -249,15 +252,6 @@ private extension ContentView {
             Spacer()
         }
         .padding(.horizontal, 30)
-    }
-
-    @ViewBuilder
-    private func errorMessage(_ text: String?) -> some View {
-        Group {
-            VerifiedAlert(text ?? "")
-            LimitSpacer(12)
-        }
-        .visibility(text == nil ? .gone : .visible)
     }
 }
 
