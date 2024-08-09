@@ -29,12 +29,12 @@ struct LoginView: View {
     }
 
     private func manuelUpdate() -> ItemViews {
-        .custom(NavigationItem<AnyView>(text: Localize.string("update_title"), action: { startManuelUpdate() }))
+        .custom(NavigationItem<AnyView>("update_title", action: { startManuelUpdate() }))
     }
 
     private func register() -> ItemViews {
         .custom(NavigationItem<AnyView>(
-            text: Localize.string("common_register"),
+            "common_register",
             action: {
                 switch onEnum(of: viewModel.getSupportLocale()) {
                 case .china:
@@ -77,7 +77,9 @@ struct LoginView: View {
                     VStack(spacing: 0) {
                         loginTitle()
                         LimitSpacer(30)
-                        loginError(viewModel.getLoginErrorText())
+                        if let key = viewModel.loginErrorKey {
+                            loginError(.init(key))
+                        }
                         loginInputTextField(
                             $viewModel.account,
                             viewModel.accountErrorText,
@@ -112,7 +114,7 @@ struct LoginView: View {
                         LimitSpacer(30)
                         HStack {
                             Separator()
-                            Text(Localize.string("common_or"))
+                            Text("common_or")
                                 .font(size: 14)
                                 .padding(.horizontal, 30)
                             Separator()
@@ -133,9 +135,7 @@ struct LoginView: View {
                 isLoadedData = true
             }
         }
-        .onAppear {
-            viewModel.refreshUI()
-        }
+        .onAppear { viewModel.refreshUI() }
 
         NavigationLink(isActive: $moveToResetPassword, destination: { ResetPasswordStep1View() }, label: {})
         NavigationLink(isActive: $moveToRegister, destination: { RegisterStep1View() }, label: {})
@@ -143,18 +143,16 @@ struct LoginView: View {
 
     @ViewBuilder
     private func loginTitle() -> some View {
-        Text(Localize.string("common_login"))
+        Text("common_login")
             .font(weight: .semibold, size: 24)
     }
 
     @ViewBuilder
-    private func loginError(_ text: String?) -> some View {
+    private func loginError(_ key: LocalizedStringKey) -> some View {
         Group {
-            VerifiedAlert(text ?? "")
-
+            VerifiedAlert(key: key)
             LimitSpacer(12)
         }
-        .visibility(text == nil ? .gone : .visible)
     }
 
     @ViewBuilder
@@ -198,19 +196,13 @@ struct LoginView: View {
                         .padding(1)
                 }
 
-                Text(Localize.string("login_account_remember_me"))
+                Text("login_account_remember_me")
                     .font(size: 12)
             }
-            .onTapGesture {
-                isRememberMe.wrappedValue.toggle()
-            }
+            .onTapGesture { isRememberMe.wrappedValue.toggle() }
         }
-        .onChange(of: accountText.wrappedValue) { _ in
-            accountOnChange()
-        }
-        .onChange(of: passwordText.wrappedValue) { _ in
-            passwordOnChange()
-        }
+        .onChange(of: accountText.wrappedValue) { _ in accountOnChange() }
+        .onChange(of: passwordText.wrappedValue) { _ in passwordOnChange() }
     }
 
     @ViewBuilder
@@ -237,7 +229,7 @@ struct LoginView: View {
                     .resizable()
                     .scaledToFit()
                     .frame(width: 80, height: 32)
-                Text(Localize.string("login_captcha_new"))
+                Text("login_captcha_new")
                     .font(weight: .medium, size: 14)
                     .foregroundStyle(.primaryDefault)
                     .onTapGesture {
@@ -258,7 +250,7 @@ struct LoginView: View {
             action: { onPressed() },
             label: {
                 HStack(spacing: 0) {
-                    Text(Localize.string("common_login"))
+                    Text("common_login")
                     Text("(\(countDownSecond ?? 0))")
                         .visibility(countDownSecond == nil ? .gone : .visible)
                 }
@@ -275,12 +267,13 @@ struct LoginView: View {
         Button(
             action: { onPressed() },
             label: {
-                Text(Localize.string("login_by_otp"))
+                Text("login_by_otp")
                     .foregroundColor(.from(.primaryDefault))
                     .frame(maxWidth: .infinity)
                     .frame(height: 48)
                     .background(
-                        RoundedRectangle(cornerRadius: 8).stroke(Color.from(.textPrimary), lineWidth: 0.5))
+                        RoundedRectangle(cornerRadius: 8).stroke(Color.from(.textPrimary), lineWidth: 0.5)
+                    )
             }
         )
     }
@@ -301,7 +294,7 @@ private extension LoginView {
         let base = AttributedString(localized: "login_tips_1")
         var highlight = AttributedString(localized: "login_tips_1_highlight")
         var container = AttributeContainer()
-        
+
         container.link = URL(string: "resetpassword")
         container.foregroundColor = .primaryDefault
         highlight.setAttributes(container)

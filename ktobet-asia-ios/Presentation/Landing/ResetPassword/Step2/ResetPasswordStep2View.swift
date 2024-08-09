@@ -8,6 +8,7 @@ struct ResetPasswordStep2View: View {
     @StateObject private var otpVerification: OtpVerification
     @State var moveToErroPage: Bool = false
     @State var moveToNext: Bool = false
+    @State var errorKey: LocalizedStringKey? = nil
     @Environment(\.showDialog) var showDialog
     @Environment(\.handleError) var handleError
     @Environment(\.toastMessage) var toastMessage
@@ -17,7 +18,7 @@ struct ResetPasswordStep2View: View {
     init(selectMethod: AccountType, selectAccount: String) {
         self.selectMethod = selectMethod
         self.selectAccount = selectAccount
-        _otpVerification = StateObject(wrappedValue: OtpVerification(accountType: selectMethod))
+        _otpVerification = .init(wrappedValue: .init(accountType: selectMethod))
     }
 
     var body: some View {
@@ -25,13 +26,10 @@ struct ResetPasswordStep2View: View {
             selectMethod: selectMethod,
             accountIdentity: selectAccount,
             state: otpVerification.state,
+            errorKey: errorKey,
             otpCode: $otpVerification.otpCode,
-            onClickVerified: { otp in
-                otpVerification.verifyResetOtp(otpCode: otp)
-            },
-            onClickResend: {
-                otpVerification.resendOtp()
-            }
+            onClickVerified: { otp in otpVerification.verifyResetOtp(otpCode: otp) },
+            onClickResend: { otpVerification.resendOtp() }
         )
         .onConsume(handleError, otpVerification) { event in
             switch event {
@@ -41,7 +39,8 @@ struct ResetPasswordStep2View: View {
                 showDialog(
                     info: ShowDialog.Info(
                         title: Localize.string("common_tip_title_warm"),
-                        message: accountType == .phone ? Localize.string("common_sms_otp_exeed_send_limit") : Localize.string("common_email_otp_exeed_send_limit"),
+                        message: accountType == .phone ? Localize.string("common_sms_otp_exeed_send_limit") : Localize
+                            .string("common_email_otp_exeed_send_limit"),
                         confirm: { moveToErroPage = true }
                     )
                 )
@@ -49,8 +48,12 @@ struct ResetPasswordStep2View: View {
                 moveToErroPage = true
             case .resendSuccess:
                 toastMessage(Localize.string("common_otp_send_success"), .success)
+            case .wrongOtp:
+                errorKey = "register_step3_incorrect_otp"
             }
         }
+        .onChange(of: otpVerification.otpCode) { _ in errorKey = nil }
+
         NavigationLink(
             destination: ErrorPage(title: "login_resetpassword_fail_title"),
             isActive: $moveToErroPage,
@@ -70,6 +73,7 @@ private struct ContentView: View {
     let selectMethod: AccountType
     let accountIdentity: String
     let state: OtpVerification.State
+    let errorKey: LocalizedStringKey?
     @Binding var otpCode: String
     let onClickVerified: (String) -> Void
     let onClickResend: () -> Void
@@ -92,7 +96,8 @@ private struct ContentView: View {
             PageContainer(scrollable: true) {
                 Group {
                     Text("login_resetpassword_step2_title_1")
-                    Text(selectMethod == .phone ? "login_resetpassword_step2_verify_by_phone_title" : "login_resetpassword_step2_verify_by_email_title")
+                    Text(selectMethod == .phone ? "login_resetpassword_step2_verify_by_phone_title" :
+                        "login_resetpassword_step2_verify_by_email_title")
                         .font(weight: .semibold, size: 24)
 
                     Spacer(minLength: 12)
@@ -106,13 +111,15 @@ private struct ContentView: View {
 
                 Spacer(minLength: 30)
 
-                errorMessage(state.errorMessage)
+                if let key = errorKey {
+                    errorMessage(key)
+                }
                 OTPVerifyTextField($otpCode, length: state.otpLength)
 
                 Spacer(minLength: 40)
 
                 PrimaryButton(
-                    title: Localize.string("common_verify"),
+                    key: "common_verify",
                     action: {
                         onClickVerified(otpCode)
                     }
@@ -128,12 +135,11 @@ private struct ContentView: View {
     }
 
     @ViewBuilder
-    private func errorMessage(_ text: String?) -> some View {
+    private func errorMessage(_ key: LocalizedStringKey) -> some View {
         Group {
-            VerifiedAlert(text ?? "")
+            VerifiedAlert(key: key)
             LimitSpacer(12)
         }
-        .visibility(text == nil ? .gone : .visible)
     }
 }
 
@@ -171,7 +177,7 @@ private struct ResendHint: View {
     }
 
     private func resendAttributedString() -> AttributedString {
-        let base = AttributedString(Localize.string("common_otp_resend_tips", countDown.toHourMinutesFormat()))
+        let base = AttributedString(localized: "common_otp_resend_tips \(countDown.toHourMinutesFormat())")
         var highlight = AttributedString(localized: "common_resendotp")
         var container = AttributeContainer()
         if countDown <= 0 {
@@ -197,6 +203,7 @@ struct ResetPasswordStep2View_Previews: PreviewProvider {
             selectMethod: .email,
             accountIdentity: "test@test.com",
             state: .init(),
+            errorKey: nil,
             otpCode: .constant(""),
             onClickVerified: { _ in },
             onClickResend: {}

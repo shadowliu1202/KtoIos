@@ -151,12 +151,12 @@ struct LandingNavigationBar_Previews: PreviewProvider {
 
 struct NavigationItem<Content: View>: View {
     private let content: Content
-    init(text: String, action: @escaping () -> Void) {
+    init(_ key: LocalizedStringKey, action: @escaping () -> Void) {
         let button = Button(
             action: action,
             label: {
-                Text("\(text)")
-                    .font(weight: .semibold, size: 16)
+                Text(key)
+                    .font(weight: .semibold)
                     .foregroundStyle(.greyScaleIcon)
             }
         )

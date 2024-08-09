@@ -4,11 +4,10 @@ import sharedbu
 
 class RegisterStep3Mobile: ComposeObservableObject<RegisterStep3Mobile.Event> {
     enum Event {
-        case verified(ProductType?), exceedResendLimit, fatalError, resendSuccess
+        case verified(ProductType?), exceedResendLimit, fatalError, resendSuccess, wrongOtp
     }
 
     struct State {
-        var errorMessage: String? = nil
         var otp: String = ""
         var supportLocale: SupportLocale = .Vietnam()
         var otpPattern: OtpPattern { AccountPatternGeneratorFactory.create(supportLocale).otp(type: .phone) }
@@ -28,10 +27,7 @@ class RegisterStep3Mobile: ComposeObservableObject<RegisterStep3Mobile.Event> {
         super.init()
         state = .init(supportLocale: playerConfiguration.supportLocale)
         $otpCode.eraseToAnyPublisher()
-            .sink { [unowned self] in
-                state.otp = $0
-                state.errorMessage = nil
-            }
+            .sink { [unowned self] in state.otp = $0 }
             .store(in: &cancellables)
     }
 
@@ -62,7 +58,7 @@ class RegisterStep3Mobile: ComposeObservableObject<RegisterStep3Mobile.Event> {
     func handleErrors(_ error: Error) {
         switch error {
         case is PlayerOtpCheckError:
-            state.errorMessage = Localize.string("register_step3_incorrect_otp")
+            publisher = .event(.wrongOtp)
         case is PlayerOverOtpRetryLimit:
             publisher = .event(.fatalError)
         case is PlayerIpOverOtpDailyLimit:

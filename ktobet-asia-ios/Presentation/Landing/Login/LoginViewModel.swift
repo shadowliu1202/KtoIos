@@ -1,7 +1,6 @@
 import Foundation
 import RxSwift
 import sharedbu
-import SwiftUI
 
 class LoginViewModel: ObservableObject {
     @Published var account = ""
@@ -9,7 +8,7 @@ class LoginViewModel: ObservableObject {
     @Published var isRememberMe = false
     @Published var captchaText = ""
 
-    @Published private(set) var loginError: LoginException? = nil
+    @Published private(set) var loginErrorKey: String? = nil
     @Published private(set) var accountErrorText = ""
     @Published private(set) var passwordErrorText = ""
     @Published private(set) var captchaErrorText = ""
@@ -37,8 +36,8 @@ class LoginViewModel: ObservableObject {
         _ configurationUseCase: ConfigurationUseCase,
         _ navigationViewModel: NavigationViewModel,
         _ localStorageRepo: LocalStorageRepository,
-        _ playerConfiguration: PlayerConfiguration)
-    {
+        _ playerConfiguration: PlayerConfiguration
+    ) {
         authUseCase = authenticationUseCase
         configUseCase = configurationUseCase
         self.navigationViewModel = navigationViewModel
@@ -71,26 +70,6 @@ class LoginViewModel: ObservableObject {
         refreshCount += 1
     }
 
-    func getLoginErrorText() -> String? {
-        guard let loginError else {
-            return nil
-        }
-
-        switch onEnum(of: loginError) {
-        case .failed1to5Exception:
-            return Localize.string("login_invalid_username_password")
-        case .failed6to10Exception:
-            if captchaImage == nil {
-                return Localize.string("login_invalid_username_password")
-            }
-            else {
-                return Localize.string("login_invalid_username_password_captcha")
-            }
-        case .aboveVerifyLimitation:
-            return Localize.string("login_invalid_lockdown")
-        }
-    }
-
     func checkAccountFormat() {
         accountErrorText = account.isEmpty ? Localize.string("common_field_must_fill") : ""
     }
@@ -111,8 +90,7 @@ class LoginViewModel: ObservableObject {
             captchaImage == nil ? true : captchaText.count > 0
         {
             disableLoginButton = false
-        }
-        else {
+        } else {
             disableLoginButton = true
         }
     }
@@ -120,27 +98,27 @@ class LoginViewModel: ObservableObject {
     func login(callBack: @escaping (NavigationViewModel.LobbyPageNavigation?, Error?) -> Void) {
         authUseCase.login(account: account, pwd: password, captcha: Captcha(passCode: captchaText))
             .do(onSubscribe: { [unowned self] in
-                self.disableLoginButton = true
+                disableLoginButton = true
             })
             .flatMap { [unowned self] player in
                 let setting = PlayerSetting(accountLocale: player.locale(), defaultProduct: player.defaultProduct)
-                return self.navigationViewModel.initLoginNavigation(playerSetting: setting)
+                return navigationViewModel.initLoginNavigation(playerSetting: setting)
             }
             .trackOnDispose(loadingTracker)
             .observe(on: MainScheduler.instance)
             .subscribe(onSuccess: { [unowned self] navigation in
-                self.loginOnSuccess()
-                self.disableLoginButton = false
+                loginOnSuccess()
+                disableLoginButton = false
                 callBack(navigation, nil)
             }, onFailure: { [unowned self] error in
                 guard let loginFail = error as? LoginWarningException else {
                     callBack(nil, error)
                     return
                 }
-                self.disableLoginButton = false
-                self.loginOnError(loginFail, callBack)
+                disableLoginButton = false
+                loginOnError(loginFail, callBack)
             })
-            .disposed(by: self.disposeBag)
+            .disposed(by: disposeBag)
     }
 
     private func loginOnSuccess() {
@@ -159,8 +137,8 @@ class LoginViewModel: ObservableObject {
 
     private func loginOnError(
         _ loginFail: LoginWarningException,
-        _ callBack: @escaping (NavigationViewModel.LobbyPageNavigation?, Error?) -> Void)
-    {
+        _ callBack: @escaping (NavigationViewModel.LobbyPageNavigation?, Error?) -> Void
+    ) {
         switch loginFail {
         case let error as LoginException:
             handleLoginException(error)
@@ -170,9 +148,9 @@ class LoginViewModel: ObservableObject {
             fatalError("Should not reach here.")
         }
     }
-  
+
     private func handleLoginException(_ loginFail: LoginException) {
-        loginError = loginFail
+        loginErrorKey = loginFail.toStringKey(hasCaptcha: captchaImage != nil)
         switch onEnum(of: loginFail) {
         case .failed1to5Exception:
             break
@@ -209,8 +187,19 @@ class LoginViewModel: ObservableObject {
                 self.checkLoginInputFormat()
             })
     }
-  
+
     func getSupportLocale() -> SupportLocale {
         playerConfiguration.supportLocale
+    }
+}
+
+extension LoginException {
+    fileprivate func toStringKey(hasCaptcha: Bool) -> String? {
+        switch onEnum(of: self) {
+        case .failed1to5Exception: "login_invalid_username_password"
+        case .failed6to10Exception:
+            if !hasCaptcha { "login_invalid_username_password" } else { "login_invalid_username_password_captcha" }
+        case .aboveVerifyLimitation: "login_invalid_lockdown"
+        }
     }
 }

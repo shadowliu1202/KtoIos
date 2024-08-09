@@ -16,8 +16,8 @@ class ResetPasswordStep1Object: ComposeObservableObject<ResetPasswordStep1Object
         var locale: SupportLocale = .Vietnam()
         var isProcessing = false
         var lockUntil: Date? = nil
-        private(set) var mobileErrorMessage: String? = nil
-        private(set) var emailErrorMessage: String? = nil
+        private(set) var mobileErrorMessageKey: String? = nil
+        private(set) var emailErrorMessageKey: String? = nil
         var retryCount: Int = 0
         var remainLockSecond: Int? {
             guard let lockUntil else { return nil }
@@ -35,9 +35,9 @@ class ResetPasswordStep1Object: ComposeObservableObject<ResetPasswordStep1Object
         mutating func setErrorMessage(_ type: AccountType, _ message: String?) {
             switch type {
             case .phone:
-                mobileErrorMessage = message
+                mobileErrorMessageKey = message
             case .email:
-                emailErrorMessage = message
+                emailErrorMessageKey = message
             }
         }
     }
@@ -111,14 +111,14 @@ class ResetPasswordStep1Object: ComposeObservableObject<ResetPasswordStep1Object
              is PlayerIsNotExist,
              is PlayerIsSuspend:
             if state.isOverRetryLimit() {
-                state.setErrorMessage(accountType, Localize.string("common_error_try_later"))
+                state.setErrorMessage(accountType, "common_error_try_later")
                 lockResetButton()
             } else {
-                let message = switch accountType {
+                let message: String = switch accountType {
                 case .phone:
-                    Localize.string("common_error_phone_verify")
+                    "common_error_phone_verify"
                 case .email:
-                    Localize.string("common_error_email_verify")
+                    "common_error_email_verify"
                 }
                 state.setErrorMessage(accountType, message)
             }

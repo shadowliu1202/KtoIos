@@ -11,6 +11,8 @@ struct RegisterStep2View: View {
     @Environment(\.toastMessage) var toastMessage
 
     @State private var moveToNext: MoveToNext = .init()
+    @State private var mobileError: RegisterStep2.Warning? = nil
+    @State private var emailError: RegisterStep2.Warning? = nil
 
     private struct MoveToNext {
         var accountType: AccountType? = nil
@@ -23,7 +25,16 @@ struct RegisterStep2View: View {
             accountType: $viewModel.accountType,
             otpStatus: viewModel.otpStatus,
             state: viewModel.state,
-            onInputChange: viewModel.clearErrorMessage,
+            mobileErrorType: mobileError,
+            emailErrorType: emailError,
+            onInputChange: { accountType in
+                switch accountType {
+                case .phone:
+                    mobileError = nil
+                case .email:
+                    emailError = nil
+                }
+            },
             requestRegister: viewModel.requestRegister
         )
         .onConsume(handleError, viewModel) { event in
@@ -35,11 +46,24 @@ struct RegisterStep2View: View {
                         message: Localize.string("register_step2_unusual_activity"),
                         confirm: { popToRoot() },
                         confirmText: Localize.string("common_determine")
-                    ))
+                    )
+                )
+
             case let .proceedRegistration(type, identity, password):
-                toastMessage(type == .phone ? Localize.string("common_otp_send_success") : Localize.string("common_otp_mail_send_success"), .success)
+                toastMessage(
+                    type == .phone ? Localize.string("common_otp_send_success") : Localize.string("common_otp_mail_send_success"),
+                    .success
+                )
 
                 moveToNext = .init(accountType: type, identity: identity, password: password)
+
+            case let .notifyErrorMessage(accountType, errorType):
+                switch accountType {
+                case .phone:
+                    mobileError = errorType
+                case .email:
+                    emailError = errorType
+                }
             }
         }
         .disabled(viewModel.state.isProcessing)
@@ -64,6 +88,8 @@ private struct Content: View {
     @Binding var accountType: AccountType
     let otpStatus: OtpStatus
     var state: RegisterStep2.State
+    let mobileErrorType: RegisterStep2.Warning?
+    let emailErrorType: RegisterStep2.Warning?
     let onInputChange: (AccountType) -> Void
     let requestRegister: (AccountType, String, String, String) -> Void
 
@@ -106,7 +132,7 @@ private struct Content: View {
             AccountInfoForm(
                 locale: state.locale,
                 accountType: .phone,
-                errorMsg: state.mobileErrorMessage,
+                errorMsg: mobileErrorType?.toMobileKey(),
                 onInputChange: onInputChange,
                 submit: requestRegister
             )
@@ -121,7 +147,7 @@ private struct Content: View {
             AccountInfoForm(
                 locale: state.locale,
                 accountType: .email,
-                errorMsg: state.emailErrorMessage,
+                errorMsg: emailErrorType?.toEmailKey(),
                 onInputChange: onInputChange,
                 submit: requestRegister
             )
@@ -147,7 +173,7 @@ private struct Content: View {
         init(
             locale: SupportLocale,
             accountType: AccountType,
-            errorMsg: String?,
+            errorMsg: LocalizedStringKey?,
             onInputChange: @escaping (AccountType) -> Void,
             submit: @escaping (AccountType, String, String, String) -> Void
         ) {
@@ -159,7 +185,7 @@ private struct Content: View {
 
         @StateObject private var account: RegisterStep2Account
 
-        let errorMsg: String?
+        let errorMsg: LocalizedStringKey?
         let onInputChange: (AccountType) -> Void
         let submit: (AccountType, String, String, String) -> Void
 
@@ -167,6 +193,7 @@ private struct Content: View {
             ScrollView {
                 VStack(alignment: .leading) {
                     LimitSpacer(12)
+
                     errorMessage(errorMsg)
 
                     switch account.state.accountType {
@@ -224,27 +251,48 @@ private struct Content: View {
         }
 
         @ViewBuilder
-        private func errorMessage(_ text: String?) -> some View {
-            Group {
-                VerifiedAlert(text ?? "")
-                LimitSpacer(12)
+        private func errorMessage(_ key: LocalizedStringKey?) -> some View {
+            if let key {
+                Group {
+                    VerifiedAlert(key: key)
+                    LimitSpacer(12)
+                }
             }
-            .visibility(text == nil ? .gone : .visible)
+        }
+    }
+}
+
+private extension RegisterStep2.Warning {
+    func toMobileKey() -> LocalizedStringKey {
+        switch self {
+        case .overLimit:
+            "common_sms_otp_exeed_send_limit"
+        case .accountExist:
+            "common_error_phone_verify"
+        }
+    }
+
+    func toEmailKey() -> LocalizedStringKey {
+        switch self {
+        case .overLimit:
+            "common_email_otp_exeed_send_limit"
+        case .accountExist:
+            "common_error_email_verify"
         }
     }
 }
 
 private extension RegisterStep2Account.AccountState {
-    func passwordError() -> String {
+    func passwordError() -> LocalizedStringKey? {
         switch passwordResult {
         case .empty:
-            Localize.string("common_field_must_fill")
+            "common_field_must_fill"
         case .invalidFormat:
-            Localize.string("common_field_format_incorrect")
+            "common_field_format_incorrect"
         case .notMatch:
-            Localize.string("register_step2_password_not_match")
+            "register_step2_password_not_match"
         case .valid, .none:
-            ""
+            nil
         }
     }
 
@@ -299,6 +347,8 @@ struct RegisterStep2View_Active_Previews: PreviewProvider {
             accountType: $accountType,
             otpStatus: .init(isMailActive: true, isSmsActive: true),
             state: .init(),
+            mobileErrorType: nil,
+            emailErrorType: nil,
             onInputChange: { _ in },
             requestRegister: { _, _, _, _ in }
         )
@@ -312,6 +362,8 @@ struct RegisterStep2View_Inactive_Previews: PreviewProvider {
             accountType: $accountType,
             otpStatus: .init(isMailActive: false, isSmsActive: false),
             state: .init(),
+            mobileErrorType: nil,
+            emailErrorType: nil,
             onInputChange: { _ in },
             requestRegister: { _, _, _, _ in }
         )

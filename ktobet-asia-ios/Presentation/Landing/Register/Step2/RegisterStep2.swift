@@ -5,15 +5,19 @@ import sharedbu
 import SwiftUI
 
 class RegisterStep2: ComposeObservableObject<RegisterStep2.Event> {
+    enum Warning {
+        case overLimit, accountExist
+    }
+
     enum Event {
-        case blocked, proceedRegistration(AccountType, identity:String, password:String)
+        case blocked,
+             proceedRegistration(AccountType, identity: String, password: String),
+             notifyErrorMessage(AccountType, RegisterStep2.Warning)
     }
 
     struct State {
         var locale: SupportLocale = .Vietnam()
         var isProcessing: Bool = false
-        var mobileErrorMessage: String? = nil
-        var emailErrorMessage: String? = nil
     }
 
     @Injected private var registerUseCase: RegisterUseCase
@@ -43,15 +47,6 @@ class RegisterStep2: ComposeObservableObject<RegisterStep2.Event> {
             .disposed(by: disposeBag)
     }
 
-    func clearErrorMessage(_ accountType: AccountType) {
-        switch accountType {
-        case .phone:
-            state.mobileErrorMessage = nil
-        case .email:
-            state.emailErrorMessage = nil
-        }
-    }
-
     func requestRegister(_ accountType: AccountType, _ identity: String, _ withdrawalName: String, _ password: String) {
         state.isProcessing = true
         let account = switch accountType {
@@ -66,7 +61,9 @@ class RegisterStep2: ComposeObservableObject<RegisterStep2.Event> {
             locale: supportLocale
         )
         .subscribe(
-            onCompleted: { [unowned self] in publisher = .event(.proceedRegistration(accountType, identity: identity, password: password))  },
+            onCompleted: { [unowned self] in
+                publisher = .event(.proceedRegistration(accountType, identity: identity, password: password))
+            },
             onError: { [unowned self] error in handleErrors(accountType, error) },
             onDisposed: { [unowned self] in state.isProcessing = false }
         )
@@ -76,15 +73,9 @@ class RegisterStep2: ComposeObservableObject<RegisterStep2.Event> {
     func handleErrors(_ accountType: AccountType, _ error: Error) {
         switch error {
         case is PlayerIpOverOtpDailyLimit:
-            switch accountType {
-            case .phone: state.mobileErrorMessage = Localize.string("common_email_otp_exeed_send_limit")
-            case .email: state.emailErrorMessage = Localize.string("common_email_otp_exeed_send_limit")
-            }
+            publisher = .event(.notifyErrorMessage(accountType, .overLimit))
         case is DBPlayerAlreadyExist:
-            switch accountType {
-            case .phone: state.mobileErrorMessage = Localize.string("common_error_phone_verify")
-            case .email: state.emailErrorMessage = Localize.string("common_error_email_verify")
-            }
+            publisher = .event(.notifyErrorMessage(accountType, .accountExist))
         case is PlayerOtpMailInactive, is PlayerOtpSmsInactive:
             refreshOtpStatus()
         case is KtoPlayerRegisterBlock:
@@ -200,7 +191,8 @@ class RegisterStep2Account: ObservableObject {
         }
 
         var isSubmitValid: Bool {
-            identity != nil && name != nil && password != nil && passwordConfirm != nil && identityResult == .valid && nameResult == nil && passwordResult == nil
+            identity != nil && name != nil && password != nil && passwordConfirm != nil && identityResult == .valid && nameResult == nil &&
+                passwordResult == nil
         }
     }
 
