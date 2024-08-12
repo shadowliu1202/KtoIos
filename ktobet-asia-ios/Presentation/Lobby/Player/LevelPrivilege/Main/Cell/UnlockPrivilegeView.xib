@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="22505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22504"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -11,32 +11,33 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="UnlockPrivilegeView" customModule="ktobet_asia_ios" customModuleProvider="target">
             <connections>
+                <outlet property="hSubTagLabel" destination="vhM-zf-a3j" id="SV3-9H-jyl"/>
                 <outlet property="halfCircleStack" destination="aAY-5J-Tsm" id="7e9-lz-3DD"/>
                 <outlet property="icon" destination="1hI-Ko-QfT" id="bGO-xZ-FO0"/>
                 <outlet property="msgLabel" destination="lPU-Cy-iUM" id="bEk-my-sU2"/>
                 <outlet property="stamp" destination="EgV-43-Adv" id="DnB-Gm-Z9u"/>
-                <outlet property="subTagLabel" destination="I3F-Cl-Idh" id="dD9-Ca-gus"/>
                 <outlet property="tagBackgroundView" destination="1KL-jO-wQw" id="If2-hN-BeJ"/>
                 <outlet property="tagLabel" destination="NlT-Ms-IPl" id="tgS-Qd-Mmd"/>
                 <outlet property="tagStack" destination="irU-hL-Nyo" id="hVI-Vv-lT6"/>
+                <outlet property="vSubTagLabel" destination="I3F-Cl-Idh" id="h5f-Sz-6gY"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="iN0-l3-epB">
-            <rect key="frame" x="0.0" y="0.0" width="420" height="154"/>
+            <rect key="frame" x="0.0" y="0.0" width="420" height="166"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EgV-43-Adv" userLabel="stamp">
-                    <rect key="frame" x="0.0" y="0.0" width="80" height="154"/>
+                    <rect key="frame" x="0.0" y="0.0" width="80" height="166"/>
                     <subviews>
                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="aAY-5J-Tsm">
-                            <rect key="frame" x="-3" y="2" width="6" height="150"/>
+                            <rect key="frame" x="-3" y="2" width="6" height="162"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="6" id="H50-H6-8nR"/>
                             </constraints>
                         </stackView>
                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="1hI-Ko-QfT">
-                            <rect key="frame" x="16" y="53" width="48" height="48"/>
+                            <rect key="frame" x="16" y="59" width="48" height="48"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="48" id="AbW-Nb-Vac"/>
                                 <constraint firstAttribute="width" constant="48" id="SOc-bV-nrm"/>
@@ -54,48 +55,62 @@
                     </constraints>
                 </view>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="top" spacing="11" translatesAutoresizingMaskIntoConstraints="NO" id="Ubu-so-6eG">
-                    <rect key="frame" x="96" y="11" width="313" height="133"/>
+                    <rect key="frame" x="96" y="11" width="313" height="145"/>
                     <subviews>
-                        <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="center" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="irU-hL-Nyo">
+                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" spacing="11" translatesAutoresizingMaskIntoConstraints="NO" id="gtT-Q9-7zt">
                             <rect key="frame" x="0.0" y="0.0" width="302" height="50"/>
                             <subviews>
-                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1KL-jO-wQw">
-                                    <rect key="frame" x="0.0" y="0.0" width="56" height="50"/>
+                                <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="center" spacing="6" translatesAutoresizingMaskIntoConstraints="NO" id="irU-hL-Nyo">
+                                    <rect key="frame" x="0.0" y="0.0" width="302" height="50"/>
                                     <subviews>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="产品特权" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NlT-Ms-IPl">
-                                            <rect key="frame" x="4" y="2" width="48" height="46"/>
-                                            <fontDescription key="fontDescription" name="PingFangSC-Medium" family="PingFang SC" pointSize="12"/>
-                                            <color key="textColor" red="0.34901960784313724" green="0.34901960784313724" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1KL-jO-wQw">
+                                            <rect key="frame" x="0.0" y="0.0" width="56" height="50"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="产品特权" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NlT-Ms-IPl">
+                                                    <rect key="frame" x="4" y="2" width="48" height="46"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="14" id="xkJ-qX-Npe"/>
+                                                    </constraints>
+                                                    <fontDescription key="fontDescription" name="PingFangSC-Medium" family="PingFang SC" pointSize="12"/>
+                                                    <color key="textColor" red="0.34901960784313724" green="0.34901960784313724" blue="0.34901960784313724" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" secondItem="NlT-Ms-IPl" secondAttribute="trailing" constant="4" id="GoQ-95-OEs"/>
+                                                <constraint firstItem="NlT-Ms-IPl" firstAttribute="top" secondItem="1KL-jO-wQw" secondAttribute="top" constant="2" id="fAN-NM-emT"/>
+                                                <constraint firstItem="NlT-Ms-IPl" firstAttribute="leading" secondItem="1KL-jO-wQw" secondAttribute="leading" constant="4" id="jeG-5Y-6WR"/>
+                                                <constraint firstAttribute="bottom" secondItem="NlT-Ms-IPl" secondAttribute="bottom" constant="2" id="tZ6-g5-JUc"/>
+                                            </constraints>
+                                            <userDefinedRuntimeAttributes>
+                                                <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                    <real key="value" value="2"/>
+                                                </userDefinedRuntimeAttribute>
+                                                <userDefinedRuntimeAttribute type="boolean" keyPath="masksToBounds" value="YES"/>
+                                            </userDefinedRuntimeAttributes>
+                                        </view>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalCompressionResistancePriority="1000" text="体育保险投注体育保险投注体育保险投注体育保险投注体育保险投注体育保险投注体育保险投注" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vhM-zf-a3j">
+                                            <rect key="frame" x="62" y="0.0" width="240" height="50"/>
+                                            <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="12"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                    <constraints>
-                                        <constraint firstAttribute="trailing" secondItem="NlT-Ms-IPl" secondAttribute="trailing" constant="4" id="GoQ-95-OEs"/>
-                                        <constraint firstItem="NlT-Ms-IPl" firstAttribute="top" secondItem="1KL-jO-wQw" secondAttribute="top" constant="2" id="fAN-NM-emT"/>
-                                        <constraint firstItem="NlT-Ms-IPl" firstAttribute="leading" secondItem="1KL-jO-wQw" secondAttribute="leading" constant="4" id="jeG-5Y-6WR"/>
-                                        <constraint firstAttribute="bottom" secondItem="NlT-Ms-IPl" secondAttribute="bottom" constant="2" id="tZ6-g5-JUc"/>
-                                    </constraints>
-                                    <userDefinedRuntimeAttributes>
-                                        <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
-                                            <real key="value" value="2"/>
-                                        </userDefinedRuntimeAttribute>
-                                        <userDefinedRuntimeAttribute type="boolean" keyPath="masksToBounds" value="YES"/>
-                                    </userDefinedRuntimeAttributes>
-                                </view>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalCompressionResistancePriority="1000" text="体育保险投注体育保险投注体育保险投注体育保险投注体育保险投注体育保险投注体育保险投注" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I3F-Cl-Idh">
-                                    <rect key="frame" x="62" y="0.0" width="240" height="50"/>
-                                    <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="12"/>
-                                    <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                    <nil key="highlightedColor"/>
-                                </label>
+                                </stackView>
                             </subviews>
                         </stackView>
+                        <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalCompressionResistancePriority="1000" text="体育保险投注体育保险投注体育保险投注体育保险投注体育保险投注体育保险投注体育保险投注" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I3F-Cl-Idh">
+                            <rect key="frame" x="0.0" y="55.5" width="504" height="17"/>
+                            <fontDescription key="fontDescription" name="PingFangSC-Regular" family="PingFang SC" pointSize="12"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
                         <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zHU-uW-RVO">
-                            <rect key="frame" x="0.0" y="61" width="313" height="72"/>
+                            <rect key="frame" x="0.0" y="61" width="313" height="84"/>
                             <subviews>
                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalCompressionResistancePriority="1000" text="为特定赛事，给您买了顶级保险，为特定赛事，给您买了顶级保险。为特定赛事，给您买了顶级保险，为特定赛事，给您买了顶级保险。为特定赛事，给您买了顶级保险，为特定赛事，给您买了顶级保险。" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lPU-Cy-iUM">
-                                    <rect key="frame" x="0.0" y="0.0" width="313" height="72"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="313" height="84"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                     <fontDescription key="fontDescription" name="PingFangSC-Semibold" family="PingFang SC" pointSize="14"/>
                                     <color key="textColor" red="0.074509803921568626" green="0.074509803921568626" blue="0.074509803921568626" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -126,7 +141,7 @@
                 </userDefinedRuntimeAttribute>
                 <userDefinedRuntimeAttribute type="boolean" keyPath="masksToBounds" value="YES"/>
             </userDefinedRuntimeAttributes>
-            <point key="canvasLocation" x="-32" y="-60"/>
+            <point key="canvasLocation" x="-33.333333333333336" y="-56.25"/>
         </view>
     </objects>
     <resources>
