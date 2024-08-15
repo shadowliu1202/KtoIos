@@ -137,16 +137,20 @@ private struct ResendHint: View {
     @State private var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
     var body: some View {
-        Text(resendAttributedString())
+        (
+            Text("common_otp_resend_tips \(countDown.toHourMinutesFormat())")
+            + Text(" ")
+            + Text("common_resendotp")
+                .foregroundColor(countDown == 0 ? .primaryDefault : Color(uiColor: .primaryDefault.withAlphaComponent(0.5)))
+        )
             .font(weight: .regular, size: 14)
             .frame(maxWidth: .infinity)
             .multilineTextAlignment(.center)
-            .environment(\.openURL, .init(handler: { _ in
+            .onTapGesture {
                 countDown = Int(Setting.resendOtpCountDownSecond)
                 startTimer()
                 onResend()
-                return .handled
-            }))
+            }
             .onReceive(timer) { _ in
                 if countDown > 0 {
                     countDown -= 1
@@ -155,23 +159,12 @@ private struct ResendHint: View {
                     stopTimer()
                 }
             }
+        
         if accountType == .email {
             Text("common_email_spam_check")
                 .font(size: 14)
                 .frame(maxWidth: .infinity)
         }
-    }
-
-    private func resendAttributedString() -> AttributedString {
-        let base = AttributedString(localized: "common_otp_resend_tips \(countDown.toHourMinutesFormat())")
-        var highlight = AttributedString(localized: "common_resendotp")
-        var container = AttributeContainer()
-        if countDown <= 0 {
-            container.link = URL(string: "resend")
-        }
-        container.foregroundColor = countDown == 0 ? .primaryDefault : UIColor(.from(.primaryDefault, alpha: 0.5))
-        highlight.setAttributes(container)
-        return base + " " + highlight
     }
 
     func stopTimer() {

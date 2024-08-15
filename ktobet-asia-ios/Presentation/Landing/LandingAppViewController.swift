@@ -78,8 +78,6 @@ class LandingAppViewController: LandingViewController {
                     onOTPLogin: { [unowned self] in navigateToOtpLoginPage() },
                     toggleForceChinese: { [unowned self] in
                         Configuration.forceChinese.toggle()
-                        Localize = LocalizeUtils(
-                            supportLocale: Configuration.forceChinese ? SupportLocale.China() : SupportLocale.Vietnam())
                         recreateVC()
                     }
                 )

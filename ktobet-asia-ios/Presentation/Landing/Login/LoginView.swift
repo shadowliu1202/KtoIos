@@ -282,23 +282,13 @@ struct LoginView: View {
 private extension LoginView {
     @ViewBuilder
     func resetPassword(onResetPassword: @escaping () -> Void) -> some View {
-        Text(resetPasswordString())
-            .font(weight: .regular, size: 14)
-            .environment(\.openURL, .init(handler: { _ in
-                onResetPassword()
-                return .handled
-            }))
-    }
-
-    private func resetPasswordString() -> AttributedString {
-        let base = AttributedString(localized: "login_tips_1")
-        var highlight = AttributedString(localized: "login_tips_1_highlight")
-        var container = AttributeContainer()
-
-        container.link = URL(string: "resetpassword")
-        container.foregroundColor = .primaryDefault
-        highlight.setAttributes(container)
-        return base + " " + highlight
+        (
+            Text("login_tips_1")
+                + Text(" ")
+                + Text("login_tips_1_highlight").foregroundColor(.primaryDefault)
+        )
+        .font(size: 14)
+        .onTapGesture { onResetPassword() }
     }
 }
 

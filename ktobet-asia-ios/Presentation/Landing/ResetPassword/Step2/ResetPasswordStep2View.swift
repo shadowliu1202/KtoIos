@@ -150,42 +150,34 @@ private struct ResendHint: View {
     @State private var timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
     var body: some View {
-        Text(resendAttributedString())
-            .frame(maxWidth: .infinity)
-            .multilineTextAlignment(.center)
-            .font(weight: .regular, size: 14)
-            .environment(\.openURL, .init(handler: { _ in
-                countDown = Int(Setting.resendOtpCountDownSecond)
-                startTimer()
-                onResend()
-                return .handled
-            }))
-            .onReceive(timer) { _ in
-                if countDown > 0 {
-                    countDown -= 1
-                } else {
-                    countDown = 0
-                    stopTimer()
-                }
+        (
+            Text("common_otp_resend_tips \(countDown.toHourMinutesFormat())")
+                + Text(" ")
+                + Text("common_resendotp")
+                .foregroundColor(countDown == 0 ? .primaryDefault : Color(uiColor: .primaryDefault.withAlphaComponent(0.5)))
+        )
+        .frame(maxWidth: .infinity)
+        .multilineTextAlignment(.center)
+        .font(weight: .regular, size: 14)
+        .onTapGesture {
+            countDown = Int(Setting.resendOtpCountDownSecond)
+            startTimer()
+            onResend()
+        }
+        .onReceive(timer) { _ in
+            if countDown > 0 {
+                countDown -= 1
+            } else {
+                countDown = 0
+                stopTimer()
             }
+        }
 
         if accountType == .email {
             Text("common_email_spam_check")
                 .font(size: 14)
                 .frame(maxWidth: .infinity)
         }
-    }
-
-    private func resendAttributedString() -> AttributedString {
-        let base = AttributedString(localized: "common_otp_resend_tips \(countDown.toHourMinutesFormat())")
-        var highlight = AttributedString(localized: "common_resendotp")
-        var container = AttributeContainer()
-        if countDown <= 0 {
-            container.link = URL(string: "resend")
-        }
-        container.foregroundColor = countDown == 0 ? .primaryDefault : UIColor(.from(.primaryDefault, alpha: 0.5))
-        highlight.setAttributes(container)
-        return base + " " + highlight
     }
 
     func stopTimer() {
