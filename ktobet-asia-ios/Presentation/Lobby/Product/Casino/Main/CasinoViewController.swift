@@ -3,22 +3,31 @@ import RxCocoa
 import RxSwift
 import sharedbu
 import SideMenu
+import SnapKit
 import UIKit
 
 class CasinoViewController: DisplayProduct {
-    @IBOutlet weak var scrollView: UIScrollView!
-    @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet weak var lobbyCollectionView: CasinoLobbyCollectionView!
-    @IBOutlet weak var lobbyCollectionUpSpace: NSLayoutConstraint!
-    @IBOutlet weak var lobbyCollectionHeight: NSLayoutConstraint!
-    @IBOutlet weak var tagsStackView: GameTagStackView!
-    @IBOutlet weak var gamesCollectionView: WebGameCollectionView!
+    @IBOutlet var scrollView: UIScrollView!
+    @IBOutlet var titleLabel: UILabel!
+    @IBOutlet var lobbyCollectionView: CasinoLobbyCollectionView!
+    @IBOutlet var lobbyCollectionUpSpace: NSLayoutConstraint!
+    @IBOutlet var lobbyCollectionHeight: NSLayoutConstraint!
+    @IBOutlet var tagsStackView: GameTagStackView!
+    @IBOutlet var gamesCollectionView: WebGameCollectionView!
 
-    @IBOutlet private weak var scrollViewContentHeight: NSLayoutConstraint!
+    @IBOutlet private var scrollViewContentHeight: NSLayoutConstraint!
 
     private var lobbies: [CasinoDTO.Lobby] = []
     private var viewDidRotate = BehaviorRelay<Bool>(value: false)
     private var disposeBag = DisposeBag()
+    private var lobbyHeight: CGFloat = 0
+    private var tagsHeight: CGFloat = 0
+    private var gamesHeight: CGFloat = 0
+
+    private let titleLabelTopSpacing: CGFloat = 8
+    private let titleLabelHeight: CGFloat = 32
+    private let componentSpacing: CGFloat = 24
+    private let gamesCollectionViewBottomSpacing: CGFloat = 96
 
     lazy var gameDataSourceDelegate = ProductGameDataSourceDelegate(self)
 
@@ -41,6 +50,7 @@ class CasinoViewController: DisplayProduct {
     }
 
     // MARK: ProductBaseCollection
+
     func setCollectionView() -> UICollectionView {
         gamesCollectionView
     }
@@ -66,12 +76,42 @@ extension CasinoViewController {
 
         bind(
             position: .right,
-            barButtonItems: .kto(.search), .kto(.favorite), .kto(.record))
+            barButtonItems: .kto(.search), .kto(.favorite), .kto(.record)
+        )
 
         lobbyCollectionView.registerCellFromNib(CasinoLobbyItemCell.className)
 
         lobbyCollectionView.dataSource = self
         lobbyCollectionView.delegate = self
+
+        scrollView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+
+        titleLabel.snp.makeConstraints { make in
+            make.top.equalTo(scrollView.snp.top).offset(titleLabelTopSpacing)
+            make.left.right.equalToSuperview().inset(30)
+            make.height.equalTo(titleLabelHeight)
+        }
+
+        lobbyCollectionView.snp.makeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(componentSpacing)
+            make.left.right.equalToSuperview().inset(25)
+            make.height.equalTo(100)
+        }
+
+        tagsStackView.snp.makeConstraints { make in
+            make.top.equalTo(lobbyCollectionView.snp.bottom).offset(componentSpacing)
+            make.left.right.equalToSuperview().inset(24)
+            make.height.equalTo(50)
+        }
+
+        gamesCollectionView.snp.makeConstraints { make in
+            make.top.equalTo(tagsStackView.snp.bottom).offset(componentSpacing)
+            make.left.right.equalToSuperview().inset(24)
+            make.height.equalTo(300)
+            make.bottom.equalTo(scrollView.snp.bottom).offset(-gamesCollectionViewBottomSpacing)
+        }
     }
 
     private func binding() {
@@ -81,9 +121,9 @@ extension CasinoViewController {
                     NavigationManagement.sharedInstance
                         .goTo(
                             productType: .casino,
-                            isMaintenance: true)
-                }
-                else {
+                            isMaintenance: true
+                        )
+                } else {
                     self?.handleErrors($0)
                 }
             })
@@ -94,7 +134,8 @@ extension CasinoViewController {
         Observable
             .combineLatest(
                 viewDidRotate,
-                viewModel.getLobbies().asObservable())
+                viewModel.getLobbies().asObservable()
+            )
             .do(onNext: { [weak self] didRoTate, _ in
                 if didRoTate { self?.scrollViewContentHeight.constant = 0 }
             }, onError: { [weak self] _ in
@@ -120,31 +161,54 @@ extension CasinoViewController {
         Observable
             .combineLatest(
                 viewDidRotate,
-                viewModel.tagStates)
+                viewModel.tagStates
+            )
             .subscribe(onNext: { [unowned self] _, data in
                 self.tagsStackView.initialize(
                     data: data,
                     allTagClick: { self.viewModel.selectAll() },
-                    customClick: { self.viewModel.toggleTag($0) })
+                    customClick: { self.viewModel.toggleTag($0) }
+                )
+
+                tagsHeight = tagsStackView.calculateHeight()
+                self.tagsStackView.snp.updateConstraints { make in
+                    make.height.equalTo(tagsHeight)
+                }
+
+                updateScrollViewContentHeight()
             })
             .disposed(by: disposeBag)
 
         Observable
             .combineLatest(
-                gamesCollectionView.rx.observe(\.contentSize),
-                lobbyCollectionView.rx.observe(\.contentSize))
+                gamesCollectionView.rx.observe(\.contentSize).compactMap { $0 },
+                lobbyCollectionView.rx.observe(\.contentSize).compactMap { $0 }
+            )
             .asDriverOnErrorJustComplete()
-            .map { [unowned self] game, lobby -> CGFloat in
-                let aboveHeight = self.titleLabel.frame.size.height + self.tagsStackView.frame.size.height
-                let space: CGFloat = 8 + 34 + 24 * 2
-                return game.height + lobby.height + aboveHeight + space
-            }
-            .drive(onNext: { [unowned self] in
-                self.scrollViewContentHeight.constant = $0
+            .drive(onNext: { [unowned self] (gameSize: CGSize, lobbySize: CGSize) in
+                self.lobbyCollectionView.snp.updateConstraints { make in
+                    make.height.equalTo(lobbySize.height)
+                }
+                self.gamesCollectionView.snp.updateConstraints { make in
+                    make.height.equalTo(gameSize.height)
+                }
+                self.lobbyHeight = lobbySize.height
+                self.gamesHeight = gameSize.height
+                updateScrollViewContentHeight()
             })
             .disposed(by: disposeBag)
     }
-  
+
+    private func updateScrollViewContentHeight() {
+        let componentTotalHeight = titleLabelHeight + lobbyHeight +
+            tagsHeight + gamesHeight
+        let componentTotalSpacing = titleLabelTopSpacing + gamesCollectionViewBottomSpacing + componentSpacing * 3
+        let totalContentHeight = componentTotalHeight + componentTotalSpacing
+
+        scrollViewContentHeight.constant = totalContentHeight
+        scrollView.contentSize = CGSize(width: scrollView.frame.width, height: totalContentHeight)
+    }
+
     private func appendPlaceholdersIfNeeded(_ lobbies: [CasinoDTO.Lobby]) -> [CasinoDTO.Lobby] {
         let remainder = lobbies.count % 3
         guard remainder > 0 else { return lobbies }
@@ -163,22 +227,25 @@ extension CasinoViewController: BarButtonItemable {
         case is RecordBarButtonItem:
             guard
                 let casinoSummaryViewController = UIStoryboard(name: "Casino", bundle: nil)
-                    .instantiateViewController(withIdentifier: "CasinoSummaryViewController") as? CasinoSummaryViewController
+                .instantiateViewController(
+                    withIdentifier: "CasinoSummaryViewController"
+                ) as? CasinoSummaryViewController
             else { return }
-            self.navigationController?.pushViewController(casinoSummaryViewController, animated: true)
+            navigationController?.pushViewController(casinoSummaryViewController, animated: true)
         case is FavoriteBarButtonItem:
             guard
                 let favoriteViewController = UIStoryboard(name: "Product", bundle: nil)
-                    .instantiateViewController(withIdentifier: "FavoriteViewController") as? FavoriteViewController
+                .instantiateViewController(withIdentifier: "FavoriteViewController") as? FavoriteViewController
             else { return }
-            favoriteViewController.viewModel = self.viewModel
-            self.navigationController?.pushViewController(favoriteViewController, animated: true)
+            favoriteViewController.viewModel = viewModel
+            navigationController?.pushViewController(favoriteViewController, animated: true)
         case is SearchButtonItem:
             guard
                 let searchViewController = UIStoryboard(name: "Product", bundle: nil)
-                    .instantiateViewController(withIdentifier: "SearchViewController") as? SearchViewController else { return }
-            searchViewController.viewModel = self.viewModel
-            self.navigationController?.pushViewController(searchViewController, animated: true)
+                .instantiateViewController(withIdentifier: "SearchViewController") as? SearchViewController
+            else { return }
+            searchViewController.viewModel = viewModel
+            navigationController?.pushViewController(searchViewController, animated: true)
         default: break
         }
     }
@@ -191,7 +258,9 @@ extension CasinoViewController: UICollectionViewDataSource {
         lobbies.count
     }
 
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
+    {
         collectionView.dequeueReusableCell(cellType: CasinoLobbyItemCell.self, indexPath: indexPath)
             .configure(lobbies[indexPath.row])
     }
@@ -202,22 +271,25 @@ extension CasinoViewController: UICollectionViewDelegate {
         let data = lobbies[indexPath.row]
         guard
             let casinoLobbyViewController = UIStoryboard(name: "Casino", bundle: nil)
-                .instantiateViewController(withIdentifier: "CasinoLobbyViewController") as? CasinoLobbyViewController,
+            .instantiateViewController(withIdentifier: "CasinoLobbyViewController") as? CasinoLobbyViewController,
             data.isMaintenance == false else { return }
-        casinoLobbyViewController.viewModel = self.viewModel
+        casinoLobbyViewController.viewModel = viewModel
         casinoLobbyViewController.lobby = data
-        self.navigationController?.pushViewController(casinoLobbyViewController, animated: true)
+        navigationController?.pushViewController(casinoLobbyViewController, animated: true)
     }
 }
 
 extension CasinoViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_: UICollectionView, layout _: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(_: UICollectionView, layout _: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize
+    {
         size(for: indexPath)
     }
 
     private func size(for indexPath: IndexPath) -> CGSize {
-        let cell = Bundle.main.loadNibNamed("CasinoLobbyItemCell", owner: self, options: nil)?.first as! CasinoLobbyItemCell
-        let data = self.lobbies[indexPath.item]
+        let cell = Bundle.main.loadNibNamed("CasinoLobbyItemCell", owner: self, options: nil)?
+            .first as! CasinoLobbyItemCell
+        let data = lobbies[indexPath.item]
         cell.configure(data)
         cell.setNeedsLayout()
         cell.layoutIfNeeded()
@@ -229,10 +301,10 @@ extension CasinoViewController: UICollectionViewDelegateFlowLayout {
 class CasinoLobbyCollectionView: UICollectionView {
     override func reloadData() {
         super.reloadData()
-        self.invalidateIntrinsicContentSize()
+        invalidateIntrinsicContentSize()
     }
 
     override var intrinsicContentSize: CGSize {
-        self.collectionViewLayout.collectionViewContentSize
+        collectionViewLayout.collectionViewContentSize
     }
 }
