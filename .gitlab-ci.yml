@@ -2,40 +2,74 @@ include:
   - project : 'mobile/pipelinetemplate'
     ref: master
     file: 
-      - '.before_script_template.yml'      
+      - '.before_script_template.yml'
+
+.release_rules:
+  rules:    
+    - if:  '$CI_PIPELINE_SOURCE == "web" && $TARGET_ENVIROMENT == "QAT"'
+      when: on_success
+    - if:  '$CI_PIPELINE_SOURCE == "web" && $CI_COMMIT_TAG'
+      when: on_success
+
+.formal_rules:
+  rules:    
+    - if: '$CI_COMMIT_TAG && $CI_PIPELINE_SOURCE == "web" && $TARGET_ENVIROMENT != "QAT"'
+      when: on_success
+
+.qat_rules:
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "web" && $TARGET_ENVIROMENT == "QAT"'
+      when: on_success
+
+.qat_with_stg_rules:
+  rules:
+    - if: '$PUBLISH_QAT_WITH_STG == "true" && $CI_PIPELINE_SOURCE == "web" && $TARGET_ENVIROMENT == "QAT"'
+      when: on_success
+
+stages:         
+- development 
+- versionSync    # Calculate and compare the release version with the previous one
+- sanityTesting  # Initialize AIO tests for QAT
+- release        # trigger release stream for QAT/STG/PRE/PRO
 
 variables:
-  LANG: "en_US.UTF-8"
-  LC_ALL: "en_US.UTF-8"
-  FORCE_UPADATE: "false"
-  BREAKING_CHANGE: "false"
-  STORE_BUILD_NUMBER_FILE: "/Users/app/buildVariables/kto_ios_build_number.txt"
-  MATCH_PASSWORD: "password"
-  KEYCHAIN_PASSWORD: "8YVFeB2N7iwEp"
-stages:          # List of stages for jobs, and their order of execution
-  - inProgress
-  - mergeRequest
-  - merged
-  - test
-  - analyze
-  - publish
-  - notify
+ TARGET_ENVIROMENT:
+   value: "STG"
+   description: "QAT/STG/PRO/PRE"
+ PUBLISH_QAT_WITH_STG:
+   value: "false"
+   description: "false/true"
+ SKIP_TEST:
+   value: "false"
+   description: "false/true"
+ BREAKING_CHANGE:
+   value: "false"
+   description: "false/true"
+ FORCE_UPDATE:
+   value: "false"
+   description: "false/true"
+ LANG: "en_US.UTF-8"
+ LC_ALL: "en_US.UTF-8"
+ MATCH_PASSWORD: "password"
+ KEYCHAIN_PASSWORD: "8YVFeB2N7iwEp"
 
-build-job:
-  stage: inProgress
+inProgress:
+  stage: development
   tags:
-    - mac-emulator
-  variables:
-    ISSUE_KEY: $CI_COMMIT_BRANCH
+      - mac-slave
   rules:
-    - if: ($CI_COMMIT_BRANCH =~ /(APP|PD)-[0-9]+/ && $CI_PIPELINE_SOURCE != "merge_request_event" && $CI_PIPELINE_SOURCE != "web")
+      - if: '$CI_COMMIT_REF_NAME =~ /(APP|KTO)-[0-9]+/ && $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_MESSAGE !~ /Merge branch/'
+        when: always
+      - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+        when: never
   script:
     - EMAIL_NAME="$(echo $GITLAB_USER_EMAIL | sed "s/@.*//")"
-    - transition_jira_issue_with_status "$ISSUE_KEY" "In Progress"    
-    - assign_to_user "$ISSUE_KEY" "${EMAIL_NAME}"
-      
+    - transition_jira_issue_with_status "$CI_COMMIT_BRANCH" "In Progress"    
+    - assign_to_user "$CI_COMMIT_BRANCH" "${EMAIL_NAME}"
+
+
 UnitTests:
-  stage: test
+  stage: development
   rules:
    - if: ($CI_PIPELINE_SOURCE == "merge_request_event")
   tags:
@@ -51,27 +85,38 @@ UnitTests:
     reports:
         junit:
             - "fastlane/test_output/*.xml"
+    expire_in: 1 week
 
-merge-job:
-  stage: mergeRequest
+merge_request:
+  stage: development
   tags:
-    - mac-emulator
+    - mac-slave
   rules:
-    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "master"'
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
+    - if: $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME =~ /(APP|KTO)-[0-9]+/ && $CI_PIPELINE_SOURCE == "merge_request_event"
   variables:
-    BRANCH_NAME: $CI_MERGE_REQUEST_SOURCE_BRANCH_NAME
+      CI_COMMIT_BRANCH: "$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME"
   script:
-    - rm -rf ~/Library/Developer/Xcode/DerivedData
-    - transition_jira_issue_with_status "$BRANCH_NAME" "Merge Request"
-    - update_rootcause_category "$BRANCH_NAME" "$DESCRIPTION"
-
-merged-job:
-  stage: merged
+      - curl https://gitlab.higgstar.com/api/v4/projects/695/repository/files/commitlint-gitlab.sh/raw | bash
+      - check_branch_pattern "$CI_COMMIT_BRANCH"
+      - |         
+        mr_data=$(fetch_merge_request_data "$CI_PROJECT_ID" "$CI_MERGE_REQUEST_IID")
+        title=$(echo "$mr_data" | jq -r .title | tr "[:upper:]" "[:lower:]")
+        description=$(echo "$mr_data" | jq -r .description)
+        detail=$(get_issue_details "$CI_COMMIT_BRANCH")
+        issueName=$(jq -r .fields.issuetype.name <<< "$detail")        
+        echo "update ${CI_COMMIT_BRANCH}(${issueName}) $title $description"
+        check_merge_request_description "$title" "$description" "$issueName"
+        update_rootcause_category "$CI_COMMIT_BRANCH" "$description"
+        transition_jira_issue_with_status "$CI_COMMIT_BRANCH" "Merge Request"
+        
+merged_to_branch:
+  stage: development
   tags:
-    - mac-emulator
+    - app-linux-jenkins
+  # variables:
+  #   CI_DEBUG_TRACE: "true"
   rules:
-    - if: ($CI_COMMIT_MESSAGE =~ /Merge branch 'KTO-[0-9]+'/ && $CI_COMMIT_REF_NAME == "master")
+     - if: $CI_COMMIT_MESSAGE =~ /Merge branch 'KTO-[0-9]+'/
   script:
     - |
       regex="KTO-[0-9]+"
@@ -83,143 +128,153 @@ merged-job:
         echo "No matching string found in CI_COMMIT_MESSAGE"
       fi
 
-get_related_issues:
+get_qat_next_version:
   variables:
     GIT_STRATEGY: clone
-  stage: analyze
+  stage: versionSync
+  tags: 
+    - ios-agent-release
   rules:
-    - if: '$CI_PIPELINE_SOURCE == "web"'
-      when: always
-    - when: never
+    - !reference [.qat_rules, rules]
   script:
     - |
       last_tag=$(get_last_tag)
-      echo "last tag = $last_tag"
-      echo "LAST_TAG=$last_tag" >> variables.env
+      previous_version=$(parse_version_core $last_tag)
+      echo "last tag = $last_tag($previous_version)"
+      echo "PREVIOUS_VERSION=$previous_version" >> variables.env
 
       commit_messages=$(fetch_commits_since_tag_to_head "$last_tag")
+      jira_tickets=$(extract_jira_tickets "$commit_messages")           
+      jira_tickets=$(echo "$jira_tickets" | tr '\n' ' ')
+      echo "RELATED_ISSUE=$jira_tickets" >> variables.env
+
+      version=$(get_next_version "$last_tag" $BREAKING_CHANGE $FORCE_UPDATE "$RELATED_ISSUE")           
+      echo "RELEASE_VERSION_CORE=$version" >> variables.env
+
+      suffix=$(get_release_suffix $TARGET_ENVIROMENT)
+      echo "ENVIROMENT_SUFFIX=$suffix" >> variables.env
+
+      echo "get_next_version: $version $suffix $jira_tickets from $last_tag..head"
+  artifacts:
+    reports:
+      dotenv: variables.env
+    expire_in: 2 week
+
+get_formal_release_version:
+  tags: 
+    - ios-agent-release
+  variables:
+    GIT_STRATEGY: clone
+  stage: versionSync
+  rules:
+    - !reference [.formal_rules, rules]
+  script:
+    - |
+      export RELEASE_VERSION_CORE=$(parse_version_core $CI_COMMIT_TAG)
+      echo "RELEASE_VERSION_CORE=$RELEASE_VERSION_CORE" >> variables.env
+      
+      suffix=$(get_release_suffix $TARGET_ENVIROMENT)
+      echo "ENVIROMENT_SUFFIX=$suffix" >> variables.env
+
+      export ONLINE_VERSION=$(fetch_ios_online_version $TARGET_ENVIROMENT)
+      echo "PREVIOUS_VERSION=$ONLINE_VERSION" >> variables.env
+      onlineTag="$ONLINE_VERSION-$suffix"
+      commit_messages=$(fetch_commits_between_tags $onlineTag $CI_COMMIT_TAG)
       jira_tickets=$(extract_jira_tickets "$commit_messages")
-         # Remove newline characters from jira_tickets
-      jira_tickets=$(echo "$jira_tickets" | tr '\n' ' ' | sed 's/ *$//g')
-      
-      related_issues=""    
-
+      jira_tickets=$(echo "$jira_tickets" | tr '\n' ' ')
       if [ -z "$jira_tickets" ]; then
-        related_issues="$CI_COMMIT_BRANCH"
-      else
-        related_issues="$jira_tickets"
+        jira_tickets=""
       fi
-      
-      # Store the related issues in the environment file
-      echo "RELATED_ISSUE=$related_issues" >> variables.env
-      echo "related issues: $related_issues"
+      echo "RELATED_ISSUE=$jira_tickets" >> variables.env
+
+      echo "Select Version:${RELEASE_VERSION_CORE} to update from $onlineTag JIRA_ISSUES=$jira_tickets"
   artifacts:
     reports:
       dotenv: variables.env
+    expire_in: 2 week
 
-get_next_version:
-  variables:
-    # CI_DEBUG_TRACE: "true"
-    RELEASE_TARGET: 'dev' 
-  stage: analyze
-  needs: [ "get_related_issues" ]
-  tags: 
-    - ios-agent-release
+# aio_test:
+#   needs:
+#   - job: get_qat_next_version
+#     optional: true
+#   - job: get_formal_release_version
+#     optional: true  
+#   # variables:
+#   #   CI_DEBUG_TRACE: "true"
+#   allow_failure: false
+#   rules:
+#     - if: '$CI_PIPELINE_SOURCE == "web" && $TARGET_ENVIROMENT == "QAT" && $SKIP_TEST == "false"'
+#   stage: sanityTesting
+#   tags:
+#     - mac-app-test3
+#   script:
+#     - echo "Running AIO Tests"
+#     - aio_test "$RELEASE_VERSION_CORE" "${RELEASE_VERSION_CORE}-dev"
+#   artifacts:
+#     when: always
+#     reports:
+#       junit: '**/test-results/**/*.xml'
+#     expire_in: 2 week
+
+buildAndRelease:
+  stage: release
   rules:
-    - if: '$CI_PIPELINE_SOURCE == "web"'
-      when: always
-    - when: never
+    - !reference [.release_rules, rules]
+  needs:
+    - job: get_qat_next_version
+      optional: true
+    - job: get_formal_release_version
+      optional: true
+    # - job: aio_test
+    #   optional: true
+  variables:
+    TARGET_ENVIROMENT: "$TARGET_ENVIROMENT"
+    ENVIROMENT_SUFFIX: "$ENVIROMENT_SUFFIX"
+    RELEASE_VERSION_CORE: $RELEASE_VERSION_CORE
+    PREVIOUS_VERSION: "$PREVIOUS_VERSION"
+    RELATED_ISSUE: "$RELATED_ISSUE"
+  trigger:
+      include:
+        - local: .app-release.yml
+      strategy: depend
+
+extra_stg_prepare:
+  stage: release
+  rules:
+    - !reference [.qat_with_stg_rules, rules]
+  variables:
+      SELECT_TAG: "${RELEASE_VERSION_CORE}-dev"
+  needs: ["get_qat_next_version", "buildAndRelease"]
   script:
     - |
-      version=$(get_next_version "$LAST_TAG" "$FORCE_UPADATE" "$BREAKING_CHANGE" "$RELATED_ISSUE")
-      echo "next version: $version"
-      echo "NEXT_VERSION=$version" >> variables.env      
-      fastlane getNextTestflightBuildNumber releaseTarget:$RELEASE_TARGET targetVersion:$version
-      buildNumber=$(cat "fastlane/buildNumber")
-      nextBuildNumber=$((buildNumber + 1))
-      echo "BUILD_NUMBER=$nextBuildNumber" >> variables.env
-      echo "next build number: $nextBuildNumber"
+      export ONLINE_VERSION=$(fetch_online_version "STG")
+      echo "PREVIOUS_VERSION=$ONLINE_VERSION" >> variables.env
+      echo "RELEASE_VERSION_CORE=$RELEASE_VERSION_CORE" >> variables.env
+      commit_messages=$(fetch_commits_between_tags "$ONLINE_VERSION-rc" "$SELECT_TAG")
+      jira_tickets=$(extract_jira_tickets "$commit_messages")
+      jira_tickets=$(echo "$jira_tickets" | tr '\n' ' ')
+      if [ -z "$jira_tickets" ]; then
+        jira_tickets=""
+      fi
+      echo "RELATED_ISSUE=$jira_tickets" >> variables.env
+      echo "Select Version:${RELEASE_VERSION_CORE} to update from $onlineTag JIRA_ISSUES=$jira_tickets"
   artifacts:
     reports:
       dotenv: variables.env
+    expire_in: 2 week
 
-build_ipa:
-  stage: publish
-  needs: ["get_next_version"]
-  tags: 
-    - ios-agent-release
+extra_stg_publish:
+  stage: release
+  rules:
+    - !reference [.qat_with_stg_rules, rules]
+  needs:
+    - job: extra_stg_prepare
   variables:
-    RELEASE_TARGET: 'dev'    
-    ReleaseTag: "$NEXT_VERSION-$RELEASE_TARGET" 
-    NEXT_BUILD_NUMBER: "$BUILD_NUMBER"
-    RELEASE_VERSIONCORE: "$NEXT_VERSION"
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "web"'
-      when: always
-    - when: never
-  script: 
-    - echo "new build number ${NEXT_BUILD_NUMBER}"
-    - |
-      echo "release tag $ReleaseTag"
-      pod install --repo-update
-      fastlane uploadToTestflight buildVersion:$NEXT_BUILD_NUMBER appVersion:$NEXT_VERSION releaseTarget:$RELEASE_TARGET
-      upload_to_proget_feed "app" "ios" "kto-asia" "$ReleaseTag" "build version: $NEXT_BUILD_NUMBER" "output/ktobet-asia-ios-${RELEASE_VERSIONCORE}-qat.ipa"
-      echo "Calculating IPA size"
-      size=$(du -s -k output/ktobet-asia-ios-${RELEASE_VERSIONCORE}-qat.ipa | awk '{printf "%.2f", $1/1024}')
-      echo "Get Ipa Size = $size"
-      echo "IPA_SIZE=$size" >> variables.env
-  artifacts:
-    reports:
-      dotenv: variables.env
-
-update_portal_version:
-  stage: publish
-  needs: ["build_ipa","get_next_version"]
-  tags: 
-    - ios-agent-release
-  variables:
-    RELEASE_TARGET: 'dev'    
-    ReleaseTag: "$NEXT_VERSION-$RELEASE_TARGET" 
-    NEXT_BUILD_NUMBER: "$BUILD_NUMBER"
-    DOWNLOAD_URL_CN: "$IOS_QAT_DOWNLOAD_URL_CN"
-    DOWNLOAD_URL_VN: "$IOS_QAT_DOWNLOAD_URL_VN"
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "web"'
-      when: always
-    - when: never
-  script: 
-    - echo "Publishing version with size $IPA_SIZE version:$NEXT_VERSION number:$NEXT_BUILD_NUMBER"
-    - |      
-      publishIosVersion "[174]" "qat" "$NEXT_VERSION" "$NEXT_BUILD_NUMBER" "$DOWNLOAD_URL_CN" "$DOWNLOAD_URL_VN" "$IPA_SIZE"
-      tagRelease "qat" "$BUILD_NUMBER" "$NEXT_VERSION-$RELEASE_TARGET"
-
-update_jira_issues:
-  stage: publish
-  needs: ["build_ipa"]
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "web"'
-      when: always
-    - when: never
-  script:
-    - |
-      echo "update jira issues $RELATED_ISSUE"
-      update_publish_jira_tickets "release to QAT" "$NEXT_VERSION-qat" $RELATED_ISSUE
-
-notify_publish:
-  variables:
-    RELEASE_TARGET: 'dev'
-    DOWNLOAD_PAGE: "https://qat1-app.affclub.xyz/"
-    ISSUE_LINK: "https://jira.higgstar.com/issues/?jql=project%20%3D%20KTO%20AND%20labels%20%3D%20ios-$NEXT_VERSION-qat"
-    DOWNLOAD_FILE: "${PROGET_URL}/feeds/app/ios/kto-asia/${NEXT_VERSION}-${RELEASE_TARGET}/files"
-    TEAMS_WEBHOOK_URL: "https://higgstar.webhook.office.com/webhookb2/4633c5c4-c4b4-4e4a-811a-292e1c2bba93@8e771fc0-280e-4271-a200-ad98dd5f6605/IncomingWebhook/7299ee0a8a304576814e537a53d5930b/dbab47a2-891a-470f-a94e-4dbb41d9acbc"
-    # TEAMS_WEBHOOK_URL: "https://higgstar.webhook.office.com/webhookb2/4633c5c4-c4b4-4e4a-811a-292e1c2bba93@8e771fc0-280e-4271-a200-ad98dd5f6605/IncomingWebhook/7299ee0a8a304576814e537a53d5930b/dbab47a2-891a-470f-a94e-4dbb41d9acbc"
-  needs: ["get_next_version", "build_ipa","update_portal_version","update_jira_issues"]
-  stage: notify
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "web"'
-      when: always
-    - when: never
-  script:
-    - |      
-      message_payload=$(create_kto_notify "$LAST_TAG" "$NEXT_VERSION" "qat" "$DOWNLOAD_PAGE" "$ISSUE_LINK" "$DOWNLOAD_FILE")
-      curl -H "Content-Type: application/json" -d "${message_payload}" ${TEAMS_WEBHOOK_URL}  
+    TARGET_ENVIROMENT: "STG"
+    ENVIROMENT_SUFFIX: "rc"
+    RELEASE_VERSION_CORE: "$RELEASE_VERSION_CORE"  
+    PREVIOUS_VERSION: "$PREVIOUS_VERSION"
+    RELATED_ISSUE: "$RELATED_ISSUE"
+  trigger:
+      include:
+        - local: .app-release.yml

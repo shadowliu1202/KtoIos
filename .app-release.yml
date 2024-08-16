@@ -1,0 +1,181 @@
+include:
+  - project : 'mobile/pipelinetemplate'
+    ref: master
+    file: 
+      - '.before_script_template.yml'
+
+.publish_rules:
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "parent_pipeline" && $TARGET_ENVIROMENT != "QAT"'
+      when: manual
+    - if: $CI_PIPELINE_SOURCE == "parent_pipeline"
+      when: on_success
+
+.release_rules:
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "parent_pipeline"'
+      when: on_success
+
+stages:          
+- versionSync # Increase build number from last version 
+- buildAndArchive # Build and archive the release version
+- publishRelease # Publish to the website and ProGet, set up the release version tag, update related Jira issues
+- notifySuccess  # Notify publish success via Teams
+
+variables:
+ TARGET_ENVIROMENT:
+   value: "STG"
+   description: "QAT/STG/PRO/PRE"
+ DOWNLOAD_URL_CN:
+   value: "$IOS_QAT_DOWNLOAD_URL_CN"
+   description: "dowload webpage of cn"
+ DOWNLOAD_URL_VN:
+   value: "$IOS_QAT_DOWNLOAD_URL_VN"
+   description: "dowload webpage of vn"
+ LANG: "en_US.UTF-8"
+ LC_ALL: "en_US.UTF-8"
+ MATCH_PASSWORD: "password"
+ KEYCHAIN_PASSWORD: "8YVFeB2N7iwEp"
+
+update_release_buildNumber:
+  tags: 
+    - ios-agent-release
+  stage: versionSync
+  rules:
+    - !reference [.release_rules, rules]
+  script:
+    - |
+      echo "getNextTestflightBuildNumber from $RELEASE_VERSION_CORE-$ENVIROMENT_SUFFIX"
+      fastlane getNextTestflightBuildNumber releaseTarget:$ENVIROMENT_SUFFIX targetVersion:$RELEASE_VERSION_CORE
+      buildNumber=$(cat "fastlane/buildNumber")
+      nextBuildNumber=$((buildNumber + 1))
+      echo "BUILD_NUMBER=$nextBuildNumber" >> variables.env
+      echo "update from ${buildNumber} to next build number: $nextBuildNumber"
+  artifacts:
+    reports:
+      dotenv: variables.env
+
+build_artifacts:
+  tags: 
+    - ios-agent-release
+  needs:   
+    - job: update_release_buildNumber
+  stage: buildAndArchive
+  variables:
+    ReleaseTag: "$RELEASE_VERSION_CORE-$ENVIROMENT_SUFFIX" 
+    NEXT_BUILD_NUMBER: "$BUILD_NUMBER"
+  rules:
+    - !reference [.release_rules, rules]
+  script:
+    - |
+      TARGET_ENV=$(echo "$TARGET_ENVIROMENT" | tr '[:upper:]' '[:lower:]')
+      echo "release $ReleaseTag($NEXT_BUILD_NUMBER) to $TARGET_ENVIROMENT($TARGET_ENV)"
+      export PATH=/usr/local/lib/ruby/gems/3.1.0/bin:$PATH
+      pod install --repo-update    
+      
+      enviroment="qat"
+
+      if [ "$TARGET_ENVIROMENT" == "PRO" ]; then
+        fastlane buildIpaProduction buildVersion:$NEXT_BUILD_NUMBER appVersion:$RELEASE_VERSION_CORE releaseTarget:$ENVIROMENT_SUFFIX 
+        fastlane uploadTestflight buildVersion:$NEXT_BUILD_NUMBER appVersion:$RELEASE_VERSION_CORE releaseTarget:$ENVIROMENT_SUFFIX
+        enviroment="prod"
+      elif [ "$TARGET_ENVIROMENT" == "STG" ]; then
+        fastlane buildIpaStaging buildVersion:$NEXT_BUILD_NUMBER appVersion:$RELEASE_VERSION_CORE releaseTarget:$ENVIROMENT_SUFFIX 
+        fastlane uploadTestflight buildVersion:$NEXT_BUILD_NUMBER appVersion:$RELEASE_VERSION_CORE releaseTarget:$ENVIROMENT_SUFFIX
+        enviroment="staging"
+      else
+        fastlane uploadToTestflight buildVersion:$NEXT_BUILD_NUMBER appVersion:$RELEASE_VERSION_CORE releaseTarget:$ENVIROMENT_SUFFIX
+        enviroment="qat"
+      fi
+    
+      upload_to_proget_feed "app" "ios" "kto-asia" "$ReleaseTag" "build version: $NEXT_BUILD_NUMBER" "output/ktobet-asia-ios-${enviroment}.ipa"
+      echo "Calculating IPA size"
+      size=$(du -s -k output/ktobet-asia-ios-${enviroment}.ipa | awk '{printf "%.2f", $1/1024}')
+      echo "Get Ipa Size = $size"
+      echo "IPA_SIZE=$size" >> variables.env
+  artifacts:
+    reports:
+      dotenv: variables.env
+    expire_in: 1 week
+
+publish_artifacts:
+  tags: 
+    - ios-agent-release  
+  stage: publishRelease
+  needs:
+    - job: build_artifacts
+    - job: update_release_buildNumber
+  variables:
+    ReleaseTag: "$RELEASE_VERSION_CORE-$ENVIROMENT_SUFFIX"      
+    NEXT_BUILD_NUMBER: "$BUILD_NUMBER"
+    CI_DEBUG_TRACE: "true"
+  rules:
+    - !reference [.publish_rules, rules]
+  script:
+    - |
+      #KTO-9226 change logic to newer
+      # HOTFIX_COMPARE = ""
+      echo "publish ${ReleaseTag} of ${RELEASE_VERSION_CORE} to ${TARGET_ENVIROMENT}($ENVIROMENT_SUFFIX)"
+      if [ "$TARGET_ENVIROMENT" == "PRO" ]; then
+        publishIosVersion "[183,244]" "prod" "$RELEASE_VERSION_CORE" "$NEXT_BUILD_NUMBER" "$DOWNLOAD_URL_CN" "$DOWNLOAD_URL_VN" "$IPA_SIZE"
+      elif [ "$TARGET_ENVIROMENT" == "STG" ]; then
+        publishIosVersion "[178,242]" "stage" "$RELEASE_VERSION_CORE" "$NEXT_BUILD_NUMBER" "$DOWNLOAD_URL_CN" "$DOWNLOAD_URL_VN" "$IPA_SIZE"
+      else
+        publishIosVersion "[174]" "qat" "$RELEASE_VERSION_CORE" "$NEXT_BUILD_NUMBER" "$DOWNLOAD_URL_CN" "$DOWNLOAD_URL_VN" "$IPA_SIZE"
+      fi
+
+tag_release_version:
+  tags: 
+    - ios-agent-release  
+  stage: publishRelease
+  needs:
+    - job: update_release_buildNumber
+    - job: publish_artifacts
+  variables:
+    ReleaseTag: "$RELEASE_VERSION_CORE-$ENVIROMENT_SUFFIX"      
+  rules:
+    - !reference [.release_rules, rules]
+  script:
+    - |
+      echo "tagRelease ${BUILD_NUMBER} of ${TARGET_ENVIROMENT} to ${RELEASE_VERSION_CORE}-${ENVIROMENT_SUFFIX}"
+      tagRelease $TARGET_ENVIROMENT "$BUILD_NUMBER" "$RELEASE_VERSION_CORE-$ENVIROMENT_SUFFIX"
+
+update_jira_issues:
+  tags: 
+    - ios-agent-release
+  stage: publishRelease
+  needs: 
+    - job: publish_artifacts  
+  rules:
+    - !reference [.release_rules, rules]
+  script:
+    - |
+      TARGET_ENV=$(echo "$TARGET_ENVIROMENT" | tr '[:upper:]' '[:lower:]')
+      echo "update jira issues $RELATED_ISSUE with $RELEASE_VERSION_CORE-$TARGET_ENV"
+      update_publish_jira_tickets "release to $TARGET_ENVIROMENT" "ios-$RELEASE_VERSION_CORE-$TARGET_ENV" $RELATED_ISSUE
+
+notify_publish:
+  stage: notifySuccess
+  needs: 
+    - job: update_jira_issues
+    - job: update_release_buildNumber
+  rules:
+    - !reference [.release_rules, rules]
+  variables:
+    DOWNLOAD_PAGE: "https://kto-qat-app.pivotsite.com/"
+    ISSUE_HOST: "https://jira.higgstar.com/issues/?jql=project%20%3D%20KTO%20AND%20labels%20%3D%20"
+    DOWNLOAD_FILE: "${PROGET_URL}/feeds/app/ios/kto-asia/${RELEASE_VERSION_CORE}-${ENVIROMENT_SUFFIX}/files"
+    TEAMS_WEBHOOK_URL: "https://higgstar.webhook.office.com/webhookb2/4633c5c4-c4b4-4e4a-811a-292e1c2bba93@8e771fc0-280e-4271-a200-ad98dd5f6605/IncomingWebhook/7299ee0a8a304576814e537a53d5930b/dbab47a2-891a-470f-a94e-4dbb41d9acbc"
+  script:
+    - |
+      if [ "$TARGET_ENVIROMENT" == "PRO" ]; then
+        DOWNLOAD_PAGE="$KTO_PRO_HOST"
+      elif [ "$TARGET_ENVIROMENT" == "STG" ]; then
+        DOWNLOAD_PAGE="$KTO_STG_HOST"
+      else
+        DOWNLOAD_PAGE="$KTO_QAT_HOST"
+      fi  
+      TARGET_ENV=$(echo "$TARGET_ENVIROMENT" | tr '[:upper:]' '[:lower:]')
+      ISSUE_LINK="${ISSUE_HOST}ios-${RELEASE_VERSION_CORE}-${TARGET_ENV}"
+      message_payload=$(create_kto_notify "$PREVIOUS_VERSION" "$RELEASE_VERSION_CORE" "$TARGET_ENV" "$DOWNLOAD_PAGE" "$ISSUE_LINK" "$DOWNLOAD_FILE")
+      curl -H "Content-Type: application/json" -d "${message_payload}" ${TEAMS_WEBHOOK_URL}  
