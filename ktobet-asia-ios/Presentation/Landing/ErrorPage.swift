@@ -1,8 +1,9 @@
 import Foundation
+import NavigationBackport
 import SwiftUI
 
 struct ErrorPage: View {
-    @Environment(\.popToRoot) var popToRoot
+    @EnvironmentObject var navigator: PathNavigator
     private(set) var title: LocalizedStringKey? = nil
     private(set) var message: LocalizedStringKey? = nil
     private(set) var button: LocalizedStringKey = "common_back"
@@ -35,7 +36,7 @@ struct ErrorPage: View {
                             if let backAction {
                                 backAction()
                             } else {
-                                popToRoot()
+                                navigator.popToRoot()
                             }
                         }
                     )

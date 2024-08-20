@@ -1,5 +1,6 @@
 import Combine
 import Foundation
+import NavigationBackport
 import RxSwift
 import sharedbu
 import SwiftUI
@@ -53,23 +54,14 @@ struct ResetPasswordStep2View: View {
             }
         }
         .onChange(of: otpVerification.otpCode) { _ in errorKey = nil }
-
-        NavigationLink(
-            destination: ErrorPage(title: "login_resetpassword_fail_title"),
-            isActive: $moveToErroPage,
-            label: {}
-        )
-        NavigationLink(
-            destination: ResetPasswordStep3View(),
-            isActive: $moveToNext,
-            label: {}
-        )
+        .nbNavigationDestination(isPresented: $moveToErroPage, destination: { ErrorPage(title: "login_resetpassword_fail_title") })
+        .nbNavigationDestination(isPresented: $moveToNext, destination: { ResetPasswordStep3View() })
     }
 }
 
 private struct ContentView: View {
+    @EnvironmentObject var navigator: PathNavigator
     @Environment(\.showDialog) var showDialog
-    @Environment(\.popToRoot) var popToRoot
     let selectMethod: AccountType
     let accountIdentity: String
     let state: OtpVerification.State
@@ -85,7 +77,7 @@ private struct ContentView: View {
                         title: Localize.string("common_confirm_cancel_operation"),
                         message: Localize.string("login_resetpassword_cancel_content"),
                         confirm: {
-                            popToRoot()
+                            navigator.popToRoot()
                         },
                         cancel: {}
                     )
@@ -153,17 +145,20 @@ private struct ResendHint: View {
         (
             Text("common_otp_resend_tips \(countDown.toHourMinutesFormat())")
                 + Text(" ")
-                + Text("common_resendotp")
-                .foregroundColor(countDown == 0 ? .primaryDefault : Color(uiColor: .primaryDefault.withAlphaComponent(0.5)))
+                + Text("common_resendotp_link")
         )
+        .tint(countDown == 0 ? .primaryDefault : Color(uiColor: .primaryDefault.withAlphaComponent(0.5)))
         .frame(maxWidth: .infinity)
         .multilineTextAlignment(.center)
         .font(weight: .regular, size: 14)
-        .onTapGesture {
-            countDown = Int(Setting.resendOtpCountDownSecond)
-            startTimer()
-            onResend()
-        }
+        .environment(\.openURL, OpenURLAction { _ in
+            if countDown == 0 {
+                countDown = Int(Setting.resendOtpCountDownSecond)
+                startTimer()
+                onResend()
+            }
+            return .handled
+        })
         .onReceive(timer) { _ in
             if countDown > 0 {
                 countDown -= 1

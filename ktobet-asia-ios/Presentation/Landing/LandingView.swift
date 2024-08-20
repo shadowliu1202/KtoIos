@@ -1,8 +1,10 @@
 import Foundation
+import NavigationBackport
 import sharedbu
 import SwiftUI
 
 struct LandingView<Content: View>: View {
+    @State var path = NBNavigationPath()
     @StateObject var csViewModel: CustomerServiceViewModel
     @AppStorage(UserDefaults.Key.cultureCode.rawValue) var cultureCode: String?
     private let content: () -> Content
@@ -18,31 +20,17 @@ struct LandingView<Content: View>: View {
         } else {
             SupportLocale.Vietnam()
         }
-        
-        let fontName = KTOFontWeight.regular.fontString(currentLocale)
-        
-        navigation()
-            .navigationViewManager()
-            .navigationBarHidden(true)
-            .navigationViewStyle(.stack)
-            .environment(\.locale, .init(identifier: currentLocale.cultureCode()))
-            .environment(\.font, .custom(fontName, size: 16))
-            .environment(\.isCsProcessing, $csViewModel.isCsInProcess)
-            .foregroundStyle(.textPrimary)
-    }
 
-    @ViewBuilder
-    func navigation() -> some View {
-        if #available(iOS 16.0, *) {
-            NavigationStack {
-                content()
-            }
-        } else {
-            // Navigation View has PopToRoot Bug on 16.0
-            NavigationView {
-                content()
-            }
+        let fontName = KTOFontWeight.regular.fontString(currentLocale)
+
+        NBNavigationStack(path: $path) {
+            content()
         }
+        .navigationBarHidden(true)
+        .environment(\.locale, .init(identifier: currentLocale.cultureCode()))
+        .environment(\.font, .custom(fontName, size: 16))
+        .environment(\.isCsProcessing, $csViewModel.isCsInProcess)
+        .foregroundStyle(.textPrimary)
     }
 }
 

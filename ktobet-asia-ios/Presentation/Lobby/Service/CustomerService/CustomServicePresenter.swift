@@ -14,20 +14,19 @@ extension CustomServiceDelegate where Self: BarButtonItemable, Self: UIViewContr
     func didCsIconAppear(isAppear: Bool) {
         if isAppear {
             removeCustomServiceBarButtons()
-        }
-        else {
+        } else {
             reAddCustomServiceBarButtons()
         }
     }
 
     private func reAddCustomServiceBarButtons() {
-        self.bind(position: .right, barButtonItems: barButtonItems)
+        bind(position: .right, barButtonItems: barButtonItems)
     }
 
     private func removeCustomServiceBarButtons() {
         if let csItems = customServiceBarButtons() {
-            let items = barButtonItems.filter({ !csItems.contains($0) })
-            self.bind(position: .right, barButtonItems: items)
+            let items = barButtonItems.filter { !csItems.contains($0) }
+            bind(position: .right, barButtonItems: items)
         }
     }
 }
@@ -39,21 +38,21 @@ class CustomServicePresenter: NSObject {
 
     private let csViewModel: CustomerServiceViewModel
     private let floatIconAvailableRelay = BehaviorRelay(value: true)
-  
+
     private var disposeBag = DisposeBag()
 
     private var ballWindow: CustomerServiceIconViewWindow?
-  
+
     var topViewController: UIViewController? {
-        if let root = UIApplication.shared.windows.first?.topViewController as? UINavigationController {
-            if let top = root.topViewController {
-                return top
-            }
+        guard let topViewController = UIApplication.shared.windows.first?.topViewController else { return nil }
 
-            return root
+        return if let navContoller = topViewController as? UINavigationController,
+                  let topNavController = navContoller.topViewController
+        {
+            topNavController
+        } else {
+            topViewController
         }
-
-        return nil
     }
 
     init(_ customerServiceViewModel: CustomerServiceViewModel) {
@@ -66,11 +65,11 @@ class CustomServicePresenter: NSObject {
         ballWindow = nil
         disposeBag = .init()
         addServiceIcon()
-    
+
         bindFloatIconDisplayStatus()
         bindFloatIconOnTap()
     }
-  
+
     private func addServiceIcon() {
         if ballWindow == nil {
             var rightPadding: CGFloat = 80
@@ -85,27 +84,30 @@ class CustomServicePresenter: NSObject {
                     x: UIScreen.main.bounds.width - rightPadding,
                     y: UIScreen.main.bounds.height - bottomPadding,
                     width: 56,
-                    height: 56),
-                viewModel: csViewModel)
+                    height: 56
+                ),
+                viewModel: csViewModel
+            )
         }
     }
 
     private func bindFloatIconDisplayStatus() {
         Driver.combineLatest(
             csViewModel.isPlayerInChat.asDriverOnErrorJustComplete(),
-            floatIconAvailableRelay.asDriver()) { ($0, $1) }
+            floatIconAvailableRelay.asDriver()
+        ) { ($0, $1) }
             .drive(onNext: { [ballWindow] in
                 let (isPlayerInChat, floatIconAvailable) = $0
                 let available = floatIconAvailable && isPlayerInChat
-        
+
                 ballWindow?.isHidden = !available
             })
             .disposed(by: disposeBag)
     }
-  
+
     private func bindFloatIconOnTap() {
         guard let ballWindow else { return }
-    
+
         ballWindow.touchUpInside
             .asObservable()
             .flatMap { [csViewModel] in csViewModel.chatRoomStatus.first() }
@@ -115,7 +117,7 @@ class CustomServicePresenter: NSObject {
                     let roomID = status?.0,
                     let status = status?.1
                 else { return }
-                
+
                 switch onEnum(of: status) {
                 case .close:
                     Task { @MainActor in
@@ -123,13 +125,11 @@ class CustomServicePresenter: NSObject {
                         if await csViewModel.hasExitSurvey(roomID) {
                             switchToExitSurvey(roomID)
                             try? await csViewModel.closeChatRoom().asCompletable().value
-                        }
-                        else {
+                        } else {
                             switchToChatRoom()
                         }
                         ballWindow.isUserInteractionEnabled = true
                     }
-          
                 case .connected:
                     switchToChatRoom()
                 case .connecting:
@@ -140,7 +140,7 @@ class CustomServicePresenter: NSObject {
             })
             .disposed(by: disposeBag)
     }
-  
+
     func setFloatIconAvailable(_ available: Bool) {
         floatIconAvailableRelay.accept(available)
     }
@@ -151,13 +151,12 @@ class CustomServicePresenter: NSObject {
             .do(onSuccess: { [unowned self] in
                 if $0 {
                     switchToPrechat(from: vc)
-                }
-                else {
+                } else {
                     switchToCalling()
                 }
             })
             .asCompletable()
-            .catch({ error in
+            .catch { error in
                 switch error {
                 case is ServiceUnavailableException:
                     self.switchToCalling()
@@ -165,7 +164,7 @@ class CustomServicePresenter: NSObject {
                 default:
                     return Completable.error(error)
                 }
-            })
+            }
     }
 
     private func switchToPrechat(from vc: UIViewController?) {
@@ -188,7 +187,7 @@ class CustomServicePresenter: NSObject {
         navi.modalPresentationStyle = UIModalPresentationStyle.fullScreen
         topViewController?.present(navi, animated: true, completion: nil)
     }
-  
+
     private func switchToExitSurvey(_ roomID: String) {
         let exitSurveyVC = ExitSurveyViewController(roomID: roomID)
         let navi = CustomServiceNavigationController(rootViewController: exitSurveyVC)
@@ -198,7 +197,21 @@ class CustomServicePresenter: NSObject {
 
     func closeService() -> Completable {
         Logger.shared.info("Customer service status close.")
-    
+
         return csViewModel.closeChatRoom(forceExit: true).asCompletable()
+    }
+}
+
+extension UIViewController {
+    static func getLastPresentedViewController() -> UIViewController? {
+        let scene = UIApplication.shared.connectedScenes
+            .filter { $0.activationState == .foregroundActive }
+            .first { $0 is UIWindowScene } as? UIWindowScene
+        let window = scene?.windows.first { $0.isKeyWindow }
+        var presentedViewController = window?.rootViewController
+        while presentedViewController?.presentedViewController != nil {
+            presentedViewController = presentedViewController?.presentedViewController
+        }
+        return presentedViewController
     }
 }

@@ -1,4 +1,5 @@
 import Combine
+import NavigationBackport
 import sharedbu
 import SwiftUI
 
@@ -7,14 +8,14 @@ struct RegisterStep2View: View {
     @Environment(\.handleError) var handleError
     @Environment(\.showDialog) var showDialog
     @Environment(\.dismiss) var dismiss
-    @Environment(\.popToRoot) var popToRoot
+    @EnvironmentObject var navigator: PathNavigator
     @Environment(\.toastMessage) var toastMessage
 
     @State private var moveToNext: MoveToNext = .init()
     @State private var mobileError: RegisterStep2.Warning? = nil
     @State private var emailError: RegisterStep2.Warning? = nil
 
-    private struct MoveToNext {
+    private struct MoveToNext: Hashable {
         var accountType: AccountType? = nil
         var identity: String = ""
         var password: String = ""
@@ -44,7 +45,7 @@ struct RegisterStep2View: View {
                     info: ShowDialog.Info(
                         title: Localize.string("common_tip_title_warm"),
                         message: Localize.string("register_step2_unusual_activity"),
-                        confirm: { popToRoot() },
+                        confirm: { navigator.popToRoot() },
                         confirmText: Localize.string("common_determine")
                     )
                 )
@@ -67,20 +68,12 @@ struct RegisterStep2View: View {
             }
         }
         .disabled(viewModel.state.isProcessing)
-
-        NavigationLink(
-            destination: RegisterStep3EmailView(identity: moveToNext.identity, password: moveToNext.password),
-            tag: .email,
-            selection: $moveToNext.accountType,
-            label: {}
-        )
-
-        NavigationLink(
-            destination: RegisterStep3MobileView(identity: moveToNext.identity),
-            tag: .phone,
-            selection: $moveToNext.accountType,
-            label: {}
-        )
+        .nbNavigationDestination(item: $moveToNext.accountType) { type in
+            switch type {
+            case .phone: RegisterStep3MobileView(identity: moveToNext.identity)
+            case .email: RegisterStep3EmailView(identity: moveToNext.identity, password: moveToNext.password)
+            }
+        }
     }
 }
 

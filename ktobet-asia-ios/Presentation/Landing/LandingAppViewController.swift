@@ -17,10 +17,68 @@ class LandingAppViewController: LandingViewController {
     private let segueSignup = "GoToSignup"
     private let disposeBag = DisposeBag()
     private var viewDisappearBag = DisposeBag()
-
+    private lazy var uiHostingController = createHostingViewController()
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        uiHostingController.modalPresentationStyle = .fullScreen
+        present(uiHostingController, animated: false, completion: nil)
         observeSystemStatus()
+    }
+
+    private func createHostingViewController() -> UIHostingController<AnyView> {
+        UIHostingController(rootView: AnyView(LandingView(csViewModel: customerServiceViewModel) { [unowned self] in
+            LoginView(
+                viewModel: viewModel,
+                isForceChinese: Configuration.forceChinese,
+                onLogin: { [unowned self] pageNavigation, error in
+                    if let pageNavigation {
+                        executeNavigation(pageNavigation)
+                    }
+
+                    if let error {
+                        switch error {
+                        case is InvalidPlatformException:
+                            showServiceDownAlert()
+                        default:
+                            handleErrors(error)
+                        }
+                    }
+                },
+                onOTPLogin: { [unowned self] in navigateToOtpLoginPage() },
+                toggleForceChinese: { [unowned self] in
+                    Configuration.forceChinese.toggle()
+                    recreateVC()
+                }
+            )
+        }
+        .onStartCS { [unowned self] in startCustomerService() }
+        .onStartManuelUpdate { [unowned self] in startManuelUpdate() }
+        .onShowDialog { info in
+            Alert.shared.show(
+                info.title,
+                info.message,
+                confirm: info.confirm,
+                confirmText: info.confirmText,
+                cancel: info.cancel,
+                cancelText: info.cancelText,
+                tintColor: info.tintColor
+            )
+        }
+        .onHandleError { [unowned self] error in
+            handleErrors(error)
+        }
+        .onToastMessage { [unowned self] message, style in
+            showToast(message, barImg: style)
+        }
+        .onEnterLobby { [unowned self] productType in
+            let lobbyNavigation: NavigationViewModel.LobbyPageNavigation =
+                if let productType, productType != .none {
+                    .playerDefaultProduct(productType)
+                } else {
+                    .setDefaultProduct
+                }
+            executeNavigation(lobbyNavigation)
+        }))
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -52,79 +110,18 @@ class LandingAppViewController: LandingViewController {
             .disposed(by: disposeBag)
     }
 
-    @IBSegueAction
-    func segueToHostingController(_ coder: NSCoder) -> UIViewController? {
-        UIHostingController(
-            coder: coder,
-            rootView:
-            LandingView(csViewModel: customerServiceViewModel) { [unowned self] in
-                LoginView(
-                    viewModel: viewModel,
-                    isForceChinese: Configuration.forceChinese,
-                    onLogin: { [unowned self] pageNavigation, error in
-                        if let pageNavigation {
-                            executeNavigation(pageNavigation)
-                        }
-
-                        if let error {
-                            switch error {
-                            case is InvalidPlatformException:
-                                showServiceDownAlert()
-                            default:
-                                handleErrors(error)
-                            }
-                        }
-                    },
-                    onOTPLogin: { [unowned self] in navigateToOtpLoginPage() },
-                    toggleForceChinese: { [unowned self] in
-                        Configuration.forceChinese.toggle()
-                        recreateVC()
-                    }
-                )
-            }
-            .onStartCS { [unowned self] in startCustomerService() }
-            .onStartManuelUpdate { [unowned self] in startManuelUpdate()}
-            .onShowDialog { info in
-                Alert.shared.show(
-                    info.title,
-                    info.message,
-                    confirm: info.confirm,
-                    confirmText: info.confirmText,
-                    cancel: info.cancel,
-                    cancelText: info.cancelText,
-                    tintColor: info.tintColor
-                )
-            }
-            .onHandleError { [unowned self] error in
-                handleErrors(error)
-            }
-            .onToastMessage { [unowned self] message, style in
-                showToast(message, barImg: style)
-            }
-            .onEnterLobby { [unowned self] productType in
-                let lobbyNavigation: NavigationViewModel.LobbyPageNavigation =
-                    if let productType, productType != .none {
-                        .playerDefaultProduct(productType)
-                    } else {
-                        .setDefaultProduct
-                    }
-                executeNavigation(lobbyNavigation)
-            }
-        )
-    }
-
     private func navigateToPrechatSurvey() {
         let prechatVC = PrechatSurveyViewController()
         let navi = CustomServiceNavigationController(rootViewController: prechatVC)
         navi.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
-        present(navi, animated: true, completion: nil)
+        uiHostingController.present(navi, animated: true, completion: nil)
     }
 
     private func navigateToCalling() {
         let callingVC = CallingViewController(surveyAnswers: nil)
         let navi = CustomServiceNavigationController(rootViewController: callingVC)
         navi.modalPresentationStyle = UIModalPresentationStyle.fullScreen
-        present(navi, animated: false, completion: nil)
+        uiHostingController.present(navi, animated: false, completion: nil)
     }
 
     private func executeNavigation(_ navigation: NavigationViewModel.LobbyPageNavigation) {
@@ -170,10 +167,9 @@ class LandingAppViewController: LandingViewController {
     }
 
     private func navigateToOtpLoginPage() {
-        performSegue(
-            withIdentifier: OtpLoginViewController.segueIdentifier,
-            sender: serviceStatusViewModel.getOtpServiceIsAvilable()
-        )
+        let storyboard = UIStoryboard(name: "OtpLogin", bundle: nil)
+        let vc = storyboard.instantiateInitialViewController()!
+        uiHostingController.present(vc, animated: true, completion: nil)
     }
 
     @IBAction
@@ -195,7 +191,9 @@ extension LandingAppViewController {
     }
 
     private func recreateVC() {
-        navigationController?.viewControllers = [LandingAppViewController.initFrom(storyboard: "Login")]
+        uiHostingController.dismiss(animated: false)
+
+        navigationController?.viewControllers = [LandingAppViewController()]
     }
 
     override func unwind(for _: UIStoryboardSegue, towards _: UIViewController) {}

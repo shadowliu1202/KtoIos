@@ -95,16 +95,16 @@ class NavigationManagement: Navigator {
                 let error = NSError(
                     domain: "NavigationManagement.NullViewController",
                     code: APPError.DefaultStatusCode.navigationManagement.rawValue,
-                    userInfo: ["LastViewController": viewController.description])
-        
+                    userInfo: ["LastViewController": viewController.description]
+                )
+
                 Logger.shared.error(error)
-            }
-            else {
+            } else {
                 _viewController = newValue
             }
         }
     }
-  
+
     private var navigationController: UINavigationController {
         (viewController as? UINavigationController) ?? viewController.navigationController!
     }
@@ -112,7 +112,7 @@ class NavigationManagement: Navigator {
     var previousRootViewController: UIViewController?
     weak var unwindNavigate: NotificationNavigate?
 
-    private init() { }
+    private init() {}
 
     func addMenuToBarButtonItem(vc: UIViewController, title: String? = nil) {
         guard let navigationBar = vc.navigationController?.navigationBar else { return }
@@ -130,7 +130,8 @@ class NavigationManagement: Navigator {
             image: UIImage(named: "Menu")?.withRenderingMode(.alwaysOriginal),
             style: .plain,
             target: self,
-            action: #selector(NavigationManagement.showMenu))
+            action: #selector(NavigationManagement.showMenu)
+        )
 
         add(leftBarButtonItems: [menuButton])
 
@@ -146,29 +147,29 @@ class NavigationManagement: Navigator {
     }
 
     func addBarButtonItem(vc: UIViewController, barItemType: BarItemType, leftItemTitle: String) {
-        self.viewController = vc
+        viewController = vc
         let titleItem = createTitleItem(title: leftItemTitle)
         add(leftBarButtonItems: [getBarButtonItem(barItemType: barItemType), titleItem])
     }
 
     func addBarButtonItem(vc: UIViewController, barItemType: BarItemType, image: String? = nil, action: Selector? = nil) {
-        self.viewController = vc
+        viewController = vc
         add(leftBarButtonItems: [getBarButtonItem(barItemType: barItemType, action: action, image: image)])
     }
 
     func addRightBarButtonItem(vc: UIViewController, barItemType: BarItemType, image: String? = nil, action: Selector? = nil) {
-        self.viewController = vc
+        viewController = vc
         add(rightBarButtonItems: [getBarButtonItem(barItemType: barItemType, action: action, image: image)])
     }
 
     @objc
     func back() {
-        self.popViewController()
+        popViewController()
     }
 
     @objc
     func close() {
-        self.popToRootViewController()
+        popToRootViewController()
     }
 
     @objc
@@ -197,8 +198,8 @@ class NavigationManagement: Navigator {
 
     func goToPreviousRootViewController() {
         if let previous = previousRootViewController {
-            self.viewController = previous
-            UIApplication.shared.windows.filter { $0.isKeyWindow }.first?.rootViewController = previousRootViewController
+            viewController = previous
+            UIApplication.shared.windows.filter(\.isKeyWindow).first?.rootViewController = previousRootViewController
         }
     }
 
@@ -240,7 +241,7 @@ class NavigationManagement: Navigator {
         setTopVCToVC()
         self.unwindNavigate = unwindNavigate
     }
-  
+
     private func setTopVCToVC() {
         viewController = navigationController.topViewController
     }
@@ -249,8 +250,7 @@ class NavigationManagement: Navigator {
         sideBarViewController.navigationController?.dismiss(animated: true, completion: nil)
 
         let storyboard = UIStoryboard(name: "Profile", bundle: nil)
-        let navi = storyboard
-            .instantiateViewController(withIdentifier: "AuthProfileModificationNavigation") as! UINavigationController
+        let navi = storyboard.instantiateViewController(withIdentifier: "AuthProfileModificationNavigation") as! UINavigationController
         navi.modalPresentationStyle = UIModalPresentationStyle.fullScreen
         let vc = navi.viewControllers.first as? AuthProfileModificationViewController
         vc?.didAuthenticated = { [weak self] in
@@ -264,20 +264,19 @@ class NavigationManagement: Navigator {
     }
 
     func popToNotificationOrBack(unwind: () -> Void) {
-        if let navi = self.unwindNavigate {
+        if let navi = unwindNavigate {
             let callback = {
                 self.unwindNavigate = nil
             }
-            self.popViewController(callback, to: navi)
-        }
-        else {
+            popViewController(callback, to: navi)
+        } else {
             unwind()
         }
     }
 
     private func setRootViewController(storyboard name: String, viewControllerId: String) {
-        self.viewController = UIStoryboard(name: name, bundle: nil).instantiateViewController(withIdentifier: viewControllerId)
-        UIApplication.shared.windows.filter { $0.isKeyWindow }.first?.rootViewController = self.viewController
+        viewController = UIStoryboard(name: name, bundle: nil).instantiateViewController(withIdentifier: viewControllerId)
+        UIApplication.shared.windows.filter(\.isKeyWindow).first?.rootViewController = viewController
     }
 
     private func initSideMenu() {
@@ -296,7 +295,7 @@ class NavigationManagement: Navigator {
     private func getBarButtonItem(barItemType: BarItemType, action: Selector? = nil, image: String? = nil) -> UIBarButtonItem {
         let button = UIBarButtonItem()
         button.style = .plain
-        button.target = action == nil ? self : self.viewController
+        button.target = action == nil ? self : viewController
         switch barItemType {
         case .back:
             button.image = (UIImage(named: image ?? "") ?? UIImage(named: "Back"))?.withRenderingMode(.alwaysOriginal)
@@ -315,7 +314,8 @@ class NavigationManagement: Navigator {
         let titleItem = UIBarButtonItem(title: title, style: .plain, target: self, action: nil)
         titleItem.setTitleTextAttributes(
             [NSAttributedString.Key.font: UIFont(name: "PingFangSC-Semibold", size: 16.0)!],
-            for: .normal)
+            for: .normal
+        )
         titleItem.setTitleTextAttributes([NSAttributedString.Key.foregroundColor: UIColor.greyScaleWhite], for: .normal)
         return titleItem
     }

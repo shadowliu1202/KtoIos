@@ -157,6 +157,7 @@ PODS:
     - nanopb/encode (= 2.30910.0)
   - nanopb/decode (2.30910.0)
   - nanopb/encode (2.30910.0)
+  - NavigationBackport (0.9.3)
   - NotificationBannerSwift (3.0.0):
     - MarqueeLabel (~> 4.0.0)
     - SnapKit (~> 5.0.0)
@@ -204,7 +205,6 @@ PODS:
   - SwiftFormat/CLI (0.54.0)
   - SwiftKeychainWrapper (4.0.1)
   - SwiftSignalRClient (0.9.4)
-  - SwiftUIIntrospect (1.3.0)
   - SwiftyJSON (5.0.0)
   - Swinject (2.8.3)
   - SwinjectAutoregistration (2.8.3):
@@ -224,6 +224,7 @@ DEPENDENCIES:
   - lottie-ios (= 3.2.3)
   - MockingbirdFramework (~> 0.20)
   - Moya/RxSwift (= 15.0.0)
+  - NavigationBackport
   - NotificationBannerSwift (= 3.0.0)
   - Periphery
   - Puppy (= 0.5.0)
@@ -241,7 +242,6 @@ DEPENDENCIES:
   - SwiftFormat/CLI (~> 0.49)
   - SwiftKeychainWrapper
   - SwiftSignalRClient
-  - SwiftUIIntrospect
   - SwiftyJSON (= 5.0.0)
   - Swinject (= 2.8.3)
   - SwinjectAutoregistration (= 2.8.3)
@@ -280,6 +280,7 @@ SPEC REPOS:
     - MockingbirdFramework
     - Moya
     - nanopb
+    - NavigationBackport
     - NotificationBannerSwift
     - Periphery
     - PromisesObjC
@@ -299,7 +300,6 @@ SPEC REPOS:
     - SwiftFormat
     - SwiftKeychainWrapper
     - SwiftSignalRClient
-    - SwiftUIIntrospect
     - SwiftyJSON
     - Swinject
     - SwinjectAutoregistration
@@ -335,6 +335,7 @@ SPEC CHECKSUMS:
   MockingbirdFramework: 54e35fbbb47b806c1a1fae2cf3ef99f6eceb55e5
   Moya: 138f0573e53411fb3dc17016add0b748dfbd78ee
   nanopb: 438bc412db1928dac798aa6fd75726007be04262
+  NavigationBackport: 9402f19d992d32afaeb8cb35d9a275af769116c0
   NotificationBannerSwift: 842401d30f5c36e4f2eafc152824566f6b3c1bb5
   Periphery: df811cd90304f9ca6bed6c1904c5ac1a88cff23f
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
@@ -355,7 +356,6 @@ SPEC CHECKSUMS:
   SwiftFormat: 0e0b577434e6aa63bc82a8905b40d9597b8452d4
   SwiftKeychainWrapper: 807ba1d63c33a7d0613288512399cd1eda1e470c
   SwiftSignalRClient: f259c3394e21c81b6f2ddf614866afa234e0e0dd
-  SwiftUIIntrospect: fee9aa07293ee280373a591e1824e8ddc869ba5d
   SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
   Swinject: 893c9a543000ac2f10ee4cbaf0933c6992c935d5
   SwinjectAutoregistration: e3ee378dc458acf78d176fc7fec3902603452667
@@ -363,6 +363,6 @@ SPEC CHECKSUMS:
   ViewInspector: 36399ac43f76170693c41499e9035499926171cb
   youtube-ios-player-helper: e9b97535e816db3152179d84d999bc1807ecd689
 
-PODFILE CHECKSUM: 800d7c554135ebba3d2ca24141b992ccc69a6ff6
+PODFILE CHECKSUM: eb5a4b47ad6b4590a958f778e0614693a1f18adf
 
 COCOAPODS: 1.15.2

@@ -1,5 +1,6 @@
 import Combine
 import Foundation
+import NavigationBackport
 import RxSwift
 import sharedbu
 import SwiftUI
@@ -48,21 +49,19 @@ struct RegisterStep3MobileView: View {
                 errorMessageKey = "register_step3_incorrect_otp"
             }
         }
-        NavigationLink(
-            destination: ErrorPage(
+        .nbNavigationDestination(isPresented: $moveToErrorPage) {
+            ErrorPage(
                 title: "register_step4_title_fail",
                 message: "register_step4_content_fail",
                 button: "register_step4_retry_signup"
-            ),
-            isActive: $moveToErrorPage,
-            label: {}
-        )
+            )
+        }
     }
 }
 
 private struct ContentView: View {
     @Environment(\.showDialog) var showDialog
-    @Environment(\.popToRoot) var popToRoot
+    @EnvironmentObject var navigator: PathNavigator
     let identity: String
     let state: RegisterStep3Mobile.State
     @Binding var otpCode: String
@@ -76,7 +75,7 @@ private struct ContentView: View {
                     info: ShowDialog.Info(
                         title: Localize.string("common_tip_title_unfinished"),
                         message: Localize.string("common_tip_content_unfinished"),
-                        confirm: { popToRoot() },
+                        confirm: { navigator.popToRoot() },
                         cancel: {}
                     )
                 )
@@ -141,17 +140,20 @@ private struct ResendHint: View {
         (
             Text("common_otp_resend_tips \(countDown.toHourMinutesFormat())")
                 + Text(" ")
-                + Text("common_resendotp")
-                .foregroundColor(countDown == 0 ? .primaryDefault : Color(uiColor: .primaryDefault.withAlphaComponent(0.5)))
+                + Text("common_resendotp_link")
         )
+        .tint(countDown == 0 ? .primaryDefault : Color(uiColor: .primaryDefault.withAlphaComponent(0.5)))
         .font(weight: .regular, size: 14)
         .frame(maxWidth: .infinity)
         .multilineTextAlignment(.center)
-        .onTapGesture {
-            countDown = Int(Setting.resendOtpCountDownSecond)
-            startTimer()
-            onResend()
-        }
+        .environment(\.openURL, OpenURLAction { _ in
+            if countDown == 0 {
+                countDown = Int(Setting.resendOtpCountDownSecond)
+                startTimer()
+                onResend()
+            }
+            return .handled
+        })
         .onReceive(timer) { _ in
             if countDown > 0 {
                 countDown -= 1

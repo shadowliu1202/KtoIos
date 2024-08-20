@@ -1,7 +1,13 @@
+import NavigationBackport
 import sharedbu
 import SwiftUI
 
 struct LoginView: View {
+    enum NavType: Hashable {
+        case resetPassword, register
+    }
+
+    @EnvironmentObject var navigator: PathNavigator
     @Environment(\.startManuelUpdate) private var startManuelUpdate
     @Environment(\.showDialog) var showDialog
     @StateObject var viewModel: LoginViewModel
@@ -10,9 +16,6 @@ struct LoginView: View {
     let onLogin: (NavigationViewModel.LobbyPageNavigation?, Error?) -> Void
     let onOtpLogin: () -> Void
     let toggleForceChinese: () -> Void
-
-    @State private var moveToRegister: Bool = false
-    @State private var moveToResetPassword: Bool = false
 
     init(
         viewModel: LoginViewModel,
@@ -39,7 +42,7 @@ struct LoginView: View {
                 switch onEnum(of: viewModel.getSupportLocale()) {
                 case .china:
                     #if QAT
-                        moveToRegister = true
+                        navigator.push(NavType.register)
                     #else
                         showDialog(info: .init(
                             title: Localize.string("common_tip_cn_down_title_warm"),
@@ -49,7 +52,7 @@ struct LoginView: View {
                         ))
                     #endif
                 case .vietnam:
-                    moveToRegister = true
+                    navigator.push(NavType.register)
                 }
             }
         ))
@@ -110,7 +113,7 @@ struct LoginView: View {
                             viewModel.login(callBack: onLogin)
                         }
                         LimitSpacer(24)
-                        resetPassword { moveToResetPassword = true }
+                        resetPassword { navigator.push(NavType.resetPassword) }
                         LimitSpacer(30)
                         HStack {
                             Separator()
@@ -136,9 +139,14 @@ struct LoginView: View {
             }
         }
         .onAppear { viewModel.refreshUI() }
-
-        NavigationLink(isActive: $moveToResetPassword, destination: { ResetPasswordStep1View() }, label: {})
-        NavigationLink(isActive: $moveToRegister, destination: { RegisterStep1View() }, label: {})
+        .nbNavigationDestination(for: NavType.self, destination: { dest in
+            switch dest {
+            case .register:
+                RegisterStep1View()
+            case .resetPassword:
+                ResetPasswordStep1View()
+            }
+        })
     }
 
     @ViewBuilder
@@ -282,13 +290,19 @@ struct LoginView: View {
 private extension LoginView {
     @ViewBuilder
     func resetPassword(onResetPassword: @escaping () -> Void) -> some View {
-        (
-            Text("login_tips_1")
-                + Text(" ")
-                + Text("login_tips_1_highlight").foregroundColor(.primaryDefault)
-        )
-        .font(size: 14)
-        .onTapGesture { onResetPassword() }
+        VStack(content: {
+            (
+                Text("login_tips_1")
+                    + Text(" ")
+                    + Text("login_tips_1_highlight_link")
+            )
+            .tint(.primaryDefault)
+            .environment(\.openURL, OpenURLAction { _ in
+                onResetPassword()
+                return .handled
+            })
+            .font(size: 14)
+        })
     }
 }
 
