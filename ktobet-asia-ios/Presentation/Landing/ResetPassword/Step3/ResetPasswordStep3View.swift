@@ -1,10 +1,11 @@
 import Foundation
+import NavigationBackport
 import SwiftUI
 
 struct ResetPasswordStep3View: View {
     @Environment(\.handleError) var handleError
     @Environment(\.toastMessage) var toastMessage
-    @Environment(\.popToRoot) var popToRoot
+    @EnvironmentObject var navigator: PathNavigator
     @StateObject var resetPassword = ResetPassword()
     @State var moveToErrorPage: Bool = false
     var body: some View {
@@ -19,22 +20,18 @@ struct ResetPasswordStep3View: View {
             switch event {
             case .resetSuccess:
                 toastMessage(Localize.string("login_resetpassword_success"), .success)
-                popToRoot()
+                navigator.popToRoot()
             case .navToError:
                 moveToErrorPage = true
             }
         }
-        NavigationLink(
-            destination: ErrorPage(title: "login_resetpassword_fail_title"),
-            isActive: $moveToErrorPage,
-            label: {}
-        )
+        .nbNavigationDestination(isPresented: $moveToErrorPage) { ErrorPage(title: "login_resetpassword_fail_title") }
     }
 }
 
 private struct ContentView: View {
     @Environment(\.showDialog) var showDialog
-    @Environment(\.popToRoot) var popToRoot
+    @EnvironmentObject var navigator: PathNavigator
     @Binding var password: String?
     @Binding var confirmPassword: String?
     var state: ResetPassword.State
@@ -45,7 +42,7 @@ private struct ContentView: View {
                 info: ShowDialog.Info(
                     title: Localize.string("common_confirm_cancel_operation"),
                     message: Localize.string("login_resetpassword_cancel_content"),
-                    confirm: { popToRoot() },
+                    confirm: { navigator.popToRoot() },
                     cancel: {}
                 )
             )
@@ -77,9 +74,7 @@ private struct ContentView: View {
                 PrimaryButton(
                     key: "common_next",
                     action: {
-                        if let password {
-                            onResetPassword(password)
-                        }
+                        if let password { onResetPassword(password) }
                     }
                 )
                 .disabled(state.verification != .valid)
@@ -106,7 +101,6 @@ extension ResetPassword.State.PasswordVerification {
 
 struct Step3ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView(password: .constant(""), confirmPassword: .constant(""), state: .init()) { _ in
-        }
+        ContentView(password: .constant(""), confirmPassword: .constant(""), state: .init()) { _ in }
     }
 }

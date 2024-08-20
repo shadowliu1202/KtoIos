@@ -87,8 +87,7 @@ class CallingViewController: CommonViewController {
             confirm: { },
             confirmText: Localize.string("common_continue"),
             cancel: {
-                guard let _ = CustomServicePresenter.shared.topViewController as? CallingViewController else { return }
-        
+
                 Task { [weak self] in
                     do {
                         self?.enableLoading(true)

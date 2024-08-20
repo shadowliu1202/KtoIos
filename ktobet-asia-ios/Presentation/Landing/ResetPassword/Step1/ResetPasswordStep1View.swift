@@ -1,15 +1,17 @@
 import Foundation
+import NavigationBackport
 import sharedbu
 import SwiftUI
 
 struct ResetPasswordStep1View: View {
     @StateObject private var viewModel = ResetPasswordStep1Object()
+    @EnvironmentObject var navigator: PathNavigator
     @Environment(\.handleError) var handleError
     @Environment(\.showDialog) var showDialog
     @Environment(\.dismiss) var dismiss
     @Environment(\.toastMessage) var toastMessage
 
-    private struct MoveToNext: Equatable {
+    private struct MoveToNext: Equatable, Hashable {
         var isActive: Bool = false
         var type: AccountType = .email
         var identity: String = ""
@@ -41,16 +43,15 @@ struct ResetPasswordStep1View: View {
                 ))
             case let .moveToNextStep(type, identity):
                 toastMessage(Localize.string("common_otp_send_success"), .success)
-                moveToNext = .init(isActive: true, type: type, identity: identity)
+                navigator.push(MoveToNext(isActive: true, type: type, identity: identity))
             }
         }
-
-        NavigationLink(isActive: $moveToNext.isActive) {
+        .nbNavigationDestination(for: MoveToNext.self, destination: { moveToNext in
             ResetPasswordStep2View(
                 selectMethod: moveToNext.type,
                 selectAccount: moveToNext.identity
             )
-        } label: {}
+        })
     }
 }
 

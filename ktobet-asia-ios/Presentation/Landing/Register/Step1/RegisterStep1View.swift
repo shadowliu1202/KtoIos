@@ -4,21 +4,18 @@ import SwiftUI
 struct RegisterStep1View: View {
     @AppStorage(UserDefaults.Key.cultureCode.rawValue) var cultureCode: String?
     @State private var moveToNext: Bool = false
+    @State private var moveToTerms: Bool = false
 
     var body: some View {
         RegisterStep1Content(
             activeLocales: Configuration.supportLocale,
             currentLocale: SupportLocale.companion.create(language: cultureCode!),
             moveToNext: $moveToNext,
-            onLocaleSelect: { locale in
-                handlePlayerSessionChange(locale: locale)
-            }
+            onLocaleSelect: { locale in handlePlayerSessionChange(locale: locale) },
+            moveToTerms: { moveToTerms = true }
         )
-        NavigationLink(
-            isActive: $moveToNext,
-            destination: { RegisterStep2View() },
-            label: {}
-        )
+        .nbNavigationDestination(isPresented: $moveToNext, destination: { RegisterStep2View() })
+        .nbNavigationDestination(isPresented: $moveToTerms, destination: { LandingServiceTermView() })
     }
 }
 
@@ -27,6 +24,7 @@ struct RegisterStep1Content: View {
     let currentLocale: SupportLocale
     @Binding var moveToNext: Bool
     let onLocaleSelect: (SupportLocale) -> Void
+    let moveToTerms: () -> Void
 
     @Environment(\.showDialog) private var showDialog
 
@@ -79,14 +77,13 @@ struct RegisterStep1Content: View {
 
                     LimitSpacer(8)
 
-                    NavigationLink {
-                        LandingServiceTermView()
-                    } label: {
-                        Text("register_step1_tips_1_highlight")
-                            .multilineTextAlignment(.center)
-                            .font(weight: .medium, size: 12)
-                            .foregroundStyle(.primaryDefault)
-                    }
+                    Text("register_step1_tips_1_highlight")
+                        .multilineTextAlignment(.center)
+                        .font(weight: .medium, size: 12)
+                        .foregroundStyle(.primaryDefault)
+                        .onTapGesture {
+                            moveToTerms()
+                        }
                 }
                 .padding(.horizontal, 30)
             }
@@ -132,7 +129,8 @@ struct RegisterStep1View_Previews: PreviewProvider {
             activeLocales: [.China(), .Vietnam()],
             currentLocale: .Vietnam(),
             moveToNext: .constant(false),
-            onLocaleSelect: { _ in }
+            onLocaleSelect: { _ in },
+            moveToTerms: {}
         )
         .environment(\.locale, .init(identifier: "vi-vn"))
     }

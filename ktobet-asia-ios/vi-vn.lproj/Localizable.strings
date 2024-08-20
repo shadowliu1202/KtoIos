@@ -176,6 +176,7 @@ Nếu Quý Khách có bất kỳ câu hỏi hoặc vấn đề nào trong việc
 "common_remark" = "Lưu Ý";
 "common_remove" = "Xóa";
 "common_resendotp" = "Gửi Lại";
+"common_resendotp_link" = "[Gửi Lại](resend)";
 "common_resettle" = "Thanh Toán Lại";
 "common_second" = "Giây";
 "common_selectall" = "Chọn Tất Cả";
@@ -483,7 +484,6 @@ vui lòng thử lại lúc %@";
 "common_warning_rapid_operation" = "Quý Khách đã thử nhiều lần và đã nhập thông tin không chính xác.";
 "common_security_error" = "Xác Minh Bảo Mật không thành công";
 "common_confirm_leaving_title" = "Trang hiện tại sẽ bị mất. Quý Khách có chắc chắn rời đi?";
-"common_test" = "4321";
 
 //MARK: - SportsBook
 "sportsbook_bet_rules" = "Luật Thể Thao";
@@ -533,6 +533,7 @@ Vui lòng Xác Minh.";
 "register_step3_open_mail" = "Mở Email";
 "register_step3_mail_varify_hint" = "Nếu Quý Khách đã hoàn tất Xác Minh, thử";
 "register_step3_mail_varify_hint_highlight" = "tại đây";
+"register_step3_mail_varify_hint_highlight_link" = "[tại đây](verify)";
 "register_step4_title_fail" = "Đăng Ký không thành công";
 "register_step4_content_fail" = "Quý Khách đã thử nhiều lần. Vui lòng đăng ký lại và đảm bảo thông tin liên lạc của Quý Khách là chính xác và có hiệu lực.";
 "register_step4_retry_signup" = "Đăng Ký Lại";
@@ -544,6 +545,7 @@ Vui lòng Xác Minh.";
 "login_account_remember_me" = "Lưu Đăng Nhập của tôi";
 "login_tips_1" = "Quên Mật Khẩu, sử dụng";
 "login_tips_1_highlight" = "Đặt Lại Mật Khẩu";
+"login_tips_1_highlight_link" = "[Đặt Lại Mật Khẩu](resetpassword)";
 "login_invalid_username_password" = "Thông Tin Đăng Nhập hoặc Mật Khẩu không chính xác.";
 "login_invalid_username_password_captcha" = "Thông Tin Đăng Nhập, Mật Khẩu hoặc Mã Xác Minh không chính xác.";
 "login_invalid_lockdown" = "Quý Khách đã nhập sai Mật Khẩu nhiều lần. Vui lòng Đặt Lại Mật Khẩu, hoặc Đăng Nhập lại sau.";

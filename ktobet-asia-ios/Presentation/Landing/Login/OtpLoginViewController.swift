@@ -38,12 +38,13 @@ class OtpLoginViewController: LandingViewController {
             serviceStatusViewModel: serviceStatusViewModel,
             alert: alert,
             delegate: self,
-            disposeBag: disposeBag))
+            disposeBag: disposeBag
+        ))
 
     private var inputAccount: InputText {
         switch selectedVerifyWay {
-        case .email: return inputEmail
-        case .phone: return inputMobile
+        case .email: inputEmail
+        case .phone: inputMobile
         }
     }
 
@@ -82,6 +83,8 @@ class OtpLoginViewController: LandingViewController {
         }
 
         inputMobile.setSubTitle("+\(locale.cellPhoneNumberFormat().areaCode())")
+        
+        btnBack.actionHandler { _ in self.dismiss(animated: true) }
     }
 
     private func initEmptyStateView(hint: String) {
@@ -89,7 +92,8 @@ class OtpLoginViewController: LandingViewController {
         emptyStateView = EmptyStateView(
             icon: UIImage(named: "Maintenance"),
             description: hint,
-            keyboardAppearance: .impossible)
+            keyboardAppearance: .impossible
+        )
         emptyStateView!.backgroundColor = .greyScaleDefault
 
         view.addSubview(emptyStateView!)
@@ -111,22 +115,22 @@ class OtpLoginViewController: LandingViewController {
             .asDriverOnErrorJustComplete()
             .drive(onNext: { [weak self] otpStatus in
                 guard let self else { return }
-                self.constraintResetErrorView.constant = 0
-                self.constraintResetErrorViewPadding.constant = 0
+                constraintResetErrorView.constant = 0
+                constraintResetErrorViewPadding.constant = 0
 
-                if self.isFirstTimeEnter {
-                    self.isFirstTimeEnter = false
+                if isFirstTimeEnter {
+                    isFirstTimeEnter = false
                     guard otpStatus.isSmsActive else {
-                        self.btnEmailPressed(self.btnEmail!)
+                        btnEmailPressed(btnEmail!)
                         return
                     }
                 }
 
-                switch self.selectedVerifyWay {
+                switch selectedVerifyWay {
                 case .phone:
-                    self.displayMobileContent(isOTPActive: otpStatus.isSmsActive)
+                    displayMobileContent(isOTPActive: otpStatus.isSmsActive)
                 case .email:
-                    self.displayEmailContent(isOTPActive: otpStatus.isMailActive)
+                    displayEmailContent(isOTPActive: otpStatus.isMailActive)
                 }
             })
             .disposed(by: disposeBag)
@@ -160,15 +164,15 @@ class OtpLoginViewController: LandingViewController {
             .subscribe(onNext: { [weak self] mobileValid, emailValid in
                 guard let self else { return }
                 var isInputValid = false
-                switch self.selectedVerifyWay {
+                switch selectedVerifyWay {
                 case .phone:
                     isInputValid = mobileValid == .valid
-                        && self.remainTime == 0
+                        && remainTime == 0
                 case .email:
                     isInputValid = emailValid == .valid
-                        && self.remainTime == 0
+                        && remainTime == 0
                 }
-                self.btnSubmit.isValid = isInputValid
+                btnSubmit.isValid = isInputValid
             })
             .disposed(by: disposeBag)
         viewModel.errors()
@@ -185,7 +189,7 @@ class OtpLoginViewController: LandingViewController {
             viewInputView.isHidden = false
             inputEmail.isHidden = true
             inputMobile.isHidden = false
-            if isPressed{
+            if isPressed {
                 inputAccount.showKeyboard()
             }
         } else {
@@ -201,7 +205,7 @@ class OtpLoginViewController: LandingViewController {
             viewInputView.isHidden = false
             inputEmail.isHidden = false
             inputMobile.isHidden = true
-            if isPressed{
+            if isPressed {
                 inputAccount.showKeyboard()
             }
         } else {
@@ -218,7 +222,6 @@ class OtpLoginViewController: LandingViewController {
              is PlayerIsNotExist,
              is PlayerForbidLoginByCurrency:
             hideError()
-            break
         case is PlayerIsSuspend:
             showError(error: Localize.string("common_kick_out_suspend"))
         case is PlayerIdOverOtpLimit,

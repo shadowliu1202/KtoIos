@@ -37,7 +37,7 @@ def default_pods
   pod 'SwiftFormat/CLI', '~> 0.49'
   pod 'SwiftSignalRClient'
   pod 'Periphery'
-  pod 'SwiftUIIntrospect'
+  pod 'NavigationBackport'
   use_frameworks!
 end
 

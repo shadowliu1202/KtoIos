@@ -187,6 +187,7 @@
 "common_remark" = "备注";
 "common_remove" = "移除";
 "common_resendotp" = "重新发送";
+"common_resendotp_link" = "[重新发送](resend)";
 "common_resettle" = "重新结算";
 "common_second" = "秒";
 "common_selectall" = "所有选择";
@@ -475,7 +476,6 @@
 "common_warning_rapid_operation" = "您的操作过于频繁并且没有输入正确的信息。";
 "common_security_error" = "安全验证失败";
 "common_confirm_leaving_title" = "当前页面将丢失，确定离开？";
-"common_test" = "1234";
 
 //MARK: - SportsBook
 "sportsbook_bet_rules" = "投注规则";
@@ -525,6 +525,7 @@
 "register_step3_open_mail" = "开启邮箱";
 "register_step3_mail_varify_hint" = "若已通过验证，试试";
 "register_step3_mail_varify_hint_highlight" = "这里";
+"register_step3_mail_varify_hint_highlight_link" = "[这里](verify)";
 "register_step4_title_fail" = "注册失败";
 "register_step4_content_fail" = "操作过于频繁，请使用有效联系方式重新注册。";
 "register_step4_retry_signup" = "重新注册";
@@ -536,6 +537,7 @@
 "login_account_remember_me" = "记住我的账号";
 "login_tips_1" = "忘记密码，使用";
 "login_tips_1_highlight" = "重置密码";
+"login_tips_1_highlight_link" = "[重置密码](resetpassword)";
 "login_invalid_username_password" = "用户名或密码不正确";
 "login_invalid_username_password_captcha" = "用户名，密码或验证码不正确";
 "login_invalid_lockdown" = "您已多次输入错误，请使用重置密码或稍后登录";

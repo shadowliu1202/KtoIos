@@ -19,7 +19,8 @@ extension AuthProfileVerification where Self: UIViewController {
         if let currentVC = NavigationManagement.sharedInstance.viewController as? UIAdaptivePresentationControllerDelegate {
             vc?.presentationController?.delegate = currentVC
         }
-        NavigationManagement.sharedInstance.viewController.present(navi, animated: true, completion: nil)
+        
+        UIViewController.getLastPresentedViewController()?.present(navi, animated: true, completion: nil)
     }
 }
 

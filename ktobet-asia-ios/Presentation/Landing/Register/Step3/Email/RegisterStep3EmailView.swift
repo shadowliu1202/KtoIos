@@ -1,4 +1,5 @@
 import Foundation
+import NavigationBackport
 import SwiftUI
 
 struct RegisterStep3EmailView: View {
@@ -9,7 +10,7 @@ struct RegisterStep3EmailView: View {
     @Environment(\.handleError) var handleError
     @Environment(\.showDialog) var showDialog
     @Environment(\.dismiss) var dismiss
-    @Environment(\.popToRoot) var popToRoot
+    @EnvironmentObject var navigator: PathNavigator
     @Environment(\.toastMessage) var toastMessage
     @Environment(\.enterLobby) var enterLobby
 
@@ -42,8 +43,9 @@ struct RegisterStep3EmailView: View {
                     info: .init(
                         title: Localize.string("common_tip_title_warm"),
                         message: Localize.string("common_email_otp_exeed_send_limit"),
-                        confirm: { popToRoot() }
-                    ))
+                        confirm: { navigator.popToRoot() }
+                    )
+                )
             }
         }
     }
@@ -51,7 +53,7 @@ struct RegisterStep3EmailView: View {
 
 private struct ContentView: View {
     @Environment(\.showDialog) var showDialog
-    @Environment(\.popToRoot) var popToRoot
+    @EnvironmentObject var navigator: PathNavigator
     @Binding var isAutoVerify: Bool
 
     let identity: String
@@ -65,7 +67,7 @@ private struct ContentView: View {
                     info: ShowDialog.Info(
                         title: Localize.string("common_confirm_cancel_operation"),
                         message: Localize.string("login_resetpassword_cancel_content"),
-                        confirm: { popToRoot() },
+                        confirm: { navigator.popToRoot() },
                         cancel: {}
                     )
                 )
@@ -105,28 +107,23 @@ private struct ContentView: View {
 
                     LimitSpacer(24)
 
-                    Text(manualVerifyAttributeString())
-                        .font(weight: .regular, size: 14)
-                        .frame(maxWidth: .infinity)
-                        .multilineTextAlignment(.center)
-                        .environment(\.openURL, .init(handler: { _ in
-                            onVerify()
-                            return .handled
-                        }))
+                    (
+                        Text("register_step3_mail_varify_hint")
+                            + Text(" ")
+                            + Text("register_step3_mail_varify_hint_highlight_link")
+                    )
+                    .tint(.primaryDefault)
+                    .environment(\.openURL, .init(handler: { _ in
+                        onVerify()
+                        return .handled
+                    }))
+                    .font(weight: .regular, size: 14)
+                    .frame(maxWidth: .infinity)
+                    .multilineTextAlignment(.center)
                 }
                 .padding(.horizontal, 30)
             }
         }
-    }
-
-    private func manualVerifyAttributeString() -> AttributedString {
-        let base = AttributedString(localized: "register_step3_mail_varify_hint")
-        var highlight = AttributedString(localized: "register_step3_mail_varify_hint_highlight")
-        var container = AttributeContainer()
-        container.link = URL(string: "verify")
-        container.foregroundColor = .primaryDefault
-        highlight.setAttributes(container)
-        return base + " " + highlight
     }
 }
 
@@ -139,27 +136,30 @@ private struct ResendHint: View {
     var body: some View {
         (
             Text("common_otp_resend_tips \(countDown.toHourMinutesFormat())")
-            + Text(" ")
-            + Text("common_resendotp")
-                .foregroundColor(countDown == 0 ? .primaryDefault : Color(uiColor: .primaryDefault.withAlphaComponent(0.5)))
+                + Text(" ")
+                + Text("common_resendotp_link")
         )
-            .font(weight: .regular, size: 14)
-            .frame(maxWidth: .infinity)
-            .multilineTextAlignment(.center)
-            .onTapGesture {
+        .tint(countDown == 0 ? .primaryDefault : Color(uiColor: .primaryDefault.withAlphaComponent(0.5)))
+        .font(weight: .regular, size: 14)
+        .frame(maxWidth: .infinity)
+        .multilineTextAlignment(.center)
+        .environment(\.openURL, OpenURLAction { _ in
+            if countDown == 0 {
                 countDown = Int(Setting.resendOtpCountDownSecond)
                 startTimer()
                 onResend()
             }
-            .onReceive(timer) { _ in
-                if countDown > 0 {
-                    countDown -= 1
-                } else {
-                    countDown = 0
-                    stopTimer()
-                }
+            return .handled
+        })
+        .onReceive(timer) { _ in
+            if countDown > 0 {
+                countDown -= 1
+            } else {
+                countDown = 0
+                stopTimer()
             }
-        
+        }
+
         if accountType == .email {
             Text("common_email_spam_check")
                 .font(size: 14)
