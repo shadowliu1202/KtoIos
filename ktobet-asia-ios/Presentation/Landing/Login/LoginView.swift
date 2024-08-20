@@ -47,7 +47,7 @@ struct LoginView: View {
                         showDialog(info: .init(
                             title: Localize.string("common_tip_cn_down_title_warm"),
                             message: Localize.string("common_cn_service_down"),
-                            confirm: { moveToRegister = true },
+                            confirm: { navigator.push(NavType.register) },
                             confirmText: Localize.string("common_cn_down_confirm")
                         ))
                     #endif
