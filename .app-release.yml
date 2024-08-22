@@ -6,7 +6,9 @@ include:
 
 .publish_rules:
   rules:
-    - if: '$CI_PIPELINE_SOURCE == "parent_pipeline" && $TARGET_ENVIROMENT != "QAT"'
+    - if: $CI_PIPELINE_SOURCE == "parent_pipeline" && $TARGET_ENVIROMENT == "STG"
+      when: manual
+    - if: $CI_PIPELINE_SOURCE == "parent_pipeline" && $TARGET_ENVIROMENT == "PRO"
       when: manual
     - if: $CI_PIPELINE_SOURCE == "parent_pipeline"
       when: on_success
@@ -72,31 +74,90 @@ build_artifacts:
       echo "release $ReleaseTag($NEXT_BUILD_NUMBER) to $TARGET_ENVIROMENT($TARGET_ENV)"
       export PATH=/usr/local/lib/ruby/gems/3.1.0/bin:$PATH
       pod install --repo-update    
+      if [[ "$HOTFIX_COMPARE" != "null" ]]; then
+        export ReleaseTag="$RELEASE_VERSION_CORE-$ENVIROMENT_SUFFIX.$HOTFIX_COMPARE"
+      fi
       
-      enviroment="qat"
-
       if [ "$TARGET_ENVIROMENT" == "PRO" ]; then
         fastlane buildIpaProduction buildVersion:$NEXT_BUILD_NUMBER appVersion:$RELEASE_VERSION_CORE releaseTarget:$ENVIROMENT_SUFFIX 
-        fastlane uploadTestflight buildVersion:$NEXT_BUILD_NUMBER appVersion:$RELEASE_VERSION_CORE releaseTarget:$ENVIROMENT_SUFFIX
-        enviroment="prod"
+        fastlane uploadTestflight buildVersion:$NEXT_BUILD_NUMBER appVersion:$RELEASE_VERSION_CORE releaseTarget:$ENVIROMENT_SUFFIX        
+        fileName="ktobet-asia-ios-production.ipa"
       elif [ "$TARGET_ENVIROMENT" == "STG" ]; then
         fastlane buildIpaStaging buildVersion:$NEXT_BUILD_NUMBER appVersion:$RELEASE_VERSION_CORE releaseTarget:$ENVIROMENT_SUFFIX 
-        fastlane uploadTestflight buildVersion:$NEXT_BUILD_NUMBER appVersion:$RELEASE_VERSION_CORE releaseTarget:$ENVIROMENT_SUFFIX
-        enviroment="staging"
+        fastlane uploadTestflight buildVersion:$NEXT_BUILD_NUMBER appVersion:$RELEASE_VERSION_CORE releaseTarget:$ENVIROMENT_SUFFIX        
+        fileName="ktobet-asia-ios-staging.ipa"
+      elif [ "$TARGET_ENVIROMENT" == "PRE" ]; then
+        fastlane buildPreProd buildVersion:$NEXT_BUILD_NUMBER appVersion:$RELEASE_VERSION_CORE releaseTarget:$ENVIROMENT_SUFFIX         
+        fileName="ktobet-asia-ios-preprod.ipa"
       else
-        fastlane uploadToTestflight buildVersion:$NEXT_BUILD_NUMBER appVersion:$RELEASE_VERSION_CORE releaseTarget:$ENVIROMENT_SUFFIX
-        enviroment="qat"
+        fastlane uploadToTestflight buildVersion:$NEXT_BUILD_NUMBER appVersion:$RELEASE_VERSION_CORE releaseTarget:$ENVIROMENT_SUFFIX        
+        fileName="ktobet-asia-ios-$RELEASE_VERSION_CORE-qat.ipa"
       fi
     
-      upload_to_proget_feed "app" "ios" "kto-asia" "$ReleaseTag" "build version: $NEXT_BUILD_NUMBER" "output/ktobet-asia-ios-${enviroment}.ipa"
+      upload_to_proget_feed "app" "ios" "kto-asia" "$ReleaseTag" "build version: $NEXT_BUILD_NUMBER" "output/$fileName"
       echo "Calculating IPA size"
-      size=$(du -s -k output/ktobet-asia-ios-${enviroment}.ipa | awk '{printf "%.2f", $1/1024}')
+      size=$(du -s -k output/$fileName | awk '{printf "%.2f", $1/1024}')
       echo "Get Ipa Size = $size"
       echo "IPA_SIZE=$size" >> variables.env
   artifacts:
     reports:
       dotenv: variables.env
     expire_in: 1 week
+
+build_self_test_artifacts:
+  tags: 
+    - ios-agent-release
+  needs:   
+    - job: update_release_buildNumber
+    - job: build_artifacts
+  stage: buildAndArchive  
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "parent_pipeline" && $TARGET_ENVIROMENT == "PRO"
+      when: on_success
+  script:
+    - |
+      echo "getNextTestflightBuildNumber from $RELEASE_VERSION_CORE-$ENVIROMENT_SUFFIX"
+      fastlane getNextTestflightBuildNumber releaseTarget:selftest targetVersion:$RELEASE_VERSION_CORE
+      buildNumber=$(cat "fastlane/buildNumber")
+      nextBuildNumber=$((buildNumber + 1))
+      echo "update from ${buildNumber} to next build number: $nextBuildNumber"
+      export PATH=/usr/local/lib/ruby/gems/3.1.0/bin:$PATH
+      pod install --repo-update    
+      fastlane uploadTestflight buildVersion:$nextBuildNumber appVersion:$RELEASE_VERSION_CORE releaseTarget:selftest
+
+build_additional_hotfix_artifacts:
+  tags: 
+    - ios-agent-release
+  needs:   
+    - job: update_release_buildNumber
+    - job: build_artifacts
+  stage: buildAndArchive
+  variables: 
+    # CI_DEBUG_TRACE: "true"
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "parent_pipeline" && $TARGET_ENVIROMENT == "PRE" && $BUILD_HOTFIX_TARGET
+  script:
+    - |  
+      export PATH=/usr/local/lib/ruby/gems/3.1.0/bin:$PATH
+      echo "Release $RELEASE_VERSION_CORE-$ENVIROMENT_SUFFIX.$HOTFIX_COMPARE to $BUILD_HOTFIX_TARGET"
+      IFS=',' read -r -a targets <<< "$BUILD_HOTFIX_TARGET"
+      if [[ " ${targets[@]} " =~ " QAT " ]]; then
+        fastlane getNextTestflightBuildNumber releaseTarget:dev targetVersion:$RELEASE_VERSION_CORE
+        buildNumber=$(cat "fastlane/buildNumber")
+        nextBuildNumber=$((buildNumber + 1))
+        echo "QAT is in the build targets. update to $nextBuildNumber"
+        pod install --repo-update  
+        fastlane uploadToTestflight buildVersion:$nextBuildNumber appVersion:$RELEASE_VERSION_CORE releaseTarget:dev
+      fi
+      if [[ " ${targets[@]} " =~ " STG " ]]; then
+        fastlane getNextTestflightBuildNumber releaseTarget:rc targetVersion:$RELEASE_VERSION_CORE
+        buildNumber=$(cat "fastlane/buildNumber")
+        nextBuildNumber=$((buildNumber + 1))
+        echo "STG is in the build targets. update to $nextBuildNumber"
+        pod install --repo-update  
+        fastlane buildIpaStaging buildVersion:$nextBuildNumber appVersion:$RELEASE_VERSION_CORE releaseTarget:rc
+        fastlane uploadTestflight buildVersion:$nextBuildNumber appVersion:$RELEASE_VERSION_CORE releaseTarget:rc
+      fi
 
 publish_artifacts:
   tags: 
@@ -116,13 +177,15 @@ publish_artifacts:
       #KTO-9226 change logic to newer
       # HOTFIX_COMPARE = ""
       echo "publish ${ReleaseTag} of ${RELEASE_VERSION_CORE} to ${TARGET_ENVIROMENT}($ENVIROMENT_SUFFIX)"
-      if [ "$TARGET_ENVIROMENT" == "PRO" ]; then
-        publishIosVersion "[183,244]" "prod" "$RELEASE_VERSION_CORE" "$NEXT_BUILD_NUMBER" "$DOWNLOAD_URL_VN" "$DOWNLOAD_URL_VN" "$IPA_SIZE"
-      elif [ "$TARGET_ENVIROMENT" == "STG" ]; then
-        publishIosVersion "[178,242]" "stage" "$RELEASE_VERSION_CORE" "$NEXT_BUILD_NUMBER" "$DOWNLOAD_URL_VN" "$DOWNLOAD_URL_VN" "$IPA_SIZE"
-      else
-        publishIosVersion "[174]" "qat" "$RELEASE_VERSION_CORE" "$NEXT_BUILD_NUMBER" "$DOWNLOAD_URL_CN" "$DOWNLOAD_URL_VN" "$IPA_SIZE"
-      fi
+      # if [ "$TARGET_ENVIROMENT" == "PRO" ]; then
+      #   publishIosVersion "[183,244]" "prod" "$RELEASE_VERSION_CORE" "$NEXT_BUILD_NUMBER" "$DOWNLOAD_URL_VN" "$DOWNLOAD_URL_VN" "$IPA_SIZE"
+      # elif [ "$TARGET_ENVIROMENT" == "PRE" ]; then
+      #   publishNewIosVersion "[22,23]" "pre_prod" "$RELEASE_VERSION_CORE" "$NEXT_BUILD_NUMBER" "$DOWNLOAD_URL_VN" "$DOWNLOAD_URL_VN" "$IPA_SIZE"
+      # elif [ "$TARGET_ENVIROMENT" == "STG" ]; then
+      #   publishNewIosVersion "[22,23]" "stage" "$RELEASE_VERSION_CORE" "$NEXT_BUILD_NUMBER" "$DOWNLOAD_URL_VN" "$DOWNLOAD_URL_VN" "$IPA_SIZE"
+      # else
+      #   publishNewIosVersion "[12,23]" "qat" "$RELEASE_VERSION_CORE" "$NEXT_BUILD_NUMBER" "$DOWNLOAD_URL_CN" "$DOWNLOAD_URL_VN" "$IPA_SIZE"
+      # fi
 
 tag_release_version:
   tags: 
@@ -136,9 +199,18 @@ tag_release_version:
   rules:
     - !reference [.release_rules, rules]
   script:
-    - |
-      echo "tagRelease ${BUILD_NUMBER} of ${TARGET_ENVIROMENT} to ${RELEASE_VERSION_CORE}-${ENVIROMENT_SUFFIX}"
-      tagRelease $TARGET_ENVIROMENT "$BUILD_NUMBER" "$RELEASE_VERSION_CORE-$ENVIROMENT_SUFFIX"
+    - |            
+      echo "tag_release_version $ReleaseTag ${BUILD_NUMBER} on ${TARGET_ENVIROMENT} HotfixVersion($HOTFIX_COMPARE)"
+      if [[ "$HOTFIX_COMPARE" != "null" ]]; then       
+        ReleaseTag="$RELEASE_VERSION_CORE-$ENVIROMENT_SUFFIX.$HOTFIX_COMPARE"
+        # record hotfix version        
+      elif [ "$TARGET_ENVIROMENT" == "PRE" ]; then
+        # preproduction release trigger by production publish. tag from 1
+        ReleaseTag="$RELEASE_VERSION_CORE-$ENVIROMENT_SUFFIX.1"             
+      fi
+      tagRelease $TARGET_ENVIROMENT "$BUILD_NUMBER" "$ReleaseTag"
+      echo "tagRelease $ReleaseTag ${BUILD_NUMBER} on ${TARGET_ENVIROMENT}"
+
 
 update_jira_issues:
   tags: 
@@ -162,20 +234,78 @@ notify_publish:
   rules:
     - !reference [.release_rules, rules]
   variables:
-    DOWNLOAD_PAGE: "https://kto-qat-app.pivotsite.com/"
     ISSUE_HOST: "https://jira.higgstar.com/issues/?jql=project%20%3D%20KTO%20AND%20labels%20%3D%20"
     DOWNLOAD_FILE: "${PROGET_URL}/feeds/app/ios/kto-asia/${RELEASE_VERSION_CORE}-${ENVIROMENT_SUFFIX}/files"
+    DOWNLOAD_SELFTEST: "https://beta.itunes.apple.com/v1/app/1618357473"
     TEAMS_WEBHOOK_URL: "https://higgstar.webhook.office.com/webhookb2/4633c5c4-c4b4-4e4a-811a-292e1c2bba93@8e771fc0-280e-4271-a200-ad98dd5f6605/IncomingWebhook/7299ee0a8a304576814e537a53d5930b/dbab47a2-891a-470f-a94e-4dbb41d9acbc"
   script:
     - |
-      if [ "$TARGET_ENVIROMENT" == "PRO" ]; then
-        DOWNLOAD_PAGE="$KTO_PRO_HOST"
-      elif [ "$TARGET_ENVIROMENT" == "STG" ]; then
-        DOWNLOAD_PAGE="$KTO_STG_HOST"
-      else
-        DOWNLOAD_PAGE="$KTO_QAT_HOST"
-      fi  
       TARGET_ENV=$(echo "$TARGET_ENVIROMENT" | tr '[:upper:]' '[:lower:]')
       ISSUE_LINK="${ISSUE_HOST}ios-${RELEASE_VERSION_CORE}-${TARGET_ENV}"
-      message_payload=$(create_kto_notify "$PREVIOUS_VERSION" "$RELEASE_VERSION_CORE" "$TARGET_ENV" "$DOWNLOAD_PAGE" "$ISSUE_LINK" "$DOWNLOAD_FILE")
+      oldVersion=$PREVIOUS_VERSION
+      newVersion=$RELEASE_VERSION_CORE
+      hotfixVersion=$(extract_hotfix_version $PREVIOUS_VERSION)
+      echo "Get $hotfixVersion from PREVIOUS_VERSION=$PREVIOUS_VERSION"
+      if [[ "$hotfixVersion" != "null" ]]; then
+          oldVersion="$(parse_version_core $PREVIOUS_VERSION)($hotfixVersion)"
+      fi
+      if [[ "$HOTFIX_COMPARE" != "null" ]]; then
+          DOWNLOAD_FILE="${PROGET_URL}/feeds/app/ios/kto-asia/${RELEASE_VERSION_CORE}-${ENVIROMENT_SUFFIX}.${HOTFIX_COMPARE}/files"      
+          issue_link="${ISSUE_HOST}android-${RELEASE_VERSION_CORE}-${ENVIROMENT_SUFFIX}.${HOTFIX_COMPARE}" 
+          newVersion="$RELEASE_VERSION_CORE($HOTFIX_COMPARE)"
+      fi
+      echo "version: $oldVersion to $newVersion on $TARGET_ENV"
+      message_payload=""
+      if [ "$TARGET_ENVIROMENT" == "PRO" ]; then
+        DOWNLOAD_PAGE="[link]($KTO_PRO_HOST)"
+        DOWNLOAD_PAYLOAD="[pro]($DOWNLOAD_FILE),[self-test]($DOWNLOAD_SELFTEST)"        
+        message_payload=$(create_new_kto_notify "$oldVersion" "$newVersion" "$TARGET_ENV" "$DOWNLOAD_PAGE" "$issue_link" "$DOWNLOAD_PAYLOAD")
+      elif [ "$TARGET_ENVIROMENT" == "PRE" ]; then
+        DOWNLOAD_PAGE="$KTO_PRE_HOST"                
+        message_payload=$(create_kto_notify "$oldVersion" "$newVersion" "$TARGET_ENV" "$DOWNLOAD_PAGE" "$issue_link" "$DOWNLOAD_FILE")            
+      elif [ "$TARGET_ENVIROMENT" == "STG" ]; then
+        DOWNLOAD_PAGE="$KTO_STG_HOST"
+        message_payload=$(create_kto_notify "$oldVersion" "$newVersion" "$TARGET_ENV" "$DOWNLOAD_PAGE" "$issue_link" "$DOWNLOAD_FILE")
+      else
+        DOWNLOAD_PAGE="$KTO_QAT_HOST"
+        message_payload=$(create_kto_notify "$oldVersion" "$newVersion" "$TARGET_ENV" "$DOWNLOAD_PAGE" "$issue_link" "$DOWNLOAD_FILE")
+      fi
+      curl -H "Content-Type: application/json" -d "${message_payload}" ${TEAMS_WEBHOOK_URL}  
+      
+notify_additional_publish:
+  stage: notifySuccess
+  needs: 
+    - job: update_jira_issues
+    - job: update_release_buildNumber
+    - job: build_additional_hotfix_artifacts
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "parent_pipeline" && $TARGET_ENVIROMENT == "PRE" && $BUILD_HOTFIX_TARGET
+  variables:
+    ISSUE_HOST: "https://jira.higgstar.com/issues/?jql=project%20%3D%20KTO%20AND%20labels%20%3D%20"
+    TEAMS_WEBHOOK_URL: "https://higgstar.webhook.office.com/webhookb2/4633c5c4-c4b4-4e4a-811a-292e1c2bba93@8e771fc0-280e-4271-a200-ad98dd5f6605/IncomingWebhook/7299ee0a8a304576814e537a53d5930b/dbab47a2-891a-470f-a94e-4dbb41d9acbc"
+  script:
+    - |
+      TARGET_ENV=$(echo "$TARGET_ENVIROMENT" | tr '[:upper:]' '[:lower:]')
+      ISSUE_LINK="${ISSUE_HOST}ios-${RELEASE_VERSION_CORE}-${TARGET_ENV}"
+      oldVersion=$PREVIOUS_VERSION
+      newVersion=$RELEASE_VERSION_CORE
+      hotfixVersion=$(extract_hotfix_version $PREVIOUS_VERSION)
+      if [[ "$hotfixVersion" != "null" ]]; then
+          oldVersion="$(parse_version_core $PREVIOUS_VERSION)($hotfixVersion)"
+      fi
+      if [[ "$HOTFIX_COMPARE" != "null" ]]; then      
+          issue_link="${ISSUE_HOST}android-${RELEASE_VERSION_CORE}-${ENVIROMENT_SUFFIX}.${HOTFIX_COMPARE}" 
+          newVersion="$RELEASE_VERSION_CORE($HOTFIX_COMPARE)"
+      fi
+      connector=""
+      IFS=',' read -r -a targets <<< "$BUILD_HOTFIX_TARGET"
+      if [[ " ${targets[@]} " =~ " QAT " ]]; then
+        connector=" , "
+        DOWNLOAD_PAGE="[qat]($KTO_QAT_HOST)"
+      fi
+      if [[ " ${targets[@]} " =~ " STG " ]]; then
+        DOWNLOAD_PAGE="$DOWNLOAD_PAGE${connector}[stg]($KTO_STG_HOST)"            
+      fi
+      echo "version: $oldVersion to $newVersion on $TARGET_ENV"
+      message_payload=$(create_new_kto_notify "$oldVersion" "$newVersion" "$TARGET_ENV" "$DOWNLOAD_PAGE" "$issue_link" "")
       curl -H "Content-Type: application/json" -d "${message_payload}" ${TEAMS_WEBHOOK_URL}  

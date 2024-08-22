@@ -6,25 +6,34 @@ include:
 
 .release_rules:
   rules:    
-    - if:  '$CI_PIPELINE_SOURCE == "web" && $TARGET_ENVIROMENT == "QAT"'
-      when: on_success
-    - if:  '$CI_PIPELINE_SOURCE == "web" && $CI_COMMIT_TAG'
-      when: on_success
+    - if:  $CI_PIPELINE_SOURCE == "web" && $TARGET_ENVIROMENT == "QAT"
+    - if:  $CI_PIPELINE_SOURCE == "web" && $CI_COMMIT_TAG
+    - if:  $CI_PIPELINE_SOURCE == "web" && $CI_COMMIT_BRANCH =~ /^([0-9]+\.[0-9]+\.[0-9]+)-hotfix$/
+    - when: never
 
 .formal_rules:
   rules:    
-    - if: '$CI_COMMIT_TAG && $CI_PIPELINE_SOURCE == "web" && $TARGET_ENVIROMENT != "QAT"'
-      when: on_success
+    - if: $TARGET_ENVIROMENT == "QAT"
+      when : never
+    - if: $TARGET_ENVIROMENT == "PRE"
+      when : never
+    - if: $CI_COMMIT_TAG && $CI_PIPELINE_SOURCE == "web"
 
 .qat_rules:
   rules:
-    - if: '$CI_PIPELINE_SOURCE == "web" && $TARGET_ENVIROMENT == "QAT"'
-      when: on_success
+    - if: $CI_COMMIT_TAG
+      when: never
+    - if: $CI_COMMIT_BRANCH =~ /^([0-9]+\.[0-9]+\.[0-9]+)-hotfix$/
+      when: never
+    - if: $CI_PIPELINE_SOURCE == "web" && $TARGET_ENVIROMENT == "QAT"
+
+.hotfix_rules:
+  rules:
+    - if: $CI_COMMIT_BRANCH =~ /^([0-9]+\.[0-9]+\.[0-9]+)-hotfix$/   
 
 .qat_with_stg_rules:
   rules:
-    - if: '$PUBLISH_QAT_WITH_STG == "true" && $CI_PIPELINE_SOURCE == "web" && $TARGET_ENVIROMENT == "QAT"'
-      when: on_success
+    - if: $PUBLISH_QAT_WITH_STG == "true" && $CI_PIPELINE_SOURCE == "web" && $TARGET_ENVIROMENT == "QAT"
 
 stages:         
 - development 
@@ -34,20 +43,23 @@ stages:
 
 variables:
  TARGET_ENVIROMENT:
-   value: "STG"
-   description: "QAT/STG/PRO/PRE"
+   value: "QAT"
+   description: "QAT/STG/PRO"
  PUBLISH_QAT_WITH_STG:
    value: "false"
-   description: "false/true"
+   description: "[QAT only]: false/true"
  SKIP_TEST:
    value: "false"
-   description: "false/true"
+   description: "[QAT only]: false/true"
  BREAKING_CHANGE:
    value: "false"
-   description: "false/true"
+   description: "[QAT only]: false/true"
  FORCE_UPDATE:
    value: "false"
-   description: "false/true"
+   description: "[QAT only]: false/true"
+ BUILD_HOTFIX_TARGET:
+   value: ""
+   description: "[HOTFIX only] extra build targets for hotfix: QAT,STG"
  LANG: "en_US.UTF-8"
  LC_ALL: "en_US.UTF-8"
  MATCH_PASSWORD: "password"
@@ -58,15 +70,13 @@ inProgress:
   tags:
       - mac-slave
   rules:
-      - if: '$CI_COMMIT_REF_NAME =~ /(APP|KTO)-[0-9]+/ && $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_MESSAGE !~ /Merge branch/'
-        when: always
       - if: $CI_PIPELINE_SOURCE == "merge_request_event"
         when: never
+      - if: '$CI_COMMIT_REF_NAME =~ /(APP|KTO)-[0-9]+/ && $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_MESSAGE !~ /Merge branch/'
   script:
     - EMAIL_NAME="$(echo $GITLAB_USER_EMAIL | sed "s/@.*//")"
     - transition_jira_issue_with_status "$CI_COMMIT_BRANCH" "In Progress"    
     - assign_to_user "$CI_COMMIT_BRANCH" "${EMAIL_NAME}"
-
 
 UnitTests:
   stage: development
@@ -138,11 +148,12 @@ get_qat_next_version:
     - !reference [.qat_rules, rules]
   script:
     - |
+      echo "SELECT_ENVIROMENT=QAT" >> variables.env
       last_tag=$(get_last_tag)
       previous_version=$(parse_version_core $last_tag)
       echo "last tag = $last_tag($previous_version)"
       echo "PREVIOUS_VERSION=$previous_version" >> variables.env
-
+      echo "HOTFIX_COMPARE=null" >> variables.env
       commit_messages=$(fetch_commits_since_tag_to_head "$last_tag")
       jira_tickets=$(extract_jira_tickets "$commit_messages")           
       jira_tickets=$(echo "$jira_tickets" | tr '\n' ' ')
@@ -170,8 +181,12 @@ get_formal_release_version:
     - !reference [.formal_rules, rules]
   script:
     - |
+      echo "SELECT_ENVIROMENT=$TARGET_ENVIROMENT" >> variables.env
       export RELEASE_VERSION_CORE=$(parse_version_core $CI_COMMIT_TAG)
       echo "RELEASE_VERSION_CORE=$RELEASE_VERSION_CORE" >> variables.env
+
+      hotfixVersion=$(extract_hotfix_version $CI_COMMIT_TAG)
+      echo "HOTFIX_COMPARE=$hotfixVersion" >> variables.env
       
       suffix=$(get_release_suffix $TARGET_ENVIROMENT)
       echo "ENVIROMENT_SUFFIX=$suffix" >> variables.env
@@ -187,11 +202,50 @@ get_formal_release_version:
       fi
       echo "RELATED_ISSUE=$jira_tickets" >> variables.env
 
-      echo "Select Version:${RELEASE_VERSION_CORE} to update from $onlineTag JIRA_ISSUES=$jira_tickets"
+      echo "Select Version:${RELEASE_VERSION_CORE} with hotfixVersion($hotfixVersion) to update from $onlineTag JIRA_ISSUES=$jira_tickets"
   artifacts:
     reports:
       dotenv: variables.env
     expire_in: 2 week
+
+get_hotfix_release_version:
+  tags: 
+    - ios-agent-release
+  rules:
+    - !reference [.hotfix_rules, rules]
+  variables:
+    VERSION_PATH: "${BUILD_VARIABLE_PATH}${CI_COMMIT_BRANCH}"
+  stage: versionSync
+  script:
+    - |    
+      echo "ENVIROMENT_SUFFIX=hotfix" >> variables.env
+      echo "SELECT_ENVIROMENT=PRE" >> variables.env
+      
+      last_tag=$(get_last_tag)
+      previous_version=$(parse_version_core $last_tag)
+      echo "PREVIOUS_VERSION=$last_tag" >> variables.env
+
+      commit_messages=$(fetch_commits_since_tag_to_head "$last_tag")
+      jira_tickets=$(extract_jira_tickets "$commit_messages")           
+      jira_tickets=$(echo "$jira_tickets" | tr '\n' ' ')
+      echo "RELATED_ISSUE=$jira_tickets" >> variables.env
+
+      RELEASE_VERSION_CORE=$(echo "$CI_COMMIT_BRANCH" | sed -E 's/^([0-9]+\.[0-9]+\.[0-9]+).*/\1/')
+      echo "RELEASE_VERSION_CORE=$RELEASE_VERSION_CORE" >> variables.env
+
+      echo "getNextTestflightBuildNumber from $RELEASE_VERSION_CORE-hotfix"
+      fastlane getNextTestflightBuildNumber releaseTarget:hotfix targetVersion:$RELEASE_VERSION_CORE
+      current_hotfix_version=$(cat "fastlane/buildNumber")
+      next_hotfix_version=$((current_hotfix_version + 1))
+           
+      echo "HOTFIX_COMPARE=$next_hotfix_version" >> variables.env
+
+      echo "set hotfix version from $last_tag($current_hotfix_version) to $RELEASE_VERSION_CORE($next_hotfix_version) JIRA_ISSUES=$jira_tickets"
+  artifacts:
+    reports:
+      dotenv: variables.env
+    expire_in: 2 week
+
 
 # aio_test:
 #   needs:
@@ -225,14 +279,18 @@ buildAndRelease:
       optional: true
     - job: get_formal_release_version
       optional: true
+    - job: get_hotfix_release_version
+      optional: true
     # - job: aio_test
     #   optional: true
   variables:
-    TARGET_ENVIROMENT: "$TARGET_ENVIROMENT"
+    TARGET_ENVIROMENT: "$SELECT_ENVIROMENT"
     ENVIROMENT_SUFFIX: "$ENVIROMENT_SUFFIX"
     RELEASE_VERSION_CORE: $RELEASE_VERSION_CORE
     PREVIOUS_VERSION: "$PREVIOUS_VERSION"
     RELATED_ISSUE: "$RELATED_ISSUE"
+    HOTFIX_COMPARE: "$HOTFIX_COMPARE"
+    BUILD_HOTFIX_TARGET: "$BUILD_HOTFIX_TARGET"
   trigger:
       include:
         - local: .app-release.yml
@@ -275,6 +333,22 @@ extra_stg_publish:
     RELEASE_VERSION_CORE: "$RELEASE_VERSION_CORE"  
     PREVIOUS_VERSION: "$PREVIOUS_VERSION"
     RELATED_ISSUE: "$RELATED_ISSUE"
+    HOTFIX_COMPARE: "null"
   trigger:
       include:
         - local: .app-release.yml
+        
+extra_pre_publish:
+  stage: release
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^([0-9]+\.[0-9]+\.[0-9]+)-(dev|rc)$/ && $CI_PIPELINE_SOURCE == "web" && $TARGET_ENVIROMENT == "PRO"      
+  needs: ["get_formal_release_version", "buildAndRelease"]
+  variables:
+    TARGET_ENVIROMENT: "PRE"
+    ENVIROMENT_SUFFIX: "hotfix"
+    RELEASE_VERSION_CORE: "$RELEASE_VERSION_CORE"  
+    PREVIOUS_VERSION: "$PREVIOUS_VERSION"
+    HOTFIX_COMPARE: "null"
+  trigger:
+      include:
+        - local: .app-release.yml  
