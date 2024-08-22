@@ -174,18 +174,16 @@ publish_artifacts:
     - !reference [.publish_rules, rules]
   script:
     - |
-      #KTO-9226 change logic to newer
-      # HOTFIX_COMPARE = ""
       echo "publish ${ReleaseTag} of ${RELEASE_VERSION_CORE} to ${TARGET_ENVIROMENT}($ENVIROMENT_SUFFIX)"
-      # if [ "$TARGET_ENVIROMENT" == "PRO" ]; then
-      #   publishIosVersion "[183,244]" "prod" "$RELEASE_VERSION_CORE" "$NEXT_BUILD_NUMBER" "$DOWNLOAD_URL_VN" "$DOWNLOAD_URL_VN" "$IPA_SIZE"
-      # elif [ "$TARGET_ENVIROMENT" == "PRE" ]; then
-      #   publishNewIosVersion "[22,23]" "pre_prod" "$RELEASE_VERSION_CORE" "$NEXT_BUILD_NUMBER" "$DOWNLOAD_URL_VN" "$DOWNLOAD_URL_VN" "$IPA_SIZE"
-      # elif [ "$TARGET_ENVIROMENT" == "STG" ]; then
-      #   publishNewIosVersion "[22,23]" "stage" "$RELEASE_VERSION_CORE" "$NEXT_BUILD_NUMBER" "$DOWNLOAD_URL_VN" "$DOWNLOAD_URL_VN" "$IPA_SIZE"
-      # else
-      #   publishNewIosVersion "[12,23]" "qat" "$RELEASE_VERSION_CORE" "$NEXT_BUILD_NUMBER" "$DOWNLOAD_URL_CN" "$DOWNLOAD_URL_VN" "$IPA_SIZE"
-      # fi
+      if [ "$TARGET_ENVIROMENT" == "PRO" ]; then
+        publishIosVersion "[183,244]" "prod" "$RELEASE_VERSION_CORE" "$NEXT_BUILD_NUMBER" "$DOWNLOAD_URL_VN" "$DOWNLOAD_URL_VN" "$IPA_SIZE"
+      elif [ "$TARGET_ENVIROMENT" == "PRE" ]; then
+        publishNewIosVersion "[22,23]" "pre_prod" "$RELEASE_VERSION_CORE" "$NEXT_BUILD_NUMBER" "$DOWNLOAD_URL_VN" "$DOWNLOAD_URL_VN" "$IPA_SIZE"
+      elif [ "$TARGET_ENVIROMENT" == "STG" ]; then
+        publishNewIosVersion "[22,23]" "stage" "$RELEASE_VERSION_CORE" "$NEXT_BUILD_NUMBER" "$DOWNLOAD_URL_VN" "$DOWNLOAD_URL_VN" "$IPA_SIZE"
+      else
+        publishNewIosVersion "[12,23]" "qat" "$RELEASE_VERSION_CORE" "$NEXT_BUILD_NUMBER" "$DOWNLOAD_URL_CN" "$DOWNLOAD_URL_VN" "$IPA_SIZE"
+      fi
 
 tag_release_version:
   tags: 
