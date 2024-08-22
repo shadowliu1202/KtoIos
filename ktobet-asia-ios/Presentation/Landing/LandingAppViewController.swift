@@ -22,6 +22,7 @@ class LandingAppViewController: LandingViewController {
         super.viewWillAppear(animated)
         uiHostingController.modalPresentationStyle = .fullScreen
         present(uiHostingController, animated: false, completion: nil)
+
         observeSystemStatus()
     }
 
@@ -93,9 +94,16 @@ class LandingAppViewController: LandingViewController {
                 onSuccess: { status in
                     switch onEnum(of: status) {
                     case .allPortal:
-                        NavigationManagement.sharedInstance.goTo(
-                            storyboard: "Maintenance",
-                            viewControllerId: "PortalMaintenanceViewController"
+                        let maintenanceView = PortalMaintenanceView(dismissHandler: {
+                            UIViewController.getLastPresentedViewController()?.dismiss(animated: false)
+                            self.observeSystemStatus()
+                        })
+
+                        let hostingController = UIHostingController(rootView: maintenanceView)
+                        hostingController.modalPresentationStyle = .fullScreen
+                        self.uiHostingController.present(
+                            hostingController,
+                            animated: false
                         )
                     case .product:
                         break
@@ -114,7 +122,7 @@ class LandingAppViewController: LandingViewController {
         let prechatVC = PrechatSurveyViewController()
         let navi = CustomServiceNavigationController(rootViewController: prechatVC)
         navi.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
-        uiHostingController.present(navi, animated: true, completion: nil)
+        uiHostingController.present(navi, animated: false, completion: nil)
     }
 
     private func navigateToCalling() {
@@ -136,16 +144,15 @@ class LandingAppViewController: LandingViewController {
     }
 
     private func navigateToPortalMaintenancePage() {
-        alert.show(
-            Localize.string("common_maintenance_notify"),
-            Localize.string("common_maintenance_contact_later"),
-            confirm: {
-                NavigationManagement.sharedInstance.goTo(
-                    storyboard: "Maintenance",
-                    viewControllerId: "PortalMaintenanceViewController"
-                )
-            },
-            cancel: nil
+        let maintenanceView = PortalMaintenanceView(dismissHandler: {
+            UIViewController.getLastPresentedViewController()?.dismiss(animated: false)
+            self.observeSystemStatus()
+        })
+
+        let hostingController = UIHostingController(rootView: maintenanceView)
+        uiHostingController.present(
+            hostingController,
+            animated: true
         )
     }
 
@@ -174,7 +181,8 @@ class LandingAppViewController: LandingViewController {
 
     @IBAction
     func backToLogin(segue: UIStoryboardSegue) {
-        segue.source.presentationController?.delegate?.presentationControllerDidDismiss?(segue.source.presentationController!)
+        segue.source.presentationController?.delegate?
+            .presentationControllerDidDismiss?(segue.source.presentationController!)
     }
 }
 
