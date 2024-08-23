@@ -97,6 +97,7 @@ class LandingAppViewController: LandingViewController {
                             storyboard: "Maintenance",
                             viewControllerId: "PortalMaintenanceViewController"
                         )
+                        self.dismiss(animated: false)
                     case .product:
                         break
                     }
@@ -144,6 +145,7 @@ class LandingAppViewController: LandingViewController {
                     storyboard: "Maintenance",
                     viewControllerId: "PortalMaintenanceViewController"
                 )
+                self.dismiss(animated: false)
             },
             cancel: nil
         )
@@ -151,10 +153,12 @@ class LandingAppViewController: LandingViewController {
 
     private func navigateToProductPage(_ productType: ProductType) {
         NavigationManagement.sharedInstance.goTo(productType: productType)
+        dismiss(animated: false)
     }
 
     private func navigateToSetDefaultProductPage() {
         NavigationManagement.sharedInstance.goToSetDefaultProduct()
+        dismiss(animated: false)
     }
 
     private func showServiceDownAlert() {
