@@ -61,7 +61,7 @@ struct LoginView: View {
     var body: some View {
         LandingViewScaffold(navItem: .empty(), items: [manuelUpdate(), .cs(), register()]) {
             ZStack(alignment: .topLeading) {
-                #if DEBUG || QAT
+                #if DEBUG || qat
                     HStack {
                         Circle()
                             .fill(isForceChinese ? Color.green : Color.red)

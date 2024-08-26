@@ -2,7 +2,6 @@ import Foundation
 import sharedbu
 import UIKit
 
-/// reference: https://cocoacasts.com/tips-and-tricks-managing-build-configurations-in-xocde
 enum Configuration: String {
     case dev
     case qat
@@ -12,25 +11,35 @@ enum Configuration: String {
     case prod_selftest
     case prod_backup
 
-    private static let current: Configuration = {
-        #if DEV
+    static let current: Configuration = {
+        #if dev
             return .dev
-        #elseif QAT
+        #elseif qat
             return .qat
-        #elseif STAGING
+        #elseif stg
             return .staging
-        #elseif PREPROD
+        #elseif pre
             return .pre_prod
-        #elseif PRODUCTION
+        #elseif prod
             return .production
-        #elseif PRODUCTION_SELFTEST
+        #elseif selftest
             return .prod_selftest
-        #elseif PRODUCTION_BACKUP
+        #elseif backup
             return .prod_backup
+        #else
+            fatalError("Not supported environment")
         #endif
     }()
+    func isTestingEnvironment() -> Bool {
+        switch self {
+        case .dev, .qat, .staging, .pre_prod:
+            true
+        case .production, .prod_selftest, .prod_backup:
+            false
+        }
+    }
 
-    private static let env: Env = switch current {
+    static let env: Env = switch current {
     case .dev:
         DevConfig()
     case .qat:

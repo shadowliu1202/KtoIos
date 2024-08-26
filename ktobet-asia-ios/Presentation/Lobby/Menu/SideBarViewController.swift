@@ -257,7 +257,8 @@ class SideBarViewController: APPViewController {
         navigationBar?.shadowImage = UIImage()
         labUserAcoount.numberOfLines = 0
         labUserAcoount.lineBreakMode = .byWordWrapping
-        let logoImageView = UIImageView(image: UIImage(named: "KTO (D)"))
+        let icon = if Configuration.current.isTestingEnvironment() { "NavigationIconDev" } else { "NavigationIcon" }
+        let logoImageView = UIImageView(image: UIImage(named: icon))
         logoImageView.contentMode = .scaleAspectFit
 
         let logoView = UIView()
@@ -267,7 +268,7 @@ class SideBarViewController: APPViewController {
             make.top.bottom.equalToSuperview()
         }
         
-        #if DEBUG || QAT
+        #if DEBUG || qat
             let logoLabel = UILabel()
             logoLabel.text = if Configuration.forceChinese { "(On) 切換中文" } else { "(Off) 切換中文" }
             logoLabel.textColor = .white
