@@ -5,17 +5,19 @@ import sharedbu
 import SwiftUI
 
 class PortalMaintenanceViewModel: ComposeObservableObject<PortalMaintenanceViewModel.Event> {
+    enum Event {}
+
     @Injected var systemStatusUseCase: ISystemStatusUseCase
 
-    @Published var supportEmail: String = "support@example.com"
+    private var disposeBag = DisposeBag()
+    private var perSecondsRefreshTimer: Observable<Int> = .interval(.seconds(1), scheduler: MainScheduler.instance)
+
+    @Published var supportEmail: String = ""
     @Published var timerHours: String = "00"
     @Published var timerMinutes: String = "00"
     @Published var timerSeconds: String = "00"
     @Published var isMaintenanceOver: Bool = false
-
-    enum Event {}
-
-    private var disposeBag = DisposeBag()
+    @Published var remainSeconds: Int? = nil
 
     override init() {
         super.init()
@@ -24,57 +26,35 @@ class PortalMaintenanceViewModel: ComposeObservableObject<PortalMaintenanceViewM
             self.supportEmail = email
         }.disposed(by: disposeBag)
 
-        systemStatusUseCase.fetchMaintenanceStatus()
-            .asObservable()
-            .flatMap { status -> Observable<Int> in
+        perSecondsRefreshTimer
+            .subscribe(onNext: { _ in
+                self.systemStatusUseCase.refreshMaintenanceState()
+            }).disposed(by: disposeBag)
+
+        systemStatusUseCase.observeMaintenanceStatusByFetch()
+            .do { status in
                 switch onEnum(of: status) {
                 case let .allPortal(microseconds):
-                    guard let initialSeconds = microseconds.convertDurationToSeconds()?.int32Value else {
-                        return Observable<Int>.once(0)
+
+                    guard let newRemainSeconds = microseconds.convertDurationToSeconds()?.int32Value else {
+                        self.remainSeconds = 0
+                        return
                     }
-                    return Observable<Int>.interval(.seconds(1), scheduler: MainScheduler.instance)
-                        .map { interval in
-                            Int(initialSeconds) - Int(interval)
+
+                    if let remainSeconds = self.remainSeconds {
+                        if abs(Int(newRemainSeconds) - remainSeconds) > 60 {
+                            self.remainSeconds = Int(newRemainSeconds)
                         }
+                    } else { 
+                        self.remainSeconds = Int(newRemainSeconds)
+                    }
+
                 case .product:
-                    return Observable.once(0)
+                    self.remainSeconds = 0
                 }
             }
-            .subscribe(onNext: { secondsRemaining in
-                if secondsRemaining == 0 {
-                    self.isMaintenanceOver = true
-                    self.disposeBag = DisposeBag()
-                } else {
-                    self.updateRemainingTime(secondsRemaining)
-
-                    self.systemStatusUseCase.fetchMaintenanceStatus()
-                        .subscribe { status in
-                            switch onEnum(of: status) {
-                            case let .allPortal(it):
-                                if let newSeconds = it.convertDurationToSeconds()?.int32Value,
-                                   newSeconds <= secondsRemaining
-                                {
-                                    self.updateRemainingTime(Int(newSeconds))
-                                }
-                            case .product:
-                                self.isMaintenanceOver = true
-                                self.disposeBag = DisposeBag()
-                            }
-                        }
-                        .disposed(by: self.disposeBag)
-                }
-            })
+            .subscribe()
             .disposed(by: disposeBag)
-    }
-
-    private func updateRemainingTime(_ countDownSecond: Int) {
-        timerHours = String(format: "%02d", countDownSecond / 3600)
-        timerMinutes = String(format: "%02d", (countDownSecond / 60) % 60)
-        timerSeconds = String(format: "%02d", countDownSecond % 60)
-    }
-
-    private func navigateToLogin() {
-        NavigationManagement.sharedInstance.goTo(storyboard: "Login", viewControllerId: "LandingNavigation")
     }
 
     func openEmailURL() {

@@ -3,6 +3,7 @@ import SwiftUI
 
 struct PortalMaintenanceView: View {
     @StateObject private var viewModel: PortalMaintenanceViewModel = .init()
+    @State private var remainTimer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     let dismissHandler: () -> Void
 
     var body: some View {
@@ -17,9 +18,9 @@ struct PortalMaintenanceView: View {
 
                     GeometryReader { imgGeometry in
                         HStack(spacing: 5) {
-                            TimerView(timeUnit: viewModel.timerHours, unit: "h")
-                            TimerView(timeUnit: viewModel.timerMinutes, unit: "m")
-                            TimerView(timeUnit: viewModel.timerSeconds, unit: "s")
+                            TimerView(currentTime: viewModel.timerHours, timeUnit: "h")
+                            TimerView(currentTime: viewModel.timerMinutes, timeUnit: "m")
+                            TimerView(currentTime: viewModel.timerSeconds, timeUnit: "s")
                         }
                         .position(x: imgGeometry.size.width * 0.51, y: imgGeometry.size.height * 0.52)
                     }
@@ -77,20 +78,36 @@ struct PortalMaintenanceView: View {
                 dismissHandler()
             }
         }
+        .onReceive(remainTimer) { _ in
+            guard let remainSeconds = viewModel.remainSeconds else { return }
+            if remainSeconds > 0 {
+                let newRemainSeconds = remainSeconds - 1
+                viewModel.remainSeconds = newRemainSeconds
+                updateRemainingTime(newRemainSeconds)
+            } else {
+                viewModel.isMaintenanceOver = true
+            }
+        }
+    }
+
+    private func updateRemainingTime(_ countDownSecond: Int) {
+        viewModel.timerHours = String(format: "%02d", countDownSecond / 3600)
+        viewModel.timerMinutes = String(format: "%02d", (countDownSecond / 60) % 60)
+        viewModel.timerSeconds = String(format: "%02d", countDownSecond % 60)
     }
 }
 
 struct TimerView: View {
+    let currentTime: String
     let timeUnit: String
-    let unit: String
 
     var body: some View {
         HStack(alignment: .bottom, spacing: 2) {
-            Text(timeUnit)
+            Text(currentTime)
                 .font(weight: .semibold, size: 32)
                 .foregroundColor(Color("textPrimaryDustyGray"))
 
-            Text(unit)
+            Text(timeUnit)
                 .font(weight: .regular, size: 12)
                 .foregroundColor(Color("textPrimaryDustyGray"))
                 .alignmentGuide(.bottom) { d in d[.bottom] }
