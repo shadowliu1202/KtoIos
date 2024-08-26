@@ -61,7 +61,8 @@ class CommonVerifyOtpViewController: CommonViewController {
         }
 
         if !delegate.commonVerifyOtpArgs.isHiddenBarTitle {
-            naviItem.titleView = UIImageView(image: UIImage(named: "KTO (D)"))
+            let icon = if Configuration.current.isTestingEnvironment() { "NavigationIconDev" } else { "NavigationIcon" }
+            naviItem.titleView = UIImageView(image: UIImage(named: icon))
         }
 
         scrollView.alwaysBounceVertical = true

@@ -98,7 +98,8 @@ struct LandingNavigationBar: View {
                     Spacer()
                 }
             }
-            Image("KTO (D)")
+            let icon = if Configuration.current.isTestingEnvironment() { "NavigationIconDev" } else { "NavigationIcon" }
+            Image(icon)
                 .frame(height: 16)
             HStack(alignment: .center, spacing: 0) {
                 Spacer()

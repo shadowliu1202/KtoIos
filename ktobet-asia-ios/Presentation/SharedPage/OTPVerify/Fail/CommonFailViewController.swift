@@ -48,7 +48,8 @@ class CommonFailViewController: CommonViewController {
     }
 
     private func defaultStyle() {
-        naviItem.titleView = UIImageView(image: UIImage(named: "KTO (D)"))
+        let icon = if Configuration.current.isTestingEnvironment() { "NavigationIconDev" } else { "NavigationIcon" }
+        naviItem.titleView = UIImageView(image: UIImage(named: icon))
         btnRestart.layer.cornerRadius = 9
         btnRestart.layer.masksToBounds = true
         scollView.backgroundColor = UIColor.greyScaleDefault

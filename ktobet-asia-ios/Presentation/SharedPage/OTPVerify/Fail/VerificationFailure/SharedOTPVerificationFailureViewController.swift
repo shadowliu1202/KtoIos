@@ -38,7 +38,8 @@ class SharedOTPVerificationFailureViewController:
 
 extension SharedOTPVerificationFailureViewController {
     func setupUI() {
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: UIImageView(image: .init(named: "KTO (D)")))
+        let icon = if Configuration.current.isTestingEnvironment() { "NavigationIconDev" } else { "NavigationIcon" }
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(customView: UIImageView(image: .init(named: icon)))
 
         NavigationManagement.sharedInstance.viewController = self
 
