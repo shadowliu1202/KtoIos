@@ -2,7 +2,7 @@ import RxSwift
 import RxTest
 import XCTest
 
-@testable import ktobet_asia_ios_qat
+@testable import ktobet_asia_ios
 
 final class SnackBarTests: XCBaseTestCase {
     let disposeBag = DisposeBag()

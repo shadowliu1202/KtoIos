@@ -1,7 +1,7 @@
 import SwiftUI
 import ViewInspector
 
-@testable import ktobet_asia_ios_qat
+@testable import ktobet_asia_ios
 
 extension InspectWrapper {
     enum TestTag: String {
