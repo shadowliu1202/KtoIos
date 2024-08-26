@@ -5,7 +5,7 @@ import SwinjectAutoregistration
 import ViewInspector
 import XCTest
 
-@testable import ktobet_asia_ios_qat
+@testable import ktobet_asia_ios
 
 final class LocalizeUtilsTests: XCTestCase {
     func test_givenPlayerFirstInstallAndPhoneLocaleIsCN_thenDisplayLocaleIsVN_KTO_TC_949() {

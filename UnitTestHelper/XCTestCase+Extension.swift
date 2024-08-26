@@ -3,7 +3,7 @@ import RxSwift
 import sharedbu
 import XCTest
 
-@testable import ktobet_asia_ios_qat
+@testable import ktobet_asia_ios
 
 func XCTAssertEqual<E: Equatable>(expect: E, actual: E) {
     XCTAssertEqual(expect, actual)

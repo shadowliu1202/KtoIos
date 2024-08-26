@@ -3,7 +3,7 @@ import SwiftUI
 import ViewInspector
 import XCTest
 
-@testable import ktobet_asia_ios_qat
+@testable import ktobet_asia_ios
 
 final class ChatRoomViewTests: XCTestCase {
     func test_whenHaveUnReadMessages_thenDisplayUnReadSeperator() {

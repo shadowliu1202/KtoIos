@@ -4,7 +4,7 @@ import SwiftUI
 import ViewInspector
 import XCTest
 
-@testable import ktobet_asia_ios_qat
+@testable import ktobet_asia_ios
 
 final class NumberGameMyBetDetailContentTests: XCBaseTestCase {
     func test_givenGameResultTypeIsPrize_thenDisplayPrizeGameResult_KTO_TC_907() {
