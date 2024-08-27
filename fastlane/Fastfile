@@ -14,14 +14,14 @@
 # update_fastlane
 
 default_platform(:ios)
+
 platform :ios do
-    
   before_all do
     ENV["ITMSTRANSPORTER_FORCE_ITMS_PACKAGE_UPLOAD"] = "true"
-    ENV["FASTLANE_ITUNES_TRANSPORTER_USE_SHELL_SCRIPT"]="1"
-    ENV["FASTLANE_ITUNES_TRANSPORTER_PATH"]="/usr/local/itms"
-    end
-    
+    ENV["FASTLANE_ITUNES_TRANSPORTER_USE_SHELL_SCRIPT"] = "1"
+    ENV["FASTLANE_ITUNES_TRANSPORTER_PATH"] = "/usr/local/itms"
+  end
+
   lane :metrics do
     scan(
       scheme: "ktobet-asia-iosTests",
@@ -30,203 +30,192 @@ platform :ios do
       derived_data_path: "./DerivedData",
       output_directory: "./sonar-reports",
       output_types: 'junit,html',
-      output_files: "report.xml,report.html")
-      swiftlint(output_file: "./sonar-reports/swiftlint.txt",  ignore_exit_status: true)
-      slather(
-          jenkins: false,
-          scheme: "ktobet-asia-iosTests",
-          build_directory: "./DerivedData",
-          output_directory: "./sonar-reports",
-          proj: "./ktobet-asia-ios.xcodeproj",
-          binary_basename: "ktobet-asia-ios-qat",
-          workspace: "ktobet-asia-ios.xcworkspace",
-          cobertura_xml: "true")
-      lizard(
-          source_folder: "./ktobet-asia-ios",
-          language: "swift",
-          export_type: "xml",
-          report_file: "sonar-reports/lizard-report.xml")
-      sonar(
-          sonar_runner_args: "-X",
-          sonar_url:"http://172.16.5.60:64132/",
-          project_key:"mobile_ktobet-asia-ios_AYJrnFQAFHvKqZrAwtxX",
-          sonar_login:"sqa_6822e86b0f0fbfe5ec293fcce53f44942052b2b8")
+      output_files: "report.xml,report.html"
+    )
+    swiftlint(output_file: "./sonar-reports/swiftlint.txt", ignore_exit_status: true)
+    slather(
+      jenkins: false,
+      scheme: "ktobet-asia-iosTests",
+      build_directory: "./DerivedData",
+      output_directory: "./sonar-reports",
+      proj: "./ktobet-asia-ios.xcodeproj",
+      binary_basename: "ktobet-asia-ios-qat",
+      workspace: "ktobet-asia-ios.xcworkspace",
+      cobertura_xml: "true"
+    )
+    lizard(
+      source_folder: "./ktobet-asia-ios",
+      language: "swift",
+      export_type: "xml",
+      report_file: "sonar-reports/lizard-report.xml"
+    )
+    sonar(
+      sonar_runner_args: "-X",
+      sonar_url: "http://172.16.5.60:64132/",
+      project_key: "mobile_ktobet-asia-ios_AYJrnFQAFHvKqZrAwtxX",
+      sonar_login: "sqa_6822e86b0f0fbfe5ec293fcce53f44942052b2b8"
+    )
   end
-    
+
   lane :setupKeyStore do
-    # Unlock an existing keychain and add it to the keychain search list
     unlock_keychain(
       path: "login.keychain-db",
-      password: ENV["KEYCHAIN_PASSWORD"])
+      password: ENV["KEYCHAIN_PASSWORD"]
+    )
 
     app_store_connect_api_key(
-      key_id:  ENV['IOS_KEY'],  #API key id
-      issuer_id: "7a9803b0-51d8-44c5-ba26-f916da982cbe",  #Issuer ID
+      key_id: ENV['IOS_KEY'],
+      issuer_id: "7a9803b0-51d8-44c5-ba26-f916da982cbe",
       key_content: ENV['IOS_KEY_CONTENT'],
       is_key_content_base64: true,
       duration: 1200,
-      in_house: false)
+      in_house: false
+    )
   end
-    
+
   lane :tests do
     run_tests(
       scheme: "KTO-UnitTests",
       output_types: 'junit,html',
-      output_files: "KTO_UnitTests_junit.xml,KTO_UnitTests.html")
+      output_files: "KTO_UnitTests_junit.xml,KTO_UnitTests.html"
+    )
   end
-    
+
   lane :AIOTests do
     run_tests(
       scheme: "AIO-unitTests",
       output_types: 'junit,html',
-      output_files: "junit.xml,report.html")
+      output_files: "junit.xml,report.html"
+    )
   end
 
-	lane :getIdentifier do |options|
-		preRelease = options[:preRelease]
-    
-		puts "Get #{preRelease}"
-    
-		case options[:preRelease]
-		when 'test'
-			"com.kto.asia.dev"
-		when 'dev'
-			"com.kto.asia.qat-1"
-		when 'rc'
-			"com.kto.asia.stg.vn"
-		when 'release'
-			"com.kto.asia.vn"
-		when 'hotfix'
-			"com.kto.asia.pre"
-		when 'selftest'
-			"com.kto.asia.selftest"
-		when 'backup'
-			"com.kto.asia.backup"
-		else
-			UI.user_error!("No selectable options(option:test,dev,rc,pro,hotfix,selftest,backup)")
-		end
-	end
+  lane :getIdentifier do |options|
+    preRelease = options[:preRelease]
+    puts "Get #{preRelease}"
 
-	lane :getNextTestflightBuildNumber do |options|
+    case options[:preRelease]
+    when 'test' then "com.kto.asia.dev"
+    when 'dev' then "com.kto.asia.qat-1"
+    when 'rc' then "com.kto.asia.stg.vn"
+    when 'release' then "com.kto.asia.vn"
+    when 'hotfix' then "com.kto.asia.pre"
+    when 'selftest' then "com.kto.asia.selftest"
+    when 'backup' then "com.kto.asia.backup"
+    else
+      UI.user_error!("No selectable options(option:test,dev,rc,pro,hotfix,selftest,backup)")
+    end
+  end
+
+  lane :getNextTestflightBuildNumber do |options|
     setupKeyStore()
-    id  = getIdentifier(preRelease: options[:releaseTarget])
+    id = getIdentifier(preRelease: options[:releaseTarget])
     buildNumber = latest_testflight_build_number(
       app_identifier: id,
       version: options[:targetVersion],
-      initial_build_number: 0)
-      
-		sh("echo #{buildNumber} > buildNumber")
-	end
+      initial_build_number: 0
+    )
+    sh("echo #{buildNumber} > buildNumber")
+  end
 
-	lane :getEnviroment do |options|
-		preRelease = options[:preRelease]
-		puts "Get #{preRelease}"
-		case options[:preRelease]
-		when 'test'
-			"dev"
-		when 'dev'
-			"qat"
-		when 'rc'
-			"staging"
-		when 'release'
-			"production"
-		when 'hotfix'
-			"preprod"
-		when 'selftest'
-			"prod-selftest"
-		when 'backup'
-			"prod-backup"
-		else
-			UI.user_error!("No selectable options(option:test,dev,rc,pro,hotfix,selftest,backup)")
-		end
-	end
- 
+  lane :getEnviroment do |options|
+    preRelease = options[:preRelease]
+    puts "Get #{preRelease}"
+
+    case options[:preRelease]
+    when 'test' then "dev"
+    when 'dev' then "qat"
+    when 'rc' then "staging"
+    when 'release' then "production"
+    when 'hotfix' then "preprod"
+    when 'selftest' then "prod-selftest"
+    when 'backup' then "prod-backup"
+    else
+      UI.user_error!("No selectable options(option:test,dev,rc,pro,hotfix,selftest,backup)")
+    end
+  end
+
   lane :getSkipBuildArchive do |options|
     preRelease = options[:preRelease]
     puts "Get #{preRelease}"
+
     case options[:preRelease]
-    when 'rc'
-      true
-    when 'release'
-      true
-    when 'selftest'
-      false
-    when 'backup'
-      false
+    when 'rc', 'release' then true
+    when 'selftest', 'backup' then false
     else
       UI.user_error!("Should not set skip_build_archive in env: test, dev, hotfix)")
     end
   end
 
-  lane :buildIpaStaging  do |options|
-     setupKeyStore()
+  lane :buildIpaStaging do |options|
+    setupKeyStore()
     buildIpaStgVN(options)
-	end
-    
-  private_lane :buildIpaStgVN  do |options|
-    match(type: "adhoc", readonly: is_ci, app_identifier:"com.kto.asia.stg.vn")
-    
+  end
+
+  private_lane :buildIpaStgVN do |options|
+    match(type: "adhoc", readonly: is_ci, app_identifier: "com.kto.asia.stg.vn")
+
     SyncVersion(
-      plistPath: "ktobet-asia-ios/ktobet-asia-ios-staging-vn-Info.plist",
       buildVersion: options[:buildVersion],
-      appVersion: options[:appVersion])
+      appVersion: options[:appVersion]
+    )
 
     env = getEnviroment(preRelease: options[:releaseTarget])
     versionNum = options[:appVersion]
-    
+
     build_app(
-      scheme: "ktobet-asia-ios-staging-vn",
+      scheme: "ktobet-asia-ios-stg-vn",
       workspace: "ktobet-asia-ios.xcworkspace",
       include_symbols: true,
       clean: true,
       archive_path: "./output/#{env}.xcarchive",
       output_directory: "#{versionNum}",
       output_name: "kto-asia-#{versionNum}-staging-vn.ipa",
-      export_method: "ad-hoc",
-      export_options: {
-        method: "ad-hoc",
-      })
-            
+      export_method: "ad-hoc"
+    )
+
     upload_symbols_to_crashlytics(
       dsym_path: "./#{versionNum}/kto-asia-#{versionNum}-staging-vn.app.dSYM.zip",
-      gsp_path:"./ktobet-asia-ios/Firebase/stg-vn/GoogleService-Info.plist")
+      gsp_path: "./ktobet-asia-ios/Firebase/Vietnam/GoogleService-Info-stg.plist"
+    )
   end
 
   lane :uploadToTestflight do |options|
-        setupKeyStore()
-    
-        SyncVersion(
-          plistPath: "ktobet-asia-ios/ktobet-asia-ios-qat-Info.plist",
-          buildVersion: options[:buildVersion],
-          appVersion: options[:appVersion])
-
-        qat1Testflight(options)
-
-        versionNum = options[:appVersion]
-
-        upload_to_testflight(
-          username: "higgs-mobile@hotmail.com",
-          app_identifier: "com.kto.asia.qat-1",
-          ipa: "./output/ktobet-asia-ios-#{versionNum}-qat.ipa",
-          skip_waiting_for_build_processing: true)
-
-        upload_symbols_to_crashlytics(
-          dsym_path: "./output/ktobet-asia-ios-#{versionNum}-qat.app.dSYM.zip",
-          gsp_path: "./ktobet-asia-ios/Firebase/qat/GoogleService-Info.plist")
-	end
- 
-  lane :uploadToDevTestflight do |options|
     setupKeyStore()
-    
+
     SyncVersion(
-      plistPath: "ktobet-asia-ios/Info.plist",
       buildVersion: options[:buildVersion],
-      appVersion: options[:appVersion])
+      appVersion: options[:appVersion]
+    )
+
+    qat1Testflight(options)
 
     versionNum = options[:appVersion]
-    
-    match(type: "appstore", readonly: true, app_identifier:"com.kto.asia.dev")
-    
+
+    upload_to_testflight(
+      username: "higgs-mobile@hotmail.com",
+      app_identifier: "com.kto.asia.qat-1",
+      ipa: "./output/ktobet-asia-ios-#{versionNum}-qat.ipa",
+      skip_waiting_for_build_processing: true
+    )
+
+    upload_symbols_to_crashlytics(
+      dsym_path: "./output/ktobet-asia-ios-#{versionNum}-qat.app.dSYM.zip",
+      gsp_path: "./ktobet-asia-ios/Firebase/China/GoogleService-Info-qat.plist"
+    )
+  end
+
+  lane :uploadToDevTestflight do |options|
+    setupKeyStore()
+
+    SyncVersion(
+      buildVersion: options[:buildVersion],
+      appVersion: options[:appVersion]
+    )
+
+    versionNum = options[:appVersion]
+
+    match(type: "appstore", readonly: true, app_identifier: "com.kto.asia.dev")
+
     gym(
       configuration: "Release",
       scheme: "ktobet-asia-ios",
@@ -234,20 +223,22 @@ platform :ios do
       archive_path: "./output/dev.xcarchive",
       output_directory: "output",
       output_name: "ktobet-asia-ios-#{versionNum}-dev.ipa",
-      export_method: 'app-store')
-    
+      export_method: 'app-store'
+    )
+
     upload_to_testflight(
       username: "higgs-mobile@hotmail.com",
       app_identifier: "com.kto.asia.dev",
       ipa: "./output/ktobet-asia-ios-#{versionNum}-dev.ipa",
-      skip_waiting_for_build_processing: true)
+      skip_waiting_for_build_processing: true
+    )
   end
- 
+
   private_lane :qat1Testflight do |options|
     versionNum = options[:appVersion]
-    
-    match(type: "appstore", readonly: true, app_identifier:"com.kto.asia.qat-1")
-    
+
+    match(type: "appstore", readonly: true, app_identifier: "com.kto.asia.qat-1")
+
     gym(
       configuration: "Release",
       scheme: "ktobet-asia-ios-qat",
@@ -255,161 +246,186 @@ platform :ios do
       archive_path: "./output/qat.xcarchive",
       output_directory: "output",
       output_name: "ktobet-asia-ios-#{versionNum}-qat.ipa",
-      export_method: 'app-store')
+      export_method: 'app-store'
+    )
   end
-    
+
   private_lane :qat1AdHoc do |options|
     versionNum = options[:appVersion]
-    
-    match(type: "adhoc", readonly: true, app_identifier:"com.kto.asia.qat-1")
-    
+
+    match(type: "adhoc", readonly: true, app_identifier: "com.kto.asia.qat-1")
+
     gym(
       scheme: "ktobet-asia-ios-qat",
       skip_build_archive: true,
       archive_path: "./output/qat.xcarchive",
       output_directory: "output",
       output_name: "ktobet-asia-ios-#{versionNum}-qat-adHoc.ipa",
-      export_method: "ad-hoc")
+      export_method: "ad-hoc"
+    )
   end
-	
-	lane :buildIpaProduction do |options|
-     setupKeyStore()
-     buildIpaProdVN(options)
-	end
-    
+
+  lane :buildIpaProduction do |options|
+    setupKeyStore()
+    buildIpaProdVN(options)
+  end
+
   private_lane :buildIpaProdVN do |options|
-    match(type: "adhoc", readonly: is_ci, app_identifier:"com.kto.asia.vn")
-    
+    match(type: "adhoc", readonly: is_ci, app_identifier: "com.kto.asia.vn")
+
     SyncVersion(
-      plistPath: "ktobet-asia-ios/ktobet-asia-ios-production-vn-Info.plist",
       buildVersion: options[:buildVersion],
-      appVersion: options[:appVersion])
+      appVersion: options[:appVersion]
+    )
 
     env = getEnviroment(preRelease: options[:releaseTarget])
     versionNum = options[:appVersion]
-    
+
     build_app(
-      scheme: "ktobet-asia-ios-production-vn",
+      scheme: "ktobet-asia-ios-prod-vn",
       workspace: "ktobet-asia-ios.xcworkspace",
       include_symbols: true,
       clean: true,
       archive_path: "./output/#{env}.xcarchive",
       output_directory: "#{versionNum}",
       output_name: "kto-asia-#{versionNum}-prod-vn.ipa",
-      export_method: "ad-hoc",
-      export_options: {
-        method: "ad-hoc",
-      })
-                
+      export_method: "ad-hoc"
+    )
+
     upload_symbols_to_crashlytics(
       dsym_path: "./#{versionNum}/kto-asia-#{versionNum}-prod-vn.app.dSYM.zip",
-      gsp_path:"./ktobet-asia-ios/Firebase/prod_vn/GoogleService-Info.plist")
+      gsp_path: "./ktobet-asia-ios/Firebase/Vietnam/GoogleService-Info-prod.plist"
+    )
   end
- 
+
   lane :buildPreProd do |options|
     setupKeyStore()
-    match(type: "appstore", readonly: is_ci, app_identifier:"com.kto.asia.pre")
-      
+
+    match(type: "appstore", readonly: is_ci, app_identifier: "com.kto.asia.pre")
+
     SyncVersion(
-      plistPath: "ktobet-asia-ios/ktobet-asia-ios-preprod-Info.plist",
       buildVersion: options[:buildVersion],
-      appVersion: options[:appVersion])
+      appVersion: options[:appVersion]
+    )
 
     gym(
       configuration: "Release",
-      scheme: "ktobet-asia-ios-preprod",
+      scheme: "ktobet-asia-ios-pre",
       clean: true,
       include_symbols: true,
       output_directory: "output",
-      export_method: 'app-store')
+      export_method: 'app-store'
+    )
 
     upload_to_testflight(
       username: "higgs-mobile@hotmail.com",
       app_identifier: "com.kto.asia.pre",
-      skip_waiting_for_build_processing: true)
-      
+      skip_waiting_for_build_processing: true
+    )
+
     versionNum = options[:appVersion]
-    
+
     download_dsyms(
       username: "higgs-mobile@hotmail.com",
       app_identifier: "com.kto.asia.pre",
-      version: versionNum)
-                  
-    upload_symbols_to_crashlytics(gsp_path: "./ktobet-asia-ios/Firebase/pre_prod/GoogleService-Info.plist")
+      version: versionNum
+    )
+
+    upload_symbols_to_crashlytics(
+      gsp_path: "./ktobet-asia-ios/Firebase/China/GoogleService-Info-pre.plist"
+    )
   end
 
   lane :uploadTestflight do |options|
     setupKeyStore()
-		
-    identifier = getIdentifier(preRelease: options[:releaseTarget])
-		env = getEnviroment(preRelease: options[:releaseTarget])
-    isSkipBuildArchive = getSkipBuildArchive(preRelease: options[:releaseTarget])
-		plistPath = "ktobet-asia-ios/ktobet-asia-ios-#{env}-Info.plist"
-		scheme = "ktobet-asia-ios-#{env}"
-    
-		match(type: "appstore", readonly: is_ci, app_identifier: identifier)
-    
-    SyncVersion(
-      plistPath: plistPath,
-      buildVersion: options[:buildVersion],
-      appVersion: options[:appVersion])
-    
-		gym(
-      configuration: "Release",
-			scheme: scheme,
-			skip_build_archive: isSkipBuildArchive,
-      archive_path: "./output/#{env}.xcarchive",
-			include_symbols: true,
-			output_directory: "output",
-			export_method: 'app-store')
 
-		upload_to_testflight(
+    identifier = getIdentifier(preRelease: options[:releaseTarget])
+    env = getEnviroment(preRelease: options[:releaseTarget])
+    isSkipBuildArchive = getSkipBuildArchive(preRelease: options[:releaseTarget])
+
+    schemeEnv = case options[:releaseTarget]
+    when 'test' then "dev"
+    when 'dev' then "qat"
+    when 'rc' then "stg"
+    when 'release' then "prod"
+    when 'hotfix' then "pre"
+    when 'selftest' then "selftest"
+    when 'backup' then "backup"
+    else
+      UI.user_error!("No selectable options(option:test,dev,rc,pro,hotfix,selftest,backup)")
+    end
+    scheme = "ktobet-asia-ios-#{schemeEnv}"
+
+    match(type: "appstore", readonly: is_ci, app_identifier: identifier)
+
+    SyncVersion(
+      buildVersion: options[:buildVersion],
+      appVersion: options[:appVersion]
+    )
+
+    gym(
+      configuration: "Release",
+      scheme: scheme,
+      skip_build_archive: isSkipBuildArchive,
+      archive_path: "./output/#{env}.xcarchive",
+      include_symbols: true,
+      output_directory: "output",
+      export_method: 'app-store'
+    )
+
+    upload_to_testflight(
       username: "higgs-mobile@hotmail.com",
       app_identifier: identifier,
-      skip_waiting_for_build_processing: true)
-                            
+      skip_waiting_for_build_processing: true
+    )
+
     versionNum = options[:appVersion]
-    
+
     download_dsyms(
       username: "higgs-mobile@hotmail.com",
       app_identifier: identifier,
-      version: versionNum)
-                    
+      version: versionNum
+    )
+
     infoPath = getGoogleServiceInfo(preRelease: options[:releaseTarget])
-    upload_symbols_to_crashlytics(gsp_path: "./ktobet-asia-ios/Firebase/#{infoPath}/GoogleService-Info.plist")
-	end
- 
+    upload_symbols_to_crashlytics(
+      gsp_path: "./ktobet-asia-ios/Firebase/China/GoogleService-Info-#{infoPath}.plist"
+    )
+  end
+
   lane :getGoogleServiceInfo do |options|
     preRelease = options[:preRelease]
     puts "Get #{preRelease}"
+
     case options[:preRelease]
-    when 'test'
-      "dev"
-    when 'dev'
-      "qat"
-    when 'rc'
-      "stg"
-    when 'release'
-      "prod"
-    when 'hotfix'
-      "pre_prod"
-    when 'selftest'
-      "prod_self_test"
-    when 'backup'
-      "prod_backup"
+    when 'test' then "dev"
+    when 'dev' then "qat"
+    when 'rc' then "stg"
+    when 'release' then "prod"
+    when 'hotfix' then "pre"
+    when 'selftest' then "selftest"
+    when 'backup' then "backup"
     else
       UI.user_error!("No selectable options(option:test,dev,rc,pro,hotfix,selftest,backup)")
     end
   end
-  
+
   private_lane :SyncVersion do |options|
-    update_info_plist(
-      plist_path: options[:plistPath],
-      block: proc do |plist|
-        plist["CFBundleVersion"] = options[:buildVersion]
-        plist["CFBundleShortVersionString"] = options[:appVersion]
-      end)
-      
+#     update_info_plist(
+#       plist_path: "ktobet-asia-ios/Info.plist",
+#       block: proc do |plist|
+#         plist["CFBundleVersion"] = options[:buildVersion]
+#         plist["CFBundleShortVersionString"] = options[:appVersion]
+#       end
+#     )
+    increment_version_number_in_xcodeproj(
+      version_number: options[:appVersion],
+      xcodeproj: "ktobet-asia-ios.xcodeproj"
+    )
+    increment_build_number_in_xcodeproj(
+      build_number: options[:buildVersion],
+      xcodeproj: "ktobet-asia-ios.xcodeproj"
+    )
     sh("./SyncVersion.sh", options[:appVersion], options[:buildVersion])
   end
 end

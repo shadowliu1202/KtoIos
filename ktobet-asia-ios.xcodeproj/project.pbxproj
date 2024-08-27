@@ -501,6 +501,7 @@
 		60FE05C627CF082100B7914A /* OldEmailVerifyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60FE05C427CF082100B7914A /* OldEmailVerifyViewController.swift */; };
 		656047622C7C4EDC000DDFA3 /* GoogleService-Info-qat.plist in Resources */ = {isa = PBXBuildFile; fileRef = 605BBD4627FD6F0C0092A550 /* GoogleService-Info-qat.plist */; };
 		656047632C7C543D000DDFA3 /* GoogleService-Info-qat.plist in Resources */ = {isa = PBXBuildFile; fileRef = 605BBD4627FD6F0C0092A550 /* GoogleService-Info-qat.plist */; };
+		6560476C2C7EC7FA000DDFA3 /* GoogleService-Info-stg.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6560476B2C7EC7FA000DDFA3 /* GoogleService-Info-stg.plist */; };
 		65A941E42C74A84F00A08287 /* OtpLogin.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8D41D1B32C1005A700EDE6D7 /* OtpLogin.storyboard */; };
 		65A941E52C74A87000A08287 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7672D52899085E001DF62F /* LoginView.swift */; };
 		65A941E62C74A87400A08287 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C656E9F28E30DAF00EFB754 /* LoginViewModel.swift */; };
@@ -2373,6 +2374,7 @@
 		62645C141ADF90521D3EBB71 /* Pods-ktobet-asia-ios-staging-vn.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios-staging-vn.debug.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios-staging-vn/Pods-ktobet-asia-ios-staging-vn.debug.xcconfig"; sourceTree = "<group>"; };
 		6393C057AD4030E480BED374 /* Pods-ktobet-asia-ios-cn.preprodrelease.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios-cn.preprodrelease.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios-cn/Pods-ktobet-asia-ios-cn.preprodrelease.xcconfig"; sourceTree = "<group>"; };
 		64332744A8973193C4590F93 /* Pods-ktobet-asia-iosUITests.qatrelease.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-iosUITests.qatrelease.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-iosUITests/Pods-ktobet-asia-iosUITests.qatrelease.xcconfig"; sourceTree = "<group>"; };
+		6560476B2C7EC7FA000DDFA3 /* GoogleService-Info-stg.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-stg.plist"; sourceTree = "<group>"; };
 		676A1DE5B7E7CFDD4213F81A /* Pods-AIO-unitTests.selftestdebug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AIO-unitTests.selftestdebug.xcconfig"; path = "Target Support Files/Pods-AIO-unitTests/Pods-AIO-unitTests.selftestdebug.xcconfig"; sourceTree = "<group>"; };
 		69462F6C14000B9313E9FB59 /* Pods-ktobet-asia-ios-cn.preproddebug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-ios-cn.preproddebug.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-ios-cn/Pods-ktobet-asia-ios-cn.preproddebug.xcconfig"; sourceTree = "<group>"; };
 		6976FECCC62E058C97BB9221 /* Pods-ktobet-asia-iosUITests.stgdebug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ktobet-asia-iosUITests.stgdebug.xcconfig"; path = "Target Support Files/Pods-ktobet-asia-iosUITests/Pods-ktobet-asia-iosUITests.stgdebug.xcconfig"; sourceTree = "<group>"; };
@@ -2399,7 +2401,6 @@
 		6D0C89E927C8EB0300DA95C7 /* UIImageViewExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageViewExtension.swift; sourceTree = "<group>"; };
 		6D0C89ED27CDF83000DA95C7 /* NewPasswordValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPasswordValidator.swift; sourceTree = "<group>"; };
 		6D0D8FD526DF668500733C4D /* UseBonusCoupon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UseBonusCoupon.swift; sourceTree = "<group>"; };
-		6D0EDF9C28759495004A9E3C /* GoogleService-Info-stg.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info-stg.plist"; path = "../stg-vn/GoogleService-Info-stg.plist"; sourceTree = "<group>"; };
 		6D0EDF9F28759509004A9E3C /* GoogleService-Info-prod.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-prod.plist"; sourceTree = "<group>"; };
 		6D0F09982A245948004274E6 /* CSSignalRClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CSSignalRClient.swift; sourceTree = "<group>"; };
 		6D0F09A22A24599A004274E6 /* Connected.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Connected.swift; sourceTree = "<group>"; };
@@ -4598,7 +4599,7 @@
 		656047662C7C6427000DDFA3 /* Vietnam */ = {
 			isa = PBXGroup;
 			children = (
-				6D0EDF9C28759495004A9E3C /* GoogleService-Info-stg.plist */,
+				6560476B2C7EC7FA000DDFA3 /* GoogleService-Info-stg.plist */,
 				6D0EDF9F28759509004A9E3C /* GoogleService-Info-prod.plist */,
 			);
 			path = Vietnam;
@@ -6294,6 +6295,7 @@
 				4199A08B25AE9918002E2D7E /* InfoPlist.strings in Resources */,
 				6DB1957B2701A952003C6730 /* SBK.storyboard in Resources */,
 				6D14DA6B26FC17B40001ACFA /* wager_template.html in Resources */,
+				6560476C2C7EC7FA000DDFA3 /* GoogleService-Info-stg.plist in Resources */,
 				6D5B1530264A8652004138E8 /* Product.storyboard in Resources */,
 				6D1795A426A7EA94001C8BF8 /* UnlockPrivilegeView.xib in Resources */,
 				6D4083A32652046200BECD0E /* NumberGame.storyboard in Resources */,
