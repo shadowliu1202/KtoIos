@@ -67,6 +67,8 @@ variables:
 
 inProgress:
   stage: development
+  variables:
+    CI_DEBUG_TRACE: "true"
   tags:
       - mac-slave
   rules:
