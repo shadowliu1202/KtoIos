@@ -3,11 +3,8 @@ import SwiftUI
 
 struct PortalMaintenanceView: View {
     @Environment(\.handleError) var handleError
-    @StateObject private var viewModel: PortalMaintenanceViewModel = .init()
+    @StateObject private var viewModel: PortalMaintenance = .init()
     @State private var remainTimer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
-    @State var timerHours: String = "00"
-    @State var timerMinutes: String = "00"
-    @State var timerSeconds: String = "00"
     @State var isMaintenanceOver: Bool = false
 
     let dismissHandler: () -> Void
@@ -66,24 +63,18 @@ struct PortalMaintenanceView: View {
 
             Text(viewModel.supportEmail)
                 .font(weight: .semibold, size: 14)
-                .foregroundColor(.red)
-                .onTapGesture {
-                    openEmailURL()
-                }
+                .foregroundColor(.primaryDefault)
+                .onTapGesture { openEmailURL() }
 
             Spacer()
         }
         .padding(.horizontal, 30)
         .background(.greyScaleDefault)
         .onChange(of: isMaintenanceOver) { isMaintenanceOver in
-            if isMaintenanceOver {
-                dismissHandler()
-            }
+            if isMaintenanceOver { dismissHandler() }
         }
         .onReceive(remainTimer) { _ in
-            guard let remainSeconds = viewModel.remainSeconds else {
-                return
-            }
+            guard let remainSeconds = viewModel.remainSeconds else { return }
 
             if remainSeconds > 0 {
                 let newRemainSeconds = remainSeconds - 1
@@ -107,7 +98,7 @@ struct PortalMaintenanceView: View {
     }
 }
 
-struct TimerView: View {
+private struct TimerView: View {
     let currentTime: String
     let timeUnit: String
 

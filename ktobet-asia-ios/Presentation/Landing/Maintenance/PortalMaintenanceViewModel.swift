@@ -4,7 +4,7 @@ import RxSwift
 import sharedbu
 import SwiftUI
 
-class PortalMaintenanceViewModel: ComposeObservableObject<PortalMaintenanceViewModel.Event> {
+class PortalMaintenance: ComposeObservableObject<PortalMaintenance.Event> {
     enum Event {
         case isMaintenanceOver
     }
@@ -12,10 +12,11 @@ class PortalMaintenanceViewModel: ComposeObservableObject<PortalMaintenanceViewM
     @Injected var systemStatusUseCase: ISystemStatusUseCase
 
     private var disposeBag = DisposeBag()
-    private var networkDelayGap = 10
+    private static var networkDelayGap = 10
 
     @Published var supportEmail: String = ""
     @Published var remainSeconds: Int? = nil
+
     override init() {
         super.init()
         systemStatusUseCase.fetchCustomerServiceEmail().subscribe { email in
@@ -31,11 +32,10 @@ class PortalMaintenanceViewModel: ComposeObservableObject<PortalMaintenanceViewM
             .subscribe(onNext: { status in
                 switch onEnum(of: status) {
                 case let .allPortal(microseconds):
-
                     guard let newRemainSeconds = microseconds.convertDurationToSeconds()?.int32Value else { return }
 
                     if let remainSeconds = self.remainSeconds {
-                        if abs(Int(newRemainSeconds) - remainSeconds) > self.networkDelayGap {
+                        if abs(Int(newRemainSeconds) - remainSeconds) > PortalMaintenance.networkDelayGap {
                             self.remainSeconds = Int(newRemainSeconds)
                         }
                     } else {
