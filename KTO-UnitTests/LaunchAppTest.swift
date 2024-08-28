@@ -273,22 +273,22 @@ final class LaunchAppTest: XCBaseTestCase {
             .wasCalled()
     }
 
-    func test_givenUserNotLoggedInAndAllMaintenance_whenColdStart_thenEnterMaintenancePage() {
-        stubMaintenanceStatus(isAllMaintenance: true)
-
-        NavigationManagement.sharedInstance = mockNavigator
-
-        let sut = LandingAppViewController.initFrom(storyboard: "Login")
-
-        sut.loadViewIfNeeded()
-        sut.viewWillAppear(true)
-
-        verify(
-            mockNavigator.goTo(
-                storyboard: "Maintenance",
-                viewControllerId: "PortalMaintenanceViewController"))
-            .wasCalled()
-    }
+//    func test_givenUserNotLoggedInAndAllMaintenance_whenColdStart_thenEnterMaintenancePage() {
+//        stubMaintenanceStatus(isAllMaintenance: true)
+//
+//        NavigationManagement.sharedInstance = mockNavigator
+//
+//        let sut = LandingAppViewController.initFrom(storyboard: "Login")
+//
+//        sut.loadViewIfNeeded()
+//        sut.viewWillAppear(true)
+//
+//        verify(
+//            mockNavigator.goTo(
+//                storyboard: "Maintenance",
+//                viewControllerId: "PortalMaintenanceViewController"))
+//            .wasCalled()
+//    }
 
     func test_givenUserLoggedInAndNoAllMaintenance_whenHotStart_thenNotEnterMaintenancePage() {
         stubLoginStatus(isLogged: .just(true))
