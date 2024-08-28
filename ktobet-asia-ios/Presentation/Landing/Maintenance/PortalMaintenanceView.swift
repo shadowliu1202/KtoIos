@@ -35,7 +35,7 @@ struct PortalMaintenanceView: View {
 
             Text(
                 LocalizedStringKey(
-                    "common_maintenance_description_parameterize \(Text("common_kto").foregroundColor(.red))"
+                    "common_maintenance_description_parameterize \(Text("common_kto").foregroundColor(.primaryDefault))"
                 )
             )
             .font(weight: .semibold, size: 24)
