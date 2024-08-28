@@ -19,18 +19,12 @@ struct PortalMaintenanceView: View {
                 .overlay(
                     GeometryReader { geometry in
                         HStack(spacing: 12) {
-                            TimerView(
-                                currentTime: String(format: "%02d", (viewModel.remainSeconds ?? 0) / 3600),
-                                timeUnit: "h"
-                            )
-                            TimerView(
-                                currentTime: String(format: "%02d", ((viewModel.remainSeconds ?? 0) / 60) % 60),
-                                timeUnit: "m"
-                            )
-                            TimerView(
-                                currentTime: String(format: "%02d", (viewModel.remainSeconds ?? 0) % 60),
-                                timeUnit: "s"
-                            )
+                            let hour = String(format: "%02d", (viewModel.remainSeconds ?? 0) / 3600)
+                            let minute = String(format: "%02d", ((viewModel.remainSeconds ?? 0) / 60) % 60)
+                            let seconds = String(format: "%02d", (viewModel.remainSeconds ?? 0) % 60)
+                            TimerView(currentTime: hour, timeUnit: "h")
+                            TimerView(currentTime: minute, timeUnit: "m")
+                            TimerView(currentTime: seconds, timeUnit: "s")
                         }
                         .position(x: geometry.size.width * 0.51, y: geometry.size.height * 0.52)
                     },
