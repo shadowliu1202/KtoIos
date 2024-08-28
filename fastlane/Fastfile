@@ -418,11 +418,11 @@ platform :ios do
 #         plist["CFBundleShortVersionString"] = options[:appVersion]
 #       end
 #     )
-    increment_version_number(
+    increment_version_number_in_xcodeproj(
       version_number: options[:appVersion],
       xcodeproj: "ktobet-asia-ios.xcodeproj"
     )
-    increment_build_number(
+    increment_build_number_in_xcodeproj(
       build_number: options[:buildVersion],
       xcodeproj: "ktobet-asia-ios.xcodeproj"
     )
