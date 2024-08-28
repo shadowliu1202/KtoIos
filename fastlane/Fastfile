@@ -343,7 +343,7 @@ platform :ios do
     env = getEnviroment(preRelease: options[:releaseTarget])
     isSkipBuildArchive = getSkipBuildArchive(preRelease: options[:releaseTarget])
 
-    schemeEnv = case options[:preRelease]
+    schemeEnv = case options[:releaseTarget]
     when 'test' then "dev"
     when 'dev' then "qat"
     when 'rc' then "stg"
