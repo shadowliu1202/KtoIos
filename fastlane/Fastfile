@@ -420,11 +420,11 @@ platform :ios do
 #     )
     increment_version_number(
       version_number: options[:appVersion],
-      xcodeproj: "ktobet-asia-ios/ktobet-asia-ios.xcodeproj"
+      xcodeproj: "ktobet-asia-ios.xcodeproj"
     )
     increment_build_number(
       build_number: options[:buildVersion],
-      xcodeproj: "ktobet-asia-ios/ktobet-asia-ios.xcodeproj"
+      xcodeproj: "ktobet-asia-ios.xcodeproj"
     )
     sh("./SyncVersion.sh", options[:appVersion], options[:buildVersion])
   end
