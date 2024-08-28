@@ -6,27 +6,23 @@ import SwiftUI
 
 class PortalMaintenanceViewModel: ComposeObservableObject<PortalMaintenanceViewModel.Event> {
     enum Event {
-        case isMaintenanceOver(Bool)
+        case isMaintenanceOver
     }
 
     @Injected var systemStatusUseCase: ISystemStatusUseCase
 
     private var disposeBag = DisposeBag()
-    private var refreshTimer: Observable<Int> = .interval(.seconds(1), scheduler: MainScheduler.instance)
-    private var remainTimeErrorRange = 60
-    
+    private var networkDelayGap = 10
+
     @Published var supportEmail: String = ""
     @Published var remainSeconds: Int? = nil
-    
-
     override init() {
         super.init()
-
         systemStatusUseCase.fetchCustomerServiceEmail().subscribe { email in
             self.supportEmail = email
         }.disposed(by: disposeBag)
 
-        refreshTimer
+        Observable<Int>.interval(.seconds(1), scheduler: MainScheduler.instance)
             .subscribe(onNext: { _ in
                 self.systemStatusUseCase.refreshMaintenanceState()
             }).disposed(by: disposeBag)
@@ -36,12 +32,10 @@ class PortalMaintenanceViewModel: ComposeObservableObject<PortalMaintenanceViewM
                 switch onEnum(of: status) {
                 case let .allPortal(microseconds):
 
-                    guard let newRemainSeconds = microseconds.convertDurationToSeconds()?.int32Value else {
-                        return
-                    }
+                    guard let newRemainSeconds = microseconds.convertDurationToSeconds()?.int32Value else { return }
 
                     if let remainSeconds = self.remainSeconds {
-                        if abs(Int(newRemainSeconds) - remainSeconds) > self.remainTimeErrorRange {
+                        if abs(Int(newRemainSeconds) - remainSeconds) > self.networkDelayGap {
                             self.remainSeconds = Int(newRemainSeconds)
                         }
                     } else {
@@ -50,10 +44,9 @@ class PortalMaintenanceViewModel: ComposeObservableObject<PortalMaintenanceViewM
 
                 case .product:
                     self.remainSeconds = 0
-                    self.publisher = .event(.isMaintenanceOver(true))
+                    self.publisher = .event(.isMaintenanceOver)
                 }
             })
             .disposed(by: disposeBag)
     }
-
 }

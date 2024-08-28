@@ -14,13 +14,13 @@ class PortalMaintenanceViewController: LandingViewController {
             SupportLocale.Vietnam()
         }
 
-        let fontName = KTOFontWeight.semibold.fontString(currentLocale)
+        let fontName = KTOFontWeight.regular.fontString(currentLocale)
 
         let portalMaintenanceView = PortalMaintenanceView(dismissHandler: { [weak self] in
             self?.navigateToLogin()
         })
         .environment(\.locale, .init(identifier: currentLocale.cultureCode()))
-        .environment(\.font, .custom(fontName, size: 14))
+        .environment(\.font, .custom(fontName, size: 16))
         .foregroundStyle(.textPrimary)
         .onHandleError { [unowned self] error in
             self.handleErrors(error)
