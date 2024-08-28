@@ -97,7 +97,8 @@ class LandingAppViewController: LandingViewController {
                 onSuccess: { status in
                     switch onEnum(of: status) {
                     case .allPortal:
-                        self.navigateToPortalMaintenancePage()
+                        let maintenanceViewController = PortalMaintenanceViewController()
+                        self.uiHostingController.present(maintenanceViewController, animated: false, completion: nil)
                     case .product:
                         break
                     }
