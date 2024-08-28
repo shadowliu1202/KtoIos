@@ -5,19 +5,19 @@ import sharedbu
 import SwiftUI
 
 class PortalMaintenanceViewModel: ComposeObservableObject<PortalMaintenanceViewModel.Event> {
-    enum Event {}
+    enum Event {
+        case isMaintenanceOver(Bool)
+    }
 
     @Injected var systemStatusUseCase: ISystemStatusUseCase
 
     private var disposeBag = DisposeBag()
-    private var perSecondsRefreshTimer: Observable<Int> = .interval(.seconds(1), scheduler: MainScheduler.instance)
-
+    private var refreshTimer: Observable<Int> = .interval(.seconds(1), scheduler: MainScheduler.instance)
+    private var remainTimeErrorRange = 60
+    
     @Published var supportEmail: String = ""
-    @Published var timerHours: String = "00"
-    @Published var timerMinutes: String = "00"
-    @Published var timerSeconds: String = "00"
-    @Published var isMaintenanceOver: Bool = false
     @Published var remainSeconds: Int? = nil
+    
 
     override init() {
         super.init()
@@ -26,40 +26,34 @@ class PortalMaintenanceViewModel: ComposeObservableObject<PortalMaintenanceViewM
             self.supportEmail = email
         }.disposed(by: disposeBag)
 
-        perSecondsRefreshTimer
+        refreshTimer
             .subscribe(onNext: { _ in
                 self.systemStatusUseCase.refreshMaintenanceState()
             }).disposed(by: disposeBag)
 
         systemStatusUseCase.observeMaintenanceStatusByFetch()
-            .do { status in
+            .subscribe(onNext: { status in
                 switch onEnum(of: status) {
                 case let .allPortal(microseconds):
 
                     guard let newRemainSeconds = microseconds.convertDurationToSeconds()?.int32Value else {
-                        self.remainSeconds = 0
                         return
                     }
 
                     if let remainSeconds = self.remainSeconds {
-                        if abs(Int(newRemainSeconds) - remainSeconds) > 60 {
+                        if abs(Int(newRemainSeconds) - remainSeconds) > self.remainTimeErrorRange {
                             self.remainSeconds = Int(newRemainSeconds)
                         }
-                    } else { 
+                    } else {
                         self.remainSeconds = Int(newRemainSeconds)
                     }
 
                 case .product:
                     self.remainSeconds = 0
+                    self.publisher = .event(.isMaintenanceOver(true))
                 }
-            }
-            .subscribe()
+            })
             .disposed(by: disposeBag)
     }
 
-    func openEmailURL() {
-        let email = supportEmail.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !email.isEmpty, let url = URL(string: "mailto:\(email)") else { return }
-        UIApplication.shared.open(url)
-    }
 }

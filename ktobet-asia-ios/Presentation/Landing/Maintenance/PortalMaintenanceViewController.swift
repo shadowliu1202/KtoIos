@@ -5,26 +5,41 @@ import SwiftUI
 import UIKit
 
 class PortalMaintenanceViewController: LandingViewController {
-    private var hostingController: UIHostingController<PortalMaintenanceView>?
+    @AppStorage(UserDefaults.Key.cultureCode.rawValue) var cultureCode: String?
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    private lazy var hostingController: UIHostingController<AnyView> = {
+        let currentLocale = if let cultureCode {
+            Configuration.forceChinese ? SupportLocale.China() : SupportLocale.companion.create(language: cultureCode)
+        } else {
+            SupportLocale.Vietnam()
+        }
+
+        let fontName = KTOFontWeight.semibold.fontString(currentLocale)
 
         let portalMaintenanceView = PortalMaintenanceView(dismissHandler: { [weak self] in
             self?.navigateToLogin()
         })
-        hostingController = UIHostingController(rootView: portalMaintenanceView)
-
-        if let hostingController = hostingController {
-            addChild(hostingController)
-            view.addSubview(hostingController.view)
-
-            hostingController.view.translatesAutoresizingMaskIntoConstraints = false
-            hostingController.view.snp.makeConstraints { make in
-                make.edges.equalToSuperview()
-            }
-            hostingController.didMove(toParent: self)
+        .environment(\.locale, .init(identifier: currentLocale.cultureCode()))
+        .environment(\.font, .custom(fontName, size: 14))
+        .foregroundStyle(.textPrimary)
+        .onHandleError { [unowned self] error in
+            self.handleErrors(error)
         }
+
+        return UIHostingController(rootView: AnyView(portalMaintenanceView))
+    }()
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        addChild(hostingController)
+        view.addSubview(hostingController.view)
+
+        hostingController.view.translatesAutoresizingMaskIntoConstraints = false
+        hostingController.view.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        hostingController.didMove(toParent: self)
     }
 
     private func navigateToLogin() {

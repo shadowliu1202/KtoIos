@@ -378,6 +378,8 @@
 "common_cs_email %@" = "客服邮箱 %@";
 "common_all_maintenance" = "全站维护中...";
 "common_maintenance_description" = "等待，为了更好的KTO";
+"common_maintenance_description_parameterize" = "等待，为了更好的%@";
+"common_maintenance_description_parameterize %@" = "等待，为了更好的%@";
 "common_cs_email_description" = "如有问题，请发送邮件至";
 "common_long_maintenance" = "长期维护";
 "common_maintenance_notify" = "维护通知";

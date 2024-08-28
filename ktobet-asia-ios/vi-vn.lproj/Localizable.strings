@@ -375,6 +375,8 @@ Mã Xác Minh gồm 4 số</br>
 "common_cs_email %@" = "Email CSKH %@";
 "common_all_maintenance" = "Hệ Thống đang bảo trì.";
 "common_maintenance_description" = "Hãy chờ đón một KTO tốt hơn.";
+"common_maintenance_description_parameterize" = "Hãy chờ đón một %@ tốt hơn.";
+"common_maintenance_description_parameterize %@" = "Hãy chờ đón một %@ tốt hơn.";
 "common_cs_email_description" = "Nếu Quý Khách có bất kỳ thắc mắc nào, vui lòng gửi email đến";
 "common_long_maintenance" = "Bảo Trì Dài Hạn";
 "common_maintenance_notify" = "Thông Báo Bảo Trì";

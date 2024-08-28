@@ -27,59 +27,62 @@ class LandingAppViewController: LandingViewController {
     }
 
     private func createHostingViewController() -> UIHostingController<AnyView> {
-        UIHostingController(rootView: AnyView(LandingView(csViewModel: customerServiceViewModel) { [unowned self] in
-            LoginView(
-                viewModel: viewModel,
-                isForceChinese: Configuration.forceChinese,
-                onLogin: { [unowned self] pageNavigation, error in
-                    if let pageNavigation {
-                        executeNavigation(pageNavigation)
-                    }
+        UIHostingController(rootView:
+            AnyView(
+                LandingView(csViewModel: customerServiceViewModel) { [unowned self] in
+                    LoginView(
+                        viewModel: viewModel,
+                        isForceChinese: Configuration.forceChinese,
+                        onLogin: { [unowned self] pageNavigation, error in
+                            if let pageNavigation {
+                                executeNavigation(pageNavigation)
+                            }
 
-                    if let error {
-                        switch error {
-                        case is InvalidPlatformException:
-                            showServiceDownAlert()
-                        default:
-                            handleErrors(error)
+                            if let error {
+                                switch error {
+                                case is InvalidPlatformException:
+                                    showServiceDownAlert()
+                                default:
+                                    handleErrors(error)
+                                }
+                            }
+                        },
+                        onOTPLogin: { [unowned self] in navigateToOtpLoginPage() },
+                        toggleForceChinese: { [unowned self] in
+                            Configuration.forceChinese.toggle()
+                            recreateVC()
                         }
-                    }
-                },
-                onOTPLogin: { [unowned self] in navigateToOtpLoginPage() },
-                toggleForceChinese: { [unowned self] in
-                    Configuration.forceChinese.toggle()
-                    recreateVC()
+                    )
                 }
-            )
-        }
-        .onStartCS { [unowned self] in startCustomerService() }
-        .onStartManuelUpdate { [unowned self] in startManuelUpdate() }
-        .onShowDialog { info in
-            Alert.shared.show(
-                info.title,
-                info.message,
-                confirm: info.confirm,
-                confirmText: info.confirmText,
-                cancel: info.cancel,
-                cancelText: info.cancelText,
-                tintColor: info.tintColor
-            )
-        }
-        .onHandleError { [unowned self] error in
-            handleErrors(error)
-        }
-        .onToastMessage { [unowned self] message, style in
-            showToast(message, barImg: style)
-        }
-        .onEnterLobby { [unowned self] productType in
-            let lobbyNavigation: NavigationViewModel.LobbyPageNavigation =
-                if let productType, productType != .none {
-                    .playerDefaultProduct(productType)
-                } else {
-                    .setDefaultProduct
+                .onStartCS { [unowned self] in startCustomerService() }
+                .onStartManuelUpdate { [unowned self] in startManuelUpdate() }
+                .onShowDialog { info in
+                    Alert.shared.show(
+                        info.title,
+                        info.message,
+                        confirm: info.confirm,
+                        confirmText: info.confirmText,
+                        cancel: info.cancel,
+                        cancelText: info.cancelText,
+                        tintColor: info.tintColor
+                    )
                 }
-            executeNavigation(lobbyNavigation)
-        }))
+                .onHandleError { [unowned self] error in
+                    handleErrors(error)
+                }
+                .onToastMessage { [unowned self] message, style in
+                    showToast(message, barImg: style)
+                }
+                .onEnterLobby { [unowned self] productType in
+                    let lobbyNavigation: NavigationViewModel.LobbyPageNavigation =
+                        if let productType, productType != .none {
+                            .playerDefaultProduct(productType)
+                        } else {
+                            .setDefaultProduct
+                        }
+                    executeNavigation(lobbyNavigation)
+                }
+            ))
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -94,17 +97,7 @@ class LandingAppViewController: LandingViewController {
                 onSuccess: { status in
                     switch onEnum(of: status) {
                     case .allPortal:
-                        let maintenanceView = PortalMaintenanceView(dismissHandler: {
-                            UIViewController.getLastPresentedViewController()?.dismiss(animated: false)
-                            self.observeSystemStatus()
-                        })
-
-                        let hostingController = UIHostingController(rootView: maintenanceView)
-                        hostingController.modalPresentationStyle = .fullScreen
-                        self.uiHostingController.present(
-                            hostingController,
-                            animated: false
-                        )
+                        self.navigateToPortalMaintenancePage()
                     case .product:
                         break
                     }
@@ -144,15 +137,14 @@ class LandingAppViewController: LandingViewController {
     }
 
     private func navigateToPortalMaintenancePage() {
-        let maintenanceView = PortalMaintenanceView(dismissHandler: {
-            UIViewController.getLastPresentedViewController()?.dismiss(animated: false)
-            self.observeSystemStatus()
-        })
-
-        let hostingController = UIHostingController(rootView: maintenanceView)
-        uiHostingController.present(
-            hostingController,
-            animated: true
+        alert.show(
+            Localize.string("common_maintenance_notify"),
+            Localize.string("common_maintenance_contact_later"),
+            confirm: {
+                let maintenanceViewController = PortalMaintenanceViewController()
+                self.uiHostingController.present(maintenanceViewController, animated: false, completion: nil)
+            },
+            cancel: nil
         )
     }
 
