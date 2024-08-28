@@ -411,14 +411,21 @@ platform :ios do
   end
 
   private_lane :SyncVersion do |options|
-    update_info_plist(
-      plist_path: "ktobet-asia-ios/Info.plist",
-      block: proc do |plist|
-        plist["CFBundleVersion"] = options[:buildVersion]
-        plist["CFBundleShortVersionString"] = options[:appVersion]
-      end
+#     update_info_plist(
+#       plist_path: "ktobet-asia-ios/Info.plist",
+#       block: proc do |plist|
+#         plist["CFBundleVersion"] = options[:buildVersion]
+#         plist["CFBundleShortVersionString"] = options[:appVersion]
+#       end
+#     )
+    increment_version_number(
+      version_number: options[:appVersion],
+      xcodeproj: "ktobet-asia-ios/ktobet-asia-ios.xcodeproj"
     )
-
+    increment_build_number(
+      build_number: options[:buildVersion],
+      xcodeproj: "ktobet-asia-ios/ktobet-asia-ios.xcodeproj"
+    )
     sh("./SyncVersion.sh", options[:appVersion], options[:buildVersion])
   end
 end
