@@ -16,7 +16,7 @@ class PortalMaintenanceViewController: LandingViewController {
 
         let fontName = KTOFontWeight.regular.fontString(currentLocale)
 
-        let portalMaintenanceView = PortalMaintenanceView(dismissHandler: { [weak self] in
+        let portalMaintenanceView = PortalMaintenanceView(onDismiss: { [weak self] in
             self?.navigateToLogin()
         })
         .environment(\.locale, .init(identifier: currentLocale.cultureCode()))

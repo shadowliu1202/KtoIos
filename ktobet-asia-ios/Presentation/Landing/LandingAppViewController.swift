@@ -97,8 +97,10 @@ class LandingAppViewController: LandingViewController {
                 onSuccess: { status in
                     switch onEnum(of: status) {
                     case .allPortal:
+                        let portalMaintenanceViewController = PortalMaintenanceViewController()
+                        portalMaintenanceViewController.modalPresentationStyle = .fullScreen
                         self.uiHostingController.present(
-                            PortalMaintenanceViewController(),
+                            portalMaintenanceViewController,
                             animated: false,
                             completion: nil
                         )
@@ -145,7 +147,9 @@ class LandingAppViewController: LandingViewController {
             Localize.string("common_maintenance_notify"),
             Localize.string("common_maintenance_contact_later"),
             confirm: {
-                self.uiHostingController.present(PortalMaintenanceViewController(), animated: false, completion: nil)
+                let portalMaintenanceViewController = PortalMaintenanceViewController()
+                portalMaintenanceViewController.modalPresentationStyle = .fullScreen
+                self.uiHostingController.present(portalMaintenanceViewController, animated: false, completion: nil)
             },
             cancel: nil
         )

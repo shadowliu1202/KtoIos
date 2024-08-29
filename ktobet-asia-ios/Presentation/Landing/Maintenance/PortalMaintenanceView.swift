@@ -7,7 +7,7 @@ struct PortalMaintenanceView: View {
     @State private var remainTimer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     @State var isMaintenanceOver: Bool = false
 
-    let dismissHandler: () -> Void
+    let onDismiss: () -> Void
 
     var body: some View {
         VStack(spacing: 0) {
@@ -55,17 +55,20 @@ struct PortalMaintenanceView: View {
 
             LimitSpacer(8)
 
-            Text(viewModel.supportEmail)
-                .font(weight: .semibold, size: 14)
-                .foregroundColor(.primaryDefault)
-                .onTapGesture { openEmailURL() }
+            if let url = tryEmailURL(from: viewModel.supportEmail) {
+                Link(destination: url, label: {
+                    Text(viewModel.supportEmail)
+                        .font(weight: .semibold, size: 14)
+                        .foregroundColor(.primaryDefault)
+                })
+            }
 
             Spacer()
         }
         .padding(.horizontal, 30)
         .background(.greyScaleDefault)
         .onChange(of: isMaintenanceOver) { isMaintenanceOver in
-            if isMaintenanceOver { dismissHandler() }
+            if isMaintenanceOver { onDismiss() }
         }
         .onReceive(remainTimer) { _ in
             guard let remainSeconds = viewModel.remainSeconds else { return }
@@ -85,10 +88,16 @@ struct PortalMaintenanceView: View {
         }
     }
 
-    private func openEmailURL() {
-        let email = viewModel.supportEmail.trimmingCharacters(in: .whitespacesAndNewlines)
-        guard !email.isEmpty, let url = URL(string: "mailto:\(email)") else { return }
-        UIApplication.shared.open(url)
+    private func tryEmailURL(from email: String) -> URL? {
+        let trimmedEmail = email.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !trimmedEmail.isEmpty else { return nil }
+
+        do {
+            return try "mailto:\(trimmedEmail)".asURL()
+        } catch {
+            Logger.shared.info("PortalMaintenance support email error with: \(email)")
+            return nil
+        }
     }
 }
 
@@ -110,6 +119,6 @@ private struct TimerView: View {
 
 struct PortalMaintenanceView_Previews: PreviewProvider {
     static var previews: some View {
-        PortalMaintenanceView(dismissHandler: {})
+        PortalMaintenanceView(onDismiss: {})
     }
 }
