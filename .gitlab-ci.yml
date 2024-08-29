@@ -309,7 +309,7 @@ extra_stg_prepare:
   needs: ["get_qat_next_version", "buildAndRelease"]
   script:
     - |
-      export ONLINE_VERSION=$(fetch_online_version "STG")
+      export ONLINE_VERSION=$(fetch_ios_online_version "STG")
       echo "PREVIOUS_VERSION=$ONLINE_VERSION" >> variables.env
       echo "RELEASE_VERSION_CORE=$RELEASE_VERSION_CORE" >> variables.env
       commit_messages=$(fetch_commits_between_tags "$ONLINE_VERSION-rc" "$SELECT_TAG")
