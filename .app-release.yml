@@ -284,7 +284,7 @@ notify_additional_publish:
   script:
     - |
       TARGET_ENV=$(echo "$TARGET_ENVIROMENT" | tr '[:upper:]' '[:lower:]')
-      ISSUE_LINK="${ISSUE_HOST}ios-${RELEASE_VERSION_CORE}-${TARGET_ENV}"
+      issue_link="${ISSUE_HOST}ios-${RELEASE_VERSION_CORE}-${TARGET_ENV}"
       oldVersion=$PREVIOUS_VERSION
       newVersion=$RELEASE_VERSION_CORE
       hotfixVersion=$(extract_hotfix_version $PREVIOUS_VERSION)
