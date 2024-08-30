@@ -115,7 +115,7 @@ class LandingAppViewController: LandingViewController {
         let prechatVC = PrechatSurveyViewController()
         let navi = CustomServiceNavigationController(rootViewController: prechatVC)
         navi.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
-        uiHostingController.present(navi, animated: true, completion: nil)
+        uiHostingController.present(navi, animated: false, completion: nil)
     }
 
     private func navigateToCalling() {
@@ -173,7 +173,7 @@ class LandingAppViewController: LandingViewController {
     private func navigateToOtpLoginPage() {
         let storyboard = UIStoryboard(name: "OtpLogin", bundle: nil)
         let vc = storyboard.instantiateInitialViewController()!
-        uiHostingController.present(vc, animated: true, completion: nil)
+        uiHostingController.present(vc, animated: false, completion: nil)
     }
 
     @IBAction
