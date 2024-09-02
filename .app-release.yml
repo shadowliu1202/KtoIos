@@ -21,8 +21,9 @@ include:
 stages:          
 - versionSync # Increase build number from last version 
 - buildAndArchive # Build and archive the release version
+- releaseSuccess # Notify release success via Teams
 - publishRelease # Publish to the website and ProGet, set up the release version tag, update related Jira issues
-- notifySuccess  # Notify publish success via Teams
+- publishSuccess  # Notify publish success via Teams
 
 variables:
  TARGET_ENVIROMENT:
@@ -188,10 +189,10 @@ publish_artifacts:
 tag_release_version:
   tags: 
     - ios-agent-release  
-  stage: publishRelease
+  stage: releaseSuccess
   needs:
     - job: update_release_buildNumber
-    - job: publish_artifacts
+    - job: build_artifacts
   variables:
     ReleaseTag: "$RELEASE_VERSION_CORE-$ENVIROMENT_SUFFIX"      
   rules:
@@ -213,9 +214,9 @@ tag_release_version:
 update_jira_issues:
   tags: 
     - ios-agent-release
-  stage: publishRelease
+  stage: releaseSuccess
   needs: 
-    - job: publish_artifacts  
+    - job: build_artifacts
   rules:
     - !reference [.release_rules, rules]
   script:
@@ -224,8 +225,8 @@ update_jira_issues:
       echo "update jira issues $RELATED_ISSUE with $RELEASE_VERSION_CORE-$TARGET_ENV"
       update_publish_jira_tickets "release to $TARGET_ENVIROMENT" "ios-$RELEASE_VERSION_CORE-$TARGET_ENV" $RELATED_ISSUE
 
-notify_publish:
-  stage: notifySuccess
+notify_release:
+  stage: releaseSuccess
   needs: 
     - job: update_jira_issues
     - job: update_release_buildNumber
@@ -239,7 +240,7 @@ notify_publish:
   script:
     - |
       TARGET_ENV=$(echo "$TARGET_ENVIROMENT" | tr '[:upper:]' '[:lower:]')
-      ISSUE_LINK="${ISSUE_HOST}ios-${RELEASE_VERSION_CORE}-${TARGET_ENV}"
+      issue_link="${ISSUE_HOST}ios-${RELEASE_VERSION_CORE}-${TARGET_ENV}"
       oldVersion=$PREVIOUS_VERSION
       newVersion=$RELEASE_VERSION_CORE
       hotfixVersion=$(extract_hotfix_version $PREVIOUS_VERSION)
@@ -249,7 +250,7 @@ notify_publish:
       fi
       if [[ "$HOTFIX_COMPARE" != "null" ]]; then
           DOWNLOAD_FILE="${PROGET_URL}/feeds/app/ios/kto-asia/${RELEASE_VERSION_CORE}-${ENVIROMENT_SUFFIX}.${HOTFIX_COMPARE}/files"      
-          issue_link="${ISSUE_HOST}android-${RELEASE_VERSION_CORE}-${ENVIROMENT_SUFFIX}.${HOTFIX_COMPARE}" 
+          issue_link="${ISSUE_HOST}ios-${RELEASE_VERSION_CORE}-${ENVIROMENT_SUFFIX}.${HOTFIX_COMPARE}" 
           newVersion="$RELEASE_VERSION_CORE($HOTFIX_COMPARE)"
       fi
       echo "version: $oldVersion to $newVersion on $TARGET_ENV"
@@ -269,9 +270,43 @@ notify_publish:
         message_payload=$(create_kto_notify "$oldVersion" "$newVersion" "$TARGET_ENV" "$DOWNLOAD_PAGE" "$issue_link" "$DOWNLOAD_FILE")
       fi
       curl -H "Content-Type: application/json" -d "${message_payload}" ${TEAMS_WEBHOOK_URL}  
+
+notify_publish:
+  stage: publishSuccess
+  needs:
+    - job: publish_artifacts
+    - job: update_release_buildNumber
+  rules:
+    - !reference [.release_rules, rules]
+  variables:
+    ISSUE_HOST: "https://jira.higgstar.com/issues/?jql=project%20%3D%20KTO%20AND%20labels%20%3D%20"
+    DOWNLOAD_FILE: "${PROGET_URL}/feeds/app/ios/kto-asia/${RELEASE_VERSION_CORE}-${ENVIROMENT_SUFFIX}/files"
+    DOWNLOAD_SELFTEST: "https://beta.itunes.apple.com/v1/app/1618357473"
+    TEAMS_WEBHOOK_URL: "https://higgstar.webhook.office.com/webhookb2/4633c5c4-c4b4-4e4a-811a-292e1c2bba93@8e771fc0-280e-4271-a200-ad98dd5f6605/IncomingWebhook/7299ee0a8a304576814e537a53d5930b/dbab47a2-891a-470f-a94e-4dbb41d9acbc"
+  script:
+    - |
+      TARGET_ENV=$(echo "$TARGET_ENVIROMENT" | tr '[:upper:]' '[:lower:]')
+      newVersion=$RELEASE_VERSION_CORE
+      
+      if [[ "$HOTFIX_COMPARE" != "null" ]]; then
+          DOWNLOAD_FILE="${PROGET_URL}/feeds/app/ios/kto-asia/${RELEASE_VERSION_CORE}-${ENVIROMENT_SUFFIX}.${HOTFIX_COMPARE}/files"    
+          newVersion="$RELEASE_VERSION_CORE($HOTFIX_COMPARE)"
+      fi
+      
+      if [ "$TARGET_ENVIROMENT" == "PRO" ]; then
+        DOWNLOAD_PAGE="$KTO_PRO_HOST"
+      elif [ "$TARGET_ENVIROMENT" == "PRE" ]; then
+        DOWNLOAD_PAGE="$KTO_PRE_HOST"
+      elif [ "$TARGET_ENVIROMENT" == "STG" ]; then
+        DOWNLOAD_PAGE="$KTO_STG_HOST"
+      else
+        DOWNLOAD_PAGE="$KTO_QAT_HOST"
+      fi
+      message_payload=$(create_publish_notify "$newVersion" "$TARGET_ENV" "$DOWNLOAD_PAGE")
+      curl -H "Content-Type: application/json" -d "${message_payload}" ${TEAMS_WEBHOOK_URL}  
       
 notify_additional_publish:
-  stage: notifySuccess
+  stage: publishSuccess
   needs: 
     - job: update_jira_issues
     - job: update_release_buildNumber
@@ -292,7 +327,7 @@ notify_additional_publish:
           oldVersion="$(parse_version_core $PREVIOUS_VERSION)($hotfixVersion)"
       fi
       if [[ "$HOTFIX_COMPARE" != "null" ]]; then      
-          issue_link="${ISSUE_HOST}android-${RELEASE_VERSION_CORE}-${ENVIROMENT_SUFFIX}.${HOTFIX_COMPARE}" 
+          issue_link="${ISSUE_HOST}ios-${RELEASE_VERSION_CORE}-${ENVIROMENT_SUFFIX}.${HOTFIX_COMPARE}" 
           newVersion="$RELEASE_VERSION_CORE($HOTFIX_COMPARE)"
       fi
       connector=""
