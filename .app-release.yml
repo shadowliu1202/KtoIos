@@ -272,7 +272,7 @@ notify_release:
       curl -H "Content-Type: application/json" -d "${message_payload}" ${TEAMS_WEBHOOK_URL}  
 
 notify_publish:
-  stage: releaseSuccess
+  stage: publishSuccess
   needs:
     - job: publish_artifacts
     - job: update_release_buildNumber
