@@ -298,20 +298,20 @@ notify_publish:
       message_payload=""
       if [ "$TARGET_ENVIROMENT" == "PRO" ]; then
         DOWNLOAD_PAGE="[link]($KTO_PRO_HOST)"
-        TEAMS_WEBHOOK_URL=APP_ALERT_WEBHOOK_URL
+        TEAMS_WEBHOOK_URL=$APP_ALERT_WEBHOOK_URL
         DOWNLOAD_PAYLOAD="[pro]($DOWNLOAD_FILE),[self-test]($DOWNLOAD_SELFTEST)"        
         message_payload=$(create_new_kto_notify "$oldVersion" "$newVersion" "$TARGET_ENV" "$DOWNLOAD_PAGE" "$issue_link" "$DOWNLOAD_PAYLOAD")
       elif [ "$TARGET_ENVIROMENT" == "PRE" ]; then
         DOWNLOAD_PAGE="$KTO_PRE_HOST"                
-        TEAMS_WEBHOOK_URL=PRE_TEAMS_NOTIFY_WEBHOOK
+        TEAMS_WEBHOOK_URL=$PRE_TEAMS_NOTIFY_WEBHOOK
         message_payload=$(create_kto_notify "$oldVersion" "$newVersion" "$TARGET_ENV" "$DOWNLOAD_PAGE" "$issue_link" "$DOWNLOAD_FILE")            
       elif [ "$TARGET_ENVIROMENT" == "STG" ]; then
         DOWNLOAD_PAGE="$KTO_STG_HOST"
-        TEAMS_WEBHOOK_URL=STG_TEAMS_NOTIFY_WEBHOOK
+        TEAMS_WEBHOOK_URL=$STG_TEAMS_NOTIFY_WEBHOOK
         message_payload=$(create_kto_notify "$oldVersion" "$newVersion" "$TARGET_ENV" "$DOWNLOAD_PAGE" "$issue_link" "$DOWNLOAD_FILE")
       else
         DOWNLOAD_PAGE="$KTO_QAT_HOST"
-        TEAMS_WEBHOOK_URL=QAT_TEAMS_NOTIFY_WEBHOOK
+        TEAMS_WEBHOOK_URL=$QAT_TEAMS_NOTIFY_WEBHOOK
         message_payload=$(create_kto_notify "$oldVersion" "$newVersion" "$TARGET_ENV" "$DOWNLOAD_PAGE" "$issue_link" "$DOWNLOAD_FILE")
       fi
       curl -H "Content-Type: application/json" -d "${message_payload}" ${TEAMS_WEBHOOK_URL}  
