@@ -59,7 +59,7 @@ struct LoginView: View {
     }
 
     var body: some View {
-        LandingViewScaffold(navItem: .empty(), items: [manuelUpdate(), .cs(), register()]) {
+        LandingViewScaffold(navItem: .empty(), items: getNavigationItems()) {
             ZStack(alignment: .topLeading) {
                 #if DEBUG || QAT
                     HStack {
@@ -147,6 +147,14 @@ struct LoginView: View {
                 ResetPasswordStep1View()
             }
         })
+    }
+
+    private func getNavigationItems() -> [ItemViews] {
+        #if QAT
+            [manuelUpdate(), .cs(), register()]
+        #else
+            [.cs(), register()]
+        #endif
     }
 
     @ViewBuilder
