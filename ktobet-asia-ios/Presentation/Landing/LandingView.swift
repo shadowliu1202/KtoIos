@@ -98,7 +98,8 @@ struct LandingNavigationBar: View {
                     Spacer()
                 }
             }
-            Image("KTO (D)")
+            
+            Image(uiImage: Configuration.current.navigationIcon())
                 .frame(height: 16)
             HStack(alignment: .center, spacing: 0) {
                 Spacer()

@@ -3,7 +3,7 @@ import RxSwift
 import sharedbu
 import XCTest
 
-@testable import ktobet_asia_ios_qat
+@testable import ktobet_asia_ios
 
 class WithdrawalCryptoLimitViewModelTests: XCBaseTestCase {
     func test_givenDepositTotalAmountIs10CNY_thenDisplayedDepositTotalAmount10CNY_KTO_TC_141() {

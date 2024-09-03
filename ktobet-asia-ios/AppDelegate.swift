@@ -57,7 +57,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         Task { await Injection.shared.setupNetworkInfra() }
     
-        #if !DEV
+        #if !dev
             crashHandler()
         #endif
 

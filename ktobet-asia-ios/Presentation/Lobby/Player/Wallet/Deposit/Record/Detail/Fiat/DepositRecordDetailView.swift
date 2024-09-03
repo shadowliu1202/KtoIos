@@ -108,7 +108,7 @@ struct DepositRecordDetailView_Previews: PreviewProvider {
             viewModel: ViewModel(status: .floating, uploadingImages: [
                 .init(image: .init(named: "全站維護")!),
                 .init(image: .init(named: "group1-4")!),
-                .init(image: .init(named: "AppIconNotProd")!)
+                .init(image: .init(named: "AppIconDev")!)
             ]),
             transactionId: "")
             .previewDisplayName("Status: Floating")

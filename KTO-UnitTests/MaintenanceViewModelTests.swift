@@ -4,7 +4,7 @@ import RxTest
 import sharedbu
 import XCTest
 
-@testable import ktobet_asia_ios_qat
+@testable import ktobet_asia_ios
 
 @MainActor
 final class MaintenanceViewModelTests: XCTestCase {

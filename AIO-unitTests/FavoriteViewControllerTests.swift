@@ -4,7 +4,7 @@ import SwiftUI
 import ViewInspector
 import XCTest
 
-@testable import ktobet_asia_ios_qat
+@testable import ktobet_asia_ios
 
 final class FavoriteViewControllerTests: XCTestCase {
     func test_givenFavoriteGameIsMaintain_thenDisplayFavoriteGameInMaintenance_KTO_TC_911() {

@@ -2,7 +2,7 @@ import Mockingbird
 import sharedbu
 import XCTest
 
-@testable import ktobet_asia_ios_qat
+@testable import ktobet_asia_ios
 
 final class P2PSummaryViewControllerTests: XCBaseTestCase {
     func test_HasOneP2PGameBetRecord_InP2PSummaryPage_RecordIsDisplayedWithNumber1_KTO_TC_35() {
