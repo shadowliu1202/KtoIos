@@ -2,7 +2,7 @@ import Mockingbird
 import sharedbu
 import XCTest
 
-@testable import ktobet_asia_ios_qat
+@testable import ktobet_asia_ios
 
 final class WithdrawalFiatWalletsViewControllerTests: XCBaseTestCase {
     func test_HasThreeFiatWallets_ClickAddButton_DisplayAlert_KTO_TC_116() {

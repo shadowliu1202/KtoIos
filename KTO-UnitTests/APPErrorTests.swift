@@ -3,7 +3,7 @@ import Moya
 import sharedbu
 import XCTest
 
-@testable import ktobet_asia_ios_qat
+@testable import ktobet_asia_ios
 
 final class APPErrorTests: XCTestCase {
     struct DummyError: Error { }
@@ -190,7 +190,7 @@ final class APPErrorTests: XCTestCase {
     
         let actual = APPError.convert(by: stubError)
         let expect = APPError.unknown(
-            NSError(domain: "ktobet_asia_ios_qat.KTOError", code: 4))
+            NSError(domain: "ktobet_asia_ios.KTOError", code: 4))
     
         XCTAssertEqual(expect, actual)
     }

@@ -3,7 +3,7 @@ import RxSwift
 import sharedbu
 import XCTest
 
-@testable import ktobet_asia_ios_qat
+@testable import ktobet_asia_ios
 
 final class WithdrawalCreateCryptoAccountViewModelTests: XCBaseTestCase {
     func test_givenPlayerHasThreeAccounts_thenPreFilledAccountAliasIsFour_KTO_TC_184() {

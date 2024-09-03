@@ -2,7 +2,7 @@ import Mockingbird
 import sharedbu
 import XCTest
 
-@testable import ktobet_asia_ios_qat
+@testable import ktobet_asia_ios
 
 final class PromotionPresenterTest: XCBaseTestCase {
     func test_givenCNPlayer_thenDisplayVVIPOption_KTO_TC_25() {

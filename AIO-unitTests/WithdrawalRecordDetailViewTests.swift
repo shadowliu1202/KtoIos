@@ -3,7 +3,7 @@ import sharedbu
 import ViewInspector
 import XCTest
 
-@testable import ktobet_asia_ios_qat
+@testable import ktobet_asia_ios
 
 extension WithdrawalRecordDetailViewModelProtocolMock: ObservableObject { }
 
