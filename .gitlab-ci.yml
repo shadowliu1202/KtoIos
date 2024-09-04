@@ -371,6 +371,7 @@ change_download_link:
     - if: $CI_COMMIT_TAG =~ /^([0-9]+\.[0-9]+\.[0-9]+)-release|rc/ && $CI_PIPELINE_SOURCE == "web" && $UPDATE_LINK_VN
   script:
     - |
+      echo "CI_COMMIT_TAG = $CI_COMMIT_TAG"
       PROGET_URL="https://proget.higgstar.com/upack/app/download/ios/kto-asia/${CI_COMMIT_TAG}?contentOnly=zip" 
       FILE_PATH='downloaded_package.zip'
       curl -L -o "${FILE_PATH}" "${PROGET_URL}"
@@ -381,8 +382,10 @@ change_download_link:
       
       if [[ "$CI_COMMIT_TAG" =~ \.([0-9]+)$ ]]; then
         NEXT_BUILD_NUMBER="${BASH_REMATCH[1]}"
+        CURRENT_VERSION="${RELEASE_VERSION_CORE}(${NEXT_BUILD_NUMBER})"
       else
         NEXT_BUILD_NUMBER=1
+        CURRENT_VERSION="${RELEASE_VERSION_CORE}"
       fi
       
       echo "RELEASE_VERSION_CORE = $RELEASE_VERSION_CORE"
@@ -391,9 +394,13 @@ change_download_link:
       echo "IPA_SIZE = $IPA_SIZE"
       
       if [[ "$CI_COMMIT_TAG" =~ "rc" ]]; then
+        DOWNLOAD_PAGE="$KTO_STG_HOST"
         publishNewIosVersion "[22,23]" "stage" "$RELEASE_VERSION_CORE" "$NEXT_BUILD_NUMBER" "$DOWNLOAD_URL_VN" "$DOWNLOAD_URL_VN" "$IPA_SIZE"
+        message_payload=$(create_publish_notify "$CURRENT_VERSION" "stg" "$DOWNLOAD_PAGE")
       elif [ "$CI_COMMIT_TAG" =~ "release" ]; then
+        DOWNLOAD_PAGE="$KTO_PRO_HOST"
         publishIosVersion "[183,244]" "prod" "$RELEASE_VERSION_CORE" "$NEXT_BUILD_NUMBER" "$DOWNLOAD_URL_VN" "$DOWNLOAD_URL_VN" "$IPA_SIZE"
+        message_payload=$(create_publish_notify "$CURRENT_VERSION" "pro" "$DOWNLOAD_PAGE")
       else
         exit 1
       fi
