@@ -1,18 +1,19 @@
 include:
   - project : 'mobile/pipelinetemplate'
     ref: master
-    file: 
+    file:
       - '.before_script_template.yml'
 
 .release_rules:
-  rules:    
+  rules:
+    - if:  $UPDATE_LINK_VN
+      when: never
     - if:  $CI_PIPELINE_SOURCE == "web" && $TARGET_ENVIROMENT == "QAT"
     - if:  $CI_PIPELINE_SOURCE == "web" && $CI_COMMIT_TAG
     - if:  $CI_PIPELINE_SOURCE == "web" && $CI_COMMIT_BRANCH =~ /^([0-9]+\.[0-9]+\.[0-9]+)-hotfix$/
-    - when: never
 
 .formal_rules:
-  rules:    
+  rules:
     - if: $TARGET_ENVIROMENT == "QAT"
       when : never
     - if: $TARGET_ENVIROMENT == "PRE"
@@ -27,16 +28,20 @@ include:
       when: never
     - if: $CI_PIPELINE_SOURCE == "web" && $TARGET_ENVIROMENT == "QAT"
 
+.change_link_rules:
+  rules:
+    - if: ! -z "$UPDATE_LINK_VN" && $CI_COMMIT_TAG =~ /^([0-9]+\.[0-9]+\.[0-9]+)-release|rc/ && $CI_PIPELINE_SOURCE == "web"
+
 .hotfix_rules:
   rules:
-    - if: $CI_COMMIT_BRANCH =~ /^([0-9]+\.[0-9]+\.[0-9]+)-hotfix$/   
+    - if: $CI_COMMIT_BRANCH =~ /^([0-9]+\.[0-9]+\.[0-9]+)-hotfix$/
 
 .qat_with_stg_rules:
   rules:
     - if: $PUBLISH_QAT_WITH_STG == "true" && $CI_PIPELINE_SOURCE == "web" && $TARGET_ENVIROMENT == "QAT"
 
-stages:         
-- development 
+stages:
+- development
 - versionSync    # Calculate and compare the release version with the previous one
 - sanityTesting  # Initialize AIO tests for QAT
 - release        # trigger release stream for QAT/STG/PRE/PRO
@@ -57,6 +62,9 @@ variables:
  FORCE_UPDATE:
    value: "false"
    description: "[QAT only]: false/true"
+ UPDATE_LINK_VN:
+   value: ""
+   description: "[STG/PRO only]: Download link for vn"
  BUILD_HOTFIX_TARGET:
    value: ""
    description: "[HOTFIX only] extra build targets for hotfix: QAT,STG"
@@ -77,7 +85,7 @@ inProgress:
       - if: '$CI_COMMIT_REF_NAME =~ /(APP|KTO)-[0-9]+/ && $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_MESSAGE !~ /Merge branch/'
   script:
     - EMAIL_NAME="$(echo $GITLAB_USER_EMAIL | sed "s/@.*//")"
-    - transition_jira_issue_with_status "$CI_COMMIT_BRANCH" "In Progress"    
+    - transition_jira_issue_with_status "$CI_COMMIT_BRANCH" "In Progress"
     - assign_to_user "$CI_COMMIT_BRANCH" "${EMAIL_NAME}"
 
 UnitTests:
@@ -122,7 +130,7 @@ merge_request:
         check_merge_request_description "$title" "$description" "$issueName"
         update_rootcause_category "$CI_COMMIT_BRANCH" "$description"
         transition_jira_issue_with_status "$CI_COMMIT_BRANCH" "Merge Request"
-        
+
 merged_to_branch:
   stage: development
   tags:
@@ -146,7 +154,7 @@ get_qat_next_version:
   variables:
     GIT_STRATEGY: clone
   stage: versionSync
-  tags: 
+  tags:
     - ios-agent-release
   rules:
     - !reference [.qat_rules, rules]
@@ -176,7 +184,7 @@ get_qat_next_version:
     expire_in: 2 week
 
 get_formal_release_version:
-  tags: 
+  tags:
     - ios-agent-release
   variables:
     GIT_STRATEGY: clone
@@ -213,7 +221,7 @@ get_formal_release_version:
     expire_in: 2 week
 
 get_hotfix_release_version:
-  tags: 
+  tags:
     - ios-agent-release
   rules:
     - !reference [.hotfix_rules, rules]
@@ -334,25 +342,58 @@ extra_stg_publish:
   variables:
     TARGET_ENVIROMENT: "STG"
     ENVIROMENT_SUFFIX: "rc"
-    RELEASE_VERSION_CORE: "$RELEASE_VERSION_CORE"  
+    RELEASE_VERSION_CORE: "$RELEASE_VERSION_CORE"
     PREVIOUS_VERSION: "$PREVIOUS_VERSION"
     RELATED_ISSUE: "$RELATED_ISSUE"
     HOTFIX_COMPARE: "null"
   trigger:
       include:
         - local: .app-release.yml
-        
+
 extra_pre_publish:
   stage: release
   rules:
-    - if: $CI_COMMIT_TAG =~ /^([0-9]+\.[0-9]+\.[0-9]+)-(dev|rc)$/ && $CI_PIPELINE_SOURCE == "web" && $TARGET_ENVIROMENT == "PRO"      
+    - if: $CI_COMMIT_TAG =~ /^([0-9]+\.[0-9]+\.[0-9]+)-(dev|rc)$/ && $CI_PIPELINE_SOURCE == "web" && $TARGET_ENVIROMENT == "PRO"
   needs: ["get_formal_release_version", "buildAndRelease"]
   variables:
     TARGET_ENVIROMENT: "PRE"
     ENVIROMENT_SUFFIX: "hotfix"
-    RELEASE_VERSION_CORE: "$RELEASE_VERSION_CORE"  
+    RELEASE_VERSION_CORE: "$RELEASE_VERSION_CORE"
     PREVIOUS_VERSION: "$PREVIOUS_VERSION"
     HOTFIX_COMPARE: "null"
   trigger:
       include:
-        - local: .app-release.yml  
+        - local: .app-release.yml
+
+change_download_link:
+  stage: release
+  rules:
+    - if: $CI_COMMIT_TAG =~ /^([0-9]+\.[0-9]+\.[0-9]+)-release|rc/ && $CI_PIPELINE_SOURCE == "web" && $UPDATE_LINK_VN
+  script:
+    - |
+      PROGET_URL="https://proget.higgstar.com/upack/app/download/ios/kto-asia/1.102.15-rc?contentOnly=zip" # TODO 
+      FILE_PATH='downloaded_package.zip'
+      curl -L -o "${FILE_PATH}" "${PROGET_URL}"
+      fileSizeBytes=$(stat -f%z "${FILE_PATH}")
+      
+      IPA_SIZE=$(echo "scale=2; ${fileSizeBytes}/(1024*1024)" | bc)
+      RELEASE_VERSION_CORE=$(echo "$CI_COMMIT_TAG" | cut -d'-' -f1)
+      
+      if [[ "$CI_COMMIT_TAG" =~ \.([0-9]+)$ ]]; then
+        NEXT_BUILD_NUMBER="${BASH_REMATCH[1]}"
+      else
+        NEXT_BUILD_NUMBER=1
+      fi
+      
+      echo "RELEASE_VERSION_CORE = $RELEASE_VERSION_CORE"
+      echo "NEXT_BUILD_NUMBER = $NEXT_BUILD_NUMBER"
+      echo "UPDATE_LINK_VN = $UPDATE_LINK_VN"
+      echo "IPA_SIZE = $IPA_SIZE"
+      
+      if [[ "$CI_COMMIT_TAG" =~ "rc" ]]; then
+        publishNewIosVersion "[22,23]" "stage" "$RELEASE_VERSION_CORE" "$NEXT_BUILD_NUMBER" "$DOWNLOAD_URL_VN" "$DOWNLOAD_URL_VN" "$IPA_SIZE"
+      elif [ "$CI_COMMIT_TAG" =~ "release" ]; then
+        publishIosVersion "[183,244]" "prod" "$RELEASE_VERSION_CORE" "$NEXT_BUILD_NUMBER" "$DOWNLOAD_URL_VN" "$DOWNLOAD_URL_VN" "$IPA_SIZE"
+      else
+        exit 1
+      fi
