@@ -41,7 +41,7 @@ struct LoginView: View {
             action: {
                 switch onEnum(of: viewModel.getSupportLocale()) {
                 case .china:
-                    #if QAT
+                    #if qat
                         navigator.push(NavType.register)
                     #else
                         showDialog(info: .init(
@@ -59,7 +59,7 @@ struct LoginView: View {
     }
 
     var body: some View {
-        LandingViewScaffold(navItem: .empty(), items: [manuelUpdate(), .cs(), register()]) {
+        LandingViewScaffold(navItem: .empty(), items: getNavigationItems()) {
             ZStack(alignment: .topLeading) {
                 #if qat
                     HStack {
@@ -147,6 +147,14 @@ struct LoginView: View {
                 ResetPasswordStep1View()
             }
         })
+    }
+
+    private func getNavigationItems() -> [ItemViews] {
+        #if qat
+            [manuelUpdate(), .cs(), register()]
+        #else
+            [.cs(), register()]
+        #endif
     }
 
     @ViewBuilder
