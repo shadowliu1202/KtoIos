@@ -64,7 +64,7 @@ variables:
    description: "[QAT only]: false/true"
  UPDATE_LINK_VN:
    value: ""
-   description: "[STG/PRO only]: Download link for vn"
+   description: "[STG/PRO tag only]: Download link for vn"
  BUILD_HOTFIX_TARGET:
    value: ""
    description: "[HOTFIX only] extra build targets for hotfix: QAT,STG"
