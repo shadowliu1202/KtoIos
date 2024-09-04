@@ -4,7 +4,7 @@ import SwiftUI
 import ViewInspector
 import XCTest
 
-@testable import ktobet_asia_ios_qat
+@testable import ktobet_asia_ios
 
 final class NumberGameViewControllerTests: XCBaseTestCase {
     func test_givenLobbyMaintenance_thenDisplayLobbyMaintenanceInfo_KTO_TC_910() {

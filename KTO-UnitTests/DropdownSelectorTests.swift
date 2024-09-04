@@ -1,7 +1,7 @@
 import Mockingbird
 import XCTest
 
-@testable import ktobet_asia_ios_qat
+@testable import ktobet_asia_ios
 
 final class DropdownSelectorTests: XCBaseTestCase {
     func test_givenListExpandTrue_thenTableIsDisplayed() {

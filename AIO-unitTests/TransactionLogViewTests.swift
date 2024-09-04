@@ -5,13 +5,13 @@ import SwiftUI
 import ViewInspector
 import XCTest
 
-@testable import ktobet_asia_ios_qat
+@testable import ktobet_asia_ios
 
 extension TransactionLogViewModelProtocolMock: ObservableObject { }
 extension TransactionLogViewModelProtocolMock: Selecting {
-    public var dataSource: [ktobet_asia_ios_qat.Selectable] { [] }
+    public var dataSource: [ktobet_asia_ios.Selectable] { [] }
     public var selectedTitle: String { "" }
-    public var selectedItems: [ktobet_asia_ios_qat.Selectable] {
+    public var selectedItems: [ktobet_asia_ios.Selectable] {
         get { [] } set { }
     }
 }

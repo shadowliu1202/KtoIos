@@ -4,20 +4,16 @@ import UIKit
 let subTagOneLineHeight: CGFloat = 17
 
 class UnlockPrivilegeView: UIView {
-    @IBOutlet var stamp: UIView!
-    @IBOutlet var icon: UIImageView!
-    @IBOutlet var tagStack: UIStackView!
-    @IBOutlet var tagBackgroundView: UIView!
-    @IBOutlet var tagLabel: UILabel!
-    @IBOutlet var hSubTagLabel: UILabel!
-    @IBOutlet var vSubTagLabel: UILabel!
-    @IBOutlet var msgLabel: UILabel!
-    @IBOutlet var halfCircleStack: UIStackView!
+    @IBOutlet weak var stamp: UIView!
+    @IBOutlet weak var icon: UIImageView!
+    @IBOutlet weak var tagStack: UIStackView!
+    @IBOutlet weak var tagBackgroundView: UIView!
+    @IBOutlet weak var tagLabel: UILabel!
+    @IBOutlet weak var subTagLabel: UILabel!
+    @IBOutlet weak var msgLabel: UILabel!
+    @IBOutlet weak var halfCircleStack: UIStackView!
 
-    private lazy var gradientLayer = gradientLayer(horizontal: [
-        UIColor.complementaryDefault.cgColor,
-        UIColor.complementaryGradient.cgColor,
-    ])
+    private lazy var gradientLayer = gradientLayer(horizontal: [UIColor(rgb: 0xffd500).cgColor, UIColor(rgb: 0xfea144).cgColor])
 
     var xibView: UIView!
     var clickHandler: (() -> Void)?
@@ -36,17 +32,15 @@ class UnlockPrivilegeView: UIView {
         self.init(frame: CGRect.zero)
 
         tagLabel.text = args.title.value as? String
-        hSubTagLabel.text = args.subTitle.value as? String
-        vSubTagLabel.text = args.subTitle.value as? String
+        subTagLabel.text = args.subTitle.value as? String
+        subTagLabel.isHidden = (args.subTitle.value as? String)?.isEmpty ?? true
 
         tagBackgroundView.borderWidth = 0.5
         tagBackgroundView.bordersColor = .textSecondary
 
         msgLabel.text = args.description_.value as? String
 
-        adjustSubTagLabels()
-
-        clickHandler = {
+        self.clickHandler = {
             tapPrivilege?(args)
         }
 
@@ -54,23 +48,23 @@ class UnlockPrivilegeView: UIView {
 
         switch onEnum(of: args) {
         case .deposit:
-            addGestureRecognizer(gesture)
+            self.addGestureRecognizer(gesture)
             icon.image = UIImage(named: "iconLvDepositBonus48")
         case .domain:
             icon.image = UIImage(named: "iconLvSpecial48")
         case .feedback:
             icon.image = UIImage(named: "iconLvSpecial48")
-        case let .product(it):
+        case .product(let it):
             switch onEnum(of: it) {
             case .betInsurance:
-                addGestureRecognizer(gesture)
+                self.addGestureRecognizer(gesture)
                 icon.image = UIImage(named: "iconLvSportsbook48")
             case .slotRescue:
-                addGestureRecognizer(gesture)
+                self.addGestureRecognizer(gesture)
                 icon.image = UIImage(named: "iconLvSlot48")
             }
         case .rebate:
-            addGestureRecognizer(gesture)
+            self.addGestureRecognizer(gesture)
             icon.image = UIImage(named: "iconLvCashBack48")
         case .unknown:
             icon.image = UIImage(named: "")
@@ -81,7 +75,7 @@ class UnlockPrivilegeView: UIView {
 
     @objc
     func tapAction() {
-        clickHandler?()
+        self.clickHandler?()
     }
 
     func loadXib() {
@@ -99,18 +93,7 @@ class UnlockPrivilegeView: UIView {
 
         DispatchQueue.main.async {
             self.gradientLayer.frame = self.stamp.bounds
-        }
-    }
-
-    private func adjustSubTagLabels() {
-        DispatchQueue.main.async {
-            if self.hSubTagLabel.countLines() > 1 {
-                self.hSubTagLabel.isHidden = true
-                self.vSubTagLabel.isHidden = false
-            } else {
-                self.hSubTagLabel.isHidden = false
-                self.vSubTagLabel.isHidden = true
-            }
+            self.adjustSubTagPosition()
         }
     }
 
@@ -123,7 +106,7 @@ class UnlockPrivilegeView: UIView {
         DispatchQueue.main.async {
             let numberOfGap = Int((self.stamp.frame.height - 2) / 8)
 
-            for _ in 0 ..< numberOfGap {
+            for _ in 0..<numberOfGap {
                 let circleView = UIView()
                 circleView.layer.cornerRadius = 3
                 circleView.layer.masksToBounds = true
@@ -133,6 +116,17 @@ class UnlockPrivilegeView: UIView {
                 }
                 self.halfCircleStack.addArrangedSubview(circleView)
             }
+        }
+    }
+
+    func adjustSubTagPosition() {
+        if subTagLabel.frame.height > subTagOneLineHeight {
+            tagStack.axis = .vertical
+            tagStack.alignment = .leading
+        }
+        else {
+            tagStack.axis = .horizontal
+            tagStack.alignment = .center
         }
     }
 }

@@ -1766,7 +1766,6 @@ struct SpeakingAsyncBean: Codable {
     let speaker: String
     let speakerId: String
     let speakerType: Int32
-    let text: String
 }
 
 struct ActivityMessagePageBean: Codable {

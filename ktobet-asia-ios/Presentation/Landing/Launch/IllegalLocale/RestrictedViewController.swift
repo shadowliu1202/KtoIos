@@ -5,10 +5,11 @@ import UIKit
 class RestrictedViewController: UIViewController {
     private var viewModel = Injectable.resolve(ServiceStatusViewModel.self)!
     private var disposeBag = DisposeBag()
+    @IBOutlet var navigationIcon: UIImageView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        NotificationCenter.default.rx.notification(UIApplication.didEnterBackgroundNotification).take(until: self.rx.deallocated)
+        NotificationCenter.default.rx.notification(UIApplication.didEnterBackgroundNotification).take(until: rx.deallocated)
             .subscribe(onNext: { [weak self] _ in
                 self?.dismiss(animated: true, completion: nil)
             }).disposed(by: disposeBag)
@@ -16,6 +17,7 @@ class RestrictedViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        navigationIcon.image = Configuration.current.navigationIcon()
 
         viewModel.output.portalMaintenanceStatus.subscribe(onNext: { [weak self] status in
             switch onEnum(of: status) {

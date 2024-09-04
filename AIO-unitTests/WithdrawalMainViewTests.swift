@@ -4,7 +4,7 @@ import sharedbu
 import ViewInspector
 import XCTest
 
-@testable import ktobet_asia_ios_qat
+@testable import ktobet_asia_ios
 
 extension WithdrawalMainView.Instruction: Inspecting { }
 extension WithdrawalMainView.Methods: Inspecting { }

@@ -76,7 +76,7 @@ private struct ContentView: View {
         ) {
             PageContainer(scrollable: true) {
                 VStack(spacing: 0) {
-                    #if QAT
+                    #if qat
                         Toggle("(QAT) Auto verify", isOn: $isAutoVerify)
                     #endif
                     Text("register_step3_title_1")

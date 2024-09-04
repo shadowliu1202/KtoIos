@@ -64,7 +64,7 @@ class OtpLoginViewController: LandingViewController {
     }
 
     private func initialize() {
-        naviItem.titleView = UIImageView(image: UIImage(named: "KTO (D)"))
+        naviItem.titleView = UIImageView(image: Configuration.current.navigationIcon())
         btnPhone.setTitle(Localize.string("common_mobile"), for: .normal)
         btnEmail.setTitle(Localize.string("common_email"), for: .normal)
         inputEmail.setKeyboardType(.emailAddress)

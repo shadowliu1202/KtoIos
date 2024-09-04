@@ -14,24 +14,50 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "6D966B3B27FEE3FA006086B7"
-               BuildableName = "ktobet-asia-ios-prod-selftest.app"
-               BlueprintName = "ktobet-asia-ios-prod-selftest"
+               BlueprintIdentifier = "4199A02525AE9918002E2D7E"
+               BuildableName = "ktobet-asia-ios.app"
+               BlueprintName = "ktobet-asia-ios"
                ReferencedContainer = "container:ktobet-asia-ios.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
-      buildConfiguration = "Debug"
+      buildConfiguration = "SelfTestDebug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      shouldUseLaunchSchemeArgsEnv = "YES">
+      shouldUseLaunchSchemeArgsEnv = "NO">
+      <CommandLineArguments>
+         <CommandLineArgument
+            argument = "isTesting"
+            isEnabled = "YES">
+         </CommandLineArgument>
+      </CommandLineArguments>
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "6D75934529235E54007D2BF3"
+               BuildableName = "AIO-unitTests.xctest"
+               BlueprintName = "AIO-unitTests"
+               ReferencedContainer = "container:ktobet-asia-ios.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "485DF04D25415454001F9D4A"
+               BuildableName = "KTO-UnitTests.xctest"
+               BlueprintName = "KTO-UnitTests"
+               ReferencedContainer = "container:ktobet-asia-ios.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
-      buildConfiguration = "Debug"
+      buildConfiguration = "SelfTestDebug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
@@ -44,15 +70,25 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6D966B3B27FEE3FA006086B7"
-            BuildableName = "ktobet-asia-ios-prod-selftest.app"
-            BlueprintName = "ktobet-asia-ios-prod-selftest"
+            BlueprintIdentifier = "4199A02525AE9918002E2D7E"
+            BuildableName = "ktobet-asia-ios.app"
+            BlueprintName = "ktobet-asia-ios"
             ReferencedContainer = "container:ktobet-asia-ios.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
+      <CommandLineArguments>
+         <CommandLineArgument
+            argument = "FIRAnalyticsDebugEnabled"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "-noFIRAnalyticsDebugEnabled"
+            isEnabled = "YES">
+         </CommandLineArgument>
+      </CommandLineArguments>
    </LaunchAction>
    <ProfileAction
-      buildConfiguration = "Release"
+      buildConfiguration = "SelfTestRelease"
       shouldUseLaunchSchemeArgsEnv = "YES"
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
@@ -61,18 +97,18 @@
          runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "6D966B3B27FEE3FA006086B7"
-            BuildableName = "ktobet-asia-ios-prod-selftest.app"
-            BlueprintName = "ktobet-asia-ios-prod-selftest"
+            BlueprintIdentifier = "4199A02525AE9918002E2D7E"
+            BuildableName = "ktobet-asia-ios.app"
+            BlueprintName = "ktobet-asia-ios"
             ReferencedContainer = "container:ktobet-asia-ios.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
-      buildConfiguration = "Debug">
+      buildConfiguration = "SelfTestDebug">
    </AnalyzeAction>
    <ArchiveAction
-      buildConfiguration = "Release"
+      buildConfiguration = "SelfTestRelease"
       revealArchiveInOrganizer = "YES">
    </ArchiveAction>
 </Scheme>

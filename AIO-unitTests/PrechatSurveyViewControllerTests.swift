@@ -5,7 +5,7 @@ import SwiftUI
 import ViewInspector
 import XCTest
 
-@testable import ktobet_asia_ios_qat
+@testable import ktobet_asia_ios
 
 final class PrechatSurveyViewControllerTests: XCBaseTestCase {
     private func getStubSurveyBean(questions: [SurveyQuestion_]) -> Survey {

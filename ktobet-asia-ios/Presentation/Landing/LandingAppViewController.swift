@@ -22,67 +22,63 @@ class LandingAppViewController: LandingViewController {
         super.viewWillAppear(animated)
         uiHostingController.modalPresentationStyle = .fullScreen
         present(uiHostingController, animated: false, completion: nil)
-
         observeSystemStatus()
     }
 
     private func createHostingViewController() -> UIHostingController<AnyView> {
-        UIHostingController(rootView:
-            AnyView(
-                LandingView(csViewModel: customerServiceViewModel) { [unowned self] in
-                    LoginView(
-                        viewModel: viewModel,
-                        isForceChinese: Configuration.forceChinese,
-                        onLogin: { [unowned self] pageNavigation, error in
-                            if let pageNavigation {
-                                executeNavigation(pageNavigation)
-                            }
+        UIHostingController(rootView: AnyView(LandingView(csViewModel: customerServiceViewModel) { [unowned self] in
+            LoginView(
+                viewModel: viewModel,
+                isForceChinese: Configuration.forceChinese,
+                onLogin: { [unowned self] pageNavigation, error in
+                    if let pageNavigation {
+                        executeNavigation(pageNavigation)
+                    }
 
-                            if let error {
-                                switch error {
-                                case is InvalidPlatformException:
-                                    showServiceDownAlert()
-                                default:
-                                    handleErrors(error)
-                                }
-                            }
-                        },
-                        onOTPLogin: { [unowned self] in navigateToOtpLoginPage() },
-                        toggleForceChinese: { [unowned self] in
-                            Configuration.forceChinese.toggle()
-                            recreateVC()
+                    if let error {
+                        switch error {
+                        case is InvalidPlatformException:
+                            showServiceDownAlert()
+                        default:
+                            handleErrors(error)
                         }
-                    )
+                    }
+                },
+                onOTPLogin: { [unowned self] in navigateToOtpLoginPage() },
+                toggleForceChinese: { [unowned self] in
+                    Configuration.forceChinese.toggle()
+                    recreateVC()
                 }
-                .onStartCS { [unowned self] in startCustomerService() }
-                .onStartManuelUpdate { [unowned self] in startManuelUpdate() }
-                .onShowDialog { info in
-                    Alert.shared.show(
-                        info.title,
-                        info.message,
-                        confirm: info.confirm,
-                        confirmText: info.confirmText,
-                        cancel: info.cancel,
-                        cancelText: info.cancelText,
-                        tintColor: info.tintColor
-                    )
+            )
+        }
+        .onStartCS { [unowned self] in startCustomerService() }
+        .onStartManuelUpdate { [unowned self] in startManuelUpdate() }
+        .onShowDialog { info in
+            Alert.shared.show(
+                info.title,
+                info.message,
+                confirm: info.confirm,
+                confirmText: info.confirmText,
+                cancel: info.cancel,
+                cancelText: info.cancelText,
+                tintColor: info.tintColor
+            )
+        }
+        .onHandleError { [unowned self] error in
+            handleErrors(error)
+        }
+        .onToastMessage { [unowned self] message, style in
+            showToast(message, barImg: style)
+        }
+        .onEnterLobby { [unowned self] productType in
+            let lobbyNavigation: NavigationViewModel.LobbyPageNavigation =
+                if let productType, productType != .none {
+                    .playerDefaultProduct(productType)
+                } else {
+                    .setDefaultProduct
                 }
-                .onHandleError { [unowned self] error in
-                    handleErrors(error)
-                }
-                .onToastMessage { [unowned self] message, style in
-                    showToast(message, barImg: style)
-                }
-                .onEnterLobby { [unowned self] productType in
-                    let lobbyNavigation: NavigationViewModel.LobbyPageNavigation =
-                        if let productType, productType != .none {
-                            .playerDefaultProduct(productType)
-                        } else {
-                            .setDefaultProduct
-                        }
-                    executeNavigation(lobbyNavigation)
-                }
-            ))
+            executeNavigation(lobbyNavigation)
+        }))
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -121,7 +117,7 @@ class LandingAppViewController: LandingViewController {
         let prechatVC = PrechatSurveyViewController()
         let navi = CustomServiceNavigationController(rootViewController: prechatVC)
         navi.modalPresentationStyle = UIModalPresentationStyle.overCurrentContext
-        uiHostingController.present(navi, animated: true, completion: nil)
+        uiHostingController.present(navi, animated: false, completion: nil)
     }
 
     private func navigateToCalling() {
@@ -157,10 +153,12 @@ class LandingAppViewController: LandingViewController {
 
     private func navigateToProductPage(_ productType: ProductType) {
         NavigationManagement.sharedInstance.goTo(productType: productType)
+        dismiss(animated: false)
     }
 
     private func navigateToSetDefaultProductPage() {
         NavigationManagement.sharedInstance.goToSetDefaultProduct()
+        dismiss(animated: false)
     }
 
     private func showServiceDownAlert() {
@@ -175,7 +173,7 @@ class LandingAppViewController: LandingViewController {
     private func navigateToOtpLoginPage() {
         let storyboard = UIStoryboard(name: "OtpLogin", bundle: nil)
         let vc = storyboard.instantiateInitialViewController()!
-        uiHostingController.present(vc, animated: true, completion: nil)
+        uiHostingController.present(vc, animated: false, completion: nil)
     }
 
     @IBAction

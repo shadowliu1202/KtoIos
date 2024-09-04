@@ -4,7 +4,7 @@ import RxSwift
 import sharedbu
 import XCTest
 
-@testable import ktobet_asia_ios_qat
+@testable import ktobet_asia_ios
 
 final class WithdrawalOTPVerifyMethodSelectViewControllerTests: XCBaseTestCase {
     func test_givenOTPServiceDown_whenInWithdrawalOTPVerifyMethodSelectPage_thenAlertPlayer_KTO_TC_185() {

@@ -2,7 +2,7 @@ import Mockingbird
 import sharedbu
 import XCTest
 
-@testable import ktobet_asia_ios_qat
+@testable import ktobet_asia_ios
 
 final class WithdrawalRecordDetailMainViewControllerTests: XCBaseTestCase {
     func test_RecordIsFiat_DisplayWithdrawalRecordDetailView_KTO_TC_132() {
