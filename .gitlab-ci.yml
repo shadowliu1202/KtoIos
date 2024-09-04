@@ -371,7 +371,7 @@ change_download_link:
     - if: $CI_COMMIT_TAG =~ /^([0-9]+\.[0-9]+\.[0-9]+)-release|rc/ && $CI_PIPELINE_SOURCE == "web" && $UPDATE_LINK_VN
   script:
     - |
-      PROGET_URL="https://proget.higgstar.com/upack/app/download/ios/kto-asia/${CI_COMMIT_TAG}?contentOnly=zip" # TODO 
+      PROGET_URL="https://proget.higgstar.com/upack/app/download/ios/kto-asia/${CI_COMMIT_TAG}?contentOnly=zip" 
       FILE_PATH='downloaded_package.zip'
       curl -L -o "${FILE_PATH}" "${PROGET_URL}"
       fileSizeBytes=$(stat -f%z "${FILE_PATH}")
