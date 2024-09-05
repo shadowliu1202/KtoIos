@@ -21,7 +21,7 @@ include:
 stages:          
 - versionSync # Increase build number from last version 
 - buildAndArchive # Build and archive the release version
-- releaseSuccess # Notify release success via Teams
+- releaseArtifact # Notify release success via Teams
 - publishRelease # Publish to the website and ProGet, set up the release version tag, update related Jira issues
 - publishSuccess  # Notify publish success via Teams
 
@@ -189,12 +189,12 @@ publish_artifacts:
 tag_release_version:
   tags: 
     - ios-agent-release  
-  stage: releaseSuccess
+  stage: releaseArtifact
   needs:
     - job: update_release_buildNumber
     - job: build_artifacts
   variables:
-    ReleaseTag: "$RELEASE_VERSION_CORE-$ENVIROMENT_SUFFIX"      
+    ReleaseTag: "$RELEASE_VERSION_CORE-$ENVIROMENT_SUFFIX"
   rules:
     - !reference [.release_rules, rules]
   script:
@@ -212,10 +212,10 @@ tag_release_version:
 
 
 update_jira_issues:
-  tags: 
+  tags:
     - ios-agent-release
-  stage: releaseSuccess
-  needs: 
+  stage: releaseArtifact
+  needs:
     - job: build_artifacts
   rules:
     - !reference [.release_rules, rules]
@@ -226,7 +226,7 @@ update_jira_issues:
       update_publish_jira_tickets "release to $TARGET_ENVIROMENT" "ios-$RELEASE_VERSION_CORE-$TARGET_ENV" $RELATED_ISSUE
 
 notify_release:
-  stage: releaseSuccess
+  stage: releaseArtifact
   needs: 
     - job: update_jira_issues
     - job: update_release_buildNumber
@@ -236,7 +236,6 @@ notify_release:
     ISSUE_HOST: "https://jira.higgstar.com/issues/?jql=project%20%3D%20KTO%20AND%20labels%20%3D%20"
     DOWNLOAD_FILE: "${PROGET_URL}/feeds/app/ios/kto-asia/${RELEASE_VERSION_CORE}-${ENVIROMENT_SUFFIX}/files"
     DOWNLOAD_SELFTEST: "https://beta.itunes.apple.com/v1/app/1618357473"
-    TEAMS_WEBHOOK_URL: "https://higgstar.webhook.office.com/webhookb2/4633c5c4-c4b4-4e4a-811a-292e1c2bba93@8e771fc0-280e-4271-a200-ad98dd5f6605/IncomingWebhook/7299ee0a8a304576814e537a53d5930b/dbab47a2-891a-470f-a94e-4dbb41d9acbc"
   script:
     - |
       TARGET_ENV=$(echo "$TARGET_ENVIROMENT" | tr '[:upper:]' '[:lower:]')
@@ -259,17 +258,14 @@ notify_release:
         DOWNLOAD_PAGE="[link]($KTO_PRO_HOST)"
         DOWNLOAD_PAYLOAD="[pro]($DOWNLOAD_FILE),[self-test]($DOWNLOAD_SELFTEST)"        
         message_payload=$(create_new_kto_notify "$oldVersion" "$newVersion" "$TARGET_ENV" "$DOWNLOAD_PAGE" "$issue_link" "$DOWNLOAD_PAYLOAD")
-      elif [ "$TARGET_ENVIROMENT" == "PRE" ]; then
-        DOWNLOAD_PAGE="$KTO_PRE_HOST"                
-        message_payload=$(create_kto_notify "$oldVersion" "$newVersion" "$TARGET_ENV" "$DOWNLOAD_PAGE" "$issue_link" "$DOWNLOAD_FILE")            
+        curl -H "Content-Type: application/json" -d "${message_payload}" ${PRO_TEAMS_NOTIFY_WEBHOOK}
       elif [ "$TARGET_ENVIROMENT" == "STG" ]; then
         DOWNLOAD_PAGE="$KTO_STG_HOST"
         message_payload=$(create_kto_notify "$oldVersion" "$newVersion" "$TARGET_ENV" "$DOWNLOAD_PAGE" "$issue_link" "$DOWNLOAD_FILE")
+        curl -H "Content-Type: application/json" -d "${message_payload}" ${STG_TEAMS_NOTIFY_WEBHOOK}
       else
-        DOWNLOAD_PAGE="$KTO_QAT_HOST"
-        message_payload=$(create_kto_notify "$oldVersion" "$newVersion" "$TARGET_ENV" "$DOWNLOAD_PAGE" "$issue_link" "$DOWNLOAD_FILE")
+        echo "No teams post for $TARGET_ENVIROMENT"
       fi
-      curl -H "Content-Type: application/json" -d "${message_payload}" ${TEAMS_WEBHOOK_URL}  
 
 notify_publish:
   stage: publishSuccess
@@ -282,27 +278,42 @@ notify_publish:
     ISSUE_HOST: "https://jira.higgstar.com/issues/?jql=project%20%3D%20KTO%20AND%20labels%20%3D%20"
     DOWNLOAD_FILE: "${PROGET_URL}/feeds/app/ios/kto-asia/${RELEASE_VERSION_CORE}-${ENVIROMENT_SUFFIX}/files"
     DOWNLOAD_SELFTEST: "https://beta.itunes.apple.com/v1/app/1618357473"
-    TEAMS_WEBHOOK_URL: "https://higgstar.webhook.office.com/webhookb2/4633c5c4-c4b4-4e4a-811a-292e1c2bba93@8e771fc0-280e-4271-a200-ad98dd5f6605/IncomingWebhook/7299ee0a8a304576814e537a53d5930b/dbab47a2-891a-470f-a94e-4dbb41d9acbc"
   script:
     - |
       TARGET_ENV=$(echo "$TARGET_ENVIROMENT" | tr '[:upper:]' '[:lower:]')
+      issue_link="${ISSUE_HOST}ios-${RELEASE_VERSION_CORE}-${TARGET_ENV}"
+      oldVersion=$PREVIOUS_VERSION
       newVersion=$RELEASE_VERSION_CORE
-      
+      hotfixVersion=$(extract_hotfix_version $PREVIOUS_VERSION)
+      echo "Get $hotfixVersion from PREVIOUS_VERSION=$PREVIOUS_VERSION"
+      if [[ "$hotfixVersion" != "null" ]]; then
+          oldVersion="$(parse_version_core $PREVIOUS_VERSION)($hotfixVersion)"
+      fi
       if [[ "$HOTFIX_COMPARE" != "null" ]]; then
-          DOWNLOAD_FILE="${PROGET_URL}/feeds/app/ios/kto-asia/${RELEASE_VERSION_CORE}-${ENVIROMENT_SUFFIX}.${HOTFIX_COMPARE}/files"    
+          DOWNLOAD_FILE="${PROGET_URL}/feeds/app/ios/kto-asia/${RELEASE_VERSION_CORE}-${ENVIROMENT_SUFFIX}.${HOTFIX_COMPARE}/files"      
+          issue_link="${ISSUE_HOST}ios-${RELEASE_VERSION_CORE}-${ENVIROMENT_SUFFIX}.${HOTFIX_COMPARE}" 
           newVersion="$RELEASE_VERSION_CORE($HOTFIX_COMPARE)"
       fi
-      
+      echo "version: $oldVersion to $newVersion on $TARGET_ENV"
+      message_payload=""
       if [ "$TARGET_ENVIROMENT" == "PRO" ]; then
-        DOWNLOAD_PAGE="$KTO_PRO_HOST"
+        DOWNLOAD_PAGE="[link]($KTO_PRO_HOST)"
+        TEAMS_WEBHOOK_URL=$APP_ALERT_WEBHOOK_URL
+        DOWNLOAD_PAYLOAD="[pro]($DOWNLOAD_FILE),[self-test]($DOWNLOAD_SELFTEST)"        
+        message_payload=$(create_new_kto_notify "$oldVersion" "$newVersion" "$TARGET_ENV" "$DOWNLOAD_PAGE" "$issue_link" "$DOWNLOAD_PAYLOAD")
       elif [ "$TARGET_ENVIROMENT" == "PRE" ]; then
-        DOWNLOAD_PAGE="$KTO_PRE_HOST"
+        DOWNLOAD_PAGE="$KTO_PRE_HOST"                
+        TEAMS_WEBHOOK_URL=$PRE_TEAMS_NOTIFY_WEBHOOK
+        message_payload=$(create_kto_notify "$oldVersion" "$newVersion" "$TARGET_ENV" "$DOWNLOAD_PAGE" "$issue_link" "$DOWNLOAD_FILE")            
       elif [ "$TARGET_ENVIROMENT" == "STG" ]; then
         DOWNLOAD_PAGE="$KTO_STG_HOST"
+        TEAMS_WEBHOOK_URL=$STG_TEAMS_NOTIFY_WEBHOOK
+        message_payload=$(create_kto_notify "$oldVersion" "$newVersion" "$TARGET_ENV" "$DOWNLOAD_PAGE" "$issue_link" "$DOWNLOAD_FILE")
       else
         DOWNLOAD_PAGE="$KTO_QAT_HOST"
+        TEAMS_WEBHOOK_URL=$QAT_TEAMS_NOTIFY_WEBHOOK
+        message_payload=$(create_kto_notify "$oldVersion" "$newVersion" "$TARGET_ENV" "$DOWNLOAD_PAGE" "$issue_link" "$DOWNLOAD_FILE")
       fi
-      message_payload=$(create_publish_notify "$newVersion" "$TARGET_ENV" "$DOWNLOAD_PAGE")
       curl -H "Content-Type: application/json" -d "${message_payload}" ${TEAMS_WEBHOOK_URL}  
       
 notify_additional_publish:
@@ -315,7 +326,6 @@ notify_additional_publish:
     - if: $CI_PIPELINE_SOURCE == "parent_pipeline" && $TARGET_ENVIROMENT == "PRE" && $BUILD_HOTFIX_TARGET
   variables:
     ISSUE_HOST: "https://jira.higgstar.com/issues/?jql=project%20%3D%20KTO%20AND%20labels%20%3D%20"
-    TEAMS_WEBHOOK_URL: "https://higgstar.webhook.office.com/webhookb2/4633c5c4-c4b4-4e4a-811a-292e1c2bba93@8e771fc0-280e-4271-a200-ad98dd5f6605/IncomingWebhook/7299ee0a8a304576814e537a53d5930b/dbab47a2-891a-470f-a94e-4dbb41d9acbc"
   script:
     - |
       TARGET_ENV=$(echo "$TARGET_ENVIROMENT" | tr '[:upper:]' '[:lower:]')
@@ -341,4 +351,4 @@ notify_additional_publish:
       fi
       echo "version: $oldVersion to $newVersion on $TARGET_ENV"
       message_payload=$(create_new_kto_notify "$oldVersion" "$newVersion" "$TARGET_ENV" "$DOWNLOAD_PAGE" "$issue_link" "")
-      curl -H "Content-Type: application/json" -d "${message_payload}" ${TEAMS_WEBHOOK_URL}  
+      curl -H "Content-Type: application/json" -d "${message_payload}" ${APP_ALERT_WEBHOOK_URL}  
