@@ -163,9 +163,9 @@ private class ProductionConfig: Env {
     ]
     var versionUpdateHostName: [String: [String]] =
         [
-            SupportLocale.China.shared.cultureCode(): ["download5566.store", "downloadappgo5566.store"],
+            SupportLocale.China.shared.cultureCode(): ["appktovn.org", "appkto.org"],
             SupportLocale.Vietnam.shared
-                .cultureCode(): ["download5566.store", "downloadappgo5566.store"],
+                .cultureCode(): ["appktovn.org", "appkto.org"],
         ]
     var isAutoUpdate = true
     var debugGesture = false
@@ -183,9 +183,9 @@ private class ProductionSelftestConfig: Env {
     ]
     var versionUpdateHostName: [String: [String]] =
         [
-            SupportLocale.China.shared.cultureCode(): ["download5566.store", "downloadappgo5566.store"],
+            SupportLocale.China.shared.cultureCode(): ["appktovn.org", "appkto.org"],
             SupportLocale.Vietnam.shared
-                .cultureCode(): ["download5566.store", "downloadappgo5566.store"],
+                .cultureCode(): ["appktovn.org", "appkto.org"],
         ]
     var isAutoUpdate = false
     var debugGesture = true
