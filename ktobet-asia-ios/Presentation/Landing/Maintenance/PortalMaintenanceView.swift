@@ -54,7 +54,7 @@ struct PortalMaintenanceView: View {
                 .multilineTextAlignment(.center)
 
             LimitSpacer(8)
-         
+
             createEmailLinK()
 
             Spacer()
@@ -81,7 +81,7 @@ struct PortalMaintenanceView: View {
             }
         }
     }
-    
+
     @ViewBuilder
     private func createEmailLinK() -> some View {
         if let url = tryTrimmedEmailURL(from: viewModel.supportEmail) {
@@ -92,8 +92,7 @@ struct PortalMaintenanceView: View {
             })
         }
     }
-    
-    
+
     private func tryTrimmedEmailURL(from email: String) -> URL? {
         let trimmedEmail = email.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !trimmedEmail.isEmpty else { return nil }
@@ -101,8 +100,10 @@ struct PortalMaintenanceView: View {
         do {
             return try "mailto:\(trimmedEmail)".asURL()
         } catch {
-            Logger.shared.error(error)
-            Logger.shared.info("PortalMaintenance support email error with: \(email)")
+            Logger.shared.error(
+                error,
+                customValues: ["email": trimmedEmail]
+            )
             return nil
         }
     }
@@ -129,3 +130,4 @@ struct PortalMaintenanceView_Previews: PreviewProvider {
         PortalMaintenanceView(onDismiss: {})
     }
 }
+
