@@ -19,6 +19,7 @@ extension Bundle {
     }
 
     var currentVersion: LocalVersion {
-        LocalVersion.companion.create(version: releaseVersionNumber, bundleVersion: buildVersionNumber)
+        let number = Int(buildVersionNumber) ?? 0
+        return try! LocalVersion.companion.create(version: releaseVersionNumber, bundleVersion: "\(number)")
     }
 }

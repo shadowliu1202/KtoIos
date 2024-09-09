@@ -20850,7 +20850,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.1;
+				MARKETING_VERSION = 99.99.99;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kto.asia.vn;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "match Development com.kto.asia.vn";
@@ -20883,7 +20883,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 0.0.1;
+				MARKETING_VERSION = 99.99.99;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kto.asia.vn;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "match Development com.kto.asia.vn";
