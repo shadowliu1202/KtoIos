@@ -103,13 +103,12 @@ class UnlockPrivilegeView: UIView {
     }
 
     func adjustSubTagLabels() {
-
-        if self.hSubTagLabel.countLines() > 1 {
-            self.hSubTagLabel.isHidden = true
-            self.vSubTagLabel.isHidden = false
+        if hSubTagLabel.countLines() > 1 {
+            hSubTagLabel.isHidden = true
+            vSubTagLabel.isHidden = false
         } else {
-            self.hSubTagLabel.isHidden = false
-            self.vSubTagLabel.isHidden = true
+            hSubTagLabel.isHidden = false
+            vSubTagLabel.isHidden = true
         }
     }
 

@@ -122,7 +122,7 @@ extension LevelPrivilegeViewController {
                     .configure(item, callback: collapseHandler, tapPrivilegeHandler: tapPrivilegeHandler)
 
                     cell.layoutIfNeeded()
-                    
+
                     for subview in cell.stackView.arrangedSubviews {
                         if let view = subview as? UnlockPrivilegeView {
                             view.adjustSubTagLabels()
