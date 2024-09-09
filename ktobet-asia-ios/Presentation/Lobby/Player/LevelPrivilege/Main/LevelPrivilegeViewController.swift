@@ -8,15 +8,15 @@ import UIKit
 class LevelPrivilegeViewController: LobbyViewController {
     @Injected private var viewModel: LevelPrivilegeViewModel
 
-    @IBOutlet weak var headerView: UIView!
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var levelBackgroundView: UIView!
-    @IBOutlet weak var levelLabel: UILabel!
-    @IBOutlet weak var accountLabel: UILabel!
-    @IBOutlet weak var idLabel: UILabel!
-    @IBOutlet weak var expButton: UIButton!
-    @IBOutlet weak var expLabel: UILabel!
-    @IBOutlet weak var progress: PlainHorizontalProgressBar!
+    @IBOutlet var headerView: UIView!
+    @IBOutlet var tableView: UITableView!
+    @IBOutlet var levelBackgroundView: UIView!
+    @IBOutlet var levelLabel: UILabel!
+    @IBOutlet var accountLabel: UILabel!
+    @IBOutlet var idLabel: UILabel!
+    @IBOutlet var expButton: UIButton!
+    @IBOutlet var expLabel: UILabel!
+    @IBOutlet var progress: PlainHorizontalProgressBar!
 
     private let disposeBag = DisposeBag()
 
@@ -37,8 +37,9 @@ class LevelPrivilegeViewController: LobbyViewController {
         Alert.shared.show(
             Localize.string("level_experience_title"),
             Localize.string("level_experience_desc"),
-            confirm: { },
-            cancel: nil)
+            confirm: {},
+            cancel: nil
+        )
     }
 }
 
@@ -52,7 +53,7 @@ extension LevelPrivilegeViewController {
         headerView
             .applyGradient(horizontal: [
                 UIColor.yellowFFD500.cgColor,
-                UIColor.yellowFEA144.cgColor
+                UIColor.yellowFEA144.cgColor,
             ])
 
         progress.borderWidth = 1
@@ -61,7 +62,8 @@ extension LevelPrivilegeViewController {
 
         levelBackgroundView.roundCorners(
             corners: [.topLeft, .bottomLeft],
-            radius: 16)
+            radius: 16
+        )
 
         expButton.imageView?.contentMode = .scaleAspectFill
     }
@@ -86,7 +88,8 @@ extension LevelPrivilegeViewController {
                         tableView: tableView,
                         item: item,
                         collapse: collapse,
-                        disposeBag: disposeBag)
+                        disposeBag: disposeBag
+                    )
                 }
 
                 let tapPrivilegeHandler: (LevelPrivilege) -> Void = { [weak self] privilege in
@@ -96,26 +99,36 @@ extension LevelPrivilegeViewController {
                 if self.viewModel.isPreviewLevel(row) {
                     return tableView.dequeueReusableCell(
                         withIdentifier: "NextLevelTableViewCell",
-                        cellType: NextLevelTableViewCell.self)
-                        .configure(item, callback: collapseHandler)
-                }
-                else if self.viewModel.isTopLevel(row) {
+                        cellType: NextLevelTableViewCell.self
+                    )
+                    .configure(item, callback: collapseHandler)
+                } else if self.viewModel.isTopLevel(row) {
                     return tableView.dequeueReusableCell(
                         withIdentifier: "TopLevelTableViewCell",
-                        cellType: TopLevelTableViewCell.self)
-                        .configure(item, callback: collapseHandler, tapPrivilegeHandler: tapPrivilegeHandler)
-                }
-                else if self.viewModel.isZeroLevel(row) {
+                        cellType: TopLevelTableViewCell.self
+                    )
+                    .configure(item, callback: collapseHandler, tapPrivilegeHandler: tapPrivilegeHandler)
+                } else if self.viewModel.isZeroLevel(row) {
                     return tableView.dequeueReusableCell(
                         withIdentifier: "ZeroLevelTableViewCell",
-                        cellType: ZeroLevelTableViewCell.self)
-                        .configure(item)
-                }
-                else {
-                    return tableView.dequeueReusableCell(
+                        cellType: ZeroLevelTableViewCell.self
+                    )
+                    .configure(item)
+                } else {
+                    let cell = tableView.dequeueReusableCell(
                         withIdentifier: "LevelTableViewCell",
-                        cellType: LevelTableViewCell.self)
-                        .configure(item, callback: collapseHandler, tapPrivilegeHandler: tapPrivilegeHandler)
+                        cellType: LevelTableViewCell.self
+                    )
+                    .configure(item, callback: collapseHandler, tapPrivilegeHandler: tapPrivilegeHandler)
+
+                    cell.layoutIfNeeded()
+                    
+                    for subview in cell.stackView.arrangedSubviews {
+                        if let view = subview as? UnlockPrivilegeView {
+                            view.adjustSubTagLabels()
+                        }
+                    }
+                    return cell
                 }
             }
             .disposed(by: disposeBag)
@@ -125,14 +138,14 @@ extension LevelPrivilegeViewController {
         tableView _: UITableView,
         item: LevelPrivilegeViewModel.Item,
         collapse: Observable<Void>,
-        disposeBag: DisposeBag)
-    {
+        disposeBag: DisposeBag
+    ) {
         collapse
             .bind(onNext: { [weak self] in
                 guard
                     let self,
                     let index = self.viewModel.itemsRelay.value
-                        .firstIndex(where: { $0.level == item.level })
+                    .firstIndex(where: { $0.level == item.level })
                 else { return }
 
                 item.isFold.toggle()
@@ -148,12 +161,14 @@ extension LevelPrivilegeViewController {
         navigationController?.pushViewController(
             LevelPrivilegeDetailViewController.instantiate(
                 levelPrivilege: privilege,
-                level: level),
-            animated: true)
+                level: level
+            ),
+            animated: true
+        )
     }
 }
 
-extension UIColor {
-    fileprivate static let yellowFFD500: UIColor = #colorLiteral(red: 1, green: 0.8352941176, blue: 0, alpha: 1)
-    fileprivate static let yellowFEA144: UIColor = #colorLiteral(red: 0.9960784314, green: 0.631372549, blue: 0.2666666667, alpha: 1)
+private extension UIColor {
+    static let yellowFFD500: UIColor = #colorLiteral(red: 1, green: 0.8352941176, blue: 0, alpha: 1)
+    static let yellowFEA144: UIColor = #colorLiteral(red: 0.9960784314, green: 0.631372549, blue: 0.2666666667, alpha: 1)
 }
