@@ -206,6 +206,12 @@ get_formal_release_version:
       export ONLINE_VERSION=$(fetch_ios_online_version $TARGET_ENVIROMENT)
       echo "PREVIOUS_VERSION=$ONLINE_VERSION" >> variables.env
       onlineTag="$ONLINE_VERSION-$suffix"
+      oldVersion=$ONLINE_VERSION
+      hotfixVersion=$(extract_hotfix_version $oldVersion)
+      echo "Get $hotfixVersion from oldVersion=$oldVersion"
+      if [[ "$hotfixVersion" != "null" ]]; then
+          onlineTag="$(parse_version_core $oldVersion)-${suffix}.${hotfixVersion}"
+      fi
       commit_messages=$(fetch_commits_between_tags $onlineTag $CI_COMMIT_TAG)
       jira_tickets=$(extract_jira_tickets "$commit_messages")
       jira_tickets=$(echo "$jira_tickets" | tr '\n' ' ')
