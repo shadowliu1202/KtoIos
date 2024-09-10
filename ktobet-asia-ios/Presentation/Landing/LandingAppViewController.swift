@@ -26,7 +26,9 @@ class LandingAppViewController: LandingViewController {
     }
 
     private func createHostingViewController() -> UIHostingController<AnyView> {
-        UIHostingController(rootView: AnyView(LandingView(csViewModel: customerServiceViewModel) { [unowned self] in
+        AppLandingUIHostingController(onDidApeear: { [unowned self] in
+            syncAppVersionUpdate(viewDisappearBag)
+        }, anyView: AnyView(LandingView(csViewModel: customerServiceViewModel) { [unowned self] in
             LoginView(
                 viewModel: viewModel,
                 isForceChinese: Configuration.forceChinese,
@@ -303,4 +305,27 @@ extension LandingAppViewController {
             local.apiVersion != online.apiVersion ||
             local.getUpdateAction(latestVersion: online) != .upToDate
     }
+}
+
+class AppLandingUIHostingController: UIHostingController<AnyView> {
+    var onDidApeear: (() -> Void)? = nil
+    init(onDidApeear: @escaping () -> Void, anyView: AnyView) {
+        self.onDidApeear = onDidApeear
+        super.init(rootView: anyView)
+    }
+
+    @available(*, unavailable)
+    @objc dynamic required init?(coder _: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override func viewDidAppear(_: Bool) {
+        self.onDidApeear?()
+    }
+    
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        onDidApeear = nil
+    }
+
 }
