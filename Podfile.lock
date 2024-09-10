@@ -16,7 +16,7 @@ PODS:
   - Firebase/Performance (10.27.0):
     - Firebase/CoreOnly
     - FirebasePerformance (~> 10.27.0)
-  - FirebaseABTesting (10.27.0):
+  - FirebaseABTesting (10.29.0):
     - FirebaseCore (~> 10.0)
   - FirebaseAnalytics (10.27.0):
     - FirebaseAnalytics/AdIdSupport (= 10.27.0)
@@ -40,9 +40,9 @@ PODS:
     - FirebaseCoreInternal (~> 10.0)
     - GoogleUtilities/Environment (~> 7.12)
     - GoogleUtilities/Logger (~> 7.12)
-  - FirebaseCoreExtension (10.27.0):
+  - FirebaseCoreExtension (10.29.0):
     - FirebaseCore (~> 10.0)
-  - FirebaseCoreInternal (10.27.0):
+  - FirebaseCoreInternal (10.29.0):
     - "GoogleUtilities/NSData+zlib (~> 7.8)"
   - FirebaseCrashlytics (10.27.0):
     - FirebaseCore (~> 10.5)
@@ -53,7 +53,7 @@ PODS:
     - GoogleUtilities/Environment (~> 7.8)
     - nanopb (< 2.30911.0, >= 2.30908.0)
     - PromisesObjC (~> 2.1)
-  - FirebaseInstallations (10.27.0):
+  - FirebaseInstallations (10.29.0):
     - FirebaseCore (~> 10.0)
     - GoogleUtilities/Environment (~> 7.8)
     - GoogleUtilities/UserDefaults (~> 7.8)
@@ -69,7 +69,7 @@ PODS:
     - GoogleUtilities/MethodSwizzler (~> 7.13)
     - GoogleUtilities/UserDefaults (~> 7.13)
     - nanopb (< 2.30911.0, >= 2.30908.0)
-  - FirebaseRemoteConfig (10.27.0):
+  - FirebaseRemoteConfig (10.29.0):
     - FirebaseABTesting (~> 10.0)
     - FirebaseCore (~> 10.0)
     - FirebaseInstallations (~> 10.0)
@@ -77,8 +77,8 @@ PODS:
     - FirebaseSharedSwift (~> 10.0)
     - GoogleUtilities/Environment (~> 7.8)
     - "GoogleUtilities/NSData+zlib (~> 7.8)"
-  - FirebaseRemoteConfigInterop (10.27.0)
-  - FirebaseSessions (10.27.0):
+  - FirebaseRemoteConfigInterop (10.29.0)
+  - FirebaseSessions (10.29.0):
     - FirebaseCore (~> 10.5)
     - FirebaseCoreExtension (~> 10.0)
     - FirebaseInstallations (~> 10.0)
@@ -87,7 +87,7 @@ PODS:
     - GoogleUtilities/UserDefaults (~> 7.13)
     - nanopb (< 2.30911.0, >= 2.30908.0)
     - PromisesSwift (~> 2.1)
-  - FirebaseSharedSwift (10.27.0)
+  - FirebaseSharedSwift (10.29.0)
   - GoogleAppMeasurement (10.27.0):
     - GoogleAppMeasurement/AdIdSupport (= 10.27.0)
     - GoogleUtilities/AppDelegateSwizzler (~> 7.11)
@@ -161,7 +161,7 @@ PODS:
   - NotificationBannerSwift (3.0.0):
     - MarqueeLabel (~> 4.0.0)
     - SnapKit (~> 5.0.0)
-  - Periphery (2.18.0)
+  - Periphery (2.21.0)
   - PromisesObjC (2.4.0)
   - PromisesSwift (2.4.0):
     - PromisesObjC (= 2.4.0)
@@ -202,15 +202,15 @@ PODS:
   - sharedbu (2.57.1)
   - SideMenu (6.5.0)
   - SnapKit (5.0.1)
-  - SwiftFormat/CLI (0.54.0)
+  - SwiftFormat/CLI (0.54.4)
   - SwiftKeychainWrapper (4.0.1)
-  - SwiftSignalRClient (0.9.4)
+  - SwiftSignalRClient (1.1.0)
   - SwiftyJSON (5.0.0)
   - Swinject (2.8.3)
   - SwinjectAutoregistration (2.8.3):
     - Swinject (~> 2.8.3)
   - TYCyclePagerView (1.2.0)
-  - ViewInspector (0.9.8)
+  - ViewInspector (0.9.11)
   - youtube-ios-player-helper (1.0.4)
 
 DEPENDENCIES:
@@ -313,18 +313,18 @@ SPEC CHECKSUMS:
   Connectivity: e990703fb8d8db54649ea05facac92000cc0f3eb
   Differentiator: e8497ceab83c1b10ca233716d547b9af21b9344d
   Firebase: 26b040b20866a55f55eb3611b9fcf3ae64816b86
-  FirebaseABTesting: 038a7d5f1e36ba7208cf34f6f596946d8f70d6c3
+  FirebaseABTesting: d87f56707159bae64e269757a6e963d490f2eebe
   FirebaseAnalytics: f9211b719db260cc91aebee8bb539cb367d0dfd1
   FirebaseCore: a2b95ae4ce7c83ceecfbbbe3b6f1cddc7415a808
-  FirebaseCoreExtension: 4ec89dd0c6de93d6becde32122d68b7c35f6bf5d
-  FirebaseCoreInternal: 4b297a2d56063dbea2c1d0d04222d44a8d058862
+  FirebaseCoreExtension: 705ca5b14bf71d2564a0ddc677df1fc86ffa600f
+  FirebaseCoreInternal: df84dd300b561c27d5571684f389bf60b0a5c934
   FirebaseCrashlytics: 81ea6ec96519388687f6061beb838a8eec482293
-  FirebaseInstallations: 766dabca09fd94aef922538aaf144cc4a6fb6869
+  FirebaseInstallations: 913cf60d0400ebd5d6b63a28b290372ab44590dd
   FirebasePerformance: a8f82970bbae75d9b0088696c31246e90e56d30b
-  FirebaseRemoteConfig: 37a2ba3c8c454be8553a41ba1a2f4a4f0b845670
-  FirebaseRemoteConfigInterop: c55a739f5ab121792776e191d9fd437dc624a541
-  FirebaseSessions: 2fdf949f9e58295a57703ae8f2efc44f9fa3aa16
-  FirebaseSharedSwift: a03fe7a59ee646fef71099a887f774fe25d745b8
+  FirebaseRemoteConfig: 48ef3f243742a8d72422ccfc9f986e19d7de53fd
+  FirebaseRemoteConfigInterop: 6efda51fb5e2f15b16585197e26eaa09574e8a4d
+  FirebaseSessions: dbd14adac65ce996228652c1fc3a3f576bdf3ecc
+  FirebaseSharedSwift: 20530f495084b8d840f78a100d8c5ee613375f6e
   GoogleAppMeasurement: f65fc137531af9ad647f1c0a42f3b6a4d3a98049
   GoogleDataTransport: 6c09b596d841063d76d4288cc2d2f42cc36e1e2a
   GoogleUtilities: ea963c370a38a8069cc5f7ba4ca849a60b6d7d15
@@ -337,7 +337,7 @@ SPEC CHECKSUMS:
   nanopb: 438bc412db1928dac798aa6fd75726007be04262
   NavigationBackport: 9402f19d992d32afaeb8cb35d9a275af769116c0
   NotificationBannerSwift: 842401d30f5c36e4f2eafc152824566f6b3c1bb5
-  Periphery: df811cd90304f9ca6bed6c1904c5ac1a88cff23f
+  Periphery: ee5accaac4ff9694d2bf60d52462fb1675c67c9d
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
   PromisesSwift: 9d77319bbe72ebf6d872900551f7eeba9bce2851
   Puppy: e2852b6be61807c49443416e69afbcd826f74c33
@@ -350,17 +350,17 @@ SPEC CHECKSUMS:
   RxSwiftExt: 43aaacb6a4d3c69c55e9d1cf4f79920043d13583
   RxTest: eb2d23adefc5a5ebf5779c7792fa3edfe6ebcc17
   SDWebImage: c666b97e1fa9c64b4909816a903322018f0a9c84
-  sharedbu: 1b036309950d8795e3633df6b56f4bae31c437f8
+  sharedbu: a5cea3f48de3960efa055fe3792aa849fc661ffd
   SideMenu: f583187d21c5b1dd04c72002be544b555a2627a2
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
-  SwiftFormat: 0e0b577434e6aa63bc82a8905b40d9597b8452d4
+  SwiftFormat: afdb0b6cea838a0933cd744048d0a206ccbcb2c4
   SwiftKeychainWrapper: 807ba1d63c33a7d0613288512399cd1eda1e470c
-  SwiftSignalRClient: f259c3394e21c81b6f2ddf614866afa234e0e0dd
+  SwiftSignalRClient: 2fa651ea18d47c5aaa135f0c8cf959239c845999
   SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
   Swinject: 893c9a543000ac2f10ee4cbaf0933c6992c935d5
   SwinjectAutoregistration: e3ee378dc458acf78d176fc7fec3902603452667
   TYCyclePagerView: 2b051dade0615c70784aa34f40c646feeddb7344
-  ViewInspector: 36399ac43f76170693c41499e9035499926171cb
+  ViewInspector: f251d90316dce2b58ebe5d7d88bc07643c055c78
   youtube-ios-player-helper: e9b97535e816db3152179d84d999bc1807ecd689
 
 PODFILE CHECKSUM: de85f4a8981e0f910396d104d67a808789a4c969
