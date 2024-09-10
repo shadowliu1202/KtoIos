@@ -70,4 +70,16 @@ class ArcadeApi: WebGameApi {
         return httpClient.request(path: "\(prefix)/game/mobile/tag-with-gamecount", method: .get)
             .asReaktiveResponseList(serial: FilterTagBean.companion.serializer())
     }
+    
+    func getUnsettleGameSummary(offset: Int32) -> Single<[ArcadeUnsettledSummaryBean]?> {
+        httpClient.request(path: "\(prefix)/wager/mybet/pending/group", method: .get, task: .urlParameters(["offset": offset]))
+    }
+
+    func getUnsettleGameRecords(date: String) -> Single<[ArcadeUnsettledRecordBean]?> {
+        httpClient.request(
+            path: "\(prefix)/wager/mybet/pending/list",
+            method: .get,
+            task: .urlParameters(["date": date])
+        )
+    }
 }

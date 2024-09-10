@@ -7,6 +7,7 @@ class ArcadeViewModel: CollectErrorViewModel, ProductViewModel {
     @Injected private var loading: Loading
 
     private let arcadeUseCase: ArcadeUseCase
+    private let arcadeRecordUseCase: ArcadeRecordUseCase
     private let memoryCache: MemoryCacheImpl
     private let arcadeAppService: IArcadeAppService
 
@@ -20,6 +21,7 @@ class ArcadeViewModel: CollectErrorViewModel, ProductViewModel {
 
     private var recommendFilter = BehaviorRelay<Bool>(value: false)
     private var newFilter = BehaviorRelay<Bool>(value: false)
+    var betTime: [sharedbu.LocalDateTime] = []
 
     lazy var tagStates: Observable<((ProductDTO.RecommendTag?, Bool), (ProductDTO.NewTag?, Bool))> = Observable
         .combineLatest(recommendFilter, newFilter, gameTags).map({ isRecommend, isNew, gameTags in
@@ -40,10 +42,12 @@ class ArcadeViewModel: CollectErrorViewModel, ProductViewModel {
 
     init(
         arcadeUseCase: ArcadeUseCase,
+        arcadeRecordUseCase: ArcadeRecordUseCase,
         memoryCache: MemoryCacheImpl,
         arcadeAppService: IArcadeAppService)
     {
         self.arcadeUseCase = arcadeUseCase
+        self.arcadeRecordUseCase = arcadeRecordUseCase
         self.memoryCache = memoryCache
         self.arcadeAppService = arcadeAppService
 
@@ -157,6 +161,24 @@ extension ArcadeViewModel {
 
     private func removeFavorite(_ game: WebGameWithDuplicatable) -> Completable {
         arcadeUseCase.removeFavorite(game: game)
+    }
+    
+    
+    func getUnsettledBetSummary() -> Observable<[ArcadeUnsettledSummary]> {
+        arcadeRecordUseCase.getUnsettledSummary()
+            .do(onSuccess: { [unowned self] in
+                $0.forEach { self.betTime.append($0.betTime) }
+            })
+            .asObservable()
+    }
+
+    func getUnsettledRecords(betTime: sharedbu.LocalDateTime) -> Single<[sharedbu.LocalDateTime: [ArcadeUnsettledRecord]]> {
+        arcadeRecordUseCase.getUnsettledRecords(betTime: betTime).map { [betTime: $0] }
+    }
+
+    func getUnsettledRecords() -> Observable<[sharedbu.LocalDateTime: [ArcadeUnsettledRecord]]> {
+        let allObservables = betTime.map { getUnsettledRecords(betTime: $0).asObservable() }
+        return Observable.merge(allObservables)
     }
 }
 

@@ -38,7 +38,7 @@ class ArcadeRecordViewModel {
             })
     }
 
-    func getBetSummary() -> Single<[DateSummary]> {
+    func getBetSummary() -> Single<BetSummary> {
         arcadeRecordUseCase.getBetSummary()
     }
 

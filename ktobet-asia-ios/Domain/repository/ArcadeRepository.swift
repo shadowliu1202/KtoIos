@@ -18,15 +18,12 @@ class ArcadeRepositoryImpl: WebGameRepositoryImpl, ArcadeRepository {
     }
 
     func searchGames(isRecommend: Bool = false, isNew: Bool = false) -> Observable<[ArcadeGame]> {
-        var sort: Int32
-        if isRecommend || (isRecommend && isNew) {
-            sort = GameSorting.Companion().convert(sortBy: GameSorting.popular)
-        }
-        else if isNew {
-            sort = GameSorting.Companion().convert(sortBy: GameSorting.releasedDate)
-        }
-        else {
-            sort = GameSorting.Companion().convert(sortBy: GameSorting.popular)
+        var sort: Int32 = if isRecommend || (isRecommend && isNew) {
+            GameSorting.Companion().convert(sortBy: GameSorting.popular)
+        } else if isNew {
+            GameSorting.Companion().convert(sortBy: GameSorting.releasedDate)
+        } else {
+            GameSorting.Companion().convert(sortBy: GameSorting.popular)
         }
         let fetchApi = arcadeApi.searchGames(sortBy: sort, isRecommend: isRecommend, isNew: isNew)
             .asObservable()
@@ -47,10 +44,10 @@ class ArcadeRepositoryImpl: WebGameRepositoryImpl, ArcadeRepository {
     }
 
     override func getFavorites() -> Observable<[WebGameWithDuplicatable]> {
-        let fetchApi = arcadeApi.getFavoriteArcade().map({ [unowned self] response -> [WebGameWithDuplicatable] in
+        let fetchApi = arcadeApi.getFavoriteArcade().map { [unowned self] response -> [WebGameWithDuplicatable] in
             guard let data = response else { return [] }
             return data.map { $0.toArcadeGame(host: self.httpClient.host.absoluteString) }
-        })
+        }
         return Observable.combineLatest(favoriteRecord, fetchApi.asObservable()) { favorites, games in
             var duplicateGames = games
             for favoriteItem in favorites {

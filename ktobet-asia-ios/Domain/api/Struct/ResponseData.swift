@@ -973,6 +973,7 @@ struct SummaryBean: Codable {
 }
 
 struct ArcadeSummaryBean: Codable {
+    let pendingTransactionCount: Int32
     let summaries: [SummaryBean]
 }
 
@@ -1136,6 +1137,40 @@ struct ArcadeGameDataBean: Codable {
             gameStatus: GameStatus.Companion().convert(gameMaintenance: isMaintenance, status: status),
             thumbnail: ArcadeThumbnail(host: host, thumbnailId: imageId),
             requireNoBonusLock: isCheckBonusLock
+        )
+    }
+}
+
+struct ArcadeUnsettledSummaryBean: Codable {
+    let betTime: String
+    let stakes: Double
+
+    func toUnsettledSummary() throws -> ArcadeUnsettledSummary {
+        let betLocalTime = try betTime.toKotlinLocalDateTime()
+        return ArcadeUnsettledSummary(betTime: betLocalTime)
+    }
+}
+
+struct ArcadeUnsettledRecordBean: Codable {
+    let betId: String
+    let betTime: String
+    let gameId: Int32
+    let gameName: String
+    let otherId: String
+    let stakes: Double
+    let imageId: String
+
+    func toUnsettledRecord(host: String) throws -> ArcadeUnsettledRecord {
+        let betLocalTime = try betTime.toKotlinLocalDateTime()
+        let thumbnail = ArcadeThumbnail(host: host, thumbnailId: imageId)
+        return ArcadeUnsettledRecord(
+            betId: betId,
+            betTime: betLocalTime,
+            gameId: gameId,
+            gameName: gameName,
+            otherId: otherId,
+            stakes: stakes.toAccountCurrency(),
+            thumbnail: thumbnail
         )
     }
 }
